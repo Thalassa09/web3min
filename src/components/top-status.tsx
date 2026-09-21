@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
-import { Ticket, Volume2, VolumeX } from "lucide-react";
+import { Ticket, Volume2, VolumeX, Sparkles } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { BlockStamp } from "@/components/motif";
@@ -12,6 +12,7 @@ function StatPill({
   displayValue,
   icon,
   title,
+  to,
   floatColor = "#FFC61A",
   floatShadow = "#D99400",
 }: {
@@ -19,6 +20,7 @@ function StatPill({
   displayValue?: string | number;
   icon: React.ReactNode;
   title?: string;
+  to?: string;
   floatColor?: string;
   floatShadow?: string;
 }) {
@@ -40,12 +42,8 @@ function StatPill({
     prev.current = value;
   }, [value]);
 
-  return (
-    <div
-      className="relative flex items-center gap-1 h-8 sm:h-9 px-2 sm:px-2.5 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[11px] sm:text-xs font-extrabold font-sans text-[#0D2340] transition-[transform,box-shadow,background-color] duration-150"
-      style={{ animation: bump ? "pill-bump 420ms var(--ease-back)" : undefined }}
-      title={title}
-    >
+  const content = (
+    <>
       {icon}
       <span className="tabular-nums">{displayValue ?? value}</span>
       {delta > 0 && (
@@ -56,6 +54,31 @@ function StatPill({
           +{delta}
         </span>
       )}
+    </>
+  );
+
+  const className = `relative flex items-center gap-1 h-8 sm:h-9 px-2 sm:px-2.5 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[11px] sm:text-xs font-extrabold font-sans text-[#0D2340] transition-[transform,box-shadow,background-color] duration-150 ${to ? "cursor-pointer active:translate-y-[2px] active:shadow-none" : ""}`;
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className={className}
+        style={{ animation: bump ? "pill-bump 420ms var(--ease-back)" : undefined }}
+        title={title}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <div
+      className={className}
+      style={{ animation: bump ? "pill-bump 420ms var(--ease-back)" : undefined }}
+      title={title}
+    >
+      {content}
     </div>
   );
 }
@@ -63,6 +86,7 @@ function StatPill({
 export function TopStatus({ brand = true }: { brand?: boolean }) {
   const streak = useProgress((s) => s.streak);
   const gems = useProgress((s) => s.gems);
+  const xp = useProgress((s) => s.xp);
   const hearts = useProgress((s) => s.hearts);
   const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
   const sound = useProgress((s) => s.sound);
@@ -87,6 +111,18 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
 
       {/* 5 Fixed Slots HUD Cluster */}
       <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+        {/* 0. XP (Desktop/Tablet) */}
+        <div className="hidden sm:block">
+          <StatPill
+            value={xp}
+            displayValue={`${xp} XP`}
+            icon={<Sparkles className="size-3.5 sm:size-4 shrink-0 text-[#B27B00]" />}
+            title="Total Poin Belajar (XP)"
+            floatColor="#FFC61A"
+            floatShadow="#D99400"
+          />
+        </div>
+
         {/* 1. Streak (Flame with dynamic flicker) */}
         <StatPill
           value={streak}
@@ -111,15 +147,15 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           floatShadow="#D99400"
         />
 
-        {/* 3. Tiket Undian (Ticket) */}
-        <Link
-          to="/leaderboard"
-          className="relative flex items-center gap-1 h-8 sm:h-9 px-2 sm:px-2.5 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[11px] sm:text-xs font-extrabold font-sans text-[#0D2340] transition-[transform,box-shadow] duration-150 active:translate-y-[2px] active:shadow-none"
+        {/* 3. Tiket Undian (Ticket with float delta & link) */}
+        <StatPill
+          value={raffleTickets}
+          icon={<Ticket className="size-3.5 sm:size-4 shrink-0 text-sky-600" />}
           title="Tiket Undian Hadiah"
-        >
-          <Ticket className="size-3.5 sm:size-4 shrink-0 text-[#0B63F6]" />
-          <span className="tabular-nums">{raffleTickets}</span>
-        </Link>
+          to="/leaderboard"
+          floatColor="var(--color-sky-600, #1367E8)"
+          floatShadow="#0B4FD1"
+        />
 
         {/* 4. Nyawa (Ruby Hearts) */}
         <StatPill

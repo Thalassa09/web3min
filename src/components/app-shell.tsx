@@ -23,7 +23,7 @@ export function AppShell({ children, rail }: { children: ReactNode; rail?: React
     });
     if (!onboarded) {
       rememberPath(href);
-      if (pathname !== "/onboarding") void navigate({ to: "/onboarding" });
+      if (pathname !== "/onboarding" && pathname !== "/masuk") void navigate({ to: "/onboarding" });
     } else if (!introSeen && pathname !== "/intro") {
       rememberPath(href);
       void navigate({ to: "/intro" });

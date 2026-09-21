@@ -15,6 +15,7 @@ import { Route as CaraRouteImport } from './routes/cara'
 import { Route as IntroRouteImport } from './routes/intro'
 import { Route as KisahRouteImport } from './routes/kisah'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as MasukRouteImport } from './routes/masuk'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
@@ -55,6 +56,11 @@ const KisahRoute = KisahRouteImport.update({
 const LeaderboardRoute = LeaderboardRouteImport.update({
   id: '/leaderboard',
   path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MasukRoute = MasukRouteImport.update({
+  id: '/masuk',
+  path: '/masuk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/intro': typeof IntroRoute
   '/kisah': typeof KisahRouteWithChildren
   '/leaderboard': typeof LeaderboardRoute
+  '/masuk': typeof MasukRoute
   '/onboarding': typeof OnboardingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/cara': typeof CaraRoute
   '/intro': typeof IntroRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/masuk': typeof MasukRoute
   '/onboarding': typeof OnboardingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/intro': typeof IntroRoute
   '/kisah': typeof KisahRouteWithChildren
   '/leaderboard': typeof LeaderboardRoute
+  '/masuk': typeof MasukRoute
   '/onboarding': typeof OnboardingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/intro'
     | '/kisah'
     | '/leaderboard'
+    | '/masuk'
     | '/onboarding'
     | '/privacy'
     | '/profile'
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/cara'
     | '/intro'
     | '/leaderboard'
+    | '/masuk'
     | '/onboarding'
     | '/privacy'
     | '/profile'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/intro'
     | '/kisah'
     | '/leaderboard'
+    | '/masuk'
     | '/onboarding'
     | '/privacy'
     | '/profile'
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   IntroRoute: typeof IntroRoute
   KisahRoute: typeof KisahRouteWithChildren
   LeaderboardRoute: typeof LeaderboardRoute
+  MasukRoute: typeof MasukRoute
   OnboardingRoute: typeof OnboardingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
@@ -289,6 +302,13 @@ declare module '@tanstack/react-router' {
       path: '/leaderboard'
       fullPath: '/leaderboard'
       preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/masuk': {
+      id: '/masuk'
+      path: '/masuk'
+      fullPath: '/masuk'
+      preLoaderRoute: typeof MasukRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -390,6 +410,7 @@ const rootRouteChildren: RootRouteChildren = {
   IntroRoute: IntroRoute,
   KisahRoute: KisahRouteWithChildren,
   LeaderboardRoute: LeaderboardRoute,
+  MasukRoute: MasukRoute,
   OnboardingRoute: OnboardingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,

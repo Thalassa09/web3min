@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Clock, ShieldCheck, Gift, Check } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { Mascot, type MascotMood } from "@/components/mascot";
 import { type DailyGoal, useProgress } from "@/lib/store";
 import { playMoodSfx, triggerHaptic } from "@/lib/audio";
+import { isUsernameAvailable, registerAccount, validatePassword, validateUsername } from "@/lib/account";
+import { sanitizeUsername } from "@/lib/people";
 
 export const Route = createFileRoute("/onboarding")({ component: Onboarding });
 
@@ -59,6 +61,10 @@ function Onboarding() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [formError, setFormError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
   const [goal, setGoal] = useState<DailyGoal>(20);
 
   useEffect(() => {
@@ -66,8 +72,46 @@ function Onboarding() {
     void navigate({ to: "/" });
   }, [onboarded, navigate]);
 
-  function finish() {
-    completeOnboarding(username.trim() || "Pelajar", goal);
+  async function goUsernameNext() {
+    const id = sanitizeUsername(username);
+    const uErr = validateUsername(id);
+    if (uErr) {
+      setFormError(uErr);
+      return;
+    }
+    const pErr = validatePassword(password);
+    if (pErr) {
+      setFormError(pErr);
+      return;
+    }
+    if (password !== password2) {
+      setFormError("Konfirmasi password tidak sama.");
+      return;
+    }
+    setBusy(true);
+    const free = await isUsernameAvailable(id);
+    setBusy(false);
+    if (!free) {
+      setFormError("Username sudah dipakai. Pilih yang lain.");
+      return;
+    }
+    setUsername(id);
+    setFormError(null);
+    setStep(2);
+  }
+
+  async function finish() {
+    const id = sanitizeUsername(username);
+    setBusy(true);
+    const res = await registerAccount({ username: id, password });
+    if (!res.ok) {
+      setBusy(false);
+      setFormError(res.message);
+      setStep(1);
+      return;
+    }
+    completeOnboarding(res.username, goal);
+    setBusy(false);
     void navigate({ to: "/" });
   }
 
@@ -182,32 +226,63 @@ function Onboarding() {
                 <div className="space-y-5">
                   <div>
                     <h1 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
-                      Pilih Nama Panggilanmu
+                      Buat Username & Password
                     </h1>
                     <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1.5">
-                      Nama ini akan muncul di profil, lencana penjelajah, dan papan undian hadiah.
+                      Username unik tersimpan di database. Tidak bisa dipakai orang lain.
                     </p>
                   </div>
 
                   <div className="space-y-2 pt-2">
                     <label className="text-xs font-extrabold text-[#1E3A5F] block" htmlFor="username">
-                      Nama Panggilan Petualang
+                      Username
                     </label>
                     <div className="relative">
                       <input
                         id="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 20))}
-                        placeholder="Contoh: satoshi atau blobi-fan"
+                        onChange={(e) => {
+                          setUsername(sanitizeUsername(e.target.value));
+                          setFormError(null);
+                        }}
+                        placeholder="contoh: satoshi atau blobi_fan"
                         className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                         autoFocus
+                        autoComplete="username"
                       />
                       <span className="absolute right-3.5 top-3.5 text-xs font-mono font-bold text-[#4A6580]">
-                        {username.length}/20
+                        {username.length}/16
                       </span>
                     </div>
+                    <label className="text-xs font-extrabold text-[#1E3A5F] block pt-2" htmlFor="password">
+                      Password
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="new-password"
+                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340]"
+                      placeholder="Minimal 8 karakter"
+                    />
+                    <label className="text-xs font-extrabold text-[#1E3A5F] block pt-2" htmlFor="password2">
+                      Ulangi password
+                    </label>
+                    <input
+                      id="password2"
+                      type="password"
+                      value={password2}
+                      onChange={(e) => setPassword2(e.target.value)}
+                      autoComplete="new-password"
+                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340]"
+                    />
+                    {formError ? <p className="text-xs font-semibold text-[#E63329]">{formError}</p> : null}
                     <p className="text-[11px] font-semibold text-[#4A6580]">
-                      Bisa kamu ubah kapan saja di menu profil.
+                      Sudah punya akun?{" "}
+                      <Link to="/masuk" className="text-sky-600 font-extrabold">
+                        Masuk
+                      </Link>
                     </p>
                   </div>
 
@@ -224,9 +299,10 @@ function Onboarding() {
                       size="lg"
                       fullWidth
                       icon={<ArrowRight className="size-5" />}
-                      onClick={() => setStep(2)}
+                      onClick={() => void goUsernameNext()}
+                      disabled={busy}
                     >
-                      Lanjut ke Target Harian
+                      {busy ? "Cek username…" : "Lanjut ke Target Harian"}
                     </TactileButton>
                   </div>
                 </div>
@@ -301,9 +377,10 @@ function Onboarding() {
                       size="lg"
                       fullWidth
                       icon={<ArrowRight className="size-5" />}
-                      onClick={finish}
+                      onClick={() => void finish()}
+                      disabled={busy}
                     >
-                      Mulai Petualangan!
+                      {busy ? "Mendaftarkan…" : "Mulai Petualangan!"}
                     </TactileButton>
                   </div>
                 </div>

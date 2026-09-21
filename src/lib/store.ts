@@ -218,6 +218,23 @@ function sanitizeShouts(raw: unknown): Shout[] {
   return rows.slice(0, 20);
 }
 
+function sanitizeEnteredRaffles(raw: unknown): Record<string, { count: number; enteredAt: number }> {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const validIds = new Set(INITIAL_RAFFLES.map((r) => r.id));
+  const out: Record<string, { count: number; enteredAt: number }> = {};
+  for (const [id, val] of Object.entries(raw as Record<string, unknown>)) {
+    if (!validIds.has(id) || !val || typeof val !== "object") continue;
+    const v = val as { count?: unknown; enteredAt?: unknown };
+    const count = clamp(v.count, 0, 9999, 0);
+    if (count <= 0) continue;
+    out[id] = {
+      count,
+      enteredAt: typeof v.enteredAt === "number" && Number.isFinite(v.enteredAt) ? v.enteredAt : Date.now(),
+    };
+  }
+  return out;
+}
+
 function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undefined): ProgressState {
   if (!raw || typeof raw !== "object") return { ...initial, heartsUpdatedAt: Date.now() };
   const daily = raw.dailyGoal;
@@ -272,12 +289,14 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
     perfectToday: clamp(raw.perfectToday, 0, 50, 0),
     storiesToday: clamp(raw.storiesToday, 0, 50, 0),
     claimedQuests: Array.isArray(raw.claimedQuests)
-      ? raw.claimedQuests.filter((id): id is string => typeof id === "string").slice(0, 8)
+      ? raw.claimedQuests
+          .filter((id): id is string => typeof id === "string" && QUESTS.some((q) => q.id === id))
+          .slice(0, 8)
       : [],
     completedStories: knownStoryIds(raw.completedStories),
     completedCases: knownCaseIds(raw.completedCases),
-    raffleTickets: typeof raw.raffleTickets === "number" && raw.raffleTickets >= 0 ? raw.raffleTickets : 3,
-    enteredRaffles: raw.enteredRaffles && typeof raw.enteredRaffles === "object" ? (raw.enteredRaffles as Record<string, { count: number; enteredAt: number }>) : {},
+    raffleTickets: clamp(raw.raffleTickets, 0, 9999, 3),
+    enteredRaffles: sanitizeEnteredRaffles(raw.enteredRaffles),
   };
 }
 
@@ -577,16 +596,21 @@ export const useProgress = create<ProgressState & Actions>()(
       },
       buyRaffleTicketsWithGems: (ticketAmount) => {
         const s = get();
-        const cost = ticketAmount * 10;
-        if (ticketAmount <= 0 || s.gems < cost) return false;
+        const qty = Math.trunc(ticketAmount);
+        if (!Number.isFinite(qty) || qty <= 0) return false;
+        const cost = qty * 10;
+        if (s.gems < cost) return false;
+        const newTickets = Math.min(9999, (s.raffleTickets ?? 0) + qty);
         set({
           gems: holdGems(s.gems, -cost),
-          raffleTickets: (s.raffleTickets ?? 0) + ticketAmount,
+          raffleTickets: newTickets,
         });
         return true;
       },
       addRaffleTicket: (count = 1) => {
-        set((s) => ({ raffleTickets: (s.raffleTickets ?? 0) + count }));
+        const qty = Math.trunc(count);
+        if (!Number.isFinite(qty) || qty <= 0) return;
+        set((s) => ({ raffleTickets: Math.min(9999, (s.raffleTickets ?? 0) + qty) }));
       },
       reset: () => set({ ...initial, heartsUpdatedAt: Date.now() }),
       setSound: (on) => set({ sound: Boolean(on) }),

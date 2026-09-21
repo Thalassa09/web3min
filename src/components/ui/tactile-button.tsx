@@ -87,6 +87,7 @@ export function TactileButton({
 }: TactileButtonProps) {
   const [pressed, setPressed] = useState(false);
   const sound = useProgress((s) => s.sound);
+  const reduceMotion = useProgress((s) => s.reduceMotion);
   const v = VARIANT_STYLES[variant] ?? VARIANT_STYLES.primary;
   const s = SIZE_STYLES[size] ?? SIZE_STYLES.md;
   const depth = DEPTH[size] ?? 4.5;
@@ -95,6 +96,11 @@ export function TactileButton({
     if (disabled) return;
     setPressed(true);
     if (sound) playTap();
+    if (!reduceMotion && typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+      try {
+        navigator.vibrate(8);
+      } catch {}
+    }
   };
 
   const up = () => setPressed(false);
@@ -110,8 +116,9 @@ export function TactileButton({
       style={{
         transform: `translate3d(0, ${pressed && !disabled ? depth : 0}px, 0)`,
         boxShadow: pressed || disabled ? "none" : `0 ${depth}px 0 ${v.shadowColor}`,
-        transition:
-          "transform var(--dur-tap, 90ms) var(--ease-out-quint, cubic-bezier(.22, 1, .36, 1)), box-shadow var(--dur-tap, 90ms) var(--ease-out-quint, cubic-bezier(.22, 1, .36, 1))",
+        transition: pressed
+          ? "transform var(--dur-tap, 90ms) ease-out, box-shadow var(--dur-tap, 90ms) ease-out"
+          : "transform var(--dur-pop, 260ms) var(--ease-spring), box-shadow var(--dur-pop, 260ms) var(--ease-spring)",
         touchAction: "manipulation",
         ...style,
       }}

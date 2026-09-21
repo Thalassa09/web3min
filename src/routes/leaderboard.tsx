@@ -39,7 +39,8 @@ function RafflePage() {
 
   const [filter, setFilter] = useState<FilterTab>("all");
   const [activeModalRaffle, setActiveModalRaffle] = useState<RaffleItem | null>(null);
-  const [ticketInput, setTicketInput] = useState(1);
+  const [activeVrfRaffle, setActiveVrfRaffle] = useState<RaffleItem | null>(null);
+  const [ticketInput, setTicketInput] = useState<number>(1);
   const [now, setNow] = useState(Date.now());
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -150,23 +151,26 @@ function RafflePage() {
             gratis, lalu masukkan ke pool hadiah onchain dengan pembuktian acak transparan (Chainlink VRF standard).
           </p>
 
-          {/* Tessera Live Activity Ticker */}
-          <div className="mt-5 flex items-center gap-2 overflow-hidden rounded-sm border border-[#22222a] bg-[#0d0d12] px-3 py-2">
-            <span className="font-mono text-[10px] font-black uppercase tracking-wider text-[#00f59b] whitespace-nowrap">
+          {/* Tessera Live Activity Ticker (Continuous Smooth Marquee) */}
+          <div className="mt-5 flex items-center gap-3 overflow-hidden rounded-sm border border-[#22222a] bg-[#0d0d12] px-3 py-2.5">
+            <span className="font-mono text-[10px] font-black uppercase tracking-wider text-[#00f59b] whitespace-nowrap z-10 bg-[#0d0d12] pr-2 shadow-sm flex items-center gap-1.5">
+              <span className="size-1.5 rounded-full bg-[#00f59b] animate-pulse" />
               // ACTIVITY
             </span>
-            <div className="flex items-center gap-6 overflow-x-auto text-[11px] font-mono text-[#8b8b9e] scrollbar-none">
-              {INITIAL_ACTIVITIES.map((act) => (
-                <div key={act.id} className="flex items-center gap-1.5 whitespace-nowrap">
-                  <span className={act.type === "win" ? "text-[#fbbf24] font-bold" : "text-[#00f59b]"}>
-                    {act.type === "win" ? "★" : "+"}
-                  </span>
-                  <span className="font-semibold text-white">@{act.username}</span>
-                  <span>{act.action}</span>
-                  <span className="text-[#f4f4f5]">"{act.raffleTitle}"</span>
-                  <span className="text-[9px] text-[#555566]">[{act.timeAgo}]</span>
-                </div>
-              ))}
+            <div className="overflow-hidden flex-1 select-none">
+              <div className="ticker-track flex items-center gap-8 text-[11px] font-mono text-[#8b8b9e]">
+                {[...INITIAL_ACTIVITIES, ...INITIAL_ACTIVITIES].map((act, idx) => (
+                  <div key={`${act.id}-${idx}`} className="flex items-center gap-1.5 whitespace-nowrap">
+                    <span className={act.type === "win" ? "text-[#fbbf24] font-bold" : "text-[#00f59b]"}>
+                      {act.type === "win" ? "★" : "+"}
+                    </span>
+                    <span className="font-semibold text-white">@{act.username}</span>
+                    <span>{act.action}</span>
+                    <span className="text-[#f4f4f5]">"{act.raffleTitle}"</span>
+                    <span className="text-[9px] text-[#555566]">[{act.timeAgo}]</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </header>
@@ -208,14 +212,15 @@ function RafflePage() {
 
         {/* Raffle Cards Grid */}
         <main className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredRaffles.map((raffle) => {
+          {filteredRaffles.map((raffle, idx) => {
             const userEntry = enteredRaffles[raffle.id]?.count ?? 0;
             const isLive = raffle.status === "live";
 
             return (
               <article
                 key={raffle.id}
-                className="group relative flex flex-col justify-between rounded-sm border border-[#22222a] bg-[#111116] p-5 transition-all hover:border-[#383848] hover:bg-[#14141c]"
+                style={{ animationDelay: `${idx * 40}ms` }}
+                className="group relative flex flex-col justify-between rounded-sm border border-[#22222a] bg-[#111116] p-5 raffle-card raffle-card-enter transition-all hover:border-[#00f59b]/40 hover:bg-[#14141c]"
               >
                 {/* Top Tags */}
                 <div>
@@ -228,7 +233,7 @@ function RafflePage() {
                           : "border-[#444450] bg-[#1e1e24] text-[#888899]",
                       )}
                     >
-                      {isLive && <span className="size-1.5 rounded-full bg-[#00f59b] animate-ping" />}
+                      {isLive && <span className="size-1.5 rounded-full bg-[#00f59b] animate-pulse" />}
                       [ {raffle.status.toUpperCase()} ]
                     </span>
                     <span className="text-[#777788] border border-[#262632] px-2 py-0.5 rounded-sm">
@@ -274,15 +279,26 @@ function RafflePage() {
                     </div>
                   </div>
 
-                  {/* VRF Seed proof */}
-                  <div className="mt-3 rounded-sm bg-[#08080c] px-2.5 py-1.5 font-mono text-[10px] text-[#666677] truncate">
-                    <span className="text-[#888899]">VRF SEED:</span> {raffle.vrfSeed.slice(0, 20)}...
-                  </div>
+                  {/* Interactive VRF Seed proof button */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playTap();
+                      setActiveVrfRaffle(raffle);
+                    }}
+                    className="mt-3 flex items-center justify-between rounded-sm border border-[#242430] bg-[#08080c] px-2.5 py-1.5 font-mono text-[10px] text-[#888899] hover:border-[#00f59b]/50 hover:text-[#00f59b] transition-all w-full text-left"
+                  >
+                    <span className="truncate">
+                      <span className="text-[#a0a0b0] font-bold">VRF SEED:</span> {raffle.vrfSeed.slice(0, 16)}...
+                    </span>
+                    <span className="shrink-0 text-[9px] text-[#00f59b] font-bold ml-1.5">[ PROOF ]</span>
+                  </button>
 
                   {/* Winner Banner if Ended */}
                   {raffle.winner && (
                     <div className="mt-3 rounded-sm border border-[#fbbf24]/30 bg-[#fbbf24]/10 p-2.5 font-mono text-xs text-[#fbbf24]">
-                      <span className="font-black">🏆 PEMENANG:</span> @{raffle.winner.username} (Tiket {raffle.winner.ticketId})
+                      <span className="font-black">🏆 PEMENANG:</span> @{raffle.winner.username} (Tiket #{raffle.winner.ticketId})
                     </div>
                   )}
                 </div>
@@ -323,7 +339,7 @@ function RafflePage() {
         {/* Modal Entry Dialog */}
         {activeModalRaffle && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4">
-            <div className="w-full max-w-md rounded-sm border border-[#333340] bg-[#101015] p-6 shadow-2xl text-[#f4f4f5]">
+            <div className="w-full max-w-md rounded-sm border border-[#333340] bg-[#101015] p-6 shadow-2xl text-[#f4f4f5] modal-animated">
               <div className="flex items-center justify-between border-b border-[#22222a] pb-3">
                 <span className="font-mono text-xs font-black text-[#00f59b] uppercase tracking-wider">
                   // ENTER ONCHAIN RAFFLE
@@ -385,6 +401,14 @@ function RafflePage() {
                       MAX ({raffleTickets})
                     </button>
                   </div>
+
+                  {/* Odds estimation */}
+                  <div className="mt-3 flex items-center justify-between font-mono text-[11px] text-[#8b8b9e] bg-[#0c0c10] border border-[#22222a] p-2.5 rounded-sm">
+                    <span>ESTIMASI ODDS MENANG:</span>
+                    <span className="font-bold text-[#00f59b]">
+                      ~{(((enteredRaffles[activeModalRaffle.id]?.count ?? 0) + ticketInput) / Math.max(1, activeModalRaffle.totalEntries + (enteredRaffles[activeModalRaffle.id]?.count ?? 0) + ticketInput) * 100).toFixed(1)}%
+                    </span>
+                  </div>
                 </div>
 
                 {raffleTickets < activeModalRaffle.ticketCost ? (
@@ -408,6 +432,71 @@ function RafflePage() {
                     className="flex-1 rounded-sm border border-[#00f59b] bg-[#00f59b] py-2 font-mono text-xs font-black uppercase text-black hover:bg-[#00d888] disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     KONFIRMASI ({ticketInput} TIKET)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* VRF Transparency Proof Modal */}
+        {activeVrfRaffle && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-xs p-4">
+            <div className="w-full max-w-lg rounded-sm border border-[#333340] bg-[#101015] p-6 shadow-2xl text-[#f4f4f5] modal-animated">
+              <div className="flex items-center justify-between border-b border-[#22222a] pb-3">
+                <span className="font-mono text-xs font-black text-[#00f59b] uppercase tracking-wider flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-[#00f59b] animate-pulse" />
+                  // CHAINLINK VRF V2.5 PROOF
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    playTap();
+                    setActiveVrfRaffle(null);
+                  }}
+                  className="font-mono text-xs text-[#8b8b9e] hover:text-white"
+                >
+                  [ X TUTUP ]
+                </button>
+              </div>
+
+              <div className="mt-4 space-y-3 font-mono text-xs">
+                <div>
+                  <span className="text-[#8b8b9e] uppercase block text-[10px]">RAFFLE POOL</span>
+                  <p className="font-bold text-white text-sm">{activeVrfRaffle.title}</p>
+                </div>
+
+                <div className="rounded-sm border border-[#22222a] bg-[#0a0a0e] p-3 space-y-2">
+                  <div>
+                    <span className="text-[#606070] text-[10px] uppercase block">VRF SEED HASH (SHA-256)</span>
+                    <p className="text-[#00f59b] font-mono break-all text-[11px]">{activeVrfRaffle.vrfSeed}</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#1a1a24]">
+                    <div>
+                      <span className="text-[#606070] text-[10px] uppercase block">NETWORK</span>
+                      <p className="text-white font-bold">{activeVrfRaffle.network}</p>
+                    </div>
+                    <div>
+                      <span className="text-[#606070] text-[10px] uppercase block">STATUS PROOF</span>
+                      <p className="text-[#00f59b] font-bold">VERIFIED ONCHAIN</p>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-[#9494a8] leading-relaxed">
+                  Semua nomor pemenang diundi menggunakan nilai acak deterministik yang dibuktikan secara kriptografi (Verifiable Random Function). Tidak ada admin yang bisa mengubah atau memilih tiket pemenang sebelum atau sesudah undian berakhir.
+                </p>
+
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playTap();
+                      setActiveVrfRaffle(null);
+                    }}
+                    className="w-full rounded-sm border border-[#00f59b] bg-[#00f59b] py-2 font-mono text-xs font-black uppercase text-black hover:bg-[#00d888]"
+                  >
+                    [ MENGERTI // TUTUP ]
                   </button>
                 </div>
               </div>

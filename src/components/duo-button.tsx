@@ -16,8 +16,8 @@ const variantClass: Record<Variant, string> = {
 };
 
 const sizeClass: Record<Size, string> = {
-  sm: "min-h-11 rounded-xl px-3 py-2 text-sm",
-  md: "min-h-12 rounded-2xl px-4 py-3 text-base",
+  sm: "min-h-10 rounded-sm px-3.5 py-1.5 font-mono text-xs font-black uppercase tracking-wider",
+  md: "min-h-12 rounded-sm px-5 py-2.5 font-mono text-sm font-black uppercase tracking-wider",
 };
 
 const RAISED = new Set<Variant>(["primary", "sky", "danger", "world"]);
@@ -35,12 +35,12 @@ export function DuoButton({ variant = "primary", size = "md", wide, className, c
     <button
       type="button"
       className={cn(
-        "inline-flex items-center justify-center font-bold",
-        "transition-[transform,border-width,filter,opacity] duration-[140ms] ease-[cubic-bezier(0.2,0,0,1)]",
-        "disabled:cursor-not-allowed disabled:opacity-65",
+        "inline-flex items-center justify-center font-bold select-none cursor-pointer",
+        "transition-[transform,border-color,background-color,box-shadow,opacity] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
+        "disabled:cursor-not-allowed disabled:opacity-50",
         raised
-          ? "border-b-4 active:not-disabled:translate-y-[3px] active:not-disabled:border-b-0"
-          : "border active:not-disabled:scale-[0.98]",
+          ? "border-b-4 active:not-disabled:translate-y-[2px] active:not-disabled:scale-[0.97] active:not-disabled:border-b-2"
+          : "border active:not-disabled:scale-[0.97]",
         variantClass[variant],
         sizeClass[size],
         wide && "w-full",

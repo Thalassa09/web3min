@@ -50,6 +50,7 @@ export type ProgressState = {
   dailyGoal: DailyGoal;
   xp: number;
   gems: number;
+  coinResetV1?: boolean;
   hearts: number;
   heartsUpdatedAt: number;
   streak: number;
@@ -123,7 +124,8 @@ const initial: ProgressState = {
   shouts: [],
   dailyGoal: 20,
   xp: 0,
-  gems: 50,
+  gems: 0,
+  coinResetV1: true,
   hearts: MAX_HEARTS,
   heartsUpdatedAt: Date.now(),
   streak: 0,
@@ -226,6 +228,8 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
   const twitter = sanitizeTwitter(raw.twitter);
   const friendMeta = sanitizeMeta(raw.friendMeta);
   const friends = sanitizeFriends(raw.friends, username);
+  const coinResetDone = Boolean((raw as { coinResetV1?: unknown })?.coinResetV1);
+  const currentGems = coinResetDone && typeof raw.gems === "number" ? raw.gems : 0;
   return {
     onboarded: Boolean(raw.onboarded),
     introSeen: Boolean(raw.introSeen),
@@ -239,7 +243,8 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
     shouts: sanitizeShouts(raw.shouts),
     dailyGoal,
     xp: clamp(raw.xp, 0, 5_000_000, 0),
-    gems: holdGems(typeof raw.gems === "number" ? raw.gems : GEM_CAP),
+    gems: holdGems(currentGems),
+    coinResetV1: true,
     hearts: clamp(raw.hearts, 0, MAX_HEARTS, MAX_HEARTS),
     heartsUpdatedAt: typeof raw.heartsUpdatedAt === "number" && raw.heartsUpdatedAt > 0 ? raw.heartsUpdatedAt : Date.now(),
     streak: clamp(raw.streak, 0, 10_000, 0),
@@ -338,7 +343,7 @@ export const useProgress = create<ProgressState & Actions>()(
           introSeen: true,
           username: clean,
           dailyGoal: goal,
-          gems: GEM_CAP,
+          gems: 0,
           hearts: MAX_HEARTS,
         });
       },

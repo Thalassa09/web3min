@@ -5,7 +5,9 @@ import { BootScreen } from "@/components/boot-screen";
 function applyMotion(on: boolean) {
   if (typeof document === "undefined") return;
   const prefer = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  document.documentElement.classList.toggle("reduce-motion", on || prefer);
+  const isReduced = on || prefer;
+  document.documentElement.classList.toggle("reduce-motion", isReduced);
+  document.documentElement.dataset.motion = isReduced ? "reduced" : "full";
 }
 
 export function HydrationGate({ children }: { children: ReactNode }) {

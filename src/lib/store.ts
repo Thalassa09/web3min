@@ -348,26 +348,32 @@ function rollDay(state: ProgressState): ProgressState {
 function touchStreak(state: ProgressState): ProgressState {
   const today = todayKey();
   if (state.lastActiveDate === today) return state;
-  if (state.lastActiveDate === yesterdayKey()) {
-    return { ...state, streak: state.streak + 1, lastActiveDate: today };
-  }
   if (!state.lastActiveDate) {
     return { ...state, streak: 1, lastActiveDate: today };
   }
-  const diff = daysBetween(state.lastActiveDate, today);
-  if (diff <= 1) {
+  const gap = daysBetween(state.lastActiveDate, today);
+  if (gap === 1) {
     return { ...state, streak: state.streak + 1, lastActiveDate: today };
   }
-  const missedDays = diff - 1;
-  if (state.streakFreeze >= missedDays) {
-    return {
-      ...state,
-      streakFreeze: state.streakFreeze - missedDays,
-      lastActiveDate: today,
-      streak: state.streak + 1,
-    };
+  if (gap > 1) {
+    const needed = gap - 1;
+    if (state.streakFreeze >= needed) {
+      return {
+        ...state,
+        streakFreeze: state.streakFreeze - needed,
+        streak: state.streak + 1,
+        lastActiveDate: today,
+      };
+    } else {
+      return {
+        ...state,
+        streak: 1,
+        streakFreeze: 0,
+        lastActiveDate: today,
+      };
+    }
   }
-  return { ...state, streak: 1, streakFreeze: 0, lastActiveDate: today };
+  return state;
 }
 
 export const useProgress = create<ProgressState & Actions>()(

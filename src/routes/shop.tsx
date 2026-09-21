@@ -238,11 +238,11 @@ function ShopPage() {
             {/* SECTION: Penguat Belajar (Boosters & Utility) */}
             <div className="space-y-3">
               <div className="flex items-center justify-between px-1">
-                <h2 className="text-sm font-extrabold text-white uppercase tracking-wider drop-shadow-sm flex items-center gap-2">
+                <h2 className="text-sm font-extrabold text-[#0D2340] uppercase tracking-wider flex items-center gap-2">
                   <ShieldCheck className="size-4.5 text-[#FFC61A]" />
                   <span>Item & Penguat Belajar</span>
                 </h2>
-                <span className="text-xs font-bold text-white/80">3 Item Tersedia</span>
+                <span className="text-xs font-bold text-[#4A6580]">3 Item Tersedia</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

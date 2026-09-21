@@ -488,9 +488,9 @@ function RafflePage() {
 
         {/* Other Pools Catalog */}
         <section className="space-y-4 pt-4">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-white/20 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-[#DCE7F5] pb-4">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-bold text-white drop-shadow-sm">
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-[#0D2340]">
                 Daftar Undian Lainnya
               </h2>
             </div>
@@ -514,8 +514,8 @@ function RafflePage() {
                   className={cn(
                     "px-3.5 py-1.5 font-extrabold rounded-full transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer",
                     filter === tab.id
-                      ? "bg-white text-[#0B63F6] shadow-[0_3px_0_#C8DBF0]"
-                      : "bg-white/20 text-white hover:bg-white/30",
+                      ? "bg-sky-600 text-white shadow-[0_3px_0_#0B4FD1]"
+                      : "bg-white text-[#4A6580] hover:text-[#0D2340] border border-[#DCE7F5] shadow-sm hover:bg-[#F8FAFC]",
                   )}
                 >
                   {tab.label}

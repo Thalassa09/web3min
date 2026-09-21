@@ -163,7 +163,7 @@ function KisahHub() {
 
             {lockedStories.length > 0 && (
               <div className="pt-4 space-y-3">
-                <div className="text-xs font-extrabold text-white uppercase tracking-wider drop-shadow-sm">
+                <div className="text-xs font-extrabold text-[#4A6580] uppercase tracking-wider">
                   Terkunci · Selesaikan Modul Belajar untuk Membuka
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-75">
@@ -226,7 +226,7 @@ function KisahHub() {
 
             {lockedCases.length > 0 && (
               <div className="pt-4 space-y-3">
-                <div className="text-xs font-extrabold text-white uppercase tracking-wider drop-shadow-sm">
+                <div className="text-xs font-extrabold text-[#4A6580] uppercase tracking-wider">
                   Kasus Terkunci
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-75">

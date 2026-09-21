@@ -131,7 +131,10 @@ function UnitBlock({
 
   return (
     <section
-      className={cn("relative scroll-mt-20 overflow-hidden [content-visibility:auto] [contain-intrinsic-size:720px]", world.skin)}
+      className={cn(
+        "relative mx-3 sm:mx-4 my-4 rounded-[26px] border-2 border-[#B9CFE9] shadow-[0_6px_0_#0B4FD1] overflow-hidden scroll-mt-20 [content-visibility:auto] [contain-intrinsic-size:720px]",
+        world.skin
+      )}
       id={`unit-${unit.id}`}
     >
       {lit ? (

@@ -42,7 +42,7 @@ export function HomeDock() {
 
   if (hearts <= 0) {
     return (
-      <SurfaceCard className="mx-4 mt-4 p-5 md:p-6 border-2 border-[#F4A4A0] bg-[#FFF5F5]">
+      <SurfaceCard className="mx-3 sm:mx-4 mt-4 p-5 md:p-6 border-2 border-[#F4A4A0] bg-[#FFF5F5]">
         <div className="flex items-center gap-2 mb-2">
           <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#E63329] text-white shadow-[0_2px_0_#B01E18]">
             Nyawa Habis
@@ -71,7 +71,7 @@ export function HomeDock() {
   }
 
   return (
-    <SurfaceCard className="mx-4 mt-4 p-5 md:p-6 bg-white">
+    <SurfaceCard className="mx-3 sm:mx-4 mt-4 p-5 md:p-6 bg-white">
       {lesson && world ? (
         <div className="space-y-3.5">
           <div className="flex items-center justify-between flex-wrap gap-2">

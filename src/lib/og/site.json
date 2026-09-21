@@ -1,6 +1,6 @@
 {
   "title": "web3min",
-  "type": "x:game",
-  "card": "custom",
-  "color": "F25D7A"
+  "type": "website",
+  "card": "/og-image.png",
+  "color": "0B63F6"
 }

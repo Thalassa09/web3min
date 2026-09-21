@@ -3,16 +3,54 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Clock, ShieldCheck, Gift, Check } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
-import { Mascot } from "@/components/mascot";
+import { Mascot, type MascotMood } from "@/components/mascot";
 import { type DailyGoal, useProgress } from "@/lib/store";
+import { playMoodSfx, triggerHaptic } from "@/lib/audio";
 
 export const Route = createFileRoute("/onboarding")({ component: Onboarding });
 
-const GOALS: { value: DailyGoal; label: string; desc: string; modules: string }[] = [
-  { value: 10, label: "Santai", desc: "10 XP / hari", modules: "~1 modul per hari" },
-  { value: 20, label: "Reguler", desc: "20 XP / hari", modules: "~2 modul per hari" },
-  { value: 30, label: "Serius", desc: "30 XP / hari", modules: "~3 modul per hari" },
-  { value: 50, label: "Intensif", desc: "50 XP / hari", modules: "~5 modul per hari" },
+interface GoalConfig {
+  value: DailyGoal;
+  label: string;
+  desc: string;
+  modules: string;
+  mood: MascotMood;
+  quote: string;
+}
+
+const GOALS: GoalConfig[] = [
+  {
+    value: 10,
+    label: "Santai",
+    desc: "10 XP / hari",
+    modules: "~1 modul per hari",
+    mood: "idle",
+    quote: "Santai aja, 1 modul per hari udah keren banget!",
+  },
+  {
+    value: 20,
+    label: "Reguler",
+    desc: "20 XP / hari",
+    modules: "~2 modul per hari",
+    mood: "wave",
+    quote: "Pilihan pas! 2 modul sehari bikin cepat paham.",
+  },
+  {
+    value: 30,
+    label: "Serius",
+    desc: "30 XP / hari",
+    modules: "~3 modul per hari",
+    mood: "proud",
+    quote: "Mantap! 3 modul sehari, ambisius jadi master!",
+  },
+  {
+    value: 50,
+    label: "Intensif",
+    desc: "50 XP / hari",
+    modules: "~5 modul per hari",
+    mood: "angry",
+    quote: "Gaspol! 5 modul sehari, mode ngebut on-chain!",
+  },
 ];
 
 function Onboarding() {
@@ -33,6 +71,19 @@ function Onboarding() {
     void navigate({ to: "/" });
   }
 
+  const activeGoalConfig = GOALS.find((g) => g.value === goal) ?? GOALS[1];
+  const currentMood: MascotMood =
+    step === 0 ? "wave" : step === 1 ? "think" : activeGoalConfig.mood;
+
+  const handleSelectGoal = (g: GoalConfig) => {
+    setGoal(g.value);
+    if (useProgress.getState().sound) {
+      playMoodSfx(g.mood);
+    } else {
+      triggerHaptic("selection");
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#1F7BFF] to-[#0B4FD1] flex items-center justify-center px-4 py-8 relative select-none overflow-hidden">
       {/* Soft Floating Clouds Decor */}
@@ -48,17 +99,19 @@ function Onboarding() {
             <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center p-3.5 sm:p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA] gap-3.5">
               <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
                 <Mascot
-                  mood={step === 0 ? "wave" : step === 2 ? "celebrate" : "think"}
+                  key={step === 2 ? `goal-${goal}` : `step-${step}`}
+                  mood={currentMood}
                   fill
                   float
+                  interactive
                 />
               </div>
               <div>
                 <div className="font-display text-base sm:text-lg font-bold text-[#0B4FD1]">Blobi</div>
-                <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px]">
+                <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px] transition-all duration-200">
                   {step === 0 && "Teman belajarmu di dunia Web3"}
                   {step === 1 && "Pilih nama panggilan petualangmu"}
-                  {step === 2 && "Berapa menit kamu luangkan tiap hari?"}
+                  {step === 2 && activeGoalConfig.quote}
                 </p>
               </div>
             </div>
@@ -198,9 +251,9 @@ function Onboarding() {
                         <button
                           key={g.value}
                           type="button"
-                          onClick={() => setGoal(g.value)}
+                          onClick={() => handleSelectGoal(g)}
                           className={`
-                            p-3.5 rounded-[16px] border-2 text-left transition-all flex flex-col justify-between cursor-pointer
+                            p-3.5 rounded-[16px] border-2 text-left transition-[transform,box-shadow,background-color,border-color] duration-150 flex flex-col justify-between cursor-pointer
                             active:translate-y-[2px]
                             ${
                               isSelected
@@ -210,14 +263,23 @@ function Onboarding() {
                           `}
                         >
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-extrabold text-[#0D2340]">{g.label}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="size-7 rounded-xl bg-white/90 border border-[#B9CFE9] flex items-center justify-center shrink-0 shadow-sm">
+                                <img
+                                  src={`/mascot/${g.mood}.png`}
+                                  alt=""
+                                  className="size-5 pixelated object-contain"
+                                />
+                              </span>
+                              <span className="text-xs font-extrabold text-[#0D2340]">{g.label}</span>
+                            </div>
                             {isSelected && (
-                              <span className="size-5 rounded-full bg-[#0B63F6] text-white flex items-center justify-center">
+                              <span className="size-5 rounded-full bg-[#0B63F6] text-white flex items-center justify-center shadow-sm">
                                 <Check className="size-3" strokeWidth={3} />
                               </span>
                             )}
                           </div>
-                          <div className="mt-2">
+                          <div className="mt-2.5">
                             <div className="text-xs font-bold text-[#0B4FD1]">{g.desc}</div>
                             <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">{g.modules}</div>
                           </div>

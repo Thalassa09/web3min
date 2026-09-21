@@ -35,7 +35,7 @@ export function DuoButton({ variant = "primary", size = "md", wide, className, c
         "inline-flex items-center justify-center font-sans font-extrabold select-none cursor-pointer",
         "transition-[transform,box-shadow,background-color,border-color,color] duration-100 ease-out",
         "active:not-disabled:translate-y-[3px] active:not-disabled:shadow-none",
-        "disabled:cursor-not-allowed disabled:bg-[#E2E8F0] disabled:text-[#8095AB] disabled:border-[#CBD5E1] disabled:shadow-none disabled:active:translate-y-0",
+        "disabled:cursor-not-allowed disabled:bg-line disabled:text-faint disabled:border-line-strong disabled:shadow-none disabled:active:translate-y-0",
         variantClass[variant],
         sizeClass[size],
         wide && "w-full",

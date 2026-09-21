@@ -208,9 +208,9 @@ input:focus-visible {
   cursor: not-allowed !important;
   box-shadow: none !important;
   transform: none !important;
-  background: #E2E8F0 !important;
-  border-color: #CBD5E1 !important;
-  color: #64748B !important;
+  background: var(--color-line, #DCE7F5) !important;
+  border-color: var(--color-line-strong, #B9CFE9) !important;
+  color: var(--color-faint, #6B839C) !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

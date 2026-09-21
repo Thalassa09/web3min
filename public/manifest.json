@@ -1,0 +1,15 @@
+{
+  "name": "web3min",
+  "short_name": "web3min",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F0F6FF",
+  "theme_color": "#0B63F6",
+  "icons": [
+    {
+      "src": "/icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
-import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { HydrationGate } from "@/components/hydration-gate";
 import { setAudioEnabled, primeAudio } from "@/lib/audio";
 import { useProgress } from "@/lib/store";
@@ -68,8 +67,8 @@ export const Route = createRootRoute({
         href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&display=swap",
       },
       { rel: "stylesheet", href: appCss },
-      { rel: "manifest", href: "/__grok/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/__grok/icon-180.png" },
+      { rel: "manifest", href: "/manifest.json" },
+      { rel: "apple-touch-icon", href: "/icon-180.png" },
     ],
   }),
   component: RootDocument,
@@ -82,7 +81,6 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body className="bg-bg text-fg font-sans">
-        <PreviewHostBridge />
         <AuthProvider>
           <HydrationGate>
             <AudioEffectBridge />

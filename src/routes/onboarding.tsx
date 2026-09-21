@@ -129,7 +129,7 @@ function Onboarding() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#1F7BFF] to-[#0B4FD1] flex items-center justify-center px-4 py-8 relative select-none overflow-hidden">
+    <main className="min-h-dvh bg-gradient-to-b from-[#1F7BFF] to-[#0B4FD1] flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8 relative select-none overflow-x-hidden overflow-y-auto">
       {/* Soft Floating Clouds Decor */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
         <div className="absolute top-10 -left-10 w-72 h-36 rounded-full bg-white/20 blur-2xl" />
@@ -161,7 +161,7 @@ function Onboarding() {
             </div>
 
             {/* Step Content (7 Cols) */}
-            <div className="md:col-span-7 flex flex-col justify-between min-h-[340px]">
+            <div className="md:col-span-7 flex flex-col justify-between min-h-0">
               {/* Step 0: Welcome */}
               {step === 0 && (
                 <div className="space-y-5">
@@ -286,7 +286,7 @@ function Onboarding() {
                     </p>
                   </div>
 
-                  <div className="flex gap-3 pt-4">
+                  <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
                     <TactileButton
                       variant="ghost"
                       size="md"
@@ -297,12 +297,12 @@ function Onboarding() {
                     <TactileButton
                       variant="primary"
                       size="lg"
-                      fullWidth
+                      className="w-full sm:flex-1"
                       icon={<ArrowRight className="size-5" />}
                       onClick={() => void goUsernameNext()}
                       disabled={busy}
                     >
-                      {busy ? "Cek username…" : "Lanjut ke Target Harian"}
+                      {busy ? "Cek username…" : "Lanjut"}
                     </TactileButton>
                   </div>
                 </div>
@@ -364,7 +364,7 @@ function Onboarding() {
                     })}
                   </div>
 
-                  <div className="flex gap-3 pt-4">
+                  <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
                     <TactileButton
                       variant="ghost"
                       size="md"
@@ -375,7 +375,7 @@ function Onboarding() {
                     <TactileButton
                       variant="primary"
                       size="lg"
-                      fullWidth
+                      className="w-full sm:flex-1"
                       icon={<ArrowRight className="size-5" />}
                       onClick={() => void finish()}
                       disabled={busy}

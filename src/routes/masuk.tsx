@@ -31,7 +31,7 @@ function MasukPage() {
   }
 
   return (
-    <main className="min-h-screen bg-canvas flex items-center justify-center px-4 py-8">
+    <main className="min-h-dvh bg-canvas flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8 overflow-x-hidden">
       <SurfaceCard className="w-full max-w-md p-6 bg-white">
         <div className="flex items-center gap-3 mb-5">
           <Mascot mood="wave" size={56} />

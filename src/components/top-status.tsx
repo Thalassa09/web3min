@@ -57,7 +57,7 @@ function StatPill({
     </>
   );
 
-  const className = `relative flex items-center gap-1 h-8 sm:h-9 px-2 sm:px-2.5 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[11px] sm:text-xs font-extrabold font-sans text-[#0D2340] transition-[transform,box-shadow,background-color] duration-150 ${to ? "cursor-pointer active:translate-y-[2px] active:shadow-none" : ""}`;
+  const className = `relative flex items-center gap-0.5 sm:gap-1 h-8 sm:h-9 px-1.5 sm:px-2.5 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[11px] sm:text-xs font-extrabold font-sans text-[#0D2340] transition-[transform,box-shadow,background-color] duration-150 shrink-0 ${to ? "cursor-pointer active:translate-y-[2px] active:shadow-none" : ""}`;
 
   if (to) {
     return (
@@ -93,7 +93,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const setSound = useProgress((s) => s.setSound);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-1 sm:gap-2 px-2.5 sm:px-4 bg-sky-600 border-b border-white/25 shadow-[0_4px_14px_rgba(11,79,209,0.3)] select-none">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-1 sm:gap-2 px-2 sm:px-4 bg-sky-600 border-b border-white/25 shadow-[0_4px_14px_rgba(11,79,209,0.3)] select-none overflow-hidden">
       {/* Brand on Mobile / Small screens */}
       {brand ? (
         <Link to="/" className="mr-auto shrink-0 select-none flex items-center gap-1.5 lg:hidden" aria-label="Beranda">
@@ -110,7 +110,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
       <span className="mr-auto hidden lg:block" />
 
       {/* 5 Fixed Slots HUD Cluster */}
-      <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+      <div className="flex min-w-0 items-center justify-end gap-1 sm:gap-1.5 md:gap-2 overflow-x-auto no-scrollbar">
         {/* 0. XP (Desktop/Tablet) */}
         <div className="hidden sm:block">
           <StatPill

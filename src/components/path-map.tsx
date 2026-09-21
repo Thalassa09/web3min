@@ -199,14 +199,14 @@ function WorldGate({
   open: boolean;
 }) {
   return (
-    <div className="world-gate relative z-10 px-8 py-2">
-      <div className="mx-auto flex max-w-sm items-center gap-2 px-2">
-        <span className={cn("h-px flex-1 rounded-full", from.skin)} style={{ background: "var(--world-trail)" }} />
-        <p className="shrink-0 text-[13px] font-medium leading-[18px] text-muted">
+    <div className="world-gate relative z-10 px-4 sm:px-8 py-2 min-w-0">
+      <div className="mx-auto flex max-w-sm items-center gap-2 px-2 min-w-0">
+        <span className={cn("h-px min-w-4 flex-1 rounded-full", from.skin)} style={{ background: "var(--world-trail)" }} />
+        <p className="min-w-0 flex-1 text-center text-[12px] sm:text-[13px] font-medium leading-[16px] sm:leading-[18px] text-muted text-pretty">
           {open ? `${from.land} → ${to.land}` : `Selesaikan pelajaran sebelumnya untuk membuka rute ini.`}
         </p>
         {open ? null : <Lock className="size-3 shrink-0 text-muted" weight="bold" />}
-        <span className={cn("h-px flex-1 rounded-full", to.skin)} style={{ background: "var(--world-trail)" }} />
+        <span className={cn("h-px min-w-4 flex-1 rounded-full", to.skin)} style={{ background: "var(--world-trail)" }} />
       </div>
     </div>
   );

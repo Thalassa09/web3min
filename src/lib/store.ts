@@ -7,6 +7,7 @@ import { QUESTS, questProgress } from "@/lib/quests";
 import { getCase, getStory, isOpen, knownCaseIds, knownStoryIds } from "@/lib/stories";
 import { sanitizeBio, sanitizeShout, sanitizeTwitter, sanitizeUsername, type Shout } from "@/lib/people";
 import { todayKey, weekId, yesterdayKey } from "@/lib/utils";
+import { INITIAL_RAFFLES } from "@/lib/raffles";
 
 export type DailyGoal = 10 | 20 | 30 | 50;
 
@@ -552,13 +553,17 @@ export const useProgress = create<ProgressState & Actions>()(
       },
       enterRaffle: (raffleId, count) => {
         const s = get();
-        if (count <= 0 || (s.raffleTickets ?? 0) < count) return false;
+        const raffle = INITIAL_RAFFLES.find((r) => r.id === raffleId);
+        if (!raffle) return false;
+        if (raffle.status !== "live" || raffle.endsAt <= Date.now()) return false;
+        const qty = Math.trunc(count);
+        if (!Number.isFinite(qty) || qty <= 0 || (s.raffleTickets ?? 0) < qty) return false;
         const currentCount = s.enteredRaffles?.[raffleId]?.count ?? 0;
         set({
-          raffleTickets: (s.raffleTickets ?? 0) - count,
+          raffleTickets: (s.raffleTickets ?? 0) - qty,
           enteredRaffles: {
             ...s.enteredRaffles,
-            [raffleId]: { count: currentCount + count, enteredAt: Date.now() },
+            [raffleId]: { count: currentCount + qty, enteredAt: Date.now() },
           },
         });
         return true;

@@ -2590,6 +2590,10 @@ export function firstIncompleteId(completed: string[]): string | null {
   return allPathNodes().find((node) => !completed.includes(node.id))?.id ?? null;
 }
 
+export function firstPlayableId(completed: string[]): string | null {
+  return sequentialNodes().find((node) => !completed.includes(node.id))?.id ?? null;
+}
+
 export function scoredExerciseCount(lesson: Lesson): number {
   return lesson.exercises.filter((ex) => ex.type !== "tip").length;
 }

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Heart, X } from "@/lib/kicon";
 import type { Exercise, Lesson } from "@/lib/curriculum";
-import { firstIncompleteId, getLesson, scoredExerciseCount } from "@/lib/curriculum";
+import { firstPlayableId, getLesson, scoredExerciseCount } from "@/lib/curriculum";
 import { worldOf } from "@/lib/worlds";
 import { formatHeartWait, HEART_MS, msUntilHeart, useProgress } from "@/lib/store";
 import { DuoButton } from "@/components/duo-button";
@@ -38,7 +38,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const [ready, setReady] = useState(false);
   const [mistakes, setMistakes] = useState(0);
   const [solved, setSolved] = useState(0);
-  const [awarded, setAwarded] = useState<{ xp: number; gems: number; perfect: boolean } | null>(null);
+  const [awarded, setAwarded] = useState<{ xp: number; gems: number; perfect: boolean; replay: boolean } | null>(null);
   const handleRef = useRef<CheckHandle>({ ready: false, isCorrect: () => false });
   const mistakesRef = useRef(0);
   const pendingLenRef = useRef(pending.length);
@@ -54,14 +54,12 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const finish = useCallback(
     (miss: number) => {
       const perfect = miss === 0;
-      completeLesson(lesson.id, { perfect });
-      const xp = lesson.xp + (perfect ? 8 : 0);
-      const gemGain = lesson.gems + (perfect ? 2 : 0);
-      setAwarded({ xp, gems: gemGain, perfect });
+      const res = completeLesson(lesson.id, { perfect });
+      setAwarded(res);
       setPhase("done");
       if (sound) playComplete();
     },
-    [completeLesson, lesson, sound],
+    [completeLesson, lesson.id, sound],
   );
 
   function goNext() {
@@ -109,12 +107,22 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     goNext();
   }
 
+  const lastKeyTimeRef = useRef(0);
+
   // Keyboard shortcut: Press Enter to check answer or continue
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       if (e.key === "Enter") {
+        if (e.repeat) return;
+        const now = Date.now();
+        if (now - lastKeyTimeRef.current < 280) {
+          e.preventDefault();
+          return;
+        }
+        lastKeyTimeRef.current = now;
         e.preventDefault();
+        e.stopPropagation();
         if (phase === "feedback") {
           continueAfterFeedback();
         } else if (phase === "ask" && ready) {
@@ -122,8 +130,8 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         }
       }
     }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => window.removeEventListener("keydown", onKeyDown, true);
   }, [phase, ready, check, continueAfterFeedback]);
 
   const autoPass = useCallback(() => {
@@ -247,7 +255,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
               dailyHit={xpToday >= dailyGoal}
               onHome={() => void navigate({ to: "/" })}
               onNext={() => {
-                const next = firstIncompleteId(useProgress.getState().completed);
+                const next = firstPlayableId(useProgress.getState().completed);
                 if (next) void navigate({ to: "/lesson/$lessonId", params: { lessonId: next } });
                 else void navigate({ to: "/" });
               }}
@@ -385,27 +393,32 @@ function CompleteCard({
   onNext,
 }: {
   lesson: Lesson;
-  awarded: { xp: number; gems: number; perfect: boolean };
+  awarded: { xp: number; gems: number; perfect: boolean; replay: boolean };
   dailyHit: boolean;
   onHome: () => void;
   onNext: () => void;
 }) {
-  const next = firstIncompleteId(useProgress.getState().completed);
+  const next = firstPlayableId(useProgress.getState().completed);
   const nextLesson = next ? getLesson(next) : null;
   return (
     <div className="flex flex-1 flex-col items-center justify-center text-center">
       <Mascot mood="celebrate" size={200} float />
-      <h2 className="mt-2 text-3xl font-extrabold">Pelajaran selesai</h2>
-      <p className="mt-1 font-medium text-muted">{lesson.title}</p>
-      <p className="mt-5 text-sm font-medium text-muted">XP</p>
-      <p className="text-2xl font-extrabold tabular-nums text-gold">+{awarded.xp}</p>
-      <p className="mt-3 flex items-center justify-center gap-1 text-sm font-medium text-muted">
+      <h2 className="mt-2 text-3xl font-extrabold text-[#0D2340]">Pelajaran selesai</h2>
+      <p className="mt-1 font-medium text-[#4A6580]">{lesson.title}</p>
+      {awarded.replay ? (
+        <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[#B9CFE9] bg-[#EAF2FB] px-3.5 py-1 text-xs font-bold text-[#0B4FD1]">
+          <span>Pengulangan — hadiah disesuaikan</span>
+        </div>
+      ) : null}
+      <p className="mt-5 text-sm font-bold text-[#4A6580]">XP</p>
+      <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.xp}</p>
+      <p className="mt-3 flex items-center justify-center gap-1 text-sm font-bold text-[#4A6580]">
         <BlockStamp size={16} />
         Bintang
       </p>
-      <p className="text-2xl font-extrabold tabular-nums text-gold">+{awarded.gems}</p>
-      {awarded.perfect ? <p className="mt-4 text-sm font-bold text-primary">Sempurna — tanpa salah.</p> : null}
-      {dailyHit ? <p className="mt-2 text-sm font-bold text-streak">Streak hari ini aman.</p> : null}
+      <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.gems}</p>
+      {awarded.perfect ? <p className="mt-4 text-sm font-bold text-[#1E8A49]">Sempurna — tanpa salah.</p> : null}
+      {dailyHit ? <p className="mt-2 text-sm font-bold text-[#FF7A18]">Streak hari ini aman.</p> : null}
       <div className="mt-8 flex w-full flex-col gap-3">
         {nextLesson ? (
           <DuoButton wide onClick={onNext}>

@@ -4,7 +4,7 @@ import { Ticket, Sparkles, Clock, ArrowRight, BookOpen, Trophy } from "lucide-re
 import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { RouteChain } from "@/components/motif";
-import { firstIncompleteId, getLesson, getUnit } from "@/lib/curriculum";
+import { firstPlayableId, getLesson, getUnit } from "@/lib/curriculum";
 import { formatHeartWait, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
 import { worldOf } from "@/lib/worlds";
 
@@ -20,7 +20,7 @@ export function HomeDock() {
   const dailyGoal = useProgress((s) => s.dailyGoal);
   const [wait, setWait] = useState(() => msUntilHeart(heartsUpdatedAt));
 
-  const currentId = firstIncompleteId(completed);
+  const currentId = firstPlayableId(completed);
   const lesson = currentId ? getLesson(currentId) : null;
   const world = lesson ? worldOf(lesson.unitId) : null;
   const unit = lesson ? getUnit(lesson.unitId) : null;

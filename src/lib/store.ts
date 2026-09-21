@@ -97,7 +97,10 @@ type Actions = {
   addShout: (text: string) => boolean;
   loseHeart: () => void;
   refillHearts: () => boolean;
-  completeLesson: (id: string, info: { perfect: boolean }) => void;
+  completeLesson: (
+    id: string,
+    info: { perfect: boolean },
+  ) => { xp: number; gems: number; perfect: boolean; replay: boolean };
   claimChest: (id: string) => boolean;
   buyOutfit: (id: string) => boolean;
   equipOutfit: (id: string | null) => void;
@@ -451,17 +454,22 @@ export const useProgress = create<ProgressState & Actions>()(
         return true;
       },
       completeLesson: (id, info) => {
+        const s0 = get();
+        const lesson = getLesson(id);
+        if (!lesson || lesson.kind === "chest") {
+          return { xp: 0, gems: 0, perfect: false, replay: false };
+        }
+        const already = s0.completed.includes(id);
+        if (!already && !isUnlocked(id, s0.completed)) {
+          return { xp: 0, gems: 0, perfect: false, replay: false };
+        }
+        const xpGain = already ? Math.min(2, lesson.xp) : lesson.xp + (info.perfect ? 8 : 0);
+        const dailyXpGain = already ? 0 : xpGain;
+        const gemGain = already ? 0 : lesson.gems + (info.perfect ? 2 : 0);
+        const ticketGain = already ? 0 : 1 + (info.perfect ? 1 : 0);
         set((s) => {
-          const lesson = getLesson(id);
-          if (!lesson || lesson.kind === "chest") return s;
-          const already = s.completed.includes(id);
-          if (!already && !isUnlocked(id, s.completed)) return s;
           let next = touchStreak(rollDay(regenHearts(s)));
-          const xpGain = already ? Math.min(2, lesson.xp) : lesson.xp + (info.perfect ? 8 : 0);
-          const dailyXpGain = already ? 0 : xpGain;
-          const gemGain = already ? 0 : lesson.gems + (info.perfect ? 2 : 0);
-          const ticketGain = already ? 0 : 1 + (info.perfect ? 1 : 0);
-          next = {
+          return {
             ...next,
             xp: clampRuntime(next.xp + xpGain, 0, 5_000_000),
             gems: holdGems(next.gems, gemGain),
@@ -477,8 +485,8 @@ export const useProgress = create<ProgressState & Actions>()(
             guideSeen: true,
             coachSeen: true,
           };
-          return next;
         });
+        return { xp: xpGain, gems: gemGain, perfect: info.perfect, replay: already };
       },
       claimChest: (id) => {
         const s = get();

@@ -23,6 +23,8 @@ function ShopPage() {
   const refillHearts = useProgress((s) => s.refillHearts);
   const equipOutfit = useProgress((s) => s.equipOutfit);
   const freeze = useProgress((s) => s.streakFreeze);
+  const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
+  const buyRaffleTicketsWithGems = useProgress((s) => s.buyRaffleTicketsWithGems);
   const [slot, setSlot] = useState<AccessorySlot | "all">("all");
   const [preview, setPreview] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<Accessory | null>(null);
@@ -91,6 +93,40 @@ function ShopPage() {
 
         <h2 className="mt-6 text-sm font-extrabold">Perlengkapan</h2>
         <ul className="mt-2 flex flex-col gap-2">
+          <li className="surface flex items-start gap-3 p-4 border-[#00f59b]/30">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="font-extrabold text-[#00f59b]">Tiket Undian Web3 (Raffle)</h3>
+                <span className="rounded-xs bg-[#00f59b]/10 border border-[#00f59b]/30 px-1.5 py-0.5 font-mono text-[10px] font-black uppercase text-[#00f59b]">
+                  HOT
+                </span>
+              </div>
+              <p className="mt-1 text-sm text-muted">
+                Gunakan untuk mengikuti undian berhadiah USDT, Whitelist GTD, dan Hardware Wallet di Hub Raffle.
+              </p>
+              <p className="mt-1 flex items-center gap-1 text-sm font-extrabold text-gold">
+                <BlockStamp size={14} /> 10 bintang / tiket
+              </p>
+              <p className="mt-1 font-mono text-xs text-[#00f59b]">
+                Tiket saat ini: {raffleTickets} Tiket
+              </p>
+              {!UNLIMITED_GEMS && gems < 10 ? (
+                <p className="mt-1 text-sm font-bold text-blob">Kurang {10 - gems} bintang</p>
+              ) : null}
+            </div>
+            <DuoButton
+              size="sm"
+              disabled={!UNLIMITED_GEMS && gems < 10}
+              onClick={() => {
+                if (buyRaffleTicketsWithGems(1)) {
+                  playBuy();
+                  flash("1 Tiket Undian berhasil dibeli! Cek di menu Raffle.");
+                } else playDeny();
+              }}
+            >
+              Beli Tiket
+            </DuoButton>
+          </li>
           <li className="surface flex items-start gap-3 p-4">
             <div className="min-w-0 flex-1">
               <h3 className="font-extrabold">Pulihkan nyawa</h3>

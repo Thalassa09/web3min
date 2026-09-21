@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
+import { Ticket } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { BlockStamp } from "@/components/motif";
@@ -9,6 +11,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const streak = useProgress((s) => s.streak);
   const gems = useProgress((s) => s.gems);
   const hearts = useProgress((s) => s.hearts);
+  const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
 
   return (
     <header className="status-bar">
@@ -16,6 +19,14 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
       <span className="mr-auto hidden lg:block" />
       <Stat icon={<Fire className="size-4" weight="fill" />} value={streak} label="Streak" className="text-streak" />
       <Stat icon={<BlockStamp size={16} />} value={formatGems(gems)} label="Bintang" className="text-gold" />
+      <Link to="/leaderboard" className="no-underline">
+        <Stat
+          icon={<Ticket className="size-4" />}
+          value={raffleTickets}
+          label="Tiket Raffle"
+          className="text-[#00f59b] hover:border-[#00f59b]/40 cursor-pointer"
+        />
+      </Link>
       <Stat
         icon={<Heart className="size-4" weight="fill" />}
         value={`${hearts}/${MAX_HEARTS}`}

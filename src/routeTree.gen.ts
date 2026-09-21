@@ -18,6 +18,7 @@ import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as RaffleRouteImport } from './routes/raffle'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as BedahCaseIdRouteImport } from './routes/bedah.$caseId'
@@ -70,6 +71,11 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RaffleRoute = RaffleRouteImport.update({
+  id: '/raffle',
+  path: '/raffle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/raffle': typeof RaffleRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/raffle': typeof RaffleRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
@@ -145,6 +153,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/raffle': typeof RaffleRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/privacy'
     | '/profile'
+    | '/raffle'
     | '/settings'
     | '/shop'
     | '/bedah/$caseId'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/privacy'
     | '/profile'
+    | '/raffle'
     | '/settings'
     | '/shop'
     | '/bedah/$caseId'
@@ -197,6 +208,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/privacy'
     | '/profile'
+    | '/raffle'
     | '/settings'
     | '/shop'
     | '/bedah/$caseId'
@@ -215,6 +227,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
+  RaffleRoute: typeof RaffleRoute
   SettingsRoute: typeof SettingsRoute
   ShopRoute: typeof ShopRoute
   BedahCaseIdRoute: typeof BedahCaseIdRoute
@@ -286,6 +299,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/raffle': {
+      id: '/raffle'
+      path: '/raffle'
+      fullPath: '/raffle'
+      preLoaderRoute: typeof RaffleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -353,6 +373,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
+  RaffleRoute: RaffleRoute,
   SettingsRoute: SettingsRoute,
   ShopRoute: ShopRoute,
   BedahCaseIdRoute: BedahCaseIdRoute,

@@ -90,8 +90,12 @@ export function HomeDock() {
             <>
               <h2 className="mt-1 text-xl font-bold leading-[26px]">{lesson.title}</h2>
               <p className="mt-1 text-base leading-6">{lesson.blurb}</p>
-              <p className="mt-2 text-sm font-medium text-muted">
-                {mins} menit · +{lesson.xp} XP
+              <p className="mt-2 text-sm font-medium text-muted flex items-center gap-2">
+                <span>{mins} menit</span>
+                <span>•</span>
+                <span>+{lesson.xp} XP</span>
+                <span>•</span>
+                <span className="font-bold text-[#00f59b]">+1 Tiket Raffle 🎫</span>
               </p>
               <Link
                 to="/lesson/$lessonId"

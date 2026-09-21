@@ -1,7 +1,7 @@
 import {
   BookOpenText,
   Compass,
-  Handshake,
+  Gift,
   Storefront,
   UserCircle,
   type Icon,
@@ -16,7 +16,7 @@ export type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   { to: "/", label: "Belajar", icon: Compass },
   { to: "/kisah", label: "Kisah", icon: BookOpenText },
-  { to: "/leaderboard", label: "Teman", icon: Handshake },
+  { to: "/leaderboard", label: "Raffle", icon: Gift },
   { to: "/shop", label: "Toko", icon: Storefront },
   { to: "/profile", label: "Profil", icon: UserCircle },
 ];

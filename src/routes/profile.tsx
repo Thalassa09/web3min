@@ -17,7 +17,8 @@ export const Route = createFileRoute("/profile")({ component: ProfilePage });
 function ProfilePage() {
   const username = useProgress((s) => s.username);
   const twitter = useProgress((s) => s.twitter);
-  const friends = useProgress((s) => s.friends);
+  const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
+  const enteredRaffles = useProgress((s) => s.enteredRaffles ?? {});
   const setBio = useProgress((s) => s.setBio);
   const bio = useProgress((s) => s.bio);
   const xp = useProgress((s) => s.xp);
@@ -73,10 +74,12 @@ function ProfilePage() {
           className="mt-5 flex min-h-12 items-center justify-between rounded-2xl bg-paper px-4 py-3 lg:mt-0"
         >
           <span>
-            <span className="block text-sm font-medium text-muted">Teman</span>
-            <span className="font-bold">{friends.length} orang</span>
+            <span className="block text-sm font-medium text-muted">Web3 Raffle</span>
+            <span className="font-bold">
+              {raffleTickets} tiket • {Object.keys(enteredRaffles).length} pool diikuti
+            </span>
           </span>
-          <span className="text-sm font-bold text-primary">{friends.length ? "Lihat teman" : "Temukan teman"}</span>
+          <span className="text-sm font-bold text-primary">Buka Hub Raffle →</span>
         </Link>
 
         <div className="mt-5 lg:col-span-2">
@@ -94,7 +97,7 @@ function ProfilePage() {
             aria-describedby="bio-hint"
           />
           <p id="bio-hint" className="mt-1 text-sm leading-5 text-muted">
-            Maksimal 80 karakter. Kelihatan di Teman.
+            Maksimal 80 karakter. Kelihatan di profil & papan undian.
           </p>
           <DuoButton
             size="sm"

@@ -13,7 +13,7 @@ export type DailyGoal = 10 | 20 | 30 | 50;
 export const MAX_HEARTS = 5;
 export const HEART_MS = 20 * 60 * 1000;
 export const GEM_CAP = 999_999;
-export const UNLIMITED_GEMS = true;
+export const UNLIMITED_GEMS = false;
 
 export function formatGems(n: number) {
   return UNLIMITED_GEMS ? "∞" : String(n);
@@ -75,6 +75,8 @@ export type ProgressState = {
   completedCases: string[];
   guideSeen: boolean;
   coachSeen: boolean;
+  raffleTickets: number;
+  enteredRaffles: Record<string, { count: number; enteredAt: number }>;
 };
 
 export function needsCoach(s: Pick<ProgressState, "coachSeen" | "completed">) {
@@ -103,6 +105,9 @@ type Actions = {
   claimQuest: (id: string) => boolean;
   completeStory: (id: string) => { xp: number; gems: number } | null;
   completeCase: (id: string) => { xp: number; gems: number } | null;
+  enterRaffle: (raffleId: string, count: number) => boolean;
+  buyRaffleTicketsWithGems: (ticketAmount: number) => boolean;
+  addRaffleTicket: (count?: number) => void;
   reset: () => void;
   setSound: (on: boolean) => void;
   setReduceMotion: (on: boolean) => void;
@@ -118,7 +123,7 @@ const initial: ProgressState = {
   shouts: [],
   dailyGoal: 20,
   xp: 0,
-  gems: GEM_CAP,
+  gems: 50,
   hearts: MAX_HEARTS,
   heartsUpdatedAt: Date.now(),
   streak: 0,
@@ -144,6 +149,8 @@ const initial: ProgressState = {
   claimedQuests: [],
   completedStories: [],
   completedCases: [],
+  raffleTickets: 3,
+  enteredRaffles: {},
 };
 
 function clamp(n: unknown, min: number, max: number, fallback: number) {
@@ -257,6 +264,8 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
       : [],
     completedStories: knownStoryIds(raw.completedStories),
     completedCases: knownCaseIds(raw.completedCases),
+    raffleTickets: typeof raw.raffleTickets === "number" && raw.raffleTickets >= 0 ? raw.raffleTickets : 3,
+    enteredRaffles: raw.enteredRaffles && typeof raw.enteredRaffles === "object" ? (raw.enteredRaffles as Record<string, { count: number; enteredAt: number }>) : {},
   };
 }
 
@@ -401,10 +410,12 @@ export const useProgress = create<ProgressState & Actions>()(
           let next = touchStreak(rollDay(regenHearts(s)));
           const xpGain = already ? Math.min(2, lesson.xp) : lesson.xp + (info.perfect ? 8 : 0);
           const gemGain = already ? 0 : lesson.gems + (info.perfect ? 2 : 0);
+          const ticketGain = already ? 0 : 1 + (info.perfect ? 1 : 0);
           next = {
             ...next,
             xp: next.xp + xpGain,
             gems: holdGems(next.gems, gemGain),
+            raffleTickets: (next.raffleTickets ?? 0) + ticketGain,
             xpToday: next.xpToday + xpGain,
             weeklyXp: next.weeklyXp + xpGain,
             completed: already ? next.completed : [...next.completed, id],
@@ -533,6 +544,32 @@ export const useProgress = create<ProgressState & Actions>()(
           };
         });
         return awarded;
+      },
+      enterRaffle: (raffleId, count) => {
+        const s = get();
+        if (count <= 0 || (s.raffleTickets ?? 0) < count) return false;
+        const currentCount = s.enteredRaffles?.[raffleId]?.count ?? 0;
+        set({
+          raffleTickets: (s.raffleTickets ?? 0) - count,
+          enteredRaffles: {
+            ...s.enteredRaffles,
+            [raffleId]: { count: currentCount + count, enteredAt: Date.now() },
+          },
+        });
+        return true;
+      },
+      buyRaffleTicketsWithGems: (ticketAmount) => {
+        const s = get();
+        const cost = ticketAmount * 10;
+        if (ticketAmount <= 0 || s.gems < cost) return false;
+        set({
+          gems: holdGems(s.gems, -cost),
+          raffleTickets: (s.raffleTickets ?? 0) + ticketAmount,
+        });
+        return true;
+      },
+      addRaffleTicket: (count = 1) => {
+        set((s) => ({ raffleTickets: (s.raffleTickets ?? 0) + count }));
       },
       reset: () => set({ ...initial, heartsUpdatedAt: Date.now() }),
       setSound: (on) => set({ sound: Boolean(on) }),

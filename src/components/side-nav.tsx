@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Flame } from "lucide-react";
 import { BrandMark } from "@/components/brand-mark";
 import { NAV_ITEMS, navActive } from "@/lib/nav";
 import { useProgress } from "@/lib/store";
@@ -74,8 +75,15 @@ export function SideNav() {
           </div>
           <div className="min-w-0 flex-1">
             <div className="text-xs font-extrabold text-[#0D2340] truncate">@{username || "pelajar"}</div>
-            <div className="text-[11px] font-semibold text-[#5A7796] truncate">
-              {streak > 0 ? `Streak ${streak} hari 🔥` : "Belajar hari ini"}
+            <div className="text-[11px] font-semibold text-[#5A7796] truncate flex items-center gap-1">
+              {streak > 0 ? (
+                <>
+                  <span>Streak {streak} hari</span>
+                  <Flame className="size-3 text-[#FF7A18] shrink-0 fill-[#FF7A18]" />
+                </>
+              ) : (
+                "Belajar hari ini"
+              )}
             </div>
           </div>
         </Link>

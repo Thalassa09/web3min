@@ -9,6 +9,7 @@ import { sanitizeBio } from "@/lib/people";
 import { formatGems, useProgress } from "@/lib/store";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
+import { PixelIcon } from "@/components/ui/pixel-icon";
 
 export const Route = createFileRoute("/profile")({ component: ProfilePage });
 
@@ -201,17 +202,17 @@ function ProfilePage() {
         </SurfaceCard>
 
         {/* Curriculum Badges Rack */}
-        <SurfaceCard className="p-6 bg-white space-y-4">
-          <div className="flex items-center justify-between">
+        <SurfaceCard className="p-4 sm:p-6 bg-white space-y-4 scroll-mt-20">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h2 className="font-display font-bold text-lg text-[#0D2340]">
+              <h2 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
                 Rak Lencana Kurikulum (20 Modul)
               </h2>
               <p className="text-xs font-medium text-[#5A7796] mt-0.5">
                 {lessonsDone} dari 20 modul telah kamu selesaikan.
               </p>
             </div>
-            <div className="text-xs font-mono font-extrabold text-[#0B63F6] bg-[#E4F0FF] px-3 py-1 rounded-full border border-[#8FC2FF]">
+            <div className="self-start sm:self-auto text-xs font-mono font-extrabold text-[#0B63F6] bg-[#E4F0FF] px-3 py-1 rounded-full border border-[#8FC2FF] shrink-0">
               {Math.round((lessonsDone / 20) * 100)}% SELESAI
             </div>
           </div>
@@ -223,19 +224,25 @@ function ProfilePage() {
               return (
                 <div
                   key={node.id}
-                  className={`p-3.5 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-all ${
+                  className={`p-3 sm:p-3.5 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-all ${
                     isUnlocked
                       ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
                       : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5] opacity-60"
                   }`}
                 >
-                  <div className={`w-11 h-11 rounded-full flex items-center justify-center text-lg ${
-                    isUnlocked ? "bg-[#E8FBF0] text-[#1E8A49]" : "bg-[#E4F0FF] text-[#9DB4CE]"
+                  <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${
+                    isUnlocked
+                      ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                      : "bg-[#E4F0FF] border-2 border-[#DCE7F5]"
                   }`}>
-                    {isUnlocked ? "🏅" : "🔒"}
+                    {isUnlocked ? (
+                      <PixelIcon name="medal" size={24} alt="Lencana Selesai" />
+                    ) : (
+                      <PixelIcon name="lock" size={20} alt="Terkunci" />
+                    )}
                   </div>
-                  <div>
-                    <div className="text-[11px] font-extrabold text-[#0D2340] line-clamp-1">{node.title}</div>
+                  <div className="w-full">
+                    <div className="text-[11px] font-extrabold text-[#0D2340] line-clamp-2 leading-tight">{node.title}</div>
                     <div className="text-[10px] font-medium text-[#5A7796] mt-0.5 line-clamp-1">{node.blurb}</div>
                   </div>
                 </div>

@@ -565,8 +565,9 @@ function RafflePage() {
 
                     {/* Winner Banner if Ended */}
                     {raffle.winner && (
-                      <div className="mt-3 rounded-[14px] border-2 border-[#FFD84D] bg-[#FFF7D1] p-2.5 text-xs text-[#B27B00] font-bold">
-                        <span>🏆 PEMENANG:</span> @{raffle.winner.username} (Tiket #{raffle.winner.ticketId})
+                      <div className="mt-3 rounded-[14px] border-2 border-[#FFD84D] bg-[#FFF7D1] p-2.5 text-xs text-[#B27B00] font-bold flex items-center gap-1.5">
+                        <Trophy className="size-4 shrink-0 text-[#B27B00]" />
+                        <span>PEMENANG: @{raffle.winner.username} (Tiket #{raffle.winner.ticketId})</span>
                       </div>
                     )}
                   </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Ticket, Sparkles, Clock, ArrowRight, BookOpen } from "lucide-react";
+import { Ticket, Sparkles, Clock, ArrowRight, BookOpen, Trophy } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { RouteChain } from "@/components/motif";
@@ -157,8 +157,8 @@ export function HomeDock() {
         </div>
       ) : (
         <div className="text-center py-4 space-y-2">
-          <h2 className="font-display font-bold text-2xl text-[#0D2340]">
-            Semua Modul Selesai! 🏆
+          <h2 className="font-display font-bold text-2xl text-[#0D2340] inline-flex items-center justify-center gap-2">
+            Semua Modul Selesai! <Trophy className="size-6 text-[#FFC61A] shrink-0" />
           </h2>
           <p className="text-xs sm:text-sm text-[#5A7796]">
             Kamu telah menuntaskan seluruh 20 modul kurikulum. Kunjungi Arena Undian untuk menukar tiketmu!

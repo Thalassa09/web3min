@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import {
-  INITIAL_ACTIVITIES,
   INITIAL_RAFFLES,
   RAFFLE_TICKET_PRICE,
   type RaffleItem,
@@ -209,27 +208,15 @@ function RafflePage() {
             </div>
           </div>
 
-          {/* Activity Marquee Ticker */}
-          <div className="flex items-center gap-3 overflow-hidden rounded-[16px] border-2 border-[#DCE7F5] bg-[#F7FAFC] px-3.5 py-2">
-            <span className="text-xs font-extrabold text-[#0B63F6] whitespace-nowrap z-10 pr-2 flex items-center gap-1.5 select-none shrink-0">
+          {/* Telemetry Status Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-2 overflow-hidden rounded-[16px] border-2 border-[#DCE7F5] bg-[#F7FAFC] px-3.5 py-2">
+            <span className="text-xs font-extrabold text-sky-600 flex items-center gap-1.5 select-none shrink-0">
               <Sparkles className="size-3.5 text-[#FFC61A]" />
-              Aktivitas Tiket
+              Sistem Undian Edukasi
             </span>
-            <div className="overflow-hidden flex-1 select-none">
-              <div className="ticker-track flex items-center gap-8 text-xs font-medium text-[#4A6580]">
-                {[...INITIAL_ACTIVITIES, ...INITIAL_ACTIVITIES].map((act, idx) => (
-                  <div key={`${act.id}-${idx}`} className="flex items-center gap-1.5 whitespace-nowrap">
-                    <span className={act.type === "win" ? "text-[#FFC61A] font-black" : "text-[#0B63F6]"}>
-                      {act.type === "win" ? "★" : "+"}
-                    </span>
-                    <span className="font-bold text-[#0D2340]">@{act.username}</span>
-                    <span>{act.action}</span>
-                    <span className="text-[#0D2340] font-semibold">"{act.raffleTitle}"</span>
-                    <span className="text-[11px] text-[#9DB4CE]">({act.timeAgo})</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <span className="text-xs font-medium text-[#4A6580]">
+              Hadiah in-game berbasis reputasi belajar. Tanpa taruhan uang, tanpa deposit.
+            </span>
           </div>
         </SurfaceCard>
 

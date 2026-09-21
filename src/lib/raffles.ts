@@ -121,38 +121,6 @@ export const INITIAL_RAFFLES: RaffleItem[] = [
     totalEntries: 410,
     winnerCount: 1,
     requirements: ["Selesai rute 1-5"],
-    winner: {
-      username: "thalassa",
-      ticketId: "#0482",
-      announcedAt: "Undian Selesai",
-    },
     accentColor: "#f43f5e",
-  },
-];
-
-export const INITIAL_ACTIVITIES: ActivityEntry[] = [
-  {
-    id: "act-1",
-    type: "enter",
-    username: "petualang_01",
-    action: "memasukkan 2 tiket ke",
-    raffleTitle: "Paket 500 Bintang Penjelajah",
-    timeAgo: "10M LALU",
-  },
-  {
-    id: "act-2",
-    type: "enter",
-    username: "blobi_rider",
-    action: "memasukkan 1 tiket ke",
-    raffleTitle: "Mahkota Emas Blobi Eksklusif",
-    timeAgo: "24M LALU",
-  },
-  {
-    id: "act-3",
-    type: "enter",
-    username: "onchain_learner",
-    action: "memasukkan 3 tiket ke",
-    raffleTitle: "Lencana Kehormatan 'Pioneer Web3'",
-    timeAgo: "45M LALU",
   },
 ];

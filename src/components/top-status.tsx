@@ -69,7 +69,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const setSound = useProgress((s) => s.setSound);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-1 sm:gap-2 px-2.5 sm:px-4 bg-[#0B63F6] border-b border-white/25 shadow-[0_4px_14px_rgba(11,79,209,0.3)] select-none">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-1 sm:gap-2 px-2.5 sm:px-4 bg-sky-600 border-b border-white/25 shadow-[0_4px_14px_rgba(11,79,209,0.3)] select-none">
       {/* Brand on Mobile / Small screens */}
       {brand ? (
         <Link to="/" className="mr-auto shrink-0 select-none flex items-center gap-1.5 lg:hidden" aria-label="Beranda">

@@ -80,7 +80,7 @@ function RootDocument() {
       <head>
         <HeadContent />
       </head>
-      <body className="bg-bg text-fg font-sans">
+      <body className="bg-canvas text-fg font-sans">
         <AuthProvider>
           <HydrationGate>
             <AudioEffectBridge />

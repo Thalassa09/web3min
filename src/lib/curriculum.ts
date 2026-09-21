@@ -71,6 +71,7 @@ export type MatchExercise = {
   id: string;
   prompt: string;
   pairs: { left: string; right: string }[];
+  explanation?: string;
   blobi?: string;
   proofs?: string[];
 };

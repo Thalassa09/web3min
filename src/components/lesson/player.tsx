@@ -302,7 +302,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         {phase === "dead" ? (
           <DeadState
             lesson={lesson}
-            explanation={exercise && "explanation" in exercise ? exercise.explanation : null}
+            explanation={exercise && "explanation" in exercise && exercise.explanation ? exercise.explanation : null}
             gems={gems}
             heartsUpdatedAt={heartsUpdatedAt}
             onKisah={() => void navigate({ to: "/kisah" })}
@@ -320,18 +320,34 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       {phase === "ask" && exercise ? (
         <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-[#B9CFE9] px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] lg:px-8">
           <div className="mx-auto w-full max-w-3xl flex items-center justify-between gap-4">
-            <p className="hidden sm:block text-xs font-bold text-[#4A6580]">
-              {isTip ? "Pahami intinya sebelum lanjut ke kuis" : "Pilih satu jawaban yang paling tepat"}
+            <p className="text-xs font-bold text-[#4A6580]">
+              {exercise.type === "tip"
+                ? "Pahami intinya sebelum lanjut ke kuis"
+                : exercise.type === "match"
+                  ? "Ketuk dua kartu yang saling berhubungan"
+                  : exercise.type === "order"
+                    ? "Ketuk kartu kata untuk menyusun kalimat yang benar"
+                    : exercise.type === "tf"
+                      ? "Tentukan apakah pernyataan ini Benar atau Salah"
+                      : "Pilih satu jawaban yang paling tepat"}
             </p>
-            <DuoButton
-              wide
-              variant="primary"
-              className="w-full sm:w-auto sm:min-w-[200px] ml-auto"
-              disabled={!ready}
-              onClick={check}
-            >
-              {isTip ? "Udah Paham, Lanjut" : "Periksa Jawaban"}
-            </DuoButton>
+            {exercise.type === "match" ? (
+              <div className="ml-auto flex items-center gap-2">
+                <span className="px-4 py-2 rounded-full bg-[#E4F0FF] border-2 border-[#8FC2FF] text-sky-600 text-xs font-extrabold shadow-sm">
+                  Pasangkan Semua Kartu
+                </span>
+              </div>
+            ) : (
+              <DuoButton
+                wide
+                variant="primary"
+                className="w-full sm:w-auto sm:min-w-[200px] ml-auto"
+                disabled={!ready}
+                onClick={check}
+              >
+                {isTip ? "Udah Paham, Lanjut" : "Periksa Jawaban"}
+              </DuoButton>
+            )}
           </div>
         </div>
       ) : null}
@@ -347,9 +363,18 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                 <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">{exercise.explanation}</p>
               ) : null}
               {exercise?.type === "match" ? (
-                <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">Semua kartu berhasil disambungkan.</p>
+                <div>
+                  <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">
+                    {exercise.explanation || "Semua kartu berhasil disambungkan."}
+                  </p>
+                  {matchHadMistakeRef.current ? (
+                    <p className="mt-1 text-xs font-semibold text-[#8C1D18]">
+                      Ada sambungan yang belum tepat. Soal ini akan diulang di akhir sesi.
+                    </p>
+                  ) : null}
+                </div>
               ) : null}
-              {!ok ? (
+              {!ok && exercise?.type !== "match" ? (
                 <p className="mt-1 text-xs font-semibold text-[#8C1D18]">Soal ini akan diulang di akhir sesi.</p>
               ) : null}
             </div>

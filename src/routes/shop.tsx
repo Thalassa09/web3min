@@ -77,13 +77,9 @@ function ShopPage() {
     }
   };
 
-  // Toko state
-  const [shopCategory, setShopCategory] = useState<"all" | "boosters" | "wearables">("all");
-  const [shopSlot, setShopSlot] = useState<AccessorySlot | "all">("all");
-
   // Ruang Ganti state
   const [wardrobeSlot, setWardrobeSlot] = useState<AccessorySlot | "all">("all");
-  const [wardrobeScope, setWardrobeScope] = useState<"owned" | "all">("owned");
+  const [wardrobeScope, setWardrobeScope] = useState<"owned" | "all">(outfits.length > 0 ? "owned" : "all");
   const [blobiMood, setBlobiMood] = useState<MascotMood>("wave");
   const [previewWorn, setPreviewWorn] = useState<Worn | null>(null);
 
@@ -106,9 +102,9 @@ function ShopPage() {
       setConfirm(null);
       flash(
         `"${acc.name}" berhasil dibeli!`,
-        "Pakai di Ruang Ganti",
+        "Pakai Sekarang",
         () => {
-          handleModeChange("wardrobe");
+          equipOutfit(acc.id);
           setPreviewWorn(null);
         }
       );
@@ -116,11 +112,6 @@ function ShopPage() {
       playDeny();
     }
   }
-
-  // Accessories shown in Toko
-  const shopAccessories = useMemo(() => {
-    return ACCESSORIES.filter((a) => shopSlot === "all" || a.slot === shopSlot);
-  }, [shopSlot]);
 
   // Accessories shown in Ruang Ganti
   const wardrobeItems = useMemo(() => {
@@ -220,16 +211,16 @@ function ShopPage() {
         {/* ═══════════════════════════════════════════════════════ */}
         {mode === "shop" && (
           <div className="space-y-6">
-            {/* Header Toko */}
-            <SurfaceCard className="p-4 sm:p-6 bg-white space-y-2">
+            {/* Header Toko (Shown on tablet/desktop; on mobile the Mode Switcher above already acts as header) */}
+            <SurfaceCard className="hidden sm:block p-4 sm:p-6 bg-white space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h1 className="font-display font-bold text-xl sm:text-3xl text-[#0D2340] tracking-tight flex items-center gap-2">
                     <Store className="size-6 sm:size-7 text-[#0B63F6]" />
                     <span>Toko Bintang</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-0.5 leading-relaxed hidden sm:block">
-                    Tukarkan bintang dari hasil belajar untuk membeli penguat streak, tiket undian hadiah nyata, dan pakaian baru Blobi.
+                  <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-0.5 leading-relaxed">
+                    Tukarkan bintang dari hasil belajar untuk membeli penguat streak, tiket undian hadiah nyata, dan isi ulang nyawa.
                   </p>
                 </div>
                 <button
@@ -242,330 +233,187 @@ function ShopPage() {
                   <ArrowRight className="size-3" />
                 </button>
               </div>
-
-              {/* Toko Category Filters */}
-              <div className="pt-2.5 border-t-2 border-[#F0F6FF] flex items-center gap-2 flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => setShopCategory("all")}
-                  className={`px-3 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-all ${
-                    shopCategory === "all"
-                      ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                      : "bg-[#F0F6FF] text-[#5A7796] border border-[#DCE7F5] hover:text-[#0D2340]"
-                  }`}
-                >
-                  Semua Item
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShopCategory("boosters")}
-                  className={`px-3 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-all ${
-                    shopCategory === "boosters"
-                      ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                      : "bg-[#F0F6FF] text-[#5A7796] border border-[#DCE7F5] hover:text-[#0D2340]"
-                  }`}
-                >
-                  Penguat & Tiket (3)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShopCategory("wearables")}
-                  className={`px-3 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-all ${
-                    shopCategory === "wearables"
-                      ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                      : "bg-[#F0F6FF] text-[#5A7796] border border-[#DCE7F5] hover:text-[#0D2340]"
-                  }`}
-                >
-                  Pakaian & Aksesori ({ACCESSORIES.length})
-                </button>
-              </div>
             </SurfaceCard>
 
             {/* SECTION: Penguat Belajar (Boosters & Utility) */}
-            {(shopCategory === "all" || shopCategory === "boosters") && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between px-1">
-                  <h2 className="text-sm font-extrabold text-white uppercase tracking-wider drop-shadow-sm flex items-center gap-2">
-                    <ShieldCheck className="size-4.5 text-[#FFC61A]" />
-                    <span>Penguat Belajar & Hadiah Nyata</span>
-                  </h2>
-                  <span className="text-xs font-bold text-white/80">3 Item Tersedia</span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* 1. Tiket Undian Web3 */}
-                  <SurfaceCard className="p-5 bg-white border-2 border-[#8FC2FF] flex flex-col justify-between space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <div className="p-3 rounded-[16px] bg-[#E4F0FF] text-[#0B63F6] border-2 border-[#8FC2FF] shadow-[0_2px_0_#C2DBFA]">
-                          <Ticket className="size-6" />
-                        </div>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D]">
-                          Hadiah Riil
-                        </span>
-                      </div>
-                      <div>
-                        <h3 className="font-display font-bold text-base text-[#0D2340]">
-                          Tiket Undian Web3
-                        </h3>
-                        <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
-                          Tiket resmi untuk mengikuti undian USDT, merchandise, dan whitelist di Arena Undian.
-                        </p>
-                      </div>
-                      <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
-                        Saldo: <strong className="text-[#0B4FD1] font-mono">{raffleTickets} Tiket</strong>
-                      </div>
-                    </div>
-
-                    <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
-                        <BlockStamp size={13} className="text-[#FFC61A]" />
-                        <span>50 Bintang</span>
-                      </div>
-                      <TactileButton
-                        variant="primary"
-                        size="sm"
-                        disabled={gems < 50}
-                        onClick={() => {
-                          if (buyRaffleTicketsWithGems(1)) {
-                            playBuy();
-                            flash("Berhasil menukar 50 Bintang menjadi 1 Tiket Undian!");
-                          } else {
-                            playDeny();
-                          }
-                        }}
-                      >
-                        Tukar Tiket
-                      </TactileButton>
-                    </div>
-                  </SurfaceCard>
-
-                  {/* 2. Pelindung Streak */}
-                  <SurfaceCard className="p-5 bg-white flex flex-col justify-between space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <div className="p-3 rounded-[16px] bg-[#FFF0E4] text-[#FF7A18] border-2 border-[#FFB580] shadow-[0_2px_0_#FFB580]">
-                          <ShieldCheck className="size-6" />
-                        </div>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
-                          Otomatis
-                        </span>
-                      </div>
-                      <div>
-                        <h3 className="font-display font-bold text-base text-[#0D2340]">
-                          Pelindung Streak
-                        </h3>
-                        <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
-                          Menjaga agar rekor hari berturut-turut belajarmu tidak hangus jika terlewat satu hari.
-                        </p>
-                      </div>
-                      <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
-                        Status: {freeze > 0 ? <strong className="text-[#FF7A18]">Aktif ({freeze} siap)</strong> : "Belum Aktif"}
-                      </div>
-                    </div>
-
-                    <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
-                        <BlockStamp size={13} className="text-[#FFC61A]" />
-                        <span>{FREEZE_COST} Bintang</span>
-                      </div>
-                      <TactileButton
-                        variant="secondary"
-                        size="sm"
-                        disabled={freeze > 0 || gems < FREEZE_COST}
-                        onClick={() => {
-                          if (buyFreeze()) {
-                            playFreeze();
-                            flash("Pelindung Streak berhasil diaktifkan!");
-                          } else {
-                            playDeny();
-                          }
-                        }}
-                      >
-                        {freeze > 0 ? "Sudah Aktif" : "Pasang"}
-                      </TactileButton>
-                    </div>
-                  </SurfaceCard>
-
-                  {/* 3. Isi Ulang Nyawa Penuh */}
-                  <SurfaceCard className="p-5 bg-white flex flex-col justify-between space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <div className="p-3 rounded-[16px] bg-[#FFF5F5] text-[#E63329] border-2 border-[#F4A4A0] shadow-[0_2px_0_#F4A4A0]">
-                          <Heart className="size-6" />
-                        </div>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FFF5F5] text-[#E63329] border border-[#F4A4A0]">
-                          Instan
-                        </span>
-                      </div>
-                      <div>
-                        <h3 className="font-display font-bold text-base text-[#0D2340]">
-                          Isi Ulang Nyawa
-                        </h3>
-                        <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
-                          Pulihkan nyawa belajarmu ke 5/5 seketika agar bisa lanjut latihan tanpa menunggu.
-                        </p>
-                      </div>
-                      <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
-                        Nyawa: <strong className="text-[#E63329]">{hearts}/{MAX_HEARTS} Hati</strong>
-                      </div>
-                    </div>
-
-                    <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
-                        <BlockStamp size={13} className="text-[#FFC61A]" />
-                        <span>{HEART_REFILL_COST} Bintang</span>
-                      </div>
-                      <TactileButton
-                        variant="danger"
-                        size="sm"
-                        disabled={heartsFull || gems < HEART_REFILL_COST}
-                        onClick={() => {
-                          if (refillHearts()) {
-                            playBuy();
-                            flash("Semua 5 nyawa berhasil dipulihkan!");
-                          } else {
-                            playDeny();
-                          }
-                        }}
-                      >
-                        {heartsFull ? "Penuh" : "Isi Ulang"}
-                      </TactileButton>
-                    </div>
-                  </SurfaceCard>
-                </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between px-1">
+                <h2 className="text-sm font-extrabold text-white uppercase tracking-wider drop-shadow-sm flex items-center gap-2">
+                  <ShieldCheck className="size-4.5 text-[#FFC61A]" />
+                  <span>Item & Penguat Belajar</span>
+                </h2>
+                <span className="text-xs font-bold text-white/80">3 Item Tersedia</span>
               </div>
-            )}
 
-            {/* SECTION: Pakaian & Aksesori Blobi */}
-            {(shopCategory === "all" || shopCategory === "wearables") && (
-              <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
-                  <div>
-                    <h2 className="text-sm font-extrabold text-white uppercase tracking-wider drop-shadow-sm flex items-center gap-2">
-                      <Sparkles className="size-4.5 text-[#FFC61A]" />
-                      <span>Katalog Pakaian & Aksesori Blobi</span>
-                    </h2>
-                    <p className="text-xs text-white/80 mt-0.5">
-                      Beli pakaian baru menggunakan Bintang. Aksesori yang sudah kamu beli bisa dipasang di Ruang Ganti.
-                    </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* 1. Tiket Undian Web3 */}
+                <SurfaceCard className="p-5 bg-white border-2 border-[#8FC2FF] flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="p-3 rounded-[16px] bg-[#E4F0FF] text-[#0B63F6] border-2 border-[#8FC2FF] shadow-[0_2px_0_#C2DBFA]">
+                        <Ticket className="size-6" />
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D]">
+                        Hadiah Riil
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-base text-[#0D2340]">
+                        Tiket Undian Web3
+                      </h3>
+                      <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
+                        Tiket resmi untuk mengikuti undian USDT, merchandise, dan whitelist di Arena Undian.
+                      </p>
+                    </div>
+                    <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
+                      Saldo: <strong className="text-[#0B4FD1] font-mono">{raffleTickets} Tiket</strong>
+                    </div>
                   </div>
 
-                  {/* Slot Filter Tabs */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-                    <button
-                      type="button"
-                      onClick={() => setShopSlot("all")}
-                      className={`px-3 py-1 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-all ${
-                        shopSlot === "all"
-                          ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#B9CFE9]"
-                          : "bg-white/20 text-white hover:bg-white/30 border border-white/30"
-                      }`}
+                  <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
+                      <BlockStamp size={13} className="text-[#FFC61A]" />
+                      <span>50 Bintang</span>
+                    </div>
+                    <TactileButton
+                      variant="primary"
+                      size="sm"
+                      disabled={gems < 50}
+                      onClick={() => {
+                        if (buyRaffleTicketsWithGems(1)) {
+                          playBuy();
+                          flash("Berhasil menukar 50 Bintang menjadi 1 Tiket Undian!");
+                        } else {
+                          playDeny();
+                        }
+                      }}
                     >
-                      Semua
-                    </button>
-                    {SLOTS.map((s) => (
-                      <button
-                        key={s}
-                        type="button"
-                        onClick={() => setShopSlot(s)}
-                        className={`px-3 py-1 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-all ${
-                          shopSlot === s
-                            ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#B9CFE9]"
-                            : "bg-white/20 text-white hover:bg-white/30 border border-white/30"
-                        }`}
-                      >
-                        {SLOT_LABEL[s]}
-                      </button>
-                    ))}
+                      Tukar Tiket
+                    </TactileButton>
                   </div>
-                </div>
+                </SurfaceCard>
 
-                {/* Grid of Accessories */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                  {shopAccessories.map((acc) => {
-                    const owned = outfits.includes(acc.id);
-                    const canAfford = gems >= acc.cost;
-
-                    return (
-                      <div
-                        key={acc.id}
-                        className={`p-4 rounded-[20px] bg-white border-2 flex flex-col justify-between transition-all ${
-                          owned
-                            ? "border-[#98E4B5] shadow-[0_3px_0_#98E4B5]"
-                            : "border-[#DCE7F5] shadow-[0_3px_0_#C8DBF0] hover:border-[#8FC2FF]"
-                        }`}
-                      >
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-extrabold uppercase tracking-wide px-2 py-0.5 rounded-full bg-[#F0F6FF] text-[#5A7796] border border-[#DCE7F5]">
-                              {SLOT_LABEL[acc.slot]}
-                            </span>
-                            {owned && (
-                              <span className="text-[10px] font-extrabold text-[#1E8A49] bg-[#E8FBF0] px-2 py-0.5 rounded-full border border-[#98E4B5]">
-                                Dimiliki
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Pixel Art Accessory Preview */}
-                          <div className="h-16 flex items-center justify-center p-2 rounded-[14px] bg-[#F7FAFC] border border-[#E4F0FF]">
-                            <img
-                              src={acc.src}
-                              alt={acc.name}
-                              className="max-h-12 max-w-12 object-contain"
-                              style={{ imageRendering: "pixelated" }}
-                            />
-                          </div>
-
-                          <div>
-                            <h3 className="font-extrabold text-xs text-[#0D2340] line-clamp-1">
-                              {acc.name}
-                            </h3>
-                            <p className="text-[11px] font-medium text-[#5A7796] mt-0.5 line-clamp-2 leading-tight">
-                              {acc.blurb}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Bottom Price & Action */}
-                        <div className="mt-3 pt-2.5 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
-                          {!owned ? (
-                            <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
-                              <BlockStamp size={12} className="text-[#FFC61A]" />
-                              <span>{acc.cost}</span>
-                            </div>
-                          ) : (
-                            <span className="text-[10px] font-bold text-[#1E8A49]">
-                              Siap Pakai
-                            </span>
-                          )}
-
-                          {owned ? (
-                            <button
-                              type="button"
-                              onClick={() => handleModeChange("wardrobe")}
-                              className="px-2.5 py-1 rounded-[10px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[11px] font-extrabold text-[#0B4FD1] hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
-                            >
-                              Buka Ganti
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              disabled={!canAfford}
-                              onClick={() => setConfirm(acc)}
-                              className="px-3 py-1 rounded-[10px] bg-[#FFC61A] text-[#0D2340] border-2 border-[#E5A800] text-[11px] font-extrabold disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_2px_0_#D99400] active:translate-y-[1px] active:shadow-none hover:bg-[#FFD147] transition-all cursor-pointer"
-                            >
-                              Beli
-                            </button>
-                          )}
-                        </div>
+                {/* 2. Pelindung Streak */}
+                <SurfaceCard className="p-5 bg-white flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="p-3 rounded-[16px] bg-[#FFF0E4] text-[#FF7A18] border-2 border-[#FFB580] shadow-[0_2px_0_#FFB580]">
+                        <ShieldCheck className="size-6" />
                       </div>
-                    );
-                  })}
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
+                        Otomatis
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-base text-[#0D2340]">
+                        Pelindung Streak
+                      </h3>
+                      <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
+                        Menjaga agar rekor hari berturut-turut belajarmu tidak hangus jika terlewat satu hari.
+                      </p>
+                    </div>
+                    <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
+                      Status: {freeze > 0 ? <strong className="text-[#FF7A18]">Aktif ({freeze} siap)</strong> : "Belum Aktif"}
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
+                      <BlockStamp size={13} className="text-[#FFC61A]" />
+                      <span>{FREEZE_COST} Bintang</span>
+                    </div>
+                    <TactileButton
+                      variant="secondary"
+                      size="sm"
+                      disabled={freeze > 0 || gems < FREEZE_COST}
+                      onClick={() => {
+                        if (buyFreeze()) {
+                          playFreeze();
+                          flash("Pelindung Streak berhasil diaktifkan!");
+                        } else {
+                          playDeny();
+                        }
+                      }}
+                    >
+                      {freeze > 0 ? "Sudah Aktif" : "Pasang"}
+                    </TactileButton>
+                  </div>
+                </SurfaceCard>
+
+                {/* 3. Isi Ulang Nyawa Penuh */}
+                <SurfaceCard className="p-5 bg-white flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="p-3 rounded-[16px] bg-[#FFF5F5] text-[#E63329] border-2 border-[#F4A4A0] shadow-[0_2px_0_#F4A4A0]">
+                        <Heart className="size-6" />
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FFF5F5] text-[#E63329] border border-[#F4A4A0]">
+                        Instan
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-base text-[#0D2340]">
+                        Isi Ulang Nyawa
+                      </h3>
+                      <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
+                        Pulihkan nyawa belajarmu ke 5/5 seketika agar bisa lanjut latihan tanpa menunggu.
+                      </p>
+                    </div>
+                    <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
+                      Nyawa: <strong className="text-[#E63329]">{hearts}/{MAX_HEARTS} Hati</strong>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
+                      <BlockStamp size={13} className="text-[#FFC61A]" />
+                      <span>{HEART_REFILL_COST} Bintang</span>
+                    </div>
+                    <TactileButton
+                      variant="danger"
+                      size="sm"
+                      disabled={heartsFull || gems < HEART_REFILL_COST}
+                      onClick={() => {
+                        if (refillHearts()) {
+                          playBuy();
+                          flash("Semua 5 nyawa berhasil dipulihkan!");
+                        } else {
+                          playDeny();
+                        }
+                      }}
+                    >
+                      {heartsFull ? "Penuh" : "Isi Ulang"}
+                    </TactileButton>
+                  </div>
+                </SurfaceCard>
+              </div>
+            </div>
+
+            {/* Exclusive Wardrobe Banner */}
+            <SurfaceCard className="p-5 sm:p-6 bg-gradient-to-r from-[#EAF4FF] to-[#FFF7E4] border-2 border-[#8FC2FF] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_4px_0_#0B4FD1]">
+              <div className="flex items-center gap-4 text-center sm:text-left">
+                <div className="size-14 rounded-full bg-white border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA] flex items-center justify-center shrink-0">
+                  <Sparkles className="size-7 text-[#0B63F6]" />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
+                    Koleksi Pakaian & Aksesori Blobi
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#5A7796] mt-0.5 leading-relaxed">
+                    Semua baju, topi, kacamata, dan aksesori Blobi kini tersedia eksklusif di <strong>Ruang Ganti Blobi</strong>. Coba atau pasang langsung pada karaktermu!
+                  </p>
                 </div>
               </div>
-            )}
+              <TactileButton
+                variant="primary"
+                size="sm"
+                onClick={() => handleModeChange("wardrobe")}
+                className="shrink-0"
+              >
+                <span>Buka Ruang Ganti Blobi</span>
+                <ArrowRight className="size-3.5 ml-1" />
+              </TactileButton>
+            </SurfaceCard>
           </div>
         )}
 
@@ -574,15 +422,15 @@ function ShopPage() {
         {/* ═══════════════════════════════════════════════════════ */}
         {mode === "wardrobe" && (
           <div className="space-y-6">
-            {/* Header Ruang Ganti */}
-            <SurfaceCard className="p-4 sm:p-6 bg-white space-y-2">
+            {/* Header Ruang Ganti (Shown on tablet/desktop; on mobile the Mode Switcher above already acts as header) */}
+            <SurfaceCard className="hidden sm:block p-4 sm:p-6 bg-white space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h1 className="font-display font-bold text-xl sm:text-3xl text-[#0D2340] tracking-tight flex items-center gap-2">
                     <Sparkles className="size-6 sm:size-7 text-[#0B63F6]" />
                     <span>Ruang Ganti Blobi</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-0.5 leading-relaxed hidden sm:block">
+                  <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-0.5 leading-relaxed">
                     Atur gaya dan padukan penampilan Blobi. Coba berbagai pakaian yang sudah kamu miliki, atau coba aksesori baru langsung pada karakter!
                   </p>
                 </div>
@@ -596,7 +444,7 @@ function ShopPage() {
                     className="px-3 py-1.5 rounded-[12px] bg-[#FFF7D1] border-2 border-[#FFD84D] text-[#B27B00] text-xs font-extrabold hover:bg-[#FFEAA6] shadow-[0_2px_0_#FFD84D] transition-all flex items-center gap-1 cursor-pointer active:translate-y-[1px]"
                   >
                     <Store className="size-3.5" />
-                    <span className="hidden sm:inline">Beli Baru</span>
+                    <span className="hidden sm:inline">Toko Bintang</span>
                   </button>
                 </div>
               </div>
@@ -755,17 +603,17 @@ function ShopPage() {
                         <Shirt className="size-8" />
                       </div>
                       <h3 className="font-display font-bold text-base text-[#0D2340]">
-                        Lemari Pakaian Masih Kosong
+                        Belum Ada Koleksi di Sini
                       </h3>
                       <p className="text-xs text-[#5A7796] max-w-sm mx-auto">
-                        Kamu belum memiliki pakaian untuk kategori ini. Kunjungi Toko Bintang untuk membeli pakaian baru!
+                        Kamu belum mengoleksi pakaian untuk kategori ini. Buka katalog lengkap untuk mencoba dan mendapatkan pakaian baru!
                       </p>
                       <TactileButton
                         variant="primary"
                         size="sm"
-                        onClick={() => handleModeChange("shop")}
+                        onClick={() => setWardrobeScope("all")}
                       >
-                        Pergi ke Toko Bintang →
+                        Lihat Katalog Lengkap ({totalCount}) →
                       </TactileButton>
                     </div>
                   )}

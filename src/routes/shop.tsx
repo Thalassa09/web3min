@@ -63,7 +63,7 @@ function ShopPage() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 max-w-6xl mx-auto space-y-6">
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-24 sm:pb-28 max-w-6xl mx-auto space-y-6">
         {/* Flash Notification */}
         {note && (
           <div className="p-3.5 rounded-[16px] bg-[#E8FBF0] border-2 border-[#98E4B5] text-[#1E8A49] text-sm font-extrabold text-center shadow-[0_3px_0_#98E4B5]">

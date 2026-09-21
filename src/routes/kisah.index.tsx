@@ -27,7 +27,7 @@ function KisahHub() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 max-w-5xl mx-auto space-y-6">
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-24 sm:pb-28 max-w-5xl mx-auto space-y-6">
         {/* Page Header Banner */}
         <SurfaceCard className="p-6 bg-white">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">

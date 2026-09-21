@@ -142,7 +142,7 @@ function RafflePage() {
 
   return (
     <AppShell>
-      <div className="max-w-6xl mx-auto px-3 py-4 sm:px-4 sm:py-6 space-y-6">
+      <div className="max-w-6xl mx-auto px-3 py-4 sm:px-4 sm:py-6 pb-24 sm:pb-28 space-y-6">
         {/* Flash Toast */}
         {toastMessage && (
           <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 rounded-[18px] bg-[#E8FBF0] border-2 border-[#98E4B5] text-[#1E8A49] px-6 py-3 text-sm font-extrabold shadow-[0_6px_0_#98E4B5] animate-in fade-in slide-in-from-top-4">

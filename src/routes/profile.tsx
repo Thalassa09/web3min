@@ -35,7 +35,7 @@ function ProfilePage() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 max-w-5xl mx-auto space-y-6">
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-24 sm:pb-28 max-w-5xl mx-auto space-y-6">
         {/* Profile Explorer License Card with Blue Header */}
         <div className="rounded-[26px] bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] overflow-hidden">
           {/* Blue Sky Banner (180px) with clouds */}
@@ -54,26 +54,26 @@ function ProfilePage() {
 
           {/* Profile Details (Overlapping avatar) */}
           <div className="px-6 pb-6 pt-0 relative">
-            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-5 -mt-16 mb-4 text-center sm:text-left">
+            <div className="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 -mt-14 mb-4 text-center sm:text-left">
               {/* Blobi Avatar overlapping the header */}
-              <div className="size-28 rounded-full bg-white border-4 border-white shadow-[0_6px_0_#C8DBF0] flex items-center justify-center relative shrink-0">
+              <div className="size-28 rounded-full bg-white border-4 border-white shadow-[0_6px_0_#C8DBF0] flex items-center justify-center relative shrink-0 z-10">
                 <div className="size-full rounded-full bg-[#E4F0FF] flex items-center justify-center overflow-hidden">
                   <Mascot mood="proud" size={88} />
                 </div>
               </div>
+            </div>
 
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
-                  <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340]">
-                    @{username || "penjelajah"}
-                  </h1>
-                  <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D]">
-                    Level {Math.floor(xp / 100) + 1}
-                  </span>
-                  <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B63F6] border border-[#8FC2FF]">
-                    Murid Blobi
-                  </span>
-                </div>
+            <div className="space-y-2 mb-4 text-center sm:text-left">
+              <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340] tracking-tight">
+                @{username || "penjelajah"}
+              </h1>
+              <div className="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
+                <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D]">
+                  Level {Math.floor(xp / 100) + 1}
+                </span>
+                <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B63F6] border border-[#8FC2FF]">
+                  Murid Blobi
+                </span>
               </div>
             </div>
 

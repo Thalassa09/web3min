@@ -17,16 +17,16 @@ export function DeskRail() {
       <SurfaceCard className="p-5 bg-white">
         <div className="flex items-center justify-between gap-2 mb-3">
           <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
-            Undian Web3
+            Undian In-Game
           </span>
-          <span className="text-[11px] font-bold text-[#4A6580]">Chainlink VRF</span>
+          <span className="text-[11px] font-bold text-[#4A6580]">Acak Adil</span>
         </div>
 
         <h3 className="font-display font-bold text-lg text-[#0D2340]">
-          100 USDT Learning Pool
+          Paket 500 Bintang Belajar
         </h3>
         <p className="mt-1 text-xs text-[#4A6580] leading-relaxed">
-          Gunakan tiket hasil belajar untuk berkesempatan memenangkan hadiah on-chain.
+          Gunakan tiket hasil belajar untuk berkesempatan memenangkan hadiah in-game resmi.
         </p>
 
         <div className="mt-4 p-3 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] flex items-center justify-between">

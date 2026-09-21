@@ -322,21 +322,6 @@ function rollDay(state: ProgressState): ProgressState {
     next.perfectToday = 0;
     next.storiesToday = 0;
     next.claimedQuests = [];
-
-    // Check multi-day inactivity and consume freeze or reset streak
-    if (next.lastActiveDate && next.lastActiveDate !== today && next.lastActiveDate !== yesterdayKey()) {
-      const elapsed = daysBetween(next.lastActiveDate, today);
-      if (elapsed > 1) {
-        const missedDays = elapsed - 1;
-        if (next.streakFreeze >= missedDays) {
-          next.streakFreeze -= missedDays;
-          next.lastActiveDate = yesterdayKey();
-        } else {
-          next.streak = 0;
-          next.streakFreeze = 0;
-        }
-      }
-    }
   }
   if (next.weekKey !== week) {
     next.weeklyXp = 0;
@@ -361,7 +346,7 @@ function touchStreak(state: ProgressState): ProgressState {
       return {
         ...state,
         streakFreeze: state.streakFreeze - needed,
-        streak: state.streak + 1,
+        streak: state.streak,
         lastActiveDate: today,
       };
     } else {
@@ -479,7 +464,7 @@ export const useProgress = create<ProgressState & Actions>()(
             ...next,
             xp: clampRuntime(next.xp + xpGain, 0, 5_000_000),
             gems: holdGems(next.gems, gemGain),
-            raffleTickets: (next.raffleTickets ?? 0) + ticketGain,
+            raffleTickets: Math.min(9999, (next.raffleTickets ?? 0) + ticketGain),
             xpToday: clampRuntime(next.xpToday + dailyXpGain, 0, 10_000),
             weeklyXp: clampRuntime(next.weeklyXp + dailyXpGain, 0, 1_000_000),
             completed: already ? next.completed : [...next.completed, id],

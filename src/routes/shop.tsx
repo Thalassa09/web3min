@@ -262,7 +262,7 @@ function ShopPage() {
                         Tiket Undian Web3
                       </h3>
                       <p className="text-xs text-[#4A6580] mt-1 leading-relaxed">
-                        Tiket resmi untuk mengikuti undian USDT, merchandise, dan whitelist di Arena Undian.
+                        Tiket resmi untuk mengikuti undian bintang, mahkota, dan lencana eksklusif di Arena Undian.
                       </p>
                     </div>
                     <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">

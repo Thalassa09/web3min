@@ -12,6 +12,7 @@ import { ExerciseView, type CheckHandle } from "@/components/lesson/exercises";
 import { HEART_REFILL_COST } from "@/lib/shop";
 import { playComplete, playCorrect, playHeart, playWrong } from "@/lib/audio";
 import { cn } from "@/lib/utils";
+import { Dialog } from "@/components/dialog";
 
 type Phase = "ask" | "feedback" | "done" | "dead";
 
@@ -62,7 +63,18 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     [completeLesson, lesson.id, sound],
   );
 
-  function goNext() {
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const matchHadMistakeRef = useRef(false);
+
+  // Hydration sync: ensure 0 hearts immediately drops to dead state
+  useEffect(() => {
+    if (phase === "ask" && hearts <= 0) {
+      setPhase("dead");
+    }
+  }, [hearts, phase]);
+
+  const goNext = useCallback(() => {
+    matchHadMistakeRef.current = false;
     const nextIndex = index + 1;
     if (nextIndex >= pendingLenRef.current) {
       finish(mistakesRef.current);
@@ -72,9 +84,9 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     setPhase("ask");
     setReady(false);
     setOk(false);
-  }
+  }, [index, finish]);
 
-  function check() {
+  const check = useCallback(() => {
     if (phase !== "ask" || !exercise) return;
     if (exercise.type === "tip") {
       goNext();
@@ -97,22 +109,29 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       // Note: Do NOT immediately jump to "dead" here, so the user can read the feedback
       // explanation. When they tap "Coba Lagi Nanti", continueAfterFeedback() will transition to "dead".
     }
-  }
+  }, [phase, exercise, goNext, sound, loseHeart]);
 
-  function continueAfterFeedback() {
+  const continueAfterFeedback = useCallback(() => {
     if (useProgress.getState().hearts <= 0) {
       setPhase("dead");
       return;
     }
     goNext();
-  }
+  }, [goNext]);
 
   const lastKeyTimeRef = useRef(0);
 
   // Keyboard shortcut: Press Enter to check answer or continue
+  // Exclude input, textarea, AND button so keyboard Tab + Enter navigation works naturally
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLButtonElement
+      ) {
+        return;
+      }
       if (e.key === "Enter") {
         if (e.repeat) return;
         const now = Date.now();
@@ -136,20 +155,31 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
 
   const autoPass = useCallback(() => {
     if (phase !== "ask") return;
-    setOk(true);
+    const hadMistake = matchHadMistakeRef.current;
+    setOk(!hadMistake);
     setPhase("feedback");
-    setSolved((n) => n + 1);
-    if (sound) playCorrect();
+    if (!hadMistake) {
+      setSolved((n) => n + 1);
+      if (sound) playCorrect();
+    } else {
+      if (sound) playWrong();
+    }
   }, [phase, sound]);
 
   const mismatch = useCallback(() => {
-    mistakesRef.current += 1;
-    setMistakes(mistakesRef.current);
-    loseHeart();
     if (sound) playWrong();
-    if (sound) playHeart();
-    if (useProgress.getState().hearts <= 0) setPhase("dead");
-  }, [loseHeart, sound]);
+    if (!matchHadMistakeRef.current) {
+      matchHadMistakeRef.current = true;
+      const nextMiss = mistakesRef.current + 1;
+      mistakesRef.current = nextMiss;
+      setMistakes(nextMiss);
+      loseHeart();
+      if (sound) playHeart();
+      if (exercise) {
+        setPending((q) => [...q, exercise]);
+      }
+    }
+  }, [loseHeart, sound, exercise]);
 
   const mood =
     phase === "feedback" ? (ok ? "proud" : "think") : phase === "done" ? "celebrate" : phase === "dead" ? "sleep" : "idle";
@@ -171,8 +201,14 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <button
           type="button"
           aria-label="Keluar"
-          className="grid size-10 place-items-center rounded-xl text-[#4A6580] hover:text-[#0D2340] hover:bg-[#EAF2FB] transition-colors"
-          onClick={() => void navigate({ to: "/" })}
+          className="grid size-10 place-items-center rounded-xl text-[#4A6580] hover:text-[#0D2340] hover:bg-[#EAF2FB] transition-colors cursor-pointer"
+          onClick={() => {
+            if (phase === "done" || phase === "dead" || (index === 0 && mistakes === 0 && solved === 0)) {
+              void navigate({ to: "/" });
+            } else {
+              setShowExitConfirm(true);
+            }
+          }}
         >
           <X className="size-6" weight="bold" />
         </button>
@@ -328,6 +364,31 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           </div>
         </div>
       ) : null}
+
+      <Dialog
+        open={showExitConfirm}
+        title="Yakin Mau Keluar?"
+        description="Semua kemajuan dalam sesi pelajaran ini akan hilang. Nyawa yang telah terpakai tidak dapat dikembalikan."
+        onClose={() => setShowExitConfirm(false)}
+      >
+        <div className="mt-5 flex flex-col gap-2.5 sm:flex-row-reverse sm:justify-end">
+          <DuoButton
+            variant="primary"
+            onClick={() => setShowExitConfirm(false)}
+          >
+            Lanjut Belajar
+          </DuoButton>
+          <DuoButton
+            variant="ghost"
+            onClick={() => {
+              setShowExitConfirm(false);
+              void navigate({ to: "/" });
+            }}
+          >
+            Keluar Sesi
+          </DuoButton>
+        </div>
+      </Dialog>
     </div>
   );
 }

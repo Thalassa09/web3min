@@ -1,5 +1,5 @@
 import { Check, X } from "@/lib/kicon";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Exercise, TipExercise } from "@/lib/curriculum";
 import { cn, shuffle } from "@/lib/utils";
 import { playTap } from "@/lib/audio";
@@ -289,17 +289,24 @@ function MatchBoard({
   const [picked, setPicked] = useState<number | null>(null);
   const [matched, setMatched] = useState<number[]>([]);
   const [shake, setShake] = useState(false);
+  const onAutoPassRef = useRef(onAutoPass);
+  onAutoPassRef.current = onAutoPass;
+  const passedRef = useRef(false);
 
   useEffect(() => {
     setPicked(null);
     setMatched([]);
+    passedRef.current = false;
   }, [pairs]);
 
   useEffect(() => {
-    const done = matched.length === pairs.length;
+    const done = matched.length === pairs.length && pairs.length > 0;
     onHandle({ ready: done, isCorrect: () => done });
-    if (done) onAutoPass?.();
-  }, [matched, pairs.length, onHandle, onAutoPass]);
+    if (done && !passedRef.current) {
+      passedRef.current = true;
+      onAutoPassRef.current?.();
+    }
+  }, [matched.length, pairs.length, onHandle]);
 
   function tapLeft(i: number) {
     if (disabled || matched.includes(i)) return;
@@ -325,7 +332,7 @@ function MatchBoard({
     <div>
       <p className="text-xl font-black leading-snug">{prompt}</p>
       <QuizClip ids={proofs} />
-      <div className={cn("mt-5 grid grid-cols-2 gap-3", shake && "shake-wrong")}>
+      <div className={cn("mt-5 grid grid-cols-2 gap-3", shake && "wrong-shake")}>
         <ul className="flex flex-col gap-2">
           {left.map((item) => (
             <li key={`l-${item.i}`}>
@@ -383,43 +390,56 @@ function OrderBoard({
   onHandle: (h: CheckHandle) => void;
   proofs?: string[];
 }) {
-  const bank0 = useMemo(() => shuffle(pieces.map((text, i) => ({ i, text }))), [pieces]);
+  const bank0 = useMemo(() => {
+    const items = pieces.map((text, i) => ({ i, text }));
+    if (items.length <= 1) return items;
+    let shuffled = shuffle(items);
+    let tries = 0;
+    while (tries < 10 && shuffled.every((item, idx) => item.i === idx)) {
+      shuffled = shuffle(items);
+      tries++;
+    }
+    return shuffled;
+  }, [pieces]);
   const [built, setBuilt] = useState<number[]>([]);
 
   useEffect(() => {
     setBuilt([]);
   }, [pieces]);
 
+  const isExact =
+    built.length === answer.length &&
+    built.every((pieceIdx, idx) => pieces[pieceIdx] === answer[idx]);
+
   useEffect(() => {
     onHandle({
       ready: built.length === pieces.length,
-      isCorrect: () => built.map((i) => pieces[i]).join(" ") === answer.join(" "),
+      isCorrect: () => isExact,
     });
-  }, [built, pieces, answer, onHandle]);
+  }, [built.length, pieces.length, isExact, onHandle]);
 
   const used = new Set(built);
-  const correct = built.map((i) => pieces[i]).join(" ") === answer.join(" ");
 
   return (
     <div>
       <p className="text-xl font-black leading-snug">{prompt}</p>
       <QuizClip ids={proofs} />
-      <div className="mt-4 min-h-16 border-t border-dashed border-line pt-3">
+      <div className="mt-4 min-h-16 border-t-2 border-dashed border-[#B9CFE9] pt-3">
         <div className="flex flex-wrap gap-2">
           {built.length === 0 ? (
-            <span className="text-sm font-bold text-faint">Susun di sini</span>
+            <span className="text-sm font-bold text-[#6B839C]">Susun di sini</span>
           ) : (
             built.map((i, pos) => (
               <button
-                key={`b-${i}`}
+                key={`b-${i}-${pos}`}
                 type="button"
                 disabled={disabled}
                 onClick={() => setBuilt((b) => b.filter((_, x) => x !== pos))}
                 className={cn(
                   "quiz-opt rounded-xl border-2 border-b-4 px-3 py-1.5 text-sm font-extrabold",
                   !reveal && "quiz-opt-on",
-                  reveal && correct && "quiz-opt-ok",
-                  reveal && !correct && "quiz-opt-bad",
+                  reveal && isExact && "quiz-opt-ok",
+                  reveal && !isExact && "quiz-opt-bad",
                 )}
               >
                 {pieces[i]}

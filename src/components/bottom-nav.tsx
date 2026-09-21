@@ -9,7 +9,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 lg:hidden flex items-center justify-around px-2 pt-1.5 h-[calc(4.25rem+max(env(safe-area-inset-bottom,0px),12px))] pb-[max(env(safe-area-inset-bottom,0px),12px)] bg-[#FFFFFF] border-t-2 border-[#DCE7F5] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] select-none"
+      className="fixed bottom-0 left-0 right-0 z-40 lg:hidden flex items-center justify-around px-2 pt-1 h-[calc(4rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] bg-[#FFFFFF] border-t-2 border-[#DCE7F5] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] select-none"
       aria-label="Navigasi Mobile"
     >
       {NAV_ITEMS.map((item) => {

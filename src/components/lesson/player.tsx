@@ -96,7 +96,8 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       if (sound) playWrong();
       if (sound) playHeart();
       setPending((q) => [...q, exercise]);
-      if (useProgress.getState().hearts <= 0) setPhase("dead");
+      // Note: Do NOT immediately jump to "dead" here, so the user can read the feedback
+      // explanation. When they tap "Coba Lagi Nanti", continueAfterFeedback() will transition to "dead".
     }
   }
 
@@ -107,6 +108,23 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     }
     goNext();
   }
+
+  // Keyboard shortcut: Press Enter to check answer or continue
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (phase === "feedback") {
+          continueAfterFeedback();
+        } else if (phase === "ask" && ready) {
+          check();
+        }
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [phase, ready, check, continueAfterFeedback]);
 
   const autoPass = useCallback(() => {
     if (phase !== "ask") return;
@@ -197,8 +215,9 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                 </SpeechBubble>
               ) : null}
             </div>
-            <div key={exercise.id} className={cn("min-w-0 flex-1 pb-6 enter-up", isTip && "lg:mx-auto lg:max-w-3xl")}>
+            <div key={`${exercise.id}-${index}`} className={cn("min-w-0 flex-1 pb-6 enter-up", isTip && "lg:mx-auto lg:max-w-3xl")}>
               <ExerciseView
+                key={`${exercise.id}-${index}`}
                 exercise={exercise}
                 disabled={phase !== "ask"}
                 reveal={phase === "feedback"}

@@ -149,7 +149,7 @@ function ShopPage() {
           </div>
         )}
 
-        {/* PRIMARY MODE SELECTOR: Toko Bintang vs Ruang Ganti Blobi */}
+        {/* PRIMARY MODE SELECTOR: Toko vs Ruang Ganti Blobi */}
         <SurfaceCard className="p-3 sm:p-4 bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#0B4FD1]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             {/* Mode Switcher Buttons */}
@@ -164,7 +164,7 @@ function ShopPage() {
                 }`}
               >
                 <Store className="size-4.5" />
-                <span>Toko Bintang</span>
+                <span>Toko</span>
               </button>
 
               <button
@@ -207,7 +207,7 @@ function ShopPage() {
         </SurfaceCard>
 
         {/* ═══════════════════════════════════════════════════════ */}
-        {/* MODE 1: TOKO BINTANG (Store View)                     */}
+        {/* MODE 1: TOKO (Store View)                             */}
         {/* ═══════════════════════════════════════════════════════ */}
         {mode === "shop" && (
           <div className="space-y-6">
@@ -217,7 +217,7 @@ function ShopPage() {
                 <div>
                   <h1 className="font-display font-bold text-xl sm:text-3xl text-[#0D2340] tracking-tight flex items-center gap-2">
                     <Store className="size-6 sm:size-7 text-[#0B63F6]" />
-                    <span>Toko Bintang</span>
+                    <span>Toko</span>
                   </h1>
                   <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-0.5 leading-relaxed">
                     Tukarkan bintang dari hasil belajar untuk membeli penguat streak, tiket undian hadiah nyata, dan isi ulang nyawa.
@@ -444,7 +444,7 @@ function ShopPage() {
                     className="px-3 py-1.5 rounded-[12px] bg-[#FFF7D1] border-2 border-[#FFD84D] text-[#B27B00] text-xs font-extrabold hover:bg-[#FFEAA6] shadow-[0_2px_0_#FFD84D] transition-all flex items-center gap-1 cursor-pointer active:translate-y-[1px]"
                   >
                     <Store className="size-3.5" />
-                    <span className="hidden sm:inline">Toko Bintang</span>
+                    <span className="hidden sm:inline">Toko</span>
                   </button>
                 </div>
               </div>

@@ -454,7 +454,7 @@ input:focus-visible {
 
 @media (max-width: 1023px) {
   .desk-stage {
-    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
   }
 }
 

@@ -137,8 +137,16 @@ function Onboarding() {
       </div>
 
       <div className="w-full max-w-3xl relative z-10">
-        <SurfaceCard className="p-6 md:p-8 bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] rounded-[26px]">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <SurfaceCard className="p-5 sm:p-6 md:p-8 bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] rounded-[26px]">
+          <div className="mb-4 flex items-center gap-1.5" aria-hidden="true">
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className={`h-1.5 flex-1 rounded-full ${i <= step ? "bg-sky-600" : "bg-[#DCE7F5]"}`}
+              />
+            ))}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
             {/* Mascot Side (5 Cols) */}
             <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center p-3.5 sm:p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA] gap-3.5">
               <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
@@ -202,7 +210,7 @@ function Onboarding() {
                       </div>
                       <div>
                         <div className="text-xs font-extrabold text-[#0D2340]">Hadiah & Undian Nyata</div>
-                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Kumpulkan bintang dan tukarkan dengan tiket undian on-chain.</div>
+                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Kumpulkan bintang dan tukarkan dengan tiket undian in-game.</div>
                       </div>
                     </div>
                   </div>

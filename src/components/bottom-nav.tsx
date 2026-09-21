@@ -10,52 +10,50 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 lg:hidden grid grid-cols-5 items-center px-2 pt-1 h-[calc(4rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] bg-[#FFFFFF] border-t-2 border-[#DCE7F5] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] select-none relative"
+      className="fixed inset-x-0 bottom-0 z-40 lg:hidden px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pointer-events-none"
       aria-label="Navigasi Mobile"
     >
-      {/* Sliding Active Pill Indicator */}
-      {activeIndex !== -1 && (
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute top-1.5 bottom-[calc(env(safe-area-inset-bottom)+0.375rem)] rounded-[14px] bg-[#E4F0FF] border border-[#8FC2FF]/70 shadow-sm transition-transform duration-250 ease-out"
-          style={{
-            width: "calc((100% - 16px) / 5)",
-            left: "8px",
-            transform: `translate3d(calc(${activeIndex} * 100%), 0, 0)`,
-          }}
-        />
-      )}
-
-      {NAV_ITEMS.map((item) => {
-        const active = navActive(pathname, item.to);
-        const Icon = item.icon;
-
-        return (
-          <Link
-            key={item.to}
-            to={item.to}
-            onClick={() => {
-              if (sound) playTap();
+      <div className="pointer-events-auto relative mx-auto grid h-16 max-w-lg grid-cols-5 items-center rounded-[22px] border border-white/70 bg-white/90 px-1 shadow-[0_10px_32px_rgba(9,48,102,0.16)] backdrop-blur-xl">
+        {activeIndex !== -1 && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute top-1.5 bottom-1.5 rounded-[16px] bg-[#E4F0FF] border border-[#8FC2FF]/60 transition-transform duration-250 ease-out"
+            style={{
+              width: "calc((100% - 8px) / 5)",
+              left: "4px",
+              transform: `translate3d(calc(${activeIndex} * 100%), 0, 0)`,
             }}
-            className={`
-              relative z-10 flex flex-col items-center justify-center h-12 rounded-[14px] transition-[transform,color] duration-150 ease-out cursor-pointer
-              active:translate-y-[2px]
-              ${active ? "text-sky-600" : "text-[#4A6580] hover:text-[#0D2340]"}
-            `}
-          >
-            <div className="relative flex flex-col items-center gap-0.5">
+          />
+        )}
+
+        {NAV_ITEMS.map((item) => {
+          const active = navActive(pathname, item.to);
+          const Icon = item.icon;
+
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => {
+                if (sound) playTap();
+              }}
+              className={`
+                relative z-10 flex min-h-12 flex-col items-center justify-center rounded-[16px] transition-[transform,color] duration-150 ease-out cursor-pointer
+                active:scale-[0.96]
+                ${active ? "text-sky-600" : "text-[#4A6580]"}
+              `}
+            >
               <Icon
-                className={`size-5 shrink-0 transition-transform duration-200 ${active ? "scale-110 text-sky-600" : ""}`}
+                className={`size-5 shrink-0 ${active ? "scale-110 text-sky-600" : ""}`}
                 weight={active ? "fill" : "regular"}
               />
-              <span className="text-[11px] font-sans font-extrabold tracking-tight">
+              <span className="mt-0.5 text-[10px] font-sans font-extrabold tracking-tight leading-none">
                 {item.label}
               </span>
-              {active && <span className="size-1 rounded-full bg-sky-600 -mb-1" />}
-            </div>
-          </Link>
-        );
-      })}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

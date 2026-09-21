@@ -22,7 +22,7 @@ export function SurfaceCard({
     cream: "bg-[#FFF7E4] border-2 border-[#EADBBD] shadow-[0_6px_0_#D8C7A0,0_18px_34px_-18px_rgba(9,48,102,0.25)] text-[#0D2340]",
     sky: "bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_6px_0_#C2DBFA,0_18px_34px_-18px_rgba(9,48,102,0.25)] text-[#0D2340]",
     flat: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-none text-[#0D2340]",
-    interactive: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)] hover:border-[#8FC2FF] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-[0_2px_0_#C8DBF0] cursor-pointer transition-all duration-150 text-[#0D2340]",
+    interactive: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)] hover:border-[#8FC2FF] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-[0_2px_0_#C8DBF0] cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 text-[#0D2340]",
   };
 
   return (

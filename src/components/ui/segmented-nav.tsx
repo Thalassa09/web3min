@@ -37,7 +37,7 @@ export function SegmentedNav({
             onClick={() => onChange(item.id)}
             className={`
               relative flex items-center justify-center gap-2 px-4 py-2 rounded-[12px] text-xs font-sans font-extrabold select-none cursor-pointer
-              transition-all duration-150 ease-out
+              transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out
               active:translate-y-[1px]
               ${
                 isActive

@@ -67,7 +67,7 @@ function ProfilePage() {
               <Link
                 to="/shop"
                 search={{ tab: "wardrobe" }}
-                className="px-4 py-2 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-all flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
+                className="px-4 py-2 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
               >
                 <Sparkles className="size-4" />
                 <span>Ruang Ganti Blobi</span>
@@ -97,7 +97,7 @@ function ProfilePage() {
                   value={bioDraft}
                   onChange={(e) => setBioDraft(e.target.value.slice(0, 80))}
                   placeholder="Tulis status atau motto belajarmu..."
-                  className="w-full px-4 py-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-sm text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-all resize-none font-medium"
+                  className="w-full px-4 py-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-sm text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] resize-none font-medium"
                 />
                 <span className="absolute right-3 bottom-2.5 text-[11px] font-mono text-[#4A6580]">
                   {bioDraft.length}/80
@@ -235,7 +235,7 @@ function ProfilePage() {
               return (
                 <div
                   key={node.id}
-                  className={`p-3 sm:p-3.5 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-all ${
+                  className={`p-3 sm:p-3.5 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-[transform,box-shadow,background-color,border-color,color] ${
                     isUnlocked
                       ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
                       : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5] opacity-60"

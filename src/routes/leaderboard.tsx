@@ -312,7 +312,7 @@ function RafflePage() {
                         playTap();
                         setFeaturedStakeCount((c) => Math.max(1, c - 1));
                       }}
-                      className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                      className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                     >
                       -
                     </button>
@@ -325,7 +325,7 @@ function RafflePage() {
                         playTap();
                         setFeaturedStakeCount((c) => Math.min(raffleTickets, c + 1));
                       }}
-                      className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                      className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                     >
                       +
                     </button>
@@ -340,7 +340,7 @@ function RafflePage() {
                           playTap();
                           setFeaturedStakeCount(Math.min(raffleTickets, amt));
                         }}
-                        className="rounded-[10px] border-2 border-[#DCE7F5] bg-white px-3 py-1.5 text-[#4A6580] hover:text-[#0D2340] hover:border-[#8FC2FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                        className="rounded-[10px] border-2 border-[#DCE7F5] bg-white px-3 py-1.5 text-[#4A6580] hover:text-[#0D2340] hover:border-[#8FC2FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                       >
                         +{amt}
                       </button>
@@ -351,7 +351,7 @@ function RafflePage() {
                         playTap();
                         setFeaturedStakeCount(Math.max(1, raffleTickets));
                       }}
-                      className="rounded-[10px] border-2 border-[#8FC2FF] bg-[#E4F0FF] px-3.5 py-1.5 font-extrabold text-[#0B63F6] shadow-[0_2px_0_#C2DBFA] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                      className="rounded-[10px] border-2 border-[#8FC2FF] bg-[#E4F0FF] px-3.5 py-1.5 font-extrabold text-[#0B63F6] shadow-[0_2px_0_#C2DBFA] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                     >
                       MAX ({raffleTickets})
                     </button>
@@ -435,7 +435,7 @@ function RafflePage() {
                   <button
                     type="button"
                     onClick={() => handleBuyTicket(1)}
-                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     +1 Tiket
                     <span className="block text-[10px] font-extrabold text-[#B27B00]">10 ★</span>
@@ -443,7 +443,7 @@ function RafflePage() {
                   <button
                     type="button"
                     onClick={() => handleBuyTicket(5)}
-                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     +5 Tiket
                     <span className="block text-[10px] font-extrabold text-[#B27B00]">50 ★</span>
@@ -451,7 +451,7 @@ function RafflePage() {
                   <button
                     type="button"
                     onClick={() => handleBuyTicket(10)}
-                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     +10 Tiket
                     <span className="block text-[10px] font-extrabold text-[#B27B00]">100 ★</span>
@@ -512,7 +512,7 @@ function RafflePage() {
                     setFilter(tab.id);
                   }}
                   className={cn(
-                    "px-3.5 py-1.5 font-extrabold rounded-full transition-all cursor-pointer",
+                    "px-3.5 py-1.5 font-extrabold rounded-full transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer",
                     filter === tab.id
                       ? "bg-white text-[#0B63F6] shadow-[0_3px_0_#C8DBF0]"
                       : "bg-white/20 text-white hover:bg-white/30",
@@ -533,7 +533,7 @@ function RafflePage() {
               return (
                 <SurfaceCard
                   key={raffle.id}
-                  className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-all"
+                  className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-[transform,box-shadow,background-color,border-color,color]"
                 >
                   <div>
                     {/* Top Row Badges */}
@@ -676,7 +676,7 @@ function RafflePage() {
                   <button
                     type="button"
                     onClick={() => setTicketInput((p) => Math.max(1, p - 1))}
-                    className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                    className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     -
                   </button>
@@ -686,7 +686,7 @@ function RafflePage() {
                   <button
                     type="button"
                     onClick={() => setTicketInput((p) => Math.min(raffleTickets, p + 1))}
-                    className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                    className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     +
                   </button>

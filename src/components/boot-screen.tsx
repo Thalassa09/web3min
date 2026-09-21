@@ -71,7 +71,7 @@ export function BootScreen({
           aria-hidden
         >
           <div
-            className="h-full rounded-full bg-[#FFC61A] shadow-[0_0_8px_#FFC61A] transition-all duration-300 ease-out"
+            className="h-full rounded-full bg-[#FFC61A] shadow-[0_0_8px_#FFC61A] transition-[width,background-color] duration-300 ease-out"
             style={{ width: currentWidth }}
           />
         </div>

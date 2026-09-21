@@ -32,7 +32,7 @@ export function SideNav() {
                 to={item.to}
                 className={`
                   group relative flex items-center justify-between px-4 py-3 rounded-[14px] text-sm font-sans font-extrabold
-                  transition-all duration-150 ease-out cursor-pointer
+                  transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out cursor-pointer
                   active:translate-y-[2px]
                   ${
                     active
@@ -68,7 +68,7 @@ export function SideNav() {
       <div className="mt-auto pt-4 border-t-2 border-[#DCE7F5]">
         <Link
           to="/profile"
-          className="flex items-center gap-3 p-3 rounded-[16px] bg-[#F0F6FF] border-2 border-[#DCE7F5] hover:border-[#8FC2FF] hover:bg-[#E4F0FF] transition-all"
+          className="flex items-center gap-3 p-3 rounded-[16px] bg-[#F0F6FF] border-2 border-[#DCE7F5] hover:border-[#8FC2FF] hover:bg-[#E4F0FF] transition-[transform,box-shadow,background-color,border-color,color]"
         >
           <div className="w-10 h-10 rounded-[12px] bg-[#FFFFFF] border-2 border-[#8FC2FF] shadow-[0_2px_0_#C2DBFA] flex items-center justify-center font-extrabold text-sm text-[#0B4FD1]">
             {(username || "P").slice(0, 2).toUpperCase()}

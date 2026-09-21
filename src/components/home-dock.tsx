@@ -141,7 +141,7 @@ export function HomeDock() {
             </div>
             <div className="relative h-3.5 w-full overflow-hidden rounded-full bg-[#E4F0FF] border-2 border-[#B9CFE9] shadow-inner">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#FFD84D] to-[#FF9E00] shadow-[0_1px_2px_rgba(217,148,0,0.5)] transition-all duration-300"
+                className="h-full rounded-full bg-gradient-to-r from-[#FFD84D] to-[#FF9E00] shadow-[0_1px_2px_rgba(217,148,0,0.5)] transition-[width,background-color] duration-300"
                 style={{ width: `${Math.min(100, Math.max(0, Math.round((xpToday / Math.max(1, dailyGoal)) * 100)))}%` }}
               />
             </div>

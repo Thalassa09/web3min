@@ -48,7 +48,7 @@ function KisahHub() {
             <button
               type="button"
               onClick={() => setTopics((v) => !v)}
-              className="px-4 py-2 rounded-[14px] bg-white border-2 border-[#DCE7F5] text-[#0D2340] text-xs font-extrabold hover:bg-[#F0F6FF] shadow-[0_3px_0_#C8DBF0] active:translate-y-[2px] active:shadow-none transition-all shrink-0 cursor-pointer"
+              className="px-4 py-2 rounded-[14px] bg-white border-2 border-[#DCE7F5] text-[#0D2340] text-xs font-extrabold hover:bg-[#F0F6FF] shadow-[0_3px_0_#C8DBF0] active:translate-y-[2px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] shrink-0 cursor-pointer"
             >
               {topics ? "Tutup Peta Topik" : "Lihat Peta Topik"}
             </button>
@@ -128,7 +128,7 @@ function KisahHub() {
               {openStories.map((s) => {
                 const isDone = doneStories.includes(s.id);
                 return (
-                  <SurfaceCard key={s.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-all">
+                  <SurfaceCard key={s.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-[transform,box-shadow,background-color,border-color,color]">
                     <div>
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium text-[#4A6580] flex items-center gap-1">
@@ -191,7 +191,7 @@ function KisahHub() {
               {openCases.map((c) => {
                 const isDone = doneCases.includes(c.id);
                 return (
-                  <SurfaceCard key={c.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-all">
+                  <SurfaceCard key={c.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-[transform,box-shadow,background-color,border-color,color]">
                     <div>
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium text-[#4A6580] flex items-center gap-1">

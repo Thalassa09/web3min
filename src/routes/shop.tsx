@@ -157,7 +157,7 @@ function ShopPage() {
               <button
                 type="button"
                 onClick={() => handleModeChange("shop")}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-all duration-150 ease-out active:translate-y-[1px] ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
                   mode === "shop"
                     ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_3px_0_#0B4FD1]"
                     : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
@@ -170,7 +170,7 @@ function ShopPage() {
               <button
                 type="button"
                 onClick={() => handleModeChange("wardrobe")}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-all duration-150 ease-out active:translate-y-[1px] ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
                   mode === "wardrobe"
                     ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_3px_0_#0B4FD1]"
                     : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
@@ -226,7 +226,7 @@ function ShopPage() {
                 <button
                   type="button"
                   onClick={() => handleModeChange("wardrobe")}
-                  className="px-3.5 py-1.5 rounded-[12px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-all flex items-center gap-1.5 shrink-0 cursor-pointer active:translate-y-[1px]"
+                  className="px-3.5 py-1.5 rounded-[12px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1.5 shrink-0 cursor-pointer active:translate-y-[1px]"
                 >
                   <Shirt className="size-3.5" />
                   <span>Ruang Ganti ({ownedCount})</span>
@@ -441,7 +441,7 @@ function ShopPage() {
                   <button
                     type="button"
                     onClick={() => handleModeChange("shop")}
-                    className="px-3 py-1.5 rounded-[12px] bg-[#FFF7D1] border-2 border-[#FFD84D] text-[#B27B00] text-xs font-extrabold hover:bg-[#FFEAA6] shadow-[0_2px_0_#FFD84D] transition-all flex items-center gap-1 cursor-pointer active:translate-y-[1px]"
+                    className="px-3 py-1.5 rounded-[12px] bg-[#FFF7D1] border-2 border-[#FFD84D] text-[#B27B00] text-xs font-extrabold hover:bg-[#FFEAA6] shadow-[0_2px_0_#FFD84D] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1 cursor-pointer active:translate-y-[1px]"
                   >
                     <Store className="size-3.5" />
                     <span className="hidden sm:inline">Toko</span>
@@ -478,7 +478,7 @@ function ShopPage() {
                           key={m}
                           type="button"
                           onClick={() => setBlobiMood(m)}
-                          className={`px-2.5 py-1 rounded-[10px] text-xs font-extrabold capitalize transition-all cursor-pointer ${
+                          className={`px-2.5 py-1 rounded-[10px] text-xs font-extrabold capitalize transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer ${
                             blobiMood === m
                               ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
                               : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
@@ -545,7 +545,7 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("owned")}
-                        className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-all ${
+                        className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "owned"
                             ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
                             : "text-[#4A6580] hover:text-[#0D2340]"
@@ -556,7 +556,7 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("all")}
-                        className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-all ${
+                        className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "all"
                             ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
                             : "text-[#4A6580] hover:text-[#0D2340]"
@@ -571,7 +571,7 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeSlot("all")}
-                        className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-all ${
+                        className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeSlot === "all"
                             ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
                             : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
@@ -584,7 +584,7 @@ function ShopPage() {
                           key={s}
                           type="button"
                           onClick={() => setWardrobeSlot(s)}
-                          className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-all ${
+                          className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
                             wardrobeSlot === s
                               ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
                               : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
@@ -628,7 +628,7 @@ function ShopPage() {
                       return (
                         <div
                           key={acc.id}
-                          className={`p-3.5 rounded-[18px] border-2 flex flex-col justify-between transition-all ${
+                          className={`p-3.5 rounded-[18px] border-2 flex flex-col justify-between transition-[transform,box-shadow,background-color,border-color,color] ${
                             isEquipped
                               ? "bg-[#E8FBF0] border-[#98E4B5] shadow-[0_3px_0_#98E4B5]"
                               : isPreviewing
@@ -690,7 +690,7 @@ function ShopPage() {
                                     playUnequip();
                                     flash(`"${acc.name}" dilepas dari Blobi.`);
                                   }}
-                                  className="w-full py-1.5 rounded-[10px] bg-white border-2 border-[#F4A4A0] text-[11px] font-extrabold text-[#B01E18] hover:bg-[#FFF5F5] shadow-[0_2px_0_#F4A4A0] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                                  className="w-full py-1.5 rounded-[10px] bg-white border-2 border-[#F4A4A0] text-[11px] font-extrabold text-[#B01E18] hover:bg-[#FFF5F5] shadow-[0_2px_0_#F4A4A0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                                 >
                                   Lepas
                                 </button>
@@ -703,7 +703,7 @@ function ShopPage() {
                                     playEquip();
                                     flash(`"${acc.name}" dipasang pada Blobi!`);
                                   }}
-                                  className="w-full py-1.5 rounded-[10px] bg-[#1E8A49] text-white border-2 border-[#156E38] text-[11px] font-extrabold hover:bg-[#156E38] shadow-[0_2px_0_#0E4F28] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+                                  className="w-full py-1.5 rounded-[10px] bg-[#1E8A49] text-white border-2 border-[#156E38] text-[11px] font-extrabold hover:bg-[#156E38] shadow-[0_2px_0_#0E4F28] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                                 >
                                   Pakai
                                 </button>

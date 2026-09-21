@@ -68,7 +68,7 @@ function Intro() {
         <div className="w-full flex justify-end mb-4">
           <button
             type="button"
-            className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 text-xs font-extrabold text-white transition-all cursor-pointer"
+            className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 text-xs font-extrabold text-white transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
             onClick={leave}
           >
             Lewati
@@ -94,7 +94,7 @@ function Intro() {
             {BEATS.map((_, i) => (
               <span
                 key={i}
-                className={`h-2.5 rounded-full transition-all duration-200 ${
+                className={`h-2.5 rounded-full transition-[width,background-color] duration-200 ${
                   i === beat ? "w-8 bg-[#FFC61A] shadow-[0_1px_0_#D99400]" : "w-2.5 bg-white/40"
                 }`}
               />

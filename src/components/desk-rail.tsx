@@ -48,7 +48,7 @@ export function DeskRail() {
             type="button"
             disabled={gems < 10}
             onClick={() => buyRaffleTicketsWithGems(1)}
-            className="inline-flex items-center justify-center h-10 px-3 rounded-[14px] bg-white border-2 border-[#B9CFE9] shadow-[0_3px_0_#C8DBF0] text-[#0D2340] text-xs font-extrabold hover:bg-[#F0F6FF] active:translate-y-[2px] active:shadow-none disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+            className="inline-flex items-center justify-center h-10 px-3 rounded-[14px] bg-white border-2 border-[#B9CFE9] shadow-[0_3px_0_#C8DBF0] text-[#0D2340] text-xs font-extrabold hover:bg-[#F0F6FF] active:translate-y-[2px] active:shadow-none disabled:opacity-40 disabled:cursor-not-allowed transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
             title="Tukar 10 Bintang jadi 1 Tiket"
           >
             <Sparkles className="size-3.5 text-[#FFC61A] mr-1" />

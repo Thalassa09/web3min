@@ -108,7 +108,7 @@ function Onboarding() {
               </div>
               <div>
                 <div className="font-display text-base sm:text-lg font-bold text-[#0B4FD1]">Blobi</div>
-                <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px] transition-all duration-200">
+                <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
                   {step === 0 && "Teman belajarmu di dunia Web3"}
                   {step === 1 && "Pilih nama panggilan petualangmu"}
                   {step === 2 && activeGoalConfig.quote}
@@ -199,7 +199,7 @@ function Onboarding() {
                         value={username}
                         onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 20))}
                         placeholder="Contoh: satoshi atau blobi-fan"
-                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-all shadow-inner"
+                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                         autoFocus
                       />
                       <span className="absolute right-3.5 top-3.5 text-xs font-mono font-bold text-[#4A6580]">

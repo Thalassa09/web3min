@@ -10,7 +10,7 @@ export function SideNav() {
 
   return (
     <nav
-      className="hidden lg:flex flex-col w-[248px] shrink-0 min-h-screen p-5 bg-[#FFFFFF] border-r-2 border-[#DCE7F5] shadow-[4px_0_12px_rgba(9,48,102,0.06)] select-none z-20"
+      className="hidden lg:flex flex-col w-[256px] shrink-0 sticky top-0 h-screen p-5 bg-[#FFFFFF] border-r-2 border-[#DCE7F5] shadow-[4px_0_12px_rgba(9,48,102,0.06)] select-none z-20 overflow-y-auto"
       aria-label="Menu Utama Web3min"
     >
       {/* Brand Header */}

@@ -140,39 +140,39 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         : null;
 
   return (
-    <div className={cn("quiz-shell relative mx-auto flex min-h-dvh w-full max-w-lg flex-col overflow-hidden lg:max-w-none", world.skin)}>
-      <div className="flex items-center gap-3 px-3 pt-3 lg:px-8">
+    <div className={cn("quiz-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden bg-[#F8FAFC] lg:max-w-none", world.skin)}>
+      <div className="shrink-0 flex items-center gap-3 px-3 py-2.5 bg-white border-b-2 border-[#B9CFE9] shadow-sm lg:px-8">
         <button
           type="button"
           aria-label="Keluar"
-          className="grid size-11 place-items-center text-faint"
+          className="grid size-10 place-items-center rounded-xl text-[#5A7796] hover:text-[#0D2340] hover:bg-[#EAF2FB] transition-colors"
           onClick={() => void navigate({ to: "/" })}
         >
-          <X className="size-7" weight="bold" />
+          <X className="size-6" weight="bold" />
         </button>
         <div className="mx-1 flex min-w-0 flex-1 items-center">
           <RouteChain have={solved} need={Math.max(1, scored)} label={`${solved}/${scored || 1}`} />
         </div>
-        <span className="flex items-center gap-1 pr-2 text-sm font-bold tabular-nums text-danger">
-          <Heart className="size-5 text-danger" weight="fill" />
+        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-[#E63329]">
+          <Heart className="size-4 text-[#E63329]" weight="fill" />
           {hearts}
         </span>
       </div>
 
       {lesson.unitId === "u2" || lesson.unitId === "u6" ? (
-        <p className="mx-5 mt-2 text-sm leading-5 text-muted lg:mx-8">
+        <p className="mx-5 mt-2 text-xs leading-5 text-[#5A7796] lg:mx-8">
           web3min tidak akan pernah meminta seed phrase, private key, atau password dompetmu. Kamu tidak perlu
           menghubungkan wallet untuk belajar.
         </p>
       ) : lesson.unitId === "u5" || lesson.unitId === "u7" || lesson.unitId === "u15" ? (
-        <p className="mx-5 mt-2 text-sm leading-5 text-muted lg:mx-8">
+        <p className="mx-5 mt-2 text-xs leading-5 text-[#5A7796] lg:mx-8">
           Materi ini bersifat edukatif, bukan saran keuangan.
         </p>
       ) : null}
 
       <div
         className={cn(
-          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-4 pt-3 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8",
+          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-6 pt-4 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8",
           !isTip && phase !== "done" && phase !== "dead" && "lg:flex-row lg:items-start lg:gap-10 lg:pt-10 lg:max-w-6xl",
         )}
       >
@@ -206,11 +206,6 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                 onAutoPass={exercise.type === "match" ? autoPass : undefined}
                 onMismatch={exercise.type === "match" ? mismatch : undefined}
               />
-              {phase === "ask" && exercise.type === "tip" ? (
-                <DuoButton wide className="mt-5 lg:max-w-sm" variant="world" disabled={!ready} onClick={check}>
-                  Udah, lanjut
-                </DuoButton>
-              ) : null}
             </div>
           </>
         ) : null}
@@ -249,31 +244,49 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         ) : null}
       </div>
 
-      {phase === "ask" && exercise && exercise.type !== "tip" ? (
-        <div className="border-t border-line px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] lg:px-8">
-          <div className="mx-auto w-full max-w-3xl">
-            <DuoButton wide variant="world" className="lg:ml-auto lg:max-w-xs" disabled={!ready} onClick={check}>
-              Cek
+      {phase === "ask" && exercise ? (
+        <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-[#B9CFE9] px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] lg:px-8">
+          <div className="mx-auto w-full max-w-3xl flex items-center justify-between gap-4">
+            <p className="hidden sm:block text-xs font-bold text-[#5A7796]">
+              {isTip ? "Pahami intinya sebelum lanjut ke kuis" : "Pilih satu jawaban yang paling tepat"}
+            </p>
+            <DuoButton
+              wide
+              variant="primary"
+              className="w-full sm:w-auto sm:min-w-[200px] ml-auto"
+              disabled={!ready}
+              onClick={check}
+            >
+              {isTip ? "Udah Paham, Lanjut" : "Periksa Jawaban"}
             </DuoButton>
           </div>
         </div>
       ) : null}
 
       {phase === "feedback" ? (
-        <div className={cn("quiz-fb", ok ? "quiz-fb-ok" : "quiz-fb-bad")} role="status" aria-live="polite">
-          <div className="mx-auto w-full max-w-3xl">
-            <p className={cn("text-lg font-bold", ok ? "text-ok" : "text-danger")}>{ok ? "Bener." : "Belum pas."}</p>
-            {exercise && exercise.type !== "tip" && exercise.type !== "match" ? (
-              <p className="mt-1 text-sm leading-5 text-fg">{exercise.explanation}</p>
-            ) : null}
-            {exercise?.type === "match" ? (
-              <p className="mt-1 text-sm leading-5 text-fg">Semua nyambung. Lanjut.</p>
-            ) : null}
-            {!ok ? (
-              <p className="mt-1 text-sm leading-5 text-muted">Soal ini akan muncul lagi di akhir rute.</p>
-            ) : null}
-            <DuoButton wide className="mt-3 lg:max-w-xs" variant={ok ? "primary" : "white"} onClick={continueAfterFeedback}>
-              {ok ? "Lanjut" : "Oke, lanjut"}
+        <div className={cn("shrink-0 quiz-fb", ok ? "quiz-fb-ok" : "quiz-fb-bad")} role="status" aria-live="polite">
+          <div className="mx-auto flex w-full max-w-3xl flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <p className={cn("font-display text-xl font-bold", ok ? "text-[#1E8A49]" : "text-[#E63329]")}>
+                {ok ? "🎉 Jawaban Benar!" : "💔 Belum Pas"}
+              </p>
+              {exercise && exercise.type !== "tip" && exercise.type !== "match" ? (
+                <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">{exercise.explanation}</p>
+              ) : null}
+              {exercise?.type === "match" ? (
+                <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">Semua kartu berhasil disambungkan.</p>
+              ) : null}
+              {!ok ? (
+                <p className="mt-1 text-xs font-semibold text-[#8C1D18]">Soal ini akan diulang di akhir sesi.</p>
+              ) : null}
+            </div>
+            <DuoButton
+              wide
+              className="w-full sm:w-auto sm:min-w-[180px] shrink-0"
+              variant={ok ? "primary" : "white"}
+              onClick={continueAfterFeedback}
+            >
+              {ok ? "Lanjut" : "Coba Lagi Nanti"}
             </DuoButton>
           </div>
         </div>

@@ -16,7 +16,7 @@ export type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   { to: "/", label: "Belajar", icon: Compass },
   { to: "/kisah", label: "Kisah", icon: BookOpenText },
-  { to: "/leaderboard", label: "Raffle", icon: Gift },
+  { to: "/leaderboard", label: "Undian", icon: Gift },
   { to: "/shop", label: "Toko", icon: Storefront },
   { to: "/profile", label: "Profil", icon: UserCircle },
 ];

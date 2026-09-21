@@ -45,16 +45,16 @@ function Onboarding() {
         <SurfaceCard className="p-6 md:p-8 bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] rounded-[26px]">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             {/* Mascot Side (5 Cols) */}
-            <div className="md:col-span-5 flex flex-col items-center justify-center text-center p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA]">
-              <div className="py-2 flex items-center justify-center">
+            <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center p-3.5 sm:p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA] gap-3.5">
+              <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
                 <Mascot
                   mood={step === 0 ? "wave" : step === 2 ? "celebrate" : "think"}
-                  size={140}
+                  fill
                   float
                 />
               </div>
-              <div className="mt-3">
-                <div className="font-display text-lg font-bold text-[#0B4FD1]">Blobi</div>
+              <div>
+                <div className="font-display text-base sm:text-lg font-bold text-[#0B4FD1]">Blobi</div>
                 <p className="text-xs font-semibold text-[#5A7796] mt-0.5 max-w-[200px]">
                   {step === 0 && "Teman belajarmu di dunia Web3"}
                   {step === 1 && "Pilih nama panggilan petualangmu"}

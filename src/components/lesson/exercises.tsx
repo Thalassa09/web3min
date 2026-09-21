@@ -84,35 +84,39 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
   }, [onHandle]);
 
   return (
-    <article className="max-w-prose">
-      <p className="text-sm font-medium tracking-wide text-streak">Baca dulu</p>
-      <h3 className="mt-1 text-xl font-bold leading-[26px]">{exercise.title}</h3>
-      <p className="mt-3 text-base font-medium leading-6 text-fg">{exercise.body}</p>
+    <article className="max-w-prose rounded-[24px] bg-[#FFF9ED] border-2 border-[#F0D9A8] shadow-[0_4px_0_#DFBA76] p-5 sm:p-7">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFE5A3] border border-[#DFBA76] text-xs font-extrabold text-[#7A4B00]">
+          📖 BACA DULU
+        </span>
+      </div>
+      <h3 className="font-display text-2xl font-bold leading-tight text-[#0D2340]">{exercise.title}</h3>
+      <p className="mt-3.5 text-[16px] font-medium leading-[26px] text-[#1E3A5F]">{exercise.body}</p>
       {exercise.proofs && exercise.proofs.length > 0 ? <ProofGallery ids={exercise.proofs} className="mt-4" /> : null}
       {exercise.points && exercise.points.length > 0 ? (
-        <ul className="mt-4 flex flex-col gap-2.5">
+        <ul className="mt-4 flex flex-col gap-3">
           {exercise.points.map((point) => (
-            <li key={point} className="flex gap-3 text-base font-medium leading-6 text-fg">
-              <span className="mt-1.5 size-2 shrink-0 rounded-full bg-primary" />
+            <li key={point} className="flex items-start gap-3 text-[15px] font-medium leading-[24px] text-[#1E3A5F]">
+              <span className="mt-1.5 size-2.5 shrink-0 rounded-full bg-[#FFC61A] border border-[#D99400]" />
               <span>{point}</span>
             </li>
           ))}
         </ul>
       ) : null}
       {exercise.example ? (
-        <div className="mt-4 border-t border-line pt-3">
-          <p className="text-sm font-medium tracking-wide text-sky">Contoh</p>
-          <p className="mt-1 text-base font-medium leading-6 text-fg">{exercise.example}</p>
+        <div className="mt-5 rounded-2xl bg-white border-2 border-[#E4EDF7] p-4 shadow-[0_2px_0_#D3E2F2]">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#0B63F6]">Contoh Nyata</p>
+          <p className="mt-1 text-[15px] font-medium leading-[24px] text-[#0D2340]">{exercise.example}</p>
         </div>
       ) : null}
       {exercise.remember ? (
-        <div className="mt-3 border-t border-line pt-3">
-          <p className="text-sm font-medium tracking-wide text-primary-deep">Ingat</p>
-          <p className="mt-1 text-base font-medium leading-6 text-fg">{exercise.remember}</p>
+        <div className="mt-4 rounded-2xl bg-[#E8FBF0] border-2 border-[#A3E5BA] p-4 shadow-[0_2px_0_#82D49D]">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#1E8A49]">💡 Kunci Ingatan</p>
+          <p className="mt-1 text-[15px] font-bold leading-[24px] text-[#0E582B]">{exercise.remember}</p>
         </div>
       ) : null}
       {exercise.proofs && exercise.proofs.length > 0 ? (
-        <p className="mt-4 text-sm leading-5 text-muted">
+        <p className="mt-4 text-xs leading-5 text-[#5A7796]">
           Sumber: dokumentasi publik dan kasus yang sudah terjadi. Diperbarui September 2026. Materi edukasi, bukan
           rekomendasi investasi.
         </p>

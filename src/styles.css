@@ -195,10 +195,13 @@ input:focus-visible {
 /* Disabled tactile state */
 .tactile-btn:disabled,
 .duo-btn:disabled {
-  opacity: 0.45 !important;
+  opacity: 0.65 !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
   transform: none !important;
+  background: #E2E8F0 !important;
+  border-color: #CBD5E1 !important;
+  color: #64748B !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -451,8 +454,12 @@ input:focus-visible {
 @media (min-width: 1280px) {
   .desk-rail {
     display: block;
-    width: 320px;
-    shrink: 0;
+    width: 330px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 4.5rem;
+    max-height: calc(100vh - 5.5rem);
+    overflow-y: auto;
   }
 }
 
@@ -789,6 +796,227 @@ input:focus-visible {
 @keyframes ticker-slide {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   COACH TOUR & SPOTLIGHT MODAL
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.coach-root {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.coach-catch {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 35, 64, 0.65);
+  backdrop-filter: blur(2px);
+}
+
+.coach-spot {
+  position: fixed;
+  box-shadow: 0 0 0 9999px rgba(9, 35, 64, 0.65);
+  outline: 3px solid #FFC61A;
+  outline-offset: 4px;
+  pointer-events: none;
+  transition: top 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              left 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              width 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              height 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 51;
+}
+
+.coach-hit {
+  position: fixed;
+  z-index: 52;
+  cursor: pointer;
+}
+
+.coach-panel {
+  position: fixed;
+  z-index: 55;
+  background: #FFFFFF;
+  border: 2.5px solid #B9CFE9;
+  border-radius: 24px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 0 #0B4FD1, 0 18px 36px rgba(9, 40, 90, 0.4);
+  transition: top 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              left 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-coach="node"] {
+  scroll-margin-top: 5.5rem;
+  scroll-margin-bottom: 7rem;
+}
+
+[data-coach="start"] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   ROUTE CHAIN PROGRESS & DIAMOND BITS
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.block-bit {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border: 2.5px solid #94A3B8;
+  background: #F1F5F9;
+  border-radius: 3.5px;
+  transform: rotate(45deg);
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.block-bit-on {
+  background: #FFC61A;
+  border-color: #D99400;
+  box-shadow: 0 2px 4px rgba(217, 148, 0, 0.4);
+}
+
+.block-link {
+  display: block;
+  width: 8px;
+  height: 3px;
+  margin: 0 2px;
+  background: #CBD5E1;
+  border-radius: 2px;
+  transition: all 180ms ease;
+}
+
+.block-link-on {
+  background: #FFC61A;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   QUIZ SHELL, OPTIONS & TACTILE ANSWERS
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.quiz-shell {
+  background: #F8FAFC;
+  color: #0D2340;
+  min-height: 100dvh;
+}
+
+.quiz-opt {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  min-height: 3.6rem;
+  background: #FFFFFF;
+  color: #0D2340;
+  border: 2.5px solid #B9CFE9;
+  border-bottom: 4px solid #B9CFE9;
+  border-radius: 1.25rem;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #C8DBF0;
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quiz-opt:hover:not(:disabled) {
+  border-color: #8FC2FF;
+  background: #F4F9FF;
+}
+
+.quiz-opt:active:not(:disabled) {
+  transform: translateY(2px);
+  border-bottom-width: 2.5px;
+  box-shadow: none !important;
+}
+
+.quiz-opt-on {
+  background: #EAF3FF !important;
+  border-color: #0B63F6 !important;
+  border-bottom-color: #0B4FD1 !important;
+  box-shadow: 0 4px 0 #0B4FD1 !important;
+  color: #0B4FD1 !important;
+}
+
+.quiz-opt-ok {
+  background: #E8FBF0 !important;
+  border-color: #34C06A !important;
+  border-bottom-color: #1E8A49 !important;
+  box-shadow: 0 4px 0 #1E8A49 !important;
+  color: #0E582B !important;
+}
+
+.quiz-opt-bad {
+  background: #FFECEC !important;
+  border-color: #E63329 !important;
+  border-bottom-color: #B01E18 !important;
+  box-shadow: 0 4px 0 #B01E18 !important;
+  color: #78100C !important;
+  animation: shake 280ms ease-in-out;
+}
+
+.quiz-opt:disabled {
+  cursor: default;
+}
+
+.quiz-key {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  background: #EAF2FB;
+  color: #1E3A5F;
+  border: 1.5px solid #C8DBF0;
+  border-radius: 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transition: all 150ms ease;
+}
+
+.quiz-opt-on .quiz-key {
+  background: #0B63F6;
+  border-color: #0B4FD1;
+  color: #FFFFFF;
+}
+
+.quiz-opt-ok .quiz-key {
+  background: #34C06A;
+  border-color: #1E8A49;
+  color: #FFFFFF;
+}
+
+.quiz-opt-bad .quiz-key {
+  background: #E63329;
+  border-color: #B01E18;
+  color: #FFFFFF;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   BADGE SLOTS & PROFILE TROPHIES
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.badge-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 1.25rem;
+  background: #FFFFFF;
+  border: 2px dashed #B9CFE9;
+  min-height: 5.5rem;
+  transition: all 150ms ease;
+}
+
+.badge-slot-on {
+  border-style: solid;
+  border-color: #FFC61A;
+  background: #FFFDF0;
+  box-shadow: 0 3px 0 #D99400;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

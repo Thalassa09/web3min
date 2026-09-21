@@ -21,8 +21,8 @@ const STEPS: Step[] = [
   {
     target: "start",
     mood: "wave",
-    say: "Tekan tombol kuning. Baca dulu, baru kuis. Sekitar 3 menit.",
-    done: "Lanjut",
+    say: "Mulai petualanganmu dari sini. Baca 3 menit dulu, baru kuis.",
+    done: "Paham, Lanjut",
     pad: 6,
     radius: 22,
   },
@@ -62,10 +62,10 @@ function readBox(id: Target, pad: number): Box | null {
 function placePanel(spot: Box, panelH: number, vw: number, vh: number) {
   const pad = 16;
   const nav = 80;
-  const gap = 22;
+  const gap = 20;
   const width = Math.min(360, vw - pad * 2);
   const left = Math.max(pad, (vw - width) / 2);
-  const minTop = 8;
+  const minTop = 72; // Below top HUD (56px + 16px buffer)
   const maxTop = Math.max(minTop, vh - panelH - nav);
   const belowTop = spot.top + spot.height + gap;
   const aboveTop = spot.top - panelH - gap;
@@ -214,13 +214,13 @@ export function CoachTour() {
             <p id={titleId}>{current.say}</p>
           </SpeechBubble>
         </div>
-        <div className="mt-3 flex items-center gap-3">
+        <div className="mt-3.5 flex items-center gap-2.5">
           <DuoButton className="min-w-32 flex-1" onClick={next}>
             {current.done}
           </DuoButton>
           <button
             type="button"
-            className="min-h-11 shrink-0 px-2 text-sm font-bold text-muted"
+            className="min-h-11 shrink-0 px-3 py-2 text-xs font-bold text-[#5A7796] hover:text-[#0D2340] rounded-xl border-2 border-slate-200 hover:border-[#B9CFE9] bg-slate-50 transition-colors cursor-pointer"
             onClick={() => completeGuide()}
           >
             Lewati

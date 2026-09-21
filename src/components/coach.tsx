@@ -220,7 +220,7 @@ export function CoachTour() {
           </DuoButton>
           <button
             type="button"
-            className="min-h-11 shrink-0 px-3 py-2 text-xs font-bold text-[#5A7796] hover:text-[#0D2340] rounded-xl border-2 border-slate-200 hover:border-[#B9CFE9] bg-slate-50 transition-colors cursor-pointer"
+            className="min-h-11 shrink-0 px-3 py-2 text-xs font-bold text-[#4A6580] hover:text-[#0D2340] rounded-xl border-2 border-slate-200 hover:border-[#B9CFE9] bg-slate-50 transition-colors cursor-pointer"
             onClick={() => completeGuide()}
           >
             Lewati

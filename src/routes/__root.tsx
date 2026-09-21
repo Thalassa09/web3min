@@ -11,6 +11,11 @@ const APP_NAME = "web3min";
 
 function AudioEffectBridge() {
   const sound = useProgress((s) => s.sound);
+  const reduceMotion = useProgress((s) => s.reduceMotion);
+
+  useEffect(() => {
+    document.documentElement.dataset.motion = reduceMotion ? "reduced" : "full";
+  }, [reduceMotion]);
 
   useEffect(() => {
     setAudioEnabled(sound);
@@ -38,9 +43,21 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: APP_NAME },
-      { name: "description", content: "Belajar Web3 bareng web3min. Santai, berjenjang, bahasa orang." },
+      { title: "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang" },
+      { name: "description", content: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. Santai, berjenjang, bahasa orang. Pahami crypto, wallet, DeFi, dan smart contract dari nol." },
       { name: "theme-color", content: "#0B63F6" },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "web3min" },
+      { property: "og:title", content: "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang" },
+      { property: "og:description", content: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. 20 modul visual, kuis interaktif, dan undian hadiah mingguan." },
+      { property: "og:url", content: "https://web3min.vercel.app" },
+      { property: "og:image", content: "https://web3min.vercel.app/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang" },
+      { name: "twitter:description", content: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia." },
+      { name: "twitter:image", content: "https://web3min.vercel.app/og-image.png" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },

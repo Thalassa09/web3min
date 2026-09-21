@@ -116,7 +116,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
         </div>
       ) : null}
       {exercise.proofs && exercise.proofs.length > 0 ? (
-        <p className="mt-4 text-xs leading-5 text-[#5A7796]">
+        <p className="mt-4 text-xs leading-5 text-[#4A6580]">
           Sumber: dokumentasi publik dan kasus yang sudah terjadi. Diperbarui September 2026. Materi edukasi, bukan
           rekomendasi investasi.
         </p>

@@ -12,20 +12,20 @@ export function DeskRail() {
   const buyRaffleTicketsWithGems = useProgress((s) => s.buyRaffleTicketsWithGems);
 
   return (
-    <div className="hidden xl:flex flex-col gap-5 w-[320px] shrink-0 p-5 select-none z-10">
+    <div className="hidden xl:flex flex-col gap-5 w-[320px] shrink-0 p-5 z-10">
       {/* Active Web3 Raffle Card */}
       <SurfaceCard className="p-5 bg-white">
         <div className="flex items-center justify-between gap-2 mb-3">
           <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
             Undian Web3
           </span>
-          <span className="text-[11px] font-bold text-[#5A7796]">Chainlink VRF</span>
+          <span className="text-[11px] font-bold text-[#4A6580]">Chainlink VRF</span>
         </div>
 
         <h3 className="font-display font-bold text-lg text-[#0D2340]">
           100 USDT Learning Pool
         </h3>
-        <p className="mt-1 text-xs text-[#5A7796] leading-relaxed">
+        <p className="mt-1 text-xs text-[#4A6580] leading-relaxed">
           Gunakan tiket hasil belajar untuk berkesempatan memenangkan hadiah on-chain.
         </p>
 

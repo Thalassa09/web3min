@@ -37,14 +37,14 @@ export function SideNav() {
                   ${
                     active
                       ? "bg-[#E4F0FF] text-[#0B4FD1] border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA]"
-                      : "text-[#5A7796] hover:text-[#0D2340] hover:bg-[#F0F6FF] border-2 border-transparent"
+                      : "text-[#4A6580] hover:text-[#0D2340] hover:bg-[#F0F6FF] border-2 border-transparent"
                   }
                 `}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={`size-5 shrink-0 transition-transform duration-200 group-hover:scale-110 ${
-                      active ? "text-[#0B63F6]" : "text-[#5A7796] group-hover:text-[#0D2340]"
+                      active ? "text-[#0B63F6]" : "text-[#4A6580] group-hover:text-[#0D2340]"
                     }`}
                     weight={active ? "fill" : "regular"}
                   />
@@ -75,7 +75,7 @@ export function SideNav() {
           </div>
           <div className="min-w-0 flex-1">
             <div className="text-xs font-extrabold text-[#0D2340] truncate">@{username || "pelajar"}</div>
-            <div className="text-[11px] font-semibold text-[#5A7796] truncate flex items-center gap-1">
+            <div className="text-[11px] font-semibold text-[#4A6580] truncate flex items-center gap-1">
               {streak > 0 ? (
                 <>
                   <span>Streak {streak} hari</span>

@@ -111,7 +111,7 @@ export function StoryPlayer({ story }: { story: Story }) {
           </div>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-4">
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-4 select-text">
           {beat.type === "proof" ? <StoryProof id={beat.proofId} /> : null}
 
           {beat.type === "fork" ? (

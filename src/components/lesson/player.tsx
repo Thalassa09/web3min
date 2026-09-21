@@ -163,7 +163,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <button
           type="button"
           aria-label="Keluar"
-          className="grid size-10 place-items-center rounded-xl text-[#5A7796] hover:text-[#0D2340] hover:bg-[#EAF2FB] transition-colors"
+          className="grid size-10 place-items-center rounded-xl text-[#4A6580] hover:text-[#0D2340] hover:bg-[#EAF2FB] transition-colors"
           onClick={() => void navigate({ to: "/" })}
         >
           <X className="size-6" weight="bold" />
@@ -172,25 +172,25 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           <RouteChain have={solved} need={Math.max(1, scored)} label={`${solved}/${scored || 1}`} />
         </div>
         <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-[#E63329]">
-          <Heart className="size-4 text-[#E63329]" weight="fill" />
+          <Heart className={cn("size-4 text-[#E63329]", phase === "feedback" && !ok && "heart-break")} weight="fill" />
           {hearts}
         </span>
       </div>
 
       {lesson.unitId === "u2" || lesson.unitId === "u6" ? (
-        <p className="mx-5 mt-2 text-xs leading-5 text-[#5A7796] lg:mx-8">
+        <p className="mx-5 mt-2 text-xs leading-5 text-[#4A6580] lg:mx-8">
           web3min tidak akan pernah meminta seed phrase, private key, atau password dompetmu. Kamu tidak perlu
           menghubungkan wallet untuk belajar.
         </p>
       ) : lesson.unitId === "u5" || lesson.unitId === "u7" || lesson.unitId === "u15" ? (
-        <p className="mx-5 mt-2 text-xs leading-5 text-[#5A7796] lg:mx-8">
+        <p className="mx-5 mt-2 text-xs leading-5 text-[#4A6580] lg:mx-8">
           Materi ini bersifat edukatif, bukan saran keuangan.
         </p>
       ) : null}
 
       <div
         className={cn(
-          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-6 pt-4 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8",
+          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-6 pt-4 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8 select-text",
           !isTip && phase !== "done" && phase !== "dead" && "lg:flex-row lg:items-start lg:gap-10 lg:pt-10 lg:max-w-6xl",
         )}
       >
@@ -218,7 +218,14 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                 </SpeechBubble>
               ) : null}
             </div>
-            <div key={`${exercise.id}-${index}`} className={cn("min-w-0 flex-1 pb-6 enter-up", isTip && "lg:mx-auto lg:max-w-3xl")}>
+            <div
+              key={`${exercise.id}-${index}`}
+              className={cn(
+                "min-w-0 flex-1 pb-6 enter-up select-text",
+                phase === "feedback" && !ok && "wrong-shake",
+                isTip && "lg:mx-auto lg:max-w-3xl",
+              )}
+            >
               <ExerciseView
                 key={`${exercise.id}-${index}`}
                 exercise={exercise}
@@ -269,7 +276,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       {phase === "ask" && exercise ? (
         <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-[#B9CFE9] px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] lg:px-8">
           <div className="mx-auto w-full max-w-3xl flex items-center justify-between gap-4">
-            <p className="hidden sm:block text-xs font-bold text-[#5A7796]">
+            <p className="hidden sm:block text-xs font-bold text-[#4A6580]">
               {isTip ? "Pahami intinya sebelum lanjut ke kuis" : "Pilih satu jawaban yang paling tepat"}
             </p>
             <DuoButton

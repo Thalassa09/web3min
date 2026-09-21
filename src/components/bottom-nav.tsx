@@ -1,12 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { NAV_ITEMS, navActive } from "@/lib/nav";
+import { playTap } from "@/lib/audio";
+import { useProgress } from "@/lib/store";
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const sound = useProgress((s) => s.sound);
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 lg:hidden flex items-center justify-around h-16 px-2 bg-[#FFFFFF] border-t-2 border-[#DCE7F5] shadow-[0_-4px_16px_rgba(9,48,102,0.08)]"
+      className="fixed bottom-0 left-0 right-0 z-40 lg:hidden flex items-center justify-around px-2 pt-1.5 h-[calc(4.25rem+max(env(safe-area-inset-bottom,0px),12px))] pb-[max(env(safe-area-inset-bottom,0px),12px)] bg-[#FFFFFF] border-t-2 border-[#DCE7F5] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] select-none"
       aria-label="Navigasi Mobile"
     >
       {NAV_ITEMS.map((item) => {
@@ -17,10 +20,13 @@ export function BottomNav() {
           <Link
             key={item.to}
             to={item.to}
+            onClick={() => {
+              if (sound) playTap();
+            }}
             className={`
-              relative flex flex-col items-center justify-center min-w-[56px] h-12 rounded-[14px] transition-all duration-150 ease-out cursor-pointer
+              relative flex flex-col items-center justify-center min-w-[56px] h-12 rounded-[14px] transition-[transform,color] duration-150 ease-out cursor-pointer
               active:translate-y-[2px]
-              ${active ? "text-[#0B63F6]" : "text-[#5A7796] hover:text-[#0D2340]"}
+              ${active ? "text-[#0B63F6]" : "text-[#4A6580] hover:text-[#0D2340]"}
             `}
           >
             {active && (
@@ -29,7 +35,7 @@ export function BottomNav() {
 
             <div className="relative flex flex-col items-center gap-0.5">
               <Icon
-                className={`size-5 shrink-0 transition-transform ${active ? "scale-110 text-[#0B63F6]" : ""}`}
+                className={`size-5 shrink-0 transition-transform duration-200 ${active ? "scale-110 text-[#0B63F6]" : ""}`}
                 weight={active ? "fill" : "regular"}
               />
               <span className="text-[11px] font-sans font-extrabold tracking-tight">

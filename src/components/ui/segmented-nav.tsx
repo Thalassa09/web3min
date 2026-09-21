@@ -42,7 +42,7 @@ export function SegmentedNav({
               ${
                 isActive
                   ? "bg-[#FFFFFF] text-[#0B4FD1] border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA]"
-                  : "text-[#5A7796] hover:text-[#0D2340] hover:bg-white/50 border-2 border-transparent"
+                  : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/50 border-2 border-transparent"
               }
             `}
           >

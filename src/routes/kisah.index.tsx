@@ -27,7 +27,7 @@ function KisahHub() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-24 sm:pb-28 max-w-5xl mx-auto space-y-6">
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-5xl mx-auto space-y-6">
         {/* Page Header Banner */}
         <SurfaceCard className="p-6 bg-white">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
@@ -39,7 +39,7 @@ function KisahHub() {
                 <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340] tracking-tight">
                   Arsip Investigasi & Kisah Web3
                 </h1>
-                <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-1 max-w-xl leading-relaxed">
+                <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1 max-w-xl leading-relaxed">
                   Web3 bukan cuma grafik harga. Pahami arsitektur wallet, celah smart contract, dan bukti on-chain nyata.
                 </p>
               </div>
@@ -71,7 +71,7 @@ function KisahHub() {
                   <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B63F6] border border-[#8FC2FF]">
                     Rekomendasi Minggu Ini
                   </span>
-                  <span className="flex items-center gap-1 text-xs font-medium text-[#5A7796]">
+                  <span className="flex items-center gap-1 text-xs font-medium text-[#4A6580]">
                     <Clock className="size-3.5" />
                     ~3 Menit Baca
                   </span>
@@ -79,7 +79,7 @@ function KisahHub() {
                 <h2 className="font-display font-bold text-xl sm:text-2xl text-[#0D2340]">
                   {featured.title}
                 </h2>
-                <p className="text-xs sm:text-sm font-medium text-[#5A7796] leading-relaxed">
+                <p className="text-xs sm:text-sm font-medium text-[#4A6580] leading-relaxed">
                   {featured.blurb}
                 </p>
               </div>
@@ -131,7 +131,7 @@ function KisahHub() {
                   <SurfaceCard key={s.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-all">
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-[#5A7796] flex items-center gap-1">
+                        <span className="text-xs font-medium text-[#4A6580] flex items-center gap-1">
                           <Clock className="size-3" />
                           3 Menit
                         </span>
@@ -144,7 +144,7 @@ function KisahHub() {
                       <h3 className="font-display font-bold text-lg text-[#0D2340] mt-2">
                         {s.title}
                       </h3>
-                      <p className="text-xs font-medium text-[#5A7796] mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="text-xs font-medium text-[#4A6580] mt-1.5 line-clamp-2 leading-relaxed">
                         {s.blurb}
                       </p>
                     </div>
@@ -169,10 +169,10 @@ function KisahHub() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-75">
                   {lockedStories.map((s) => (
                     <div key={s.id} className="p-4 rounded-[18px] bg-white/90 border-2 border-[#DCE7F5] flex items-center gap-3">
-                      <Lock className="size-4 text-[#5A7796] shrink-0" />
+                      <Lock className="size-4 text-[#4A6580] shrink-0" />
                       <div className="min-w-0">
                         <div className="font-extrabold text-xs text-[#0D2340] truncate">{s.title}</div>
-                        <div className="text-[11px] font-medium text-[#5A7796] truncate">
+                        <div className="text-[11px] font-medium text-[#4A6580] truncate">
                           Perlu menyelesaikan modul ke-{s.unlockAfter}
                         </div>
                       </div>
@@ -194,7 +194,7 @@ function KisahHub() {
                   <SurfaceCard key={c.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-all">
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-[#5A7796] flex items-center gap-1">
+                        <span className="text-xs font-medium text-[#4A6580] flex items-center gap-1">
                           <Clock className="size-3" />
                           Kasus Nyata
                         </span>
@@ -207,7 +207,7 @@ function KisahHub() {
                       <h3 className="font-display font-bold text-lg text-[#0D2340] mt-2">
                         {c.title}
                       </h3>
-                      <p className="text-xs font-medium text-[#5A7796] mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="text-xs font-medium text-[#4A6580] mt-1.5 line-clamp-2 leading-relaxed">
                         {c.blurb}
                       </p>
                     </div>
@@ -232,10 +232,10 @@ function KisahHub() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-75">
                   {lockedCases.map((c) => (
                     <div key={c.id} className="p-4 rounded-[18px] bg-white/90 border-2 border-[#DCE7F5] flex items-center gap-3">
-                      <Lock className="size-4 text-[#5A7796] shrink-0" />
+                      <Lock className="size-4 text-[#4A6580] shrink-0" />
                       <div className="min-w-0">
                         <div className="font-extrabold text-xs text-[#0D2340] truncate">{c.title}</div>
-                        <div className="text-[11px] font-medium text-[#5A7796] truncate">
+                        <div className="text-[11px] font-medium text-[#4A6580] truncate">
                           Perlu menyelesaikan modul ke-{c.unlockAfter}
                         </div>
                       </div>

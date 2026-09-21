@@ -55,7 +55,7 @@ function Onboarding() {
               </div>
               <div>
                 <div className="font-display text-base sm:text-lg font-bold text-[#0B4FD1]">Blobi</div>
-                <p className="text-xs font-semibold text-[#5A7796] mt-0.5 max-w-[200px]">
+                <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px]">
                   {step === 0 && "Teman belajarmu di dunia Web3"}
                   {step === 1 && "Pilih nama panggilan petualangmu"}
                   {step === 2 && "Berapa menit kamu luangkan tiap hari?"}
@@ -72,7 +72,7 @@ function Onboarding() {
                     <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340] tracking-tight leading-snug">
                       Belajar Web3 dengan santai, 3 menit sehari.
                     </h1>
-                    <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-2 leading-relaxed">
                       Pahami wallet, smart contract, DeFi, dan keamanan on-chain lewat simulasi interaktif tanpa perlu modal dan tanpa risiko finansial.
                     </p>
                   </div>
@@ -85,7 +85,7 @@ function Onboarding() {
                       </div>
                       <div>
                         <div className="text-xs font-extrabold text-[#0D2340]">20 Modul Singkat & Terarah</div>
-                        <div className="text-[11px] font-semibold text-[#5A7796] mt-0.5">Rute belajar bertahap dari pemula hingga mahir.</div>
+                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Rute belajar bertahap dari pemula hingga mahir.</div>
                       </div>
                     </div>
 
@@ -95,7 +95,7 @@ function Onboarding() {
                       </div>
                       <div>
                         <div className="text-xs font-extrabold text-[#0D2340]">100% Aman & Tanpa Modal</div>
-                        <div className="text-[11px] font-semibold text-[#5A7796] mt-0.5">Belajar konsep blockchain di lingkungan simulasi aman.</div>
+                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Belajar konsep blockchain di lingkungan simulasi aman.</div>
                       </div>
                     </div>
 
@@ -105,7 +105,7 @@ function Onboarding() {
                       </div>
                       <div>
                         <div className="text-xs font-extrabold text-[#0D2340]">Hadiah & Undian Nyata</div>
-                        <div className="text-[11px] font-semibold text-[#5A7796] mt-0.5">Kumpulkan bintang dan tukarkan dengan tiket undian on-chain.</div>
+                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Kumpulkan bintang dan tukarkan dengan tiket undian on-chain.</div>
                       </div>
                     </div>
                   </div>
@@ -131,7 +131,7 @@ function Onboarding() {
                     <h1 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
                       Pilih Nama Panggilanmu
                     </h1>
-                    <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-1.5">
+                    <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1.5">
                       Nama ini akan muncul di profil, lencana penjelajah, dan papan undian hadiah.
                     </p>
                   </div>
@@ -149,11 +149,11 @@ function Onboarding() {
                         className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-all shadow-inner"
                         autoFocus
                       />
-                      <span className="absolute right-3.5 top-3.5 text-xs font-mono font-bold text-[#5A7796]">
+                      <span className="absolute right-3.5 top-3.5 text-xs font-mono font-bold text-[#4A6580]">
                         {username.length}/20
                       </span>
                     </div>
-                    <p className="text-[11px] font-semibold text-[#5A7796]">
+                    <p className="text-[11px] font-semibold text-[#4A6580]">
                       Bisa kamu ubah kapan saja di menu profil.
                     </p>
                   </div>
@@ -186,7 +186,7 @@ function Onboarding() {
                     <h1 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
                       Tentukan Target Harianmu
                     </h1>
-                    <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-1.5">
+                    <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1.5">
                       Belajar konsisten beberapa menit tiap hari untuk membangun streak dan menjaga nyawa.
                     </p>
                   </div>
@@ -219,7 +219,7 @@ function Onboarding() {
                           </div>
                           <div className="mt-2">
                             <div className="text-xs font-bold text-[#0B4FD1]">{g.desc}</div>
-                            <div className="text-[11px] font-semibold text-[#5A7796] mt-0.5">{g.modules}</div>
+                            <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">{g.modules}</div>
                           </div>
                         </button>
                       );

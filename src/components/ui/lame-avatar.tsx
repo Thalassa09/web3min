@@ -54,7 +54,7 @@ export function LameAvatar({
           <span className="font-sans font-extrabold text-[#0D2340] truncate text-sm leading-tight">
             {name}
           </span>
-          <span className="text-xs text-[#5A7796] truncate mt-0.5">
+          <span className="text-xs text-[#4A6580] truncate mt-0.5">
             {subtext}
           </span>
         </div>

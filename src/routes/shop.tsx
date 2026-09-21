@@ -132,7 +132,7 @@ function ShopPage() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-24 sm:pb-28 max-w-6xl mx-auto space-y-6">
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-6xl mx-auto space-y-6">
         {/* Flash Notification */}
         {note && (
           <div className="p-3.5 rounded-[18px] bg-[#E8FBF0] border-2 border-[#98E4B5] text-[#1E8A49] text-sm font-extrabold flex flex-col sm:flex-row items-center justify-between gap-2 shadow-[0_3px_0_#98E4B5] animate-in fade-in slide-in-from-top-2">
@@ -160,7 +160,7 @@ function ShopPage() {
                 className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-all duration-150 ease-out active:translate-y-[1px] ${
                   mode === "shop"
                     ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_3px_0_#0B4FD1]"
-                    : "text-[#5A7796] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
+                    : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
                 }`}
               >
                 <Store className="size-4.5" />
@@ -173,7 +173,7 @@ function ShopPage() {
                 className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-all duration-150 ease-out active:translate-y-[1px] ${
                   mode === "wardrobe"
                     ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_3px_0_#0B4FD1]"
-                    : "text-[#5A7796] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
+                    : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
                 }`}
               >
                 <Sparkles className="size-4.5" />
@@ -219,7 +219,7 @@ function ShopPage() {
                     <Store className="size-6 sm:size-7 text-[#0B63F6]" />
                     <span>Toko</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-0.5 leading-relaxed">
+                  <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-0.5 leading-relaxed">
                     Tukarkan bintang dari hasil belajar untuk membeli penguat streak, tiket undian hadiah nyata, dan isi ulang nyawa.
                   </p>
                 </div>
@@ -261,7 +261,7 @@ function ShopPage() {
                       <h3 className="font-display font-bold text-base text-[#0D2340]">
                         Tiket Undian Web3
                       </h3>
-                      <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
+                      <p className="text-xs text-[#4A6580] mt-1 leading-relaxed">
                         Tiket resmi untuk mengikuti undian USDT, merchandise, dan whitelist di Arena Undian.
                       </p>
                     </div>
@@ -308,7 +308,7 @@ function ShopPage() {
                       <h3 className="font-display font-bold text-base text-[#0D2340]">
                         Pelindung Streak
                       </h3>
-                      <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
+                      <p className="text-xs text-[#4A6580] mt-1 leading-relaxed">
                         Menjaga agar rekor hari berturut-turut belajarmu tidak hangus jika terlewat satu hari.
                       </p>
                     </div>
@@ -355,7 +355,7 @@ function ShopPage() {
                       <h3 className="font-display font-bold text-base text-[#0D2340]">
                         Isi Ulang Nyawa
                       </h3>
-                      <p className="text-xs text-[#5A7796] mt-1 leading-relaxed">
+                      <p className="text-xs text-[#4A6580] mt-1 leading-relaxed">
                         Pulihkan nyawa belajarmu ke 5/5 seketika agar bisa lanjut latihan tanpa menunggu.
                       </p>
                     </div>
@@ -399,7 +399,7 @@ function ShopPage() {
                   <h3 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
                     Koleksi Pakaian & Aksesori Blobi
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#5A7796] mt-0.5 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#4A6580] mt-0.5 leading-relaxed">
                     Semua baju, topi, kacamata, dan aksesori Blobi kini tersedia eksklusif di <strong>Ruang Ganti Blobi</strong>. Coba atau pasang langsung pada karaktermu!
                   </p>
                 </div>
@@ -430,7 +430,7 @@ function ShopPage() {
                     <Sparkles className="size-6 sm:size-7 text-[#0B63F6]" />
                     <span>Ruang Ganti Blobi</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-medium text-[#5A7796] mt-0.5 leading-relaxed">
+                  <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-0.5 leading-relaxed">
                     Atur gaya dan padukan penampilan Blobi. Coba berbagai pakaian yang sudah kamu miliki, atau coba aksesori baru langsung pada karakter!
                   </p>
                 </div>
@@ -457,7 +457,7 @@ function ShopPage() {
                 <SurfaceCard className="p-6 flex flex-col items-center text-center bg-white border-2 border-[#8FC2FF] shadow-[0_6px_0_#0B4FD1]">
                   <div className="w-full flex items-center justify-between pb-3 border-b-2 border-[#DCE7F5]">
                     <span className="text-xs font-extrabold text-[#0D2340]">Panggung Busana</span>
-                    <span className="text-[11px] font-bold text-[#5A7796]">
+                    <span className="text-[11px] font-bold text-[#4A6580]">
                       {isWearingSomething ? "Tampil Bergaya" : "Gaya Standar"}
                     </span>
                   </div>
@@ -471,7 +471,7 @@ function ShopPage() {
 
                   {/* Blobi Mood React Buttons */}
                   <div className="w-full space-y-2 pt-2 border-t-2 border-[#F0F6FF]">
-                    <div className="text-[11px] font-bold text-[#5A7796]">Reaksi Blobi:</div>
+                    <div className="text-[11px] font-bold text-[#4A6580]">Reaksi Blobi:</div>
                     <div className="flex items-center justify-center gap-1.5 flex-wrap">
                       {(["wave", "proud", "celebrate", "idle"] as MascotMood[]).map((m) => (
                         <button
@@ -481,7 +481,7 @@ function ShopPage() {
                           className={`px-2.5 py-1 rounded-[10px] text-xs font-extrabold capitalize transition-all cursor-pointer ${
                             blobiMood === m
                               ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                              : "bg-[#F0F6FF] text-[#5A7796] hover:bg-[#E4F0FF]"
+                              : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
                           }`}
                         >
                           {m === "wave" ? "👋 Sapa" : m === "proud" ? "😎 Bangga" : m === "celebrate" ? "🎉 Rayakan" : "😊 Santai"}
@@ -492,7 +492,7 @@ function ShopPage() {
 
                   {/* Currently Worn Breakdown */}
                   <div className="w-full mt-4 p-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-left space-y-2">
-                    <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#5A7796] flex items-center justify-between">
+                    <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#4A6580] flex items-center justify-between">
                       <span>Aksesori Aktif:</span>
                       {isWearingSomething && (
                         <button
@@ -513,19 +513,19 @@ function ShopPage() {
 
                     <div className="grid grid-cols-3 gap-2 text-center text-xs">
                       <div className="p-2 rounded-[10px] bg-white border border-[#DCE7F5]">
-                        <span className="block text-[10px] font-bold text-[#5A7796]">Kepala</span>
+                        <span className="block text-[10px] font-bold text-[#4A6580]">Kepala</span>
                         <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
                           {activeWorn.hat ? ACCESSORIES.find((a) => a.id === activeWorn.hat)?.name : "Polos"}
                         </strong>
                       </div>
                       <div className="p-2 rounded-[10px] bg-white border border-[#DCE7F5]">
-                        <span className="block text-[10px] font-bold text-[#5A7796]">Wajah</span>
+                        <span className="block text-[10px] font-bold text-[#4A6580]">Wajah</span>
                         <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
                           {activeWorn.face ? ACCESSORIES.find((a) => a.id === activeWorn.face)?.name : "Polos"}
                         </strong>
                       </div>
                       <div className="p-2 rounded-[10px] bg-white border border-[#DCE7F5]">
-                        <span className="block text-[10px] font-bold text-[#5A7796]">Leher</span>
+                        <span className="block text-[10px] font-bold text-[#4A6580]">Leher</span>
                         <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
                           {activeWorn.neck ? ACCESSORIES.find((a) => a.id === activeWorn.neck)?.name : "Polos"}
                         </strong>
@@ -548,7 +548,7 @@ function ShopPage() {
                         className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-all ${
                           wardrobeScope === "owned"
                             ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
-                            : "text-[#5A7796] hover:text-[#0D2340]"
+                            : "text-[#4A6580] hover:text-[#0D2340]"
                         }`}
                       >
                         Koleksi Dimiliki ({ownedCount})
@@ -559,7 +559,7 @@ function ShopPage() {
                         className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-all ${
                           wardrobeScope === "all"
                             ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
-                            : "text-[#5A7796] hover:text-[#0D2340]"
+                            : "text-[#4A6580] hover:text-[#0D2340]"
                         }`}
                       >
                         Katalog Coba ({totalCount})
@@ -574,7 +574,7 @@ function ShopPage() {
                         className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-all ${
                           wardrobeSlot === "all"
                             ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                            : "bg-[#F0F6FF] text-[#5A7796] hover:bg-[#E4F0FF]"
+                            : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
                         }`}
                       >
                         Semua
@@ -587,7 +587,7 @@ function ShopPage() {
                           className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-all ${
                             wardrobeSlot === s
                               ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                              : "bg-[#F0F6FF] text-[#5A7796] hover:bg-[#E4F0FF]"
+                              : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
                           }`}
                         >
                           {SLOT_LABEL[s]}
@@ -605,7 +605,7 @@ function ShopPage() {
                       <h3 className="font-display font-bold text-base text-[#0D2340]">
                         Belum Ada Koleksi di Sini
                       </h3>
-                      <p className="text-xs text-[#5A7796] max-w-sm mx-auto">
+                      <p className="text-xs text-[#4A6580] max-w-sm mx-auto">
                         Kamu belum mengoleksi pakaian untuk kategori ini. Buka katalog lengkap untuk mencoba dan mendapatkan pakaian baru!
                       </p>
                       <TactileButton
@@ -640,7 +640,7 @@ function ShopPage() {
                         >
                           <div className="space-y-1.5">
                             <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-bold text-[#5A7796]">
+                              <span className="text-[10px] font-bold text-[#4A6580]">
                                 {SLOT_LABEL[acc.slot]}
                               </span>
                               {isEquipped ? (
@@ -672,7 +672,7 @@ function ShopPage() {
                               <div className="font-extrabold text-xs text-[#0D2340] line-clamp-2 leading-tight">
                                 {acc.name}
                               </div>
-                              <div className="text-[10px] font-medium text-[#5A7796] line-clamp-2 leading-tight mt-0.5">
+                              <div className="text-[10px] font-medium text-[#4A6580] line-clamp-2 leading-tight mt-0.5">
                                 {acc.blurb}
                               </div>
                             </div>
@@ -761,11 +761,11 @@ function ShopPage() {
                   />
                 </div>
                 <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#5A7796] px-2 py-0.5 rounded-full bg-[#E4F0FF] border border-[#8FC2FF]">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#4A6580] px-2 py-0.5 rounded-full bg-[#E4F0FF] border border-[#8FC2FF]">
                     {SLOT_LABEL[confirm.slot]}
                   </span>
                   <h4 className="font-extrabold text-sm text-[#0D2340] mt-1">{confirm.name}</h4>
-                  <p className="text-xs text-[#5A7796] mt-0.5 leading-relaxed">{confirm.blurb}</p>
+                  <p className="text-xs text-[#4A6580] mt-0.5 leading-relaxed">{confirm.blurb}</p>
                 </div>
               </div>
 
@@ -777,7 +777,7 @@ function ShopPage() {
                 </span>
               </div>
 
-              <div className="text-xs text-[#5A7796] text-center">
+              <div className="text-xs text-[#4A6580] text-center">
                 Setelah dibeli, pakaian ini akan langsung tersimpan di <strong>Ruang Ganti Blobi</strong> kamu.
               </div>
 

@@ -51,7 +51,7 @@ export function HomeDock() {
         <h2 className="font-display font-bold text-xl text-[#0D2340]">
           Istirahat Sejenak
         </h2>
-        <p className="mt-1 text-xs sm:text-sm text-[#5A7796] leading-relaxed">
+        <p className="mt-1 text-xs sm:text-sm text-[#4A6580] leading-relaxed">
           Nyawa berikutnya pulih dalam {formatHeartWait(wait)}. Kamu tetap bisa membaca cerita Web3 tanpa mengurangi nyawa.
         </p>
         <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
@@ -80,7 +80,7 @@ export function HomeDock() {
                 {world.land}
               </span>
               {lessonNo > 0 && (
-                <span className="text-xs font-bold text-[#5A7796]">
+                <span className="text-xs font-bold text-[#4A6580]">
                   Modul {lessonNo} dari {scoredLessons.length}
                 </span>
               )}
@@ -95,14 +95,14 @@ export function HomeDock() {
             <h2 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
               {goalHit ? "Target Harian Tercapai! 🎉" : lesson.title}
             </h2>
-            <p className="mt-1 text-xs sm:text-sm text-[#5A7796] leading-relaxed">
+            <p className="mt-1 text-xs sm:text-sm text-[#4A6580] leading-relaxed">
               {lesson.blurb}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-xs font-bold text-[#5A7796] py-0.5">
+          <div className="flex items-center gap-3 text-xs font-bold text-[#4A6580] py-0.5">
             <span className="flex items-center gap-1">
-              <Clock className="size-3.5 text-[#5A7796]" /> ~{mins} Menit
+              <Clock className="size-3.5 text-[#4A6580]" /> ~{mins} Menit
             </span>
             <span>·</span>
             <span className="text-[#B27B00]">+{lesson.xp} XP</span>
@@ -135,7 +135,7 @@ export function HomeDock() {
                 <Sparkles className="size-3.5 text-[#D99400] fill-[#FFC61A]" />
                 Target Harian
               </span>
-              <span className="tabular-nums font-bold text-[#5A7796]">
+              <span className="tabular-nums font-bold text-[#4A6580]">
                 {xpToday} / {dailyGoal} XP
               </span>
             </div>
@@ -160,7 +160,7 @@ export function HomeDock() {
           <h2 className="font-display font-bold text-2xl text-[#0D2340] inline-flex items-center justify-center gap-2">
             Semua Modul Selesai! <Trophy className="size-6 text-[#FFC61A] shrink-0" />
           </h2>
-          <p className="text-xs sm:text-sm text-[#5A7796]">
+          <p className="text-xs sm:text-sm text-[#4A6580]">
             Kamu telah menuntaskan seluruh 20 modul kurikulum. Kunjungi Arena Undian untuk menukar tiketmu!
           </p>
           <div className="pt-2">

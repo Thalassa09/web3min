@@ -36,7 +36,7 @@ function ProfilePage() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-24 sm:pb-28 max-w-5xl mx-auto space-y-6">
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-5xl mx-auto space-y-6">
         {/* Profile Explorer License Card with Blue Header */}
         <div className="rounded-[26px] bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] overflow-hidden">
           {/* Blue Sky Banner (180px) with clouds */}
@@ -99,13 +99,13 @@ function ProfilePage() {
                   placeholder="Tulis status atau motto belajarmu..."
                   className="w-full px-4 py-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-sm text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-all resize-none font-medium"
                 />
-                <span className="absolute right-3 bottom-2.5 text-[11px] font-mono text-[#5A7796]">
+                <span className="absolute right-3 bottom-2.5 text-[11px] font-mono text-[#4A6580]">
                   {bioDraft.length}/80
                 </span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-[#5A7796]">
+                <span className="text-xs font-medium text-[#4A6580]">
                   Bio akan tampil pada profil publik dan papan undian.
                 </span>
                 {dirty && (
@@ -130,46 +130,46 @@ function ProfilePage() {
         {/* 4 Chunky Stat Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A7796]">
+            <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Total XP</span>
               <Trophy className="size-4 text-[#FFC61A]" />
             </div>
             <div className="mt-3">
               <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{xp}</div>
-              <div className="text-xs font-medium text-[#5A7796] mt-0.5">Poin pengalaman</div>
+              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Poin pengalaman</div>
             </div>
           </SurfaceCard>
 
           <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A7796]">
+            <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Streak Belajar</span>
               <Flame className="size-4 text-[#FF7A18]" />
             </div>
             <div className="mt-3">
               <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{streak} Hari</div>
-              <div className="text-xs font-medium text-[#5A7796] mt-0.5">Berturut-turut</div>
+              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Berturut-turut</div>
             </div>
           </SurfaceCard>
 
           <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A7796]">
+            <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Saldo Bintang</span>
               <BlockStamp size={16} className="text-[#FFC61A]" />
             </div>
             <div className="mt-3">
               <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{formatGems(gems)}</div>
-              <div className="text-xs font-medium text-[#5A7796] mt-0.5">Koin hadiah</div>
+              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Koin hadiah</div>
             </div>
           </SurfaceCard>
 
           <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A7796]">
+            <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Tiket Undian</span>
               <Ticket className="size-4 text-[#0B63F6]" />
             </div>
             <div className="mt-3">
               <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{raffleTickets}</div>
-              <div className="text-xs font-medium text-[#5A7796] mt-0.5">Tiket undian aktif</div>
+              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Tiket undian aktif</div>
             </div>
           </SurfaceCard>
         </div>
@@ -197,7 +197,7 @@ function ProfilePage() {
                 >
                   <div>
                     <div className="text-xs font-extrabold text-[#0D2340]">Kolam #{poolId}</div>
-                    <div className="text-xs font-medium text-[#5A7796] mt-0.5">Tiket terpasang: {tickets.count} tiket</div>
+                    <div className="text-xs font-medium text-[#4A6580] mt-0.5">Tiket terpasang: {tickets.count} tiket</div>
                   </div>
                   <span className="px-3 py-1 rounded-full bg-[#E8FBF0] text-[#1E8A49] text-xs font-extrabold border border-[#98E4B5]">
                     Terdaftar
@@ -206,7 +206,7 @@ function ProfilePage() {
               ))}
             </div>
           ) : (
-            <div className="p-5 rounded-[18px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-center text-xs font-medium text-[#5A7796]">
+            <div className="p-5 rounded-[18px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-center text-xs font-medium text-[#4A6580]">
               Kamu belum memasang tiket pada undian yang sedang berjalan. Buka tab <strong>Undian</strong> untuk ikut serta!
             </div>
           )}
@@ -219,7 +219,7 @@ function ProfilePage() {
               <h2 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
                 Rak Lencana Kurikulum (20 Modul)
               </h2>
-              <p className="text-xs font-medium text-[#5A7796] mt-0.5">
+              <p className="text-xs font-medium text-[#4A6580] mt-0.5">
                 {lessonsDone} dari 20 modul telah kamu selesaikan.
               </p>
             </div>
@@ -254,7 +254,7 @@ function ProfilePage() {
                   </div>
                   <div className="w-full">
                     <div className="text-[11px] font-extrabold text-[#0D2340] line-clamp-2 leading-tight">{node.title}</div>
-                    <div className="text-[10px] font-medium text-[#5A7796] mt-0.5 line-clamp-1">{node.blurb}</div>
+                    <div className="text-[10px] font-medium text-[#4A6580] mt-0.5 line-clamp-1">{node.blurb}</div>
                   </div>
                 </div>
               );

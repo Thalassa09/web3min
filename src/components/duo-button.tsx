@@ -10,7 +10,7 @@ const variantClass: Record<Variant, string> = {
   primary: "bg-[#FFC61A] text-[#0D2340] border-2 border-[#E5A800] shadow-[0_5px_0_#D99400] hover:bg-[#FFD147]",
   sky: "bg-[#1F7BFF] text-white border-2 border-[#0B4FD1] shadow-[0_5px_0_#0B4FD1] hover:bg-[#3B8CFF]",
   danger: "bg-[#E63329] text-white border-2 border-[#B01E18] shadow-[0_5px_0_#B01E18] hover:bg-[#F2443A]",
-  ghost: "bg-transparent text-[#5A7796] border-2 border-transparent shadow-none hover:bg-white/20 hover:text-[#0D2340]",
+  ghost: "bg-transparent text-[#4A6580] border-2 border-transparent shadow-none hover:bg-white/20 hover:text-[#0D2340]",
   white: "bg-[#FFFFFF] text-[#0D2340] border-2 border-[#B9CFE9] shadow-[0_4px_0_#C8DBF0] hover:bg-[#F0F6FF]",
   world: "quiz-check bg-[#FFC61A] text-[#0D2340] border-2 border-[#E5A800] shadow-[0_5px_0_#D99400] hover:bg-[#FFD147]",
 };
@@ -33,7 +33,7 @@ export function DuoButton({ variant = "primary", size = "md", wide, className, c
       type="button"
       className={cn(
         "inline-flex items-center justify-center font-sans font-extrabold select-none cursor-pointer",
-        "transition-all duration-100 ease-out",
+        "transition-[transform,box-shadow,background-color,border-color,color] duration-100 ease-out",
         "active:not-disabled:translate-y-[3px] active:not-disabled:shadow-none",
         "disabled:cursor-not-allowed disabled:bg-[#E2E8F0] disabled:text-[#8095AB] disabled:border-[#CBD5E1] disabled:shadow-none disabled:active:translate-y-0",
         variantClass[variant],

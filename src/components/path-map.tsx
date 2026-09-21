@@ -164,11 +164,17 @@ function UnitBlock({
           </p>
           <h2 className="mt-1 text-xl font-bold leading-[26px]">{unit.title}</h2>
         </div>
-        <ol className="relative mt-6 flex flex-col items-center gap-7 pt-1 lg:mt-8 lg:gap-9">
-          <PathTrail count={unit.lessons.length} world={world} mirror={mirror} />
+        <ol className="relative mt-6 flex flex-col items-center gap-10 pt-1 lg:mt-8 lg:gap-12">
+          <PathTrail
+            count={unit.lessons.length}
+            world={world}
+            mirror={mirror}
+            progress={unit.lessons.filter((l) => completed.includes(l.id)).length / Math.max(1, unit.lessons.length)}
+          />
           {unit.lessons.map((lesson, i) => (
             <PathNode
               key={lesson.id}
+              index={i}
               lesson={lesson}
               shift={(OFFSETS[i % OFFSETS.length] ?? 0) * (mirror ? -1 : 1)}
               unlocked={isUnlocked(lesson.id, completed)}
@@ -206,8 +212,18 @@ function WorldGate({
   );
 }
 
-function PathTrail({ count, world, mirror }: { count: number; world: World; mirror: boolean }) {
-  const step = 134;
+function PathTrail({
+  count,
+  world,
+  mirror,
+  progress = 0,
+}: {
+  count: number;
+  world: World;
+  mirror: boolean;
+  progress?: number;
+}) {
+  const step = 148;
   const startY = 40;
   const vbW = 100;
   const mid = 50;
@@ -225,6 +241,14 @@ function PathTrail({ count, world, mirror }: { count: number; world: World; mirr
       d += ` C ${x0} ${cy}, ${x} ${cy}, ${x} ${y}`;
     }
   });
+
+  const pathRef = useRef<SVGPathElement>(null);
+  const [len, setLen] = useState(0);
+
+  useEffect(() => {
+    setLen(pathRef.current?.getTotalLength() ?? 0);
+  }, [d]);
+
   return (
     <svg
       aria-hidden
@@ -242,6 +266,19 @@ function PathTrail({ count, world, mirror }: { count: number; world: World; mirr
         strokeLinejoin="round"
         strokeDasharray={TRAIL_DASH[world.dash]}
       />
+      {progress > 0 && len > 0 && (
+        <path
+          ref={pathRef}
+          d={d}
+          fill="none"
+          stroke="var(--world-trail-done, #FFC61A)"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeDasharray={len}
+          strokeDashoffset={len * (1 - progress)}
+          style={{ transition: "stroke-dashoffset 900ms var(--ease-out-quint)" }}
+        />
+      )}
       {points.map(([x, y], i) => (
         <g key={i} transform={`translate(${x} ${y}) scale(0.28)`}>
           <TrailMark kind={world.mark} />
@@ -374,6 +411,7 @@ function PathNode({
   done,
   current,
   onChest,
+  index = 0,
 }: {
   lesson: Lesson;
   shift: number;
@@ -381,6 +419,7 @@ function PathNode({
   done: boolean;
   current: boolean;
   onChest: (lesson: Lesson) => void;
+  index?: number;
 }) {
   const navigate = useNavigate();
   const claimChest = useProgress((s) => s.claimChest);
@@ -402,7 +441,13 @@ function PathNode({
   }
 
   return (
-    <li className="relative z-10" style={{ left: `${shift}%` }}>
+    <li
+      className="relative z-10 node-in"
+      style={{
+        left: `${shift}%`,
+        animationDelay: `${index * 55}ms`,
+      }}
+    >
       {current ? (
         <span className="world-start absolute -top-8 left-1/2 -translate-x-1/2 rounded-lg px-2 py-0.5 text-xs font-extrabold uppercase tracking-label path-bounce">
           {lesson.kind === "checkpoint" ? "Laga" : lesson.kind === "chest" ? "Item" : "Mulai"}

@@ -28,7 +28,7 @@ function Home() {
 
   return (
     <AppShell rail={<DeskRail />}>
-      <main className="space-y-4 pb-24 sm:pb-28">
+      <main className="space-y-4 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28">
         <HomeDock />
         <PathMap units={UNITS} focusUnit={unitId} />
       </main>

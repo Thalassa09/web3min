@@ -9,10 +9,13 @@ Aturan mutlak: tanpa aset, siluet, warna ikonik, atau nama dari IP pihak ketiga.
 ### Latar & permukaan
 | Token | Hex | Pakai untuk |
 |---|---|---|
+| `--canvas` | `#F2F7FF` | latar aplikasi utama |
 | `--sky-700` | `#0B4FD1` | gradien bawah latar, header dalam |
-| `--sky-600` | `#0B63F6` | latar aplikasi utama |
+| `--sky-600` | `#1367E8` | HUD header, langit peta, chip |
 | `--sky-500` | `#1F7BFF` | panel biru, header profil |
+| `--sky-400` | `#6FA8F5` | aksen langit lembut |
 | `--sky-300` | `#8FC2FF` | awan, dekorasi |
+| `--sky-200` | `#BBD9FF` | border langit lembut |
 | `--sky-100` | `#E4F0FF` | wash di belakang kartu, baris zebra |
 | `--paper` | `#FFFFFF` | kartu utama |
 | `--cream` | `#FFF7E4` | kartu baca, panel biografi/info |
@@ -23,19 +26,19 @@ Aturan mutlak: tanpa aset, siluet, warna ikonik, atau nama dari IP pihak ketiga.
 |---|---|
 | `--ink-900` | `#0D2340` |
 | `--ink-700` | `#1E3A5F` |
-| `--ink-500` | `#5A7796` (muted) |
-| `--ink-300` | `#9DB4CE` (faint) |
+| `--ink-500` | `#4A6580` (muted) |
+| `--ink-300` | `#6B839C` (faint) |
 | `--on-blue` | `#FFFFFF` |
 
 ### Aksen fungsional
 | Token | Hex | Shadow/deep | Arti |
 |---|---|---|---|
 | `--coin` | `#FFC61A` | `#D99400` | CTA utama, hadiah, bintang, XP |
-| `--flame` | `#FF7A18` | `#C85200` | streak |
+| `--flame` | `#F2841F` | `#C85200` | streak |
 | `--ruby` | `#E63329` | `#B01E18` | bahaya, nyawa, jawaban salah |
 | `--leaf` | `#34C06A` | `#1E8A49` | benar, selesai, aman |
 | `--grape` | `#8B5CF6` | `#6A3FD1` | langka, premium, lencana |
-| `--blobi` | `#FF4D88` | `#D82B68` | khusus maskot & jejak peta |
+| `--blobi` | `#F26A99` | `#C94A78` | khusus maskot & jejak peta |
 
 ### Garis
 `--line: #DCE7F5` · `--line-strong: #B9CFE9` · `--line-ink: #0D2340` (border tebal kartu)
@@ -48,23 +51,23 @@ Setiap rute memakai empat variabel: `--world-banner` (pita/papan nama), `--world
 | Rute | Nama | banner | node | trail | mark | ink |
 |---|---|---|---|---|---|---|
 | u1 | Hutan | `#3FBE7A` | `#59D68F` | `#2A9E62` | `#FFC8D4` | `#0D2340` |
-| u2 | Gua kunci | `#8B6FC4` | `#A187D8` | `#FFC61A` | `#FFE08A` | `#FFFFFF` |
+| u2 | Gua kunci | `#8B6FC4` | `#A187D8` | `#FFC61A` | `#FFE08A` | `#0D2340` |
 | u3 | Tambang koin | `#F0A52C` | `#FFBB44` | `#D9861A` | `#FFE9A8` | `#0D2340` |
 | u4 | Taman NFT | `#A87FD6` | `#BE99E8` | `#E7C8FF` | `#FFD7F2` | `#0D2340` |
 | u5 | Pasar DeFi | `#2FB8A6` | `#4CD0BE` | `#7FC9E0` | `#CFF3EA` | `#0D2340` |
-| u6 | Lorong waspada | `#D4556F` | `#E86F88` | `#FF9A5C` | `#FFCDA8` | `#FFFFFF` |
-| u7 | Kawah cuan | `#E2574C` | `#F26D62` | `#FF7A5C` | `#FFC98A` | `#FFFFFF` |
-| u8 | Pelabuhan | `#3E9AC4` | `#5BB2D8` | `#8CCDE6` | `#DCF2FB` | `#FFFFFF` |
-| u9 | Karnaval meme | `#F2667F` | `#FF7F95` | `#FFA34D` | `#FFE08A` | `#FFFFFF` |
-| u10 | Hutan baca | `#A3743F` | `#BC8C52` | `#D9BE8C` | `#F6E3BC` | `#FFFFFF` |
-| u11 | Kota | `#D8635A` | `#EC7B70` | `#F2846F` | `#FFD3B8` | `#FFFFFF` |
-| u12 | Rawa APY | `#5FA352` | `#77B96A` | `#8FD17E` | `#DCEFA8` | `#FFFFFF` |
+| u6 | Lorong waspada | `#D4556F` | `#E86F88` | `#FF9A5C` | `#FFCDA8` | `#0D2340` |
+| u7 | Kawah cuan | `#E2574C` | `#F26D62` | `#FF7A5C` | `#FFC98A` | `#0D2340` |
+| u8 | Pelabuhan | `#3E9AC4` | `#5BB2D8` | `#8CCDE6` | `#DCF2FB` | `#0D2340` |
+| u9 | Karnaval meme | `#F2667F` | `#FF7F95` | `#FFA34D` | `#FFE08A` | `#0D2340` |
+| u10 | Hutan baca | `#A3743F` | `#BC8C52` | `#D9BE8C` | `#F6E3BC` | `#0D2340` |
+| u11 | Kota | `#D8635A` | `#EC7B70` | `#F2846F` | `#FFD3B8` | `#0D2340` |
+| u12 | Rawa APY | `#5FA352` | `#77B96A` | `#8FD17E` | `#DCEFA8` | `#0D2340` |
 | u13 | Puncak dingin | `#5FA8CC` | `#7BC0E0` | `#D8F0FA` | `#FFFFFF` | `#0D2340` |
-| u14 | Jembatan L2 | `#8670DC` | `#9F8BEC` | `#D5C9FF` | `#FFE08A` | `#FFFFFF` |
-| u15 | Langit airdrop | `#5BA4E8` | `#78B9F2` | `#FFC61A` | `#FFE08A` | `#FFFFFF` |
-| u16 | Benteng stable | `#6B8296` | `#849AAD` | `#A9BECD` | `#E2EDF4` | `#FFFFFF` |
+| u14 | Jembatan L2 | `#8670DC` | `#9F8BEC` | `#D5C9FF` | `#FFE08A` | `#0D2340` |
+| u15 | Langit airdrop | `#5BA4E8` | `#78B9F2` | `#FFC61A` | `#FFE08A` | `#0D2340` |
+| u16 | Benteng stable | `#6B8296` | `#849AAD` | `#A9BECD` | `#E2EDF4` | `#0D2340` |
 | u17 | Galeri malam | `#6A4C9C` | `#8264B8` | `#D46AE8` | `#F5B8FF` | `#FFFFFF` |
-| u18 | Kastil | `#D4728A` | `#E88AA0` | `#F7A8BA` | `#FFE2E9` | `#FFFFFF` |
+| u18 | Kastil | `#D4728A` | `#E88AA0` | `#F7A8BA` | `#FFE2E9` | `#0D2340` |
 | u19 | Observatorium | `#4A4590` | `#605BA8` | `#FFC61A` | `#FFE9B0` | `#FFFFFF` |
 | u20 | Taman waras | `#E29A3E` | `#F0AC54` | `#46BC9A` | `#A8DDA0` | `#0D2340` |
 

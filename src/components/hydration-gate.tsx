@@ -12,11 +12,30 @@ export function HydrationGate({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    void Promise.resolve(useProgress.persist.rehydrate()).then(() => {
-      useProgress.getState().tick();
-      applyMotion(useProgress.getState().reduceMotion);
+    let mounted = true;
+    const finish = () => {
+      if (!mounted) return;
+      try {
+        useProgress.getState().tick();
+        applyMotion(useProgress.getState().reduceMotion);
+      } catch {}
       setReady(true);
-    });
+    };
+
+    try {
+      const p = useProgress.persist?.rehydrate?.();
+      void Promise.resolve(p).then(finish).catch(finish);
+    } catch {
+      finish();
+    }
+
+    // Guard timeout: never let users get stuck on BootScreen
+    const timer = window.setTimeout(finish, 200);
+
+    return () => {
+      mounted = false;
+      window.clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {

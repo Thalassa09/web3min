@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { DuoButton } from "@/components/duo-button";
-import { DailyQuests } from "@/components/daily-quests";
+import { Ticket, Sparkles, Clock, ArrowRight, BookOpen } from "lucide-react";
+import { TactileButton } from "@/components/ui/tactile-button";
+import { TelemetryBadge } from "@/components/ui/telemetry-badge";
 import { RouteChain } from "@/components/motif";
 import { firstIncompleteId, getLesson, getUnit } from "@/lib/curriculum";
 import { formatHeartWait, HEART_MS, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
@@ -41,17 +42,27 @@ export function HomeDock() {
 
   if (hearts <= 0) {
     return (
-      <div className="mx-4 mt-4">
-        <p className="text-sm font-medium text-blob">Nyawa habis</p>
-        <h2 className="mt-1 text-xl font-bold leading-[26px]">Baca kisah dulu. Nyawa aman.</h2>
-        <p className="mt-1 text-sm leading-5 text-muted">
-          Nyawa berikutnya sekitar {formatHeartWait(wait)}. Satu nyawa pulih tiap {HEART_MS / 60000} menit.
+      <div className="mx-4 mt-4 p-5 rounded-[22px] bg-[#12080c] border border-[#ff4365]/30 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+        <div className="flex items-center gap-2 mb-2">
+          <TelemetryBadge label="STATUS" value="NYAWA HABIS" tone="rose" pulsing />
+          <span className="text-[10px] font-mono text-zinc-500">PEMULIHAN OTOMATIS</span>
+        </div>
+        <h2 className="font-display font-black text-xl text-zinc-100 leading-snug">
+          Nyawa Habis · Istirahat Sejenak
+        </h2>
+        <p className="mt-1 text-xs text-zinc-400 font-sans leading-relaxed">
+          Nyawa berikutnya sekitar {formatHeartWait(wait)}. Atau baca kisah Web3 tanpa risiko pengurangan nyawa.
         </p>
-        <div className="mt-3 flex flex-col gap-2">
-          <Link to="/kisah">
-            <DuoButton variant="sky" wide>
-              Baca kisah
-            </DuoButton>
+        <div className="mt-4 flex flex-col sm:flex-row gap-2">
+          <Link to="/kisah" className="flex-1">
+            <TactileButton variant="secondary" size="md" fullWidth icon={<BookOpen className="size-4" />}>
+              Baca Kisah Tanpa Nyawa
+            </TactileButton>
+          </Link>
+          <Link to="/shop" className="sm:w-auto">
+            <TactileButton variant="primary" size="md" icon={<Sparkles className="size-4" />}>
+              Beli Nyawa (Shop)
+            </TactileButton>
           </Link>
         </div>
       </div>
@@ -59,72 +70,84 @@ export function HomeDock() {
   }
 
   return (
-    <div className="mx-4 mt-4">
+    <div className="mx-4 mt-4 p-5 rounded-[24px] bg-gradient-to-b from-[#111322] to-[#0a0c16] border border-[#20253d] shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
       {lesson && world ? (
-        <div>
-          <p className="text-sm font-medium text-primary">
-            {world.land}
-            {lessonNo > 0 ? ` · Pelajaran ${lessonNo} dari ${scoredLessons.length}` : null}
-          </p>
-          {goalHit ? (
-            <>
-              <h2 className="mt-1 text-xl font-bold leading-[26px]">Pelajaran hari ini selesai</h2>
-              <p className="mt-1 text-base leading-6">{lesson.blurb}</p>
-              <p className="mt-2 text-sm font-medium text-muted">
-                Lanjut {lesson.title} · {mins} menit
-              </p>
-              <p className="mt-0.5 text-sm text-muted">
-                +{lesson.xp} XP · +{lesson.gems} bintang
-              </p>
-              <Link
-                to="/lesson/$lessonId"
-                params={{ lessonId: lesson.id }}
-                className="mt-4 block"
-                data-coach="start"
-                onClick={() => useProgress.getState().completeGuide()}
-              >
-                <DuoButton wide>Lihat pelajaran berikutnya</DuoButton>
-              </Link>
-            </>
-          ) : (
-            <>
-              <h2 className="mt-1 text-xl font-bold leading-[26px]">{lesson.title}</h2>
-              <p className="mt-1 text-base leading-6">{lesson.blurb}</p>
-              <p className="mt-2 text-sm font-medium text-muted flex items-center gap-2">
-                <span>{mins} menit</span>
-                <span>•</span>
-                <span>+{lesson.xp} XP</span>
-                <span>•</span>
-                <span className="font-bold text-[#00f59b]">+1 Tiket Raffle 🎫</span>
-              </p>
-              <Link
-                to="/lesson/$lessonId"
-                params={{ lessonId: lesson.id }}
-                className="mt-4 block"
-                data-coach="start"
-                onClick={() => useProgress.getState().completeGuide()}
-              >
-                <DuoButton wide>{started ? "Lanjutkan pelajaran" : "Mulai pelajaran"}</DuoButton>
-              </Link>
-              {showCaraLink ? (
-                <Link to="/cara" className="mt-1 flex min-h-11 items-center text-sm font-bold text-primary">
-                  Cara main
-                </Link>
-              ) : null}
-            </>
-          )}
-          <div className="mt-4">
-            <RouteChain have={xpToday} need={dailyGoal} label={`${xpToday}/${dailyGoal} XP hari ini`} />
+        <div className="space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <TelemetryBadge label="ZONE" value={world.land} tone="cyan" />
+              {lessonNo > 0 && (
+                <span className="text-[11px] font-mono text-zinc-400">
+                  MODUL {lessonNo}/{scoredLessons.length}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-mono text-[#00f59b] font-bold flex items-center gap-1">
+                <Ticket className="size-3" /> +1 Tiket Raffle
+              </span>
+            </div>
           </div>
+
+          <div>
+            <h2 className="font-display font-black text-xl text-zinc-100 tracking-tight">
+              {goalHit ? "Target Harian Tercapai!" : lesson.title}
+            </h2>
+            <p className="mt-1 text-xs text-zinc-400 font-sans leading-relaxed">
+              {lesson.blurb}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 text-[11px] font-mono text-zinc-400 py-1">
+            <span className="flex items-center gap-1">
+              <Clock className="size-3 text-zinc-500" /> ~{mins} Menit
+            </span>
+            <span>/</span>
+            <span className="text-[#f59e0b] font-bold">+{lesson.xp} XP</span>
+            <span>/</span>
+            <span className="text-[#f59e0b] font-bold">+{lesson.gems} Bintang</span>
+          </div>
+
+          <div className="pt-2">
+            <Link
+              to="/lesson/$lessonId"
+              params={{ lessonId: lesson.id }}
+              className="block"
+              data-coach="start"
+              onClick={() => useProgress.getState().completeGuide()}
+            >
+              <TactileButton
+                variant="primary"
+                size="lg"
+                fullWidth
+                icon={<ArrowRight className="size-4" />}
+              >
+                {started ? "Lanjutkan Pelajaran" : "Mulai Belajar Sekarang"}
+              </TactileButton>
+            </Link>
+          </div>
+
+          <div className="pt-2">
+            <RouteChain have={xpToday} need={dailyGoal} label={`${xpToday}/${dailyGoal} XP Target Harian`} />
+          </div>
+
+          {showCaraLink && (
+            <div className="pt-1 flex justify-end">
+              <Link to="/cara" className="text-xs font-mono text-zinc-500 hover:text-[#00e5ff] transition-colors">
+                Petunjuk Bermain →
+              </Link>
+            </div>
+          )}
         </div>
       ) : (
-        <div>
-          <h2 className="text-xl font-bold leading-[26px]">Semua rute selesai</h2>
-          <p className="mt-1 text-sm leading-5 text-muted">Kamu sudah menuntaskan seluruh perjalanan.</p>
+        <div className="text-center py-4 space-y-2">
+          <TelemetryBadge label="STATUS" value="ALL COMPLETE" tone="mint" />
+          <h2 className="font-display font-black text-xl text-zinc-100">Semua Rute Berhasil Diselesaikan!</h2>
+          <p className="text-xs text-zinc-400 font-sans">
+            Kamu telah menguasai seluruh kurikulum dasar Web3. Ikuti undian bulanan atau perdalam analisis kasus.
+          </p>
         </div>
       )}
-
-      <DailyQuests compact className="px-0 pt-3 desk-hide-when-rail" />
     </div>
   );
 }

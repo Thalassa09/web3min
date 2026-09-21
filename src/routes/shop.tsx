@@ -1,15 +1,18 @@
 import { Storefront } from "@/lib/kicon";
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Ticket, Sparkles, ShieldCheck, Heart, Zap, Check } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Dialog } from "@/components/dialog";
-import { DuoButton } from "@/components/duo-button";
 import { Mascot } from "@/components/mascot";
 import { BlockStamp } from "@/components/motif";
 import { ACCESSORIES, SLOT_LABEL, SLOTS, type Accessory, type AccessorySlot, type Worn } from "@/lib/accessories";
 import { playBuy, playDeny, playEquip, playFreeze, playUnequip } from "@/lib/audio";
 import { FREEZE_COST, HEART_REFILL_COST } from "@/lib/shop";
 import { MAX_HEARTS, UNLIMITED_GEMS, formatGems, useProgress } from "@/lib/store";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { TelemetryBadge } from "@/components/ui/telemetry-badge";
+import { TactileButton } from "@/components/ui/tactile-button";
 
 export const Route = createFileRoute("/shop")({ component: ShopPage });
 
@@ -56,7 +59,7 @@ function ShopPage() {
     if (buyOutfit(acc.id)) {
       playBuy();
       setConfirm(null);
-                  flash("Item berhasil dibeli.");
+      flash(`Item "${acc.name}" berhasil dibeli!`);
     } else {
       playDeny();
     }
@@ -64,235 +67,327 @@ function ShopPage() {
 
   return (
     <AppShell>
-      <main className="px-4 py-5 lg:grid lg:grid-cols-[260px_1fr] lg:items-start lg:gap-8 lg:px-6">
-        <div className="flex flex-col items-center text-center lg:sticky lg:top-16">
-          <p className="flex items-center gap-1.5 text-sm font-medium text-primary">
-            <Storefront className="size-3.5" weight="fill" />
-            Toko
-          </p>
-          <div className="mt-2">
-            <Mascot mood="wave" size={180} worn={previewWorn} />
-          </div>
-          <h1 className="mt-1 text-[28px] font-extrabold leading-[34px]">Gaya web3min</h1>
-          <p className="mt-1 flex items-center justify-center gap-1.5 text-base font-medium text-muted">
-            <BlockStamp size={16} />
-            {formatGems(gems)} bintang · {freeze} pelindung streak
-          </p>
-          <p className="mt-2 text-sm leading-5 text-muted">
-            Dapatkan bintang dengan menyelesaikan pelajaran, misi harian, dan kisah.
-          </p>
-        </div>
-
-        <div>
-
-        {note ? (
-          <p className="mt-3 rounded-2xl bg-primary-soft px-3 py-2 text-center text-sm font-medium text-primary-deep" role="status" aria-live="polite">
+      <main className="px-4 py-6 max-w-6xl mx-auto space-y-8">
+        {/* Flash Message Banner */}
+        {note && (
+          <div className="p-3.5 rounded-[16px] bg-[#00f59b]/10 border border-[#00f59b]/30 text-[#00f59b] font-mono text-xs font-bold text-center animate-fade-in shadow-[0_0_20px_rgba(0,245,155,0.15)]">
             {note}
-          </p>
-        ) : null}
+          </div>
+        )}
 
-        <h2 className="mt-6 text-sm font-extrabold">Perlengkapan</h2>
-        <ul className="mt-2 flex flex-col gap-2">
-          <li className="surface flex items-start gap-3 p-4 border-[#00f59b]/30">
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-[#00f59b]">Tiket Undian Web3 (Raffle)</h3>
-                <span className="rounded-xs bg-[#00f59b]/10 border border-[#00f59b]/30 px-1.5 py-0.5 font-mono text-[10px] font-black uppercase text-[#00f59b]">
-                  HOT
+        {/* Asymmetric Header Split (65/35 DKV Architecture) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Blobi Fitting Holo-Chamber (Left: 5 Cols) */}
+          <div className="lg:col-span-5 p-6 rounded-[24px] bg-gradient-to-b from-[#111322] to-[#0a0c16] border border-[#222842] shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col items-center text-center relative overflow-hidden">
+            {/* Background Optical Grid */}
+            <div className="absolute inset-0 bg-[radial-gradient(#20263f_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
+
+            <div className="w-full flex items-center justify-between mb-2 z-10">
+              <TelemetryBadge label="FITTING ROOM" value="LIVE" tone="cyan" pulsing />
+              <span className="font-mono text-[10px] text-zinc-500">BLOBI SYNC</span>
+            </div>
+
+            <div className="relative py-4 z-10">
+              <div className="relative flex items-center justify-center p-4 rounded-full bg-[#161a30]/50 border border-white/5 shadow-[inset_0_0_24px_rgba(0,229,255,0.15)]">
+                <Mascot mood="wave" size={170} worn={previewWorn} />
+              </div>
+            </div>
+
+            <h1 className="z-10 font-display font-black text-2xl text-zinc-100 tracking-tight mt-2">
+              Kamar Ganti Blobi
+            </h1>
+            <p className="z-10 text-xs text-zinc-400 font-sans mt-1">
+              Personalisasi maskot Blobi menggunakan bintang yang kamu peroleh dari menyelesaikan modul Web3.
+            </p>
+
+            <div className="z-10 mt-5 w-full grid grid-cols-2 gap-2 pt-4 border-t border-[#1a1f33]">
+              <div className="p-2.5 rounded-[12px] bg-[#070810] border border-[#1b1f33] text-left">
+                <span className="text-[10px] font-mono text-zinc-500 uppercase block">SALDO BINTANG</span>
+                <span className="text-sm font-mono font-bold text-[#f59e0b] flex items-center gap-1.5 mt-0.5">
+                  <BlockStamp size={14} />
+                  {formatGems(gems)}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-muted">
-                Gunakan untuk mengikuti undian berhadiah USDT, Whitelist GTD, dan Hardware Wallet di Hub Raffle.
-              </p>
-              <p className="mt-1 flex items-center gap-1 text-sm font-extrabold text-gold">
-                <BlockStamp size={14} /> 10 bintang / tiket
-              </p>
-              <p className="mt-1 font-mono text-xs text-[#00f59b]">
-                Tiket saat ini: {raffleTickets} Tiket
-              </p>
-              {!UNLIMITED_GEMS && gems < 10 ? (
-                <p className="mt-1 text-sm font-bold text-blob">Kurang {10 - gems} bintang</p>
-              ) : null}
+              <div className="p-2.5 rounded-[12px] bg-[#070810] border border-[#1b1f33] text-left">
+                <span className="text-[10px] font-mono text-zinc-500 uppercase block">PELINDUNG STREAK</span>
+                <span className="text-sm font-mono font-bold text-[#00e5ff] flex items-center gap-1.5 mt-0.5">
+                  <Zap className="size-3.5" />
+                  {freeze} AKTIF
+                </span>
+              </div>
             </div>
-            <DuoButton
-              size="sm"
-              disabled={!UNLIMITED_GEMS && gems < 10}
-              onClick={() => {
-                if (buyRaffleTicketsWithGems(1)) {
-                  playBuy();
-                  flash("1 Tiket Undian berhasil dibeli! Cek di menu Raffle.");
-                } else playDeny();
-              }}
-            >
-              Beli Tiket
-            </DuoButton>
-          </li>
-          <li className="surface flex items-start gap-3 p-4">
-            <div className="min-w-0 flex-1">
-              <h3 className="font-extrabold">Pulihkan nyawa</h3>
-              <p className="mt-1 text-sm font-bold text-muted">Nyawamu langsung kembali penuh.</p>
-              <p className="mt-1 flex items-center gap-1 text-sm font-extrabold text-gold">
-                <BlockStamp size={14} /> {HEART_REFILL_COST} bintang
-              </p>
-              {heartsFull ? <p className="mt-1 text-sm font-bold text-muted">Nyawa sudah penuh</p> : null}
-              {!heartsFull && !UNLIMITED_GEMS && gems < HEART_REFILL_COST ? (
-                <p className="mt-1 text-sm font-bold text-blob">Kurang {heartShort} bintang</p>
-              ) : null}
-            </div>
-            <DuoButton
-              size="sm"
-              disabled={heartsFull || (!UNLIMITED_GEMS && gems < HEART_REFILL_COST)}
-              onClick={() => {
-                if (refillHearts()) {
-                  playBuy();
-                  flash("Nyawa sudah dipulihkan.");
-                } else playDeny();
-              }}
-            >
-              Pulihkan
-            </DuoButton>
-          </li>
-          <li className="surface flex items-start gap-3 p-4">
-            <div className="min-w-0 flex-1">
-              <h3 className="font-extrabold">Pelindung streak</h3>
-              <p className="mt-1 text-sm text-muted">Lindungi streak ketika kamu melewatkan satu hari. Dipakai otomatis.</p>
-              <p className="mt-1 flex items-center gap-1 text-sm font-extrabold text-gold">
-                <BlockStamp size={14} /> {FREEZE_COST} bintang
-              </p>
-              {!UNLIMITED_GEMS && gems < FREEZE_COST ? <p className="mt-1 text-sm font-bold text-blob">Kurang {freezeShort} bintang</p> : null}
-            </div>
-            <DuoButton
-              size="sm"
-              disabled={!UNLIMITED_GEMS && gems < FREEZE_COST}
-              onClick={() => {
-                if (buyFreeze()) {
-                  playFreeze();
-                  flash("Pelindung streak ditambah.");
-                } else playDeny();
-              }}
-            >
-              Beli
-            </DuoButton>
-          </li>
-        </ul>
+          </div>
 
-        <h2 className="mt-6 text-sm font-extrabold">Aksesori</h2>
-        <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-          <SlotChip active={slot === "all"} onClick={() => setSlot("all")}>
-            Semua
-          </SlotChip>
-          {SLOTS.map((s) => (
-            <SlotChip key={s} active={slot === s} onClick={() => setSlot(s)}>
-              {SLOT_LABEL[s]}
-            </SlotChip>
-          ))}
+          {/* Sovereign Vault & Consumables (Right: 7 Cols) */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="font-display font-black text-xl text-zinc-100">Pasar On-Chain</h2>
+                <p className="text-xs text-zinc-400 font-sans">Katalog tiket undian, perlindungan, dan pemulihan.</p>
+              </div>
+              <TelemetryBadge label="STOCKS" value="UNLIMITED" tone="mint" />
+            </div>
+
+            {/* Consumable 1: Web3 Raffle Tickets */}
+            <SpotlightCard glowColor="rgba(0, 245, 155, 0.25)" className="w-full">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-display font-bold text-base text-[#00f59b]">
+                      Tiket Undian Web3 (Raffle)
+                    </h3>
+                    <TelemetryBadge label="HOT" tone="mint" />
+                  </div>
+                  <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+                    Gunakan tiket untuk bertaruh di Hub Undian berhadiah USDT, Whitelist NFT, dan Hardware Wallet.
+                  </p>
+                  <div className="flex items-center gap-4 pt-2">
+                    <span className="font-mono text-xs text-[#f59e0b] font-bold flex items-center gap-1">
+                      <BlockStamp size={13} /> 10 Bintang / Tiket
+                    </span>
+                    <span className="font-mono text-xs text-zinc-500">
+                      Saldo Anda: <strong className="text-[#00f59b]">{raffleTickets} Tiket</strong>
+                    </span>
+                  </div>
+                </div>
+
+                <TactileButton
+                  variant="primary"
+                  size="sm"
+                  disabled={!UNLIMITED_GEMS && gems < 10}
+                  onClick={() => {
+                    if (buyRaffleTicketsWithGems(1)) {
+                      playBuy();
+                      flash("1 Tiket Undian berhasil dibeli! Cek di menu Raffle.");
+                    } else playDeny();
+                  }}
+                >
+                  Beli Tiket
+                </TactileButton>
+              </div>
+            </SpotlightCard>
+
+            {/* Consumable 2: Heart Refill */}
+            <SpotlightCard glowColor="rgba(255, 67, 101, 0.2)" className="w-full">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-display font-bold text-base text-zinc-100">
+                      Pemulihan Nyawa Penuh
+                    </h3>
+                    <TelemetryBadge label="RESTORE" tone="rose" />
+                  </div>
+                  <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+                    Kembalikan seluruh nyawa Blobi menjadi 5 seketika agar bisa lanjut menuntaskan rute belajar.
+                  </p>
+                  <div className="flex items-center gap-4 pt-2">
+                    <span className="font-mono text-xs text-[#f59e0b] font-bold flex items-center gap-1">
+                      <BlockStamp size={13} /> {HEART_REFILL_COST} Bintang
+                    </span>
+                    <span className="font-mono text-xs text-zinc-500">
+                      Status: {heartsFull ? "Nyawa Penuh" : `${hearts}/${MAX_HEARTS} Nyawa`}
+                    </span>
+                  </div>
+                </div>
+
+                <TactileButton
+                  variant="secondary"
+                  size="sm"
+                  disabled={heartsFull || (!UNLIMITED_GEMS && gems < HEART_REFILL_COST)}
+                  onClick={() => {
+                    if (refillHearts()) {
+                      playBuy();
+                      flash("Nyawa berhasil dipulihkan menjadi penuh!");
+                    } else playDeny();
+                  }}
+                >
+                  {heartsFull ? "Penuh" : "Pulihkan"}
+                </TactileButton>
+              </div>
+            </SpotlightCard>
+
+            {/* Consumable 3: Streak Freeze */}
+            <SpotlightCard glowColor="rgba(0, 229, 255, 0.2)" className="w-full">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-display font-bold text-base text-zinc-100">
+                      Pelindung Streak (Freeze)
+                    </h3>
+                    <TelemetryBadge label="PROTECT" tone="cyan" />
+                  </div>
+                  <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+                    Amankan rekormu jika suatu hari kamu berhalangan belajar. Berlaku otomatis saat kamu skip 1 hari.
+                  </p>
+                  <div className="flex items-center gap-4 pt-2">
+                    <span className="font-mono text-xs text-[#f59e0b] font-bold flex items-center gap-1">
+                      <BlockStamp size={13} /> {FREEZE_COST} Bintang
+                    </span>
+                    <span className="font-mono text-xs text-zinc-500">
+                      Aktif saat ini: <strong className="text-[#00e5ff]">{freeze} Slot</strong>
+                    </span>
+                  </div>
+                </div>
+
+                <TactileButton
+                  variant="secondary"
+                  size="sm"
+                  disabled={freeze >= 2 || (!UNLIMITED_GEMS && gems < FREEZE_COST)}
+                  onClick={() => {
+                    if (buyFreeze()) {
+                      playFreeze();
+                      flash("Pelindung streak aktif ditambahkan!");
+                    } else playDeny();
+                  }}
+                >
+                  {freeze >= 2 ? "Maksimal" : "Pasang"}
+                </TactileButton>
+              </div>
+            </SpotlightCard>
+          </div>
         </div>
 
-        <ul className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {shown.map((acc) => {
-            const owned = outfits.includes(acc.id);
-            const on = worn[acc.slot] === acc.id;
-            const short = acc.cost - gems;
-            return (
-              <li
-                key={acc.id}
-                className="surface flex flex-col overflow-hidden p-3 [content-visibility:auto] [contain-intrinsic-size:240px]"
-                onMouseEnter={() => setPreview(acc.id)}
-                onMouseLeave={() => setPreview(null)}
+        {/* Accessory Catalog & Slot Filter */}
+        <section className="space-y-6 pt-4 border-t border-[#181d2e]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="font-display font-black text-xl text-zinc-100">Kostum & Aksesori Blobi</h2>
+              <p className="text-xs text-zinc-400 font-sans">Koleksi kosmetik eksklusif penanda progres belajar.</p>
+            </div>
+
+            {/* Slot Filter Pill Matrix */}
+            <div className="flex items-center gap-1.5 p-1 rounded-[14px] bg-[#0a0c16] border border-[#1b1f33] overflow-x-auto max-w-full">
+              <button
+                type="button"
+                onClick={() => setSlot("all")}
+                className={`px-3 py-1 rounded-[10px] text-xs font-mono font-bold uppercase transition-all ${
+                  slot === "all"
+                    ? "bg-[#161a2c] text-[#00f59b] border border-[#2b3353]"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
               >
-                <button type="button" className="flex justify-center" onClick={() => setPreview(acc.id)} aria-label={`Preview ${acc.name}`}>
-                  <Mascot mood="idle" size={88} lite worn={{ [acc.slot]: acc.id }} />
+                Semua ({ACCESSORIES.length})
+              </button>
+              {SLOTS.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setSlot(s)}
+                  className={`px-3 py-1 rounded-[10px] text-xs font-mono font-bold uppercase transition-all ${
+                    slot === s
+                      ? "bg-[#161a2c] text-[#00f59b] border border-[#2b3353]"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  }`}
+                >
+                  {SLOT_LABEL[s]}
                 </button>
-                <p className="mt-1 text-xs font-bold text-muted">{SLOT_LABEL[acc.slot]}</p>
-                <h3 className="font-extrabold leading-tight">{acc.name}</h3>
-                {owned ? (
-                  <p className="mt-1 text-xs font-bold text-primary">{on ? "Sedang dipakai" : "Punya"}</p>
-                ) : (
-                  <p className="mt-1 flex items-center gap-1 text-xs font-extrabold text-gold">
-                    <BlockStamp size={12} /> {acc.cost} bintang
-                  </p>
-                )}
-                <div className="mt-2">
-                  {owned ? (
-                    <DuoButton
-                      size="sm"
-                      wide
-                      variant={on ? "ghost" : "white"}
-                      onClick={() => {
-                        equipOutfit(acc.id);
-                        if (on) playUnequip();
-                        else playEquip();
-                      }}
-                    >
-                      {on ? "Lepas" : "Pakai sekarang"}
-                    </DuoButton>
-                  ) : !UNLIMITED_GEMS && gems < acc.cost ? (
-                    <div className="mt-auto">
-                      <DuoButton size="sm" wide disabled>
-                        Kurang {short} bintang
-                      </DuoButton>
-                      <Link to="/" className="mt-1 block truncate text-center text-sm font-bold text-primary">
-                        Dapatkan bintang
-                      </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Accessory Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {shown.map((acc) => {
+              const owned = outfits.includes(acc.id);
+              const on = worn[acc.slot] === acc.id;
+              const short = acc.cost - gems;
+
+              return (
+                <div
+                  key={acc.id}
+                  className={`relative rounded-[20px] p-4 bg-[#090b14] border transition-all duration-200 flex flex-col justify-between ${
+                    on
+                      ? "border-[#00f59b]/50 shadow-[0_0_20px_rgba(0,245,155,0.12)]"
+                      : "border-[#191d2f] hover:border-[#2b314d]"
+                  }`}
+                  onMouseEnter={() => setPreview(acc.id)}
+                  onMouseLeave={() => setPreview(null)}
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <div className="p-2 rounded-full bg-[#121526]/60 border border-white/5 mb-2">
+                      <Mascot mood="idle" size={76} lite worn={{ [acc.slot]: acc.id }} />
                     </div>
-                  ) : (
-                    <DuoButton size="sm" wide onClick={() => setConfirm(acc)}>
-                      Beli item
-                    </DuoButton>
-                  )}
+
+                    <span className="text-[10px] font-mono text-zinc-500 uppercase">
+                      {SLOT_LABEL[acc.slot]}
+                    </span>
+                    <h3 className="font-display font-bold text-sm text-zinc-100 mt-0.5 truncate max-w-full">
+                      {acc.name}
+                    </h3>
+
+                    <div className="mt-2">
+                      {owned ? (
+                        <TelemetryBadge
+                          label={on ? "TERPASANG" : "TERSEDIA"}
+                          tone={on ? "mint" : "zinc"}
+                        />
+                      ) : (
+                        <span className="font-mono text-xs text-[#f59e0b] font-bold flex items-center gap-1">
+                          <BlockStamp size={12} />
+                          {acc.cost} Bintang
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-[#161928]">
+                    {owned ? (
+                      <TactileButton
+                        variant={on ? "ghost" : "secondary"}
+                        size="sm"
+                        fullWidth
+                        onClick={() => {
+                          equipOutfit(acc.id);
+                          if (on) playUnequip();
+                          else playEquip();
+                        }}
+                      >
+                        {on ? "Lepas" : "Pasang"}
+                      </TactileButton>
+                    ) : !UNLIMITED_GEMS && gems < acc.cost ? (
+                      <TactileButton variant="ghost" size="sm" fullWidth disabled>
+                        Kurang {short} ★
+                      </TactileButton>
+                    ) : (
+                      <TactileButton
+                        variant="primary"
+                        size="sm"
+                        fullWidth
+                        onClick={() => setConfirm(acc)}
+                      >
+                        Beli Item
+                      </TactileButton>
+                    )}
+                  </div>
                 </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+              );
+            })}
+          </div>
+        </section>
       </main>
 
+      {/* Confirmation Dialog */}
       <Dialog
         open={Boolean(confirm)}
         title={confirm ? `Beli ${confirm.name}?` : "Beli item"}
         description={
           confirm
             ? UNLIMITED_GEMS
-              ? `Harga ${confirm.cost} bintang. Saldo unlimited, tidak terpotong.`
+              ? `Harga ${confirm.cost} bintang. Saldo unlimited.`
               : `Harga ${confirm.cost} bintang. Saldo setelah membeli: ${gems - confirm.cost} bintang.`
             : undefined
         }
         onClose={() => setConfirm(null)}
       >
         <div className="mt-4 flex gap-2">
-          <DuoButton variant="ghost" className="flex-1" onClick={() => setConfirm(null)}>
+          <TactileButton variant="ghost" className="flex-1" onClick={() => setConfirm(null)}>
             Batal
-          </DuoButton>
-          <DuoButton className="flex-1" onClick={() => confirm && purchase(confirm)}>
-            Beli
-          </DuoButton>
+          </TactileButton>
+          <TactileButton variant="primary" className="flex-1" onClick={() => confirm && purchase(confirm)}>
+            Konfirmasi Beli
+          </TactileButton>
         </div>
       </Dialog>
     </AppShell>
-  );
-}
-
-function SlotChip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={
-        active
-          ? "min-h-11 shrink-0 rounded-full bg-primary px-4 text-sm font-extrabold text-primary-ink"
-          : "min-h-11 shrink-0 rounded-full bg-paper px-4 text-sm font-bold text-muted"
-      }
-    >
-      {children}
-    </button>
   );
 }

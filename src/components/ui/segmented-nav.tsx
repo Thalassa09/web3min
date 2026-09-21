@@ -15,7 +15,8 @@ interface SegmentedNavProps {
 }
 
 /**
- * Clean Segmented Nav controller
+ * Sunny World Segmented Navigation
+ * Clean tactile pill switch on sky-100 base with crisp white active card.
  */
 export function SegmentedNav({
   items,
@@ -25,7 +26,7 @@ export function SegmentedNav({
 }: SegmentedNavProps) {
   return (
     <div
-      className={`inline-flex items-center p-1 rounded-[14px] bg-[#0c1017] border border-[#1c2333] shadow-inner ${className}`}
+      className={`inline-flex items-center p-1.5 rounded-[16px] bg-[#E4F0FF] border-2 border-[#B9CFE9] shadow-inner ${className}`}
     >
       {items.map((item) => {
         const isActive = item.id === activeId;
@@ -35,13 +36,13 @@ export function SegmentedNav({
             type="button"
             onClick={() => onChange(item.id)}
             className={`
-              relative flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-[10px] text-xs font-sans font-semibold select-none
+              relative flex items-center justify-center gap-2 px-4 py-2 rounded-[12px] text-xs font-sans font-extrabold select-none cursor-pointer
               transition-all duration-150 ease-out
-              active:scale-[0.98]
+              active:translate-y-[1px]
               ${
                 isActive
-                  ? "bg-[#182030] text-[#f1f4fa] border border-[#26334d] shadow-sm"
-                  : "text-[#8e9ab2] hover:text-[#f1f4fa] hover:bg-white/[0.03]"
+                  ? "bg-[#FFFFFF] text-[#0B4FD1] border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA]"
+                  : "text-[#5A7796] hover:text-[#0D2340] hover:bg-white/50 border-2 border-transparent"
               }
             `}
           >
@@ -49,10 +50,10 @@ export function SegmentedNav({
             <span>{item.label}</span>
             {item.badge !== undefined && (
               <span
-                className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full font-semibold ${
+                className={`text-[10px] font-sans px-2 py-0.5 rounded-full font-extrabold ${
                   isActive
-                    ? "bg-[#00f59b]/20 text-[#00f59b]"
-                    : "bg-[#182030] text-[#8e9ab2]"
+                    ? "bg-[#FFC61A] text-[#0D2340]"
+                    : "bg-[#DCE7F5] text-[#1E3A5F]"
                 }`}
               >
                 {item.badge}

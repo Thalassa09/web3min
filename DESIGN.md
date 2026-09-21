@@ -1,87 +1,110 @@
-# web3min — Design system
+# DESIGN.md — web3min "Sunny World" Design System
 
-Source of truth for UI. Do not prompt “make it look premium.” Build from these rules and the visual references below.
+Untuk: Google Stitch / implementasi Tailwind v4
+Tema: game konsol ceria, siang hari. Maskot: Blobi, ikan blob web3min.
+Aturan mutlak: tanpa aset, siluet, warna ikonik, atau nama dari IP pihak ketiga.
 
-## References (real, not generated)
+## 1. Design Tokens — Warna
 
-- Duolingo product chrome — chunky 4px lip, rounded everything, one loud primary, HUD capsules. [open-design Duolingo DESIGN.md](https://github.com/nexu-io/open-design/blob/main/design-systems/duolingo/DESIGN.md)
-- Landdding 2026 — type does the work; no Inter-for-everything; one saturated accent. Not dark-SaaS (that is the wrong category).
-- Motion-in-design / Duo motion — press 180ms, unlock 320ms, node pulse 1.6s, back-out overshoot only on rewards.
-- Logo lockup — mascot face + wordmark, like Duo owl + name. Not a gem/diamond mark.
-
-This is a **toy that teaches**, not a SaaS landing. Palette stays rose-peach for the blobfish. Worlds get their own 4-color skins. App chrome does not.
-
-## Color (chrome)
-
-| Token | Hex | Role |
+### Latar & permukaan
+| Token | Hex | Pakai untuk |
 |---|---|---|
-| bg | `#fff7f9` | page |
-| paper | `#ffe4eb` | cards |
-| fg | `#3b1f2a` | ink |
-| muted | `#9a5b6c` | secondary text |
-| line | `#f4cdd6` | hairline-never; always 2px |
-| primary | `#f25d7a` | brand, CTA, active nav |
-| primary-shadow | `#c4455e` | 4px lip |
-| streak | `#ff7a4d` | fire |
-| gold | `#e09a18` | bintang |
-| danger | `#e23d4a` | nyawa / salah |
+| `--sky-700` | `#0B4FD1` | gradien bawah latar, header dalam |
+| `--sky-600` | `#0B63F6` | latar aplikasi utama |
+| `--sky-500` | `#1F7BFF` | panel biru, header profil |
+| `--sky-300` | `#8FC2FF` | awan, dekorasi |
+| `--sky-100` | `#E4F0FF` | wash di belakang kartu, baris zebra |
+| `--paper` | `#FFFFFF` | kartu utama |
+| `--cream` | `#FFF7E4` | kartu baca, panel biografi/info |
+| `--sand` | `#FFEFC7` | highlight lembut, tooltip |
 
-World skins override `--world-*` only inside a unit section or quiz shell. Never mix a world hue into the sticky HUD.
+### Teks (ink)
+| Token | Hex |
+|---|---|
+| `--ink-900` | `#0D2340` |
+| `--ink-700` | `#1E3A5F` |
+| `--ink-500` | `#5A7796` (muted) |
+| `--ink-300` | `#9DB4CE` (faint) |
+| `--on-blue` | `#FFFFFF` |
 
-## Type
+### Aksen fungsional
+| Token | Hex | Shadow/deep | Arti |
+|---|---|---|---|
+| `--coin` | `#FFC61A` | `#D99400` | CTA utama, hadiah, bintang, XP |
+| `--flame` | `#FF7A18` | `#C85200` | streak |
+| `--ruby` | `#E63329` | `#B01E18` | bahaya, nyawa, jawaban salah |
+| `--leaf` | `#34C06A` | `#1E8A49` | benar, selesai, aman |
+| `--grape` | `#8B5CF6` | `#6A3FD1` | langka, premium, lencana |
+| `--blobi` | `#FF4D88` | `#D82B68` | khusus maskot & jejak peta |
 
-- Family: **Nunito 800** (DIN Round stand-in). No Inter. No second family.
-- Buttons: 14–16px, uppercase, tracking `0.08em`
-- Display: 28–32px black, tracking tight, line 1.1
-- Body: 15–16px extra-bold, line 1.45
-- Labels: 11–12px extra-bold, uppercase
+### Garis
+`--line: #DCE7F5` · `--line-strong: #B9CFE9` · `--line-ink: #0D2340` (border tebal kartu)
 
-## Shape
+### 20 skin world (versi siang, hue dipertahankan)
+Setiap rute memakai empat variabel: `--world-banner` (pita/papan nama), `--world-node`
+(tombol node), `--world-trail` (garis jalur), `--world-mark` (ornamen), `--world-ink`
+(teks di atas banner).
 
-- Nothing pointy. Buttons 16px, cards 24–28px, nodes full circle, HUD pills full.
-- Every pressable surface has a **4px solid lip** in a darker shade of its own fill.
-- Press: `translateY(4px)` + lip collapses, **180ms**, `cubic-bezier(0.2, 0, 0, 1)`.
-- Unlock / pop: `cubic-bezier(0.34, 1.56, 0.64, 1)` (back-out). Never on chrome.
+| Rute | Nama | banner | node | trail | mark | ink |
+|---|---|---|---|---|---|---|
+| u1 | Hutan | `#3FBE7A` | `#59D68F` | `#2A9E62` | `#FFC8D4` | `#0D2340` |
+| u2 | Gua kunci | `#8B6FC4` | `#A187D8` | `#FFC61A` | `#FFE08A` | `#FFFFFF` |
+| u3 | Tambang koin | `#F0A52C` | `#FFBB44` | `#D9861A` | `#FFE9A8` | `#0D2340` |
+| u4 | Taman NFT | `#A87FD6` | `#BE99E8` | `#E7C8FF` | `#FFD7F2` | `#0D2340` |
+| u5 | Pasar DeFi | `#2FB8A6` | `#4CD0BE` | `#7FC9E0` | `#CFF3EA` | `#0D2340` |
+| u6 | Lorong waspada | `#D4556F` | `#E86F88` | `#FF9A5C` | `#FFCDA8` | `#FFFFFF` |
+| u7 | Kawah cuan | `#E2574C` | `#F26D62` | `#FF7A5C` | `#FFC98A` | `#FFFFFF` |
+| u8 | Pelabuhan | `#3E9AC4` | `#5BB2D8` | `#8CCDE6` | `#DCF2FB` | `#FFFFFF` |
+| u9 | Karnaval meme | `#F2667F` | `#FF7F95` | `#FFA34D` | `#FFE08A` | `#FFFFFF` |
+| u10 | Hutan baca | `#A3743F` | `#BC8C52` | `#D9BE8C` | `#F6E3BC` | `#FFFFFF` |
+| u11 | Kota | `#D8635A` | `#EC7B70` | `#F2846F` | `#FFD3B8` | `#FFFFFF` |
+| u12 | Rawa APY | `#5FA352` | `#77B96A` | `#8FD17E` | `#DCEFA8` | `#FFFFFF` |
+| u13 | Puncak dingin | `#5FA8CC` | `#7BC0E0` | `#D8F0FA` | `#FFFFFF` | `#0D2340` |
+| u14 | Jembatan L2 | `#8670DC` | `#9F8BEC` | `#D5C9FF` | `#FFE08A` | `#FFFFFF` |
+| u15 | Langit airdrop | `#5BA4E8` | `#78B9F2` | `#FFC61A` | `#FFE08A` | `#FFFFFF` |
+| u16 | Benteng stable | `#6B8296` | `#849AAD` | `#A9BECD` | `#E2EDF4` | `#FFFFFF` |
+| u17 | Galeri malam | `#6A4C9C` | `#8264B8` | `#D46AE8` | `#F5B8FF` | `#FFFFFF` |
+| u18 | Kastil | `#D4728A` | `#E88AA0` | `#F7A8BA` | `#FFE2E9` | `#FFFFFF` |
+| u19 | Observatorium | `#4A4590` | `#605BA8` | `#FFC61A` | `#FFE9B0` | `#FFFFFF` |
+| u20 | Taman waras | `#E29A3E` | `#F0AC54` | `#46BC9A` | `#A8DDA0` | `#0D2340` |
 
-## Motion budget
+## 2. Tipografi
+- Display: **Fredoka** 600/700 (Google Fonts). Huruf tebal membulat, tracking -0.02em.
+- Teks: **Plus Jakarta Sans** 500/700/800.
+- Mono: **JetBrains Mono** 500 untuk alamat wallet, hash, angka teknis.
 
-| Event | Duration | Notes |
-|---|---|---|
-| Button press | 180ms | interruptible transition |
-| Quiz option enter | 320ms, 70ms stagger | no blur |
-| Skill node pulse | 1.6s | scale 1 → 1.05 |
-| Mascot float | 2.2s | idle only |
-| Wrong shake | 280ms | X axis 6px |
-| Confetti | 900ms | complete only |
+| Style | Ukuran/Leading | Bobot | Catatan |
+|---|---|---|---|
+| Display XL | 34/40 | Fredoka 700 | judul hasil & splash |
+| Display L | 28/34 | Fredoka 700 | judul layar |
+| H1 | 24/30 | Fredoka 600 | judul kartu besar |
+| H2 | 20/26 | Jakarta 800 | judul seksi |
+| H3 | 17/22 | Jakarta 700 | judul kartu |
+| Body | 15/24 | Jakarta 500 | teks umum |
+| Read | 16/26 | Jakarta 500 | badan pelajaran & kisah |
+| Small | 13/18 | Jakarta 600 | meta |
+| Label | 11/14, tracking 0.08em, UPPERCASE | Jakarta 800 | pita, kategori |
+| Numeric | tabular-nums | Jakarta 800 | HUD, skor |
 
-`prefers-reduced-motion`: kill loops, keep press.
+## 3. Bentuk, Elevasi, Grid
+- Radius: `sm 10` · `md 14` · `lg 20` · `xl 26` · `2xl 32` · `pill 999`.
+- Border kartu: 2px `--line-strong` (`#B9CFE9`); kartu penting 3px `--ink-900` opsional.
+- Elevasi tactile:
+  - `press-1`: `0 3px 0 <deep>`
+  - `press-2`: `0 5px 0 <deep>, 0 12px 20px -10px rgba(9,48,102,.3)`
+  - `card`: `0 6px 0 #C8DBF0, 0 18px 34px -18px rgba(9,48,102,.35)`
+  - Gloss atas: `inset 0 3px 0 rgba(255,255,255,.55)`
+- Spasi: kelipatan 4. Padding kartu 20 (mobile) / 24 (desktop). Gap seksi 16/24.
+- Grid: mobile 1 kolom, padding 16. Desktop `248px sidebar | max 768px konten | 320px rail`.
 
-## Components
-
-- **Wordmark:** idle mascot 32px + `web3min` primary, never icon-font logo.
-- **HUD:** streak / bintang / nyawa in bordered capsules, not naked icons.
-- **Bottom nav:** 5 tabs, active = soft primary pill + filled icon. Inactive faint outline. Mobile only.
-- **Side nav (desktop ≥1024):** left rail, same 5 items, brand on top. Bottom nav hides.
-- **Desk rail (≥1280):** misi harian + liga + airdrop clips (modal gas, token nyangkut). Path stays the main column. At 1024–1279 the same clips sit above the path.
-- **Quiz keys:** A–D (or Benar/Salah icon) in world color when selected.
-- **Check CTA:** world skin, not generic sky blue.
-- **Currency:** bintang (star / gold). Never diamond / gem.
-
-## Fusion: Duolingo path × Pokémon overworld
-
-Taste Skill read: playful education game for Indonesian learners. Variance 8 / motion 6 / density 4.
-
-Keep Duo chrome (hearts, streak, bintang, path nodes, 180ms press). Overlay Pokémon *feel* without Pokémon IP:
-
-- Units are **rute**. Checkpoints are **laga**. Chests are **item**.
-- WorldGate is **Pusat web3min** (rest stop between routes).
-- Each rute has a **tipe** (Rumput, Gelap, Api…) shown as a kind chip, not a designer swatch.
-- Quiz foe uses an **HP bar** (soal). Player HP stays Duo hearts.
-- Profile has a **lencana rute** case (20 stamps). Locked = grayscale.
-- web3min is the professor. Copy stays Indonesian, short, no em-dash.
-- **Desktop:** Duo three-column (nav · path · misi). Quiz widens, path snakes more. Mobile stays phone-first.
-
-Do not use Pokédex, Poké Ball, Pikachu, or official type names as trademarks. Inspired, not cloned.
-
-
-No glassmorphism, no gradient blobs, no Inter, no emoji-as-icon, no “premium dark AI” look, no blur-on-enter, no hairline 1px borders.
+## 4. Motion
+| Nama | Durasi | Easing | Pakai |
+|---|---|---|---|
+| pop | 200ms | `cubic-bezier(.34,1.56,.64,1)` | modal, chip, node |
+| press | 120ms | `cubic-bezier(.2,0,0,1)` | tombol ditekan |
+| float | 2.8s loop | ease-in-out | Blobi idle, ±6px |
+| wiggle | 1.6s loop | ease-in-out | Blobi wave, ±3° |
+| shake | 280ms | ease-in-out | jawaban salah, ±6px |
+| coin-pop | 600ms | pop | perolehan bintang/tiket |
+| confetti | 1.2s | linear | layar hasil |
+Semua loop berhenti pada `prefers-reduced-motion: reduce`.

@@ -2,14 +2,14 @@ import React from "react";
 
 interface SurfaceCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  variant?: "default" | "elevated" | "recessed" | "interactive";
+  variant?: "default" | "cream" | "sky" | "flat" | "interactive";
   className?: string;
 }
 
 /**
- * Clean architectural Surface Card
- * Built on the nested squircle rule and subtle border contrast.
- * No cheesy neon glow washes or fake terminal slashes.
+ * Sunny World Surface Card
+ * Bright, clean, rounded card living on the sky blue background.
+ * Follows DESIGN.md: 2px border #B9CFE9 and 6px solid tactile shadow #C8DBF0.
  */
 export function SurfaceCard({
   children,
@@ -17,18 +17,19 @@ export function SurfaceCard({
   className = "",
   ...props
 }: SurfaceCardProps) {
-  const variantStyles = {
-    default: "bg-[#0e121a] border-[#1c2333] text-[#f1f4fa]",
-    elevated: "bg-[#131823] border-[#222b3d] shadow-lg shadow-black/40 text-[#f1f4fa]",
-    recessed: "bg-[#090b10] border-[#181d29] text-[#f1f4fa]",
-    interactive: "bg-[#0e121a] border-[#1c2333] hover:border-[#2b354c] hover:bg-[#121620] cursor-pointer transition-all duration-200 text-[#f1f4fa]",
+  const variantStyles: Record<string, string> = {
+    default: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)] text-[#0D2340]",
+    cream: "bg-[#FFF7E4] border-2 border-[#EADBBD] shadow-[0_6px_0_#D8C7A0,0_18px_34px_-18px_rgba(9,48,102,0.25)] text-[#0D2340]",
+    sky: "bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_6px_0_#C2DBFA,0_18px_34px_-18px_rgba(9,48,102,0.25)] text-[#0D2340]",
+    flat: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-none text-[#0D2340]",
+    interactive: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)] hover:border-[#8FC2FF] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-[0_2px_0_#C8DBF0] cursor-pointer transition-all duration-150 text-[#0D2340]",
   };
 
   return (
     <div
       className={`
-        relative rounded-[20px] border p-5 md:p-6
-        ${variantStyles[variant]}
+        relative rounded-[20px] p-5 md:p-6
+        ${variantStyles[variant] ?? variantStyles.default}
         ${className}
       `}
       {...props}

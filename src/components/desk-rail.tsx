@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { Ticket, ArrowRight, Sparkles } from "lucide-react";
+import { SurfaceCard } from "@/components/ui/surface-card";
+import { TactileButton } from "@/components/ui/tactile-button";
 import { DailyQuests } from "@/components/daily-quests";
 import { AirdropWall } from "@/components/proof-gallery";
 import { useProgress } from "@/lib/store";
-import { SurfaceCard } from "@/components/ui/surface-card";
-import { TactileButton } from "@/components/ui/tactile-button";
 
 export function DeskRail() {
   const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
@@ -12,25 +12,27 @@ export function DeskRail() {
   const buyRaffleTicketsWithGems = useProgress((s) => s.buyRaffleTicketsWithGems);
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* Live Raffle Card */}
-      <SurfaceCard className="p-5">
-        <div className="flex items-center justify-between pb-2">
-          <span className="text-xs font-bold text-[#00f59b]">Undian Berhadiah</span>
-          <span className="text-[11px] text-[#8e9ab2]">Chainlink VRF</span>
+    <div className="hidden xl:flex flex-col gap-5 w-[320px] shrink-0 p-5 select-none z-10">
+      {/* Active Web3 Raffle Card */}
+      <SurfaceCard className="p-5 bg-white">
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
+            Undian Web3
+          </span>
+          <span className="text-[11px] font-bold text-[#5A7796]">Chainlink VRF</span>
         </div>
 
-        <h3 className="font-display font-bold text-base text-[#f1f4fa]">
-          100 USDT Web3 Learning Pool
+        <h3 className="font-display font-bold text-lg text-[#0D2340]">
+          100 USDT Learning Pool
         </h3>
-        <p className="mt-1 text-xs text-[#8e9ab2] leading-relaxed">
+        <p className="mt-1 text-xs text-[#5A7796] leading-relaxed">
           Gunakan tiket hasil belajar untuk berkesempatan memenangkan hadiah on-chain.
         </p>
 
-        <div className="mt-4 p-2.5 rounded-[12px] bg-[#0c1017] border border-[#1e2536] flex items-center justify-between">
-          <span className="text-xs text-[#8e9ab2]">Saldo Tiket:</span>
-          <span className="text-xs font-bold text-[#00f59b] flex items-center gap-1">
-            <Ticket className="size-3.5" />
+        <div className="mt-4 p-3 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] flex items-center justify-between">
+          <span className="text-xs font-bold text-[#1E3A5F]">Saldo Tiket:</span>
+          <span className="text-xs font-extrabold text-[#0B4FD1] flex items-center gap-1.5">
+            <Ticket className="size-4 text-[#0B63F6]" />
             {raffleTickets} Tiket
           </span>
         </div>
@@ -46,18 +48,18 @@ export function DeskRail() {
             type="button"
             disabled={gems < 10}
             onClick={() => buyRaffleTicketsWithGems(1)}
-            className="inline-flex items-center justify-center h-9 px-3 rounded-[12px] bg-[#141824] border border-[#232b3e] text-[#f1f4fa] text-xs font-semibold hover:bg-[#1a2030] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+            className="inline-flex items-center justify-center h-10 px-3 rounded-[14px] bg-white border-2 border-[#B9CFE9] shadow-[0_3px_0_#C8DBF0] text-[#0D2340] text-xs font-extrabold hover:bg-[#F0F6FF] active:translate-y-[2px] active:shadow-none disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
             title="Tukar 10 Bintang jadi 1 Tiket"
           >
-            <Sparkles className="size-3 text-[#f59e0b] mr-1" />
-            <span>+1 Tiket</span>
+            <Sparkles className="size-3.5 text-[#FFC61A] mr-1" />
+            <span>+1</span>
           </button>
         </div>
       </SurfaceCard>
 
       {/* Daily Quests Block */}
-      <SurfaceCard className="p-5">
-        <DailyQuests compact className="px-0 pt-0" />
+      <SurfaceCard className="p-5 bg-white">
+        <DailyQuests compact className="px-0 pt-0 text-[#0D2340]" />
       </SurfaceCard>
 
       {/* Airdrop Wall Proofs */}

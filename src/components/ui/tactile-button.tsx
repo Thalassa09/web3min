@@ -1,6 +1,6 @@
 import React from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "amber" | "danger";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "amber" | "danger" | "success";
 export type ButtonSize = "sm" | "md" | "lg";
 
 interface TactileButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,51 +13,58 @@ interface TactileButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const VARIANT_STYLES: Record<ButtonVariant, { bg: string; text: string; border: string; shadow: string; hover: string }> = {
   primary: {
-    bg: "bg-[#00f59b]",
-    text: "text-[#060a0f]",
-    border: "border-t border-[#80ffcd]",
-    shadow: "shadow-[0_3px_0_#00b875]",
-    hover: "hover:bg-[#1affaa]",
+    bg: "bg-[#FFC61A]",
+    text: "text-[#0D2340]",
+    border: "border-2 border-[#E5A800]",
+    shadow: "shadow-[0_5px_0_#D99400]",
+    hover: "hover:bg-[#FFD147]",
   },
   secondary: {
-    bg: "bg-[#141824]",
-    text: "text-[#f1f4fa]",
-    border: "border border-[#232b3e]",
-    shadow: "shadow-[0_3px_0_#0c0f17]",
-    hover: "hover:bg-[#1a2030] hover:border-[#2f3952]",
+    bg: "bg-[#FFFFFF]",
+    text: "text-[#0D2340]",
+    border: "border-2 border-[#B9CFE9]",
+    shadow: "shadow-[0_4px_0_#C8DBF0]",
+    hover: "hover:bg-[#F0F6FF]",
   },
   amber: {
-    bg: "bg-[#f59e0b]",
-    text: "text-[#060a0f]",
-    border: "border-t border-[#fde68a]",
-    shadow: "shadow-[0_3px_0_#b45309]",
-    hover: "hover:bg-[#fbbf24]",
+    bg: "bg-[#FFC61A]",
+    text: "text-[#0D2340]",
+    border: "border-2 border-[#E5A800]",
+    shadow: "shadow-[0_5px_0_#D99400]",
+    hover: "hover:bg-[#FFD147]",
   },
   danger: {
-    bg: "bg-[#ff4365]",
+    bg: "bg-[#E63329]",
     text: "text-white",
-    border: "border-t border-[#ffa3b4]",
-    shadow: "shadow-[0_3px_0_#be123c]",
-    hover: "hover:bg-[#ff5c7b]",
+    border: "border-2 border-[#B01E18]",
+    shadow: "shadow-[0_4px_0_#B01E18]",
+    hover: "hover:bg-[#F2443A]",
+  },
+  success: {
+    bg: "bg-[#34C06A]",
+    text: "text-white",
+    border: "border-2 border-[#1E8A49]",
+    shadow: "shadow-[0_4px_0_#1E8A49]",
+    hover: "hover:bg-[#43D47C]",
   },
   ghost: {
-    bg: "transparent",
-    text: "text-[#8e9ab2]",
-    border: "border border-transparent",
+    bg: "bg-transparent",
+    text: "text-[#5A7796]",
+    border: "border-2 border-transparent",
     shadow: "shadow-none",
-    hover: "hover:bg-[#141824] hover:text-[#f1f4fa] hover:border-[#232b3e]",
+    hover: "hover:bg-white/15 hover:text-[#0D2340]",
   },
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
-  sm: "h-9 px-3.5 text-xs font-semibold gap-1.5 rounded-[12px]",
-  md: "h-11 px-4.5 text-sm font-bold gap-2 rounded-[14px]",
-  lg: "h-13 px-6 text-base font-bold gap-2.5 rounded-[16px]",
+  sm: "h-10 px-4 text-xs font-extrabold gap-1.5 rounded-[14px]",
+  md: "h-12 px-5 text-sm font-extrabold gap-2 rounded-[16px]",
+  lg: "h-14 px-6 text-base font-extrabold gap-2.5 rounded-[18px]",
 };
 
 /**
- * Tactile Button with Emil Kowalski motion physics
- * Real physical switch compression (scale 0.98, active translate-y 2px), zero layout reflow.
+ * Chunky Tactile Button — Sunny World Console Game
+ * Physical bottom shadow that collapses completely upon being pressed (:active translateY(3px)).
  */
 export function TactileButton({
   variant = "primary",
@@ -69,18 +76,18 @@ export function TactileButton({
   disabled,
   ...props
 }: TactileButtonProps) {
-  const v = VARIANT_STYLES[variant];
-  const s = SIZE_STYLES[size];
+  const v = VARIANT_STYLES[variant] ?? VARIANT_STYLES.primary;
+  const s = SIZE_STYLES[size] ?? SIZE_STYLES.md;
 
   return (
     <button
       disabled={disabled}
       className={`
-        relative inline-flex items-center justify-center font-sans select-none
-        transition-all duration-150 ease-out
-        active:translate-y-[2px] active:scale-[0.98]
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00f59b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#080a11]
-        disabled:opacity-45 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:active:scale-100 disabled:shadow-none
+        relative inline-flex items-center justify-center font-sans font-extrabold select-none
+        transition-all duration-100 ease-out cursor-pointer
+        active:translate-y-[3px] active:shadow-none
+        focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-[#0B4FD1] focus-visible:ring-offset-2
+        disabled:opacity-45 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:shadow-none
         ${v.bg} ${v.text} ${v.border} ${disabled ? "shadow-none" : v.shadow} ${disabled ? "" : v.hover}
         ${s} ${fullWidth ? "w-full" : ""} ${className}
       `}

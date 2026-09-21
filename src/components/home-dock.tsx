@@ -5,7 +5,7 @@ import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { RouteChain } from "@/components/motif";
 import { firstIncompleteId, getLesson, getUnit } from "@/lib/curriculum";
-import { formatHeartWait, HEART_MS, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
+import { formatHeartWait, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
 import { worldOf } from "@/lib/worlds";
 
 function minutesOf(count: number) {
@@ -42,19 +42,19 @@ export function HomeDock() {
 
   if (hearts <= 0) {
     return (
-      <SurfaceCard className="mx-4 mt-4 p-5 border-[#ff4365]/30">
+      <SurfaceCard className="mx-4 mt-4 p-5 md:p-6 border-2 border-[#F4A4A0] bg-[#FFF5F5]">
         <div className="flex items-center gap-2 mb-2">
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#ff4365]/15 text-[#ff4365]">
+          <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#E63329] text-white shadow-[0_2px_0_#B01E18]">
             Nyawa Habis
           </span>
         </div>
-        <h2 className="font-display font-extrabold text-xl text-[#f1f4fa]">
+        <h2 className="font-display font-bold text-xl text-[#0D2340]">
           Istirahat Sejenak
         </h2>
-        <p className="mt-1 text-xs text-[#8e9ab2] leading-relaxed">
-          Nyawa berikutnya siap dalam {formatHeartWait(wait)}. Atau kamu bisa membaca cerita Web3 tanpa mengurangi nyawa.
+        <p className="mt-1 text-xs sm:text-sm text-[#5A7796] leading-relaxed">
+          Nyawa berikutnya pulih dalam {formatHeartWait(wait)}. Kamu tetap bisa membaca cerita Web3 tanpa mengurangi nyawa.
         </p>
-        <div className="mt-4 flex flex-col sm:flex-row gap-2">
+        <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
           <Link to="/kisah" className="flex-1">
             <TactileButton variant="secondary" size="md" fullWidth icon={<BookOpen className="size-4" />}>
               Baca Kisah Tanpa Nyawa
@@ -62,7 +62,7 @@ export function HomeDock() {
           </Link>
           <Link to="/shop" className="sm:w-auto">
             <TactileButton variant="primary" size="md" icon={<Sparkles className="size-4" />}>
-              Beli Nyawa di Toko
+              Pulihkan di Toko
             </TactileButton>
           </Link>
         </div>
@@ -71,43 +71,43 @@ export function HomeDock() {
   }
 
   return (
-    <SurfaceCard className="mx-4 mt-4 p-5">
+    <SurfaceCard className="mx-4 mt-4 p-5 md:p-6 bg-white">
       {lesson && world ? (
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#182030] text-[#8e9ab2]">
+              <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
                 {world.land}
               </span>
               {lessonNo > 0 && (
-                <span className="text-xs text-[#5a667d]">
+                <span className="text-xs font-bold text-[#5A7796]">
                   Modul {lessonNo} dari {scoredLessons.length}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#00f59b]">
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5]">
               <Ticket className="size-3.5" />
               <span>+1 Tiket Undian</span>
             </div>
           </div>
 
           <div>
-            <h2 className="font-display font-extrabold text-xl text-[#f1f4fa] tracking-tight">
-              {goalHit ? "Target Harian Tercapai!" : lesson.title}
+            <h2 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
+              {goalHit ? "Target Harian Tercapai! 🎉" : lesson.title}
             </h2>
-            <p className="mt-1 text-xs text-[#8e9ab2] leading-relaxed">
+            <p className="mt-1 text-xs sm:text-sm text-[#5A7796] leading-relaxed">
               {lesson.blurb}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-[#8e9ab2] py-0.5">
+          <div className="flex items-center gap-3 text-xs font-bold text-[#5A7796] py-0.5">
             <span className="flex items-center gap-1">
-              <Clock className="size-3.5 text-[#5a667d]" /> ~{mins} Menit
+              <Clock className="size-3.5 text-[#5A7796]" /> ~{mins} Menit
             </span>
             <span>·</span>
-            <span className="text-[#f59e0b] font-semibold">+{lesson.xp} XP</span>
+            <span className="text-[#B27B00]">+{lesson.xp} XP</span>
             <span>·</span>
-            <span className="text-[#f59e0b] font-semibold">+{lesson.gems} Bintang</span>
+            <span className="text-[#B27B00]">+{lesson.gems} Bintang</span>
           </div>
 
           <div className="pt-2">
@@ -122,7 +122,7 @@ export function HomeDock() {
                 variant="primary"
                 size="lg"
                 fullWidth
-                icon={<ArrowRight className="size-4" />}
+                icon={<ArrowRight className="size-5" />}
               >
                 {started ? "Lanjutkan Pelajaran" : "Mulai Belajar Sekarang"}
               </TactileButton>
@@ -135,7 +135,7 @@ export function HomeDock() {
 
           {showCaraLink && (
             <div className="pt-1 flex justify-end">
-              <Link to="/cara" className="text-xs text-[#8e9ab2] hover:text-[#00f59b] transition-colors">
+              <Link to="/cara" className="text-xs font-extrabold text-[#0B4FD1] hover:underline transition-colors">
                 Petunjuk Bermain →
               </Link>
             </div>
@@ -143,12 +143,19 @@ export function HomeDock() {
         </div>
       ) : (
         <div className="text-center py-4 space-y-2">
-          <h2 className="font-display font-extrabold text-xl text-[#f1f4fa]">
-            Semua Modul Selesai!
+          <h2 className="font-display font-bold text-2xl text-[#0D2340]">
+            Semua Modul Selesai! 🏆
           </h2>
-          <p className="text-xs text-[#8e9ab2]">
-            Kamu telah menyelesaikan seluruh materi belajar. Masuk ke Arena Undian untuk menukarkan tiketmu!
+          <p className="text-xs sm:text-sm text-[#5A7796]">
+            Kamu telah menuntaskan seluruh 20 modul kurikulum. Kunjungi Arena Undian untuk menukar tiketmu!
           </p>
+          <div className="pt-2">
+            <Link to="/leaderboard" className="inline-block">
+              <TactileButton variant="primary" size="md">
+                Buka Arena Undian Hadiah
+              </TactileButton>
+            </Link>
+          </div>
         </div>
       )}
     </SurfaceCard>

@@ -14,7 +14,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const setSound = useProgress((s) => s.setSound);
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between gap-2 px-4 py-2.5 bg-[#0a0d14]/90 backdrop-blur-md border-b border-[#1a2130] select-none">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-2 px-4 bg-[#0B63F6] border-b border-white/25 shadow-[0_4px_14px_rgba(11,79,209,0.3)] select-none">
       {/* Brand on Mobile */}
       {brand ? (
         <BrandMark className="mr-auto min-w-0 lg:hidden" />
@@ -23,56 +23,56 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
       )}
       <span className="mr-auto hidden lg:block" />
 
-      {/* Stats Cluster */}
+      {/* 5 Fixed Slots HUD Cluster */}
       <div className="flex items-center gap-1.5 sm:gap-2">
-        {/* Streak */}
+        {/* 1. Streak (Flame) */}
         <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] text-xs font-bold font-sans hover:border-[#2b354c] transition-colors"
-          title="Streak Belajar"
+          className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/90 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-xs font-extrabold font-sans text-[#0D2340] transition-colors"
+          title="Streak Belajar Harian"
         >
-          <Fire className="size-4 shrink-0 text-[#ff9100]" weight="fill" />
-          <span className="text-[#f1f4fa] tabular-nums">{streak}</span>
+          <Fire className="size-4 shrink-0 text-[#FF7A18]" weight="fill" />
+          <span className="tabular-nums">{streak}</span>
         </div>
 
-        {/* Gems / Bintang */}
+        {/* 2. Bintang / Stars (Coin) */}
         <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] text-xs font-bold font-sans hover:border-[#2b354c] transition-colors"
-          title="Bintang Belajar"
+          className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/90 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-xs font-extrabold font-sans text-[#0D2340] transition-colors"
+          title="Saldo Bintang Belajar"
         >
-          <BlockStamp size={14} className="text-[#f59e0b]" />
-          <span className="text-[#f1f4fa] tabular-nums">{formatGems(gems)}</span>
+          <BlockStamp size={14} className="text-[#FFC61A]" />
+          <span className="tabular-nums">{formatGems(gems)}</span>
         </div>
 
-        {/* Raffle Tickets */}
+        {/* 3. Tiket Undian (Ticket) */}
         <Link
           to="/leaderboard"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] hover:border-[#00f59b]/50 text-xs font-bold font-sans transition-all active:scale-[0.97]"
-          title="Tiket Undian Web3"
+          className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/90 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-xs font-extrabold font-sans text-[#0D2340] transition-all active:translate-y-[2px] active:shadow-none"
+          title="Tiket Undian Hadiah"
         >
-          <Ticket className="size-3.5 shrink-0 text-[#00f59b]" />
-          <span className="text-[#f1f4fa] tabular-nums">{raffleTickets}</span>
+          <Ticket className="size-4 shrink-0 text-[#0B63F6]" />
+          <span className="tabular-nums">{raffleTickets}</span>
         </Link>
 
-        {/* Hearts */}
+        {/* 4. Nyawa (Ruby Hearts) */}
         <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] text-xs font-bold font-sans hover:border-[#2b354c] transition-colors"
-          title="Nyawa Tersisa"
+          className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/90 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-xs font-extrabold font-sans text-[#0D2340] transition-colors"
+          title="Nyawa Belajar"
         >
-          <Heart className="size-4 shrink-0 text-[#ff4365]" weight="fill" />
-          <span className="text-[#f1f4fa] tabular-nums">
+          <Heart className="size-4 shrink-0 text-[#E63329]" weight="fill" />
+          <span className="tabular-nums">
             {hearts}/{MAX_HEARTS}
           </span>
         </div>
 
-        {/* Sound Toggle */}
+        {/* 5. Sound Toggle */}
         <button
           type="button"
           onClick={() => setSound(!sound)}
-          className="p-2 rounded-[12px] bg-[#121622] border border-[#1e2536] text-[#8e9ab2] hover:text-[#f1f4fa] hover:border-[#2b354c] transition-all active:scale-[0.95]"
+          className="flex items-center justify-center size-9 rounded-full bg-white/90 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[#1E3A5F] hover:text-[#0D2340] transition-all active:translate-y-[2px] active:shadow-none cursor-pointer"
           title={sound ? "Matikan Suara" : "Nyalakan Suara"}
           aria-label={sound ? "Matikan Suara" : "Nyalakan Suara"}
         >
-          {sound ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
+          {sound ? <Volume2 className="size-4" /> : <VolumeX className="size-4 text-[#E63329]" />}
         </button>
       </div>
     </header>

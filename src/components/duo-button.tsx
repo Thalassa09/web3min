@@ -7,20 +7,18 @@ type Variant = "primary" | "sky" | "danger" | "ghost" | "white" | "world";
 type Size = "sm" | "md";
 
 const variantClass: Record<Variant, string> = {
-  primary: "bg-primary text-primary-ink border-primary-shadow",
-  sky: "bg-sky text-primary-ink border-sky-shadow",
-  danger: "bg-danger text-primary-ink border-danger-shadow",
-  ghost: "bg-transparent text-muted border-line",
-  white: "bg-paper text-fg border-line",
-  world: "quiz-check",
+  primary: "bg-[#FFC61A] text-[#0D2340] border-2 border-[#E5A800] shadow-[0_5px_0_#D99400] hover:bg-[#FFD147]",
+  sky: "bg-[#1F7BFF] text-white border-2 border-[#0B4FD1] shadow-[0_5px_0_#0B4FD1] hover:bg-[#3B8CFF]",
+  danger: "bg-[#E63329] text-white border-2 border-[#B01E18] shadow-[0_5px_0_#B01E18] hover:bg-[#F2443A]",
+  ghost: "bg-transparent text-[#5A7796] border-2 border-transparent shadow-none hover:bg-white/20 hover:text-[#0D2340]",
+  white: "bg-[#FFFFFF] text-[#0D2340] border-2 border-[#B9CFE9] shadow-[0_4px_0_#C8DBF0] hover:bg-[#F0F6FF]",
+  world: "quiz-check bg-[#FFC61A] text-[#0D2340] border-2 border-[#E5A800] shadow-[0_5px_0_#D99400] hover:bg-[#FFD147]",
 };
 
 const sizeClass: Record<Size, string> = {
-  sm: "min-h-10 rounded-sm px-3.5 py-1.5 font-mono text-xs font-black uppercase tracking-wider",
-  md: "min-h-12 rounded-sm px-5 py-2.5 font-mono text-sm font-black uppercase tracking-wider",
+  sm: "min-h-10 rounded-[14px] px-4 py-2 font-sans text-xs font-extrabold tracking-wide",
+  md: "min-h-12 rounded-[16px] px-5 py-2.5 font-sans text-sm font-extrabold tracking-wide",
 };
-
-const RAISED = new Set<Variant>(["primary", "sky", "danger", "world"]);
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: Variant;
@@ -30,17 +28,14 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function DuoButton({ variant = "primary", size = "md", wide, className, children, onClick, ...props }: Props) {
   const sound = useProgress((s) => s.sound);
-  const raised = RAISED.has(variant);
   return (
     <button
       type="button"
       className={cn(
-        "inline-flex items-center justify-center font-bold select-none cursor-pointer",
-        "transition-[transform,border-color,background-color,box-shadow,opacity] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        raised
-          ? "border-b-4 active:not-disabled:translate-y-[2px] active:not-disabled:scale-[0.97] active:not-disabled:border-b-2"
-          : "border active:not-disabled:scale-[0.97]",
+        "inline-flex items-center justify-center font-sans font-extrabold select-none cursor-pointer",
+        "transition-all duration-100 ease-out",
+        "active:not-disabled:translate-y-[3px] active:not-disabled:shadow-none",
+        "disabled:cursor-not-allowed disabled:opacity-45 disabled:active:translate-y-0 disabled:shadow-none",
         variantClass[variant],
         sizeClass[size],
         wide && "w-full",

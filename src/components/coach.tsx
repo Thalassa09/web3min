@@ -21,7 +21,7 @@ const STEPS: Step[] = [
   {
     target: "start",
     mood: "wave",
-    say: "Tekan tombol hijau. Baca dulu, baru kuis. Sekitar 3 menit.",
+    say: "Tekan tombol kuning. Baca dulu, baru kuis. Sekitar 3 menit.",
     done: "Lanjut",
     pad: 6,
     radius: 22,

@@ -9,10 +9,9 @@ import { useProgress } from "@/lib/store";
 export const Route = createFileRoute("/intro")({ component: Intro });
 
 const BEATS: { mood: MascotMood; say: string }[] = [
-  { mood: "wave", say: "Mulai dari tombol hijau di Belajar. Baca dulu, baru kuis. Sekitar 3 menit." },
-  { mood: "think", say: "Salah jawab, nyawa berkurang. Habis? Buka Kisah. Tidak memakai nyawa." },
-  { mood: "proud", say: "Rute terbuka berurutan. Node terkunci = selesaikan yang sebelumnya." },
-  { mood: "idle", say: "Tidak perlu wallet. Materi edukatif, bukan saran keuangan." },
+  { mood: "wave", say: "Halo! Selamat datang di web3min. Mulai dari tombol kuning di beranda. Baca 3 menit dulu, baru kuis." },
+  { mood: "think", say: "Salah jawab, nyawa berkurang. Jika nyawa habis, kamu bisa baca Kisah tanpa mengurangi nyawa." },
+  { mood: "proud", say: "Selesaikan rute belajar untuk membuka hadiah bintang dan tiket undian on-chain Web3!" },
 ];
 
 function Intro() {
@@ -57,22 +56,57 @@ function Intro() {
   if (!onboarded || introSeen) return null;
 
   return (
-    <main className="hex-wash relative mx-auto flex min-h-dvh max-w-lg flex-col overflow-y-auto bg-bg px-5 py-8">
-      <div className="flex justify-end">
-        <button type="button" className="min-h-11 text-sm font-bold text-muted" onClick={leave}>
-          Lewati
-        </button>
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-[#1F7BFF] to-[#0B4FD1] px-4 py-8 select-none overflow-hidden">
+      {/* Soft Background Clouds */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+        <div className="absolute top-12 left-8 w-64 h-32 rounded-full bg-white/20 blur-xl" />
+        <div className="absolute bottom-20 right-8 w-72 h-36 rounded-full bg-white/15 blur-2xl" />
       </div>
-      <div key={beat} className="enter-up flex flex-1 flex-col items-center justify-center pt-2">
-        <Mascot key={current.mood + String(beat)} mood={current.mood} size={200} float className="blobi-pop" />
-        <SpeechBubble className="mt-3 w-full">
-          <button type="button" className="w-full text-left" onClick={next}>
-            {doneTyping ? current.say : <TypeLine text={current.say} onDone={() => setDoneTyping(true)} />}
+
+      <div className="relative z-10 w-full max-w-md flex flex-col items-center">
+        {/* Skip button on top right */}
+        <div className="w-full flex justify-end mb-4">
+          <button
+            type="button"
+            className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 text-xs font-extrabold text-white transition-all cursor-pointer"
+            onClick={leave}
+          >
+            Lewati
           </button>
-        </SpeechBubble>
-        <DuoButton wide className="mt-8" onClick={next}>
-          {last ? "Mulai belajar" : "Lanjut"}
-        </DuoButton>
+        </div>
+
+        {/* Mascot & Speech Bubble */}
+        <div key={beat} className="w-full flex flex-col items-center">
+          <div className="py-2">
+            <Mascot key={current.mood + String(beat)} mood={current.mood} size={180} float className="blobi-pop" />
+          </div>
+
+          <div className="w-full mt-4">
+            <SpeechBubble className="w-full">
+              <button type="button" className="w-full text-left font-sans text-sm sm:text-base font-extrabold text-[#0D2340] cursor-pointer" onClick={next}>
+                {doneTyping ? current.say : <TypeLine text={current.say} onDone={() => setDoneTyping(true)} />}
+              </button>
+            </SpeechBubble>
+          </div>
+
+          {/* Step indicator dots */}
+          <div className="flex items-center gap-2 mt-6">
+            {BEATS.map((_, i) => (
+              <span
+                key={i}
+                className={`h-2.5 rounded-full transition-all duration-200 ${
+                  i === beat ? "w-8 bg-[#FFC61A] shadow-[0_1px_0_#D99400]" : "w-2.5 bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="w-full mt-6">
+            <DuoButton wide variant="primary" size="md" onClick={next}>
+              {last ? "Mulai Belajar Sekarang! 🚀" : "Lanjut →"}
+            </DuoButton>
+          </div>
+        </div>
       </div>
     </main>
   );

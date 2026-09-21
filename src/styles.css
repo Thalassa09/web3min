@@ -113,34 +113,6 @@
 
 :root {
   color-scheme: light;
-  --sky-700: #0B4FD1;
-  --sky-600: #0B63F6;
-  --sky-500: #1F7BFF;
-  --sky-300: #8FC2FF;
-  --sky-100: #E4F0FF;
-  --paper: #FFFFFF;
-  --cream: #FFF7E4;
-  --sand: #FFEFC7;
-  --ink-900: #0D2340;
-  --ink-700: #1E3A5F;
-  --ink-500: #4A6580;
-  --ink-300: #6B839C;
-  --on-blue: #FFFFFF;
-  --coin: #FFC61A;
-  --coin-shadow: #D99400;
-  --flame: #FF7A18;
-  --flame-shadow: #C85200;
-  --ruby: #E63329;
-  --ruby-shadow: #B01E18;
-  --leaf: #34C06A;
-  --leaf-shadow: #1E8A49;
-  --grape: #8B5CF6;
-  --grape-shadow: #6A3FD1;
-  --blobi: #FF4D88;
-  --blobi-shadow: #D82B68;
-  --line: #DCE7F5;
-  --line-strong: #B9CFE9;
-  --line-ink: #0D2340;
 
   /* Motion & Spring Timing Tokens */
   --dur-tap: 90ms;

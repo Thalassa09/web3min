@@ -35,6 +35,8 @@ export type ActivityEntry = {
   timeAgo: string;
 };
 
+export const RAFFLE_TICKET_PRICE = 10;
+
 export const INITIAL_RAFFLES: RaffleItem[] = [
   {
     id: "raf-gems-500",

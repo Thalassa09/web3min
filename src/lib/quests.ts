@@ -10,6 +10,7 @@ export type QuestDef = {
 export const QUESTS: QuestDef[] = [
   { id: "lesson", label: "Selesaikan 1 pelajaran", hint: "yang baru, bukan ulang", gems: 3 },
   { id: "xp", label: "Raih target XP hari ini", hint: "target harian", gems: 5 },
+  { id: "perfect", label: "Skor sempurna di 1 kuis", hint: "tanpa salah nyawa", gems: 5 },
   { id: "kisah", label: "Baca 1 Kisah", hint: "tidak memakai nyawa", gems: 4 },
 ];
 

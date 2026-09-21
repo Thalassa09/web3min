@@ -27,6 +27,18 @@ export function yesterdayKey(date = new Date()): string {
   return todayKey(y);
 }
 
+export function daysBetween(dateStrA: string, dateStrB: string): number {
+  if (!dateStrA || !dateStrB) return 9999;
+  try {
+    const t1 = new Date(dateStrA + "T00:00:00Z").getTime();
+    const t2 = new Date(dateStrB + "T00:00:00Z").getTime();
+    if (!Number.isFinite(t1) || !Number.isFinite(t2)) return 9999;
+    return Math.round((t2 - t1) / (24 * 60 * 60 * 1000));
+  } catch {
+    return 9999;
+  }
+}
+
 export function shuffle<T>(items: T[]): T[] {
   const next = [...items];
   for (let i = next.length - 1; i > 0; i--) {

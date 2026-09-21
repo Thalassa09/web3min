@@ -4,6 +4,7 @@ import { AppShell } from "@/components/app-shell";
 import {
   INITIAL_ACTIVITIES,
   INITIAL_RAFFLES,
+  RAFFLE_TICKET_PRICE,
   type RaffleItem,
 } from "@/lib/raffles";
 import { playBuy, playComplete, playDeny, playTap } from "@/lib/audio";
@@ -83,7 +84,7 @@ function RafflePage() {
   }
 
   function handleBuyTicket(qty = 1) {
-    const cost = qty * 10;
+    const cost = qty * RAFFLE_TICKET_PRICE;
     if (gems < cost) {
       playDeny();
       triggerToast(`Bintang tidak cukup! Butuh ${cost} bintang untuk ${qty} tiket.`);

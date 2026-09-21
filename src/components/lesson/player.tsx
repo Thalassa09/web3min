@@ -4,7 +4,7 @@ import { Heart, X } from "@/lib/kicon";
 import type { Exercise, Lesson } from "@/lib/curriculum";
 import { firstIncompleteId, getLesson, scoredExerciseCount } from "@/lib/curriculum";
 import { worldOf } from "@/lib/worlds";
-import { formatHeartWait, HEART_MS, UNLIMITED_GEMS, msUntilHeart, useProgress } from "@/lib/store";
+import { formatHeartWait, HEART_MS, msUntilHeart, useProgress } from "@/lib/store";
 import { DuoButton } from "@/components/duo-button";
 import { Mascot, SpeechBubble } from "@/components/mascot";
 import { BlockStamp, RouteChain } from "@/components/motif";
@@ -369,7 +369,7 @@ function DeadState({
         <DuoButton variant="white" wide onClick={onHome}>
           Kembali ke peta
         </DuoButton>
-        <DuoButton wide disabled={!UNLIMITED_GEMS && gems < HEART_REFILL_COST} onClick={onRefill}>
+        <DuoButton wide disabled={gems < HEART_REFILL_COST} onClick={onRefill}>
           Pulihkan nyawa · {HEART_REFILL_COST} bintang
         </DuoButton>
       </div>

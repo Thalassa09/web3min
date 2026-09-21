@@ -6,8 +6,8 @@ import { FREEZE_COST, HEART_REFILL_COST, OUTFIT_LABEL, SHOP_ITEMS } from "@/lib/
 import { QUESTS, questProgress } from "@/lib/quests";
 import { getCase, getStory, isOpen, knownCaseIds, knownStoryIds } from "@/lib/stories";
 import { sanitizeBio, sanitizeShout, sanitizeTwitter, sanitizeUsername, type Shout } from "@/lib/people";
-import { todayKey, weekId, yesterdayKey } from "@/lib/utils";
-import { INITIAL_RAFFLES } from "@/lib/raffles";
+import { daysBetween, todayKey, weekId, yesterdayKey } from "@/lib/utils";
+import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE } from "@/lib/raffles";
 
 export type DailyGoal = 10 | 20 | 30 | 50;
 
@@ -15,14 +15,12 @@ export const MAX_HEARTS = 5;
 export const HEART_MS = 20 * 60 * 1000;
 export const GEM_CAP = 999_999;
 export const STARTING_GEMS = 50;
-export const UNLIMITED_GEMS = false;
 
 export function formatGems(n: number) {
-  return UNLIMITED_GEMS ? "∞" : String(n);
+  return String(n);
 }
 
 function holdGems(current: number, delta = 0) {
-  if (UNLIMITED_GEMS) return GEM_CAP;
   return Math.min(GEM_CAP, Math.max(0, current + delta));
 }
 
@@ -321,6 +319,21 @@ function rollDay(state: ProgressState): ProgressState {
     next.perfectToday = 0;
     next.storiesToday = 0;
     next.claimedQuests = [];
+
+    // Check multi-day inactivity and consume freeze or reset streak
+    if (next.lastActiveDate && next.lastActiveDate !== today && next.lastActiveDate !== yesterdayKey()) {
+      const elapsed = daysBetween(next.lastActiveDate, today);
+      if (elapsed > 1) {
+        const missedDays = elapsed - 1;
+        if (next.streakFreeze >= missedDays) {
+          next.streakFreeze -= missedDays;
+          next.lastActiveDate = yesterdayKey();
+        } else {
+          next.streak = 0;
+          next.streakFreeze = 0;
+        }
+      }
+    }
   }
   if (next.weekKey !== week) {
     next.weeklyXp = 0;
@@ -338,15 +351,20 @@ function touchStreak(state: ProgressState): ProgressState {
   if (!state.lastActiveDate) {
     return { ...state, streak: 1, lastActiveDate: today };
   }
-  if (state.streakFreeze > 0) {
+  const diff = daysBetween(state.lastActiveDate, today);
+  if (diff <= 1) {
+    return { ...state, streak: state.streak + 1, lastActiveDate: today };
+  }
+  const missedDays = diff - 1;
+  if (state.streakFreeze >= missedDays) {
     return {
       ...state,
-      streakFreeze: state.streakFreeze - 1,
+      streakFreeze: state.streakFreeze - missedDays,
       lastActiveDate: today,
-      streak: Math.max(1, state.streak),
+      streak: state.streak + 1,
     };
   }
-  return { ...state, streak: 1, lastActiveDate: today };
+  return { ...state, streak: 1, streakFreeze: 0, lastActiveDate: today };
 }
 
 export const useProgress = create<ProgressState & Actions>()(
@@ -428,7 +446,7 @@ export const useProgress = create<ProgressState & Actions>()(
       },
       refillHearts: () => {
         const s = get();
-        if (!UNLIMITED_GEMS && s.gems < HEART_REFILL_COST) return false;
+        if (s.gems < HEART_REFILL_COST) return false;
         set({ gems: holdGems(s.gems, -HEART_REFILL_COST), hearts: MAX_HEARTS, heartsUpdatedAt: Date.now() });
         return true;
       },
@@ -485,7 +503,7 @@ export const useProgress = create<ProgressState & Actions>()(
           set({ worn, equipped: featuredOf(worn) });
           return true;
         }
-        if (!UNLIMITED_GEMS && s.gems < item.cost) return false;
+        if (s.gems < item.cost) return false;
         const worn = { ...s.worn, [slot]: id };
         set({
           gems: holdGems(s.gems, -item.cost),
@@ -513,7 +531,7 @@ export const useProgress = create<ProgressState & Actions>()(
       },
       buyFreeze: () => {
         const s = get();
-        if (!UNLIMITED_GEMS && s.gems < FREEZE_COST) return false;
+        if (s.gems < FREEZE_COST) return false;
         set({ gems: holdGems(s.gems, -FREEZE_COST), streakFreeze: Math.min(30, s.streakFreeze + 1) });
         return true;
       },
@@ -598,7 +616,7 @@ export const useProgress = create<ProgressState & Actions>()(
         const s = get();
         const qty = Math.trunc(ticketAmount);
         if (!Number.isFinite(qty) || qty <= 0) return false;
-        const cost = qty * 10;
+        const cost = qty * RAFFLE_TICKET_PRICE;
         if (s.gems < cost) return false;
         const newTickets = Math.min(9999, (s.raffleTickets ?? 0) + qty);
         set({

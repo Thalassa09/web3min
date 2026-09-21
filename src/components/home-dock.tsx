@@ -129,6 +129,35 @@ export function HomeDock() {
             </Link>
           </div>
 
+          {scoredLessons.length > 0 && (
+            <div className="grid grid-cols-1 gap-1.5 pt-1">
+              {scoredLessons.slice(0, 4).map((item, i) => {
+                const done = completed.includes(item.id);
+                const here = item.id === lesson.id;
+                return (
+                  <div
+                    key={item.id}
+                    className={`flex items-center gap-2 rounded-xl border px-3 py-2 ${
+                      here
+                        ? "border-sky-500 bg-[#E4F0FF]"
+                        : done
+                          ? "border-[#98E4B5] bg-[#E8FBF0]"
+                          : "border-[#DCE7F5] bg-[#F7FBFF]"
+                    }`}
+                  >
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white text-[11px] font-extrabold text-[#0D2340] border border-[#DCE7F5]">
+                      {i + 1}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-[13px] font-bold text-[#0D2340]">{item.title}</span>
+                    <span className="shrink-0 text-[11px] font-extrabold text-[#4A6580]">
+                      {done ? "Selesai" : here ? "Sekarang" : "Berikutnya"}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
           <div className="pt-2">
             <div className="flex items-center justify-between text-xs font-extrabold text-[#1E3A5F] mb-1.5">
               <span className="flex items-center gap-1.5">

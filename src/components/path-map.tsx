@@ -68,6 +68,11 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
                 from={worldOf(unit.id)}
                 to={worldOf(next.id)}
                 open={isUnlocked(next.lessons[0]?.id ?? "", completed)}
+                remaining={Math.max(
+                  0,
+                  unit.lessons.filter((l) => l.kind !== "chest" && !completed.includes(l.id)).length,
+                )}
+                nextTitle={next.title}
               />
             ) : null}
           </div>
@@ -132,7 +137,7 @@ function UnitBlock({
   return (
     <section
       className={cn(
-        "relative mx-3 sm:mx-4 my-4 rounded-[26px] border-2 border-[#B9CFE9] shadow-[0_6px_0_#0B4FD1] overflow-hidden scroll-mt-20 [content-visibility:auto] [contain-intrinsic-size:720px]",
+        "relative mx-3 sm:mx-4 my-3 rounded-[26px] border-2 border-[#B9CFE9] shadow-[0_6px_0_#0B4FD1] overflow-hidden scroll-mt-20",
         world.skin
       )}
       id={`unit-${unit.id}`}
@@ -164,7 +169,7 @@ function UnitBlock({
           </p>
           <h2 className="mt-1 text-xl font-bold leading-[26px]">{unit.title}</h2>
         </div>
-        <ol className="relative mt-6 flex flex-col items-center gap-10 pt-1 lg:mt-8 lg:gap-12">
+        <ol className="relative mt-4 flex flex-col items-center gap-7 pt-1 lg:mt-8 lg:gap-12">
           <PathTrail
             count={unit.lessons.length}
             world={world}
@@ -193,20 +198,38 @@ function WorldGate({
   from,
   to,
   open,
+  remaining,
+  nextTitle,
 }: {
   from: World;
   to: World;
   open: boolean;
+  remaining: number;
+  nextTitle: string;
 }) {
-  return (
-    <div className="world-gate relative z-10 px-4 sm:px-8 py-2 min-w-0">
-      <div className="mx-auto flex max-w-sm items-center gap-2 px-2 min-w-0">
-        <span className={cn("h-px min-w-4 flex-1 rounded-full", from.skin)} style={{ background: "var(--world-trail)" }} />
-        <p className="min-w-0 flex-1 text-center text-[12px] sm:text-[13px] font-medium leading-[16px] sm:leading-[18px] text-muted text-pretty">
-          {open ? `${from.land} → ${to.land}` : `Selesaikan pelajaran sebelumnya untuk membuka rute ini.`}
+  if (open) {
+    return (
+      <div className="world-gate relative z-10 mx-3 sm:mx-4 my-1 rounded-2xl border-2 border-[#DCE7F5] bg-white px-4 py-3 min-w-0">
+        <p className="text-center text-[13px] font-extrabold text-[#0D2340]">
+          {from.land} → {to.land}
         </p>
-        {open ? null : <Lock className="size-3 shrink-0 text-muted" weight="bold" />}
-        <span className={cn("h-px min-w-4 flex-1 rounded-full", to.skin)} style={{ background: "var(--world-trail)" }} />
+        <p className="mt-0.5 text-center text-[12px] font-medium text-[#4A6580]">{nextTitle} sudah terbuka</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="world-gate relative z-10 mx-3 sm:mx-4 my-1 rounded-[22px] border-2 border-[#DCE7F5] bg-white px-4 py-4 min-w-0 shadow-[0_4px_0_#DCE7F5]">
+      <div className="flex items-start gap-3">
+        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#E4F0FF] text-sky-600 border border-[#8FC2FF]">
+          <Lock className="size-5" weight="bold" />
+        </span>
+        <div className="min-w-0">
+          <p className="text-[15px] font-extrabold text-[#0D2340] leading-tight">Rute berikutnya terkunci</p>
+          <p className="mt-1 text-[13px] font-medium leading-5 text-[#4A6580]">
+            Selesaikan {remaining} pelajaran di {from.land} untuk membuka {to.land}: {nextTitle}.
+          </p>
+        </div>
       </div>
     </div>
   );

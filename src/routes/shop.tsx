@@ -297,7 +297,7 @@ function ShopPage() {
                 <SurfaceCard className="p-5 bg-white flex flex-col justify-between space-y-4">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="p-3 rounded-[16px] bg-[#FFF0E4] text-[#FF7A18] border-2 border-[#FFB580] shadow-[0_2px_0_#FFB580]">
+                      <div className="p-3 rounded-[16px] bg-[#FFF0E4] text-flame border-2 border-[#FFB580] shadow-[0_2px_0_#FFB580]">
                         <ShieldCheck className="size-6" />
                       </div>
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
@@ -313,7 +313,7 @@ function ShopPage() {
                       </p>
                     </div>
                     <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
-                      Status: {freeze > 0 ? <strong className="text-[#FF7A18]">Aktif ({freeze} siap)</strong> : "Belum Aktif"}
+                      Status: {freeze > 0 ? <strong className="text-flame">Aktif ({freeze} siap)</strong> : "Belum Aktif"}
                     </div>
                   </div>
 

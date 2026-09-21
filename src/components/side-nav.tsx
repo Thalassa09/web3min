@@ -79,7 +79,7 @@ export function SideNav() {
               {streak > 0 ? (
                 <>
                   <span>Streak {streak} hari</span>
-                  <Flame className="size-3 text-[#FF7A18] shrink-0 fill-[#FF7A18]" />
+                  <Flame className="size-3 text-flame shrink-0 fill-flame" />
                 </>
               ) : (
                 "Belajar hari ini"

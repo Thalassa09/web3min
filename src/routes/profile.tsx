@@ -143,7 +143,7 @@ function ProfilePage() {
           <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
             <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Streak Belajar</span>
-              <Flame className="size-4 text-[#FF7A18]" />
+              <Flame className="size-4 text-flame" />
             </div>
             <div className="mt-3">
               <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{streak} Hari</div>

@@ -92,13 +92,13 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           value={streak}
           icon={
             <Fire
-              className={`size-3.5 sm:size-4 shrink-0 text-[#FF7A18] ${streak > 0 ? "flame-active" : "opacity-60"}`}
+              className={`size-3.5 sm:size-4 shrink-0 text-flame ${streak > 0 ? "flame-active" : "opacity-60"}`}
               weight="fill"
             />
           }
           title="Streak Belajar Harian"
-          floatColor="#FF7A18"
-          floatShadow="#C85200"
+          floatColor="var(--color-flame, #F2841F)"
+          floatShadow="var(--color-flame-shadow, #C85200)"
         />
 
         {/* 2. Bintang / Stars (Coin with float delta) */}

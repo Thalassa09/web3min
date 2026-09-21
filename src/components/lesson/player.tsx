@@ -479,7 +479,7 @@ function CompleteCard({
       </p>
       <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.gems}</p>
       {awarded.perfect ? <p className="mt-4 text-sm font-bold text-[#1E8A49]">Sempurna — tanpa salah.</p> : null}
-      {dailyHit ? <p className="mt-2 text-sm font-bold text-[#FF7A18]">Streak hari ini aman.</p> : null}
+      {dailyHit ? <p className="mt-2 text-sm font-bold text-flame">Streak hari ini aman.</p> : null}
       <div className="mt-8 flex w-full flex-col gap-3">
         {nextLesson ? (
           <DuoButton wide onClick={onNext}>

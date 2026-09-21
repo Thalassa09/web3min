@@ -43,7 +43,7 @@
   /* Functional Accents */
   --color-coin: #FFC61A;
   --color-coin-shadow: #D99400;
-  --color-flame: #FF7A18;
+  --color-flame: #F2841F;
   --color-flame-shadow: #C85200;
   --color-ruby: #E63329;
   --color-ruby-shadow: #B01E18;
@@ -51,8 +51,8 @@
   --color-leaf-shadow: #1E8A49;
   --color-grape: #8B5CF6;
   --color-grape-shadow: #6A3FD1;
-  --color-blobi: #FF4D88;
-  --color-blobi-shadow: #D82B68;
+  --color-blobi: #F26A99;
+  --color-blobi-shadow: #C94A78;
 
   /* Structural Lines & Borders */
   --color-line: #DCE7F5;
@@ -83,14 +83,14 @@
   --color-ok-shadow: #1E8A49;
   --color-ok-soft: #E8FBF0;
 
-  --color-streak: #FF7A18;
+  --color-streak: #F2841F;
   --color-streak-shadow: #C85200;
 
   --color-gold: #FFC61A;
   --color-gold-shadow: #D99400;
 
-  --color-blob: #FF4D88;
-  --color-blob-deep: #D82B68;
+  --color-blob: #F26A99;
+  --color-blob-deep: #C94A78;
 
   --color-unit-green: #34C06A;
   --color-unit-blue: #1F7BFF;

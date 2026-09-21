@@ -14,6 +14,7 @@ export type DailyGoal = 10 | 20 | 30 | 50;
 export const MAX_HEARTS = 5;
 export const HEART_MS = 20 * 60 * 1000;
 export const GEM_CAP = 999_999;
+export const STARTING_GEMS = 50;
 export const UNLIMITED_GEMS = false;
 
 export function formatGems(n: number) {
@@ -125,7 +126,7 @@ const initial: ProgressState = {
   shouts: [],
   dailyGoal: 20,
   xp: 0,
-  gems: 0,
+  gems: STARTING_GEMS,
   coinResetV1: true,
   hearts: MAX_HEARTS,
   heartsUpdatedAt: Date.now(),
@@ -230,7 +231,7 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
   const friendMeta = sanitizeMeta(raw.friendMeta);
   const friends = sanitizeFriends(raw.friends, username);
   const coinResetDone = Boolean((raw as { coinResetV1?: unknown })?.coinResetV1);
-  const currentGems = coinResetDone && typeof raw.gems === "number" ? raw.gems : 0;
+  const currentGems = coinResetDone && typeof raw.gems === "number" ? raw.gems : STARTING_GEMS;
   return {
     onboarded: Boolean(raw.onboarded),
     introSeen: Boolean(raw.introSeen),
@@ -344,7 +345,7 @@ export const useProgress = create<ProgressState & Actions>()(
           introSeen: true,
           username: clean,
           dailyGoal: goal,
-          gems: 0,
+          gems: STARTING_GEMS,
           hearts: MAX_HEARTS,
         });
       },

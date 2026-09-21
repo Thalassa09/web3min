@@ -162,6 +162,11 @@ function clamp(n: unknown, min: number, max: number, fallback: number) {
   return Math.min(max, Math.max(min, x));
 }
 
+export function clampRuntime(v: number, min: number, max: number) {
+  if (!Number.isFinite(v)) return min;
+  return Math.min(max, Math.max(min, Math.trunc(v)));
+}
+
 function knownIds(ids: unknown): string[] {
   if (!Array.isArray(ids)) return [];
   const unique = new Set<string>();
@@ -416,15 +421,16 @@ export const useProgress = create<ProgressState & Actions>()(
           if (!already && !isUnlocked(id, s.completed)) return s;
           let next = touchStreak(rollDay(regenHearts(s)));
           const xpGain = already ? Math.min(2, lesson.xp) : lesson.xp + (info.perfect ? 8 : 0);
+          const dailyXpGain = already ? 0 : xpGain;
           const gemGain = already ? 0 : lesson.gems + (info.perfect ? 2 : 0);
           const ticketGain = already ? 0 : 1 + (info.perfect ? 1 : 0);
           next = {
             ...next,
-            xp: next.xp + xpGain,
+            xp: clampRuntime(next.xp + xpGain, 0, 5_000_000),
             gems: holdGems(next.gems, gemGain),
             raffleTickets: (next.raffleTickets ?? 0) + ticketGain,
-            xpToday: next.xpToday + xpGain,
-            weeklyXp: next.weeklyXp + xpGain,
+            xpToday: clampRuntime(next.xpToday + dailyXpGain, 0, 10_000),
+            weeklyXp: clampRuntime(next.weeklyXp + dailyXpGain, 0, 1_000_000),
             completed: already ? next.completed : [...next.completed, id],
             perfect:
               info.perfect && !next.perfect.includes(id) ? [...next.perfect, id] : next.perfect,
@@ -519,11 +525,11 @@ export const useProgress = create<ProgressState & Actions>()(
           awarded = { xp: xpGain, gems: gemGain };
           return {
             ...next,
-            xp: next.xp + xpGain,
+            xp: clampRuntime(next.xp + xpGain, 0, 5_000_000),
             gems: holdGems(next.gems, gemGain),
-            xpToday: next.xpToday + xpGain,
-            weeklyXp: next.weeklyXp + xpGain,
-            storiesToday: next.storiesToday + 1,
+            xpToday: clampRuntime(next.xpToday + xpGain, 0, 10_000),
+            weeklyXp: clampRuntime(next.weeklyXp + xpGain, 0, 1_000_000),
+            storiesToday: already ? next.storiesToday : next.storiesToday + 1,
             completedStories: already ? next.completedStories : [...next.completedStories, id],
           };
         });
@@ -542,11 +548,11 @@ export const useProgress = create<ProgressState & Actions>()(
           awarded = { xp: xpGain, gems: gemGain };
           return {
             ...next,
-            xp: next.xp + xpGain,
+            xp: clampRuntime(next.xp + xpGain, 0, 5_000_000),
             gems: holdGems(next.gems, gemGain),
-            xpToday: next.xpToday + xpGain,
-            weeklyXp: next.weeklyXp + xpGain,
-            storiesToday: next.storiesToday + 1,
+            xpToday: clampRuntime(next.xpToday + xpGain, 0, 10_000),
+            weeklyXp: clampRuntime(next.weeklyXp + xpGain, 0, 1_000_000),
+            storiesToday: already ? next.storiesToday : next.storiesToday + 1,
             completedCases: already ? next.completedCases : [...next.completedCases, id],
           };
         });

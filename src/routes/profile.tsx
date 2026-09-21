@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Ticket, Trophy, Flame, Check, Sparkles } from "lucide-react";
+import { Ticket, Trophy, Flame, Check, Sparkles, ArrowRight } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
 import { BlockStamp } from "@/components/motif";
@@ -62,6 +62,17 @@ function ProfilePage() {
                   <Mascot mood="proud" size={88} />
                 </div>
               </div>
+
+              {/* Quick Link to Ruang Ganti Blobi */}
+              <Link
+                to="/shop"
+                search={{ tab: "wardrobe" }}
+                className="px-4 py-2 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-all flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
+              >
+                <Sparkles className="size-4" />
+                <span>Ruang Ganti Blobi</span>
+                <ArrowRight className="size-3.5" />
+              </Link>
             </div>
 
             <div className="space-y-2 mb-4 text-center sm:text-left">

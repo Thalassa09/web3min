@@ -21,6 +21,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RaffleRouteImport } from './routes/raffle'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as WardrobeRouteImport } from './routes/wardrobe'
 import { Route as BedahCaseIdRouteImport } from './routes/bedah.$caseId'
 import { Route as KisahIndexRouteImport } from './routes/kisah.index'
 import { Route as KisahStoryIdRouteImport } from './routes/kisah.$storyId'
@@ -86,6 +87,11 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WardrobeRoute = WardrobeRouteImport.update({
+  id: '/wardrobe',
+  path: '/wardrobe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BedahCaseIdRoute = BedahCaseIdRouteImport.update({
   id: '/bedah/$caseId',
   path: '/bedah/$caseId',
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/raffle': typeof RaffleRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
+  '/wardrobe': typeof WardrobeRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
   '/kisah/$storyId': typeof KisahStoryIdRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/raffle': typeof RaffleRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
+  '/wardrobe': typeof WardrobeRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
   '/kisah/$storyId': typeof KisahStoryIdRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/raffle': typeof RaffleRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
+  '/wardrobe': typeof WardrobeRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
   '/kisah/$storyId': typeof KisahStoryIdRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/raffle'
     | '/settings'
     | '/shop'
+    | '/wardrobe'
     | '/bedah/$caseId'
     | '/kisah/$storyId'
     | '/lesson/$lessonId'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/raffle'
     | '/settings'
     | '/shop'
+    | '/wardrobe'
     | '/bedah/$caseId'
     | '/kisah/$storyId'
     | '/lesson/$lessonId'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/raffle'
     | '/settings'
     | '/shop'
+    | '/wardrobe'
     | '/bedah/$caseId'
     | '/kisah/$storyId'
     | '/lesson/$lessonId'
@@ -230,6 +242,7 @@ export interface RootRouteChildren {
   RaffleRoute: typeof RaffleRoute
   SettingsRoute: typeof SettingsRoute
   ShopRoute: typeof ShopRoute
+  WardrobeRoute: typeof WardrobeRoute
   BedahCaseIdRoute: typeof BedahCaseIdRoute
   LessonLessonIdRoute: typeof LessonLessonIdRoute
 }
@@ -320,6 +333,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wardrobe': {
+      id: '/wardrobe'
+      path: '/wardrobe'
+      fullPath: '/wardrobe'
+      preLoaderRoute: typeof WardrobeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/bedah/$caseId': {
       id: '/bedah/$caseId'
       path: '/bedah/$caseId'
@@ -376,6 +396,7 @@ const rootRouteChildren: RootRouteChildren = {
   RaffleRoute: RaffleRoute,
   SettingsRoute: SettingsRoute,
   ShopRoute: ShopRoute,
+  WardrobeRoute: WardrobeRoute,
   BedahCaseIdRoute: BedahCaseIdRoute,
   LessonLessonIdRoute: LessonLessonIdRoute,
 }

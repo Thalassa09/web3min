@@ -340,8 +340,10 @@ export function grokOgHeadTags({
   if (description) {
     tags.push(`<meta property="og:description" content="${escapeHtml(description)}">`);
   }
-  if (String(site.type ?? "").toLowerCase() === "x:game") {
-    tags.push(`<meta property="og:type" content="x:game">`);
+  const ogType = String(site.type ?? "").toLowerCase() === "x:game" ? "x:game" : "website";
+  tags.push(`<meta property="og:type" content="${ogType}">`);
+  if (site.url || publicHost) {
+    tags.push(`<meta property="og:url" content="${escapeHtml(site.url || `https://${publicHost}`)}">`);
   }
   if (publicHost) {
     const asset = resolveOgCardAsset(site, cwd);

@@ -1,6 +1,9 @@
 {
-  "title": "web3min",
+  "title": "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang",
+  "description": "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. Pahami crypto, wallet, DeFi, dan smart contract dari nol.",
   "type": "website",
+  "url": "https://web3min.vercel.app",
+  "image": "https://web3min.vercel.app/og-image.png",
   "card": "/og-image.png",
-  "color": "0B63F6"
+  "color": "1367E8"
 }

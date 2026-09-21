@@ -264,29 +264,98 @@ function fire(name: SfxName, opts?: { pan?: number; rate?: number }) {
   src.start();
 }
 
+export function triggerHaptic(
+  type: "light" | "medium" | "heavy" | "selection" | "success" | "warning" = "light",
+) {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return;
+  try {
+    if (!navigator.vibrate) return;
+    switch (type) {
+      case "selection":
+      case "light":
+        navigator.vibrate(8);
+        break;
+      case "medium":
+        navigator.vibrate(16);
+        break;
+      case "heavy":
+        navigator.vibrate(28);
+        break;
+      case "success":
+        navigator.vibrate([10, 35, 18]);
+        break;
+      case "warning":
+        navigator.vibrate([18, 50, 22]);
+        break;
+    }
+  } catch {}
+}
+
 export function playTap() {
+  triggerHaptic("light");
   const now = performance.now();
-  if (now - lastTap < 70) return;
+  if (now - lastTap < 60) return;
   lastTap = now;
   fire("tap");
 }
 
 export function playSqueak() {
+  triggerHaptic("medium");
   fire("mood-idle");
 }
 
 export function playMoodSfx(mood: string, pan = 0) {
+  triggerHaptic("medium");
   const key = (`mood-${mood}` as SfxName);
   fire(ALL.includes(key) ? key : "mood-idle", { pan, rate: 0.97 + Math.random() * 0.06 });
 }
 
-export const playCorrect = () => fire("correct");
-export const playWrong = () => fire("wrong");
-export const playComplete = () => fire("complete");
-export const playBuy = () => fire("buy");
-export const playEquip = () => fire("equip");
-export const playUnequip = () => fire("unequip");
-export const playDeny = () => fire("deny");
-export const playHeart = () => fire("heart");
-export const playClaim = () => fire("claim");
-export const playFreeze = () => fire("freeze");
+export const playCorrect = () => {
+  triggerHaptic("success");
+  fire("correct");
+};
+
+export const playWrong = () => {
+  triggerHaptic("warning");
+  fire("wrong");
+};
+
+export const playComplete = () => {
+  triggerHaptic("heavy");
+  fire("complete");
+};
+
+export const playBuy = () => {
+  triggerHaptic("medium");
+  fire("buy");
+};
+
+export const playEquip = () => {
+  triggerHaptic("light");
+  fire("equip");
+};
+
+export const playUnequip = () => {
+  triggerHaptic("light");
+  fire("unequip");
+};
+
+export const playDeny = () => {
+  triggerHaptic("warning");
+  fire("deny");
+};
+
+export const playHeart = () => {
+  triggerHaptic("light");
+  fire("heart");
+};
+
+export const playClaim = () => {
+  triggerHaptic("heavy");
+  fire("claim");
+};
+
+export const playFreeze = () => {
+  triggerHaptic("medium");
+  fire("freeze");
+};

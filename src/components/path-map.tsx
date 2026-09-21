@@ -409,8 +409,8 @@ function PathNode({
         </span>
       ) : null}
       {current && !coaching ? (
-        <div className={cn("pointer-events-none absolute -top-2 lg:-top-4 size-16 lg:size-[88px]", shift > 8 ? "-left-16 lg:-left-24" : "-right-16 lg:-right-24")}>
-          <Mascot mood="wave" fill interactive={false} />
+        <div className={cn("pointer-events-auto z-20 cursor-pointer absolute -top-2 lg:-top-4 size-16 lg:size-[88px]", shift > 8 ? "-left-16 lg:-left-24" : "-right-16 lg:-right-24")}>
+          <Mascot mood="wave" fill interactive />
         </div>
       ) : null}
       <span className={cn("relative inline-flex", current && "node-pulse")}>

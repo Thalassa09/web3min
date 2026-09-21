@@ -1,10 +1,37 @@
+import { useEffect } from "react";
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { HydrationGate } from "@/components/hydration-gate";
+import { setAudioEnabled, primeAudio } from "@/lib/audio";
+import { useProgress } from "@/lib/store";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "web3min";
+
+function AudioEffectBridge() {
+  const sound = useProgress((s) => s.sound);
+
+  useEffect(() => {
+    setAudioEnabled(sound);
+  }, [sound]);
+
+  useEffect(() => {
+    const boot = () => {
+      void primeAudio();
+    };
+    window.addEventListener("pointerdown", boot, { passive: true });
+    window.addEventListener("touchstart", boot, { passive: true });
+    window.addEventListener("keydown", boot, { passive: true });
+    return () => {
+      window.removeEventListener("pointerdown", boot);
+      window.removeEventListener("touchstart", boot);
+      window.removeEventListener("keydown", boot);
+    };
+  }, []);
+
+  return null;
+}
 
 export const Route = createRootRoute({
   head: () => ({
@@ -41,6 +68,7 @@ function RootDocument() {
         <PreviewHostBridge />
         <AuthProvider>
           <HydrationGate>
+            <AudioEffectBridge />
             <Outlet />
           </HydrationGate>
         </AuthProvider>

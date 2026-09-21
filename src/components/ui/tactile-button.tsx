@@ -1,4 +1,6 @@
 import React from "react";
+import { playTap } from "@/lib/audio";
+import { useProgress } from "@/lib/store";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "amber" | "danger" | "success";
 export type ButtonSize = "sm" | "md" | "lg";
@@ -74,21 +76,31 @@ export function TactileButton({
   fullWidth = false,
   className = "",
   disabled,
+  onClick,
   ...props
 }: TactileButtonProps) {
+  const sound = useProgress((s) => s.sound);
   const v = VARIANT_STYLES[variant] ?? VARIANT_STYLES.primary;
   const s = SIZE_STYLES[size] ?? SIZE_STYLES.md;
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (sound && !disabled) {
+      playTap();
+    }
+    onClick?.(e);
+  };
 
   return (
     <button
       disabled={disabled}
+      onClick={handleClick}
       className={`
         relative inline-flex items-center justify-center font-sans font-extrabold select-none
         transition-all duration-100 ease-out cursor-pointer
         active:translate-y-[3px] active:shadow-none
         focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-[#0B4FD1] focus-visible:ring-offset-2
-        disabled:opacity-45 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:shadow-none
-        ${v.bg} ${v.text} ${v.border} ${disabled ? "shadow-none" : v.shadow} ${disabled ? "" : v.hover}
+        disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:shadow-none
+        ${disabled ? "bg-[#E2E8F0] text-[#8095AB] border-2 border-[#CBD5E1] shadow-none" : `${v.bg} ${v.text} ${v.border} ${v.shadow} ${v.hover}`}
         ${s} ${fullWidth ? "w-full" : ""} ${className}
       `}
       {...props}

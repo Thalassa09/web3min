@@ -93,8 +93,12 @@ export function Mascot({
     };
   }, [lite]);
 
+  const lastPoke = useRef(0);
   const poke = (clientX?: number) => {
     if (!interactive || lite) return;
+    const now = performance.now();
+    if (now - lastPoke.current < 150) return;
+    lastPoke.current = now;
     void primeAudio();
     let pan = 0;
     const box = root.current?.getBoundingClientRect();
@@ -117,7 +121,7 @@ export function Mascot({
       className={cn(
         "relative inline-flex items-end justify-center blobi-stage",
         lite && "blobi-lite",
-        interactive && !lite && "cursor-pointer select-none",
+        interactive && !lite && "cursor-pointer select-none touch-manipulation active:scale-95 transition-transform duration-75",
         className,
       )}
       style={fill ? { width: "100%", height: "100%" } : { width: size, height: size }}
@@ -125,6 +129,11 @@ export function Mascot({
       role={interactive && !lite ? "button" : undefined}
       tabIndex={interactive && !lite ? 0 : undefined}
       onClick={(e) => poke(e.clientX)}
+      onPointerDown={(e) => {
+        if (e.pointerType === "touch") {
+          poke(e.clientX);
+        }
+      }}
       onKeyDown={(e) => {
         if (!interactive || lite) return;
         if (e.key === "Enter" || e.key === " ") {

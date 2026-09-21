@@ -204,8 +204,11 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                   : "lg:mb-0 lg:w-56 lg:shrink-0 lg:flex-col lg:items-center lg:pt-1",
               )}
             >
-              <div className={cn(isTip ? "size-[72px] shrink-0 lg:size-[120px]" : "size-[88px] shrink-0 lg:size-[160px]")}>
-                <Mascot fill mood={isTip ? "think" : mood} />
+              <div className={cn(
+                "cursor-pointer pointer-events-auto select-none",
+                isTip ? "size-[72px] shrink-0 lg:size-[120px]" : "size-[88px] shrink-0 lg:size-[160px]",
+              )}>
+                <Mascot fill mood={isTip ? "think" : mood} interactive />
               </div>
               {isTip || blobiLine || phase === "feedback" ? (
                 <SpeechBubble className={cn("mt-2 flex-1", !isTip && "lg:mt-4 lg:w-full")} tail="left">

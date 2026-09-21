@@ -4,6 +4,7 @@ import { Fire, Heart } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { BlockStamp } from "@/components/motif";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
+import { playTap, setAudioEnabled } from "@/lib/audio";
 
 export function TopStatus({ brand = true }: { brand?: boolean }) {
   const streak = useProgress((s) => s.streak);
@@ -74,7 +75,14 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
         {/* 5. Sound Toggle */}
         <button
           type="button"
-          onClick={() => setSound(!sound)}
+          onClick={() => {
+            const next = !sound;
+            setSound(next);
+            setAudioEnabled(next);
+            if (next) {
+              playTap();
+            }
+          }}
           className="flex items-center justify-center size-8 sm:size-9 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[#1E3A5F] hover:text-[#0D2340] transition-all active:translate-y-[2px] active:shadow-none cursor-pointer shrink-0"
           title={sound ? "Matikan Suara" : "Nyalakan Suara"}
           aria-label={sound ? "Matikan Suara" : "Nyalakan Suara"}

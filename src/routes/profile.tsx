@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Ticket, Trophy, ShieldCheck, Flame, Heart, Sparkles, ExternalLink, Save } from "lucide-react";
+import { Ticket, Trophy, ShieldCheck, Flame, Heart, Sparkles, ExternalLink, Save, Check } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
 import { BlockStamp } from "@/components/motif";
@@ -10,8 +10,7 @@ import { wornList } from "@/lib/accessories";
 import { sanitizeBio, twitterUrl } from "@/lib/people";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
 import { kindOf, worldOf } from "@/lib/worlds";
-import { SpotlightCard } from "@/components/ui/spotlight-card";
-import { TelemetryBadge } from "@/components/ui/telemetry-badge";
+import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
 
 export const Route = createFileRoute("/profile")({ component: ProfilePage });
@@ -28,236 +27,206 @@ function ProfilePage() {
   const streak = useProgress((s) => s.streak);
   const hearts = useProgress((s) => s.hearts);
   const completed = useProgress((s) => s.completed);
-  const perfect = useProgress((s) => s.perfect);
-  const completedStories = useProgress((s) => s.completedStories);
-  const completedCases = useProgress((s) => s.completedCases);
-  const equipped = useProgress((s) => s.equipped);
-  const worn = useProgress((s) => s.worn);
   const [bioDraft, setBioDraft] = useState(bio);
   const [saved, setSaved] = useState(false);
   const lessonsDone = sequentialNodes().filter((n) => completed.includes(n.id)).length;
   const dirty = bioDraft !== bio;
 
+  function handleSaveBio() {
+    setBio(sanitizeBio(bioDraft));
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  }
+
   return (
     <AppShell>
-      <main className="px-4 py-6 max-w-5xl mx-auto space-y-8">
-        {/* Profile Hero Spotlight Card */}
-        <SpotlightCard glowColor="rgba(0, 229, 255, 0.2)" className="w-full">
-          <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-            {/* Mascot Holo Avatar */}
-            <div className="relative p-3 rounded-[24px] bg-[#111425] border border-[#232a48] shadow-[0_4px_24px_rgba(0,0,0,0.6)] shrink-0">
-              <Mascot mood="idle" size={120} />
-              <span className="absolute bottom-2 right-2 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f59b] opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00f59b] border-2 border-[#111425]" />
-              </span>
+      <main className="px-4 py-6 max-w-5xl mx-auto space-y-6">
+        {/* Profile Card */}
+        <SurfaceCard className="p-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+            {/* Mascot Avatar */}
+            <div className="p-4 rounded-[20px] bg-[#141824] border border-[#232b3e] shrink-0">
+              <Mascot mood="idle" size={100} />
             </div>
 
-            {/* Profile Identity Info */}
-            <div className="flex-1 min-w-0 space-y-2">
+            {/* Profile Info */}
+            <div className="flex-1 min-w-0 space-y-3">
               <div className="flex items-center justify-center sm:justify-start gap-3 flex-wrap">
-                <h1 className="font-display font-black text-2xl text-zinc-100 tracking-tight">
+                <h1 className="font-display font-extrabold text-2xl text-[#f1f4fa] tracking-tight">
                   @{username || "pelajar"}
                 </h1>
-                <TelemetryBadge label="RANK" value="EXPLORER" tone="cyan" />
-                <TelemetryBadge label="LEVEL" value={Math.floor(xp / 100) + 1} tone="mint" />
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#00f59b]/15 text-[#00f59b]">
+                  Level {Math.floor(xp / 100) + 1}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#182030] text-[#8e9ab2]">
+                  Penjelajah Web3
+                </span>
               </div>
 
-              <p className="text-sm text-zinc-400 font-sans leading-relaxed max-w-xl">
-                {bio || "Mahasiswa Web3 · Menjelajahi protokol terdesentralisasi bersama web3min."}
-              </p>
-
-              <div className="flex items-center justify-center sm:justify-start gap-4 pt-1 flex-wrap">
-                {twitter ? (
-                  <a
-                    href={twitterUrl(twitter)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#00e5ff] hover:underline"
-                  >
-                    <span>@{twitter}</span>
-                    <ExternalLink className="size-3" />
-                  </a>
-                ) : null}
-
-                {wornList(worn).length ? (
-                  <span className="text-xs font-mono text-[#ff4d88] flex items-center gap-1">
-                    <Sparkles className="size-3" />
-                    Koleksi: {wornList(worn).map((a) => a.name).join(" · ")}
+              {/* Bio Edit */}
+              <div className="space-y-2 pt-1 max-w-xl">
+                <div className="relative">
+                  <textarea
+                    rows={2}
+                    value={bioDraft}
+                    onChange={(e) => setBioDraft(e.target.value.slice(0, 80))}
+                    placeholder="Tulis status atau motto belajarmu..."
+                    className="w-full px-3.5 py-2.5 rounded-[12px] bg-[#0c1017] border border-[#232b3e] text-xs text-[#f1f4fa] placeholder:text-[#5a667d] focus:outline-none focus:border-[#00f59b] transition-colors resize-none"
+                  />
+                  <span className="absolute right-2.5 bottom-2 text-[10px] font-mono text-[#5a667d]">
+                    {bioDraft.length}/80
                   </span>
-                ) : equipped ? (
-                  <span className="text-xs font-mono text-[#ff4d88]">
-                    Kostum: {OUTFIT_LABEL[equipped] ?? equipped}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] text-[#5a667d]">
+                    Bio akan tampil pada papan undian dan profil publik.
                   </span>
-                ) : null}
+                  {dirty && (
+                    <TactileButton
+                      variant="primary"
+                      size="sm"
+                      onClick={handleSaveBio}
+                    >
+                      Simpan Bio
+                    </TactileButton>
+                  )}
+                  {saved && (
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#00f59b]">
+                      <Check className="size-3.5" /> Tersimpan
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </SpotlightCard>
+        </SurfaceCard>
 
-        {/* Sovereign Telemetry Metric Grid (4-Cols) */}
+        {/* 4 Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-[20px] bg-[#0c0d16] border border-[#1d2238] shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-zinc-500 font-mono text-xs">
-              <span>TOTAL XP</span>
+          <SurfaceCard className="p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#8e9ab2]">
+              <span className="text-xs font-medium">Total XP</span>
               <Trophy className="size-4 text-[#f59e0b]" />
             </div>
             <div className="mt-3">
-              <span className="font-display font-black text-2xl text-zinc-100 tabular-nums">
-                {xp}
-              </span>
-              <span className="block text-[11px] font-mono text-[#00f59b] mt-0.5">
-                {lessonsDone} Pelajaran Tuntas
-              </span>
+              <div className="text-2xl font-extrabold font-display text-[#f1f4fa]">{xp}</div>
+              <div className="text-[11px] text-[#5a667d] mt-0.5">Poin pengalaman</div>
             </div>
-          </div>
+          </SurfaceCard>
 
-          <div className="p-4 rounded-[20px] bg-[#0c0d16] border border-[#1d2238] shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-zinc-500 font-mono text-xs">
-              <span>STREAK AKTIF</span>
+          <SurfaceCard className="p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#8e9ab2]">
+              <span className="text-xs font-medium">Streak Belajar</span>
               <Flame className="size-4 text-[#ff9100]" />
             </div>
             <div className="mt-3">
-              <span className="font-display font-black text-2xl text-zinc-100 tabular-nums">
-                {streak}
-              </span>
-              <span className="block text-[11px] font-mono text-[#ff9100] mt-0.5">
-                Hari Berturut-turut
-              </span>
+              <div className="text-2xl font-extrabold font-display text-[#f1f4fa]">{streak} Hari</div>
+              <div className="text-[11px] text-[#5a667d] mt-0.5">Hari berturut-turut</div>
             </div>
-          </div>
+          </SurfaceCard>
 
-          <div className="p-4 rounded-[20px] bg-[#0c0d16] border border-[#1d2238] shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-zinc-500 font-mono text-xs">
-              <span>SALDO BINTANG</span>
-              <BlockStamp size={16} />
+          <SurfaceCard className="p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#8e9ab2]">
+              <span className="text-xs font-medium">Saldo Bintang</span>
+              <BlockStamp size={16} className="text-[#f59e0b]" />
             </div>
             <div className="mt-3">
-              <span className="font-display font-black text-2xl text-zinc-100 tabular-nums">
-                {formatGems(gems)}
-              </span>
-              <span className="block text-[11px] font-mono text-[#f59e0b] mt-0.5">
-                Bintang Tersedia
-              </span>
+              <div className="text-2xl font-extrabold font-display text-[#f1f4fa]">{formatGems(gems)}</div>
+              <div className="text-[11px] text-[#5a667d] mt-0.5">Untuk toko & kostum</div>
             </div>
-          </div>
+          </SurfaceCard>
 
-          <div className="p-4 rounded-[20px] bg-[#0c0d16] border border-[#1d2238] shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-zinc-500 font-mono text-xs">
-              <span>TIKET RAFFLE</span>
+          <SurfaceCard className="p-4 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#8e9ab2]">
+              <span className="text-xs font-medium">Tiket Undian</span>
               <Ticket className="size-4 text-[#00f59b]" />
             </div>
             <div className="mt-3">
-              <span className="font-display font-black text-2xl text-[#00f59b] tabular-nums">
-                {raffleTickets}
-              </span>
-              <span className="block text-[11px] font-mono text-zinc-400 mt-0.5">
-                {Object.keys(enteredRaffles).length} Pool Diikuti
-              </span>
+              <div className="text-2xl font-extrabold font-display text-[#f1f4fa]">{raffleTickets}</div>
+              <div className="text-[11px] text-[#5a667d] mt-0.5">Tiket undian aktif</div>
             </div>
-          </div>
+          </SurfaceCard>
         </div>
 
-        {/* Bio Editor & Status Broadcast */}
-        <div className="p-6 rounded-[24px] bg-[#090b14] border border-[#1b1f33] space-y-4">
+        {/* Active Raffle Participations */}
+        <SurfaceCard className="p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Ticket className="size-5 text-[#00f59b]" />
+              <h2 className="font-display font-bold text-lg text-[#f1f4fa]">
+                Partisipasi Undian Web3
+              </h2>
+            </div>
+            <Link to="/leaderboard" className="text-xs font-semibold text-[#00f59b] hover:underline">
+              Buka Arena Undian →
+            </Link>
+          </div>
+
+          {Object.keys(enteredRaffles).length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {Object.entries(enteredRaffles).map(([poolId, tickets]) => (
+                <div
+                  key={poolId}
+                  className="p-3.5 rounded-[14px] bg-[#121622] border border-[#1e2536] flex items-center justify-between"
+                >
+                  <div>
+                    <div className="text-xs font-bold text-[#f1f4fa]">Kolam #{poolId}</div>
+                    <div className="text-[11px] text-[#8e9ab2] mt-0.5">Tiket terpasang: {tickets.count} tiket</div>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-[#00f59b]/15 text-[#00f59b] text-xs font-semibold">
+                    Terdaftar
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-4 rounded-[14px] bg-[#0c1017] border border-[#1e2536] text-center text-xs text-[#8e9ab2]">
+              Kamu belum memasang tiket pada undian yang sedang berjalan. Buka tab <strong>Undian</strong> untuk ikut serta!
+            </div>
+          )}
+        </SurfaceCard>
+
+        {/* Curriculum Badges */}
+        <SurfaceCard className="p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-display font-bold text-lg text-zinc-100">Status & Bio Pelajar</h2>
-              <p className="text-xs text-zinc-400 font-sans">
-                Status publik ini dapat dilihat peserta lain di papan undian Web3.
+              <h2 className="font-display font-bold text-lg text-[#f1f4fa]">
+                Lencana Kurikulum Web3
+              </h2>
+              <p className="text-xs text-[#8e9ab2] mt-0.5">
+                {lessonsDone} dari 20 modul telah kamu selesaikan.
               </p>
             </div>
-            <TelemetryBadge label="STATUS" value={dirty ? "EDITED" : "SAVED"} tone={dirty ? "amber" : "mint"} />
-          </div>
-
-          <div className="space-y-2">
-            <input
-              id="bio"
-              value={bioDraft}
-              onChange={(e) => setBioDraft(sanitizeBio(e.target.value))}
-              placeholder="Contoh: Meneliti smart contract vulnerability di rute Hutan Bit..."
-              className="w-full h-12 px-4 rounded-[14px] bg-[#05050a] border border-[#232840] font-sans text-sm text-zinc-100 focus:outline-none focus:border-[#00f59b] transition-colors"
-              maxLength={80}
-            />
-            <div className="flex items-center justify-between text-[11px] font-mono text-zinc-500">
-              <span>Maksimal 80 karakter</span>
-              <span>{bioDraft.length}/80</span>
+            <div className="text-xs font-mono font-bold text-[#00f59b]">
+              {Math.round((lessonsDone / 20) * 100)}% SELESAI
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-2">
-            <TactileButton
-              variant="primary"
-              size="sm"
-              disabled={!dirty}
-              icon={<Save className="size-3.5" />}
-              onClick={() => {
-                setBio(bioDraft);
-                setSaved(true);
-                window.setTimeout(() => setSaved(false), 4000);
-              }}
-            >
-              Simpan Perubahan
-            </TactileButton>
-
-            {saved && (
-              <span className="text-xs font-mono text-[#00f59b] flex items-center gap-1 animate-fade-in">
-                <ShieldCheck className="size-3.5" /> Tersimpan ke local storage
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Route Badge Mastery Matrix */}
-        <div className="p-6 rounded-[24px] bg-[#090b14] border border-[#1b1f33] space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="font-display font-bold text-lg text-zinc-100">Lencana Rute Web3</h2>
-              <p className="text-xs text-zinc-400 font-sans">
-                Tanda kelulusan tiap unit rute pembelajaran yang berhasil diselesaikan.
-              </p>
-            </div>
-            <span className="text-xs font-mono text-zinc-500">
-              {UNITS.filter((u) => unitEarned(u, completed)).length}/{UNITS.length} Lencana
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-2">
-            {UNITS.map((unit) => {
-              const world = worldOf(unit.id);
-              const on = unitEarned(unit, completed);
-
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 pt-2">
+            {sequentialNodes().map((node) => {
+              const isUnlocked = completed.includes(node.id);
               return (
                 <div
-                  key={unit.id}
-                  className={`p-4 rounded-[18px] border flex flex-col items-center text-center transition-all ${
-                    on
-                      ? "bg-[#0d141e] border-[#00f59b]/40 shadow-[0_0_16px_rgba(0,245,155,0.08)]"
-                      : "bg-[#070810] border-[#161928] opacity-50"
+                  key={node.id}
+                  className={`p-3 rounded-[14px] border text-center flex flex-col items-center justify-between gap-2 transition-all ${
+                    isUnlocked
+                      ? "bg-[#141d2c] border-[#00f59b]/35 shadow-sm"
+                      : "bg-[#0c1017] border-[#1a2130] opacity-50"
                   }`}
                 >
-                  <img
-                    src={world.stamp}
-                    alt={world.land}
-                    className={`size-10 pixelated object-contain mb-2 ${on ? "" : "grayscale"}`}
-                  />
-                  <span className="font-display font-bold text-xs text-zinc-200 truncate max-w-full">
-                    {world.land}
-                  </span>
-                  <span className="text-[10px] font-mono text-zinc-500 mt-0.5">
-                    {kindOf(unit.id)}
-                  </span>
-                  <div className="mt-2">
-                    <TelemetryBadge
-                      label={on ? "EARNED" : "LOCKED"}
-                      tone={on ? "mint" : "zinc"}
-                    />
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-base bg-[#182030] text-[#f1f4fa]">
+                    {isUnlocked ? "🏅" : "🔒"}
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-bold text-[#f1f4fa] line-clamp-1">{node.title}</div>
+                    <div className="text-[10px] text-[#8e9ab2] mt-0.5 line-clamp-1">{node.blurb}</div>
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
+        </SurfaceCard>
       </main>
     </AppShell>
   );

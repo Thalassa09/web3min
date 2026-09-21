@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Ticket, Sparkles, Clock, ArrowRight, BookOpen } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
-import { TelemetryBadge } from "@/components/ui/telemetry-badge";
+import { SurfaceCard } from "@/components/ui/surface-card";
 import { RouteChain } from "@/components/motif";
 import { firstIncompleteId, getLesson, getUnit } from "@/lib/curriculum";
 import { formatHeartWait, HEART_MS, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
@@ -42,16 +42,17 @@ export function HomeDock() {
 
   if (hearts <= 0) {
     return (
-      <div className="mx-4 mt-4 p-5 rounded-[22px] bg-[#12080c] border border-[#ff4365]/30 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+      <SurfaceCard className="mx-4 mt-4 p-5 border-[#ff4365]/30">
         <div className="flex items-center gap-2 mb-2">
-          <TelemetryBadge label="STATUS" value="NYAWA HABIS" tone="rose" pulsing />
-          <span className="text-[10px] font-mono text-zinc-500">PEMULIHAN OTOMATIS</span>
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#ff4365]/15 text-[#ff4365]">
+            Nyawa Habis
+          </span>
         </div>
-        <h2 className="font-display font-black text-xl text-zinc-100 leading-snug">
-          Nyawa Habis · Istirahat Sejenak
+        <h2 className="font-display font-extrabold text-xl text-[#f1f4fa]">
+          Istirahat Sejenak
         </h2>
-        <p className="mt-1 text-xs text-zinc-400 font-sans leading-relaxed">
-          Nyawa berikutnya sekitar {formatHeartWait(wait)}. Atau baca kisah Web3 tanpa risiko pengurangan nyawa.
+        <p className="mt-1 text-xs text-[#8e9ab2] leading-relaxed">
+          Nyawa berikutnya siap dalam {formatHeartWait(wait)}. Atau kamu bisa membaca cerita Web3 tanpa mengurangi nyawa.
         </p>
         <div className="mt-4 flex flex-col sm:flex-row gap-2">
           <Link to="/kisah" className="flex-1">
@@ -61,51 +62,52 @@ export function HomeDock() {
           </Link>
           <Link to="/shop" className="sm:w-auto">
             <TactileButton variant="primary" size="md" icon={<Sparkles className="size-4" />}>
-              Beli Nyawa (Shop)
+              Beli Nyawa di Toko
             </TactileButton>
           </Link>
         </div>
-      </div>
+      </SurfaceCard>
     );
   }
 
   return (
-    <div className="mx-4 mt-4 p-5 rounded-[24px] bg-gradient-to-b from-[#111322] to-[#0a0c16] border border-[#20253d] shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+    <SurfaceCard className="mx-4 mt-4 p-5">
       {lesson && world ? (
         <div className="space-y-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <TelemetryBadge label="ZONE" value={world.land} tone="cyan" />
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#182030] text-[#8e9ab2]">
+                {world.land}
+              </span>
               {lessonNo > 0 && (
-                <span className="text-[11px] font-mono text-zinc-400">
-                  MODUL {lessonNo}/{scoredLessons.length}
+                <span className="text-xs text-[#5a667d]">
+                  Modul {lessonNo} dari {scoredLessons.length}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-mono text-[#00f59b] font-bold flex items-center gap-1">
-                <Ticket className="size-3" /> +1 Tiket Raffle
-              </span>
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#00f59b]">
+              <Ticket className="size-3.5" />
+              <span>+1 Tiket Undian</span>
             </div>
           </div>
 
           <div>
-            <h2 className="font-display font-black text-xl text-zinc-100 tracking-tight">
+            <h2 className="font-display font-extrabold text-xl text-[#f1f4fa] tracking-tight">
               {goalHit ? "Target Harian Tercapai!" : lesson.title}
             </h2>
-            <p className="mt-1 text-xs text-zinc-400 font-sans leading-relaxed">
+            <p className="mt-1 text-xs text-[#8e9ab2] leading-relaxed">
               {lesson.blurb}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-[11px] font-mono text-zinc-400 py-1">
+          <div className="flex items-center gap-3 text-xs text-[#8e9ab2] py-0.5">
             <span className="flex items-center gap-1">
-              <Clock className="size-3 text-zinc-500" /> ~{mins} Menit
+              <Clock className="size-3.5 text-[#5a667d]" /> ~{mins} Menit
             </span>
-            <span>/</span>
-            <span className="text-[#f59e0b] font-bold">+{lesson.xp} XP</span>
-            <span>/</span>
-            <span className="text-[#f59e0b] font-bold">+{lesson.gems} Bintang</span>
+            <span>·</span>
+            <span className="text-[#f59e0b] font-semibold">+{lesson.xp} XP</span>
+            <span>·</span>
+            <span className="text-[#f59e0b] font-semibold">+{lesson.gems} Bintang</span>
           </div>
 
           <div className="pt-2">
@@ -133,7 +135,7 @@ export function HomeDock() {
 
           {showCaraLink && (
             <div className="pt-1 flex justify-end">
-              <Link to="/cara" className="text-xs font-mono text-zinc-500 hover:text-[#00e5ff] transition-colors">
+              <Link to="/cara" className="text-xs text-[#8e9ab2] hover:text-[#00f59b] transition-colors">
                 Petunjuk Bermain →
               </Link>
             </div>
@@ -141,13 +143,14 @@ export function HomeDock() {
         </div>
       ) : (
         <div className="text-center py-4 space-y-2">
-          <TelemetryBadge label="STATUS" value="ALL COMPLETE" tone="mint" />
-          <h2 className="font-display font-black text-xl text-zinc-100">Semua Rute Berhasil Diselesaikan!</h2>
-          <p className="text-xs text-zinc-400 font-sans">
-            Kamu telah menguasai seluruh kurikulum dasar Web3. Ikuti undian bulanan atau perdalam analisis kasus.
+          <h2 className="font-display font-extrabold text-xl text-[#f1f4fa]">
+            Semua Modul Selesai!
+          </h2>
+          <p className="text-xs text-[#8e9ab2]">
+            Kamu telah menyelesaikan seluruh materi belajar. Masuk ke Arena Undian untuk menukarkan tiketmu!
           </p>
         </div>
       )}
-    </div>
+    </SurfaceCard>
   );
 }

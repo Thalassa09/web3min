@@ -14,8 +14,8 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const setSound = useProgress((s) => s.setSound);
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between gap-2 px-4 py-2.5 bg-[#070810]/90 backdrop-blur-xl border-b border-[#181d2e] select-none">
-      {/* Brand / Logo */}
+    <header className="sticky top-0 z-30 flex items-center justify-between gap-2 px-4 py-2.5 bg-[#0a0d14]/90 backdrop-blur-md border-b border-[#1a2130] select-none">
+      {/* Brand on Mobile */}
       {brand ? (
         <BrandMark className="mr-auto min-w-0 lg:hidden" />
       ) : (
@@ -23,58 +23,56 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
       )}
       <span className="mr-auto hidden lg:block" />
 
-      {/* Telemetry Stat Cluster */}
+      {/* Stats Cluster */}
       <div className="flex items-center gap-1.5 sm:gap-2">
-        {/* Streak Pill */}
+        {/* Streak */}
         <div
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#111322] border border-[#222842] text-[#ff9100] font-mono text-xs font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:border-[#ff9100]/40 transition-colors"
-          title="Streak Belajar Berturut-turut"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] text-xs font-bold font-sans hover:border-[#2b354c] transition-colors"
+          title="Streak Belajar"
         >
-          <Fire className="size-4 shrink-0" weight="fill" />
-          <span className="text-zinc-100 tabular-nums">{streak}</span>
-          <span className="hidden sm:inline text-[10px] text-zinc-500 uppercase">HARI</span>
+          <Fire className="size-4 shrink-0 text-[#ff9100]" weight="fill" />
+          <span className="text-[#f1f4fa] tabular-nums">{streak}</span>
         </div>
 
-        {/* Gems / Bintang Pill */}
+        {/* Gems / Bintang */}
         <div
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#111322] border border-[#222842] text-[#f59e0b] font-mono text-xs font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:border-[#f59e0b]/40 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] text-xs font-bold font-sans hover:border-[#2b354c] transition-colors"
           title="Bintang Belajar"
         >
-          <BlockStamp size={15} />
-          <span className="text-zinc-100 tabular-nums">{formatGems(gems)}</span>
+          <BlockStamp size={14} className="text-[#f59e0b]" />
+          <span className="text-[#f1f4fa] tabular-nums">{formatGems(gems)}</span>
         </div>
 
-        {/* Raffle Tickets Pill */}
+        {/* Raffle Tickets */}
         <Link
           to="/leaderboard"
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#0c1a17] border border-[#00f59b]/35 text-[#00f59b] font-mono text-xs font-bold shadow-[0_0_12px_rgba(0,245,155,0.1),inset_0_1px_0_rgba(255,255,255,0.08)] hover:bg-[#102420] hover:border-[#00f59b]/60 transition-all active:scale-[0.96]"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] hover:border-[#00f59b]/50 text-xs font-bold font-sans transition-all active:scale-[0.97]"
           title="Tiket Undian Web3"
         >
-          <Ticket className="size-3.5 shrink-0 animate-pulse" />
-          <span className="text-white tabular-nums font-black">{raffleTickets}</span>
-          <span className="hidden sm:inline text-[10px] text-[#00f59b] opacity-80 uppercase">TIKET</span>
+          <Ticket className="size-3.5 shrink-0 text-[#00f59b]" />
+          <span className="text-[#f1f4fa] tabular-nums">{raffleTickets}</span>
         </Link>
 
-        {/* Hearts / Nyawa Pill */}
+        {/* Hearts */}
         <div
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#1a111a] border border-[#ff4365]/35 text-[#ff4365] font-mono text-xs font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:border-[#ff4365]/60 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#121622] border border-[#1e2536] text-xs font-bold font-sans hover:border-[#2b354c] transition-colors"
           title="Nyawa Tersisa"
         >
-          <Heart className="size-4 shrink-0" weight="fill" />
-          <span className="text-zinc-100 tabular-nums">
+          <Heart className="size-4 shrink-0 text-[#ff4365]" weight="fill" />
+          <span className="text-[#f1f4fa] tabular-nums">
             {hearts}/{MAX_HEARTS}
           </span>
         </div>
 
-        {/* Sound Toggle Button */}
+        {/* Sound Toggle */}
         <button
           type="button"
           onClick={() => setSound(!sound)}
-          className="p-1.5 rounded-[10px] bg-[#111322] border border-[#222842] text-zinc-400 hover:text-zinc-100 hover:border-zinc-600 transition-all active:scale-[0.92]"
-          title={sound ? "Matikan Efek Suara" : "Nyalakan Efek Suara"}
-          aria-label={sound ? "Matikan Efek Suara" : "Nyalakan Efek Suara"}
+          className="p-2 rounded-[12px] bg-[#121622] border border-[#1e2536] text-[#8e9ab2] hover:text-[#f1f4fa] hover:border-[#2b354c] transition-all active:scale-[0.95]"
+          title={sound ? "Matikan Suara" : "Nyalakan Suara"}
+          aria-label={sound ? "Matikan Suara" : "Nyalakan Suara"}
         >
-          {sound ? <Volume2 className="size-4 text-[#00f59b]" /> : <VolumeX className="size-4 text-zinc-500" />}
+          {sound ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
         </button>
       </div>
     </header>

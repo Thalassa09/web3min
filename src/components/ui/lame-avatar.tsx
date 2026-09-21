@@ -10,21 +10,20 @@ interface LameAvatarProps {
 }
 
 const AVATAR_SIZES = {
-  sm: { box: "w-9 h-9 rounded-[10px]", text: "text-xs", pillText: "text-[10px]" },
-  md: { box: "w-12 h-12 rounded-[14px]", text: "text-sm", pillText: "text-[11px]" },
-  lg: { box: "w-16 h-16 rounded-[18px]", text: "text-base", pillText: "text-xs" },
+  sm: { box: "w-9 h-9 rounded-[10px]", text: "text-xs" },
+  md: { box: "w-12 h-12 rounded-[14px]", text: "text-sm" },
+  lg: { box: "w-16 h-16 rounded-[18px]", text: "text-base" },
 };
 
 /**
- * Blueprint 3.11 from UI UX Component Library:
- * Squircle Lamé Identity Avatar with Telemetry Micro-Pill & Doppelrand bezel.
+ * Clean Avatar with Squircle contour
  */
 export function LameAvatar({
   name,
   subtext,
   avatarUrl,
   size = "md",
-  isOnline = true,
+  isOnline = false,
   className = "",
 }: LameAvatarProps) {
   const s = AVATAR_SIZES[size];
@@ -32,10 +31,9 @@ export function LameAvatar({
 
   return (
     <div className={`inline-flex items-center gap-3 ${className}`}>
-      {/* Lamé Squircle Outer Frame */}
-      <div className="relative p-[1.5px] rounded-[15px] bg-gradient-to-b from-[#2a304e] to-[#121422] shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+      <div className="relative">
         <div
-          className={`relative ${s.box} bg-[#0b0c14] flex items-center justify-center font-display font-black text-zinc-200 overflow-hidden border border-[#1e2338]`}
+          className={`relative ${s.box} bg-[#141824] flex items-center justify-center font-sans font-bold text-[#f1f4fa] overflow-hidden border border-[#232b3e]`}
         >
           {avatarUrl ? (
             <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
@@ -43,11 +41,9 @@ export function LameAvatar({
             <span>{initials}</span>
           )}
 
-          {/* Online Presence Beacon */}
           {isOnline && (
             <span className="absolute bottom-1 right-1 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f59b] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00f59b] border border-[#0b0c14]" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00f59b] border border-[#0e121a]" />
             </span>
           )}
         </div>
@@ -55,10 +51,10 @@ export function LameAvatar({
 
       {subtext && (
         <div className="flex flex-col min-w-0">
-          <span className="font-display font-bold text-zinc-100 truncate text-sm leading-tight">
+          <span className="font-sans font-bold text-[#f1f4fa] truncate text-sm leading-tight">
             {name}
           </span>
-          <span className="font-mono text-xs text-[#00e5ff] tracking-wide truncate">
+          <span className="text-xs text-[#8e9ab2] truncate mt-0.5">
             {subtext}
           </span>
         </div>

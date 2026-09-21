@@ -151,48 +151,47 @@ function RafflePage() {
         )}
 
         {/* Top Telemetry & Activity Bar */}
-        <header className="border-b border-white/[0.08] pb-5">
+        <header className="border-b border-[#1c2333] pb-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 font-mono text-xs font-bold text-[#00f59b]">
-              <span className="relative flex size-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f59b] opacity-75" />
-                <span className="relative inline-flex rounded-full size-2.5 bg-[#00f59b]" />
+            <div className="flex items-center gap-2.5 text-xs font-semibold text-[#00f59b]">
+              <span className="relative flex size-2">
+                <span className="relative inline-flex rounded-full size-2 bg-[#00f59b]" />
               </span>
-              <span className="tracking-wider">[ PROTOCOL // PROVABLY-FAIR DRAW ]</span>
+              <span>Undian Hadiah Web3</span>
               <span className="text-[#555566] hidden sm:inline">•</span>
-              <span className="text-[#888899] text-[11px] hidden sm:inline">ZERO-LOSS REWARD ENGINE</span>
+              <span className="text-[#8e9ab2] text-xs font-normal hidden sm:inline">Terverifikasi On-chain via Chainlink VRF</span>
             </div>
 
             {/* Quick Balances */}
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <div className="rounded-sm border border-white/[0.08] bg-[#10121a] px-3 py-1.5 flex items-center gap-1.5">
-                <span className="text-[#888899]">TIKET:</span>
-                <span className="font-black text-[#00f59b]">{raffleTickets}</span>
+            <div className="flex items-center gap-2 text-xs">
+              <div className="rounded-[10px] border border-[#222b3e] bg-[#121622] px-3 py-1.5 flex items-center gap-1.5 font-sans">
+                <span className="text-[#8e9ab2]">Tiket:</span>
+                <span className="font-bold text-[#00f59b]">{raffleTickets}</span>
               </div>
-              <div className="rounded-sm border border-white/[0.08] bg-[#10121a] px-3 py-1.5 flex items-center gap-1.5">
-                <span className="text-[#888899]">BINTANG:</span>
-                <span className="font-black text-[#ffb800]">{gems}</span>
+              <div className="rounded-[10px] border border-[#222b3e] bg-[#121622] px-3 py-1.5 flex items-center gap-1.5 font-sans">
+                <span className="text-[#8e9ab2]">Bintang:</span>
+                <span className="font-bold text-[#f59e0b]">{gems}</span>
               </div>
             </div>
           </div>
 
           {/* Activity Marquee Ticker */}
-          <div className="mt-4 flex items-center gap-3 overflow-hidden rounded-sm border border-white/[0.06] bg-[#0b0d13] px-3 py-2">
-            <span className="font-mono text-[10px] font-black uppercase tracking-wider text-[#00f59b] whitespace-nowrap z-10 bg-[#0b0d13] pr-2 flex items-center gap-1.5 select-none">
-              <span className="size-1.5 rounded-full bg-[#00f59b] animate-pulse" />
-              // VERIFIED TAPE
+          <div className="mt-4 flex items-center gap-3 overflow-hidden rounded-[12px] border border-[#1a2130] bg-[#0c1017] px-3 py-2">
+            <span className="text-xs font-bold text-[#00f59b] whitespace-nowrap z-10 bg-[#0c1017] pr-2 flex items-center gap-1.5 select-none">
+              <span className="size-1.5 rounded-full bg-[#00f59b]" />
+              Aktivitas Langsung
             </span>
             <div className="overflow-hidden flex-1 select-none">
-              <div className="ticker-track flex items-center gap-8 text-[11px] font-mono text-[#88889a]">
+              <div className="ticker-track flex items-center gap-8 text-xs text-[#8e9ab2]">
                 {[...INITIAL_ACTIVITIES, ...INITIAL_ACTIVITIES].map((act, idx) => (
                   <div key={`${act.id}-${idx}`} className="flex items-center gap-1.5 whitespace-nowrap">
-                    <span className={act.type === "win" ? "text-[#ffb800] font-bold" : "text-[#00f59b]"}>
+                    <span className={act.type === "win" ? "text-[#f59e0b] font-bold" : "text-[#00f59b]"}>
                       {act.type === "win" ? "★" : "+"}
                     </span>
-                    <span className="font-semibold text-white">@{act.username}</span>
+                    <span className="font-semibold text-[#f1f4fa]">@{act.username}</span>
                     <span>{act.action}</span>
-                    <span className="text-[#f4f4f5]">"{act.raffleTitle}"</span>
-                    <span className="text-[9px] text-[#555566]">[{act.timeAgo}]</span>
+                    <span className="text-[#f1f4fa]">"{act.raffleTitle}"</span>
+                    <span className="text-[10px] text-[#5a667d]">({act.timeAgo})</span>
                   </div>
                 ))}
               </div>
@@ -234,8 +233,8 @@ function RafflePage() {
 
                 {/* Title & Host */}
                 <div className="mt-4">
-                  <span className="font-mono text-xs font-semibold text-[#88889a] uppercase tracking-wider">
-                    HOSTED BY // {featuredRaffle.host}
+                  <span className="font-sans text-xs font-semibold text-[#8e9ab2]">
+                    Disponsori oleh {featuredRaffle.host}
                   </span>
                   <h1 className="mt-1 font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase tracking-tight text-white">
                     {featuredRaffle.title}
@@ -282,11 +281,11 @@ function RafflePage() {
                 {/* Interactive Ticket Injector & Live Odds Meter */}
                 <div className="mt-6 rounded-sm border border-white/[0.08] bg-[#0c0e15] p-4 sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
-                    <span className="font-mono text-xs font-black uppercase text-white tracking-wider">
-                      // SETOR TIKET KE POOL
+                    <span className="font-sans text-xs font-bold uppercase text-white tracking-wider">
+                      Pasang Tiket Undian
                     </span>
-                    <div className="font-mono text-xs text-[#00f59b] font-bold">
-                      TIKET ANDA DI POOL INI: {featuredUserEntries} TIKET
+                    <div className="font-sans text-xs text-[#00f59b] font-bold">
+                      Tiket kamu di pool ini: {featuredUserEntries} tiket
                     </div>
                   </div>
 
@@ -397,11 +396,11 @@ function RafflePage() {
             {/* Card 1: Personal Ticket Vault */}
             <div className="squircle-outer">
               <div className="squircle-inner p-5 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-                  <span className="font-mono text-xs font-black uppercase tracking-wider text-white">
-                    // TIKET VAULT
+                <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+                  <span className="font-sans text-xs font-bold uppercase tracking-wider text-white">
+                    Saldo Tiket Kamu
                   </span>
-                  <span className="font-mono text-[10px] text-[#00f59b] font-bold">[ ACTIVE ]</span>
+                  <span className="font-sans text-[11px] text-[#00f59b] font-bold">Aktif</span>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -454,10 +453,10 @@ function RafflePage() {
             {/* Card 2: Zero-Loss Protocol Principles */}
             <div className="squircle-outer">
               <div className="squircle-inner p-5 space-y-3 font-mono text-xs">
-                <span className="text-xs font-black uppercase text-[#00f59b] tracking-wider block">
-                  // ZERO-LOSS GUARANTEE
+                <span className="text-xs font-bold uppercase text-[#00f59b] tracking-wider block font-sans">
+                  Prinsip Edukasi & Hadiah
                 </span>
-                <p className="text-[#888899] leading-relaxed text-[11px]">
+                <p className="text-[#888899] leading-relaxed text-xs">
                   Web3min Raffle bukan judi kasino. Semua hadiah disponsori mitra ekosistem edukasi.
                 </p>
                 <div className="space-y-2 pt-2 border-t border-white/[0.06] text-[11px]">
@@ -486,11 +485,8 @@ function RafflePage() {
           {/* Header & Filter Nav */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
             <div>
-              <span className="font-mono text-xs font-black uppercase tracking-wider text-[#00f59b]">
-                // REWARD CATALOG
-              </span>
-              <h2 className="mt-1 font-display text-xl sm:text-2xl font-bold uppercase text-white">
-                POOL HADIAH LAINNYA
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
+                Daftar Undian Lainnya
               </h2>
             </div>
 
@@ -555,8 +551,8 @@ function RafflePage() {
 
                     {/* Title & Host */}
                     <div className="mt-3">
-                      <span className="font-mono text-[11px] text-[#888899] font-bold">
-                        HOST // {raffle.host}
+                      <span className="font-sans text-[11px] text-[#888899]">
+                        Oleh {raffle.host}
                       </span>
                       <h3 className="mt-0.5 font-display text-lg font-bold text-white">
                         {raffle.title}
@@ -636,15 +632,15 @@ function RafflePage() {
             <div className="w-full max-w-md squircle-outer modal-animated">
               <div className="squircle-inner p-6 space-y-4">
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-                  <span className="font-mono text-xs font-black text-[#00f59b] uppercase tracking-wider">
-                    // ENTER REWARD POOL
+                  <span className="font-sans text-xs font-bold text-[#00f59b] uppercase tracking-wider">
+                    Ikuti Undian Hadiah
                   </span>
                   <button
                     type="button"
                     onClick={() => setActiveModalRaffle(null)}
-                    className="font-mono text-xs text-[#888899] hover:text-white"
+                    className="font-sans text-xs text-[#888899] hover:text-white"
                   >
-                    [ X TUTUP ]
+                    ✕ Tutup
                   </button>
                 </div>
 
@@ -741,9 +737,9 @@ function RafflePage() {
             <div className="w-full max-w-lg squircle-outer modal-animated">
               <div className="squircle-inner p-6 space-y-4 font-mono text-xs">
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-                  <span className="font-black text-[#00f59b] uppercase tracking-wider flex items-center gap-2">
-                    <span className="size-2 rounded-full bg-[#00f59b] animate-pulse" />
-                    // CHAINLINK VRF V2.5 PROOF
+                  <span className="font-sans font-bold text-[#00f59b] uppercase tracking-wider flex items-center gap-2">
+                    <span className="size-2 rounded-full bg-[#00f59b]" />
+                    Bukti Keacakan Chainlink VRF V2.5
                   </span>
                   <button
                     type="button"
@@ -751,9 +747,9 @@ function RafflePage() {
                       playTap();
                       setActiveVrfRaffle(null);
                     }}
-                    className="text-[#888899] hover:text-white"
+                    className="font-sans text-xs text-[#888899] hover:text-white"
                   >
-                    [ X TUTUP ]
+                    ✕ Tutup
                   </button>
                 </div>
 
@@ -790,9 +786,9 @@ function RafflePage() {
                       playTap();
                       setActiveVrfRaffle(null);
                     }}
-                    className="w-full rounded-sm border border-[#00f59b] bg-[#00f59b] py-2.5 font-mono text-xs font-black uppercase text-[#070709] hover:bg-[#00d888]"
+                    className="w-full rounded-sm border border-[#00f59b] bg-[#00f59b] py-2.5 font-sans text-xs font-bold uppercase text-[#070709] hover:bg-[#00d888]"
                   >
-                    [ MENGERTI // TUTUP ]
+                    Saya Mengerti & Tutup
                   </button>
                 </div>
               </div>

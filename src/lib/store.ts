@@ -6,7 +6,7 @@ import { FREEZE_COST, HEART_REFILL_COST, OUTFIT_LABEL, SHOP_ITEMS } from "@/lib/
 import { QUESTS, questProgress } from "@/lib/quests";
 import { getCase, getStory, isOpen, knownCaseIds, knownStoryIds } from "@/lib/stories";
 import { sanitizeBio, sanitizeShout, sanitizeTwitter, sanitizeUsername, type Shout } from "@/lib/people";
-import { daysBetween, todayKey, weekId, yesterdayKey } from "@/lib/utils";
+import { daysBetween, todayKey, weekId, yesterdayKey } from "@/lib/time";
 import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE } from "@/lib/raffles";
 
 export type DailyGoal = 10 | 20 | 30 | 50;

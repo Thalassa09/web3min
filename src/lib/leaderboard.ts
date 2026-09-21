@@ -1,4 +1,4 @@
-import { weekId } from "@/lib/utils";
+import { weekId } from "@/lib/time";
 
 const BOTS = [
   "Sari",

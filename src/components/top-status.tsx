@@ -57,7 +57,7 @@ function StatPill({
     </>
   );
 
-  const className = `relative flex items-center gap-0.5 sm:gap-1 h-8 sm:h-9 px-1.5 sm:px-2.5 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[11px] sm:text-xs font-extrabold font-sans text-[#0D2340] transition-[transform,box-shadow,background-color] duration-150 shrink-0 ${to ? "cursor-pointer active:translate-y-[2px] active:shadow-none" : ""}`;
+  const className = `relative flex items-center gap-0.5 sm:gap-1 h-8 sm:h-9 px-1.5 sm:px-2.5 rounded-full bg-[#F7FAFC] hover:bg-[#F0F6FF] border-2 border-[#DCE7F5] shadow-[0_2px_0_#C8DBF0] text-[11px] sm:text-xs font-extrabold font-sans text-[#0D2340] transition-[transform,box-shadow,background-color] duration-150 shrink-0 ${to ? "cursor-pointer active:translate-y-[2px] active:shadow-none" : ""}`;
 
   if (to) {
     return (
@@ -93,15 +93,15 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const setSound = useProgress((s) => s.setSound);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-1 sm:gap-2 px-2 sm:px-4 bg-sky-600 border-b border-white/25 shadow-[0_4px_14px_rgba(11,79,209,0.3)] select-none overflow-hidden">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-1 sm:gap-2 px-3 sm:px-5 bg-white/95 backdrop-blur-md border-b-2 border-[#DCE7F5] shadow-[0_2px_8px_rgba(9,48,102,0.04)] select-none overflow-hidden">
       {/* Brand on Mobile / Small screens */}
       {brand ? (
         <Link to="/" className="mr-auto shrink-0 select-none flex items-center gap-1.5 lg:hidden" aria-label="Beranda">
           <span className="relative grid size-8 sm:size-9 place-items-center rounded-xl bg-[#FFC61A] border-2 border-[#D99400] shadow-[0_2px_0_#D99400]">
             <img src="/mascot/idle.png" alt="" className="size-6 pixelated object-contain" />
           </span>
-          <span className="hidden md:inline font-display text-lg font-bold tracking-tight text-white drop-shadow-[0_1px_1px_rgba(11,79,209,0.5)]">
-            web3<span className="text-[#FFC61A]">min</span>
+          <span className="font-display text-lg font-bold tracking-tight text-[#0B4FD1]">
+            web3<span className="text-[#D98200]">min</span>
           </span>
         </Link>
       ) : (
@@ -178,11 +178,11 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
               playTap();
             }
           }}
-          className="flex items-center justify-center size-8 sm:size-9 rounded-full bg-white/95 hover:bg-white border-2 border-white/80 shadow-[0_2px_0_#0B4FD1] text-[#1E3A5F] hover:text-[#0D2340] transition-[transform,box-shadow] duration-150 active:translate-y-[2px] active:shadow-none cursor-pointer shrink-0"
+          className="flex items-center justify-center size-8 sm:size-9 rounded-full bg-[#F7FAFC] hover:bg-[#F0F6FF] border-2 border-[#DCE7F5] shadow-[0_2px_0_#C8DBF0] text-[#1E3A5F] hover:text-[#0D2340] transition-[transform,box-shadow] duration-150 active:translate-y-[2px] active:shadow-none cursor-pointer shrink-0"
           title={sound ? "Matikan Suara" : "Nyalakan Suara"}
           aria-label={sound ? "Matikan Suara" : "Nyalakan Suara"}
         >
-          {sound ? <Volume2 className="size-3.5 sm:size-4" /> : <VolumeX className="size-3.5 sm:size-4 text-[#E63329]" />}
+          {sound ? <Volume2 className="size-3.5 sm:size-4 text-[#0B63F6]" /> : <VolumeX className="size-3.5 sm:size-4 text-[#E63329]" />}
         </button>
       </div>
     </header>

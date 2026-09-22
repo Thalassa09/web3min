@@ -132,7 +132,7 @@ function ShopPage() {
   const ownedCount = outfits.length;
   const totalCount = ACCESSORIES.length;
 
-  const isWearingSomething = Boolean(worn.hat || worn.face || worn.neck || worn.held);
+  const isWearingSomething = Boolean(activeWorn.hat || activeWorn.face || activeWorn.neck || activeWorn.held);
 
   return (
     <AppShell>
@@ -505,7 +505,14 @@ function ShopPage() {
                   {/* Currently Worn Breakdown */}
                   <div className="w-full mt-4 p-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-left space-y-2">
                     <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#4A6580] flex items-center justify-between">
-                      <span>Aksesori Aktif:</span>
+                      <span className="flex items-center gap-1.5">
+                        <span>Aksesori Aktif:</span>
+                        {previewWorn && (
+                          <span className="px-1.5 py-0.5 rounded-full bg-[#FFF7D1] border border-[#FFD84D] text-[9px] font-black text-[#B27B00]">
+                            Mode Coba
+                          </span>
+                        )}
+                      </span>
                       {isWearingSomething && (
                         <button
                           type="button"
@@ -523,25 +530,31 @@ function ShopPage() {
                       )}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                      <div className="p-2 rounded-[10px] bg-white border border-[#DCE7F5]">
-                        <span className="block text-[10px] font-bold text-[#4A6580]">Kepala</span>
-                        <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
-                          {activeWorn.hat ? ACCESSORIES.find((a) => a.id === activeWorn.hat)?.name : "Polos"}
-                        </strong>
-                      </div>
-                      <div className="p-2 rounded-[10px] bg-white border border-[#DCE7F5]">
-                        <span className="block text-[10px] font-bold text-[#4A6580]">Wajah</span>
-                        <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
-                          {activeWorn.face ? ACCESSORIES.find((a) => a.id === activeWorn.face)?.name : "Polos"}
-                        </strong>
-                      </div>
-                      <div className="p-2 rounded-[10px] bg-white border border-[#DCE7F5]">
-                        <span className="block text-[10px] font-bold text-[#4A6580]">Leher</span>
-                        <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
-                          {activeWorn.neck ? ACCESSORIES.find((a) => a.id === activeWorn.neck)?.name : "Polos"}
-                        </strong>
-                      </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                      {SLOTS.map((slot) => {
+                        const accId = activeWorn[slot];
+                        const acc = accId ? ACCESSORIES.find((a) => a.id === accId) : null;
+                        const isPreview = previewWorn && previewWorn[slot] === accId;
+                        return (
+                          <div
+                            key={slot}
+                            className={`p-2 rounded-[10px] border ${
+                              isPreview
+                                ? "bg-[#FFFDF5] border-[#FFD84D] shadow-[0_1px_0_#FFE680]"
+                                : acc
+                                ? "bg-[#F0FDF4] border-[#98E4B5]"
+                                : "bg-white border-[#DCE7F5]"
+                            }`}
+                          >
+                            <span className="block text-[10px] font-bold text-[#4A6580]">
+                              {SLOT_LABEL[slot]}
+                            </span>
+                            <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
+                              {acc ? acc.name : "Polos"}
+                            </strong>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </SurfaceCard>
@@ -725,20 +738,36 @@ function ShopPage() {
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    setPreviewWorn((prev) => ({
-                                      ...(prev ?? worn),
-                                      [acc.slot]: acc.id,
-                                    }));
-                                    playEquip();
+                                    if (isPreviewing) {
+                                      setPreviewWorn((prev) => {
+                                        if (!prev) return null;
+                                        const next = { ...prev };
+                                        delete next[acc.slot];
+                                        return Object.keys(next).length > 0 ? next : null;
+                                      });
+                                      playUnequip();
+                                      flash(`"${acc.name}" dicopot dari percobaan.`);
+                                    } else {
+                                      setPreviewWorn((prev) => ({
+                                        ...(prev ?? worn),
+                                        [acc.slot]: acc.id,
+                                      }));
+                                      playEquip();
+                                      flash(`Mencoba "${acc.name}" pada Blobi!`);
+                                    }
                                   }}
-                                  className="flex-1 py-1 rounded-[10px] bg-[#E4F0FF] border border-[#8FC2FF] text-[10px] font-extrabold text-[#0B4FD1] hover:bg-[#D4E8FF] cursor-pointer"
+                                  className={`flex-1 py-1 rounded-[10px] text-[10px] font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
+                                    isPreviewing
+                                      ? "bg-white border-2 border-[#F4A4A0] text-[#B01E18] hover:bg-[#FFF5F5] shadow-[0_1px_0_#F4A4A0]"
+                                      : "bg-[#E4F0FF] border border-[#8FC2FF] text-[#0B4FD1] hover:bg-[#D4E8FF]"
+                                  }`}
                                 >
-                                  Coba
+                                  {isPreviewing ? "Lepas" : "Coba"}
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setConfirm(acc)}
-                                  className="flex-1 py-1 rounded-[10px] bg-[#FFC61A] text-[#0D2340] border border-[#E5A800] text-[10px] font-extrabold hover:bg-[#FFD147] cursor-pointer"
+                                  className="flex-1 py-1 rounded-[10px] bg-[#FFC61A] text-[#0D2340] border border-[#E5A800] text-[10px] font-extrabold hover:bg-[#FFD147] shadow-[0_1px_0_#D99400] active:translate-y-[1px] cursor-pointer"
                                 >
                                   Beli
                                 </button>

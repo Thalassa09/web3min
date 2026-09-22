@@ -8,6 +8,7 @@ import {
 } from "@/lib/raffles";
 import { playBuy, playComplete, playDeny, playTap } from "@/lib/audio";
 import { useProgress } from "@/lib/store";
+import { rpcEnterRaffle, syncProgressFromServer } from "@/lib/server-sync";
 import { cn } from "@/lib/utils";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
@@ -130,7 +131,12 @@ function RafflePage() {
     if (enterRaffle(featuredRaffle.id, featuredStakeCount)) {
       playComplete();
       triggerToast(`Berhasil menyetorkan ${featuredStakeCount} tiket ke ${featuredRaffle.title}!`);
+      const count = featuredStakeCount;
+      const id = featuredRaffle.id;
       setFeaturedStakeCount(1);
+      void rpcEnterRaffle(id, count).then((ok) => {
+        if (ok) void syncProgressFromServer();
+      });
     } else {
       playDeny();
     }
@@ -158,7 +164,12 @@ function RafflePage() {
     if (enterRaffle(activeModalRaffle.id, ticketInput)) {
       playComplete();
       triggerToast(`Berhasil memasang ${ticketInput} tiket ke ${activeModalRaffle.title}!`);
+      const count = ticketInput;
+      const id = activeModalRaffle.id;
       setActiveModalRaffle(null);
+      void rpcEnterRaffle(id, count).then((ok) => {
+        if (ok) void syncProgressFromServer();
+      });
     } else {
       playDeny();
     }

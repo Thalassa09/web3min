@@ -248,6 +248,60 @@ export async function rpcClaimQuest(questId: string): Promise<boolean> {
   }
 }
 
+export async function rpcBuyFreeze(): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = "shop:freeze";
+  if (!canExecuteOp(opKey, 1000)) return false;
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    const { error } = await supabase.rpc("buy_freeze");
+    return !error;
+  } catch {
+    return false;
+  } finally {
+    endOp(opKey);
+  }
+}
+
+export async function rpcRefillHearts(): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = "shop:refill";
+  if (!canExecuteOp(opKey, 1000)) return false;
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    const { error } = await supabase.rpc("refill_hearts");
+    return !error;
+  } catch {
+    return false;
+  } finally {
+    endOp(opKey);
+  }
+}
+
+export async function rpcBuyTickets(count: number): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = `shop:tickets:${count}`;
+  if (!canExecuteOp(opKey, 1000)) return false;
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    const { error } = await supabase.rpc("buy_tickets", { p_count: count });
+    return !error;
+  } catch {
+    return false;
+  } finally {
+    endOp(opKey);
+  }
+}
+
 export async function rpcEnterRaffle(raffleId: string, tickets: number): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
   const opKey = `raffle:${raffleId}`;

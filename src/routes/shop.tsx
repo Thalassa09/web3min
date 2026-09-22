@@ -38,6 +38,7 @@ import {
 } from "@/lib/audio";
 import { FREEZE_COST, HEART_REFILL_COST } from "@/lib/shop";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
+import { rpcBuyFreeze, rpcRefillHearts, rpcBuyTickets, syncProgressFromServer } from "@/lib/server-sync";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
 
@@ -287,6 +288,9 @@ function ShopPage() {
                         if (buyRaffleTicketsWithGems(1)) {
                           playBuy();
                           flash("Berhasil menukar 50 Bintang menjadi 1 Tiket Undian!");
+                          void rpcBuyTickets(1).then((ok) => {
+                            if (ok) void syncProgressFromServer();
+                          });
                         } else {
                           playDeny();
                         }
@@ -334,6 +338,9 @@ function ShopPage() {
                         if (buyFreeze()) {
                           playFreeze();
                           flash("Pelindung Streak berhasil diaktifkan!");
+                          void rpcBuyFreeze().then((ok) => {
+                            if (ok) void syncProgressFromServer();
+                          });
                         } else {
                           playDeny();
                         }
@@ -381,6 +388,9 @@ function ShopPage() {
                         if (refillHearts()) {
                           playBuy();
                           flash("Semua 5 nyawa berhasil dipulihkan!");
+                          void rpcRefillHearts().then((ok) => {
+                            if (ok) void syncProgressFromServer();
+                          });
                         } else {
                           playDeny();
                         }

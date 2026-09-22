@@ -1,6 +1,7 @@
 import { playClaim } from "@/lib/audio";
 import { QUESTS, questProgress } from "@/lib/quests";
 import { useProgress } from "@/lib/store";
+import { rpcClaimQuest, syncProgressFromServer } from "@/lib/server-sync";
 import { cn } from "@/lib/utils";
 import { DuoButton } from "@/components/duo-button";
 import { BlockStamp, RouteChain } from "@/components/motif";
@@ -64,7 +65,12 @@ export function DailyQuests({ compact = false, className }: { compact?: boolean;
                   variant="primary"
                   size="sm"
                   onClick={() => {
-                    if (claimQuest(q.id)) playClaim();
+                    if (claimQuest(q.id)) {
+                      playClaim();
+                      void rpcClaimQuest(q.id).then((ok) => {
+                        if (ok) void syncProgressFromServer();
+                      });
+                    }
                   }}
                 >
                   Klaim

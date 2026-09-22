@@ -12,6 +12,24 @@ import {
   LogOut,
   ShieldCheck,
   ChevronDown,
+  Compass,
+  Wallet,
+  Coins,
+  TrendingUp,
+  ShieldAlert,
+  BarChart3,
+  Rocket,
+  Search,
+  Landmark,
+  Percent,
+  Brain,
+  Layers,
+  Gift,
+  Scale,
+  Palette,
+  Eye,
+  Award,
+  Lock,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
@@ -26,6 +44,29 @@ import { TactileButton } from "@/components/ui/tactile-button";
 import { PixelIcon } from "@/components/ui/pixel-icon";
 
 export const Route = createFileRoute("/profile")({ component: ProfilePage });
+
+const UNIT_ICONS: Record<number, React.ComponentType<{ className?: string }>> = {
+  1: Compass,
+  2: Wallet,
+  3: Coins,
+  4: Sparkles,
+  5: TrendingUp,
+  6: ShieldAlert,
+  7: Flame,
+  8: BarChart3,
+  9: Rocket,
+  10: Search,
+  11: Landmark,
+  12: Percent,
+  13: Brain,
+  14: Layers,
+  15: Gift,
+  16: Scale,
+  17: Palette,
+  18: ShieldCheck,
+  19: Eye,
+  20: Award,
+};
 
 function ProfilePage() {
   const navigate = useNavigate();
@@ -122,13 +163,13 @@ function ProfilePage() {
               <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white text-[11px] font-extrabold uppercase tracking-wider">
                 Lisensi Penjelajah Web3
               </span>
-              <span className="text-white/85 font-mono text-xs font-bold">
+              <span className="text-white/90 font-mono text-xs font-bold">
                 ID #{Math.abs((username || "pelajar").split("").reduce((a, b) => (a << 5) - a + b.charCodeAt(0), 0) % 100000).toString().padStart(5, "0")}
               </span>
             </div>
           </div>
 
-          {/* Profile Details (Avatar + User Info + Dressing Room CTA) */}
+          {/* Profile Details (Avatar + User Identity + Wardrobe CTA) */}
           <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 relative">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-12 sm:-mt-14 mb-4">
               <div className="flex flex-col sm:flex-row items-center sm:items-end gap-3.5 text-center sm:text-left">
@@ -216,8 +257,8 @@ function ProfilePage() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                    <span className="text-[11px] sm:text-xs font-medium text-[#4A6580]">
-                      Tekan Enter atau klik Simpan untuk memperbarui status profil.
+                    <span className="text-[11px] sm:text-xs font-semibold text-[#2C4663]">
+                      Tulis status atau motto belajarmu, lalu tekan Simpan.
                     </span>
                     <div className="flex items-center gap-2 self-end sm:self-auto">
                       {bio && (
@@ -256,7 +297,7 @@ function ProfilePage() {
 
         {/* 4 Chunky Stat Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
+          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
             <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Total XP</span>
               <Trophy className="size-4 text-[#FFC61A]" />
@@ -267,7 +308,7 @@ function ProfilePage() {
             </div>
           </SurfaceCard>
 
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
+          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
             <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Streak Belajar</span>
               <Flame className="size-4 text-flame" />
@@ -278,7 +319,7 @@ function ProfilePage() {
             </div>
           </SurfaceCard>
 
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
+          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
             <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Saldo Bintang</span>
               <BlockStamp size={16} className="text-[#FFC61A]" />
@@ -289,7 +330,7 @@ function ProfilePage() {
             </div>
           </SurfaceCard>
 
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between">
+          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
             <div className="flex items-center justify-between text-[#4A6580]">
               <span className="text-xs font-extrabold uppercase tracking-wide">Tiket Undian</span>
               <Ticket className="size-4 text-[#0B63F6]" />
@@ -302,9 +343,9 @@ function ProfilePage() {
         </div>
 
         {/* Lencana Kurikulum (20 Unit) — Engineered for Appllama & Duolingo High Fidelity */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-4 scroll-mt-20">
-          {/* Header Row */}
-          <div className="flex items-center justify-between gap-3">
+        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-4 scroll-mt-20 shadow-[0_4px_0_#C8DBF0]">
+          {/* Header Row: Compact & Non-wrapping */}
+          <div className="flex items-center justify-between gap-2.5">
             <div className="flex items-center gap-3 min-w-0">
               <div className="size-11 rounded-full bg-[#E8FBF0] border-2 border-[#98E4B5] flex items-center justify-center shrink-0 shadow-[0_2px_0_#98E4B5]">
                 <PixelIcon name="medal" size={22} alt="" />
@@ -318,23 +359,26 @@ function ProfilePage() {
                     20 UNIT
                   </span>
                 </div>
-                <p className="text-xs font-medium text-[#4A6580] truncate mt-0.5">
-                  {unitsDone} dari 20 unit tamat ({lessonsDone}/{totalLessons} modul selesai)
+                <p className="text-xs font-bold text-[#4A6580] mt-0.5">
+                  <span className="text-[#0B63F6] font-extrabold">{unitsDone}/20 Unit Selesai</span>
+                  <span className="hidden sm:inline text-[#708BA6] font-normal"> • {lessonsDone}/{totalLessons} Modul</span>
                 </p>
               </div>
             </div>
 
-            <button
-              type="button"
+            <TactileButton
+              variant="secondary"
+              size="sm"
               onClick={() => setBadgesOpen((v) => !v)}
-              className="px-3.5 py-1.5 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] active:translate-y-[1px] transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
-              aria-expanded={badgesOpen}
+              className="shrink-0 text-xs font-extrabold"
+              icon={
+                <ChevronDown
+                  className={`size-3.5 transition-transform duration-200 ${badgesOpen ? "rotate-180" : ""}`}
+                />
+              }
             >
-              <span>{badgesOpen ? "Tutup Rak" : "Buka Rak"}</span>
-              <ChevronDown
-                className={`size-4 transition-transform duration-200 ${badgesOpen ? "rotate-180" : ""}`}
-              />
-            </button>
+              {badgesOpen ? "Tutup" : "Buka (20)"}
+            </TactileButton>
           </div>
 
           {/* Overall Progress Bar */}
@@ -345,7 +389,7 @@ function ProfilePage() {
             </div>
             <div className="h-2.5 rounded-full bg-[#E4F0FF] border border-[#8FC2FF]/40 overflow-hidden">
               <div
-                className="h-full rounded-full bg-[#0B63F6] transition-all duration-500 ease-out"
+                className="h-full rounded-full bg-gradient-to-r from-[#1F7BFF] to-[#0B63F6] transition-all duration-500 ease-out"
                 style={{ width: `${Math.max(pct, 2)}%` }}
               />
             </div>
@@ -371,16 +415,17 @@ function ProfilePage() {
               ) : (
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="size-9 rounded-full bg-[#E4F0FF] border-2 border-[#8FC2FF] flex items-center justify-center shrink-0">
-                    <span className="text-xs font-mono font-black text-[#0B63F6]">
-                      #{currentActiveUnit.unit.index}
-                    </span>
+                    {(() => {
+                      const ActiveIcon = UNIT_ICONS[currentActiveUnit.unit.index] ?? Compass;
+                      return <ActiveIcon className="size-4 text-[#0B63F6]" />;
+                    })()}
                   </div>
                   <div className="min-w-0">
                     <div className="text-xs font-extrabold text-[#0D2340] truncate">
                       Unit {currentActiveUnit.unit.index}: {currentActiveUnit.unit.title}
                     </div>
                     <div className="text-[11px] font-medium text-[#4A6580]">
-                      {currentActiveUnit.doneCount}/{currentActiveUnit.totalCount} modul • Selesaikan unit ini untuk klaim lencana pertamamu!
+                      {currentActiveUnit.doneCount}/{currentActiveUnit.totalCount} modul • Selesaikan unit untuk klaim lencana!
                     </div>
                   </div>
                 </div>
@@ -397,82 +442,98 @@ function ProfilePage() {
             </div>
           )}
 
-          {/* When Open: The 20 Unit Badges Grid */}
+          {/* When Open: The 20 Unit Badges Grid with Individual Thematic Iconography */}
           {badgesOpen && (
             <div className="space-y-4 pt-1">
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
-                {unitStats.map(({ unit, doneCount, totalCount, isCompleted, isStarted }) => (
-                  <div
-                    key={unit.id}
-                    className={`p-3 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-all ${
-                      isCompleted
-                        ? "bg-white border-2 border-[#98E4B5] shadow-[0_3px_0_#98E4B5]"
-                        : isStarted
-                        ? "bg-[#F0F7FF] border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA]"
-                        : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5] opacity-65"
-                    }`}
-                  >
+                {unitStats.map(({ unit, doneCount, totalCount, isCompleted, isStarted }) => {
+                  const ThematicIcon = UNIT_ICONS[unit.index] ?? Award;
+                  return (
                     <div
-                      className={`size-11 rounded-full flex items-center justify-center shrink-0 ${
+                      key={unit.id}
+                      className={`p-3 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-all ${
                         isCompleted
-                          ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                          ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
                           : isStarted
-                          ? "bg-white border-2 border-[#8FC2FF]"
-                          : "bg-[#E4F0FF]/50 border-2 border-[#DCE7F5]"
+                          ? "bg-[#F0F7FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#8FC2FF]"
+                          : "bg-[#F7FAFC] border-2 border-[#DCE7F5] shadow-[0_3px_0_#DCE7F5] opacity-80"
                       }`}
                     >
-                      {isCompleted ? (
-                        <PixelIcon name="medal" size={22} alt="Lencana Selesai" />
-                      ) : (
-                        <PixelIcon name="lock" size={18} alt="Terkunci" />
-                      )}
-                    </div>
-                    <div className="w-full">
-                      <div className="text-[10px] font-mono font-bold text-[#4A6580]">
-                        Unit {unit.index}
+                      {/* Badge Plate Icon */}
+                      <div
+                        className={`size-11 rounded-full flex items-center justify-center shrink-0 relative ${
+                          isCompleted
+                            ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                            : isStarted
+                            ? "bg-white border-2 border-[#8FC2FF] shadow-[0_2px_0_#C2DBFA]"
+                            : "bg-[#E4F0FF]/50 border-2 border-[#DCE7F5]"
+                        }`}
+                      >
+                        {isCompleted ? (
+                          <PixelIcon name="medal" size={22} alt="Lencana Selesai" />
+                        ) : isStarted ? (
+                          <ThematicIcon className="size-5 text-[#0B63F6]" />
+                        ) : (
+                          <>
+                            <ThematicIcon className="size-4 text-[#8FA5BD] opacity-60" />
+                            <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-[#E4F0FF] border border-[#B9CFE9] flex items-center justify-center">
+                              <Lock className="size-2.5 text-[#5A789A]" />
+                            </div>
+                          </>
+                        )}
                       </div>
-                      <div className="text-xs font-extrabold text-[#0D2340] line-clamp-2 leading-tight mt-0.5">
-                        {unit.title}
+
+                      {/* Unit Title */}
+                      <div className="w-full">
+                        <div className="text-[10px] font-mono font-bold text-[#5A789A]">
+                          Unit {unit.index}
+                        </div>
+                        <div className="text-xs font-extrabold text-[#0D2340] line-clamp-2 leading-tight mt-0.5 min-h-[28px]">
+                          {unit.title}
+                        </div>
+                      </div>
+
+                      {/* Progress Badge */}
+                      <div className="w-full pt-0.5">
+                        {isCompleted ? (
+                          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5]">
+                            Selesai
+                          </span>
+                        ) : (
+                          <span
+                            className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                              isStarted
+                                ? "bg-white text-[#0B63F6] border border-[#8FC2FF]"
+                                : "bg-[#E4F0FF] text-[#4A6580] border border-[#DCE7F5]"
+                            }`}
+                          >
+                            {doneCount}/{totalCount}
+                          </span>
+                        )}
                       </div>
                     </div>
-                    <div className="w-full pt-0.5">
-                      {isCompleted ? (
-                        <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5]">
-                          Selesai
-                        </span>
-                      ) : (
-                        <span
-                          className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                            isStarted
-                              ? "bg-white text-[#0B63F6] border border-[#8FC2FF]"
-                              : "bg-[#E4F0FF] text-[#4A6580] border border-[#DCE7F5]"
-                          }`}
-                        >
-                          {doneCount}/{totalCount}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Close Button at bottom of open rack */}
               <div className="text-center pt-2">
-                <button
-                  type="button"
+                <TactileButton
+                  variant="secondary"
+                  size="sm"
                   onClick={() => setBadgesOpen(false)}
-                  className="px-4 py-2 rounded-[14px] bg-[#F0F6FF] border border-[#DCE7F5] text-xs font-extrabold text-[#4A6580] hover:text-[#0D2340] hover:bg-[#E4F0FF] transition-all cursor-pointer inline-flex items-center gap-1.5"
+                  className="text-xs font-extrabold"
+                  icon={<ChevronDown className="size-3.5 rotate-180" />}
                 >
-                  <span>Tutup Rak Lencana</span>
-                  <ChevronDown className="size-3.5 rotate-180" />
-                </button>
+                  Tutup Rak Lencana
+                </TactileButton>
               </div>
             </div>
           )}
         </SurfaceCard>
 
         {/* Partisipasi Undian Web3 */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3">
+        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3 shadow-[0_4px_0_#C8DBF0]">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
               <Ticket className="size-4 text-[#0B63F6] shrink-0" />
@@ -521,7 +582,7 @@ function ProfilePage() {
         </SurfaceCard>
 
         {/* Sesi Akun & Keamanan (Logout) */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white">
+        <SurfaceCard className="p-4 sm:p-5 bg-white shadow-[0_4px_0_#C8DBF0]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
             <div>
               <div className="flex items-center gap-2">

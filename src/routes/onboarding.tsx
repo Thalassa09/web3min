@@ -263,7 +263,7 @@ function Onboarding() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-extrabold text-[#0D2340]">20 Modul Singkat & Terarah</span>
+                          <span className="text-xs font-extrabold text-[#0D2340]">20 Modul Terarah</span>
                           <Lozenge appearance="inprogress">20 UNIT</Lozenge>
                         </div>
                         <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Rute belajar bertahap dari pemula hingga mahir.</div>
@@ -282,7 +282,7 @@ function Onboarding() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-extrabold text-[#0D2340]">100% Aman & Tanpa Modal</span>
+                          <span className="text-xs font-extrabold text-[#0D2340]">100% Aman Simulasi</span>
                           <Lozenge appearance="success">SIMULASI</Lozenge>
                         </div>
                         <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Belajar konsep blockchain di lingkungan simulasi aman.</div>
@@ -301,7 +301,7 @@ function Onboarding() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-extrabold text-[#0D2340]">Hadiah & Undian Nyata</span>
+                          <span className="text-xs font-extrabold text-[#0D2340]">Hadiah Undian Nyata</span>
                           <Lozenge appearance="moved">IN-GAME</Lozenge>
                         </div>
                         <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Kumpulkan bintang dan tukarkan dengan tiket undian in-game.</div>
@@ -314,7 +314,7 @@ function Onboarding() {
                       variant="primary"
                       size="lg"
                       fullWidth
-                      icon={<ArrowRight className="size-5" />}
+                      iconAfter={<ArrowRight className="size-5" />}
                       onClick={() => setStep(1)}
                     >
                       Mulai Sekarang
@@ -504,7 +504,7 @@ function Onboarding() {
                         size="lg"
                         type="submit"
                         className="w-full sm:flex-1"
-                        icon={<ArrowRight className="size-5" />}
+                        iconAfter={<ArrowRight className="size-5" />}
                         disabled={busy}
                       >
                         {busy
@@ -594,7 +594,7 @@ function Onboarding() {
                       variant="primary"
                       size="lg"
                       className="w-full sm:flex-1"
-                      icon={<ArrowRight className="size-5" />}
+                      iconAfter={<ArrowRight className="size-5" />}
                       onClick={() => void finish()}
                       disabled={busy}
                     >

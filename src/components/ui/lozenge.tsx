@@ -63,7 +63,7 @@ export function Lozenge({
     <span
       className={`
         inline-flex items-center justify-center font-mono font-extrabold uppercase
-        text-[10px] tracking-wider px-2 py-0.5 rounded-full border
+        text-[10px] tracking-wider px-2 py-0.5 rounded-full border whitespace-nowrap shrink-0
         transition-[background-color,border-color,color] duration-150 select-none
         ${selected}
         ${maxWidth ? "truncate" : ""}

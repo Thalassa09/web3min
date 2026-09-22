@@ -10,6 +10,7 @@ interface TactileButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: ButtonSize;
   children: React.ReactNode;
   icon?: React.ReactNode;
+  iconAfter?: React.ReactNode;
   fullWidth?: boolean;
 }
 
@@ -78,6 +79,7 @@ export function TactileButton({
   size = "md",
   children,
   icon,
+  iconAfter,
   fullWidth = false,
   className = "",
   disabled,
@@ -133,6 +135,7 @@ export function TactileButton({
     >
       {icon && <span className="shrink-0">{icon}</span>}
       <span>{children}</span>
+      {iconAfter && <span className="shrink-0">{iconAfter}</span>}
     </button>
   );
 }

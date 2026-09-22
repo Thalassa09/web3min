@@ -255,7 +255,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                 <Mascot fill mood={isTip ? "think" : mood} interactive />
               </div>
               {isTip || blobiLine || phase === "feedback" ? (
-                <SpeechBubble className={cn("mt-2 flex-1", !isTip && "lg:mt-4 lg:w-full")} tail="left">
+                <SpeechBubble className={cn("mt-2 max-w-sm sm:max-w-md", !isTip && "lg:mt-4 lg:w-full")} tail="left">
                   {isTip
                     ? "Baca sampe bawah dulu. Kuisnya nanti."
                     : (blobiLine ?? (phase === "ask" ? "Ada kuis muncul!" : ok ? "Mantap." : "Belum pas."))}

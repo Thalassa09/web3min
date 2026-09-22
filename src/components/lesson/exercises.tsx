@@ -85,7 +85,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
   }, [onHandle]);
 
   return (
-    <article className="max-w-prose rounded-[24px] bg-[#FFF9ED] border-2 border-[#F0D9A8] shadow-[0_4px_0_#DFBA76] p-5 sm:p-7">
+    <article className="max-w-prose mx-auto rounded-[24px] bg-[#FFF9ED] border-2 border-[#F0D9A8] shadow-[0_4px_0_#DFBA76] p-5 sm:p-7 mb-8">
       <div className="flex items-center gap-2 mb-2">
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFE5A3] border border-[#DFBA76] text-xs font-extrabold text-[#7A4B00]">
           <BookOpen className="size-3.5" />

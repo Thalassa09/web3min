@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Ticket, Trophy, Flame, Check, Sparkles, ArrowRight } from "lucide-react";
+import { Ticket, Trophy, Flame, Check, Sparkles, ArrowRight, Pencil, Quote } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
 import { BlockStamp } from "@/components/motif";
 import { sequentialNodes } from "@/lib/curriculum";
 import { sanitizeBio } from "@/lib/people";
+import { saveBioToServer } from "@/lib/server-sync";
 import { formatGems, useProgress } from "@/lib/store";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
@@ -23,14 +24,28 @@ function ProfilePage() {
   const gems = useProgress((s) => s.gems);
   const streak = useProgress((s) => s.streak);
   const completed = useProgress((s) => s.completed);
-  const [bioDraft, setBioDraft] = useState(bio);
-  const [saved, setSaved] = useState(false);
-  const lessonsDone = sequentialNodes().filter((n) => completed.includes(n.id)).length;
-  const dirty = bioDraft !== bio;
 
-  function handleSaveBio() {
-    setBio(sanitizeBio(bioDraft));
+  const [bioDraft, setBioDraft] = useState(bio);
+  const [isEditing, setIsEditing] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const lessonsDone = sequentialNodes().filter((n) => completed.includes(n.id)).length;
+  const dirty = sanitizeBio(bioDraft) !== bio;
+
+  useEffect(() => {
+    setBioDraft(bio);
+  }, [bio]);
+
+  async function handleSaveBio() {
+    const clean = sanitizeBio(bioDraft);
+    setBio(clean);
+    setBioDraft(clean);
+    setIsSaving(true);
     setSaved(true);
+    setIsEditing(false);
+    await saveBioToServer(clean);
+    setIsSaving(false);
     setTimeout(() => setSaved(false), 2500);
   }
 
@@ -89,40 +104,89 @@ function ProfilePage() {
               </div>
             </div>
 
-            {/* Bio Edit */}
-            <div className="pt-2 border-t-2 border-[#F0F6FF] space-y-2">
-              <div className="relative">
-                <textarea
-                  rows={2}
-                  value={bioDraft}
-                  onChange={(e) => setBioDraft(e.target.value.slice(0, 80))}
-                  placeholder="Tulis status atau motto belajarmu..."
-                  className="w-full px-4 py-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-sm text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] resize-none font-medium"
-                />
-                <span className="absolute right-3 bottom-2.5 text-[11px] font-mono text-[#4A6580]">
-                  {bioDraft.length}/80
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-[#4A6580]">
-                  Bio akan tampil pada profil publik dan papan undian.
-                </span>
-                {dirty && (
-                  <TactileButton
-                    variant="primary"
-                    size="sm"
-                    onClick={handleSaveBio}
+            {/* User Motto / Status Section */}
+            <div className="pt-3 border-t-2 border-[#F0F6FF]">
+              {bio && !isEditing ? (
+                <div className="group relative flex items-center justify-between gap-3 p-3.5 rounded-[18px] bg-[#F7FAFC] border-2 border-[#DCE7F5] hover:border-[#8FC2FF] transition-all">
+                  <div className="flex items-start gap-2.5 min-w-0">
+                    <Quote className="size-4 text-sky-600 shrink-0 mt-0.5" />
+                    <p className="text-xs sm:text-sm font-semibold text-[#0D2340] italic leading-relaxed break-words">
+                      “{bio}”
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(true)}
+                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-[#DCE7F5] shadow-[0_2px_0_#C8DBF0] text-xs font-extrabold text-[#0B4FD1] hover:bg-[#F0F6FF] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
+                    title="Ubah status belajarmu"
                   >
-                    Simpan Bio
-                  </TactileButton>
-                )}
-                {saved && (
-                  <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#1E8A49] bg-[#E8FBF0] px-2.5 py-1 rounded-full border border-[#98E4B5]">
-                    <Check className="size-3.5" /> Tersimpan
-                  </span>
-                )}
-              </div>
+                    <Pencil className="size-3.5" />
+                    <span>Ubah</span>
+                  </button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void handleSaveBio();
+                  }}
+                  className="space-y-2.5"
+                >
+                  <div className="relative">
+                    <textarea
+                      rows={2}
+                      value={bioDraft}
+                      onChange={(e) => setBioDraft(e.target.value.slice(0, 80))}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          void handleSaveBio();
+                        }
+                      }}
+                      placeholder="Tulis status atau motto belajarmu..."
+                      className="w-full px-4 py-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-sm text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] resize-none font-medium"
+                      autoFocus={isEditing}
+                    />
+                    <span className="absolute right-3 bottom-2.5 text-[11px] font-mono font-bold text-[#4A6580]">
+                      {bioDraft.length}/80
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                    <span className="text-[11px] sm:text-xs font-medium text-[#4A6580]">
+                      Tekan Enter atau klik Simpan untuk memperbarui status profil.
+                    </span>
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                      {bio && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setBioDraft(bio);
+                            setIsEditing(false);
+                          }}
+                          className="px-3 py-1.5 rounded-[12px] text-xs font-bold text-[#4A6580] hover:text-[#0D2340] hover:bg-[#F0F6FF] transition-colors cursor-pointer"
+                        >
+                          Batal
+                        </button>
+                      )}
+                      <TactileButton
+                        variant="primary"
+                        size="sm"
+                        disabled={isSaving || (!dirty && bioDraft === bio)}
+                        onClick={() => void handleSaveBio()}
+                      >
+                        {isSaving ? "Menyimpan..." : "Simpan Status"}
+                      </TactileButton>
+                    </div>
+                  </div>
+                </form>
+              )}
+
+              {saved && (
+                <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-extrabold text-[#1E8A49] bg-[#E8FBF0] px-3 py-1 rounded-full border border-[#98E4B5]">
+                  <Check className="size-3.5" /> Status tersimpan di profil!
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -15,9 +15,18 @@ export async function syncProgressFromServer(): Promise<boolean> {
 
     if (error || !progress) return false;
 
+    // Fetch profile bio & metadata if available
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("bio, twitter")
+      .eq("id", session.user.id)
+      .maybeSingle();
+
     // Update client Zustand store from canonical server state
     useProgress.setState((s) => ({
       ...s,
+      bio: typeof profile?.bio === "string" ? profile.bio : s.bio,
+      twitter: typeof profile?.twitter === "string" ? profile.twitter : s.twitter,
       xp: progress.xp,
       gems: progress.gems,
       hearts: progress.hearts,
@@ -93,6 +102,24 @@ export async function rpcEnterRaffle(raffleId: string, tickets: number): Promise
     });
     return !error;
   } catch {
+    return false;
+  }
+}
+
+export async function saveBioToServer(bio: string): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({ bio })
+      .eq("id", session.user.id);
+
+    return !error;
+  } catch (err) {
+    console.warn("[server-sync] Failed to save bio to server:", err);
     return false;
   }
 }

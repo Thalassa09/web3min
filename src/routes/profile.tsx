@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Ticket, Trophy, Flame, Check, Sparkles, ArrowRight, Pencil, Quote, LogOut, ShieldCheck } from "lucide-react";
+import { Ticket, Trophy, Flame, Check, Sparkles, ArrowRight, Pencil, Quote, LogOut, ShieldCheck, ChevronDown } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
 import { BlockStamp } from "@/components/motif";
@@ -34,6 +34,7 @@ function ProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [badgesOpen, setBadgesOpen] = useState(false);
 
   const lessonsDone = sequentialNodes().filter((n) => completed.includes(n.id)).length;
   const dirty = sanitizeBio(bioDraft) !== bio;
@@ -289,57 +290,7 @@ function ProfilePage() {
           )}
         </SurfaceCard>
 
-        {/* Curriculum Badges Rack */}
-        <SurfaceCard className="p-4 sm:p-6 bg-white space-y-4 scroll-mt-20">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <h2 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
-                Rak Lencana Kurikulum (20 Modul)
-              </h2>
-              <p className="text-xs font-medium text-[#4A6580] mt-0.5">
-                {lessonsDone} dari 20 modul telah kamu selesaikan.
-              </p>
-            </div>
-            <div className="self-start sm:self-auto text-xs font-mono font-extrabold text-[#0B63F6] bg-[#E4F0FF] px-3 py-1 rounded-full border border-[#8FC2FF] shrink-0">
-              {Math.round((lessonsDone / 20) * 100)}% SELESAI
-            </div>
-          </div>
-
-          {/* 4-column / 5-column grid with dashed empty slots */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 pt-2">
-            {sequentialNodes().map((node) => {
-              const isUnlocked = completed.includes(node.id);
-              return (
-                <div
-                  key={node.id}
-                  className={`p-3 sm:p-3.5 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-[transform,box-shadow,background-color,border-color,color] ${
-                    isUnlocked
-                      ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
-                      : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5] opacity-60"
-                  }`}
-                >
-                  <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${
-                    isUnlocked
-                      ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
-                      : "bg-[#E4F0FF] border-2 border-[#DCE7F5]"
-                  }`}>
-                    {isUnlocked ? (
-                      <PixelIcon name="medal" size={24} alt="Lencana Selesai" />
-                    ) : (
-                      <PixelIcon name="lock" size={20} alt="Terkunci" />
-                    )}
-                  </div>
-                  <div className="w-full">
-                    <div className="text-[11px] font-extrabold text-[#0D2340] line-clamp-2 leading-tight">{node.title}</div>
-                    <div className="text-[10px] font-medium text-[#4A6580] mt-0.5 line-clamp-1">{node.blurb}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </SurfaceCard>
-
-        {/* Sesi Akun & Logout */}
+        {/* Sesi Akun & Logout — above badge rack so mobile doesn't scroll past 20 tiles */}
         <SurfaceCard className="p-5 sm:p-6 bg-white space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -388,6 +339,65 @@ function ProfilePage() {
                 </TactileButton>
               </div>
             )}
+          </div>
+        </SurfaceCard>
+
+        {/* Curriculum Badges Rack — collapsed on mobile */}
+        <SurfaceCard className="p-4 sm:p-6 bg-white space-y-4 scroll-mt-20">
+          <button
+            type="button"
+            onClick={() => setBadgesOpen((v) => !v)}
+            className="w-full flex items-center justify-between gap-3 text-left sm:pointer-events-none"
+            aria-expanded={badgesOpen}
+          >
+            <div className="min-w-0">
+              <h2 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
+                Rak Lencana Kurikulum (20 Modul)
+              </h2>
+              <p className="text-xs font-medium text-[#4A6580] mt-0.5">
+                {lessonsDone} dari 20 modul telah kamu selesaikan.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-xs font-mono font-extrabold text-[#0B63F6] bg-[#E4F0FF] px-3 py-1 rounded-full border border-[#8FC2FF]">
+                {Math.round((lessonsDone / 20) * 100)}% SELESAI
+              </span>
+              <ChevronDown
+                className={`size-5 text-[#0B4FD1] sm:hidden transition-transform ${badgesOpen ? "rotate-180" : ""}`}
+              />
+            </div>
+          </button>
+
+          <div className={`${badgesOpen ? "grid" : "hidden"} sm:grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 pt-2`}>
+            {sequentialNodes().map((node) => {
+              const isUnlocked = completed.includes(node.id);
+              return (
+                <div
+                  key={node.id}
+                  className={`p-3 sm:p-3.5 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 ${
+                    isUnlocked
+                      ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
+                      : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5] opacity-60"
+                  }`}
+                >
+                  <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${
+                    isUnlocked
+                      ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                      : "bg-[#E4F0FF] border-2 border-[#DCE7F5]"
+                  }`}>
+                    {isUnlocked ? (
+                      <PixelIcon name="medal" size={24} alt="Lencana Selesai" />
+                    ) : (
+                      <PixelIcon name="lock" size={20} alt="Terkunci" />
+                    )}
+                  </div>
+                  <div className="w-full">
+                    <div className="text-[11px] font-extrabold text-[#0D2340] line-clamp-2 leading-tight">{node.title}</div>
+                    <div className="text-[10px] font-medium text-[#4A6580] mt-0.5 line-clamp-1">{node.blurb}</div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </SurfaceCard>
       </main>

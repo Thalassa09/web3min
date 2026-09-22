@@ -1,6 +1,26 @@
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { useProgress } from "@/lib/store";
 
+// Client-side in-flight tracking & cooldown to prevent rapid spam clicks
+const inFlightOps = new Set<string>();
+const lastOpTimes = new Map<string, number>();
+
+function canExecuteOp(key: string, cooldownMs = 800): boolean {
+  if (inFlightOps.has(key)) return false;
+  const lastTime = lastOpTimes.get(key) ?? 0;
+  if (Date.now() - lastTime < cooldownMs) return false;
+  return true;
+}
+
+function startOp(key: string) {
+  inFlightOps.add(key);
+  lastOpTimes.set(key, Date.now());
+}
+
+function endOp(key: string) {
+  inFlightOps.delete(key);
+}
+
 export async function syncProgressFromServer(): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
   try {
@@ -55,6 +75,9 @@ export async function rpcCompleteLesson(
   perfect: boolean,
 ): Promise<{ xp: number; gems: number; tickets: number; replay: boolean } | null> {
   if (!isSupabaseConfigured || !supabase) return null;
+  const opKey = `lesson:${lessonId}`;
+  if (!canExecuteOp(opKey, 1000)) return null;
+  startOp(opKey);
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) return null;
@@ -64,7 +87,12 @@ export async function rpcCompleteLesson(
       p_perfect: perfect,
     });
 
-    if (error || !data) return null;
+    if (error || !data) {
+      if (error?.message?.includes("Rate limit") || error?.message?.includes("Terlalu banyak")) {
+        console.warn("[server-sync] Rate limited:", error.message);
+      }
+      return null;
+    }
     return {
       xp: data.xp,
       gems: data.gems,
@@ -74,11 +102,16 @@ export async function rpcCompleteLesson(
   } catch (err) {
     console.warn("[server-sync] RPC complete_lesson failed:", err);
     return null;
+  } finally {
+    endOp(opKey);
   }
 }
 
 export async function rpcClaimQuest(questId: string): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = `quest:${questId}`;
+  if (!canExecuteOp(opKey, 1000)) return false;
+  startOp(opKey);
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) return false;
@@ -87,11 +120,16 @@ export async function rpcClaimQuest(questId: string): Promise<boolean> {
     return !error;
   } catch {
     return false;
+  } finally {
+    endOp(opKey);
   }
 }
 
 export async function rpcEnterRaffle(raffleId: string, tickets: number): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = `raffle:${raffleId}`;
+  if (!canExecuteOp(opKey, 1000)) return false;
+  startOp(opKey);
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) return false;
@@ -103,11 +141,16 @@ export async function rpcEnterRaffle(raffleId: string, tickets: number): Promise
     return !error;
   } catch {
     return false;
+  } finally {
+    endOp(opKey);
   }
 }
 
 export async function saveBioToServer(bio: string): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = "profile:bio";
+  if (!canExecuteOp(opKey, 2000)) return false;
+  startOp(opKey);
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) return false;
@@ -121,5 +164,7 @@ export async function saveBioToServer(bio: string): Promise<boolean> {
   } catch (err) {
     console.warn("[server-sync] Failed to save bio to server:", err);
     return false;
+  } finally {
+    endOp(opKey);
   }
 }

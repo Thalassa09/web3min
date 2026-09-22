@@ -93,7 +93,7 @@ export function HomeDock() {
 
           <div>
             <h2 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
-              {goalHit ? "Target Harian Tercapai! 🎉" : lesson.title}
+              {goalHit ? "Target Harian Tercapai!" : lesson.title}
             </h2>
             <p className="mt-1 text-xs sm:text-sm text-[#4A6580] leading-relaxed">
               {lesson.blurb}

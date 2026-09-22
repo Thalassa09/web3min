@@ -1,5 +1,6 @@
 import { Check, X } from "@/lib/kicon";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Lightbulb, BookOpen } from "lucide-react";
 import type { Exercise, TipExercise } from "@/lib/curriculum";
 import { cn, shuffle } from "@/lib/utils";
 import { playTap } from "@/lib/audio";
@@ -87,7 +88,8 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
     <article className="max-w-prose rounded-[24px] bg-[#FFF9ED] border-2 border-[#F0D9A8] shadow-[0_4px_0_#DFBA76] p-5 sm:p-7">
       <div className="flex items-center gap-2 mb-2">
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFE5A3] border border-[#DFBA76] text-xs font-extrabold text-[#7A4B00]">
-          📖 BACA DULU
+          <BookOpen className="size-3.5" />
+          <span>BACA DULU</span>
         </span>
       </div>
       <h3 className="font-display text-2xl font-bold leading-tight text-[#0D2340]">{exercise.title}</h3>
@@ -111,7 +113,10 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
       ) : null}
       {exercise.remember ? (
         <div className="mt-4 rounded-2xl bg-[#E8FBF0] border-2 border-[#A3E5BA] p-4 shadow-[0_2px_0_#82D49D]">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#1E8A49]">💡 Kunci Ingatan</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#1E8A49] flex items-center gap-1.5">
+            <Lightbulb className="size-3.5" />
+            <span>Kunci Ingatan</span>
+          </p>
           <p className="mt-1 text-[15px] font-bold leading-[24px] text-[#0E582B]">{exercise.remember}</p>
         </div>
       ) : null}

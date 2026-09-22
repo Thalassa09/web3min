@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { DuoButton } from "@/components/duo-button";
+import { ArrowRight } from "lucide-react";
 import { Mascot, SpeechBubble, TypeLine, type MascotMood } from "@/components/mascot";
 import { resumePath } from "@/lib/continue-to";
 import { playComplete } from "@/lib/audio";
@@ -103,7 +104,7 @@ function Intro() {
 
           <div className="w-full mt-6">
             <DuoButton wide variant="primary" size="md" onClick={next}>
-              {last ? "Mulai Belajar Sekarang! 🚀" : "Lanjut →"}
+              {last ? "Mulai Belajar Sekarang" : "Lanjut →"}
             </DuoButton>
           </div>
         </div>

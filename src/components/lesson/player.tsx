@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Heart, X } from "@/lib/kicon";
+import { Heart, X, Check } from "@/lib/kicon";
 import type { Exercise, Lesson } from "@/lib/curriculum";
 import { firstPlayableId, getLesson, scoredExerciseCount } from "@/lib/curriculum";
 import { worldOf } from "@/lib/worlds";
@@ -356,8 +356,18 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <div className={cn("shrink-0 quiz-fb", ok ? "quiz-fb-ok" : "quiz-fb-bad")} role="status" aria-live="polite">
           <div className="mx-auto flex w-full max-w-3xl flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="min-w-0 flex-1">
-              <p className={cn("font-display text-xl font-bold", ok ? "text-[#1E8A49]" : "text-[#E63329]")}>
-                {ok ? "🎉 Jawaban Benar!" : "💔 Belum Pas"}
+              <p className={cn("font-display text-xl font-bold flex items-center gap-2", ok ? "text-[#1E8A49]" : "text-[#E63329]")}>
+                {ok ? (
+                  <>
+                    <Check className="size-6 text-[#1E8A49]" weight="bold" />
+                    <span>Jawaban Benar!</span>
+                  </>
+                ) : (
+                  <>
+                    <X className="size-6 text-[#E63329]" weight="bold" />
+                    <span>Belum Pas</span>
+                  </>
+                )}
               </p>
               {exercise && exercise.type !== "tip" && exercise.type !== "match" ? (
                 <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">{exercise.explanation}</p>

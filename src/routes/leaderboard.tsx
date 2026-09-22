@@ -11,7 +11,7 @@ import { useProgress } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
-import { Ticket, Sparkles, Trophy, ShieldCheck } from "lucide-react";
+import { Ticket, Sparkles, Trophy, ShieldCheck, AlertTriangle, Check, X } from "lucide-react";
 
 export const Route = createFileRoute("/leaderboard")({ component: RafflePage });
 
@@ -203,7 +203,10 @@ function RafflePage() {
               </div>
               <div className="rounded-[14px] border-2 border-[#FFD84D] bg-[#FFF7D1] px-3.5 py-1.5 flex items-center gap-1.5 font-bold shadow-sm">
                 <span className="text-[#B27B00]">Bintang:</span>
-                <span className="font-extrabold text-[#B27B00]">{gems} ★</span>
+                <span className="font-extrabold text-[#B27B00] flex items-center gap-1">
+                  <span>{gems}</span>
+                  <Sparkles className="size-3 text-[#B27B00] fill-[#FFC61A]" />
+                </span>
               </div>
             </div>
           </div>
@@ -408,7 +411,10 @@ function RafflePage() {
                 </div>
                 <div>
                   <span className="text-xs font-bold text-[#4A6580]">SALDO BINTANG</span>
-                  <div className="font-display text-lg font-bold text-[#B27B00]">{gems} ★</div>
+                  <div className="font-display text-lg font-bold text-[#B27B00] flex items-center gap-1">
+                    <span>{gems}</span>
+                    <Sparkles className="size-4 text-[#FFC61A] fill-[#FFC61A]" />
+                  </div>
                   <span className="text-[11px] font-medium text-[#9DB4CE]">10 Bintang = 1 Tiket</span>
                 </div>
               </div>
@@ -425,7 +431,10 @@ function RafflePage() {
                     className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     +1 Tiket
-                    <span className="block text-[10px] font-extrabold text-[#B27B00]">10 ★</span>
+                    <span className="flex items-center justify-center gap-0.5 text-[10px] font-extrabold text-[#B27B00] mt-0.5">
+                      <span>10</span>
+                      <Sparkles className="size-2.5 text-[#FFC61A] fill-[#FFC61A]" />
+                    </span>
                   </button>
                   <button
                     type="button"
@@ -433,7 +442,10 @@ function RafflePage() {
                     className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     +5 Tiket
-                    <span className="block text-[10px] font-extrabold text-[#B27B00]">50 ★</span>
+                    <span className="flex items-center justify-center gap-0.5 text-[10px] font-extrabold text-[#B27B00] mt-0.5">
+                      <span>50</span>
+                      <Sparkles className="size-2.5 text-[#FFC61A] fill-[#FFC61A]" />
+                    </span>
                   </button>
                   <button
                     type="button"
@@ -441,7 +453,10 @@ function RafflePage() {
                     className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                   >
                     +10 Tiket
-                    <span className="block text-[10px] font-extrabold text-[#B27B00]">100 ★</span>
+                    <span className="flex items-center justify-center gap-0.5 text-[10px] font-extrabold text-[#B27B00] mt-0.5">
+                      <span>100</span>
+                      <Sparkles className="size-2.5 text-[#FFC61A] fill-[#FFC61A]" />
+                    </span>
                   </button>
                 </div>
               </div>
@@ -457,15 +472,15 @@ function RafflePage() {
               </p>
               <div className="space-y-2 pt-2 border-t-2 border-[#F0F6FF] text-xs font-medium text-[#0D2340]">
                 <div className="flex items-start gap-2">
-                  <span className="text-[#1E8A49] font-black">✓</span>
+                  <Check className="size-4 text-[#1E8A49] shrink-0 mt-0.5" />
                   <span>Gated by proof-of-learning (harus belajar materi).</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="text-[#1E8A49] font-black">✓</span>
+                  <Check className="size-4 text-[#1E8A49] shrink-0 mt-0.5" />
                   <span>Sistem undian in-game acak adil tanpa taruhan uang.</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="text-[#1E8A49] font-black">✓</span>
+                  <Check className="size-4 text-[#1E8A49] shrink-0 mt-0.5" />
                   <span>Klaim hadiah in-game instan ke akun profil pemain.</span>
                 </div>
               </div>
@@ -630,9 +645,10 @@ function RafflePage() {
                 <button
                   type="button"
                   onClick={() => setActiveModalRaffle(null)}
-                  className="text-xs font-bold text-[#4A6580] hover:text-[#0D2340] cursor-pointer"
+                  className="flex items-center gap-1 text-xs font-bold text-[#4A6580] hover:text-[#0D2340] cursor-pointer"
                 >
-                  ✕ Tutup
+                  <X className="size-3.5" />
+                  <span>Tutup</span>
                 </button>
               </div>
 
@@ -696,8 +712,9 @@ function RafflePage() {
               </div>
 
               {raffleTickets < activeModalRaffle.ticketCost ? (
-                <div className="rounded-[14px] border-2 border-[#F4A4A0] bg-[#FFF5F5] p-3 text-xs font-bold text-[#B01E18]">
-                  ⚠️ Tiketmu tidak cukup. Selesaikan pelajaran baru atau tukar 10 Bintang untuk 1 tiket.
+                <div className="rounded-[14px] border-2 border-[#F4A4A0] bg-[#FFF5F5] p-3 text-xs font-bold text-[#B01E18] flex items-center gap-2">
+                  <AlertTriangle className="size-4 shrink-0 text-[#B01E18]" />
+                  <span>Tiketmu tidak cukup. Selesaikan pelajaran baru atau tukar 10 Bintang untuk 1 tiket.</span>
                 </div>
               ) : null}
 

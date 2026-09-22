@@ -12,6 +12,10 @@ import {
   Shirt,
   Store,
   Layers,
+  Hand,
+  Smile,
+  PartyPopper,
+  Coffee,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Dialog } from "@/components/dialog";
@@ -472,19 +476,27 @@ function ShopPage() {
                   {/* Blobi Mood React Buttons */}
                   <div className="w-full space-y-2 pt-2 border-t-2 border-[#F0F6FF]">
                     <div className="text-[11px] font-bold text-[#4A6580]">Reaksi Blobi:</div>
-                    <div className="flex items-center justify-center gap-1.5 flex-wrap">
-                      {(["wave", "proud", "celebrate", "idle"] as MascotMood[]).map((m) => (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                      {(
+                        [
+                          { mood: "wave" as const, label: "Sapa", icon: Hand },
+                          { mood: "proud" as const, label: "Bangga", icon: Smile },
+                          { mood: "celebrate" as const, label: "Rayakan", icon: PartyPopper },
+                          { mood: "idle" as const, label: "Santai", icon: Coffee },
+                        ] as const
+                      ).map(({ mood, label, icon: Icon }) => (
                         <button
-                          key={m}
+                          key={mood}
                           type="button"
-                          onClick={() => setBlobiMood(m)}
-                          className={`px-2.5 py-1 rounded-[10px] text-xs font-extrabold capitalize transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer ${
-                            blobiMood === m
-                              ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                              : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
+                          onClick={() => setBlobiMood(mood)}
+                          className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[12px] text-xs font-extrabold transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
+                            blobiMood === mood
+                              ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1] border-2 border-[#0B4FD1]"
+                              : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF] border-2 border-[#DCE7F5]"
                           }`}
                         >
-                          {m === "wave" ? "👋 Sapa" : m === "proud" ? "😎 Bangga" : m === "celebrate" ? "🎉 Rayakan" : "😊 Santai"}
+                          <Icon className="size-3.5 shrink-0" />
+                          <span>{label}</span>
                         </button>
                       ))}
                     </div>

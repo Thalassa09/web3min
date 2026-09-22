@@ -42,8 +42,23 @@ import { formatGems, useProgress } from "@/lib/store";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { PixelIcon } from "@/components/ui/pixel-icon";
+import { Lozenge } from "@/components/ui/lozenge";
+import { SkillTag } from "@/components/ui/rovo-companion";
 
 export const Route = createFileRoute("/profile")({ component: ProfilePage });
+
+const WEB3_SKILLS = [
+  { unitIndex: 1, name: "Dasar Web3 & Blockchain", icon: Compass },
+  { unitIndex: 2, name: "Manajemen Wallet & Seed", icon: Wallet },
+  { unitIndex: 3, name: "Ekonomi Token & Gas Fee", icon: Coins },
+  { unitIndex: 4, name: "Smart Contract & NFT", icon: Sparkles },
+  { unitIndex: 5, name: "Protokol DeFi & Likuiditas", icon: TrendingUp },
+  { unitIndex: 6, name: "Deteksi Phishing & Penipu", icon: ShieldAlert },
+  { unitIndex: 8, name: "Mekanisme Order Book", icon: BarChart3 },
+  { unitIndex: 10, name: "Riset On-Chain (DYOR)", icon: Search },
+  { unitIndex: 14, name: "Layer 2 & Jembatan", icon: Layers },
+  { unitIndex: 18, name: "Keamanan Keras On-Chain", icon: ShieldCheck },
+];
 
 const UNIT_ICONS: Record<number, React.ComponentType<{ className?: string }>> = {
   1: Compass,
@@ -180,18 +195,18 @@ function ProfilePage() {
                   </div>
                 </div>
 
-                {/* Identity: Username + Level Badges */}
+                {/* Identity: Username + Level Badges (Atlaskit Lozenge Spec) */}
                 <div className="space-y-1">
                   <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340] tracking-tight">
                     @{username || "penjelajah"}
                   </h1>
                   <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D]">
+                    <Lozenge appearance="moved">
                       Level {Math.floor(xp / 100) + 1}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#E4F0FF] text-[#0B63F6] border border-[#8FC2FF]">
+                    </Lozenge>
+                    <Lozenge appearance="inprogress">
                       Murid Blobi
-                    </span>
+                    </Lozenge>
                   </div>
                 </div>
               </div>
@@ -342,6 +357,66 @@ function ProfilePage() {
           </SurfaceCard>
         </div>
 
+        {/* Keahlian Web3 Terverifikasi (Atlassian Rovo UI Skills Spec) */}
+        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3.5 shadow-[0_4px_0_#C8DBF0]">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="size-4 text-[#0B63F6] shrink-0" />
+              <h2 className="font-display font-bold text-sm sm:text-base text-[#0D2340]">
+                Keahlian Web3 Terverifikasi
+              </h2>
+            </div>
+            <span className="text-xs font-mono font-extrabold text-[#0B63F6]">
+              {WEB3_SKILLS.filter(s => {
+                const u = unitStats.find(us => us.unit.index === s.unitIndex);
+                return u?.isCompleted;
+              }).length}/{WEB3_SKILLS.length} TERSERTIFIKASI
+            </span>
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-1">
+            {WEB3_SKILLS.map((skill) => {
+              const u = unitStats.find(us => us.unit.index === skill.unitIndex);
+              const isMastered = Boolean(u?.isCompleted);
+              const isLearning = Boolean(u?.isStarted && !u.isCompleted);
+              const SkillIcon = skill.icon;
+
+              if (isMastered) {
+                return (
+                  <SkillTag
+                    key={skill.name}
+                    name={skill.name}
+                    icon={<SkillIcon className="size-3 text-[#1E8A49]" />}
+                    level="LULUS"
+                    className="bg-[#E8FBF0] text-[#1E8A49] border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                  />
+                );
+              }
+
+              if (isLearning) {
+                return (
+                  <SkillTag
+                    key={skill.name}
+                    name={skill.name}
+                    icon={<SkillIcon className="size-3 text-[#0B63F6]" />}
+                    level="PROGRES"
+                  />
+                );
+              }
+
+              return (
+                <div
+                  key={skill.name}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#F7FAFC] border border-[#DCE7F5] text-[#8FA5BD] text-[11px] font-bold select-none opacity-70"
+                >
+                  <Lock className="size-2.5 text-[#8FA5BD]" />
+                  <span>{skill.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        </SurfaceCard>
+
         {/* Lencana Kurikulum (20 Unit) — Engineered for Appllama & Duolingo High Fidelity */}
         <SurfaceCard className="p-4 sm:p-5 bg-white space-y-4 scroll-mt-20 shadow-[0_4px_0_#C8DBF0]">
           {/* Header Row: Compact & Non-wrapping */}
@@ -355,9 +430,9 @@ function ProfilePage() {
                   <h2 className="font-display font-bold text-base text-[#0D2340]">
                     Lencana Kurikulum
                   </h2>
-                  <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold bg-[#E4F0FF] text-[#0B63F6] border border-[#8FC2FF]">
+                  <Lozenge appearance="inprogress" isBold className="hidden sm:inline-flex">
                     20 UNIT
-                  </span>
+                  </Lozenge>
                 </div>
                 <p className="text-xs font-bold text-[#4A6580] mt-0.5">
                   <span className="text-[#0B63F6] font-extrabold">{unitsDone}/20 Unit Selesai</span>
@@ -562,9 +637,9 @@ function ProfilePage() {
                       Tiket terpasang: {tickets.count} tiket
                     </div>
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#E8FBF0] text-[#1E8A49] text-[11px] font-extrabold border border-[#98E4B5]">
+                  <Lozenge appearance="success" isBold>
                     Terdaftar
-                  </span>
+                  </Lozenge>
                 </div>
               ))}
             </div>

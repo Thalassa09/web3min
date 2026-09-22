@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Ticket, ArrowRight, Sparkles } from "lucide-react";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
+import { Lozenge } from "@/components/ui/lozenge";
+import { RovoGenerativeCard } from "@/components/ui/rovo-companion";
 import { Mascot } from "@/components/mascot";
 import { DailyQuests } from "@/components/daily-quests";
 import { AirdropWall } from "@/components/proof-gallery";
@@ -15,8 +17,11 @@ export function DeskRail() {
 
   return (
     <div className="hidden xl:flex flex-col gap-5 w-[320px] shrink-0 p-5 z-10">
-      {/* Blobi Companion Speech Card */}
-      <SurfaceCard className="p-4 bg-white flex items-center gap-3">
+      {/* Blobi Companion Speech Card (Atlassian Rovo UI Generative Pattern) */}
+      <RovoGenerativeCard
+        isGenerating={streak > 0}
+        className="p-4 bg-white flex items-center gap-3"
+      >
         <div className="size-14 shrink-0 relative flex items-center justify-center">
           <Mascot mood={streak > 0 ? "proud" : "idle"} size={52} />
         </div>
@@ -27,15 +32,17 @@ export function DeskRail() {
               : "Halo penjelajah! Ayo selesaikan pelajaran pertamamu."}
           </div>
         </div>
-      </SurfaceCard>
+      </RovoGenerativeCard>
 
       {/* Active Web3 Raffle Card */}
       <SurfaceCard className="p-5 bg-white">
         <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
+          <Lozenge appearance="inprogress" isBold>
             Undian In-Game
-          </span>
-          <span className="text-[11px] font-bold text-[#4A6580]">Acak Adil</span>
+          </Lozenge>
+          <Lozenge appearance="success">
+            Acak Adil
+          </Lozenge>
         </div>
 
         <h3 className="font-display font-bold text-lg text-[#0D2340]">

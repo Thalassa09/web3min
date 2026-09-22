@@ -252,80 +252,155 @@ function ProfilePage() {
           </SurfaceCard>
         </div>
 
-        {/* Active Raffle Participations */}
-        <SurfaceCard className="p-6 bg-white space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Ticket className="size-5 text-[#0B63F6]" />
-              <h2 className="font-display font-bold text-lg text-[#0D2340]">
-                Partisipasi Undian Web3
+        {/* Kurikulum — compact progress when closed (Duolingo / Appllama profile row) */}
+        {(() => {
+          const nodes = sequentialNodes();
+          const pct = Math.round((lessonsDone / 20) * 100);
+          return (
+            <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3">
+              <button
+                type="button"
+                onClick={() => setBadgesOpen((v) => !v)}
+                className="w-full flex items-center gap-3 text-left min-h-11 cursor-pointer sm:cursor-default sm:pointer-events-none"
+                aria-expanded={badgesOpen}
+              >
+                <div className="size-11 rounded-full bg-[#E8FBF0] border-2 border-[#98E4B5] flex items-center justify-center shrink-0">
+                  <PixelIcon name="medal" size={22} alt="" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <h2 className="font-display font-bold text-sm sm:text-base text-[#0D2340]">
+                      Kurikulum
+                    </h2>
+                    <span className="text-[11px] font-mono font-extrabold text-[#0B63F6] shrink-0">
+                      {lessonsDone}/20
+                    </span>
+                  </div>
+                  <div className="mt-1.5 h-2 rounded-full bg-[#E4F0FF] overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-[#0B63F6]"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+                <ChevronDown
+                  className={`size-5 text-[#4A6580] sm:hidden shrink-0 transition-transform ${badgesOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {!badgesOpen && (
+                <div className="sm:hidden flex items-center gap-2 pl-0.5">
+                  {nodes.slice(0, 6).map((node) => {
+                    const on = completed.includes(node.id);
+                    return (
+                      <div
+                        key={node.id}
+                        className={`size-8 rounded-full flex items-center justify-center shrink-0 ${
+                          on
+                            ? "bg-[#E8FBF0] border-2 border-[#98E4B5]"
+                            : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5]"
+                        }`}
+                        title={node.title}
+                      >
+                        <PixelIcon name={on ? "medal" : "lock"} size={14} alt="" />
+                      </div>
+                    );
+                  })}
+                  <span className="text-[11px] font-extrabold text-[#0B4FD1]">+{nodes.length - 6}</span>
+                </div>
+              )}
+
+              <div className={`${badgesOpen ? "grid" : "hidden"} sm:grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2.5`}>
+                {nodes.map((node) => {
+                  const isUnlocked = completed.includes(node.id);
+                  return (
+                    <div
+                      key={node.id}
+                      className={`p-2.5 sm:p-3 rounded-[16px] text-center flex flex-col items-center justify-between gap-1.5 ${
+                        isUnlocked
+                          ? "bg-white border-2 border-[#98E4B5] shadow-[0_3px_0_#98E4B5]"
+                          : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5] opacity-60"
+                      }`}
+                    >
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                        isUnlocked
+                          ? "bg-[#E8FBF0] border-2 border-[#98E4B5]"
+                          : "bg-[#E4F0FF] border-2 border-[#DCE7F5]"
+                      }`}>
+                        {isUnlocked ? (
+                          <PixelIcon name="medal" size={20} alt="Lencana Selesai" />
+                        ) : (
+                          <PixelIcon name="lock" size={16} alt="Terkunci" />
+                        )}
+                      </div>
+                      <div className="w-full">
+                        <div className="text-[11px] font-extrabold text-[#0D2340] line-clamp-2 leading-tight">{node.title}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </SurfaceCard>
+          );
+        })()}
+
+        {/* Undian — compact */}
+        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <Ticket className="size-4 text-[#0B63F6] shrink-0" />
+              <h2 className="font-display font-bold text-sm sm:text-base text-[#0D2340]">
+                Undian
               </h2>
             </div>
-            <Link to="/leaderboard" className="text-xs font-extrabold text-[#0B63F6] hover:underline">
-              Buka Arena Undian →
+            <Link to="/leaderboard" className="text-[11px] font-extrabold text-[#0B63F6] shrink-0">
+              Arena →
             </Link>
           </div>
-
           {Object.keys(enteredRaffles).length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-2">
               {Object.entries(enteredRaffles).map(([poolId, tickets]) => (
                 <div
                   key={poolId}
-                  className="p-4 rounded-[18px] bg-[#E4F0FF] border-2 border-[#8FC2FF] flex items-center justify-between shadow-[0_3px_0_#C2DBFA]"
+                  className="px-3 py-2.5 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] flex items-center justify-between"
                 >
-                  <div>
-                    <div className="text-xs font-extrabold text-[#0D2340]">Kolam #{poolId}</div>
-                    <div className="text-xs font-medium text-[#4A6580] mt-0.5">Tiket terpasang: {tickets.count} tiket</div>
-                  </div>
-                  <span className="px-3 py-1 rounded-full bg-[#E8FBF0] text-[#1E8A49] text-xs font-extrabold border border-[#98E4B5]">
-                    Terdaftar
-                  </span>
+                  <span className="text-xs font-extrabold text-[#0D2340]">Kolam #{poolId}</span>
+                  <span className="text-[11px] font-bold text-[#1E8A49]">{tickets.count} tiket</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-5 rounded-[18px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-center text-xs font-medium text-[#4A6580]">
-              Kamu belum memasang tiket pada undian yang sedang berjalan. Buka tab <strong>Undian</strong> untuk ikut serta!
-            </div>
+            <p className="text-xs font-medium text-[#4A6580]">
+              Belum ada tiket terpasang. Buka tab Undian untuk ikut.
+            </p>
           )}
         </SurfaceCard>
 
-        {/* Sesi Akun & Logout — above badge rack so mobile doesn't scroll past 20 tiles */}
-        <SurfaceCard className="p-5 sm:p-6 bg-white space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
+        {/* Logout — compact settings row */}
+        <SurfaceCard className="p-4 bg-white">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="size-5 text-[#0B63F6]" />
-                <h2 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
-                  Sesi Akun & Keamanan
-                </h2>
+                <ShieldCheck className="size-4 text-[#0B63F6] shrink-0" />
+                <h2 className="font-display font-bold text-sm text-[#0D2340]">Akun</h2>
               </div>
-              <p className="text-xs font-medium text-[#4A6580] mt-1">
-                Terhubung sebagai <span className="font-bold text-[#0D2340]">@{username || "pelajar"}</span>. Progres dan saldo bintangmu tersimpan di database Web3min.
+              <p className="text-[11px] font-medium text-[#4A6580] mt-0.5 truncate">
+                @{username || "pelajar"}
               </p>
             </div>
-
             {!confirmLogout ? (
               <TactileButton
                 variant="secondary"
-                size="md"
+                size="sm"
                 onClick={() => setConfirmLogout(true)}
-                className="self-start sm:self-auto text-[#B01E18] border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
-                icon={<LogOut className="size-4 text-[#B01E18]" />}
+                className="shrink-0 text-[#B01E18] border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
+                icon={<LogOut className="size-3.5 text-[#B01E18]" />}
               >
-                Keluar Akun
+                Keluar
               </TactileButton>
             ) : (
-              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-                <span className="text-xs font-extrabold text-[#B01E18]">
-                  Yakin keluar?
-                </span>
-                <TactileButton
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setConfirmLogout(false)}
-                  disabled={isLoggingOut}
-                >
+              <div className="flex items-center gap-1.5 shrink-0">
+                <TactileButton variant="ghost" size="sm" onClick={() => setConfirmLogout(false)} disabled={isLoggingOut}>
                   Batal
                 </TactileButton>
                 <TactileButton
@@ -333,71 +408,11 @@ function ProfilePage() {
                   size="sm"
                   onClick={() => void handleLogout()}
                   disabled={isLoggingOut}
-                  icon={<LogOut className="size-3.5" />}
                 >
-                  {isLoggingOut ? "Keluar…" : "Ya, Keluar"}
+                  {isLoggingOut ? "…" : "Ya"}
                 </TactileButton>
               </div>
             )}
-          </div>
-        </SurfaceCard>
-
-        {/* Curriculum Badges Rack — collapsed on mobile */}
-        <SurfaceCard className="p-4 sm:p-6 bg-white space-y-4 scroll-mt-20">
-          <button
-            type="button"
-            onClick={() => setBadgesOpen((v) => !v)}
-            className="w-full flex items-center justify-between gap-3 text-left sm:pointer-events-none"
-            aria-expanded={badgesOpen}
-          >
-            <div className="min-w-0">
-              <h2 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
-                Rak Lencana Kurikulum (20 Modul)
-              </h2>
-              <p className="text-xs font-medium text-[#4A6580] mt-0.5">
-                {lessonsDone} dari 20 modul telah kamu selesaikan.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs font-mono font-extrabold text-[#0B63F6] bg-[#E4F0FF] px-3 py-1 rounded-full border border-[#8FC2FF]">
-                {Math.round((lessonsDone / 20) * 100)}% SELESAI
-              </span>
-              <ChevronDown
-                className={`size-5 text-[#0B4FD1] sm:hidden transition-transform ${badgesOpen ? "rotate-180" : ""}`}
-              />
-            </div>
-          </button>
-
-          <div className={`${badgesOpen ? "grid" : "hidden"} sm:grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 pt-2`}>
-            {sequentialNodes().map((node) => {
-              const isUnlocked = completed.includes(node.id);
-              return (
-                <div
-                  key={node.id}
-                  className={`p-3 sm:p-3.5 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 ${
-                    isUnlocked
-                      ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
-                      : "bg-[#F7FAFC] border-2 border-dashed border-[#DCE7F5] opacity-60"
-                  }`}
-                >
-                  <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${
-                    isUnlocked
-                      ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
-                      : "bg-[#E4F0FF] border-2 border-[#DCE7F5]"
-                  }`}>
-                    {isUnlocked ? (
-                      <PixelIcon name="medal" size={24} alt="Lencana Selesai" />
-                    ) : (
-                      <PixelIcon name="lock" size={20} alt="Terkunci" />
-                    )}
-                  </div>
-                  <div className="w-full">
-                    <div className="text-[11px] font-extrabold text-[#0D2340] line-clamp-2 leading-tight">{node.title}</div>
-                    <div className="text-[10px] font-medium text-[#4A6580] mt-0.5 line-clamp-1">{node.blurb}</div>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </SurfaceCard>
       </main>

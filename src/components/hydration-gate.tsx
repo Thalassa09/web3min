@@ -1,5 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useProgress } from "@/lib/store";
+import { supabase } from "@/lib/supabase";
+import { syncProgressFromServer } from "@/lib/server-sync";
 import { BootScreen } from "@/components/boot-screen";
 
 function applyMotion(on: boolean) {
@@ -39,6 +41,14 @@ export function HydrationGate({ children }: { children: ReactNode }) {
       window.clearTimeout(timer);
     };
   }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    if (!supabase) return;
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) void syncProgressFromServer();
+    });
+  }, [ready]);
 
   useEffect(() => {
     if (!ready) return;

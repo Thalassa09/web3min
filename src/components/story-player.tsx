@@ -9,6 +9,7 @@ import { playComplete } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 import { DuoButton } from "@/components/duo-button";
 import { Mascot, SpeechBubble, TypeLine, type MascotMood } from "@/components/mascot";
+import { rpcCompleteStory, syncProgressFromServer } from "@/lib/server-sync";
 
 const WHO_TONE: Record<Speaker, string> = {
   web3min: "text-primary",
@@ -34,6 +35,9 @@ export function StoryPlayer({ story }: { story: Story }) {
     const awarded = completeStory(story.id) ?? { xp: 0, gems: 0 };
     setDone(awarded);
     if (sound) playComplete();
+    void rpcCompleteStory(story.id).then((ok) => {
+      if (ok) void syncProgressFromServer();
+    });
   }
 
   function advance() {

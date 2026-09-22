@@ -1,5 +1,19 @@
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { useProgress } from "@/lib/store";
+import { getLesson } from "@/lib/curriculum";
+import { getStory, getCase } from "@/lib/stories";
+import { todayKey } from "@/lib/time";
+import { sanitizeUsername } from "@/lib/people";
+
+const SERVER_QUEST_TO_CLIENT: Record<string, string> = {
+  "lesson-1": "lesson",
+  "xp-30": "xp",
+  "story-1": "kisah",
+  perfect: "perfect",
+  lesson: "lesson",
+  xp: "xp",
+  kisah: "kisah",
+};
 
 // Client-side in-flight tracking & cooldown to prevent rapid spam clicks
 const inFlightOps = new Set<string>();
@@ -26,43 +40,118 @@ export async function syncProgressFromServer(): Promise<boolean> {
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) return false;
+    const uid = session.user.id;
+    const today = todayKey();
 
-    const { data: progress, error } = await supabase
-      .from("progress")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .single();
+    const [progressRes, profileRes, completionsRes, questsRes, raffleRes] = await Promise.all([
+      supabase.from("progress").select("*").eq("user_id", uid).maybeSingle(),
+      supabase.from("profiles").select("username, bio, twitter").eq("id", uid).maybeSingle(),
+      supabase.from("completions").select("lesson_id, perfect").eq("user_id", uid),
+      supabase.from("claimed_quests").select("quest_id, quest_date").eq("user_id", uid).eq("quest_date", today),
+      supabase.from("raffle_entries").select("raffle_id, tickets, entered_at").eq("user_id", uid),
+    ]);
 
-    if (error || !progress) return false;
+    const progress = progressRes.data;
+    const profile = profileRes.data;
+    const completionRows = completionsRes.data ?? [];
+    const questRows = questsRes.data ?? [];
+    const raffleRows = raffleRes.data ?? [];
 
-    // Fetch profile bio & metadata if available
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("bio, twitter")
-      .eq("id", session.user.id)
-      .maybeSingle();
+    const completed: string[] = [];
+    const perfect: string[] = [];
+    const completedStories: string[] = [];
+    const completedCases: string[] = [];
+    for (const row of completionRows) {
+      const id = typeof row.lesson_id === "string" ? row.lesson_id : "";
+      if (!id) continue;
+      if (id.startsWith("story:")) {
+        const sid = id.slice(6);
+        if (getStory(sid)) completedStories.push(sid);
+        continue;
+      }
+      if (id.startsWith("case:")) {
+        const cid = id.slice(5);
+        if (getCase(cid)) completedCases.push(cid);
+        continue;
+      }
+      if (getLesson(id)) {
+        completed.push(id);
+        if (row.perfect) perfect.push(id);
+      }
+    }
 
-    // Update client Zustand store from canonical server state
-    useProgress.setState((s) => ({
-      ...s,
-      bio: typeof profile?.bio === "string" ? profile.bio : s.bio,
-      twitter: typeof profile?.twitter === "string" ? profile.twitter : s.twitter,
-      xp: progress.xp,
-      gems: progress.gems,
-      hearts: progress.hearts,
-      heartsUpdatedAt: new Date(progress.hearts_updated_at).getTime(),
-      streak: progress.streak,
-      streakFreeze: progress.streak_freeze,
-      lastActiveDate: progress.last_active_date,
-      xpToday: progress.xp_today,
-      xpTodayDate: progress.xp_today_date,
-      weeklyXp: progress.weekly_xp,
-      weekKey: progress.week_key,
-      lessonsToday: progress.lessons_today,
-      perfectToday: progress.perfect_today,
-      storiesToday: progress.stories_today,
-      raffleTickets: progress.raffle_tickets,
-    }));
+    const claimedQuests = questRows
+      .map((q) => SERVER_QUEST_TO_CLIENT[String(q.quest_id)])
+      .filter((id): id is "lesson" | "xp" | "kisah" | "perfect" => Boolean(id));
+
+    const enteredRaffles: Record<string, { count: number; enteredAt: number }> = {};
+    for (const row of raffleRows) {
+      const rid = String(row.raffle_id ?? "");
+      const count = Number(row.tickets) || 0;
+      if (!rid || count <= 0) continue;
+      enteredRaffles[rid] = {
+        count,
+        enteredAt: row.entered_at ? new Date(row.entered_at).getTime() : Date.now(),
+      };
+    }
+
+    const serverHasProgress =
+      (typeof progress?.xp === "number" && progress.xp > 0) ||
+      completed.length > 0 ||
+      completedStories.length > 0 ||
+      completedCases.length > 0;
+
+    const serverUsername = sanitizeUsername(profile?.username ?? "");
+    const dailyGoalRaw = progress?.daily_goal;
+    const dailyGoal =
+      dailyGoalRaw === 10 || dailyGoalRaw === 20 || dailyGoalRaw === 30 || dailyGoalRaw === 50
+        ? dailyGoalRaw
+        : undefined;
+
+    useProgress.setState((s) => {
+      const sameUser = !s.username || !serverUsername || s.username === serverUsername;
+      const keepLocalPath = sameUser && !serverHasProgress && s.completed.length > 0;
+
+      return {
+        ...s,
+        onboarded: true,
+        introSeen: true,
+        guideSeen: true,
+        coachSeen: true,
+        username: serverUsername || s.username,
+        bio: typeof profile?.bio === "string" ? profile.bio : s.bio,
+        twitter: typeof profile?.twitter === "string" ? profile.twitter : s.twitter,
+        dailyGoal: dailyGoal ?? s.dailyGoal,
+        completed: keepLocalPath ? s.completed : completed,
+        perfect: keepLocalPath ? s.perfect : perfect,
+        completedStories: keepLocalPath ? s.completedStories : completedStories,
+        completedCases: keepLocalPath ? s.completedCases : completedCases,
+        claimedQuests: keepLocalPath ? s.claimedQuests : claimedQuests,
+        enteredRaffles: Object.keys(enteredRaffles).length ? enteredRaffles : s.enteredRaffles,
+        xp: progress && serverHasProgress ? progress.xp : keepLocalPath ? s.xp : (progress?.xp ?? s.xp),
+        gems: progress && serverHasProgress ? progress.gems : keepLocalPath ? s.gems : (progress?.gems ?? s.gems),
+        hearts: typeof progress?.hearts === "number" ? progress.hearts : s.hearts,
+        heartsUpdatedAt: progress?.hearts_updated_at
+          ? new Date(progress.hearts_updated_at).getTime()
+          : s.heartsUpdatedAt,
+        streak: typeof progress?.streak === "number" ? progress.streak : s.streak,
+        streakFreeze: typeof progress?.streak_freeze === "number" ? progress.streak_freeze : s.streakFreeze,
+        lastActiveDate: progress?.last_active_date
+          ? String(progress.last_active_date).slice(0, 10)
+          : s.lastActiveDate,
+        xpToday: typeof progress?.xp_today === "number" ? progress.xp_today : s.xpToday,
+        xpTodayDate: progress?.xp_today_date
+          ? String(progress.xp_today_date).slice(0, 10)
+          : s.xpTodayDate,
+        weeklyXp: typeof progress?.weekly_xp === "number" ? progress.weekly_xp : s.weeklyXp,
+        weekKey: progress?.week_key ?? s.weekKey,
+        lessonsToday: typeof progress?.lessons_today === "number" ? progress.lessons_today : s.lessonsToday,
+        perfectToday: typeof progress?.perfect_today === "number" ? progress.perfect_today : s.perfectToday,
+        storiesToday: typeof progress?.stories_today === "number" ? progress.stories_today : s.storiesToday,
+        raffleTickets:
+          typeof progress?.raffle_tickets === "number" ? progress.raffle_tickets : s.raffleTickets,
+      };
+    });
     return true;
   } catch (err) {
     console.warn("[server-sync] Failed to sync progress from server:", err);
@@ -101,6 +190,40 @@ export async function rpcCompleteLesson(
     };
   } catch (err) {
     console.warn("[server-sync] RPC complete_lesson failed:", err);
+    return null;
+  } finally {
+    endOp(opKey);
+  }
+}
+
+export async function rpcCompleteStory(
+  storyId: string,
+): Promise<{ xp: number; gems: number; replay: boolean } | null> {
+  if (!isSupabaseConfigured || !supabase) return null;
+  const opKey = `story:${storyId}`;
+  if (!canExecuteOp(opKey, 1000)) return null;
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return null;
+
+    const { data, error } = await supabase.rpc("complete_story", {
+      p_story_id: storyId,
+    });
+
+    if (error || !data) {
+      if (error?.message?.includes("Rate limit") || error?.message?.includes("Terlalu banyak")) {
+        console.warn("[server-sync] Rate limited:", error.message);
+      }
+      return null;
+    }
+    return {
+      xp: data.xp,
+      gems: data.gems,
+      replay: data.replay,
+    };
+  } catch (err) {
+    console.warn("[server-sync] RPC complete_story failed:", err);
     return null;
   } finally {
     endOp(opKey);

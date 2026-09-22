@@ -13,6 +13,7 @@ import { HEART_REFILL_COST } from "@/lib/shop";
 import { playComplete, playCorrect, playHeart, playWrong } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 import { Dialog } from "@/components/dialog";
+import { rpcCompleteLesson, syncProgressFromServer } from "@/lib/server-sync";
 
 type Phase = "ask" | "feedback" | "done" | "dead";
 
@@ -59,6 +60,9 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       setAwarded(res);
       setPhase("done");
       if (sound) playComplete();
+      void rpcCompleteLesson(lesson.id, perfect).then((ok) => {
+        if (ok) void syncProgressFromServer();
+      });
     },
     [completeLesson, lesson.id, sound],
   );

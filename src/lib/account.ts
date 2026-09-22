@@ -1,6 +1,7 @@
 import { sanitizeUsername } from "@/lib/people";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { useProgress } from "@/lib/store";
+import { syncProgressFromServer } from "@/lib/server-sync";
 
 const USERNAME_RE = /^[a-z0-9_]{3,16}$/;
 
@@ -102,7 +103,10 @@ export async function loginAccount(opts: {
     return { ok: false, message: "Username atau password salah." };
   }
 
-  useProgress.setState({ username, onboarded: true });
+  const synced = await syncProgressFromServer();
+  if (!synced) {
+    useProgress.setState({ username, onboarded: true, introSeen: true, guideSeen: true, coachSeen: true });
+  }
   return { ok: true, username };
 }
 

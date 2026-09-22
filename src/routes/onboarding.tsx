@@ -174,20 +174,28 @@ function Onboarding() {
 
       <div className="w-full max-w-3xl relative z-10">
         <SurfaceCard className="p-5 sm:p-6 md:p-8 bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] rounded-[26px]">
-          <div className="mb-4 flex items-center gap-1.5" aria-hidden="true">
-            {[0, 1, 2].map((i) => (
-              <span
-                key={i}
-                className={`h-1.5 flex-1 rounded-full ${i <= step ? "bg-sky-600" : "bg-[#DCE7F5]"}`}
-              />
-            ))}
-          </div>
+          {/* Step Progress Bar (Shown on Step 1 & 2) */}
+          {step > 0 && (
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div className="flex-1 flex items-center gap-1.5" aria-hidden="true">
+                {[1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className={`h-1.5 flex-1 rounded-full ${i <= step ? "bg-[#0B63F6]" : "bg-[#DCE7F5]"}`}
+                  />
+                ))}
+              </div>
+              <span className="text-[11px] font-mono font-extrabold text-[#0B63F6] shrink-0">
+                Langkah {step} dari 2
+              </span>
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
             {/* Mascot Side (5 Cols) */}
             <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center p-3.5 sm:p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA] gap-3.5">
               <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
                 <Mascot
-                  key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}-${isTypingPassword}`}
+                  key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
                   mood={currentMood}
                   fill
                   float
@@ -277,12 +285,12 @@ function Onboarding() {
               {/* Step 1: Username & Password (Register or Login in-place) */}
               {step === 1 && (
                 <div className="space-y-5">
-                  <div className="flex items-start justify-between gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                     <div>
-                      <h1 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
+                      <h1 className="font-display font-bold text-xl sm:text-2xl text-[#0D2340] tracking-tight">
                         {authMode === "register" ? "Buat Username & Password" : "Masuk ke Akun"}
                       </h1>
-                      <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1.5">
+                      <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1">
                         {authMode === "register"
                           ? "Username unik tersimpan di database. Tidak bisa dipakai orang lain."
                           : "Gunakan username unik dan password akun Web3min milikmu."}
@@ -290,7 +298,7 @@ function Onboarding() {
                     </div>
 
                     {/* Quick Mode Toggle Pill */}
-                    <div className="inline-flex rounded-full bg-[#F0F6FF] border-2 border-[#DCE7F5] p-0.5 shrink-0">
+                    <div className="inline-flex rounded-full bg-[#F0F6FF] border-2 border-[#DCE7F5] p-0.5 shrink-0 self-start sm:self-auto">
                       <button
                         type="button"
                         onClick={() => {
@@ -298,7 +306,7 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         className={cn(
-                          "px-2.5 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
+                          "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
                           authMode === "register"
                             ? "bg-[#0B63F6] text-white shadow-sm"
                             : "text-[#4A6580] hover:text-[#0D2340]"
@@ -313,7 +321,7 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         className={cn(
-                          "px-2.5 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
+                          "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
                           authMode === "login"
                             ? "bg-[#0B63F6] text-white shadow-sm"
                             : "text-[#4A6580] hover:text-[#0D2340]"
@@ -347,7 +355,7 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         placeholder="contoh: satoshi atau blobi_fan"
-                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#6B839C] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                         autoFocus
                         autoComplete="username"
                       />
@@ -370,7 +378,7 @@ function Onboarding() {
                       onFocus={() => setIsTypingPassword(true)}
                       onBlur={() => setIsTypingPassword(false)}
                       autoComplete={authMode === "register" ? "new-password" : "current-password"}
-                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#6B839C] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                       placeholder={authMode === "register" ? "Minimal 8 karakter" : "Masukkan password akun"}
                     />
 
@@ -390,7 +398,7 @@ function Onboarding() {
                           onFocus={() => setIsTypingPassword(true)}
                           onBlur={() => setIsTypingPassword(false)}
                           autoComplete="new-password"
-                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#6B839C] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                           placeholder="Ulangi password yang sama"
                         />
                       </>

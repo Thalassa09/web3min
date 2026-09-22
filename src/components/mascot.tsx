@@ -18,9 +18,9 @@ const SRC: Record<MascotMood, string> = {
 };
 
 if (typeof window !== "undefined") {
-  (["idle", "wave", "celebrate"] as const).forEach((mood) => {
+  (Object.values(SRC)).forEach((src) => {
     const img = new Image();
-    img.src = SRC[mood];
+    img.src = src;
   });
 }
 
@@ -161,7 +161,8 @@ export function Mascot({
           alt=""
           width={size}
           height={size}
-          decoding="async"
+          loading="eager"
+          decoding="sync"
           draggable={false}
           className={cn(
             "pixelated size-full object-contain object-bottom select-none",

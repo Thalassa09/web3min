@@ -476,7 +476,7 @@ function ShopPage() {
                   {/* Blobi Mood React Buttons */}
                   <div className="w-full space-y-2 pt-2 border-t-2 border-[#F0F6FF]">
                     <div className="text-[11px] font-bold text-[#4A6580]">Reaksi Blobi:</div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 gap-2">
                       {(
                         [
                           { mood: "wave" as const, label: "Sapa", icon: Hand },
@@ -489,14 +489,14 @@ function ShopPage() {
                           key={mood}
                           type="button"
                           onClick={() => setBlobiMood(mood)}
-                          className={`flex items-center justify-center gap-1 px-2 py-2 rounded-[14px] text-[11px] font-extrabold select-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
+                          className={`flex items-center justify-center gap-2 px-3 py-2 rounded-[14px] text-xs font-extrabold select-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
                             blobiMood === mood
                               ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1] border-2 border-[#0B4FD1]"
                               : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF] border-2 border-[#DCE7F5]"
                           }`}
                         >
-                          <Icon className="size-3.5 shrink-0" />
-                          <span className="truncate">{label}</span>
+                          <Icon className="size-4 shrink-0" />
+                          <span>{label}</span>
                         </button>
                       ))}
                     </div>

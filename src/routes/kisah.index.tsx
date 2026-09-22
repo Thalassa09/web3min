@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { BookOpen, ShieldAlert, Clock, ArrowRight, Lock, CheckCircle2 } from "lucide-react";
+import { BookOpen, ShieldAlert, Clock, ArrowRight, Lock, CheckCircle2, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
 import { Web3Map } from "@/components/web3-map";
@@ -67,13 +67,17 @@ function KisahHub() {
           <SurfaceCard className="p-6 bg-white border-2 border-[#8FC2FF]">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-2 max-w-2xl">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B63F6] border border-[#8FC2FF]">
                     Rekomendasi Minggu Ini
                   </span>
                   <span className="flex items-center gap-1 text-xs font-medium text-[#4A6580]">
                     <Clock className="size-3.5" />
-                    ~3 Menit Baca
+                    ~{featured.minutes} Menit Baca
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#B27B00] bg-[#FFF7D1] px-2.5 py-0.5 rounded-full border border-[#FFD84D]">
+                    <Sparkles className="size-3 text-[#B27B00] fill-[#FFC61A]" />
+                    +{featured.xp} XP
                   </span>
                 </div>
                 <h2 className="font-display font-bold text-xl sm:text-2xl text-[#0D2340]">
@@ -91,7 +95,7 @@ function KisahHub() {
                     size="md"
                     icon={<ArrowRight className="size-4" />}
                   >
-                    Mulai Baca Cerita
+                    Baca Kisah
                   </TactileButton>
                 </Link>
               </div>
@@ -133,7 +137,7 @@ function KisahHub() {
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium text-[#4A6580] flex items-center gap-1">
                           <Clock className="size-3" />
-                          3 Menit
+                          {s.minutes} Menit Baca
                         </span>
                         {isDone && (
                           <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#1E8A49] bg-[#E8FBF0] px-2.5 py-0.5 rounded-full border border-[#98E4B5]">
@@ -149,10 +153,18 @@ function KisahHub() {
                       </p>
                     </div>
 
-                    <div className="mt-5 pt-3.5 border-t-2 border-[#F0F6FF] flex items-center justify-end">
+                    <div className="mt-5 pt-3.5 border-t-2 border-[#F0F6FF] flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-xs font-extrabold">
+                        <span className="inline-flex items-center gap-1 text-[#B27B00]">
+                          <Sparkles className="size-3.5 text-[#FFC61A] fill-[#FFC61A]" />
+                          +{s.xp} XP
+                        </span>
+                        <span className="text-[#DCE7F5]">·</span>
+                        <span className="text-[#0B63F6]">+{s.gems} Bintang</span>
+                      </div>
                       <Link to="/kisah/$storyId" params={{ storyId: s.id }}>
                         <TactileButton variant={isDone ? "secondary" : "primary"} size="sm">
-                          {isDone ? "Baca Ulang" : "Baca Sekarang →"}
+                          {isDone ? "Baca Ulang" : "Baca Kisah →"}
                         </TactileButton>
                       </Link>
                     </div>

@@ -262,7 +262,7 @@ function RafflePage() {
               <div className="rounded-[20px] bg-gradient-to-r from-[#0B4FD1] to-[#0B63F6] p-5 sm:p-6 text-white shadow-[0_6px_0_#07358F] relative overflow-hidden">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#8FC2FF] block">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#E4F0FF] block">
                       TOTAL HADIAH:
                     </span>
                     <div className="font-display text-2xl sm:text-4xl font-black text-[#FFC61A] drop-shadow-sm">
@@ -270,7 +270,7 @@ function RafflePage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="block text-[11px] text-[#8FC2FF] font-extrabold uppercase">STATUS WAKTU</span>
+                    <span className="block text-[11px] text-[#E4F0FF] font-extrabold uppercase">STATUS WAKTU</span>
                     <span className="font-display font-bold text-white text-lg sm:text-xl">
                       {formatCountdown(featuredRaffle.endsAt, now)}
                     </span>
@@ -415,7 +415,7 @@ function RafflePage() {
                     <span>{gems}</span>
                     <Sparkles className="size-4 text-[#FFC61A] fill-[#FFC61A]" />
                   </div>
-                  <span className="text-[11px] font-medium text-[#9DB4CE]">10 Bintang = 1 Tiket</span>
+                  <span className="text-[11px] font-bold text-[#4A6580]">10 Bintang = 1 Tiket</span>
                 </div>
               </div>
 

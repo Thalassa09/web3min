@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { Ticket, Trophy, Flame, Check, Sparkles, ArrowRight, Pencil, Quote } from "lucide-react";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Ticket, Trophy, Flame, Check, Sparkles, ArrowRight, Pencil, Quote, LogOut, ShieldCheck } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
 import { BlockStamp } from "@/components/motif";
 import { sequentialNodes } from "@/lib/curriculum";
 import { sanitizeBio } from "@/lib/people";
 import { saveBioToServer } from "@/lib/server-sync";
+import { logoutAccount } from "@/lib/account";
 import { formatGems, useProgress } from "@/lib/store";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
@@ -15,6 +16,7 @@ import { PixelIcon } from "@/components/ui/pixel-icon";
 export const Route = createFileRoute("/profile")({ component: ProfilePage });
 
 function ProfilePage() {
+  const navigate = useNavigate();
   const username = useProgress((s) => s.username);
   const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
   const enteredRaffles = useProgress((s) => s.enteredRaffles ?? {});
@@ -24,11 +26,14 @@ function ProfilePage() {
   const gems = useProgress((s) => s.gems);
   const streak = useProgress((s) => s.streak);
   const completed = useProgress((s) => s.completed);
+  const reset = useProgress((s) => s.reset);
 
   const [bioDraft, setBioDraft] = useState(bio);
   const [isEditing, setIsEditing] = useState(false);
   const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [confirmLogout, setConfirmLogout] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const lessonsDone = sequentialNodes().filter((n) => completed.includes(n.id)).length;
   const dirty = sanitizeBio(bioDraft) !== bio;
@@ -36,6 +41,14 @@ function ProfilePage() {
   useEffect(() => {
     setBioDraft(bio);
   }, [bio]);
+
+  async function handleLogout() {
+    setIsLoggingOut(true);
+    await logoutAccount();
+    reset();
+    setIsLoggingOut(false);
+    void navigate({ to: "/onboarding" });
+  }
 
   async function handleSaveBio() {
     const clean = sanitizeBio(bioDraft);
@@ -323,6 +336,58 @@ function ProfilePage() {
                 </div>
               );
             })}
+          </div>
+        </SurfaceCard>
+
+        {/* Sesi Akun & Logout */}
+        <SurfaceCard className="p-5 sm:p-6 bg-white space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="size-5 text-[#0B63F6]" />
+                <h2 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
+                  Sesi Akun & Keamanan
+                </h2>
+              </div>
+              <p className="text-xs font-medium text-[#4A6580] mt-1">
+                Terhubung sebagai <span className="font-bold text-[#0D2340]">@{username || "pelajar"}</span>. Progres dan saldo bintangmu tersimpan di database Web3min.
+              </p>
+            </div>
+
+            {!confirmLogout ? (
+              <TactileButton
+                variant="secondary"
+                size="md"
+                onClick={() => setConfirmLogout(true)}
+                className="self-start sm:self-auto text-[#B01E18] border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
+                icon={<LogOut className="size-4 text-[#B01E18]" />}
+              >
+                Keluar Akun
+              </TactileButton>
+            ) : (
+              <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                <span className="text-xs font-extrabold text-[#B01E18]">
+                  Yakin keluar?
+                </span>
+                <TactileButton
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setConfirmLogout(false)}
+                  disabled={isLoggingOut}
+                >
+                  Batal
+                </TactileButton>
+                <TactileButton
+                  variant="danger"
+                  size="sm"
+                  onClick={() => void handleLogout()}
+                  disabled={isLoggingOut}
+                  icon={<LogOut className="size-3.5" />}
+                >
+                  {isLoggingOut ? "Keluar…" : "Ya, Keluar"}
+                </TactileButton>
+              </div>
+            )}
           </div>
         </SurfaceCard>
       </main>

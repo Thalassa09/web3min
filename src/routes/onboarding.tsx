@@ -262,19 +262,67 @@ function Onboarding() {
                 </div>
               )}
 
-              {/* Step 1: Username */}
+              {/* Step 1: Username & Password (Register or Login in-place) */}
               {step === 1 && (
                 <div className="space-y-5">
-                  <div>
-                    <h1 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
-                      Buat Username & Password
-                    </h1>
-                    <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1.5">
-                      Username unik tersimpan di database. Tidak bisa dipakai orang lain.
-                    </p>
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h1 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
+                        {authMode === "register" ? "Buat Username & Password" : "Masuk ke Akun"}
+                      </h1>
+                      <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1.5">
+                        {authMode === "register"
+                          ? "Username unik tersimpan di database. Tidak bisa dipakai orang lain."
+                          : "Gunakan username unik dan password akun Web3min milikmu."}
+                      </p>
+                    </div>
+
+                    {/* Quick Mode Toggle Pill */}
+                    <div className="inline-flex rounded-full bg-[#F0F6FF] border-2 border-[#DCE7F5] p-0.5 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuthMode("register");
+                          setFormError(null);
+                        }}
+                        className={cn(
+                          "px-2.5 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
+                          authMode === "register"
+                            ? "bg-[#0B63F6] text-white shadow-sm"
+                            : "text-[#4A6580] hover:text-[#0D2340]"
+                        )}
+                      >
+                        Daftar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuthMode("login");
+                          setFormError(null);
+                        }}
+                        className={cn(
+                          "px-2.5 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
+                          authMode === "login"
+                            ? "bg-[#0B63F6] text-white shadow-sm"
+                            : "text-[#4A6580] hover:text-[#0D2340]"
+                        )}
+                      >
+                        Masuk
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="space-y-2 pt-2">
+                  <form
+                    className="space-y-2 pt-1"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (authMode === "register") {
+                        void goUsernameNext();
+                      } else {
+                        void handleLogin();
+                      }
+                    }}
+                  >
                     <label className="text-xs font-extrabold text-[#1E3A5F] block" htmlFor="username">
                       Username
                     </label>
@@ -295,6 +343,7 @@ function Onboarding() {
                         {username.length}/16
                       </span>
                     </div>
+
                     <label className="text-xs font-extrabold text-[#1E3A5F] block pt-2" htmlFor="password">
                       Password
                     </label>
@@ -302,50 +351,103 @@ function Onboarding() {
                       id="password"
                       type="password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      autoComplete="new-password"
-                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340]"
-                      placeholder="Minimal 8 karakter"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setFormError(null);
+                      }}
+                      autoComplete={authMode === "register" ? "new-password" : "current-password"}
+                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                      placeholder={authMode === "register" ? "Minimal 8 karakter" : "Masukkan password akun"}
                     />
-                    <label className="text-xs font-extrabold text-[#1E3A5F] block pt-2" htmlFor="password2">
-                      Ulangi password
-                    </label>
-                    <input
-                      id="password2"
-                      type="password"
-                      value={password2}
-                      onChange={(e) => setPassword2(e.target.value)}
-                      autoComplete="new-password"
-                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340]"
-                    />
-                    {formError ? <p className="text-xs font-semibold text-[#E63329]">{formError}</p> : null}
-                    <p className="text-[11px] font-semibold text-[#4A6580]">
-                      Sudah punya akun?{" "}
-                      <Link to="/masuk" className="text-sky-600 font-extrabold">
-                        Masuk
-                      </Link>
-                    </p>
-                  </div>
 
-                  <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
-                    <TactileButton
-                      variant="ghost"
-                      size="md"
-                      onClick={() => setStep(0)}
-                    >
-                      Kembali
-                    </TactileButton>
-                    <TactileButton
-                      variant="primary"
-                      size="lg"
-                      className="w-full sm:flex-1"
-                      icon={<ArrowRight className="size-5" />}
-                      onClick={() => void goUsernameNext()}
-                      disabled={busy}
-                    >
-                      {busy ? "Cek username…" : "Lanjut"}
-                    </TactileButton>
-                  </div>
+                    {authMode === "register" && (
+                      <>
+                        <label className="text-xs font-extrabold text-[#1E3A5F] block pt-2" htmlFor="password2">
+                          Ulangi password
+                        </label>
+                        <input
+                          id="password2"
+                          type="password"
+                          value={password2}
+                          onChange={(e) => {
+                            setPassword2(e.target.value);
+                            setFormError(null);
+                          }}
+                          autoComplete="new-password"
+                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                          placeholder="Ulangi password yang sama"
+                        />
+                      </>
+                    )}
+
+                    {formError ? <p className="text-xs font-semibold text-[#E63329] pt-1">{formError}</p> : null}
+
+                    <div className="pt-2 text-[11px] font-semibold text-[#4A6580]">
+                      {authMode === "register" ? (
+                        <>
+                          Sudah punya akun?{" "}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAuthMode("login");
+                              setFormError(null);
+                            }}
+                            className="text-sky-600 font-extrabold hover:underline cursor-pointer"
+                          >
+                            Masuk di sini
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          Belum punya akun?{" "}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAuthMode("register");
+                              setFormError(null);
+                            }}
+                            className="text-sky-600 font-extrabold hover:underline cursor-pointer"
+                          >
+                            Daftar akun baru
+                          </button>
+                        </>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
+                      <TactileButton
+                        variant="ghost"
+                        size="md"
+                        type="button"
+                        onClick={() => {
+                          if (authMode === "login") {
+                            setAuthMode("register");
+                            setFormError(null);
+                          } else {
+                            setStep(0);
+                          }
+                        }}
+                      >
+                        Kembali
+                      </TactileButton>
+                      <TactileButton
+                        variant="primary"
+                        size="lg"
+                        type="submit"
+                        className="w-full sm:flex-1"
+                        icon={<ArrowRight className="size-5" />}
+                        disabled={busy}
+                      >
+                        {busy
+                          ? authMode === "register"
+                            ? "Cek username…"
+                            : "Memeriksa…"
+                          : authMode === "register"
+                            ? "Lanjut"
+                            : "Masuk Sekarang"}
+                      </TactileButton>
+                    </div>
+                  </form>
                 </div>
               )}
 

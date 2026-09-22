@@ -151,6 +151,7 @@ async function gatePost(
     headers,
     body: JSON.stringify(body),
     redirect: "manual",
+    signal: AbortSignal.timeout(8000),
   });
 
   let json: GateJson = {};

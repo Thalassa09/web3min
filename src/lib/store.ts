@@ -498,7 +498,9 @@ export const useProgress = create<ProgressState & Actions>()(
         const slot = ACCESSORY_BY_ID[id]?.slot;
         if (!slot) return false;
         if (s.outfits.includes(id)) {
-          const worn = { ...s.worn, [slot]: id };
+          const worn = { ...s.worn };
+          if (worn[slot] === id) delete worn[slot];
+          else worn[slot] = id;
           set({ worn, equipped: featuredOf(worn) });
           return true;
         }

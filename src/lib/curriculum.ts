@@ -129,7 +129,7 @@ export type Unit = {
   lessons: Lesson[];
 };
 
-function c(
+export function c(
   id: string,
   prompt: string,
   options: string[],
@@ -140,7 +140,7 @@ function c(
   return { type: "choice", id, prompt, options, answer, explanation, blobi };
 }
 
-function tf(
+export function tf(
   id: string,
   prompt: string,
   answer: boolean,
@@ -150,7 +150,7 @@ function tf(
   return { type: "tf", id, prompt, answer, explanation, blobi };
 }
 
-function blank(
+export function blank(
   id: string,
   prompt: string,
   options: string[],
@@ -161,7 +161,7 @@ function blank(
   return { type: "blank", id, prompt, options, answer, explanation, blobi };
 }
 
-function match(
+export function match(
   id: string,
   prompt: string,
   pairs: { left: string; right: string }[],
@@ -170,7 +170,7 @@ function match(
   return { type: "match", id, prompt, pairs, blobi };
 }
 
-function order(
+export function order(
   id: string,
   prompt: string,
   pieces: string[],
@@ -180,7 +180,7 @@ function order(
   return { type: "order", id, prompt, pieces, answer: [...pieces], explanation, blobi };
 }
 
-function tip(
+export function tip(
   id: string,
   title: string,
   body: string,
@@ -189,7 +189,7 @@ function tip(
   return { type: "tip", id, title, body, ...extra };
 }
 
-function L(
+export function L(
   unitId: string,
   id: string,
   kind: LessonKind,

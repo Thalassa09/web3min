@@ -15,6 +15,7 @@ function MasukPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [isTypingPassword, setIsTypingPassword] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -34,10 +35,16 @@ function MasukPage() {
     <main className="min-h-dvh bg-canvas flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8 overflow-x-hidden">
       <SurfaceCard className="w-full max-w-md p-6 bg-white">
         <div className="flex items-center gap-3 mb-5">
-          <Mascot mood="wave" size={56} />
+          <Mascot mood={isTypingPassword ? "sleep" : "wave"} size={56} hideParticles={isTypingPassword} />
           <div>
             <h1 className="font-display font-bold text-2xl text-[#0D2340]">Masuk</h1>
-            <p className="text-xs font-medium text-[#4A6580]">Username unik + password akunmu.</p>
+            <p className="text-xs font-medium text-[#4A6580]">
+              {isTypingPassword ? (
+                <span className="text-[#0B63F6] font-bold">Tenang, aku tutup mata... gak ngintip!</span>
+              ) : (
+                "Username unik + password akunmu."
+              )}
+            </p>
           </div>
         </div>
         <form className="space-y-3" onSubmit={onSubmit}>
@@ -60,6 +67,8 @@ function MasukPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onFocus={() => setIsTypingPassword(true)}
+            onBlur={() => setIsTypingPassword(false)}
             autoComplete="current-password"
             className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340]"
           />

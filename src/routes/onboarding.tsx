@@ -66,6 +66,7 @@ function Onboarding() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [isTypingPassword, setIsTypingPassword] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [goal, setGoal] = useState<DailyGoal>(20);
@@ -144,13 +145,15 @@ function Onboarding() {
 
   const activeGoalConfig = GOALS.find((g) => g.value === goal) ?? GOALS[1];
   const currentMood: MascotMood =
-    step === 0
-      ? "wave"
-      : step === 1
-        ? authMode === "login"
-          ? "proud"
-          : "think"
-        : activeGoalConfig.mood;
+    isTypingPassword
+      ? "sleep"
+      : step === 0
+        ? "wave"
+        : step === 1
+          ? authMode === "login"
+            ? "proud"
+            : "think"
+          : activeGoalConfig.mood;
 
   const handleSelectGoal = (g: GoalConfig) => {
     setGoal(g.value);
@@ -184,19 +187,28 @@ function Onboarding() {
             <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center p-3.5 sm:p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA] gap-3.5">
               <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
                 <Mascot
-                  key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
+                  key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}-${isTypingPassword}`}
                   mood={currentMood}
                   fill
                   float
                   interactive
+                  hideParticles={isTypingPassword}
                 />
               </div>
               <div>
                 <div className="font-display text-base sm:text-lg font-bold text-[#0B4FD1]">Blobi</div>
                 <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
-                  {step === 0 && "Teman belajarmu di dunia Web3"}
-                  {step === 1 && (authMode === "register" ? "Pilih nama panggilan petualangmu" : "Selamat datang kembali! Masuk untuk lanjut")}
-                  {step === 2 && activeGoalConfig.quote}
+                  {isTypingPassword ? (
+                    <span className="text-[#0B63F6] font-bold">
+                      Tenang, aku tutup mata kok. Gak bakal ngintip!
+                    </span>
+                  ) : (
+                    <>
+                      {step === 0 && "Teman belajarmu di dunia Web3"}
+                      {step === 1 && (authMode === "register" ? "Pilih nama panggilan petualangmu" : "Selamat datang kembali! Masuk untuk lanjut")}
+                      {step === 2 && activeGoalConfig.quote}
+                    </>
+                  )}
                 </p>
               </div>
             </div>
@@ -355,6 +367,8 @@ function Onboarding() {
                         setPassword(e.target.value);
                         setFormError(null);
                       }}
+                      onFocus={() => setIsTypingPassword(true)}
+                      onBlur={() => setIsTypingPassword(false)}
                       autoComplete={authMode === "register" ? "new-password" : "current-password"}
                       className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                       placeholder={authMode === "register" ? "Minimal 8 karakter" : "Masukkan password akun"}
@@ -373,6 +387,8 @@ function Onboarding() {
                             setPassword2(e.target.value);
                             setFormError(null);
                           }}
+                          onFocus={() => setIsTypingPassword(true)}
+                          onBlur={() => setIsTypingPassword(false)}
                           autoComplete="new-password"
                           className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                           placeholder="Ulangi password yang sama"

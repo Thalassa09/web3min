@@ -51,6 +51,7 @@ type Props = {
   worn?: Worn;
   lite?: boolean;
   fill?: boolean;
+  hideParticles?: boolean;
 };
 
 export function Mascot({
@@ -61,6 +62,7 @@ export function Mascot({
   worn: wornProp,
   lite = false,
   fill = false,
+  hideParticles = false,
 }: Props) {
   const storeWorn = useProgress((s) => s.worn);
   const worn = wornProp ?? storeWorn;
@@ -112,7 +114,7 @@ export function Mascot({
   };
 
   const fx = !lite && live;
-  const particles = fx ? (PARTICLES[mood] ?? []) : [];
+  const particles = fx && !hideParticles ? (PARTICLES[mood] ?? []) : [];
   const anim = lite ? "" : squish ? "blobi-squishing" : `blobi-anim-${mood}`;
 
   return (

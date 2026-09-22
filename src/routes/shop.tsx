@@ -566,11 +566,11 @@ function ShopPage() {
                   {/* Closet Controls: Scope Toggle + Slot Filter */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-[#F0F6FF]">
                     {/* Scope: Koleksi Dimiliki vs Katalog Lengkap */}
-                    <div className="inline-flex p-1 rounded-[14px] bg-[#E4F0FF] border border-[#B9CFE9] gap-1 shrink-0">
+                    <div className="w-full sm:w-auto inline-flex p-1 rounded-[14px] bg-[#E4F0FF] border border-[#B9CFE9] gap-1 shrink-0">
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("owned")}
-                        className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
+                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "owned"
                             ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
                             : "text-[#4A6580] hover:text-[#0D2340]"
@@ -581,7 +581,7 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("all")}
-                        className={`px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
+                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "all"
                             ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
                             : "text-[#4A6580] hover:text-[#0D2340]"
@@ -592,14 +592,14 @@ function ShopPage() {
                     </div>
 
                     {/* Slot Filter */}
-                    <div className="flex items-center gap-2 overflow-x-auto pb-1.5 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="w-full min-w-0 flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                       <button
                         type="button"
                         onClick={() => setWardrobeSlot("all")}
-                        className={`shrink-0 px-4 py-2 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
+                        className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                           wardrobeSlot === "all"
-                            ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                            : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
+                            ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_2px_0_#0B4FD1]"
+                            : "bg-[#F0F6FF] text-[#4A6580] border-2 border-[#DCE7F5] shadow-[0_2px_0_#DCE7F5] hover:bg-[#E4F0FF] hover:border-[#CBD5E1] hover:text-[#0D2340]"
                         }`}
                       >
                         Semua
@@ -609,10 +609,10 @@ function ShopPage() {
                           key={s}
                           type="button"
                           onClick={() => setWardrobeSlot(s)}
-                          className={`shrink-0 px-4 py-2 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
+                          className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                             wardrobeSlot === s
-                              ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
-                              : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
+                              ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_2px_0_#0B4FD1]"
+                              : "bg-[#F0F6FF] text-[#4A6580] border-2 border-[#DCE7F5] shadow-[0_2px_0_#DCE7F5] hover:bg-[#E4F0FF] hover:border-[#CBD5E1] hover:text-[#0D2340]"
                           }`}
                         >
                           {SLOT_LABEL[s]}

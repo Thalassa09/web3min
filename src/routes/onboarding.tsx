@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Clock, ShieldCheck, Gift, Check } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
-import { SurfaceCard } from "@/components/ui/surface-card";
+import { Box } from "@/components/ui/box";
+import { SectionMessage } from "@/components/ui/section-message";
+import { Lozenge } from "@/components/ui/lozenge";
 import { Mascot, type MascotMood } from "@/components/mascot";
 import { type DailyGoal, useProgress } from "@/lib/store";
 import { playMoodSfx, triggerHaptic } from "@/lib/audio";
@@ -173,7 +175,13 @@ function Onboarding() {
       </div>
 
       <div className="w-full max-w-3xl relative z-10">
-        <SurfaceCard className="p-5 sm:p-6 md:p-8 bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] rounded-[26px]">
+        <Box
+          elevation="raised"
+          radius="2xl"
+          padding="lg"
+          border="bold"
+          className="bg-white"
+        >
           {/* Step Progress Bar (Shown on Step 1 & 2) */}
           {step > 0 && (
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -191,8 +199,14 @@ function Onboarding() {
             </div>
           )}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
-            {/* Mascot Side (5 Cols) */}
-            <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center p-3.5 sm:p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA] gap-3.5">
+            {/* Mascot Side (5 Cols - Atlassian Styled Box) */}
+            <Box
+              elevation="default"
+              radius="xl"
+              padding="md"
+              border="brand"
+              className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-[#E4F0FF] shadow-[0_4px_0_#C2DBFA] gap-3.5"
+            >
               <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
                 <Mascot
                   key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
@@ -219,7 +233,7 @@ function Onboarding() {
                   )}
                 </p>
               </div>
-            </div>
+            </Box>
 
             {/* Step Content (7 Cols) */}
             <div className="md:col-span-7 flex flex-col justify-between min-h-0">
@@ -235,37 +249,64 @@ function Onboarding() {
                     </p>
                   </div>
 
-                  {/* 3 Core Highlights */}
+                  {/* 3 Core Highlights (Atlassian Feature Box Spec) */}
                   <div className="space-y-2.5 pt-1">
-                    <div className="flex items-start gap-3 p-3 rounded-[16px] bg-[#F0F6FF] border-2 border-[#DCE7F5]">
+                    <Box
+                      elevation="flat"
+                      radius="md"
+                      padding="sm"
+                      border="subtle"
+                      className="flex items-start gap-3 bg-[#F0F6FF] hover:border-[#8FC2FF] transition-all"
+                    >
                       <div className="p-2 rounded-[12px] bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5] shrink-0 mt-0.5">
                         <Clock className="size-4" />
                       </div>
-                      <div>
-                        <div className="text-xs font-extrabold text-[#0D2340]">20 Modul Singkat & Terarah</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs font-extrabold text-[#0D2340]">20 Modul Singkat & Terarah</span>
+                          <Lozenge appearance="inprogress">20 UNIT</Lozenge>
+                        </div>
                         <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Rute belajar bertahap dari pemula hingga mahir.</div>
                       </div>
-                    </div>
+                    </Box>
 
-                    <div className="flex items-start gap-3 p-3 rounded-[16px] bg-[#F0F6FF] border-2 border-[#DCE7F5]">
+                    <Box
+                      elevation="flat"
+                      radius="md"
+                      padding="sm"
+                      border="subtle"
+                      className="flex items-start gap-3 bg-[#F0F6FF] hover:border-[#8FC2FF] transition-all"
+                    >
                       <div className="p-2 rounded-[12px] bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF] shrink-0 mt-0.5">
                         <ShieldCheck className="size-4" />
                       </div>
-                      <div>
-                        <div className="text-xs font-extrabold text-[#0D2340]">100% Aman & Tanpa Modal</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs font-extrabold text-[#0D2340]">100% Aman & Tanpa Modal</span>
+                          <Lozenge appearance="success">SIMULASI</Lozenge>
+                        </div>
                         <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Belajar konsep blockchain di lingkungan simulasi aman.</div>
                       </div>
-                    </div>
+                    </Box>
 
-                    <div className="flex items-start gap-3 p-3 rounded-[16px] bg-[#F0F6FF] border-2 border-[#DCE7F5]">
+                    <Box
+                      elevation="flat"
+                      radius="md"
+                      padding="sm"
+                      border="subtle"
+                      className="flex items-start gap-3 bg-[#F0F6FF] hover:border-[#8FC2FF] transition-all"
+                    >
                       <div className="p-2 rounded-[12px] bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D] shrink-0 mt-0.5">
                         <Gift className="size-4" />
                       </div>
-                      <div>
-                        <div className="text-xs font-extrabold text-[#0D2340]">Hadiah & Undian Nyata</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs font-extrabold text-[#0D2340]">Hadiah & Undian Nyata</span>
+                          <Lozenge appearance="moved">IN-GAME</Lozenge>
+                        </div>
                         <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Kumpulkan bintang dan tukarkan dengan tiket undian in-game.</div>
                       </div>
-                    </div>
+                    </Box>
                   </div>
 
                   <div className="pt-2">
@@ -404,7 +445,11 @@ function Onboarding() {
                       </>
                     )}
 
-                    {formError ? <p className="text-xs font-semibold text-[#E63329] pt-1">{formError}</p> : null}
+                    {formError ? (
+                      <div className="pt-2">
+                        <SectionMessage appearance="error">{formError}</SectionMessage>
+                      </div>
+                    ) : null}
 
                     <div className="pt-2 text-[11px] font-semibold text-[#4A6580]">
                       {authMode === "register" ? (
@@ -495,37 +540,43 @@ function Onboarding() {
                           key={g.value}
                           type="button"
                           onClick={() => handleSelectGoal(g)}
-                          className={`
-                            p-3.5 rounded-[16px] border-2 text-left transition-[transform,box-shadow,background-color,border-color] duration-150 flex flex-col justify-between cursor-pointer
-                            active:translate-y-[2px]
-                            ${
-                              isSelected
-                                ? "bg-[#E4F0FF] border-[#0B63F6] shadow-[0_4px_0_#0B4FD1]"
-                                : "bg-[#FFFFFF] border-[#DCE7F5] shadow-[0_3px_0_#C8DBF0] hover:border-[#B9CFE9]"
-                            }
-                          `}
+                          className="text-left cursor-pointer transition-all active:translate-y-[2px]"
                         >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <span className="size-7 rounded-xl bg-white/90 border border-[#B9CFE9] flex items-center justify-center shrink-0 shadow-sm">
-                                <img
-                                  src={`/mascot/${g.mood}.png`}
-                                  alt=""
-                                  className="size-5 pixelated object-contain"
-                                />
-                              </span>
-                              <span className="text-xs font-extrabold text-[#0D2340]">{g.label}</span>
+                          <Box
+                            elevation={isSelected ? "raised" : "default"}
+                            border={isSelected ? "brand-bold" : "subtle"}
+                            radius="lg"
+                            padding="sm"
+                            className={`flex flex-col justify-between h-full transition-all ${
+                              isSelected
+                                ? "bg-[#E4F0FF] shadow-[0_4px_0_#0B4FD1]"
+                                : "bg-white hover:border-[#B9CFE9]"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="size-7 rounded-xl bg-white/90 border border-[#B9CFE9] flex items-center justify-center shrink-0 shadow-sm">
+                                  <img
+                                    src={`/mascot/${g.mood}.png`}
+                                    alt=""
+                                    className="size-5 pixelated object-contain"
+                                  />
+                                </span>
+                                <span className="text-xs font-extrabold text-[#0D2340]">{g.label}</span>
+                              </div>
+                              {isSelected ? (
+                                <span className="size-5 rounded-full bg-[#0B63F6] text-white flex items-center justify-center shadow-sm">
+                                  <Check className="size-3" strokeWidth={3} />
+                                </span>
+                              ) : (
+                                <Lozenge appearance="default">{g.value} XP</Lozenge>
+                              )}
                             </div>
-                            {isSelected && (
-                              <span className="size-5 rounded-full bg-[#0B63F6] text-white flex items-center justify-center shadow-sm">
-                                <Check className="size-3" strokeWidth={3} />
-                              </span>
-                            )}
-                          </div>
-                          <div className="mt-2.5">
-                            <div className="text-xs font-bold text-[#0B4FD1]">{g.desc}</div>
-                            <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">{g.modules}</div>
-                          </div>
+                            <div className="mt-2.5">
+                              <div className="text-xs font-bold text-[#0B4FD1]">{g.desc}</div>
+                              <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">{g.modules}</div>
+                            </div>
+                          </Box>
                         </button>
                       );
                     })}
@@ -554,7 +605,7 @@ function Onboarding() {
               )}
             </div>
           </div>
-        </SurfaceCard>
+        </Box>
       </div>
     </main>
   );

@@ -592,11 +592,11 @@ function ShopPage() {
                     </div>
 
                     {/* Slot Filter */}
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                    <div className="flex items-center gap-2 overflow-x-auto pb-1.5 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                       <button
                         type="button"
                         onClick={() => setWardrobeSlot("all")}
-                        className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
+                        className={`shrink-0 px-4 py-2 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeSlot === "all"
                             ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
                             : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"
@@ -609,7 +609,7 @@ function ShopPage() {
                           key={s}
                           type="button"
                           onClick={() => setWardrobeSlot(s)}
-                          className={`px-2.5 py-1 rounded-full text-xs font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
+                          className={`shrink-0 px-4 py-2 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] ${
                             wardrobeSlot === s
                               ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1]"
                               : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF]"

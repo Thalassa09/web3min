@@ -176,6 +176,11 @@ export default defineConfig(({ command, isPreview }) => ({
             // false, so removing this silently unwires /?install=1 on deploys.
             serverDir: "./server",
             routeRules: {
+              "/api/health": {
+                headers: {
+                  "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+                },
+              },
               "/**": {
                 headers: {
                   "x-content-type-options": "nosniff",

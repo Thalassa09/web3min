@@ -17,7 +17,7 @@ function StatPill({
   floatShadow = "#D99400",
 }: {
   value: number;
-  displayValue?: string | number;
+  displayValue?: React.ReactNode;
   icon: React.ReactNode;
   title?: string;
   to?: string;
@@ -94,13 +94,13 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-1 sm:gap-2 px-3 sm:px-5 bg-white/95 backdrop-blur-md border-b-2 border-[#DCE7F5] shadow-[0_2px_8px_rgba(9,48,102,0.04)] select-none overflow-hidden">
-      {/* Brand on Mobile / Small screens */}
+      {/* Brand on Mobile / Small screens: Only mascot coin on mobile, logo text on sm+ */}
       {brand ? (
         <Link to="/" className="mr-auto shrink-0 select-none flex items-center gap-1.5 lg:hidden" aria-label="Beranda">
-          <span className="relative grid size-8 sm:size-9 place-items-center rounded-xl bg-[#FFC61A] border-2 border-[#D99400] shadow-[0_2px_0_#D99400]">
+          <span className="relative grid size-8 sm:size-9 place-items-center rounded-xl bg-[#FFC61A] border-2 border-[#D99400] shadow-[0_2px_0_#D99400] shrink-0">
             <img src="/mascot/idle.png" alt="" className="size-6 pixelated object-contain" />
           </span>
-          <span className="font-display text-lg font-bold tracking-tight text-[#0B4FD1]">
+          <span className="hidden sm:inline font-display text-lg font-bold tracking-tight text-[#0B4FD1]">
             web3<span className="text-[#D98200]">min</span>
           </span>
         </Link>
@@ -109,9 +109,9 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
       )}
       <span className="mr-auto hidden lg:block" />
 
-      {/* 5 Fixed Slots HUD Cluster */}
-      <div className="flex min-w-0 items-center justify-end gap-1 sm:gap-1.5 md:gap-2 overflow-x-auto no-scrollbar">
-        {/* 0. XP (Desktop/Tablet) */}
+      {/* Responsive HUD Cluster */}
+      <div className="flex min-w-0 items-center justify-end gap-1.5 sm:gap-2">
+        {/* 0. XP (Desktop/Tablet only) */}
         <div className="hidden sm:block">
           <StatPill
             value={xp}
@@ -123,13 +123,15 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           />
         </div>
 
-        {/* 1. Streak (Flame with dynamic flicker) */}
+        {/* 1. Streak (Flame with dynamic flicker, grayed out if 0) */}
         <StatPill
           value={streak}
           icon={
             <Fire
-              className={`size-3.5 sm:size-4 shrink-0 text-flame ${streak > 0 ? "flame-active" : "opacity-60"}`}
-              weight="fill"
+              className={`size-3.5 sm:size-4 shrink-0 ${
+                streak > 0 ? "text-[#F2841F] flame-active" : "text-[#94A3B8] opacity-50"
+              }`}
+              weight={streak > 0 ? "fill" : "regular"}
             />
           }
           title="Streak Belajar Harian"
@@ -147,43 +149,52 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           floatShadow="#D99400"
         />
 
-        {/* 3. Tiket Undian (Ticket with float delta & link) */}
-        <StatPill
-          value={raffleTickets}
-          icon={<Ticket className="size-3.5 sm:size-4 shrink-0 text-sky-600" />}
-          title="Tiket Undian Hadiah"
-          to="/leaderboard"
-          floatColor="var(--color-sky-600, #1367E8)"
-          floatShadow="#0B4FD1"
-        />
+        {/* 3. Tiket Undian (Tablet/Desktop only; reachable via bottom nav on mobile) */}
+        <div className="hidden sm:block">
+          <StatPill
+            value={raffleTickets}
+            icon={<Ticket className="size-3.5 sm:size-4 shrink-0 text-sky-600" />}
+            title="Tiket Undian Hadiah"
+            to="/leaderboard"
+            floatColor="var(--color-sky-600, #1367E8)"
+            floatShadow="#0B4FD1"
+          />
+        </div>
 
         {/* 4. Nyawa (Ruby Hearts) */}
         <StatPill
           value={hearts}
-          displayValue={`${hearts}/${MAX_HEARTS}`}
+          displayValue={
+            <>
+              <span className="sm:hidden">{hearts}</span>
+              <span className="hidden sm:inline">{hearts}/{MAX_HEARTS}</span>
+            </>
+          }
           icon={<Heart className="size-3.5 sm:size-4 shrink-0 text-[#E63329]" weight="fill" />}
           title="Nyawa Belajar"
           floatColor="#E63329"
           floatShadow="#B01E18"
         />
 
-        {/* 5. Sound Toggle */}
-        <button
-          type="button"
-          onClick={() => {
-            const next = !sound;
-            setSound(next);
-            setAudioEnabled(next);
-            if (next) {
-              playTap();
-            }
-          }}
-          className="flex items-center justify-center size-8 sm:size-9 rounded-full bg-[#F7FAFC] hover:bg-[#F0F6FF] border-2 border-[#DCE7F5] shadow-[0_2px_0_#C8DBF0] text-[#1E3A5F] hover:text-[#0D2340] transition-[transform,box-shadow] duration-150 active:translate-y-[2px] active:shadow-none cursor-pointer shrink-0"
-          title={sound ? "Matikan Suara" : "Nyalakan Suara"}
-          aria-label={sound ? "Matikan Suara" : "Nyalakan Suara"}
-        >
-          {sound ? <Volume2 className="size-3.5 sm:size-4 text-[#0B63F6]" /> : <VolumeX className="size-3.5 sm:size-4 text-[#E63329]" />}
-        </button>
+        {/* 5. Sound Toggle (Tablet/Desktop only; mobile has it in Settings) */}
+        <div className="hidden sm:block">
+          <button
+            type="button"
+            onClick={() => {
+              const next = !sound;
+              setSound(next);
+              setAudioEnabled(next);
+              if (next) {
+                playTap();
+              }
+            }}
+            className="flex items-center justify-center size-8 sm:size-9 rounded-full bg-[#F7FAFC] hover:bg-[#F0F6FF] border-2 border-[#DCE7F5] shadow-[0_2px_0_#C8DBF0] text-[#1E3A5F] hover:text-[#0D2340] transition-[transform,box-shadow] duration-150 active:translate-y-[2px] active:shadow-none cursor-pointer shrink-0"
+            title={sound ? "Matikan Suara" : "Nyalakan Suara"}
+            aria-label={sound ? "Matikan Suara" : "Nyalakan Suara"}
+          >
+            {sound ? <Volume2 className="size-3.5 sm:size-4 text-[#0B63F6]" /> : <VolumeX className="size-3.5 sm:size-4 text-[#E63329]" />}
+          </button>
+        </div>
       </div>
     </header>
   );

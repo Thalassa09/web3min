@@ -109,8 +109,13 @@ export async function syncProgressFromServer(): Promise<boolean> {
         : undefined;
 
     useProgress.setState((s) => {
-      const sameUser = !s.username || !serverUsername || s.username === serverUsername;
-      const keepLocalPath = sameUser && !serverHasProgress && s.completed.length > 0;
+      // Monotonic UNION merge: NEVER delete completed lessons or drop below earned stats
+      const mergedCompleted = Array.from(new Set([...s.completed, ...completed]));
+      const mergedPerfect = Array.from(new Set([...s.perfect, ...perfect]));
+      const mergedStories = Array.from(new Set([...s.completedStories, ...completedStories]));
+      const mergedCases = Array.from(new Set([...s.completedCases, ...completedCases]));
+      const mergedQuests = Array.from(new Set([...s.claimedQuests, ...claimedQuests]));
+      const mergedRaffles = { ...s.enteredRaffles, ...enteredRaffles };
 
       return {
         ...s,
@@ -119,39 +124,50 @@ export async function syncProgressFromServer(): Promise<boolean> {
         guideSeen: true,
         coachSeen: true,
         username: serverUsername || s.username,
-        bio: typeof profile?.bio === "string" ? profile.bio : s.bio,
-        twitter: typeof profile?.twitter === "string" ? profile.twitter : s.twitter,
+        bio: typeof profile?.bio === "string" && profile.bio ? profile.bio : s.bio,
+        twitter: typeof profile?.twitter === "string" && profile.twitter ? profile.twitter : s.twitter,
         dailyGoal: dailyGoal ?? s.dailyGoal,
-        completed: keepLocalPath ? s.completed : completed,
-        perfect: keepLocalPath ? s.perfect : perfect,
-        completedStories: keepLocalPath ? s.completedStories : completedStories,
-        completedCases: keepLocalPath ? s.completedCases : completedCases,
-        claimedQuests: keepLocalPath ? s.claimedQuests : claimedQuests,
-        enteredRaffles: Object.keys(enteredRaffles).length ? enteredRaffles : s.enteredRaffles,
-        xp: progress && serverHasProgress ? progress.xp : keepLocalPath ? s.xp : (progress?.xp ?? s.xp),
-        gems: progress && serverHasProgress ? progress.gems : keepLocalPath ? s.gems : (progress?.gems ?? s.gems),
+        completed: mergedCompleted,
+        perfect: mergedPerfect,
+        completedStories: mergedStories,
+        completedCases: mergedCases,
+        claimedQuests: mergedQuests,
+        enteredRaffles: Object.keys(mergedRaffles).length ? mergedRaffles : s.enteredRaffles,
+        xp: Math.max(s.xp, progress?.xp ?? 0),
+        gems: Math.max(s.gems, progress?.gems ?? 0),
         hearts: typeof progress?.hearts === "number" ? progress.hearts : s.hearts,
         heartsUpdatedAt: progress?.hearts_updated_at
           ? new Date(progress.hearts_updated_at).getTime()
           : s.heartsUpdatedAt,
-        streak: typeof progress?.streak === "number" ? progress.streak : s.streak,
-        streakFreeze: typeof progress?.streak_freeze === "number" ? progress.streak_freeze : s.streakFreeze,
+        streak: Math.max(s.streak, progress?.streak ?? 0),
+        streakFreeze: Math.max(s.streakFreeze, progress?.streak_freeze ?? 0),
         lastActiveDate: progress?.last_active_date
           ? String(progress.last_active_date).slice(0, 10)
           : s.lastActiveDate,
-        xpToday: typeof progress?.xp_today === "number" ? progress.xp_today : s.xpToday,
+        xpToday: typeof progress?.xp_today === "number" ? Math.max(s.xpToday, progress.xp_today) : s.xpToday,
         xpTodayDate: progress?.xp_today_date
           ? String(progress.xp_today_date).slice(0, 10)
           : s.xpTodayDate,
-        weeklyXp: typeof progress?.weekly_xp === "number" ? progress.weekly_xp : s.weeklyXp,
+        weeklyXp: typeof progress?.weekly_xp === "number" ? Math.max(s.weeklyXp, progress.weekly_xp) : s.weeklyXp,
         weekKey: progress?.week_key ?? s.weekKey,
-        lessonsToday: typeof progress?.lessons_today === "number" ? progress.lessons_today : s.lessonsToday,
-        perfectToday: typeof progress?.perfect_today === "number" ? progress.perfect_today : s.perfectToday,
-        storiesToday: typeof progress?.stories_today === "number" ? progress.stories_today : s.storiesToday,
+        lessonsToday: typeof progress?.lessons_today === "number" ? Math.max(s.lessonsToday, progress.lessons_today) : s.lessonsToday,
+        perfectToday: typeof progress?.perfect_today === "number" ? Math.max(s.perfectToday, progress.perfect_today) : s.perfectToday,
+        storiesToday: typeof progress?.stories_today === "number" ? Math.max(s.storiesToday, progress.stories_today) : s.storiesToday,
         raffleTickets:
-          typeof progress?.raffle_tickets === "number" ? progress.raffle_tickets : s.raffleTickets,
+          typeof progress?.raffle_tickets === "number"
+            ? Math.max(s.raffleTickets ?? 0, progress.raffle_tickets)
+            : s.raffleTickets,
       };
     });
+
+    // Background convergence: upload any locally completed lessons that server doesn't have yet
+    const localOnly = useProgress.getState().completed.filter((id) => !completed.includes(id));
+    if (localOnly.length > 0) {
+      for (const id of localOnly) {
+        void rpcCompleteLesson(id, useProgress.getState().perfect.includes(id));
+      }
+    }
+
     return true;
   } catch (err) {
     console.warn("[server-sync] Failed to sync progress from server:", err);

@@ -637,11 +637,25 @@ export const useProgress = create<ProgressState & Actions>()(
     }),
     {
       name: "web3min-v2",
+      version: 2,
+      migrate: (persistedState: unknown) => {
+        if (!persistedState) return persistedState;
+        if (typeof persistedState === "object" && "state" in (persistedState as Record<string, unknown>)) {
+          return (persistedState as { state: unknown }).state;
+        }
+        return persistedState;
+      },
       skipHydration: true,
-      merge: (persisted, current) => ({
-        ...current,
-        ...sanitizeState(persisted as Partial<ProgressState>),
-      }),
+      merge: (persisted, current) => {
+        const raw =
+          persisted && typeof persisted === "object" && "state" in (persisted as Record<string, unknown>)
+            ? (persisted as { state: unknown }).state
+            : persisted;
+        return {
+          ...current,
+          ...sanitizeState(raw as Partial<ProgressState>),
+        };
+      },
     },
   ),
 );

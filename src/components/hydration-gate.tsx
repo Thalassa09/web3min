@@ -17,8 +17,10 @@ export function HydrationGate({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
+    let hydrated = false;
     const finish = () => {
-      if (!mounted) return;
+      if (!mounted || hydrated) return;
+      hydrated = true;
       try {
         useProgress.getState().tick();
         applyMotion(useProgress.getState().reduceMotion);
@@ -28,13 +30,17 @@ export function HydrationGate({ children }: { children: ReactNode }) {
 
     try {
       const p = useProgress.persist?.rehydrate?.();
-      void Promise.resolve(p).then(finish).catch(finish);
+      if (p && typeof p.then === "function") {
+        void p.then(finish).catch(finish);
+      } else {
+        finish();
+      }
     } catch {
       finish();
     }
 
-    // Guard timeout: never let users get stuck on BootScreen
-    const timer = window.setTimeout(finish, 200);
+    // Fallback timer: ensure the app boots even if storage is slow or blocked
+    const timer = window.setTimeout(finish, 1200);
 
     return () => {
       mounted = false;

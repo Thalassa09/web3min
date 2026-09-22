@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Clock, ShieldCheck, Gift, Check } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { Mascot, type MascotMood } from "@/components/mascot";
 import { type DailyGoal, useProgress } from "@/lib/store";
 import { playMoodSfx, triggerHaptic } from "@/lib/audio";
-import { isUsernameAvailable, registerAccount, validatePassword, validateUsername } from "@/lib/account";
+import { isUsernameAvailable, loginAccount, registerAccount, validatePassword, validateUsername } from "@/lib/account";
 import { sanitizeUsername } from "@/lib/people";
+import { syncProgressFromServer } from "@/lib/server-sync";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/onboarding")({ component: Onboarding });
 
@@ -60,6 +62,7 @@ function Onboarding() {
   const completeOnboarding = useProgress((s) => s.completeOnboarding);
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const [authMode, setAuthMode] = useState<"register" | "login">("register");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -71,6 +74,30 @@ function Onboarding() {
     if (!onboarded) return;
     void navigate({ to: "/" });
   }, [onboarded, navigate]);
+
+  async function handleLogin() {
+    const id = sanitizeUsername(username);
+    const uErr = validateUsername(id);
+    if (uErr) {
+      setFormError(uErr);
+      return;
+    }
+    if (!password) {
+      setFormError("Masukkan password akunmu.");
+      return;
+    }
+    setBusy(true);
+    setFormError(null);
+    const res = await loginAccount({ username: id, password });
+    if (!res.ok) {
+      setBusy(false);
+      setFormError(res.message);
+      return;
+    }
+    await syncProgressFromServer();
+    setBusy(false);
+    void navigate({ to: "/" });
+  }
 
   async function goUsernameNext() {
     const id = sanitizeUsername(username);
@@ -117,7 +144,13 @@ function Onboarding() {
 
   const activeGoalConfig = GOALS.find((g) => g.value === goal) ?? GOALS[1];
   const currentMood: MascotMood =
-    step === 0 ? "wave" : step === 1 ? "think" : activeGoalConfig.mood;
+    step === 0
+      ? "wave"
+      : step === 1
+        ? authMode === "login"
+          ? "proud"
+          : "think"
+        : activeGoalConfig.mood;
 
   const handleSelectGoal = (g: GoalConfig) => {
     setGoal(g.value);
@@ -151,7 +184,7 @@ function Onboarding() {
             <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center p-3.5 sm:p-6 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#C2DBFA] gap-3.5">
               <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
                 <Mascot
-                  key={step === 2 ? `goal-${goal}` : `step-${step}`}
+                  key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
                   mood={currentMood}
                   fill
                   float
@@ -162,7 +195,7 @@ function Onboarding() {
                 <div className="font-display text-base sm:text-lg font-bold text-[#0B4FD1]">Blobi</div>
                 <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
                   {step === 0 && "Teman belajarmu di dunia Web3"}
-                  {step === 1 && "Pilih nama panggilan petualangmu"}
+                  {step === 1 && (authMode === "register" ? "Pilih nama panggilan petualangmu" : "Selamat datang kembali! Masuk untuk lanjut")}
                   {step === 2 && activeGoalConfig.quote}
                 </p>
               </div>

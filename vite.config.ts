@@ -175,6 +175,64 @@ export default defineConfig(({ command, isPreview }) => ({
             // manifest + head-tag middleware). Nitro v3 defaults serverDir to
             // false, so removing this silently unwires /?install=1 on deploys.
             serverDir: "./server",
+            routeRules: {
+              "/**": {
+                headers: {
+                  "x-content-type-options": "nosniff",
+                  "x-frame-options": "SAMEORIGIN",
+                  "referrer-policy": "strict-origin-when-cross-origin",
+                },
+              },
+              "/assets/**": {
+                headers: { "cache-control": "public, max-age=31536000, immutable" },
+              },
+              "/worlds/**": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/mascot/**": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/props/**": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/proof/**": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/icons/**": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/favicon.svg": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/og.jpg": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/x-banner.jpg": {
+                headers: {
+                  "cache-control": "public, max-age=2592000, stale-while-revalidate=86400",
+                },
+              },
+              "/manifest.json": {
+                headers: { "cache-control": "public, max-age=0, must-revalidate" },
+              },
+              "/__grok/manifest.webmanifest": {
+                headers: { "cache-control": "public, max-age=0, must-revalidate" },
+              },
+            },
           }),
         ]
       : []),

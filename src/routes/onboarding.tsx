@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Clock, ShieldCheck, Gift, Check } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";

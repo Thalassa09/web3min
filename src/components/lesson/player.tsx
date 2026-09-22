@@ -234,7 +234,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
 
       <div
         className={cn(
-          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-6 pt-4 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8 select-text",
+          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-12 sm:pb-16 pt-4 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8 select-text",
           !isTip && phase !== "done" && phase !== "dead" && "lg:flex-row lg:items-start lg:gap-10 lg:pt-10 lg:max-w-6xl",
         )}
       >

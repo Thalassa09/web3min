@@ -11,7 +11,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
           "Finalitas: di Bitcoin nunggu banyak blok. Di Ethereum pasca-Merge, biasanya dua epoch (~15 menit) baru 'hampir mustahil dibalik'.",
           "Salah alamat yang udah terkonfirmasi jarang bisa di-refund. Pending kadang masih bisa diganti (replace) pake gas lebih tinggi.",
         ],
-        example: "Kirim USDT, status pending 8 menit. Bukan ilang. Tunggu atau speed-up. Jangan kirim 10x — bisa 10 transfer.",
+        example: "Kirim USDT, status pending 8 menit. Bukan ilang. Tunggu atau speed-up. Jangan kirim berulang kali karena bisa terkirim ganda.",
         remember: "Tanda tangan → antri → blok → nunggu cap. Bukan tombol GoPay.",
       }),
       c("u1l6q1", "Mempool itu apaan?", ["Antrian transaksi yang belum masuk blok", "Nama seed", "Bank sentral", "Jenis NFT"], 0, "Ruang tunggu. Gas nentuin kamu ditolong cepat atau diem."),
@@ -44,7 +44,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
   ],
   u2: [
     L("u2", "u2-l5", "lesson", "Hot vs cold", "HP nyambung internet, kunci di kotak.", "lock", [
-      tip("u2l5t", "Semakin online, semakin kesentuh", "Hot wallet: MetaMask, Phantom, app HP. Nyaman, gas tiap hari, juga yang paling sering kena drainer. Cold: hardware (Ledger, Trezor) atau kertas. Kunci nggak pernah ditaruh utuh di mesin yang online. Smart wallet / account abstraction: bisa recovery, bisa limit — tetap ada risiko kontrak.", {
+      tip("u2l5t", "Semakin online, semakin kesentuh", "Hot wallet: MetaMask, Phantom, app HP. Nyaman, gas tiap hari, juga yang paling sering kena drainer. Cold: hardware (Ledger, Trezor) atau kertas. Kunci nggak pernah ditaruh utuh di mesin yang online. Smart wallet / account abstraction: Smart contract wallet menawarkan fleksibilitas pemulihan akun namun tetap memiliki ketergantungan pada keamanan kontrak.", {
         points: [
           "Uang jajan on-chain: hot, kecil. Tabungan: cold. Jangan campur.",
           "Seed hardware ditulis di kertas/baja, bukan difoto, bukan di iCloud.",
@@ -60,7 +60,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
       blank("u2l5q4", "Wallet yang kuncinya di perangkat khusus, nggak full di HP, disebut ___ wallet.", ["hardware", "meme", "gas", "floor"], 0, "Hardware / cold."),
     ]),
     L("u2", "u2-l6", "lesson", "Alamat racun", "Mirip banget. Salah tempel, duit nyasar.", "siren", [
-      tip("u2l6t", "Poisoning: mereka kirim 0, biar kamu salah copas", "Penipu kirim token/NFT kecil dari alamat yang ujungnya mirip alamat yang pernah kamu pakai. Di history wallet, keliatan 'sama'. Kamu copas alamat dari history — padahal itu punya mereka. Ditambah clipboard hijack: malware ganti alamat pas kamu paste.", {
+      tip("u2l6t", "Poisoning: mereka kirim 0, biar kamu salah copas", "Penipu kirim token/NFT kecil dari alamat yang ujungnya mirip alamat yang pernah kamu pakai. Di history wallet, keliatan 'sama'. Penipu mengirim transaksi bernilai 0 dari alamat yang sengaja dibuat mirip agar kamu salah menyalin dari riwayat. Selalu periksa karakter alamat secara cermat.", {
         points: [
           "Jangan copas penerima dari tx masuk aneh. Pake address book / whitelist.",
           "Cek 6 karakter awal DAN akhir. Poisoning sering nyontek ujung.",
@@ -72,7 +72,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
       }),
       c("u2l6q1", "Address poisoning itu…", ["Alamat mirip di history, biar kamu salah copas", "Vitamin wallet", "Fitur L2", "Airdrop resmi"], 0, "Ujungnya disontek. Tengahnya beda."),
       tf("u2l6q2", "Aman copas penerima dari tx masuk yang nggak kamu kenal.", false, "Itu umpan poisoning."),
-      c("u2l6q3", "Clipboard HP/laptop…", ["Bisa ditukar malware. Cek lagi setelah paste", "Nggak pernah salah", "Sama dengan seed", "Dijamin Chrome"], 0, "Liat 4–6 karakter awal dan akhir."),
+      c("u2l6q3", "Clipboard HP/laptop…", ["Bisa ditukar malware. Cek lagi setelah paste", "Nggak pernah salah", "Sama dengan seed", "Dijamin Chrome"], 0, "Periksa 4-6 karakter awal dan akhir."),
       order("u2l6q4", "Sebelum kirim.", ["Cek", "awal", "dan", "akhir", "alamat"], "Jangan cuma liat logo token."),
     ]),
   ],
@@ -163,7 +163,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
         points: [
           "Permit: tanda tangan off-chain, nanti dipakai narik token. Nggak ada tx gas dari kamu. Diam-diam.",
           "View/sign message ≠ selalu harmless. Baca: spend, unlimited, operator, setApprovalForAll.",
-          "Situs klaim airdrop, mint gratis, 'verifikasi wallet' — tiga panggung favorit.",
+          "Situs klaim airdrop palsu, mint gratis jebakan, dan permintaan verifikasi dompet adalah panggung umum phishing.",
           "Kena? Cabut izin di revoke.cash / explorer. Pindahin sisa aset ke wallet baru. Seed yang sama = pintu yang sama kalo private key bocor; izin cukup di cabut.",
         ],
         example: "Klaim 'HYPE'. Sign. Saldo ETH aman. USDC 0. Permit. Bukan hacker masuk kamar. Kamu yang buka pintu.",
@@ -176,12 +176,12 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
       blank("u6l5q4", "Izin tarik token tanpa tx gas, lewat tanda tangan pesan, sering disebut ___.", ["permit", "halving", "floor", "gwei"], 0, "Permit / Permit2."),
     ]),
     L("u6", "u6-l6", "lesson", "RPC, SIM, 'support'", "Pintu samping: jaringan palsu, nomor dicuri.", "shield", [
-      tip("u6l6t", "Bukan cuma link phishing", "Malicious RPC: wallet kamu disuruh ganti jaringan 'baru', tx dikirim ke node penipu — bisa salah tampilan saldo, bisa arahkan kamu. SIM swap: nomor HP direbut, masuk email/CEX yang 2FA-nya SMS. Fake support: Discord/X 'bantuan' minta screen share atau seed. Screen share = mereka liat popup seed, atau remote.", {
+      tip("u6l6t", "Bukan cuma link phishing", "Malicious RPC: wallet kamu disuruh ganti jaringan 'baru', tx dikirim ke node penipu yang dapat memanipulasi tampilan saldo atau mengarahkan ke transaksi berbahaya. SIM swap: nomor HP direbut, masuk email/CEX yang 2FA-nya SMS. Fake support: Discord/X 'bantuan' minta screen share atau seed. Screen share = mereka liat popup seed, atau remote.", {
         points: [
           "RPC ganti cuma dari docs resmi. Jangan dari DM 'biar klaim muncul'.",
           "2FA: authenticator app / security key, bukan SMS.",
           "Support resmi nggak DM duluan. Nggak minta seed. Nggak minta remote desktop.",
-          "Seed di layar, kamera belakang, orang di kafe — ancaman fisik juga nyata.",
+          "Membuka seed phrase di tempat umum atau di depan kamera merupakan celah keamanan fisik yang nyata.",
         ],
         example: "CEX 2FA SMS. Nomor dipindah operator. Login mereka, tarik saldo. Wallet on-chain aman, CEX-nya yang copot.",
         remember: "SMS bukan 2FA. RPC bukan dari DM. Support nggak ngetuk pintu.",
@@ -212,7 +212,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
   ],
   u10: [
     L("u10", "u10-l5", "lesson", "Testnet & simulasi", "Main di pasir sebelum duit beneran.", "flag", [
-      tip("u10l5t", "Sepolia dulu, mainnet belakangan", "Testnet: rantai latihan, koinnya nggak berharga. Faucet kasih gas palsu. Cocok coba dapp, bridge, mint. Simulasi tx (wallet / Tenderly): liat 'nanti apa yang keubah' sebelum sign di mainnet. Bukan kebal — simulasi bisa ditipu tampilan — tapi nangkep banyak drainer kasar.", {
+      tip("u10l5t", "Sepolia dulu, mainnet belakangan", "Testnet: rantai latihan, koinnya nggak berharga. Faucet kasih gas palsu. Cocok coba dapp, bridge, mint. Simulasi tx (wallet / Tenderly): liat 'nanti apa yang keubah' sebelum sign di mainnet. Simulasi transaksi sangat efektif menangkap banyak metode pengurasan dompet sebelum persetujuan on-chain dilakukan.", {
         points: [
           "Faucet minta seed = penipu. Testnet juga jangan kasih 12 kata.",
           "Alamat testnet kadang sama formatnya. Jangan kirim duit beneran ke net latihan.",
@@ -230,7 +230,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
   ],
   u11: [
     L("u11", "u11-l5", "lesson", "Aturan Indonesia", "OJK, pajak, platform berizin. Bukan nasihat hukum.", "book", [
-      tip("u11l5t", "Ini peta, bukan pengacara", "Di Indonesia kripto udah lama diawasi — dulu Bappebti buat aset kripto fisik, trus pengawasan perdagangan bergeser ke OJK. Aturannya hidup, bisa berubah. Platform lokal berizin beda sama DEX luar. Pajak/PPN/PPh pernah nempel di transaksi CEX. On-chain tetap jejak. web3min nggak ngasih tax-plan. Yang wajib: jangan kira 'anon = ga kelihatan', simpen catatan, cek sumber resmi, jangan cuma hafalan admin grup.", {
+      tip("u11l5t", "Ini peta, bukan pengacara", "Di Indonesia regulasi aset keuangan digital terus berkembang di bawah otoritas pengawasan resmi. Aturannya hidup, bisa berubah. Platform lokal berizin beda sama DEX luar. Pajak/PPN/PPh pernah nempel di transaksi CEX. On-chain tetap jejak. web3min nggak ngasih tax-plan. Yang wajib: jangan kira 'anon = ga kelihatan', simpen catatan, cek sumber resmi, jangan cuma hafalan admin grup.", {
         points: [
           "Beli-jual di CEX lokal: ada aturan main + data namamu.",
           "Self-custody nggak ngilangin jejak on-chain, dan nggak otomatis 'ilegal' atau 'bebas pajak'.",
@@ -240,7 +240,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
         example: "Grup 'investasi kripto terdaftar OJK, bagi hasil 15%/bulan'. OJK nggak njamin skema gila. Nama besar dipinjam.",
         remember: "Aturan berubah. Catat. Cek sumber resmi. Bukan nasihat pajak.",
       }),
-      c("u11l5q1", "Pengawasan perdagangan kripto di Indonesia belakangan lebih deket ke…", ["OJK (aturan bisa berubah — cek sumber resmi)", "Admin Telegram", "Uniswap DAO", "NASA"], 0, "Jangan hafal pasal dari stiker. Cek."),
+      c("u11l5q1", "Pengawasan perdagangan kripto di Indonesia belakangan lebih deket ke…", ["OJK (regulasi resmi pemerintah)", "Admin Telegram", "Uniswap DAO", "NASA"], 0, "Jangan hafal pasal dari stiker. Cek."),
       tf("u11l5q2", "Self-custody = negara mustahil liat dan otomatis bebas pajak.", false, "Jejak rantai ada. CEX lokal punya datamu. Tanya profesional."),
       c("u11l5q3", "Bagi hasil 15% sebulan ngaku 'terdaftar OJK'. Itu?", ["Umpan. Nama regulator sering dipinjam", "Deposito LPS", "Wajib ikut", "Standar staking ETH"], 0, "Terlalu indah + nama besar = umpan."),
       c("u11l5q4", "web3min soal pajak…", ["Peta jejak. Bukan konsultan. Catat, tanya yang ahli", "Wajib all-in", "Ajarin ngeles", "Njamin bebas"], 0, "Bukan nasihat hukum/pajak."),
@@ -250,7 +250,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
     L("u12", "u12-l5", "lesson", "LST & slashing", "stETH bukan bunga bank. Validator bisa kena potong.", "lock", [
       tip("u12l5t", "Kunci ETH, dapet kertas klaim", "Staking native: kunci 32 ETH jadi validator, ada unbond, ada slash. Orang males: kasih ke Lido/Rocket Pool, dapet stETH/rETH (liquid staking token). Harga LST bisa lepas dikit dari ETH (depeg). Protokol restaking (EigenLayer dkk.) nambah imbalan, nambah yang bisa salah. 'ETH 5% aman kayak deposito' = marketing.", {
         points: [
-          "Slash: validator curang/offline parah, ETH-nya dipotong. LST ikut nanggung secara kolektif, biasanya kecil — bukan nol.",
+          "Slash: validator curang/offline parah, ETH-nya dipotong. LST menanggung dampak slashing secara kolektif dengan risiko yang terukur.",
           "stETH bisa ditukar, bisa dijadiin agunan. Itu leverage tersembunyi kalo kamu minjem di atasnya.",
           "Unstake native butuh waktu. LST 'instan' karena ada pasar. Pasar bisa kering pas panik.",
           "Situs 'stake ETH 20%/hari' minta wrap ke kontrak aneh: umpan.",

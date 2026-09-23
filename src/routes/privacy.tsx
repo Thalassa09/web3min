@@ -10,7 +10,7 @@ function PrivacyPage() {
         <h1 className="text-[28px] font-extrabold leading-[34px]">Kebijakan privasi</h1>
         <p className="mt-3 text-base leading-6">
           Progress, username, dan pengaturan disimpan di perangkat (local storage). Kami tidak mengumpulkan seed phrase,
-          private key, atau password dompet — dan tidak memintanya.
+          private key, atau kata sandi dompet, dan kami tidak pernah memintanya.
         </p>
         <p className="mt-3 text-base leading-6 text-muted">
           Feed teman pada versi ini memakai data contoh di perangkat, bukan komunitas live. Tidak ada analitik yang

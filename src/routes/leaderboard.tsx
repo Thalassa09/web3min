@@ -138,19 +138,19 @@ function LeaderboardPage() {
           </Link>
         </div>
       {/* Top Header Card */}
-      <div className="relative overflow-hidden rounded-3xl border-4 border-ink-900 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-100 p-6 md:p-8 shadow-[4px_4px_0_#2B1622]">
+      <div className="relative overflow-hidden rounded-3xl border-3 border-choco-900 bg-lemon p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink-900 bg-white/90 px-3 py-1 text-xs font-black uppercase tracking-wider text-ink-900 shadow-[2px_2px_0_#2B1622]">
+            <div className="inline-flex items-center gap-2 rounded-full border-2 border-choco-900 bg-cream px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
               <Trophy className="h-4 w-4 text-amber-500 fill-amber-400" />
               Liga Emas • Reset dalam 3 Hari 14 Jam
             </div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-ink-900">
+            <h1 className="text-3xl md:text-4xl font-pixel font-bold tracking-tight text-choco-900">
               Klasemen Mingguan & Pool Hadiah Koin
             </h1>
-            <p className="text-sm md:text-base font-bold text-ink-700 max-w-xl leading-relaxed">
-              Peringkat <strong className="text-ink-900 underline decoration-amber-500 underline-offset-2">1 s/d 1.000</strong> berhak mendapatkan hadiah koin mingguan dengan total prize pool{" "}
-              <span className="inline-flex items-center gap-1 font-black text-amber-700 bg-amber-200/80 px-2 py-0.5 rounded-md border border-amber-400">
+            <p className="text-sm md:text-base font-bold text-choco-700 max-w-xl leading-relaxed">
+              Peringkat <strong className="text-choco-900 underline decoration-candy-500 underline-offset-2">1 s/d 1.000</strong> berhak mendapatkan hadiah koin mingguan dengan total prize pool{" "}
+              <span className="inline-flex items-center gap-1 font-pixel font-bold text-choco-900 bg-amber-200 px-2 py-0.5 rounded-lg border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
                 <Coins className="h-4 w-4 fill-amber-500" />
                 {TOTAL_WEEKLY_PRIZE_COINS.toLocaleString("id-ID")}+ Koin
               </span>
@@ -161,12 +161,12 @@ function LeaderboardPage() {
           <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
             <button
               onClick={() => setShowPrizeModal(true)}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-ink-900 bg-white px-4 py-2.5 text-xs md:text-sm font-black text-ink-900 shadow-[3px_3px_0_#2B1622] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-cream px-4 py-2.5 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
             >
               <Award className="h-4 w-4 text-candy-500" />
-              Rincian Hadiah (1–1.000)
+              Rincian Hadiah (1 s.d. 1.000)
             </button>
-            <div className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-ink-900/10 text-[11px] font-bold text-ink-800">
+            <div className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl border border-choco-900/20 bg-cream text-[11px] font-pixel font-bold text-choco-700">
               <Database className="h-3.5 w-3.5 text-emerald-600" />
               {isDbConnected ? "Tersinkron Database Supabase" : isDbLoading ? "Menghubungkan DB..." : "Mode Offline"}
             </div>
@@ -175,21 +175,20 @@ function LeaderboardPage() {
       </div>
 
       {/* Promo Banner: Raffle NFT Bridge */}
-      <div className="relative overflow-hidden rounded-3xl border-4 border-ink-900 bg-gradient-to-r from-violet-600 via-purple-600 to-pink-500 p-5 md:p-6 text-white shadow-[4px_4px_0_#2B1622]">
+      <div className="relative overflow-hidden rounded-3xl border-3 border-choco-900 bg-candy-100 p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-3 border-white bg-amber-400 text-ink-900 shadow-[3px_3px_0_rgba(0,0,0,0.3)]">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-3 border-choco-900 bg-lemon text-choco-900 shadow-[0_3px_0_#3B2218]">
               <Ticket className="h-8 w-8 stroke-[2.5]" />
             </div>
             <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider backdrop-blur-sm">
-                <Sparkles className="h-3 w-3 text-yellow-300" />
-                Fitur Baru Telah Aktif!
+              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-cream px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_1px_0_#3B2218]">
+                Undian Mingguan Aktif
               </div>
-              <h2 className="text-xl md:text-2xl font-black">
+              <h2 className="text-xl md:text-2xl font-pixel font-bold text-choco-900">
                 Gunakan Koin untuk Ikut Undian Raffle NFT!
               </h2>
-              <p className="text-xs md:text-sm font-medium text-purple-100 max-w-lg">
+              <p className="text-xs md:text-sm font-semibold text-choco-700 max-w-lg leading-relaxed">
                 Tukarkan koin kemenangan klasemenmu dengan Tiket Raffle untuk memenangkan Genesis Blobi #001 (1/1 Mythic NFT), Cyber Pass, & koleksi langka lainnya!
               </p>
             </div>
@@ -197,10 +196,9 @@ function LeaderboardPage() {
 
           <Link
             to="/raffle"
-            className="inline-flex items-center gap-2 rounded-2xl border-3 border-ink-900 bg-yellow-400 px-5 py-3 text-sm font-black text-ink-900 shadow-[3px_3px_0_#2B1622] transition-transform hover:-translate-y-0.5 active:translate-y-0.5 shrink-0"
+            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-candy-500 px-5 py-3 text-xs md:text-sm font-pixel font-bold text-white shadow-[0_4px_0_#3B2218] hover:bg-candy-600 active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow]"
           >
-            <span>Kunjungi Raffle NFT</span>
-            <ArrowRight className="h-4 w-4" />
+            Buka Undian Raffle →
           </Link>
         </div>
       </div>
@@ -344,7 +342,7 @@ function LeaderboardPage() {
                   : "bg-white text-ink-900 hover:bg-amber-100"
               }`}
             >
-              ⚡ 251–500 (25 🪙)
+              ⚡ 251 s.d. 500 (25 🪙)
             </button>
             <button
               onClick={() => setFilterTier("tier-top1000")}
@@ -354,7 +352,7 @@ function LeaderboardPage() {
                   : "bg-white text-ink-900 hover:bg-slate-200"
               }`}
             >
-              🛡️ 501–1.000 (15 🪙)
+              🛡️ 501 s.d. 1.000 (15 🪙)
             </button>
           </div>
 
@@ -515,7 +513,7 @@ function LeaderboardPage() {
             <div className="flex items-center justify-between border-b-2 border-ink-900 pb-3">
               <div className="flex items-center gap-2">
                 <Trophy className="h-6 w-6 text-amber-500 fill-amber-400" />
-                <h3 className="text-xl font-black text-ink-900">Skema Hadiah Koin (1–1.000)</h3>
+                <h3 className="text-xl font-black text-ink-900">Skema Hadiah Koin (1 s.d. 1.000)</h3>
               </div>
               <button
                 onClick={() => setShowPrizeModal(false)}

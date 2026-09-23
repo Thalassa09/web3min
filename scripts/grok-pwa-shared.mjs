@@ -161,17 +161,18 @@ export function renderWebManifest(hostHeader) {
   const name = appNameFromHost(hostHeader);
   return JSON.stringify(
     {
-      name,
-      short_name: name,
+      name: name || DEFAULT_APP_NAME,
+      short_name: "web3min",
+      description: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. Santai, berjenjang, bahasa orang.",
       id: "/",
       start_url: "/",
       scope: "/",
       display: "standalone",
-      background_color: "#000000",
-      theme_color: "#000000",
+      background_color: "#FFF6EE",
+      theme_color: "#E8437F",
       icons: [
         {
-          src: "/__grok/icon-180.png",
+          src: "/icon-180.png",
           sizes: "180x180",
           type: "image/png",
         },
@@ -186,17 +187,17 @@ export function grokPwaHeadTags(appName = DEFAULT_APP_NAME) {
   return [
     // Standalone display comes from the manifest ("display": "standalone");
     // the legacy *-web-app-capable metas it replaces are deliberately absent.
-    ["manifest", '<link rel="manifest" href="/__grok/manifest.webmanifest">'],
-    ["apple-touch-icon", '<link rel="apple-touch-icon" href="/__grok/icon-180.png">'],
+    ["manifest", '<link rel="manifest" href="/manifest.json">'],
+    ["apple-touch-icon", '<link rel="apple-touch-icon" href="/icon-180.png">'],
     [
       "apple-mobile-web-app-title",
       `<meta name="apple-mobile-web-app-title" content="${escapeHtml(appName)}">`,
     ],
     [
       "apple-mobile-web-app-status-bar-style",
-      '<meta name="apple-mobile-web-app-status-bar-style" content="black">',
+      '<meta name="apple-mobile-web-app-status-bar-style" content="default">',
     ],
-    ["theme-color", '<meta name="theme-color" content="#000000">'],
+    ["theme-color", '<meta name="theme-color" content="#E8437F">'],
   ];
 }
 
@@ -378,13 +379,21 @@ export function stripShareMetaTags(html) {
 }
 
 function insertAfterHeadOpen(html, snippet) {
-  if (/<head\b[^>]*>/i.test(html)) {
-    return html.replace(/<head\b[^>]*>/i, (open) => `${open}${snippet}`);
+  // Ensure <meta charset="utf-8"> is placed at the absolute top of <head>
+  const charsetMatch = html.match(/<meta\s+charSet=["']utf-8["'][^>]*\/?>|<meta\s+charset=["']utf-8["'][^>]*\/?>/i);
+  let cleaned = html;
+  let charsetPrefix = "";
+  if (charsetMatch) {
+    cleaned = cleaned.replace(charsetMatch[0], "");
+    charsetPrefix = '<meta charset="utf-8">';
   }
-  if (/<html\b[^>]*>/i.test(html)) {
-    return html.replace(/<html\b[^>]*>/i, (open) => `${open}<head>${snippet}</head>`);
+  if (/<head\b[^>]*>/i.test(cleaned)) {
+    return cleaned.replace(/<head\b[^>]*>/i, (open) => `${open}${charsetPrefix}${snippet}`);
   }
-  return `<!doctype html><html><head>${snippet}</head>${html}`;
+  if (/<html\b[^>]*>/i.test(cleaned)) {
+    return cleaned.replace(/<html\b[^>]*>/i, (open) => `${open}<head>${charsetPrefix}${snippet}</head>`);
+  }
+  return `<!doctype html><html><head>${charsetPrefix}${snippet}</head>${cleaned}`;
 }
 
 function insertBeforeHeadClose(html, snippet) {
@@ -428,8 +437,8 @@ export function injectGrokPwaHead(html, ctx = {}) {
 
   const missing = grokPwaHeadTags(appName)
     .filter(([key]) => {
-      if (key === "manifest") return !next.includes('href="/__grok/manifest.webmanifest"');
-      if (key === "apple-touch-icon") return !next.includes('href="/__grok/icon-180.png"');
+      if (key === "manifest") return !next.includes('rel="manifest"') && !next.includes("rel='manifest'");
+      if (key === "apple-touch-icon") return !next.includes('rel="apple-touch-icon"') && !next.includes("rel='apple-touch-icon'");
       return !next.includes(`name="${key}"`);
     })
     .map(([, tag]) => tag);

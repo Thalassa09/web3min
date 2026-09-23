@@ -178,7 +178,7 @@ export function BlobiFloatingCompanion({
               onClick={() => setIsMinimized(true)}
               title="Kecilkan Blobi"
             >
-              –
+              -
             </button>
           </div>
         ) : (

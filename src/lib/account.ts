@@ -13,7 +13,7 @@ export function accountEmail(username: string) {
 
 export function validateUsername(raw: string): string | null {
   const id = sanitizeUsername(raw);
-  if (!USERNAME_RE.test(id)) return "Username 3–16 karakter: huruf kecil, angka, underscore.";
+  if (!USERNAME_RE.test(id)) return "Username 3-16 karakter: huruf kecil, angka, underscore.";
   return null;
 }
 

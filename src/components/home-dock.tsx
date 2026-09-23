@@ -152,13 +152,14 @@ export function HomeDock() {
               {lesson.blurb}
             </p>
 
-            {/* Apple-style clean metadata pills */}
+            {/* Clean Arcade Candy metadata pills */}
             <div className="flex items-center gap-2 flex-wrap my-4">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-ink-700">
-                ⏱️ ~{mins} menit
+              <span className="inline-flex items-center gap-1.5 text-xs font-pixel font-bold px-3 py-1 rounded-full border-2 border-choco-900 bg-lemon text-choco-900 shadow-[0_2px_0_#3B2218]">
+                ⏱ {mins} Menit Belajar
               </span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border border-candy-line bg-candy-soft text-candy-deep">
-                ✨ +{lesson.xp} XP · +{lesson.gems} ★
+              <span className="inline-flex items-center gap-1.5 text-xs font-pixel font-bold px-3 py-1 rounded-full border-2 border-choco-900 bg-candy-100 text-choco-900 shadow-[0_2px_0_#3B2218]">
+                <img src="/props/star.png" alt="Star" className="size-3.5 object-contain pixelated" />
+                +{lesson.xp} XP · +{lesson.gems} Bintang
               </span>
             </div>
 
@@ -191,12 +192,12 @@ export function HomeDock() {
         </div>
 
         {/* Right Art Panel */}
-        <div className="hidden md:flex items-center justify-center relative border-l-2 border-ink-900 bg-gradient-to-br from-candy-soft/30 via-white to-candy-soft/10 p-6">
-          <div className="relative size-32 rounded-full bg-white/90 border-2 border-ink-900/10 flex items-center justify-center shadow-xs">
+        <div className="hidden md:flex items-center justify-center relative border-l-2 border-choco-900 bg-candy-100 p-6">
+          <div className="relative size-32 rounded-3xl bg-cream border-2 border-choco-900 flex items-center justify-center shadow-[0_4px_0_#3B2218]">
             <img
               src="/mascot/idle.png"
               alt="Blobi"
-              className="w-20 h-20 object-contain"
+              className="w-20 h-20 object-contain pixelated"
             />
           </div>
         </div>

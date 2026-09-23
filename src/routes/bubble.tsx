@@ -47,7 +47,7 @@ function ArcadeCandyComponentsShowcase() {
             <div className="flex items-center gap-3">
               <span className="text-3xl animate-bounce">🍬</span>
               <h1 className="font-pixel text-2xl md:text-3xl uppercase tracking-wider text-choco-900">
-                ARCADE CANDY <span className="text-candy-500">— CHECKPOINT 1</span>
+                ARCADE CANDY <span className="text-candy-500">: CHECKPOINT 1</span>
               </h1>
             </div>
             <div className="flex items-center gap-2">
@@ -176,7 +176,7 @@ function ArcadeCandyComponentsShowcase() {
                 <Badge variant="grape">GLITCH 8-BIT</Badge>
               </div>
               <p className="text-sm text-grape-deep leading-relaxed font-bold">
-                Border grape-deep dengan latar lavender #F3ECFF dan bayangan grape. Digunakan saat jawaban salah, blok rusak, atau Zona Boss (Rute 16–20).
+                Border grape-deep dengan latar lavender #F3ECFF dan bayangan grape. Digunakan saat jawaban salah, blok rusak, atau Zona Boss (Rute 16 s.d. 20).
               </p>
             </CandyBox>
           </div>

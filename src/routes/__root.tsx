@@ -44,7 +44,7 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang" },
       { name: "description", content: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. Santai, berjenjang, bahasa orang. Pahami crypto, wallet, DeFi, dan smart contract dari nol." },
-      { name: "theme-color", content: "#F26A99" },
+      { name: "theme-color", content: "#E8437F" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "web3min" },
       { property: "og:title", content: "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang" },

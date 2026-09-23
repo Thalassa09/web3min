@@ -261,23 +261,112 @@ function ShopPage() {
                 </button>
               </div>
 
+              {/* Asymmetrical Bento Showcase for Items */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {/* 1. Pelindung Streak */}
-                <div className="flex flex-col rounded-[20px] border-2 border-choco-900 bg-cream p-5 shadow-[0_4px_0_#3B2218]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-choco-900 bg-streak/20 text-streak shadow-[0_2px_0_#3B2218]">
-                    <Shield className="size-6" strokeWidth={2.4} />
+                {/* 1. Hero Bento Card: Isi Ulang Nyawa (Spans 2 Cols) */}
+                <div className="md:col-span-2 flex flex-col justify-between rounded-[24px] border-3 border-choco-900 bg-cream p-5 md:p-6 shadow-[0_5px_0_#3B2218]">
+                  <div>
+                    <div className="flex items-center justify-between gap-3 mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-danger/15 px-2.5 py-0.5 text-[11px] font-pixel font-bold text-danger">
+                          <Heart className="size-3.5 fill-current" /> Vitalitas Kuis
+                        </span>
+                        <span className="text-[11px] font-pixel text-choco-600">
+                          {heartsFull ? "Nyawa Kamu Penuh" : `${hearts}/${MAX_HEARTS} Hati Tersisa`}
+                        </span>
+                      </div>
+                      {/* Hearts Meter Indicator */}
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: MAX_HEARTS }).map((_, i) => (
+                          <Heart
+                            key={i}
+                            className={`size-4 transition-transform ${
+                              i < hearts
+                                ? "text-danger fill-current scale-100"
+                                : "text-choco-900/30 scale-90"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <h3 className="text-xl font-pixel font-bold text-choco-900 tracking-tight">
+                      Isi Ulang 5 Hati Penuh
+                    </h3>
+                    <p className="mt-2 text-xs md:text-sm font-semibold leading-relaxed text-choco-700 max-w-xl">
+                      Salah nebak pas ngerjain kuis? Pulihin 5 hati penuh sekaligus biar kamu bisa langsung lanjut push rute pulau tanpa harus nunggu jeda istirahat.
+                    </p>
                   </div>
-                  <h3 className="text-[17px] font-pixel font-bold text-choco-900">Pelindung Streak</h3>
-                  <p className="mt-1.5 font-semibold leading-relaxed text-choco-600 text-xs font-sans">
-                    Streak aman kalau kamu bolos satu hari tanpa belajar.
-                  </p>
-                  <div className="mt-2 text-xs font-pixel font-bold text-choco-900 bg-candy-100/60 p-2 rounded-[10px] border border-choco-900/30">
-                    Dimiliki: <strong>{freeze} Pelindung</strong>
+
+                  <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-choco-900/15">
+                    <div className="flex items-center gap-2">
+                      <div className="size-8 rounded-lg border-2 border-choco-900 bg-amber-100 flex items-center justify-center shadow-[0_2px_0_#3B2218]">
+                        <img src="/props/star.png" alt="Bintang" className="size-5 object-contain pixelated" />
+                      </div>
+                      <span className="font-pixel text-lg font-bold text-choco-900">
+                        {HEART_REFILL_COST} Bintang
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      disabled={heartsFull || gems < HEART_REFILL_COST}
+                      onClick={() => {
+                        if (refillHearts()) {
+                          playBuy();
+                          flash("Semua 5 nyawa berhasil dipulihkan!");
+                          void rpcRefillHearts().then((ok) => {
+                            if (ok) void syncProgressFromServer();
+                          });
+                        } else {
+                          playDeny();
+                        }
+                      }}
+                      className={`inline-flex items-center justify-center rounded-xl border-3 border-choco-900 px-5 py-2.5 text-xs md:text-sm font-pixel font-bold transition-[transform,box-shadow] ${
+                        heartsFull || gems < HEART_REFILL_COST
+                          ? "cursor-not-allowed border-choco-900/40 bg-choco-900/10 text-choco-600/50 shadow-none"
+                          : "bg-candy-500 text-white shadow-[0_3px_0_#3B2218] hover:bg-candy-600 active:translate-y-[1px] active:shadow-none"
+                      }`}
+                    >
+                      {heartsFull ? "Nyawa Penuh" : gems < HEART_REFILL_COST ? "Bintang Kurang" : "Isi Ulang Sekarang"}
+                    </button>
                   </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-choco-900/20">
-                    <span className="flex items-center gap-1 font-pixel text-base font-bold text-choco-900">
-                      <Star size={16} className="text-lemon" fill="currentColor" /> {FREEZE_COST}
-                    </span>
+                </div>
+
+                {/* 2. Side Bento Card: Pelindung Streak (Spans 1 Col) */}
+                <div className="flex flex-col justify-between rounded-[24px] border-3 border-choco-900 bg-cream p-5 shadow-[0_5px_0_#3B2218]">
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="size-12 rounded-2xl border-2 border-choco-900 bg-streak/20 flex items-center justify-center shadow-[0_2px_0_#3B2218]">
+                        <img src="/props/shield.png" alt="Pelindung Streak" className="size-7 object-contain pixelated" />
+                      </div>
+                      <span className={`px-2 py-0.5 rounded-full border-2 border-choco-900 text-[10px] font-pixel font-bold ${
+                        freeze > 0 ? "bg-streak text-white" : "bg-candy-100 text-choco-700"
+                      }`}>
+                        {freeze > 0 ? "Aktif Melindungi" : "Siaga"}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-pixel font-bold text-choco-900">
+                      Pelindung Streak
+                    </h3>
+                    <p className="mt-1.5 text-xs font-semibold leading-relaxed text-choco-700">
+                      Lagi sibuk lembur atau nongkrong? Pasang pelindung biar streak rantai kamu gak putus kalau bolos sehari.
+                    </p>
+
+                    <div className="mt-3 text-xs font-pixel font-bold text-choco-900 bg-candy-100/70 p-2 rounded-xl border border-choco-900/30">
+                      Dimiliki: <strong>{freeze} Pelindung</strong>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex items-center justify-between pt-4 border-t-2 border-choco-900/15">
+                    <div className="flex items-center gap-1.5">
+                      <img src="/props/star.png" alt="Bintang" className="size-4 object-contain pixelated" />
+                      <span className="font-pixel text-base font-bold text-choco-900">
+                        {FREEZE_COST}
+                      </span>
+                    </div>
+
                     <button
                       type="button"
                       disabled={freeze > 0 || gems < FREEZE_COST}
@@ -299,85 +388,6 @@ function ShopPage() {
                       }`}
                     >
                       {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Kurang" : "Beli"}
-                    </button>
-                  </div>
-                </div>
-
-                {/* 2. Isi Ulang Nyawa */}
-                <div className="flex flex-col rounded-[20px] border-2 border-choco-900 bg-cream p-5 shadow-[0_4px_0_#3B2218]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-choco-900 bg-danger/20 text-danger shadow-[0_2px_0_#3B2218]">
-                    <Heart className="size-6" strokeWidth={2.4} fill="currentColor" />
-                  </div>
-                  <h3 className="text-[17px] font-pixel font-bold text-choco-900">Isi Ulang Nyawa</h3>
-                  <p className="mt-1.5 font-semibold leading-relaxed text-choco-600 text-xs font-sans">
-                    Balik ke 5/5 nyawa penuh dan langsung lanjut latihan.
-                  </p>
-                  <div className="mt-2 text-xs font-pixel font-bold text-choco-900 bg-candy-100/60 p-2 rounded-[10px] border border-choco-900/30">
-                    Nyawa: <strong className="text-danger">{hearts}/{MAX_HEARTS} Hati</strong>
-                  </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-choco-900/20">
-                    <span className="flex items-center gap-1 font-pixel text-base font-bold text-choco-900">
-                      <Star size={16} className="text-lemon" fill="currentColor" /> {HEART_REFILL_COST}
-                    </span>
-                    <button
-                      type="button"
-                      disabled={heartsFull || gems < HEART_REFILL_COST}
-                      onClick={() => {
-                        if (refillHearts()) {
-                          playBuy();
-                          flash("Semua 5 nyawa berhasil dipulihkan!");
-                          void rpcRefillHearts().then((ok) => {
-                            if (ok) void syncProgressFromServer();
-                          });
-                        } else {
-                          playDeny();
-                        }
-                      }}
-                      className={`inline-flex items-center justify-center rounded-xl border-2 border-choco-900 px-4 py-2 text-xs font-pixel font-bold transition-[transform,box-shadow] ${
-                        heartsFull || gems < HEART_REFILL_COST
-                          ? "cursor-not-allowed border-choco-900/40 bg-choco-900/10 text-choco-600/50 shadow-none"
-                          : "bg-candy-500 text-white shadow-[0_3px_0_#3B2218] hover:bg-candy-600 active:translate-y-[1px] active:shadow-none"
-                      }`}
-                    >
-                      {heartsFull ? "Penuh" : gems < HEART_REFILL_COST ? "Kurang" : "Beli"}
-                    </button>
-                  </div>
-                </div>
-
-                {/* 3. Mahkota Blobi */}
-                <div className="flex flex-col rounded-[20px] border-2 border-choco-900 bg-cream p-5 shadow-[0_4px_0_#3B2218]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-choco-900 bg-lemon/30 text-lemon-deep shadow-[0_2px_0_#3B2218]">
-                    <Crown className="size-6" strokeWidth={2.4} />
-                  </div>
-                  <h3 className="text-[17px] font-pixel font-bold text-choco-900">Mahkota Blobi</h3>
-                  <p className="mt-1.5 font-semibold leading-relaxed text-choco-600 text-xs font-sans">
-                    Kosmetik langka untuk Blobi-mu di lisensi profil.
-                  </p>
-                  <div className="mt-2 text-xs font-pixel font-bold text-choco-900 bg-candy-100/60 p-2 rounded-[10px] border border-choco-900/30">
-                    Status: <strong>{outfits.includes("crown") ? "Sudah Dimiliki" : "Belum Dimiliki"}</strong>
-                  </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-choco-900/20">
-                    <span className="flex items-center gap-1 font-pixel text-base font-bold text-choco-900">
-                      <Star size={16} className="text-lemon" fill="currentColor" /> 120
-                    </span>
-                    <button
-                      type="button"
-                      disabled={outfits.includes("crown") || gems < 120}
-                      onClick={() => {
-                        if (buyOutfit("crown")) {
-                          playBuy();
-                          flash("Mahkota Blobi berhasil dibuka di Ruang Ganti!");
-                        } else {
-                          playDeny();
-                        }
-                      }}
-                      className={`inline-flex items-center justify-center rounded-xl border-2 border-choco-900 px-4 py-2 text-xs font-pixel font-bold transition-[transform,box-shadow] ${
-                        outfits.includes("crown") || gems < 120
-                          ? "cursor-not-allowed border-choco-900/40 bg-choco-900/10 text-choco-600/50 shadow-none"
-                          : "bg-candy-500 text-white shadow-[0_3px_0_#3B2218] hover:bg-candy-600 active:translate-y-[1px] active:shadow-none"
-                      }`}
-                    >
-                      {outfits.includes("crown") ? "Dimiliki" : gems < 120 ? "Kurang" : "Beli"}
                     </button>
                   </div>
                 </div>

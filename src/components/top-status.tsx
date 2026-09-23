@@ -162,7 +162,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
 
         <Link
           to="/shop"
-          title={`Nyawa ${hearts}/${MAX_HEARTS} — buka Toko`}
+          title={`Nyawa ${hearts}/${MAX_HEARTS}, ketuk untuk buka Toko`}
           className={cn(
             pillBase,
             hearts <= 1 && "animate-pulse border-danger text-danger bg-danger/10",

@@ -141,7 +141,7 @@ export const STORIES: Story[] = [
           {
             label: "Tanya dulu: bunganya dari mana?",
             good: true,
-            reply: "Nah. Peminjam bayar, atau fee swap — itu masuk akal. 4.000% dari angin — umpan.",
+            reply: "Nah. Peminjam bayar bunga atau fee swap masuk akal. Kalau janji ribuan persen tanpa dasar jelas, itu jelas umpan.",
           },
         ],
       },
@@ -196,7 +196,7 @@ export const STORIES: Story[] = [
       },
       {
         type: "end",
-        text: "Skill nulis, desain, kode, jaga orang, baca rantai — itu tiket. Chart boleh. Gaji juga pintu.",
+        text: "Keahlian riset, desain, pemrograman, dan analisis data on-chain adalah modal berharga untuk berkarier di industri ini.",
         remember: "Kerja yang beneran nggak minta kamu transfer dulu.",
       },
     ],
@@ -275,7 +275,7 @@ export const STORIES: Story[] = [
       {
         type: "proof",
         proofId: "rugi-liqs",
-        text: "Peta darah. Bukan cuma DeFi — perps juga. Yang max, disikat dulu.",
+        text: "Peta likuidasi mencakup pasar spot, pinjaman DeFi, hingga derivatif perps.",
       },
       {
         type: "talk",
@@ -423,7 +423,7 @@ export const STORIES: Story[] = [
         type: "talk",
         who: "web3min",
         mood: "think",
-        text: "Dua kemungkinan. Kamu dorong harga pool sendirian: slippage. Bot backrun, nyamain ke CEX. Itu arb — kamu yang ciptain selisihnya. Atau bot sandwich: beli dulu, kamu mahal, mereka jual. Itu pajak antrian.",
+        text: "Dua kemungkinan. Kamu dorong harga pool sendirian: slippage. Bot backrun, nyamain ke CEX. Itu akibat slippage pada pool likuiditas atau transaksi terkena sandwich attack oleh bot antrian.",
       },
       {
         type: "fork",
@@ -437,7 +437,7 @@ export const STORIES: Story[] = [
           {
             label: "Pecah order, slippage ketat, jauhi pool sepi.",
             good: true,
-            reply: "Arb tetap ada — itu yang bikin AMM nggak nyasar. Sandwich yang harus kamu sempitin.",
+            reply: "Arbitrase menjaga keselarasan harga antarpasar, sedangkan risiko sandwich attack dapat ditekan dengan membatasi slippage toleransi.",
           },
         ],
       },
@@ -610,12 +610,12 @@ export const STORIES: Story[] = [
           {
             label: "Ketik 12 katanya, biar cepat",
             good: false,
-            reply: "Wallet itu anggap mati. Penipu udah salin seed. Pindah sisa aset ke wallet baru — kalau masih sempat.",
+            reply: "Wallet itu anggap mati. Penipu udah salin seed. Dompet tersebut sudah terkompromi karena seed phrase bocor. Segera amankan aset yang tersisa ke dompet baru yang bersih.",
           },
           {
             label: "Block. Cek di situs resmi, bukan dari chat",
             good: true,
-            reply: "Betul. Buka bursa dari bookmark kamu sendiri. Kalau emang ada masalah, kamu yang chat mereka — bukan sebaliknya.",
+            reply: "Betul. Buka bursa dari bookmark kamu sendiri. Selalu akses situs resmi dari bookmark tersimpan. Pihak resmi tidak akan pernah berinisiatif menghubungi duluan meminta kredensial.",
           },
           {
             label: "Kirim ke grup, tanya temen",
@@ -908,7 +908,7 @@ export const STORIES: Story[] = [
       {
         type: "end",
         text: "Hijau di layar bukan uang. Uang itu yang berhasil kamu tarik.",
-        remember: "Tes jual dulu pakai pecahan. Kalau macet, anggap hangus — jangan nambah.",
+        remember: "Tes jual dulu pakai pecahan. Lakukan uji transaksi jual dalam jumlah kecil terlebih dahulu. Jika gagal, jangan menambah dana.",
       },
     ],
   },
@@ -1142,7 +1142,7 @@ export const CASES: CaseStudy[] = [
     steps: [
       { look: "Angka plus besar.", say: "Kertas. Belum ada yang berhasil jual. Chart nggak peduli kamu bisa cair atau nggak." },
       { look: "Nggak ada volume keluar yang sehat.", say: "Honeypot: beli boleh, jual dikunci. Pajak 100%, blacklist, atau fungsi sell palsu." },
-      { look: "Caption orang yang nyangkut.", say: "Tes jual pecahan dulu. Kalau gagal, jangan nambah — anggap pelajaran." },
+      { look: "Caption orang yang nyangkut.", say: "Tes jual pecahan dulu. Uji jual dalam nominal kecil terlebih dahulu. Jika transaksi ditolak, jangan menambah posisi." },
     ],
     remember: "Bisa beli ≠ bisa jual. Tes keluar sebelum nambah modal.",
   },
@@ -1173,7 +1173,7 @@ export const CASES: CaseStudy[] = [
     unlockAfter: "u18-l1",
     steps: [
       { look: "Layar bilang kamu terima token.", say: "Simulasi bisa dibohongi. Jangan percaya ringkasan cantik di pop-up." },
-      { look: "Izin yang diminta di belakang.", say: "setApprovalForAll, transferFrom, incrementAllowance — itu bahasa nguras." },
+      { look: "Izin yang diminta di belakang.", say: "Fungsi setApprovalForAll atau transferFrom tanpa batas adalah metode umum pengurasan dompet." },
       { look: "Sumber link-nya.", say: "Situs resmi yang kamu ketik. Kalau ragu, jangan sign. Nggak ada airdrop yang kabur." },
     ],
     remember: "Simulasi bukan auditor. Baca izin, atau jangan tanda tangan.",
@@ -1253,7 +1253,7 @@ export const CASES: CaseStudy[] = [
     unlockAfter: "u13-l1",
     steps: [
       { look: "PnL hijau di aplikasi.", say: "Itu mark-to-market. Belum di rekening. Spread, pajak, likuiditas bisa makan." },
-      { look: "Postingan udah jalan.", say: "Orang pamer dulu, cair belakangan — atau nggak pernah. Timeline nggak refund." },
+      { look: "Postingan udah jalan.", say: "Klaim keuntungan fantastis di media sosial sering kali belum direalisasikan. Tetaplah berpegang pada rencana investasimu." },
       { look: "Nggak ada bukti withdraw.", say: "Cuan = yang udah kamu tarik sesuai aturan kamu. Sisanya masih permainan." },
     ],
     remember: "Hijau di layar bukan gaji. Gaji itu yang udah keluar.",
@@ -1270,7 +1270,7 @@ export const CASES: CaseStudy[] = [
     steps: [
       { look: "Daftar approval.", say: "Tiap dapp yang kamu sign bisa masih pegang kunci. Nggak hilang sendiri." },
       { look: "Alat revoke.", say: "revoke.cash dan sejenis. Bukan iklan, ini sapu. Pakai yang kamu ketik sendiri." },
-      { look: "Setelah situs random.", say: "Habis mint, habis claim, habis iseng — cabut. Jangan nunggu berita hack." },
+      { look: "Setelah situs random.", say: "Setelah selesai bertransaksi atau mencoba aplikasi, segera cabut izin persetujuan token yang tidak lagi digunakan." },
     ],
     remember: "Izin nggak kadaluarsa sendiri. Cabut. Rutin.",
   },

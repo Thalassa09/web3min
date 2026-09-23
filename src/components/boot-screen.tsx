@@ -38,38 +38,35 @@ export function BootScreen({
   return (
     <div
       className={cn(
-        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-canvas p-6 text-center select-none",
+        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-cream p-6 text-center select-none",
         exiting && "boot-out",
         className
       )}
       role="status"
       aria-live="polite"
     >
-      {/* Calm ambient background (Apple-style subtle glow) */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-primary-soft/50 blur-3xl" />
-      </div>
-
       {/* Center Blobi & Wordmark */}
       <div className="relative z-10 flex flex-col items-center">
         <div className="relative">
           <Mascot mood="wave" size={130} interactive />
         </div>
 
-        <h1 className="mt-4 font-sans text-[32px] font-black text-ink-900 tracking-tight">
+        <h1 className="mt-4 font-pixel text-4xl font-bold text-choco-900 tracking-tight">
           {title}
         </h1>
 
-        <p className="mt-2 text-sm font-semibold text-ink-500 max-w-xs transition-opacity duration-200">
+        <p className="mt-2 font-pixel text-xs font-bold text-choco-700 max-w-xs transition-opacity duration-200">
           {currentHint}
         </p>
 
-        {/* Candy-Stripe Loading Bar */}
-        <div className="mt-6 w-[200px]" aria-hidden>
-          <ProgressBar
-            value={stage === 0 ? 35 : stage === 1 ? 75 : 100}
-            size="md"
-          />
+        {/* Candy-Stripe Loading Bar with solid Choco border */}
+        <div className="mt-6 w-[220px]" aria-hidden>
+          <div className="relative h-5 w-full overflow-hidden rounded-full border-3 border-choco-900 bg-candy-100 shadow-[0_3px_0_#3B2218]">
+            <div
+              className="h-full candy-stripe-fill rounded-full transition-all duration-300 ease-out border-r-2 border-choco-900"
+              style={{ width: `${stage === 0 ? 35 : stage === 1 ? 75 : 100}%` }}
+            />
+          </div>
         </div>
       </div>
     </div>

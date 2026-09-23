@@ -71,42 +71,42 @@ function getRarityStyle(rarity?: string) {
   switch (rarity) {
     case "mythic":
       return {
-        badgeBg: "bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 text-white",
+        badgeBg: "bg-candy-500 text-white font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
         label: "Mythic 1-of-1",
-        borderColor: "border-pink-600",
-        shadowColor: "#831843",
-        icon: Sparkles,
+        borderColor: "border-choco-900",
+        shadowColor: "#3B2218",
+        icon: Crown,
       };
     case "legendary":
       return {
-        badgeBg: "bg-gradient-to-r from-amber-400 to-yellow-300 text-ink-900 font-black",
+        badgeBg: "bg-lemon text-choco-900 font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
         label: "Legendary",
-        borderColor: "border-amber-500",
-        shadowColor: "#78350F",
+        borderColor: "border-choco-900",
+        shadowColor: "#3B2218",
         icon: Crown,
       };
     case "rare":
       return {
-        badgeBg: "bg-gradient-to-r from-purple-500 to-indigo-600 text-white",
+        badgeBg: "bg-purple-600 text-white font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
         label: "Rare Artefak",
-        borderColor: "border-purple-600",
-        shadowColor: "#3B0764",
+        borderColor: "border-choco-900",
+        shadowColor: "#3B2218",
         icon: Flame,
       };
     case "utility":
       return {
-        badgeBg: "bg-gradient-to-r from-emerald-500 to-teal-600 text-white",
+        badgeBg: "bg-mint text-white font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
         label: "Utility Pass",
-        borderColor: "border-emerald-600",
-        shadowColor: "#064E3B",
+        borderColor: "border-choco-900",
+        shadowColor: "#3B2218",
         icon: ShieldCheck,
       };
     default:
       return {
-        badgeBg: "bg-amber-300 text-ink-900 font-black",
+        badgeBg: "bg-cream text-choco-900 font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
         label: "Koleksi Khusus",
-        borderColor: "border-amber-400",
-        shadowColor: "#2B1622",
+        borderColor: "border-choco-900",
+        shadowColor: "#3B2218",
         icon: Award,
       };
   }
@@ -310,19 +310,19 @@ export function RafflePage() {
           </Link>
         </div>
 
-        {/* Hero Banner Card (Compact Arcade Candy) */}
-        <div className="relative overflow-hidden rounded-3xl border-4 border-ink-900 bg-gradient-to-r from-violet-600 via-purple-600 to-pink-500 p-4 md:p-5 text-white shadow-[4px_4px_0_#2B1622]">
+        {/* Hero Banner Card (Solid Arcade Candy Neo-Brutalism) */}
+        <div className="relative overflow-hidden rounded-3xl border-3 border-choco-900 bg-lemon p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/40 bg-white/20 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider backdrop-blur-sm shadow-[1px_1px_0_rgba(0,0,0,0.2)]">
-                <Sparkles className="h-3.5 w-3.5 text-yellow-300" />
+            <div className="space-y-1.5">
+              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-white px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
+                <Trophy className="h-3.5 w-3.5 text-choco-900" />
                 Arena Undian On-Chain • Siklus Aktif
               </div>
-              <h1 className="text-2xl md:text-3xl font-black tracking-tight text-white drop-shadow-sm">
+              <h1 className="text-2xl md:text-3xl font-pixel font-bold tracking-tight text-choco-900">
                 Undian Hadiah & NFT Artefak
               </h1>
-              <p className="text-xs md:text-sm font-medium text-purple-100 max-w-xl">
-                Tukarkan Koin hasil belajar & klasemenmu menjadi Tiket Undian untuk memenangkan artefak langka ERC-721, status VIP, dan bundel koin!
+              <p className="text-xs md:text-sm font-semibold text-choco-700 max-w-xl leading-relaxed">
+                Tukarkan Koin hasil belajar & klasemenmu jadi Tiket Undian. Menangkan artefak ERC-721 langka, status VIP, dan bundel koin mingguan!
               </p>
             </div>
 
@@ -332,19 +332,17 @@ export function RafflePage() {
                   playTap();
                   setShowFaqModal(true);
                 }}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-ink-900 bg-white px-3 py-2 text-xs font-black text-ink-900 shadow-[2px_2px_0_#2B1622] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-choco-900 bg-white px-3.5 py-2 text-xs font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
               >
-                <HelpCircle className="h-3.5 w-3.5 text-purple-600" />
+                <HelpCircle className="h-3.5 w-3.5 text-choco-900" />
                 <span>Cara Kerja</span>
               </button>
-              <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-black/25 text-[11px] font-bold text-white backdrop-blur-sm border border-white/20">
-                <Database className="h-3.5 w-3.5 text-emerald-400" />
+              <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-cream text-[11px] font-pixel font-bold text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
+                <Database className="h-3.5 w-3.5 text-mint" />
                 <span>
                   {isDbConnected
                     ? "Supabase Live"
-                    : isDbLoading
-                    ? "Koneksi..."
-                    : "Lokal"}
+                    : "Simulasi Lokal"}
                 </span>
               </div>
             </div>
@@ -638,34 +636,52 @@ export function RafflePage() {
             </div>
           </div>
 
+          {/* Asymmetrical Bento Step Flow */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-            <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1.5 shadow-[2px_2px_0_#2B1622]">
-              <div className="text-xs font-black text-ink-900 flex items-center gap-1.5">
-                <Coins className="h-4 w-4 text-amber-600" />
-                1. Belajar & Kumpulkan Koin
+            {/* Step 1 & 2: Asymmetric Left Pods */}
+            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900 bg-cream p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
+              <div className="flex items-center gap-2.5">
+                <div className="size-8 rounded-lg border-2 border-choco-900 bg-amber-100 flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+                  <img src="/props/coins.png" alt="Koin" className="size-5 object-contain pixelated" />
+                </div>
+                <div className="text-xs font-pixel font-bold text-choco-900">
+                  1. Belajar & Sikat Koin
+                </div>
               </div>
-              <p className="text-[11px] font-bold text-ink-700 leading-relaxed">
-                Setiap menyelesaikan bab modul dan mencapai Top 1.000 klasemen mingguan, koin otomatis masuk ke dompet belajarmu.
+              <p className="text-[11px] font-semibold text-choco-700 leading-relaxed">
+                Tiap nyelesaiin modul rute & tembus Top 1.000 klasemen mingguan, koin otomatis ngalir ke dompet belajarmu.
               </p>
             </div>
 
-            <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1.5 shadow-[2px_2px_0_#2B1622]">
-              <div className="text-xs font-black text-ink-900 flex items-center gap-1.5">
-                <Ticket className="h-4 w-4 text-purple-600" />
-                2. Tukar Tiket & Ikut Putaran
+            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900 bg-cream p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
+              <div className="flex items-center gap-2.5">
+                <div className="size-8 rounded-lg border-2 border-choco-900 bg-lemon flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+                  <Ticket className="size-4 text-choco-900" />
+                </div>
+                <div className="text-xs font-pixel font-bold text-choco-900">
+                  2. Tukar Tiket Undian
+                </div>
               </div>
-              <p className="text-[11px] font-bold text-ink-700 leading-relaxed">
-                Tukarkan 10 Koin untuk 1 Tiket Undian. Pasang tiket sebanyak-banyaknya untuk melipatgandakan peluang kemenanganmu.
+              <p className="text-[11px] font-semibold text-choco-700 leading-relaxed">
+                Tukar 10 Koin buat 1 Tiket. Pasang tiket sebanyak-banyaknya di pool aktif biar peluang menangnya makin gede.
               </p>
             </div>
 
-            <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1.5 shadow-[2px_2px_0_#2B1622]">
-              <div className="text-xs font-black text-ink-900 flex items-center gap-1.5">
-                <ShieldCheck className="h-4 w-4 text-emerald-600" />
-                3. Klaim NFT On-Chain
+            {/* Step 3: Hero Bento Card (Elevated with Blobi Mascot & High Contrast) */}
+            <div className="flex flex-col justify-between rounded-2xl border-3 border-choco-900 bg-lemon p-4 space-y-2 shadow-[0_4px_0_#3B2218]">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="size-8 rounded-lg border-2 border-choco-900 bg-white flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+                    <Crown className="size-4 text-choco-900" />
+                  </div>
+                  <div className="text-xs font-pixel font-bold text-choco-900">
+                    3. Klaim On-Chain!
+                  </div>
+                </div>
+                <img src="/mascot/celebrate.png" alt="Blobi Rayakan" className="size-8 object-contain pixelated" />
               </div>
-              <p className="text-[11px] font-bold text-ink-700 leading-relaxed">
-                Saat undian ditutup, seed acak transparan memilih pemenang. Pemenang dapat menghubungkan wallet EVM untuk airdrop NFT langsung.
+              <p className="text-[11px] font-semibold text-choco-800 leading-relaxed">
+                Pemenang dikunci seed VRF transparan tanpa manipulasi. Sambungin wallet EVM, NFT langsung airdrop ke dompetmu!
               </p>
             </div>
           </div>

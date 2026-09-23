@@ -10,9 +10,18 @@ import { useProgress } from "@/lib/store";
 export const Route = createFileRoute("/intro")({ component: Intro });
 
 const BEATS: { mood: MascotMood; say: string }[] = [
-  { mood: "wave", say: "Halo! Selamat datang di web3min. Mulai dari tombol kuning di beranda. Baca 3 menit dulu, baru kuis." },
-  { mood: "think", say: "Salah jawab, nyawa berkurang. Jika nyawa habis, kamu bisa baca Kisah tanpa mengurangi nyawa." },
-  { mood: "proud", say: "Selesaikan rute belajar untuk membuka hadiah bintang dan tiket undian on-chain Web3!" },
+  {
+    mood: "wave",
+    say: "Halo! Kenalin, gue Blobi. Di web3min kita belajar crypto & on-chain pakai bahasa tongkrongan, bukan bahasa alien kertas putih.",
+  },
+  {
+    mood: "think",
+    say: "Wallet itu simpelnya kayak dompet fisik, kuncinya kamu sendiri yang pegang. Kalau salah kuis nyawa berkurang, tapi santai—bisa isi ulang atau santai baca Kisah.",
+  },
+  {
+    mood: "proud",
+    say: "Gas terus tiap blok! Kumpulin bintang, jaga streak rantai kamu, dan sikat tiket undian on-chain gratis!",
+  },
 ];
 
 function Intro() {
@@ -57,18 +66,13 @@ function Intro() {
   if (!onboarded || introSeen) return null;
 
   return (
-    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-canvas px-4 py-8 select-none overflow-hidden">
-      {/* Soft Background Ambient Glow */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-primary-soft/50 blur-3xl" />
-      </div>
-
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-cream px-4 py-8 select-none overflow-hidden">
       <div className="relative z-10 w-full max-w-md flex flex-col items-center">
         {/* Skip button on top right */}
         <div className="w-full flex justify-end mb-4">
           <button
             type="button"
-            className="px-4 py-2 rounded-full bg-paper hover:bg-primary-soft text-xs font-extrabold text-ink-700 border border-line transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
+            className="px-4 py-1.5 rounded-xl bg-cream hover:bg-candy-100 text-xs font-pixel font-bold text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow] active:translate-y-[1px] active:shadow-none cursor-pointer"
             onClick={leave}
           >
             Lewati
@@ -82,29 +86,33 @@ function Intro() {
           </div>
 
           <div className="w-full mt-4">
-            <SpeechBubble className="w-full">
-              <button type="button" className="w-full text-left font-sans text-sm sm:text-base font-extrabold text-ink-900 cursor-pointer" onClick={next}>
+            <SpeechBubble className="w-full border-3 border-choco-900 shadow-[0_6px_0_#3B2218]">
+              <button type="button" className="w-full text-left font-sans text-sm sm:text-base font-extrabold text-choco-900 cursor-pointer" onClick={next}>
                 {doneTyping ? current.say : <TypeLine text={current.say} onDone={() => setDoneTyping(true)} />}
               </button>
             </SpeechBubble>
           </div>
 
           {/* Step indicator dots */}
-          <div className="flex items-center gap-2 mt-6">
+          <div className="flex items-center gap-2.5 mt-6">
             {BEATS.map((_, i) => (
               <span
                 key={i}
-                className={`h-2.5 rounded-full transition-[width,background-color] duration-200 ${
-                  i === beat ? "w-8 bg-primary shadow-xs" : "w-2.5 bg-line-strong"
+                className={`h-3 rounded-full border-2 border-choco-900 transition-all duration-200 ${
+                  i === beat ? "w-8 bg-candy-500 shadow-[0_2px_0_#3B2218]" : "w-3 bg-candy-100"
                 }`}
               />
             ))}
           </div>
 
           <div className="w-full mt-6">
-            <DuoButton wide variant="primary" size="md" onClick={next}>
-              {last ? "Mulai Belajar Sekarang" : "Lanjut →"}
-            </DuoButton>
+            <button
+              type="button"
+              onClick={next}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-candy-500 py-3.5 px-6 font-pixel text-base font-bold text-white shadow-[0_4px_0_#3B2218] hover:bg-candy-600 active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow]"
+            >
+              {last ? "Gas Mulai Belajar! 🚀" : "Lanjut →"}
+            </button>
           </div>
         </div>
       </div>

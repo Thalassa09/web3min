@@ -26,7 +26,7 @@ export const MORE_UNITS: Unit[] = [
         blank("u7l1q4", "Profit yang belum dijual disebut ___ profit.", ["unrealized", "realized", "airdrop", "gas"], 0, "Unrealized itu masih kertas."),
       ]),
       L("u7", "u7-l2", "lesson", "Realized vs kertas", "Yang di rekening, yang di layar.", "bank", [
-        tip("u7l2t", "Kertas vs uang.", "Realized = udah jual, udah jadi saldo. Unrealized = angka yang masih nempel di posisi. Sebenernya banyak 'cuan $300k' di X itu masih kertas — atau emang udah dikunci. Baca captionnya, ya.", {
+        tip("u7l2t", "Kertas vs uang.", "Realized = udah jual, udah jadi saldo. Unrealized = angka yang masih nempel di posisi. Sebenarnya banyak klaim untung di medsos yang baru sebatas angka di atas kertas. Baca captionnya, ya.", {
           points: [
             "Belum jual? Itu harapan, bukan gaji.",
             "Likuiditas memecoin sering nggak cukup buat semua orang keluar di puncak.",
@@ -41,13 +41,13 @@ export const MORE_UNITS: Unit[] = [
         c("u7l2q3", "Angka hijau gede di dashboard futures itu…", ["Bisa ilang sebelum ditarik", "Udah di rekening bank", "Bebas pajak otomatis", "Nggak bisa dilikuidasi"], 0, "Masih posisi, belum ditarik."),
       ]),
       L("u7", "u7-l3", "lesson", "Jual terlalu cepat", "Takut vs serakah.", "siren", [
-        tip("u7l3t", "Dua cara hangus tanpa kena hack.", "Ada yang jual 2 menit, dapet $286, tokennya nanti $193 juta. Ada yang hold sampe balik modal kertas — tapi entry-nya jelek, tetep minus. Timing bukan doa, ya.", {
+        tip("u7l3t", "Dua cara hangus tanpa kena hack.", "Ada yang jual 2 menit, dapet $286, tokennya nanti $193 juta. Ada juga yang memaksakan hold padahal posisi beli awalnya buruk. Manajemen posisi dan disiplin rencana jauh lebih penting.", {
           points: [
             "Take profit bertahap lebih waras. All-in hold atau all-in jual? Gila.",
             "Harga naik nggak otomatis bikin kamu plus, kalo rata beli jelek.",
             "FOMO ngejar yang udah 10x? Sering jadi umpan exit buat yang awal.",
           ],
-          example: "PNUT deployer jual 2 menit: $286. ATH-nya kemudian $193 juta. Bukan 'harus hold' — itu pelajaran soal ukuran dan rencana, bukan nasib.",
+          example: "PNUT deployer jual 2 menit: $286. ATH-nya kemudian $193 juta. Pelajarannya bukan harus hold buta, melainkan soal ukuran posisi dan rencana yang terukur.",
           remember: "Rencana keluar dulu, baru masuk.",
           proofs: ["fumble-193m", "rugi-entry", "cuan-zec-120k", "rugi-cut2"],
         }),
@@ -87,11 +87,11 @@ export const MORE_UNITS: Unit[] = [
     id: "u8",
     index: 8,
     title: "Trading dasar",
-    subtitle: "Spot dulu. Leverage belakangan — atau jangan.",
+    subtitle: "Spot dulu. Hindari leverage tinggi.",
     color: "blue",
     lessons: [
       L("u8", "u8-l1", "lesson", "Spot vs leverage", "Punya vs nyewa nyali.", "swap", [
-        tip("u8l1t", "Spot itu beli. Leverage itu utang.", "Spot: kamu punya aset. Turun 50%, aset masih ada. Leverage / futures: kamu pinjam daya. Turun dikit, bisa dilikuidasi — saldo nyaris nol. Banyak yang 'trading' di HP itu futures, bukan spot.", {
+        tip("u8l1t", "Spot itu beli. Leverage itu utang.", "Spot: kamu punya aset. Turun 50%, aset masih ada. Leverage / futures: kamu pinjam daya. Turun sedikit saja posisimu bisa terlikuidasi dan saldo langsung habis. Banyak pemula mengira trading di aplikasi selalu aman, padahal yang dibuka adalah kontrak futures.", {
           points: [
             "Spot = modal kamu yang jadi batas rugi.",
             "Leverage 10x: gerak 10% lawan arah bisa hapus posisi.",
@@ -121,7 +121,7 @@ export const MORE_UNITS: Unit[] = [
         c("u8l2q3", "Kapan paling gampang kena likuidasi?", ["Berita mendadak + leverage gede", "Hold spot 4 tahun", "Transfer on-chain", "Isi nama profil"], 0, "Volatilitas kali utang."),
       ]),
       L("u8", "u8-l3", "lesson", "Ukuran posisi", "Satu peluru per trade.", "flag", [
-        tip("u8l3t", "Jangan all-in.", "Tentukan rugi maksimal per trade — misalnya 1–2% modal. Kalo ide salah, kamu masih hidup. All-in + revenge trade = film pendek.", {
+        tip("u8l3t", "Jangan all-in.", "Tentukan batas rugi maksimal per transaksi, misalnya 1-2% dari total modal. Kalau analisa meleset, kamu tetap bertahan. Memaksakan all-in hanya akan menghabiskan modalmu dalam sekejap.", {
           points: [
             "Risiko per ide, bukan 'feeling'.",
             "Naikin ukuran cuma setelah catatan (journal) bilang kamu mampu.",
@@ -186,7 +186,7 @@ export const MORE_UNITS: Unit[] = [
       L("u9", "u9-l2", "lesson", "Honeypot & pajak aneh", "Bisa beli, nggak bisa jual.", "lock", [
         tip("u9l2t", "Perangkap klasik.", "Honeypot: kontrak izinin beli, blokir jual. Pajak jual 99%. Blacklist wallet. Cek simulator jual (token sniffer, honeypot.is, rugcheck) sebelum gas.", {
           points: [
-            "Kalo cuma bisa beli, itu bukan kesempatan — itu jebakan.",
+            "Kalau token hanya bisa dibeli tapi tidak bisa dijual, itu bukan peluang melainkan jebakan honeypot.",
             "Renounced bukan jaminan. Bisa udah dipasang jebakan sebelumnya.",
             "CA dari DM / komentar = curiga.",
           ],
@@ -239,7 +239,7 @@ export const MORE_UNITS: Unit[] = [
     id: "u10",
     index: 10,
     title: "DYOR",
-    subtitle: "Explorer, kontrak, holder — bukan feeling",
+    subtitle: "Explorer, kontrak, dan data pemegang, bukan sekadar firasat",
     color: "teal",
     lessons: [
       L("u10", "u10-l1", "lesson", "Baca explorer", "Etherscan & kawan-kawan.", "map", [
@@ -318,7 +318,7 @@ export const MORE_UNITS: Unit[] = [
       L("u11", "u11-l1", "lesson", "CEX vs DEX", "Titip vs pegang kunci.", "bank", [
         tip("u11l1t", "Dua pintu.", "CEX (Binance, lokal): titip, ada CS, bisa diblok. DEX: kamu pegang kunci, salah alamat hangus, nggak ada CS. Banyak orang Indo beli di CEX, tarik ke wallet, baru main DEX.", {
           points: [
-            "CEX bagus buat on-ramp rupiah — pilih yang berizin.",
+            "CEX terdaftar resmi cocok untuk on-ramp rupiah yang aman.",
             "Jangan simpen gaji setahun di CEX. 'Not your keys'.",
             "DEX butuh gas dan ketelitian jaringan.",
           ],
@@ -344,7 +344,7 @@ export const MORE_UNITS: Unit[] = [
         c("u11l2q3", "Escrow itu…", ["Tahan dana sampe selesai", "Pajak", "Seed", "NFT"], 0, "Tahan."),
       ]),
       L("u11", "u11-l3", "lesson", "Pajak & jejak", "Negara juga baca rantai.", "book", [
-        tip("u11l3t", "Bukan nasihat pajak. Sadar jejak.", "Di Indonesia, aset kripto dan transaksi bisa kena aturan yang berubah. Simpen riwayat. Jangan kira 'on-chain = ga kelihatan'. CEX lokal punya datamu. Ini bukan ajakan ngeles — ini ajakan jangan kaget.", {
+        tip("u11l3t", "Bukan nasihat pajak. Sadar jejak.", "Di Indonesia, aset kripto dan transaksi bisa kena aturan yang berubah. Simpen riwayat. Jangan kira 'on-chain = ga kelihatan'. CEX lokal punya datamu. Edukasi ini bertujuan agar kamu selalu tertib administrasi.", {
           points: [
             "Catat beli/jual. Screenshot jelek, CSV lebih bagus.",
             "Pindah CEX → wallet tetep jejak.",
@@ -388,11 +388,11 @@ export const MORE_UNITS: Unit[] = [
     subtitle: "Bunga gila biasanya umpan",
     color: "red",
     lessons: [
-      L("u12", "u12-l1", "lesson", "Staking", "Kunci aset, dapet imbalan — kadang.", "lock", [
+      L("u12", "u12-l1", "lesson", "Staking", "Kunci aset untuk mendapatkan imbalan jaringan.", "lock", [
         tip("u12l1t", "Staking resmi vs 'staking' palsu.", "Staking rantai: kunci di protokol, ada slashing, ada unbond. 'Staking' di website random: sering titip ke orang. APY 2000% dari mana? Biasanya dari duit orang baru, atau token yang dilutif.", {
           points: [
             "Tanya: imbalan dibayar pake apa? Inflasi token = kamu dibayar kertas.",
-            "Unbonding 14–21 hari itu normal di banyak rantai. 'Instan + 20% per hari' justru aneh.",
+            "Masa penarikan 14-21 hari adalah hal wajar di banyak rantai. 'Instan + 20% per hari' justru aneh.",
             "Situs staking minta seed = penipu.",
           ],
           example: "Validator ETH vs situs 'stake BTC 3% per hari'. Yang kedua hampir pasti skema.",
@@ -417,7 +417,7 @@ export const MORE_UNITS: Unit[] = [
         c("u12l2q3", "Vault 40% sehari. Mungkin?", ["Hampir pasti skema", "Standar USDT", "L2", "CEX"], 0, "Skema."),
       ]),
       L("u12", "u12-l3", "lesson", "Double & giveaway", "Yang minta deposit dulu.", "gift", [
-        tip("u12l3t", "Ulangi mantra.", "Double ETH, giveaway 'kirim dulu', airdrop minta gas ke alamat admin. Sama kayak unit 6, sekarang kamu udah liat PnL nyata — jangan bayar umpan.", {
+        tip("u12l3t", "Ulangi mantra.", "Double ETH, giveaway 'kirim dulu', airdrop minta gas ke alamat admin. Modus gandakan saldo atau meminta fee di awal adalah penipuan. Jangan pernah mengirimkan asetmu ke pihak mana pun.", {
           points: [
             "Hadiah resmi nggak minta kamu transfer dulu.",
             "Koneksi wallet + tanda tangan aneh = bisa cabut izin.",
@@ -436,7 +436,7 @@ export const MORE_UNITS: Unit[] = [
           points: [
             "Inflasi: kamu dibayar token yang makin banyak, makin murah.",
             "Ponzi: bunga dari orang belakang.",
-            "Fee riil: swap, pinjam, lelang — ada pengguna yang bayar.",
+            "Imbal hasil riil bersumber dari aktivitas pengguna seperti biaya swap, pinjaman, dan lelang.",
           ],
           example: "Protokol pinjam: peminjam bayar bunga, pemberi dapet bagian. Masuk akal. 'Tanpa peminjam, 5% per hari' nggak.",
           remember: "Bisa dijelasin = boleh ditimbang.",
@@ -462,7 +462,7 @@ export const MORE_UNITS: Unit[] = [
     color: "gold",
     lessons: [
       L("u13", "u13-l1", "lesson", "FOMO", "Kereta yang udah jalan.", "siren", [
-        tip("u13l1t", "Rasa ketinggalan itu produk.", "Timeline hijau dirancang bikin kamu masuk telat. Kalo udah 5–10x, tanya: siapa yang butuh likuiditas keluar? FOMO boleh dirasa. Jangan dipake nyetir.", {
+        tip("u13l1t", "Rasa ketinggalan itu produk.", "Timeline hijau dirancang bikin kamu masuk telat. Saat harga sudah melonjak tinggi, tetaplah objektif dan jangan biarkan emosi FOMO mengendalikan keputusanmu.", {
           points: [
             "Jeda 10 menit. Minum air. Cek CA.",
             "Kalo 'sekarang atau nggak pernah', itu script umpan.",

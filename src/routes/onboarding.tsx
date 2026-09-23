@@ -230,70 +230,58 @@ function Onboarding() {
                     </p>
                   </div>
 
-                  {/* 3 Core Highlights */}
-                  <div className="space-y-2.5 pt-1">
-                    <Box
-                      elevation="flat"
-                      radius="md"
-                      padding="sm"
-                      border="subtle"
-                      className="flex items-start gap-3 bg-slate-50 border border-slate-200 hover:border-slate-300 transition-colors"
-                    >
-                      <div className="p-2 rounded-[12px] bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0 mt-0.5">
-                        <Clock className="size-4" />
+                  {/* 3 Core Highlights (Arcade Candy Pods with Custom Pixel Props) */}
+                  <div className="space-y-3 pt-1">
+                    <div className="flex items-start gap-3.5 rounded-2xl border-2 border-choco-900 bg-cream p-3.5 shadow-[0_3px_0_#3B2218]">
+                      <div className="size-11 shrink-0 rounded-xl border-2 border-choco-900 bg-candy-100 p-1.5 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
+                        <img src="/props/book.png" alt="Modul Belajar" className="size-7 object-contain pixelated" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-bold text-slate-900">20 Modul Terarah</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
-                            Terstruktur
+                          <span className="text-xs font-pixel font-bold text-choco-900">20 Rute Pulau Rantai</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-lemon text-choco-900 border border-choco-900">
+                            Santai
                           </span>
                         </div>
-                        <div className="text-[11px] font-medium text-slate-600 mt-0.5">Rute belajar bertahap dari konsep awal hingga praktik on-chain.</div>
+                        <div className="text-[11px] font-semibold text-choco-700 mt-0.5 leading-snug">
+                          Mulai dari nol apa itu rantai blok sampai ngetes smart contract. Gak pakai bahasa alien.
+                        </div>
                       </div>
-                    </Box>
+                    </div>
 
-                    <Box
-                      elevation="flat"
-                      radius="md"
-                      padding="sm"
-                      border="subtle"
-                      className="flex items-start gap-3 bg-slate-50 border border-slate-200 hover:border-slate-300 transition-colors"
-                    >
-                      <div className="p-2 rounded-[12px] bg-candy-100 text-candy-600 border border-choco-900 shrink-0 mt-0.5">
-                        <ShieldCheck className="size-4" />
+                    <div className="flex items-start gap-3.5 rounded-2xl border-2 border-choco-900 bg-cream p-3.5 shadow-[0_3px_0_#3B2218]">
+                      <div className="size-11 shrink-0 rounded-xl border-2 border-choco-900 bg-mint/20 p-1.5 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
+                        <img src="/props/shield.png" alt="Simulasi Aman" className="size-7 object-contain pixelated" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-bold text-slate-900">100% Simulasi Aman</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-candy-200 text-choco-900 border border-choco-900">
-                            Tanpa Risiko
+                          <span className="text-xs font-pixel font-bold text-choco-900">100% Simulasi Bebas Boncos</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint text-white border border-choco-900">
+                            Tanpa Modal
                           </span>
                         </div>
-                        <div className="text-[11px] font-medium text-slate-600 mt-0.5">Latihan transfer, tanda tangan transaksi, dan audit tanpa modal uang riil.</div>
+                        <div className="text-[11px] font-semibold text-choco-700 mt-0.5 leading-snug">
+                          Latihan kirim transaksi & kenali jebakan phising di sandbox aman. Gak bakal keluar duit sepeser pun.
+                        </div>
                       </div>
-                    </Box>
+                    </div>
 
-                    <Box
-                      elevation="flat"
-                      radius="md"
-                      padding="sm"
-                      border="subtle"
-                      className="flex items-start gap-3 bg-slate-50 border border-slate-200 hover:border-slate-300 transition-colors"
-                    >
-                      <div className="p-2 rounded-[12px] bg-amber-50 text-amber-700 border border-amber-200 shrink-0 mt-0.5">
-                        <Gift className="size-4" />
+                    <div className="flex items-start gap-3.5 rounded-2xl border-2 border-choco-900 bg-cream p-3.5 shadow-[0_3px_0_#3B2218]">
+                      <div className="size-11 shrink-0 rounded-xl border-2 border-choco-900 bg-amber-100 p-1.5 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
+                        <img src="/props/star.png" alt="Hadiah & Bintang" className="size-7 object-contain pixelated" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-bold text-slate-900">Pencapaian &amp; Reward</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
-                            Sertifikat
+                          <span className="text-xs font-pixel font-bold text-choco-900">Bintang & Tiket Undian</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-candy-500 text-white border border-choco-900">
+                            Reward
                           </span>
                         </div>
-                        <div className="text-[11px] font-medium text-slate-600 mt-0.5">Dapatkan poin reputasi (XP), bintang, dan lencana petualang on-chain.</div>
+                        <div className="text-[11px] font-semibold text-choco-700 mt-0.5 leading-snug">
+                          Kumpulin XP, jaga streak harian, dan sikat tiket undian NFT artefak gratis tiap minggu.
+                        </div>
                       </div>
-                    </Box>
+                    </div>
                   </div>
 
                   <div className="pt-2">

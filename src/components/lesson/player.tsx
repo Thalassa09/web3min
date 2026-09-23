@@ -458,7 +458,7 @@ function DeadState({
       <Mascot mood="sleep" size={180} />
       <h2 className="mt-2 text-[28px] font-extrabold leading-[34px]">Nyawa habis</h2>
       <p className="mt-2 max-w-xs text-base leading-6 text-muted">
-        Baca kisah dulu — tidak memakai nyawa. Nyawa berikutnya sekitar {formatHeartWait(wait)}. Satu nyawa pulih tiap{" "}
+        Baca kisah dulu tanpa mengurangi nyawa. Nyawa berikutnya sekitar {formatHeartWait(wait)}. Satu nyawa pulih tiap{" "}
         {HEART_MS / 60000} menit.
       </p>
       {explanation ? (
@@ -503,7 +503,7 @@ function CompleteCard({
       <p className="mt-1 font-medium text-ink-500">{lesson.title}</p>
       {awarded.replay ? (
         <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-choco-900 bg-candy-100 px-3.5 py-1 text-xs font-bold text-candy-600">
-          <span>Pengulangan — hadiah disesuaikan</span>
+          <span>Pengulangan materi, hadiah disesuaikan</span>
         </div>
       ) : null}
       <p className="mt-5 text-sm font-bold text-ink-500">XP</p>
@@ -513,7 +513,7 @@ function CompleteCard({
         Bintang
       </p>
       <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.gems}</p>
-      {awarded.perfect ? <p className="mt-4 text-sm font-bold text-leaf-shadow">Sempurna — tanpa salah.</p> : null}
+      {awarded.perfect ? <p className="mt-4 text-sm font-bold text-leaf-shadow">Sempurna tanpa ada kesalahan.</p> : null}
       {dailyHit ? <p className="mt-2 text-sm font-bold text-flame">Streak hari ini aman.</p> : null}
       <div className="mt-8 flex w-full flex-col gap-3">
         {nextLesson ? (

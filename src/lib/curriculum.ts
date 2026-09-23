@@ -213,7 +213,7 @@ export const CORE_UNITS: Unit[] = [
     color: "green",
     lessons: [
       L("u1", "u1-l1", "lesson", "Internet versi baru", "Web3 itu apaan, tanpa jargon yang ngebingungin.", "globe", [
-        tip("u1l1t", "Web3 itu apa, sebenernya?", "Internet yang kamu pakai tiap hari — Instagram, GoPay, mobile banking — itu Web2. Datanya hidup di server perusahaan. Mereka yang pegang. Mereka yang bisa kunci atau pulihin akunmu.", {
+        tip("u1l1t", "Web3 itu apa, sebenernya?", "Internet yang kamu pakai tiap hari, seperti Instagram, GoPay, dan mobile banking, itu Web2. Datanya hidup di server perusahaan. Mereka yang pegang. Mereka yang bisa kunci atau pulihin akunmu.", {
           points: [
             "Web3: aset digital dicatat di jaringan bersama, namanya blockchain. Bukan di satu kantor.",
             "Yang pegang kunci wallet = yang pegang aset. Nggak ada tombol 'lupa password' dari CS.",
@@ -239,7 +239,7 @@ export const CORE_UNITS: Unit[] = [
           "u1l1q2",
           "Di internet biasa (Web2), data kamu biasanya disimpan di server perusahaan.",
           true,
-          "Iya. Instagram, Gojek, bank — datanya di mereka.",
+          "Iya. Instagram, Gojek, dan bank, datanya ada di mereka.",
         ),
         tip("u1l1t2", "Blockchain, versi manusia", "Nanti kamu sering denger kata blockchain. Anggap aja buku kas digital yang dibagi ke banyak orang. Tiap halaman baru (blok) ngunci halaman sebelumnya. Jadi rantai.", {
           points: [
@@ -681,7 +681,7 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u2", "u2-l2", "lesson", "Seed phrase", "12 atau 24 kata yang setara nyawa.", "key", [
-        tip("u2l2t", "Seed phrase = nyawa wallet", "Pas buat wallet, kamu dapet 12 atau 24 kata berurutan. Itu master backup. Siapa pun yang punya seed, bisa buka wallet yang sama di HP mana pun — dan ngurasnya.", {
+        tip("u2l2t", "Seed phrase = nyawa wallet", "Pas buat wallet, kamu dapet 12 atau 24 kata berurutan. Itu master backup. Siapa pun yang punya seed, bisa buka wallet yang sama di HP mana pun, lalu menguras isinya.", {
           points: [
             "Bukan PIN ATM, bukan kode voucher, bukan nama koin.",
             "Jangan pernah share ke 'admin', CS, form airdrop, atau bot. Resmi nggak pernah minta seed.",
@@ -736,7 +736,7 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u2", "u2-l3", "lesson", "Private vs public", "Yang boleh dipamerin, yang harus dikunci.", "lock", [
-        tip("u2l3t", "Tiga kunci, jangan ketuker", "Wallet punya beberapa 'kunci' yang kedengerannya mirip. Kalau ketuker, bisa aman — atau bisa hangus.", {
+        tip("u2l3t", "Tiga kunci, jangan ketuker", "Wallet punya beberapa 'kunci' yang kedengerannya mirip. Kalau ketuker, akibatnya bisa fatal.", {
           points: [
             "Alamat / public address: boleh dibagi, kayak nomor rekening. Orang pakai ini buat kirim koin ke kamu.",
             "Private key: rahasia total. Turunan dari seed, dipakai nandatanganin transaksi.",
@@ -773,7 +773,7 @@ export const CORE_UNITS: Unit[] = [
           "u2l3q4",
           "PIN / Face ID di aplikasi wallet itu…",
           [
-            "Kunci lokal supaya orang yang pegang HP susah buka app — bukan pengganti seed",
+            "Kunci lokal supaya orang yang pegang HP susah buka app, bukan pengganti seed",
             "Sama kuatnya dengan seed, jadi seed boleh dibuang",
             "Dikirim ke blockchain tiap jam",
             "Dibagikan ke validator",
@@ -791,7 +791,7 @@ export const CORE_UNITS: Unit[] = [
       ]),
       L("u2", "u2-chest", "chest", "Peti unit 2", "Hadiah buat yang jaga rahasia.", "gift", [], { xp: 0, gems: 20 }),
       L("u2", "u2-l4", "lesson", "Alamat & jaringan", "Salah jaringan = drama.", "map", [
-        tip("u2l4t", "Alamat mirip, jaringan bisa beda dunia", "Alamat wallet biasanya deretan huruf-angka. Di Ethereum sering mulai 0x. Jangan hafal semuanya — cek 4 karakter awal dan akhir setelah paste.", {
+        tip("u2l4t", "Alamat mirip, jaringan bisa beda dunia", "Alamat wallet biasanya deretan huruf-angka. Di Ethereum sering mulai 0x. Jangan hafal semuanya, cukup cek 4 karakter awal dan akhir setelah paste.", {
           points: [
             "Jaringan (network) beda: Ethereum, BNB Chain, Solana, dan L2 itu dunia terpisah.",
             "Kirim ETH di Ethereum ke 'alamat yang sama' di jaringan lain bisa nyangkut atau hilang.",
@@ -811,7 +811,7 @@ export const CORE_UNITS: Unit[] = [
             "Username TikTok",
           ],
           0,
-          "Contoh vibe: 0xABC… — jangan hafal semuanya, cek ujung-pangkalnya.",
+          "Contoh: 0xABC… (jangan hafal semuanya, cek 4 karakter awal dan akhirnya).",
         ),
         tf(
           "u2l4q2",
@@ -852,8 +852,8 @@ export const CORE_UNITS: Unit[] = [
           "Clipboard hijack itu nyata. Liat 4 karakter awal dan akhir.",
         ),
       ]),
-      L("u2", "u2-cp", "checkpoint", "Ujian unit 2", "Kunci, seed, alamat — jangan ketuker.", "flag", [
-        tip("u2cpt", "Ulangan unit 2", "Ini ujian. Kalau masih campur seed dan alamat, ulangi pelajarannya — unit ini yang paling mahal kalau salah.", {
+      L("u2", "u2-cp", "checkpoint", "Ujian unit 2", "Kunci, seed, dan alamat, jangan sampai tertukar.", "flag", [
+        tip("u2cpt", "Ulangan unit 2", "Ini ujian. Kalau masih campur seed dan alamat, ulangi pelajarannya karena unit ini yang paling mahal kalau salah.", {
           points: [
             "Wallet nyimpen kunci, bukan file koin.",
             "Seed nggak pernah dibagi. Alamat boleh.",
@@ -896,7 +896,7 @@ export const CORE_UNITS: Unit[] = [
     color: "gold",
     lessons: [
       L("u3", "u3-l1", "lesson", "Bitcoin", "Yang pertama, yang paling terkenal.", "bitcoin", [
-        tip("u3l1t", "Bitcoin, yang pertama", "Bitcoin (BTC) lahir 2009 dari nama Satoshi Nakamoto. Tujuannya: uang digital yang nggak perlu bank di tengah. Ini kripto pertama yang sukses besar — bukan DANA, bukan nama lain Ethereum.", {
+        tip("u3l1t", "Bitcoin, yang pertama", "Bitcoin (BTC) lahir 2009 dari nama Satoshi Nakamoto. Tujuannya: uang digital yang nggak perlu bank di tengah. Ini kripto pertama yang sukses besar, bukan DANA, dan bukan nama lain Ethereum.", {
           points: [
             "Jumlahnya dibatasi sekitar 21 juta koin. Kelangkaan itu bagian dari desain, bukan janji cuan.",
             "Pecahan kecilnya disebut satoshi (sepersejuta BTC). Wei pecahan ETH, jangan ketuker.",
@@ -948,7 +948,7 @@ export const CORE_UNITS: Unit[] = [
             "Wallet kamu rusak",
           ],
           0,
-          "Volatilitas bukan bug di mata pasar — tapi bisa jadi luka di dompet.",
+          "Volatilitas bukan bug di mata pasar, tapi bisa jadi luka di dompet.",
         ),
       ]),
       L("u3", "u3-l2", "lesson", "Ethereum", "Komputer dunia, bukan cuma koin.", "hexagon", [
@@ -959,7 +959,7 @@ export const CORE_UNITS: Unit[] = [
             "Gas naik saat jaringan ramai, turun saat sepi. Transaksi gagal sering tetap kepotong gas soalnya kerja udah dilakuin.",
             "Orang pindah ke L2 atau rantai lain biasanya karena ongkos dan kecepatan, bukan karena ETH 'nggak bisa ditransfer'.",
           ],
-          example: "DeFi, NFT, game on-chain, DAO — banyak yang hidup di ekosistem Ethereum. ETH bahan bakarnya.",
+          example: "DeFi, NFT, game on-chain, DAO, semuanya hidup di ekosistem Ethereum. ETH bahan bakarnya.",
           remember: "BTC simpan nilai. ETH jalankan program. Umurnya panjang, ceritanya belok-belok.",
         }),
         c(
@@ -1009,7 +1009,7 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u3", "u3-l5", "lesson", "Sejarah Ethereum", "Dari whitepaper ke Merge. Bukan cuma koin.", "book", [
-        tip("u3l5t", "ETH punya umur, bukan turun dari langit", "Vitalik Buterin nulis gagasan Ethereum akhir 2013. Intinya: blockchain yang bisa jalanin program, bukan cuma kirim koin. 2014 orang beli ETH di presale. 30 Juli 2015 jaringan Frontier hidup. Sejak itu ceritanya penuh belokan — fork, mania, DeFi, trus ganti mesin.", {
+        tip("u3l5t", "ETH punya umur, bukan turun dari langit", "Vitalik Buterin nulis gagasan Ethereum akhir 2013. Intinya: blockchain yang bisa jalanin program, bukan cuma kirim koin. 2014 orang beli ETH di presale. 30 Juli 2015 jaringan Frontier hidup. Sejak itu perjalanannya penuh dinamika, mulai dari fork, mania ICO, DeFi, sampai migrasi konsensus.", {
           points: [
             "2015 Frontier: komputer dunia nyala. Masih kasar, masih ditambang (PoW).",
             "2016 The DAO di-hack puluhan juta dolar. Komunitas belah: mayoritas rollback (Ethereum yang kamu kenal), yang nolak jadi Ethereum Classic (ETC).",
@@ -1024,7 +1024,7 @@ export const CORE_UNITS: Unit[] = [
           "u3l5q1",
           "Ethereum lahir dari gagasan siapa, kira-kira?",
           [
-            "Vitalik Buterin, whitepaper sekitar 2013–2014",
+            "Vitalik Buterin, whitepaper sekitar 2013-2014",
             "Satoshi Nakamoto, 2009",
             "Elon Musk, 2021",
             "Bank Indonesia, 2020",
@@ -1087,10 +1087,10 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u3", "u3-l3", "lesson", "Stablecoin & altcoin", "Yang 'stabil', yang spekulasi.", "coins", [
-        tip("u3l3t", "Yang ikut dolar, yang ikut hype", "Nggak semua koin kerjanya sama. Stablecoin didesain ngikutin aset lain — biasanya dolar AS. Altcoin, kasarnya, kripto selain Bitcoin. Meme coin ada di ujung spekulasi.", {
+        tip("u3l3t", "Yang ikut dolar, yang ikut hype", "Nggak semua koin kerjanya sama. Stablecoin didesain ngikutin aset lain, umumnya dolar AS. Altcoin, kasarnya, kripto selain Bitcoin. Meme coin ada di ujung spekulasi.", {
           points: [
             "USDT dan USDC yang paling sering kelihatan di exchange Indonesia. Ngikutin USD, bukan njamin kaya.",
-            "Stablecoin lebih tenang dari meme coin — tetap ada risiko penerbit, depeg (lepas dari patokan), dan salah jaringan.",
+            "Stablecoin lebih tenang dari meme coin, tapi tetap ada risiko penerbit, depeg (lepas patokan), dan salah jaringan.",
             "Ribuan altcoin. Mayoritas sepi, spekulatif, atau mati. Logo keren nggak sama dengan kualitas.",
             "Sikap dewasa: riset, pahami gunanya, siap kehilangan. Bukan all-in karena grup signal.",
           ],
@@ -1113,7 +1113,7 @@ export const CORE_UNITS: Unit[] = [
           "u3l3q2",
           "Stablecoin 100% tanpa risiko, setara uang tunai di bawah bantal.",
           false,
-          "Ada risiko penerbit, depeg, dan salah jaringan. Lebih tenang daripada meme coin — bukan nol risiko.",
+          "Ada risiko penerbit, depeg, dan salah jaringan. Lebih tenang daripada meme coin, tapi bukan nol risiko.",
         ),
         c(
           "u3l3q3",
@@ -1155,7 +1155,7 @@ export const CORE_UNITS: Unit[] = [
         tip("u3l4t", "Punya rumah sendiri, atau numpang", "Kasarnya: coin punya blockchain sendiri (BTC, ETH, SOL). Token numpang di rantai yang udah ada. Di Ethereum, token biasa ngikutin standar ERC-20. NFT ngikutin ERC-721.", {
           points: [
             "Bikin token itu gampang. Bikin yang berguna dan jujur itu yang susah.",
-            "Launch token dalam 2 menit itu mungkin — justru alasan buat lebih curiga, bukan lebih FOMO.",
+            "Launch token dalam 2 menit itu sangat mungkin, justru jadi alasan buat lebih curiga, bukan makin FOMO.",
             "Cek kontrak, likuiditas, siapa di belakang, dan gunanya. Bukan cuma logo dan stiker Telegram.",
           ],
           example: "USDT di Ethereum itu token ERC-20 (numpang). ETH itu coin native rantai itu. Bedanya: satu numpang, satu punya rumah.",
@@ -1266,7 +1266,7 @@ export const CORE_UNITS: Unit[] = [
           "u4l1q1",
           "Token bisa jadi…",
           [
-            "Poin, tiket, kepemilikan, mata uang aplikasi — tergantung desainnya",
+            "Poin, tiket, kepemilikan, atau mata uang aplikasi, tergantung desainnya",
             "Cuma foto profil",
             "Cuma utang bank",
             "Cuma virus",
@@ -1279,7 +1279,7 @@ export const CORE_UNITS: Unit[] = [
           "u4l1q3",
           "Yang harus kamu cek sebelum beli token?",
           [
-            "Kontrak, likuiditas, siapa di belakang, utilitas — bukan cuma logo",
+            "Kontrak, likuiditas, siapa di belakang, dan utilitas, bukan cuma logo",
             "Warnanya gold nggak",
             "Namanya keren di TikTok nggak",
             "Grupnya ramai stiker nggak",
@@ -1313,7 +1313,7 @@ export const CORE_UNITS: Unit[] = [
             "Yang on-chain biasanya token + pointer ke metadata. File JPEG-nya sering di IPFS atau server, bukan 'semua pixel di dalam blok'.",
             "Beli NFT nggak otomatis ngasih hak cipta global. Itu tergantung lisensi.",
             "Standar populer: ERC-721 (unik), ERC-1155 (bisa multi-edisi). ERC-20 itu token biasa, bukan NFT.",
-            "Bisa dipakai tiket, identitas, item game, sertifikat — bukan cuma gambar profil.",
+            "Bisa dipakai untuk tiket, identitas, item game, atau sertifikat, bukan cuma gambar profil.",
           ],
           example: "Right-click save nyalin filenya. Token ID di rantai tetap milik alamatmu. Yang unik itu catatannya, bukan larangan screenshot.",
           remember: "Hype bisa hilang. Beli yang kamu paham dan rela pegang.",
@@ -1347,7 +1347,7 @@ export const CORE_UNITS: Unit[] = [
           "u4l2q4",
           "NFT bisa dipakai buat…",
           [
-            "Tiket, identitas on-chain, item game, sertifikat — bukan cuma PFP",
+            "Tiket, identitas on-chain, item game, atau sertifikat, bukan cuma PFP",
             "Mengganti listrik rumah",
             "Mencetak uang kertas",
             "Ngapus internet",
@@ -1369,7 +1369,7 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u4", "u4-l3", "lesson", "Baca marketplace", "Liat floor, volume, bukan cuma pinggiran.", "swap", [
-        tip("u4l3t", "Baca pasar, jangan baca fomo", "Marketplace NFT punya istilah yang kedengeran sakti. Artinya biasa aja — dan bisa dipalsuin.", {
+        tip("u4l3t", "Baca pasar, jangan baca fomo", "Marketplace NFT punya istilah yang kedengeran sakti. Padahal artinya biasa saja dan bisa dimanipulasi.", {
           points: [
             "Floor price = listing terendah saat ini. Bukan harga yang dijamin selamanya.",
             "Volume ramai tiba-tiba bisa wash trading (dagang sendiri biar kelihatan laris).",
@@ -1542,7 +1542,7 @@ export const CORE_UNITS: Unit[] = [
             "Pinjaman online dengan debt collector",
           ],
           0,
-          "Decentralized finance. Swap, pinjam, pool — semuanya kode.",
+          "Decentralized finance. Swap, pinjam, dan pool, semuanya murni kode.",
           "Kerasa sakti. Juga gampang salah klik.",
         ),
         tf("u5l1q2", "Protokol DeFi nggak bisa rusak atau di-hack.", false, "Kode bisa cacat. Audit ngebantu, bukan ramuan kebal."),
@@ -1586,7 +1586,7 @@ export const CORE_UNITS: Unit[] = [
             "Pool / LP: kamu taruh dua token, orang lain swap lewat situ, kamu dapet fee. Harga geser = bisa kalah vs hold (impermanent loss).",
             "Nggak ada CS. Salah jaringan, salah kontrak, salah izin: di kamu.",
           ],
-          example: "Teman taruh USDC di Aave, bunga dari peminjam. Bukan 4.000% banner. Teman lain minjem USDC pake agunan ETH — pas ETH jatuh, agunannya disikat.",
+          example: "Teman taruh USDC di Aave, bunga dari peminjam. Bukan 4.000% banner. Teman lain minjem USDC pakai agunan ETH, pas kurs ETH anjlok, agunannya dilikuidasi.",
           remember: "DeFi = mesin uang tanpa teller. Bunga ada sumbernya, atau itu umpan.",
         }),
         match(
@@ -1643,12 +1643,12 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u5", "u5-l7", "lesson", "Likuidasi DeFi", "Agunan disikat bot. Bukan CS bank.", "siren", [
-        tip("u5l7t", "Mesin likuidasi, pelan-pelan", "Kamu minjem di DeFi harus overcollateral: agunan lebih besar dari utang. Protokol ngecek health factor. Kalau harga agunan jatuh dan HF tembus di bawah 1, siapa pun — biasanya bot — boleh bayar utangmu, trus nyita agunan plus bonus. Nggak ada CS yang nahan. Nggak ada 'tunggu gajian'.", {
+        tip("u5l7t", "Mesin likuidasi, pelan-pelan", "Kamu minjem di DeFi harus overcollateral: agunan lebih besar dari utang. Protokol ngecek health factor. Kalau harga agunan jatuh dan HF tembus di bawah 1, siapa pun (biasanya bot) boleh bayar utangmu, lalu menyita agunan plus bonus. Nggak ada CS yang nahan. Nggak ada 'tunggu gajian'.", {
           points: [
             "Contoh kasar: agunan ETH $100, minjem USDC $70. LTV 70%. Masih ada bantal.",
             "Health factor ≈ (nilai agunan × ambang likuidasi) ÷ utang. Di atas 1 = aman. Mendekati 1 = bahaya. Di bawah 1 = boleh disikat.",
             "Harga dari oracle. Weekend, tipis, flash crash: oracle bisa ngejer harga jelek. HF anjlok tanpa kamu sempat nambah.",
-            "Liquidator bayar sebagian utang (sering ~50%), ambil agunan + bonus (sekitar 5–15% tergantung protokol). Bonus itu dari kamu. Itu denda.",
+            "Liquidator bayar sebagian utang (sering ~50%), ambil agunan + bonus (sekitar 5-15% tergantung protokol). Bonus itu dari kamu. Itu denda.",
             "Kalo jatuhnya kenceng, likuidasi beruntun (cascade). Kadang sisa utang (bad debt) kalo agunan nggak nutup.",
           ],
           example: "ETH $3.000, kamu max pinjam. ETH ke $2.200 semalam. HF < 1. Bot bayar USDC-mu, nyita ETH plus 5%. Kamu sisa utang lebih kecil, agunan ilang, plus denda. Bukan 'bank jahat'. Itu aturan yang kamu tanda tanganin.",
@@ -1727,9 +1727,9 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u5", "u5-l8", "lesson", "Flash loan", "Minjem gede, lunas di transaksi yang sama.", "zap", [
-        tip("u5l8t", "Utang yang hidup cuma satu detik", "Flash loan = minjem tanpa agunan, jumlahnya bisa gila, asal dilunasi plus biaya di transaksi yang sama. Kalau nggak lunas, seluruh transaksi dibatalkan — kayak nggak pernah terjadi. Pool Aave, Balancer, Uniswap pinjamin likuiditas yang lagi nganggur. Nggak ada KTP, nggak ada cicilan, nggak ada 'besok bayar'.", {
+        tip("u5l8t", "Utang yang hidup cuma satu detik", "Flash loan = minjem tanpa agunan, jumlahnya bisa gila, asal dilunasi plus biaya di transaksi yang sama. Kalau nggak lunas, seluruh transaksi otomatis dibatalkan seolah tidak pernah terjadi. Pool Aave, Balancer, Uniswap pinjamin likuiditas yang lagi nganggur. Nggak ada KTP, nggak ada cicilan, nggak ada 'besok bayar'.", {
           points: [
-            "Urutannya kaku: pinjam → kerjain sesuatu → kembalikan + fee (sering 0,05–0,09%). Satu transaksi, satu blok.",
+            "Urutannya kaku: pinjam → kerjain sesuatu → kembalikan + fee (sering 0,05-0,09%). Satu transaksi, satu blok.",
             "Atomic: lunas = sah. Gagal lunas = revert. Pemberi pinjaman nggak nanggung risiko semalam. Makanya bisa tanpa agunan.",
             "Dipakai waras: arbitrase harga antar DEX, ganti agunan, pindah utang ke protokol lain, likuidasi tanpa modal sendiri.",
             "Dipakai jahat: geser harga di pool tipis, tipu oracle spot, trus sikat protokol yang percaya harga itu. Udah pernah, berulang kali.",
@@ -1738,11 +1738,11 @@ export const CORE_UNITS: Unit[] = [
           example: "Bot pinjam 5 juta USDC, bayar utang orang, ambil ETH agunan + bonus, jual ETH, kembalikan 5 juta plus fee, sisa bonus masuk kantong. Modal awal bot: gas. Semua dalam satu transaksi.",
           remember: "Flash loan bukan hadiah. Utang yang wajib lunas sebelum transaksi selesai. Gagal = seolah nggak terjadi.",
         }),
-        tip("u5l8t2", "Bandingkan sama likuidasi lama", "Bank, bursa, DeFi biasa, DeFi plus flash loan — empat mesin, empat dunia. Yang berubah: siapa yang boleh nyita, butuh modal berapa, dan seminggu atau satu detik.", {
+        tip("u5l8t2", "Bandingkan sama likuidasi lama", "Bank, bursa, DeFi biasa, dan DeFi plus flash loan adalah empat sistem dengan mekanisme berbeda. Yang berubah: siapa yang boleh nyita, butuh modal berapa, dan seminggu atau satu detik.", {
           points: [
             "Bank / KPR: utang boleh undercollateral soalnya ada KTP, hukum, lelang rumah. Prosesnya minggu sampai bulan. Ada CS, kadang keringanan.",
             "Bursa (margin CEX): mesin bursa yang nyita. Modalnya buku bursa. Cepat, tapi kamu titip aset. Ada support, kadang insurance fund.",
-            "DeFi biasa: harus overcollateral. Siapa pun boleh likuidasi, asal punya duit buat bayar utang. Nggak ada CS. Kalau liquidator miskin, utang gendut bisa nunggu — risiko bad debt.",
+            "DeFi biasa: harus overcollateral. Siapa pun boleh likuidasi, asal punya duit buat bayar utang. Nggak ada CS. Kalau liquidator miskin, utang besar bisa menumpuk dan memicu risiko bad debt.",
             "DeFi + flash loan: modal liquidator hampir nol. Pinjam, nyita, jual, lunasin flash loan, ambil bonus. Kompetisi bot. Protokol lebih gampang tetep solvabel. Peminjam lebih gampang disikat pas crash.",
             "Intinya: hukum ngejar orang → bank berani undercollateral. Kode nggak bisa ngejar KTP → harus overcollateral + likuidasi terbuka. Flash loan ngebuat likuidasi itu nggak nunggu orang kaya.",
           ],
@@ -1835,7 +1835,7 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u5", "u5-l9", "lesson", "Oracle manipulation", "Tipu harga, sikat protokol, balikin.", "search", [
-        tip("u5l9t", "Oracle itu mulut yang ngomong harga", "Protokol pinjam, synthetics, vault, bahkan beberapa game — semuanya butuh angka: 'ETH berapa sekarang?'. Yang ngasih angka itu oracle. Kalau mulutnya gampang dibeli, isi brankasnya ikut kebuka. Serangan oracle manipulation = bikin protokol percaya harga palsu, trus ambil duit pake aturan protokol sendiri.", {
+        tip("u5l9t", "Oracle itu mulut yang ngomong harga", "Protokol pinjam, synthetics, vault, sampai game on-chain, semuanya butuh data harga: 'ETH berapa sekarang?'. Yang ngasih angka itu oracle. Kalau mulutnya gampang dibeli, isi brankasnya ikut kebuka. Serangan oracle manipulation = bikin protokol percaya harga palsu, trus ambil duit pake aturan protokol sendiri.", {
           points: [
             "Spot AMM: harga = cadangan pool saat ini (x·y=k). Pool tipis + swap gede = harga loncat. Paling gampang ditipu.",
             "TWAP: rata-rata beberapa blok. Lebih susah, tapi bisa kalo penyerang tahan harga palsu cukup lama (mahal).",
@@ -1933,15 +1933,15 @@ export const CORE_UNITS: Unit[] = [
         tip("u5l10t", "Arb itu tukang rapih, bukan sulap 100x", "DEX pake rumus. Uniswap v2 kasarnya x·y=k: makin banyak kamu beli ETH di pool, ETH di pool berkurang, harganya naik. Pool A bisa 2.000, pool B 2.010, CEX 2.004. Selisih itu makanan bot. Mereka beli di yang murah, jual di yang mahal, sampai selisihnya habis dimakan fee dan gas.", {
           points: [
             "Tanpa arb, AMM nyasar. Satu orang swap gede, harga pool copot dari dunia. Arb yang narik balik.",
-            "DEX–DEX: atomic. Flash loan → beli di A → jual di B → lunas. Kalau nggak cuan, revert. Bot coba ratusan kali.",
+            "DEX ke DEX: atomic. Flash loan → beli di A → jual di B → lunas. Kalau nggak cuan, revert. Bot coba ratusan kali.",
             "Segitiga: ETH→USDC→DAI→ETH di tiga pool. Putar, kalo putarannya plus, ambil. Masih satu transaksi.",
-            "CEX–DEX: nggak atomic. Perlu saldo di bursa dan di rantai. Ada risiko: harga CEX geser sebelum on-chain kelar. Modal nyata, bukan cuma gas.",
+            "CEX ke DEX: tidak atomic. Perlu saldo di bursa dan di rantai. Ada risiko: harga CEX geser sebelum on-chain kelar. Modal nyata, bukan cuma gas.",
             "Untung arb = spread − fee pool − gas − fee flash loan − slippage. Kecil, sering, bot yang ngejar. Bukan gaji orang iseng di HP.",
           ],
           example: "ETH 2.000 di Uni, 2.012 di Sushi. Bot pinjam USDC, beli 50 ETH di Uni, jual di Sushi, lunasin, sisa $400. Harga dua pool sekarang deket. Kamu yang swap 50 ETH tanpa pecah order: kamu yang bayar selisih itu lewat slippage.",
           remember: "Arb nyamain harga. Kamu yang swap gede tanpa pecah = yang bayar pesta bot.",
         }),
-        tip("u5l10t2", "Arb, sandwich, oracle — jangan ketuker", "Tiga bot, tiga niat. Keliatannya semua 'jual-beli cepet'. Isinya beda.", {
+        tip("u5l10t2", "Arb, sandwich, dan oracle: jangan tertukar", "Tiga bot, tiga niat. Keliatannya semua 'jual-beli cepet'. Isinya beda.", {
           points: [
             "Arbitrase: dua tempat atau lebih, harga udah beda. Bot nyamain. Nggak nyenggol tx kamu secara pribadi. Malah bikin harga pool waras.",
             "Sandwich (MEV): bot liat tx kamu di antrian, beli dulu di pool yang sama, kamu keisi mahal, mereka jual. Pajak tersembunyi buat kamu.",
@@ -1972,7 +1972,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l10q3",
-          "Kenapa DEX–DEX arb bisa tanpa modal gede?",
+          "Kenapa arbitrase DEX ke DEX bisa tanpa modal besar?",
           [
             "Flash loan: pinjam, putar, lunas di transaksi yang sama. Nggak cuan = revert",
             "LPS nanggung",
@@ -1980,7 +1980,7 @@ export const CORE_UNITS: Unit[] = [
             "Gas 0 selalu",
           ],
           0,
-          "Atomic. CEX–DEX nggak gitu: perlu saldo di dua dunia, ada risiko jeda.",
+          "Atomic. CEX ke DEX berbeda: butuh saldo di dua tempat dan ada risiko jeda waktu.",
         ),
         match(
           "u5l10q4",
@@ -2006,7 +2006,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l10q6",
-          "CEX–DEX arb lebih ribet soalnya…",
+          "Arbitrase CEX ke DEX lebih menantang karena…",
           [
             "Nggak atomic: harga bursa bisa geser sebelum tx rantai kelar",
             "Flash loan di Binance 24 jam",
@@ -2090,7 +2090,7 @@ export const CORE_UNITS: Unit[] = [
             "Ramai jaringan = gas mahal. Sepi = murah.",
             "Transaksi gagal sering tetap kepotong gas, soalnya kerja udah dilakuin.",
             "Di Ethereum, harga gas sering dihitung dalam gwei (pecahan ETH).",
-            "Pending lama biasanya gas terlalu rendah atau jaringan ramai — bukan HP rusak. Jangan spam 10 kali.",
+            "Pending lama biasanya karena gas terlalu rendah atau jaringan padat, bukan karena HP rusak. Jangan spam 10 kali.",
           ],
           example: "Mau lebih murah di ekosistem Ethereum? Banyak orang pakai L2 (Arbitrum, Base, Optimism) atau nunggu jam sepi.",
           remember: "Gas = ongkos jaringan. Cek dulu, baru kirim.",
@@ -2131,7 +2131,7 @@ export const CORE_UNITS: Unit[] = [
           "u5l3q5",
           "Transaksi 'pending' lama biasanya…",
           [
-            "Gas terlalu rendah atau jaringan ramai — bukan HP-mu rusak",
+            "Gas terlalu rendah atau jaringan padat, bukan karena HP rusak",
             "Karena nama kamu salah",
             "Karena web3min tidur",
             "Karena NFT marah",
@@ -2149,7 +2149,7 @@ export const CORE_UNITS: Unit[] = [
             "Sebelum bridge: cek jaringan tujuan, lalu kirim nominal kecil dulu.",
             "L2 lebih ramah, bukan kebal scam.",
           ],
-          example: "ETH di Ethereum (L1) vs ETH di Arbitrum (L2) bisa kelihatan 'sama' di wallet — jaringannya beda. Pilih network yang bener.",
+          example: "ETH di Ethereum (L1) vs ETH di Arbitrum (L2) bisa kelihatan 'sama' di wallet, padahal jaringannya berbeda. Selalu pilih network yang benar.",
           remember: "L1 = kota. L2 = jalan tol. Bridge = pindah kota.",
         }),
         c(
@@ -2289,7 +2289,7 @@ export const CORE_UNITS: Unit[] = [
       L("u6", "u6-l1", "lesson", "Phishing", "Situs palsu, link manis.", "shield", [
         tip("u6l1t", "Phishing: niru yang resmi", "Unit ini yang paling mahal kalau dilesetin. Teknologi nggak nolong kalau kamu pencet Connect di tempat yang salah. Phishing = situs, DM, atau iklan yang niru merek resmi supaya kamu connect wallet atau ngetik seed.", {
           points: [
-            "Bookmark situs resmi. Jangan andalin iklan pencarian Google/X — sering tiruan.",
+            "Bookmark situs resmi. Jangan mengandalkan tautan iklan di mesin pencari atau medsos karena sering kali jebakan tiruan.",
             "Domain hampir sama (tanda hubung, huruf hilang, .help) = red flag.",
             "Pop-up 'permit' atau 'set approval for all' yang nggak kamu inisiasi: baca, lalu tolak.",
             "Support resmi nggak nyapa di DM dan minta seed.",
@@ -2314,7 +2314,7 @@ export const CORE_UNITS: Unit[] = [
           "u6l1q2",
           "Domain yang hampir sama (metamask-login.help) bisa jadi jebakan.",
           true,
-          "Huruf hilang, tanda hubung, TLD aneh — red flag.",
+          "Huruf tipis yang hilang, tanda hubung mencurigakan, atau domain asing adalah red flag.",
         ),
         c(
           "u6l1q3",
@@ -2401,7 +2401,7 @@ export const CORE_UNITS: Unit[] = [
           points: [
             "Likuiditas pool = kolam token tempat orang swap. Kalau dikosongin, harga bisa ke nol.",
             "Janji 'masuk sekarang, 100x malam ini, grup VIP' = pola pump-and-dump / rug.",
-            "Likuiditas terkunci dan tim transparan ngurangin risiko — bukan ngapus.",
+            "Likuiditas terkunci dan tim transparan memang mengurangi risiko, tapi bukan berarti menghilangkannya sama sekali.",
             "Koin baru di timeline: abaikan dulu. Kalau perlu, dana yang siap hilang. Jangan all-in gaji.",
           ],
           example: "Token baru, chart hijau, grup ramai, 10 menit kemudian pool dikosongin. Itu rugpull, bukan 'koreksi sehat'.",

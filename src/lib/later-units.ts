@@ -10,9 +10,9 @@ export const LATER_UNITS: Unit[] = [
     color: "blue",
     lessons: [
       L("u14", "u14-l1", "lesson", "Apa itu L2", "Di atas Ethereum, bukan saingan random.", "layers", [
-        tip("u14l1t", "L2 itu jalur cepet di atas L1.", "Ethereum (L1) aman tapi gas bisa mahal. Layer 2 (Arbitrum, Base, Optimism, zkSync) nampung banyak tx, trus 'setor PR' ke L1. Kamu tetep di ekosistem ETH — cuma lapisannya beda. Bukan alasan kirim ke alamat rantai lain.", {
+        tip("u14l1t", "L2 itu jalur cepet di atas L1.", "Ethereum (L1) aman tapi gas bisa mahal. Layer 2 (Arbitrum, Base, Optimism, zkSync) nampung banyak tx, trus 'setor PR' ke L1. Kamu tetap berada di ekosistem Ethereum dengan biaya transaksi yang jauh lebih terjangkau.", {
           points: [
-            "L2 inherit keamanan L1 — seberapa kuat tergantung jenis rollup.",
+            "Layer 2 mewarisi keamanan Layer 1 berdasarkan mekanisme rollup yang digunakan.",
             "Saldo di Base ≠ saldo di Arbitrum. Alamatnya bisa sama, jaringannya nggak.",
             "Explorer L2 (basescan, arbiscan) beda sama etherscan. Cek jaringannya.",
           ],
@@ -24,7 +24,7 @@ export const LATER_UNITS: Unit[] = [
         blank("u14l1q3", "Jaringan dasar Ethereum disebut ___.", ["L1", "CEX", "P2P", "NFT"], 0, "L1."),
         c("u14l1q4", "Sebelum transfer, yang wajib dicek…", ["Jaringan + token + alamat", "PFP penerima", "Jumlah like", "Warna candle"], 0, "Tiga-tiganya."),
       ]),
-      L("u14", "u14-l2", "lesson", "Bridge", "Kunci di sini, cetak di sana — atau jebakan.", "link", [
+      L("u14", "u14-l2", "lesson", "Bridge", "Mekanisme transfer antarjaringan dan mitigasi risikonya.", "link", [
         tip("u14l2t", "Jembatan resmi vs jembatan umpan.", "Bridge: aset dikunci/dibakar di rantai A, dicetak di rantai B. Yang palsu: situs mirip, kontrak drain. Bookmark bridge resmi (portal rantai / docs). Jangan dari iklan atau DM 'support'.", {
           points: [
             "Waktu bridge bisa menit sampe jam. 'Instan + bonus 20%' aneh.",
@@ -55,7 +55,7 @@ export const LATER_UNITS: Unit[] = [
       ]),
       L("u14", "u14-chest", "chest", "Peti unit 14", "Jembatan yang kamu cek.", "gift", [], { xp: 0, gems: 22 }),
       L("u14", "u14-l4", "lesson", "Gas L2", "Murah bukan gratis, dan bisa nyangkut.", "fuel", [
-        tip("u14l4t", "Gas native beda tiap L2.", "Base/Arbitrum butuh ETH di jaringan itu — bukan ETH mainnet di dompet yang sama. Tanpa gas native, token 'terkunci kelihatan' tapi nggak bisa dipindah. Isi gas dulu, baru eksperimen.", {
+        tip("u14l4t", "Gas native beda tiap L2.", "Jaringan seperti Base atau Arbitrum memerlukan ETH yang berada langsung di jaringan tersebut untuk membayar gas fee. Pastikan saldo gas native sudah tersedia sebelum berinteraksi.", {
           points: [
             "Punya token tanpa gas = macet.",
             "Gas spike L2 jarang sebrutal L1, tapi tetep ada saat ramai.",
@@ -108,7 +108,7 @@ export const LATER_UNITS: Unit[] = [
           points: [
             "Biaya farm (gas, waktu, modal tes) bisa lebih gede dari hadiah.",
             "Akun yang polanya identik gampang kedetect.",
-            "Jangan beli 'jasa sybil' — sering scam di atas scam.",
+            "Hindari membeli jasa sybil karena berisiko tinggi penipuan dan blacklist.",
           ],
           example: "20 wallet, 1 jumlah swap, 1 menit berselang. Diskualifikasi massal.",
           remember: "Pake beneran, jangan tebar palsu.",
@@ -135,7 +135,7 @@ export const LATER_UNITS: Unit[] = [
       ]),
       L("u15", "u15-chest", "chest", "Peti unit 15", "Yang nggak transfer dulu.", "gift", [], { xp: 0, gems: 22 }),
       L("u15", "u15-l4", "lesson", "Poin bukan gaji", "Musim farm bisa rugi.", "coins", [
-        tip("u15l4t", "Points season = lotre berbayar.", "Kamu bayar gas dan waktu. Hadiah bisa kecil, bisa nol, bisa kena sybil. Hitung biaya. Kalo 'poin' dijual di grup, itu pasar spekulasi — bisa rugi sebelum token ada.", {
+        tip("u15l4t", "Points season = lotre berbayar.", "Kamu bayar gas dan waktu. Hadiah bisa kecil, bisa nol, bisa kena sybil. Hitung biaya. Perhitungkan biaya dengan cermat karena alokasi akhir belum pasti. Jangan mudah tergiur membeli poin di pasar tidak resmi.", {
           points: [
             "Jangan utang buat farm.",
             "Jangan korbankan keamanan (seed di VPS abal) demi poin.",
@@ -169,7 +169,7 @@ export const LATER_UNITS: Unit[] = [
     color: "gold",
     lessons: [
       L("u16", "u16-l1", "lesson", "Tiga jenis", "Fiat, kripto, algoritma.", "coins", [
-        tip("u16l1t", "Stable bukan sihir.", "USDT/USDC: klaim di-back aset (fiat, surat utang) — kamu percaya penerbit dan bank. DAI/sejenis: lebih on-chain, tetep ada risiko jaminan. Algoritmik (UST dulu): janji peg tanpa kas yang cukup — udah meledak.", {
+        tip("u16l1t", "Stable bukan sihir.", "Stablecoin terpusat seperti USDT dan USDC didukung oleh cadangan aset riil. Stablecoin terdesentralisasi seperti DAI menggunakan jaminan smart contract. Pahami risiko masing-masing model sebelum menyimpan dana.", {
           points: [
             "Penerbit bisa beku alamat (USDT/USDC).",
             "Depeg = harga lepas dari $1. Bisa sebentar, bisa mati.",
@@ -191,7 +191,7 @@ export const LATER_UNITS: Unit[] = [
           points: [
             "Spread di CEX vs DEX bisa beda saat kacau.",
             "Likuiditas hilang saat paling dibutuhkan.",
-            "Parkir darurat: pecah ke beberapa stable / fiat off-ramp — bukan ke memecoin.",
+            "Langkah diversifikasi darurat: sebar ke beberapa stablecoin atau tarik ke fiat resmi.",
           ],
           example: "APY 20% di UST 'aman'. Pecah. Yang lari telat dapet sisa.",
           remember: "Bunga gila di stable = umpan.",
@@ -206,7 +206,7 @@ export const LATER_UNITS: Unit[] = [
           points: [
             "Jangan gaji setahun di satu USDT di satu CEX.",
             "USDC/USDT bisa beda likuiditas di L2 tertentu.",
-            "Yield stable 2–8% dari fee pinjam lebih masuk akal daripada 2% per hari.",
+            "Imbal hasil wajar stablecoin sekitar 2-8% per tahun dari bunga pinjaman riil.",
           ],
           example: "Resto parkir omset seminggu di USDT. CEX ditahan. Operasional macet.",
           remember: "Uang hidup ≠ eksperimen.",
@@ -217,7 +217,7 @@ export const LATER_UNITS: Unit[] = [
       ]),
       L("u16", "u16-chest", "chest", "Peti unit 16", "Janji $1 yang kamu curigai.", "gift", [], { xp: 0, gems: 22 }),
       L("u16", "u16-l4", "lesson", "Frozen & blacklist", "Penerbit punya tombol.", "lock", [
-        tip("u16l4t", "Bukan bank sentral, tapi bisa beku.", "USDT/USDC punya fungsi blacklist. Alamat kena sanksi / hack sering dibekukan. Itu fitur penerbit, bukan bug. Kalo kamu butuh sensor-resistant, pahami konsekuensinya — bukan berarti 'pindah ke honeypot'.", {
+        tip("u16l4t", "Bukan bank sentral, tapi bisa beku.", "USDT/USDC punya fungsi blacklist. Alamat kena sanksi / hack sering dibekukan. Itu fitur penerbit, bukan bug. Ini merupakan bagian dari kepatuhan hukum penerbit terpusat.", {
           points: [
             "Self-custody nggak ngilangin blacklist token.",
             "Pilih alat sesuai tujuan: belanja sehari-hari vs resistance.",
@@ -322,7 +322,7 @@ export const LATER_UNITS: Unit[] = [
     id: "u18",
     index: 18,
     title: "Keamanan keras",
-    subtitle: "Hardware, multisig, simulasi — bukan semprot doa",
+    subtitle: "Hardware wallet, multisig, dan simulasi transaksi",
     color: "red",
     lessons: [
       L("u18", "u18-l1", "lesson", "Hardware wallet", "Kunci di kotak, bukan di HP.", "key", [
@@ -355,9 +355,9 @@ export const LATER_UNITS: Unit[] = [
         blank("u18l2q3", "Beberapa kunci harus setuju disebut ___.", ["multisig", "airdrop", "floor", "sybil"], 0, "Multisig."),
       ]),
       L("u18", "u18-l3", "lesson", "Simulasi tx", "Liat sebelum tanda tangan.", "map", [
-        tip("u18l3t", "Wallet modern bisa simulasi.", "Rabby/WalletGuard/tenderly nunjukin 'kamu bakal kirim X, izin Y'. Kalo simulasi gagal atau aneh — jangan maksa. Drainer dijual murah. Mereka andalin kamu buru-buru.", {
+        tip("u18l3t", "Wallet modern bisa simulasi.", "Rabby/WalletGuard/tenderly nunjukin 'kamu bakal kirim X, izin Y'. Gunakan fitur simulasi transaksi sebelum menyetujui interaksi. Jika hasil simulasi mencurigakan, segera batalkan transaksi.", {
           points: [
-            "Kalo UI janji mint, simulasi nunjukin transfer USDT — tolak.",
+            "Jika antarmuka menjanjikan mint gratis tetapi simulasi mendeteksi transfer aset, segera tolak.",
             "Blind sign di HP = gelap.",
             "Revoke berkala. Izin lama itu pintu lama.",
           ],
@@ -403,7 +403,7 @@ export const LATER_UNITS: Unit[] = [
     color: "green",
     lessons: [
       L("u19", "u19-l1", "lesson", "Label & jejak", "Nama di explorer bisa salah.", "map", [
-        tip("u19l1t", "Label itu petunjuk, bukan KTP.", "Etherscan/Arkham/Nansen nempel nama. Bisa bener, bisa ketinggalan, bisa tipuan. Tx kecil tes, funding dari mixer, pola hop — baca pola, jangan cuma badge 'smart money'.", {
+        tip("u19l1t", "Label itu petunjuk, bukan KTP.", "Etherscan/Arkham/Nansen nempel nama. Bisa bener, bisa ketinggalan, bisa tipuan. Selalu periksa riwayat transaksi, sumber pendanaan, dan alur pergerakan dana secara menyeluruh daripada sekadar mempercayai label 'smart money'.", {
           points: [
             "Satu entitas punya banyak alamat.",
             "Label 'Binance' di alamat hot wallet bukan jaminan tx berikutnya aman.",
@@ -433,7 +433,7 @@ export const LATER_UNITS: Unit[] = [
         c("u19l2q3", "Masuk abis wallet terkenal beli…", ["Kamu sering jadi exit", "Entry yang sama", "Gratis funding", "L1"], 0, "Exit mereka."),
       ]),
       L("u19", "u19-l3", "lesson", "Likuidasi & OI", "Peta darah di layar.", "siren", [
-        tip("u19l3t", "Heatmap likuidasi bukan sinyal beli.", "Kerumunan stop/likuidasi bisa jadi magnet harga. Bisa juga kamu yang tersedot. Paus $5 juta hangus seminggu, short $1 juta dilikuidasi abis flip — itu ukuran mereka. Bukan undangan 50x di HP.", {
+        tip("u19l3t", "Heatmap likuidasi bukan sinyal beli.", "Kerumunan stop/likuidasi bisa jadi magnet harga. Bisa juga kamu yang tersedot. Kepadatan level likuidasi sering menjadi target pergerakan likuiditas pasar. Jangan gunakan peta likuidasi sebagai acuan tunggal untuk membuka posisi berisiko tinggi.", {
           points: [
             "Open interest gede + funding ekstrem = pasar sesak, bukan 'pasti lanjut'.",
             "Likuidasi massal bisa squeeze, trus balik.",
@@ -452,7 +452,7 @@ export const LATER_UNITS: Unit[] = [
         tip("u19l4t", "Sandwich itu pajak tersembunyi.", "Bot liat tx kamu di mempool, beli dulu, kamu keisi mahal, mereka jual. Di L2 tertentu lebih ringan, nggak hilang. Slippage limit ketat, hindari koin sepi dengan ukuran gede, pertimbangkan RPC/private tx kalo udah mahir.", {
           points: [
             "Market buy memecoin sepi = umpan sandwich.",
-            "Limit price & slippage 0.5–1% di koin dalam; di meme, pikir ulang ukuran.",
+            "Atur limit order dan batas slippage 0.5-1% pada aset berlikuiditas tinggi untuk meminimalkan selisih harga.",
             "Kamu nggak 'kalah sama chart'. Kadang kalah sama antrian.",
           ],
           example: "Beli meme $500, keisi $620. Selisih masuk bot.",
@@ -481,7 +481,7 @@ export const LATER_UNITS: Unit[] = [
     color: "gold",
     lessons: [
       L("u20", "u20-l1", "lesson", "Banyak pintu", "Kerja, DeFi, DAO, konten. Chart cuma satu.", "globe", [
-        tip("u20l1t", "web3min peta, bukan kasino.", "Cuan web3 bisa dari gaji, bounty, grant, DeFi yang waras, konten, airdrop kecil, atau trading. Yang paling kelihatan di X itu yang terakhir — soalnya paling gampang dipost. Yang paling sering bayar tagihan: kerja + skill.", {
+        tip("u20l1t", "web3min peta, bukan kasino.", "Cuan web3 bisa dari gaji, bounty, grant, DeFi yang waras, konten, airdrop kecil, atau trading. Penghasilan di ekosistem Web3 bersumber dari keahlian nyata seperti pengembangan kode, desain, kepenulisan, riset, atau kontribusi komunitas, bukan spekulasi semata.", {
           points: [
             "Kerja: community, intern, engineer, desain, BD, support, riset. Remote ada. Bayar-dulu-baru-hire = umpan.",
             "DeFi: lend, borrow, pool. Bunga dari peminjam atau fee. Bukan 4.000% banner.",
@@ -509,7 +509,7 @@ export const LATER_UNITS: Unit[] = [
         ),
       ]),
       L("u20", "u20-l5", "lesson", "Kerja di web3", "Gaji, bounty, grant. Bukan bayar dulu.", "briefcase", [
-        tip("u20l5t", "Ada lowongan. Ada juga umpan.", "Proyek web3 butuh tangan: jaga Discord, nulis docs, desain, kode, riset, BD, support. Masuknya sering dari kontribusi dulu — bantu, kelihatan, trus ditawarin. Yang minta kamu transfer dulu biar 'di-onboard' = penipu.", {
+        tip("u20l5t", "Ada lowongan. Ada juga umpan.", "Proyek web3 butuh tangan: jaga Discord, nulis docs, desain, kode, riset, BD, support. Banyak proyek Web3 mencari kontributor yang aktif memberikan nilai tambah. Waspadai tawaran kerja yang meminta deposit dana di awal karena itu adalah modus penipuan.", {
           points: [
             "Peran yang sering ada: community, intern, developer, designer, researcher, BD, support, translator.",
             "Cara waras: portofolio, kontribusi publik, hackathon, bounty. Bukan 'kerja bayar 0,05 ETH dulu'.",
@@ -613,7 +613,7 @@ export const LATER_UNITS: Unit[] = [
             "Modal spekulasi: jumlah yang kamu ikhlas nol.",
             "Leverage itu utang tersembunyi meski tanpa rentenir.",
           ],
-          example: "Cicilan lunas dari gaji IRL meski porto nol — itu bantal. Tanpa bantal, jangan.",
+          example: "Kebutuhan hidup aman dari penghasilan utama, sehingga investasi kripto tidak mengganggu stabilitas finansial.",
           remember: "Hangus nggak boleh robohin hidup.",
           proofs: ["cuan-indo-lev", "rugi-roundtrip", "rugi-personal"],
         }),
@@ -638,7 +638,7 @@ export const LATER_UNITS: Unit[] = [
       ]),
       L("u20", "u20-chest", "chest", "Peti unit 20", "Peta hampir utuh.", "gift", [], { xp: 0, gems: 30 }),
       L("u20", "u20-l4", "lesson", "Kamu nyetir", "web3min nggak jamin cuan.", "flag", [
-        tip("u20l4t", "Habis 20 unit, kerjaan baru mulai.", "Kunci aman. Jaringan dicek. Umpan ditolak. Ukuran hidup. Journal jalan. Pintu cuan dipilih yang tahan. Aku peta. Kamu stir. Kalo terlalu indah — umpan.", {
+        tip("u20l4t", "Habis 20 unit, kerjaan baru mulai.", "Kunci aman. Jaringan dicek. Umpan ditolak. Ukuran hidup. Journal jalan. Pintu cuan dipilih yang tahan. Web3min adalah panduanmu, dan kamu yang memegang kendali penuh. Waspadai janji keuntungan yang tidak realistis.", {
           points: [
             "Ulang unit 2 dan 6 kalo udah lama nggak sentuh seed.",
             "Revoke izin. Update 2FA.",

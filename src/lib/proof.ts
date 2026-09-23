@@ -255,7 +255,7 @@ export const PROOFS: Proof[] = [
     src: "/proof/warn-seed.jpg",
     tone: "warn",
     value: "12 kata",
-    cap: "bukan chart — ini layar paling rawan",
+    cap: "Layar konfirmasi izin adalah titik paling krusial",
     via: "X · @gregwrites_yy",
   },
   {
@@ -518,7 +518,7 @@ export const PROOFS: Proof[] = [
     id: "drop-uni-gaji",
     src: "/proof/drop-uni-gaji.jpg",
     tone: "drop",
-    value: "$4 rb–$6 rb",
+    value: "$4 rb s.d. $6 rb",
     cap: "Uniswap, beberapa perintah swap. Bukan futures.",
     via: "X · @TMxCrypto",
   },
@@ -623,7 +623,7 @@ export const PROOFS: Proof[] = [
     src: "/proof/drop-top50.jpg",
     tone: "info",
     value: "Top 50 ATH",
-    cap: "UNI, ARB, JUP, HYPE, ENS. Hadiah, syarat, dan risiko — bukan chart.",
+    cap: "UNI, ARB, JUP, HYPE, ENS. UNI, ARB, JUP, HYPE, ENS: tinjau syarat alokasi dan risikonya.",
     via: "CryptoRank",
   },
   {

@@ -3,7 +3,6 @@ import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { CoachTour } from "@/components/coach";
 import { DeskRail } from "@/components/desk-rail";
-import { HomeDock } from "@/components/home-dock";
 import { PathMap } from "@/components/path-map";
 import { UNITS } from "@/lib/curriculum";
 
@@ -28,10 +27,7 @@ function Home() {
 
   return (
     <AppShell rail={<DeskRail />}>
-      <main className="space-y-4 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28">
-        <div className="hidden sm:block">
-          <HomeDock />
-        </div>
+      <main className="w-full relative">
         <PathMap units={UNITS} focusUnit={unitId} />
       </main>
       <CoachTour />

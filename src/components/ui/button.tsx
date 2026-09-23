@@ -15,11 +15,12 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 /**
- * Blok Rantai 3D Button (Duolingo Tactile Feedback + Apple Clean Optics)
- * - Primary: Pink-500 (#E8437F), 3D bottom shadow Pink-700 (#B01F62)
- * - Secondary: White paper (#FFFFFF), line border (#F3E3EA), 3D shadow Plum (#E5CFD9)
- * - Active: Sinks 4px downward, shadow flattens
- * - WCAG AA compliant contrast
+ * Arcade Candy "Gummy Button" (Duolingo 3D + Sweet Gloss Reflection)
+ * - 3px solid choco-900 border
+ * - Inset 3D shadow + bottom drop shadow 0 4px 0 #3B2218
+ * - Glossy white reflection strip on top
+ * - Active: sinks 4px downward, shadow flattens to 0
+ * - Font: Pixelify Sans (font-pixel)
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -52,50 +53,45 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizeClasses = {
-      sm: "h-9 px-3.5 text-xs rounded-sm gap-1.5",
-      md: "h-11 px-5 text-sm rounded-md gap-2",
-      lg: "h-13 px-6 text-base rounded-lg gap-2.5",
+      sm: "h-9 px-3 text-xs rounded-[10px] gap-1.5",
+      md: "h-11 px-5 text-sm sm:text-base rounded-[14px] gap-2",
+      lg: "h-13 px-6 text-base sm:text-lg rounded-[16px] gap-2.5",
     }[size];
 
     const variantClasses = {
       primary: cn(
-        "bg-primary text-white border-2 border-primary-shadow",
-        "shadow-3d-primary",
-        "hover:bg-primary-hover hover:brightness-105",
-        "active:translate-y-[4px] active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",
-        "disabled:bg-line disabled:text-ink-300 disabled:border-transparent disabled:shadow-none disabled:cursor-not-allowed"
+        "btn-gummy",
+        "bg-candy-500 text-white border-[3px] border-choco-900",
+        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_var(--color-candy-700)]",
+        "hover:brightness-105 active:translate-y-1 active:shadow-none",
+        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-candy-300"
       ),
       secondary: cn(
-        "bg-paper text-ink-900 border-2 border-line",
-        "shadow-3d-secondary",
-        "hover:bg-canvas hover:border-line-strong",
-        "active:translate-y-[4px] active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",
-        "disabled:bg-line disabled:text-ink-300 disabled:border-transparent disabled:shadow-none disabled:cursor-not-allowed"
+        "btn-gummy btn-gummy--secondary",
+        "bg-cream text-candy-600 border-[3px] border-choco-900",
+        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_var(--color-candy-100)]",
+        "hover:brightness-105 active:translate-y-1 active:shadow-none",
+        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-candy-300"
       ),
       danger: cn(
-        "bg-danger text-white border-2 border-danger-shadow",
-        "shadow-[0_4px_0_var(--color-danger-shadow)]",
-        "hover:brightness-105",
-        "active:translate-y-[4px] active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-danger",
-        "disabled:bg-line disabled:text-ink-300 disabled:border-transparent disabled:shadow-none"
+        "btn-gummy btn-gummy--danger",
+        "bg-danger text-white border-[3px] border-choco-900",
+        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_#991B1B]",
+        "hover:brightness-105 active:translate-y-1 active:shadow-none",
+        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-danger"
       ),
       coin: cn(
-        "bg-coin text-ink-900 border-2 border-coin-shadow",
-        "shadow-[0_4px_0_var(--color-coin-shadow)]",
-        "hover:brightness-105",
-        "active:translate-y-[4px] active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-coin",
-        "disabled:bg-line disabled:text-ink-300 disabled:border-transparent disabled:shadow-none"
+        "btn-gummy",
+        "bg-lemon text-choco-900 border-[3px] border-choco-900",
+        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_var(--color-lemon-deep)]",
+        "hover:brightness-105 active:translate-y-1 active:shadow-none",
+        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-lemon"
       ),
       ghost: cn(
-        "bg-transparent text-ink-700 border-2 border-transparent",
-        "hover:bg-primary-soft hover:text-ink-900",
-        "active:translate-y-[2px]",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",
-        "disabled:text-ink-300 disabled:cursor-not-allowed"
+        "relative inline-flex items-center justify-center font-pixel font-bold text-choco-600",
+        "hover:bg-candy-100 hover:text-choco-900 rounded-[12px] p-2",
+        "active:translate-y-0.5",
+        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-candy-300"
       ),
     }[variant];
 
@@ -106,11 +102,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         onClick={handleClick}
         className={cn(
-          "inline-flex items-center justify-center font-sans font-extrabold tracking-wide select-none cursor-pointer",
-          "transition-[transform,box-shadow,background-color] duration-90",
+          "font-pixel font-bold tracking-wide select-none cursor-pointer transition-all duration-75",
+          wide && "w-full",
           sizeClasses,
           variantClasses,
-          wide && "w-full",
+          disabled && "opacity-75 cursor-not-allowed",
           className
         )}
         {...rest}
@@ -124,3 +120,4 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = "Button";
+export default Button;

@@ -1,0 +1,44 @@
+import React from "react";
+import { cn } from "@/lib/utils";
+
+export interface SectionTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  title: string;
+  subtitle?: string;
+  action?: React.ReactNode;
+}
+
+/**
+ * SectionTitle Component
+ * - Pixel font (Pixelify Sans)
+ * - Uppercase tracking
+ * - Prefix "▶️" in pink candy
+ */
+export const SectionTitle: React.FC<SectionTitleProps> = ({
+  title,
+  subtitle,
+  action,
+  className,
+  ...rest
+}) => {
+  return (
+    <div className={cn("flex items-center justify-between gap-3 mb-3", className)}>
+      <div className="flex flex-col">
+        <h3
+          className="font-pixel text-lg sm:text-xl font-bold uppercase tracking-wider text-choco-900 flex items-center gap-2"
+          {...rest}
+        >
+          <span className="text-candy-500 text-sm sm:text-base select-none">▶️</span>
+          <span>{title}</span>
+        </h3>
+        {subtitle && (
+          <p className="font-sans text-xs font-bold text-choco-600 ml-6">
+            {subtitle}
+          </p>
+        )}
+      </div>
+      {action && <div>{action}</div>}
+    </div>
+  );
+};
+
+export default SectionTitle;

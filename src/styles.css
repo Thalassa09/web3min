@@ -1,144 +1,80 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@600;700&family=Nunito:wght@600;700;800;900&display=swap");
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   DESIGN SYSTEM — web3min "Blok Rantai" Design System
-   Conforming Specs: Nunito + JetBrains Mono, Pink Candy (#F26A99/#E8437F),
-   Neutral Plum (#2B1622), 4px Spacing Grid, Tactile 3D Controls
+   MASTER DESIGN SYSTEM — web3min: "Arcade Candy"
+   Conforming Specs: Nunito + Pixelify Sans, Candy Scale (#F26A99/#E8437F),
+   Warm Choco (#3B2218), Cream (#FFF6EE), Lemon (#FFD84D), Mint (#6FE3C1),
+   Grape (#9B6BFF), Streak (#FF8A3D), Gummy 3D Buttons & CandyBox DNA
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Fonts — Strict 2-font system (Nunito + JetBrains Mono) */
-  --font-display: "Nunito", system-ui, -apple-system, sans-serif;
-  --font-sans: "Nunito", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  /* Fonts — Strict 2-font system (Nunito + Pixelify Sans) */
+  --font-sans: "Nunito", ui-rounded, system-ui, sans-serif;
+  --font-pixel: "Pixelify Sans", monospace;
+  --font-display: "Pixelify Sans", monospace;
+  --font-mono: "Pixelify Sans", monospace;
 
-  /* Border Radii (Strict: sm 10px, md 14px, lg 20px, xl 28px, 2xl 32px, pill 9999px) */
+  /* Border Radii (sm 10px, md 14px, lg 22px, xl 28px, 2xl 32px, pill 9999px) */
   --radius-sm: 10px;
   --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-lg: 22px;
   --radius-xl: 28px;
   --radius-2xl: 32px;
   --radius-pill: 9999px;
 
-  /* Pink Candy Scale — The SOLE Action Color System */
-  --color-pink-50: #FFF4F8;
-  --color-pink-100: #FFE3EC;
-  --color-pink-200: #FFC7DA;
-  --color-pink-300: #FFA3C2;
-  --color-pink-400: #F26A99; /* brand & mascot */
-  --color-pink-500: #E8437F; /* tombol / primary button */
-  --color-pink-600: #D62A78; /* link / active interactive */
-  --color-pink-700: #B01F62; /* bayangan 3D solid */
-  --color-pink-800: #85174A;
+  /* Pink Candy Scale */
+  --color-candy-50: #FFF4F8;
+  --color-candy-100: #FFE3EC;
+  --color-candy-200: #FFC7DA;
+  --color-candy-300: #FFA3C2;
+  --color-candy-400: #F26A99; /* brand */
+  --color-candy-500: #E8437F; /* tombol */
+  --color-candy-600: #D62A78; /* link */
+  --color-candy-700: #B01F62; /* bayangan dalam */
+  --color-candy-800: #85174A;
 
-  /* Primary Action Tokens */
+  /* Choco & Cream neutrals */
+  --color-choco-900: #3B2218; /* teks & garis & bayangan */
+  --color-choco-600: #6B4A3A; /* teks sekunder */
+  --color-cream: #FFF6EE;     /* latar & isi box */
+
+  /* Functional Accents */
+  --color-mint: #6FE3C1;
+  --color-mint-deep: #1E9E78;   /* benar / diperbaiki */
+  --color-lemon: #FFD84D;
+  --color-lemon-deep: #D9A400;  /* KHUSUS koin, XP, medali */
+  --color-grape: #9B6BFF;
+  --color-grape-deep: #5B2FB8;  /* glitch, bahaya, Zona Boss */
+  --color-streak: #FF8A3D;      /* KHUSUS streak/combo */
+  --color-danger: #E5484D;      /* jawaban salah */
+
+  /* Backward Compatibility Aliases */
+  --color-canvas: #FFF6EE;
+  --color-paper: #FFF6EE;
+  --color-ink-900: #3B2218;
+  --color-ink-700: #6B4A3A;
+  --color-ink-500: #6B4A3A;
+  --color-ink-300: #9C7A68;
+  --color-ink-100: #F2E4D8;
+  --color-line: #3B2218;
+  --color-line-strong: #3B2218;
+  --color-coin: #FFD84D;
+  --color-coin-shadow: #D9A400;
+  --color-flame: #FF8A3D;
   --color-primary: #E8437F;
-  --color-primary-shadow: #B01F62;
+  --color-primary-shadow: #3B2218;
   --color-primary-hover: #D62A78;
   --color-primary-soft: #FFE3EC;
-  --color-primary-deep: #B01F62;
-  --color-primary-ink: #FFFFFF;
   --color-brand: #F26A99;
 
-  /* Blobi & Candy Aliases */
-  --color-blobi: #F26A99;
-  --color-blobi-shadow: #B01F62;
-  --color-blobi-soft: #FFE3EC;
-  --color-candy: #F26A99;
-  --color-candy-deep: #D62A78;
-  --color-candy-soft: #FFE3EC;
-  --color-candy-edge: #B01F62;
-  --color-candy-line: #FFA3C2;
-
-  /* Neutral Plum Scale — Canvas, Paper, Lines, Ink */
-  --color-canvas: #FFF9FB;
-  --color-paper: #FFFFFF;
-  --color-cream: #FFF4F8;
-  --color-sand: #FFE3EC;
-
-  --color-line: #F3E3EA;
-  --color-line-strong: #E5CFD9;
-  --color-line-ink: #2B1622;
-
-  --color-ink-900: #2B1622;
-  --color-ink-700: #4A283C;
-  --color-ink-500: #785368;
-  --color-ink-300: #AC8F9F;
-  --color-ink-100: #F3E3EA;
-
-  --color-bg: #FFF9FB;
-  --color-fg: #2B1622;
-  --color-muted: #785368;
-  --color-faint: #AC8F9F;
-
-  --color-border-subtle: #F3E3EA;
-  --color-border-bold: #E5CFD9;
-  --color-border-brand: #FFA3C2;
-  --color-border-brand-bold: #E8437F;
-  --color-border-focused: #E8437F;
-
-  /* Functional Accents (STRICTLY SCOPED) */
-  /* Coin/Star: ONLY for ★ and XP */
-  --color-coin: #FFC61A;
-  --color-coin-shadow: #D99400;
-  --color-gold: #FFC61A;
-  --color-gold-shadow: #D99400;
-
-  /* Flame/Streak: ONLY for streak */
-  --color-flame: #F2841F;
-  --color-flame-shadow: #C85200;
-  --color-streak: #F2841F;
-  --color-streak-shadow: #C85200;
-
-  /* Correct/Success: ONLY for right feedback */
-  --color-ok: #16A34A;
-  --color-ok-shadow: #15803D;
-  --color-ok-soft: #F0FDF4;
-  --color-leaf: #16A34A;
-  --color-leaf-shadow: #15803D;
-
-  /* Danger/Wrong: ONLY for wrong feedback & hearts */
-  --color-danger: #DC2626;
-  --color-danger-shadow: #991B1B;
-  --color-danger-soft: #FEF2F2;
-  --color-ruby: #DC2626;
-  --color-ruby-shadow: #991B1B;
-
-  /* Sky alias backward-compatibility mapped to clean plum/candy */
-  --color-sky: #E8437F;
-  --color-sky-shadow: #B01F62;
-  --color-sky-soft: #FFE3EC;
-  --color-sky-700: #4A283C;
-  --color-sky-600: #D62A78;
-  --color-sky-500: #E8437F;
-  --color-sky-400: #F26A99;
-  --color-sky-300: #FFA3C2;
-  --color-sky-200: #FFC7DA;
-  --color-sky-100: #FFE3EC;
-
-  /* Unit colors mapped to harmonious plum/candy accent tones */
-  --color-unit-green: #16A34A;
-  --color-unit-blue: #E8437F;
-  --color-unit-gold: #FFC61A;
-  --color-unit-purple: #9333EA;
-  --color-unit-teal: #0D9488;
-  --color-unit-red: #DC2626;
-
-  /* Tracking */
-  --tracking-label: 0.08em;
-  --tracking-hud: -0.01em;
-
-  /* 3D Solid Shadows */
-  --shadow-ink: 0 4px 0 #2B1622;
-  --shadow-ink-sm: 0 2px 0 #2B1622;
-  --shadow-ink-xs: 0 1px 0 #2B1622;
-  --shadow-3d-primary: 0 4px 0 #B01F62;
-  --shadow-3d-secondary: 0 4px 0 #E5CFD9;
-  --shadow-3d-card: 0 4px 0 #F3E3EA;
-  --shadow-card: 0 4px 0 #F3E3EA, 0 10px 24px -8px rgba(43, 22, 34, 0.06);
-  --shadow-press-1: 0 3px 0 #E5CFD9;
-  --shadow-press-2: 0 5px 0 #E5CFD9;
-  --shadow-apple-rim: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  /* 3D Box Shadows */
+  --shadow-candy: 0 6px 0 #3B2218;
+  --shadow-candy-hover: 0 9px 0 #3B2218;
+  --shadow-gummy: 0 4px 0 #3B2218, inset 0 -4px 0 #B01F62;
+  --shadow-ink: 0 6px 0 #3B2218;
+  --shadow-ink-sm: 0 3px 0 #3B2218;
+  --shadow-ink-xs: 0 2px 0 #3B2218;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -258,12 +194,158 @@ body {
   padding: 0;
   min-height: 100%;
   font-family: var(--font-sans);
-  background: #FFF9FB;
-  color: #2B1622;
+  background: var(--color-cream);
+  color: var(--color-choco-900);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   letter-spacing: -0.01em;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   DNA BOX (MANDATORY FOR ALL BOXES) & GUMMY 3D CONTROLS
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.candy-box {
+  position: relative;
+  background: var(--color-cream);
+  border: 3px solid var(--color-choco-900);
+  border-radius: 22px;
+  box-shadow: 0 6px 0 var(--color-choco-900);
+}
+.candy-box--hover {
+  transition: transform 0.12s steps(2), box-shadow 0.12s steps(2);
+}
+.candy-box--hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0 var(--color-choco-900);
+}
+.candy-box--pink {
+  background: var(--color-candy-400);
+  color: #fff;
+}
+.candy-box--dark {
+  background: var(--color-choco-900);
+  color: var(--color-lemon);
+}
+.candy-box--glitch {
+  background: #F3ECFF;
+  border-color: var(--color-grape-deep);
+  box-shadow: 0 6px 0 var(--color-grape-deep);
+}
+
+.btn-gummy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  color: #fff;
+  background: var(--color-candy-500);
+  border: 3px solid var(--color-choco-900);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--color-choco-900), inset 0 -4px 0 var(--color-candy-700);
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.06s, box-shadow 0.06s;
+  cursor: pointer;
+  user-select: none;
+}
+.btn-gummy::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  right: 40%;
+  height: 5px;
+  border-radius: 99px;
+  background: rgb(255 255 255 / 0.45);
+  pointer-events: none;
+}
+.btn-gummy:hover:not(:disabled) {
+  filter: brightness(1.04);
+}
+.btn-gummy:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-choco-900);
+}
+.btn-gummy:disabled {
+  background: #E9DCD4;
+  color: var(--color-choco-600);
+  cursor: not-allowed;
+  box-shadow: 0 2px 0 var(--color-choco-900);
+}
+.btn-gummy:disabled::after {
+  display: none;
+}
+
+.btn-gummy--secondary {
+  background: var(--color-cream);
+  color: var(--color-candy-600);
+  box-shadow: 0 4px 0 var(--color-choco-900), inset 0 -4px 0 var(--color-candy-100);
+}
+.btn-gummy--secondary::after {
+  background: rgb(255 255 255 / 0.65);
+}
+
+.btn-gummy--danger {
+  background: var(--color-danger);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--color-choco-900), inset 0 -4px 0 #991B1B;
+}
+
+.candy-stripe {
+  background: repeating-linear-gradient(-45deg,
+    var(--color-candy-500) 0 12px,
+    var(--color-candy-300) 12px 24px);
+  background-size: 34px 34px;
+  animation: stripe 1s linear infinite;
+}
+@keyframes stripe {
+  to { background-position: 34px 0; }
+}
+
+.inv-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border: 3px dashed var(--color-candy-400);
+  border-radius: 16px;
+  background: #FFF4F8;
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  color: var(--color-choco-600);
+}
+
+.arcade-crt {
+  position: relative;
+  overflow: hidden;
+}
+.arcade-crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%),
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.35;
+}
+
+.sprinkles-bg {
+  background-image:
+    radial-gradient(var(--color-candy-300) 1.5px, transparent 1.5px),
+    radial-gradient(var(--color-lemon) 1.5px, transparent 1.5px),
+    radial-gradient(var(--color-mint) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: 0 0, 14px 14px, 7px 21px;
 }
 
 img.sprite, img.pixelated {

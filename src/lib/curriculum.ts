@@ -2617,11 +2617,11 @@ export const UNIT_THEME: Record<
     soft: "bg-primary-soft",
   },
   blue: {
-    bar: "bg-unit-blue",
-    node: "bg-unit-blue",
-    shadow: "border-sky-shadow",
-    ink: "text-primary-ink",
-    soft: "bg-sky-soft",
+    bar: "bg-candy-500",
+    node: "bg-candy-500",
+    shadow: "border-choco-900",
+    ink: "text-white",
+    soft: "bg-candy-100",
   },
   gold: {
     bar: "bg-unit-gold",

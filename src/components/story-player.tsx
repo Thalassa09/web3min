@@ -14,7 +14,7 @@ import { rpcCompleteStory, syncProgressFromServer } from "@/lib/server-sync";
 const WHO_TONE: Record<Speaker, string> = {
   web3min: "text-primary",
   penipu: "text-danger",
-  teman: "text-sky",
+  teman: "text-candy-600",
   cs: "text-streak",
   kamu: "text-fg",
 };
@@ -91,7 +91,7 @@ export function StoryPlayer({ story }: { story: Story }) {
         </button>
         <div className="h-4 flex-1 overflow-hidden rounded-full bg-line">
           <div
-            className="h-full origin-left rounded-full bg-sky transition-transform duration-300"
+            className="h-full origin-left rounded-full bg-candy-500 transition-transform duration-300"
             style={{ transform: `scaleX(${(i + (typed ? 1 : 0.4)) / story.beats.length})` }}
           />
         </div>
@@ -134,7 +134,7 @@ export function StoryPlayer({ story }: { story: Story }) {
                       }}
                       className={cn(
                         "w-full rounded-2xl border-2 border-b-4 px-4 py-3 text-left text-sm font-extrabold",
-                        chosen ? (opt.good ? "border-unit-teal bg-sky-soft" : "border-danger bg-danger-soft") : "border-line bg-bg",
+                        chosen ? (opt.good ? "border-mint bg-candy-100" : "border-danger bg-danger/10") : "border-line bg-bg",
                         locked && "opacity-40",
                       )}
                     >

@@ -243,11 +243,14 @@ export function PulauRantaiMap({
         {units.map((unit, wi) => {
           const theme = getPulauTheme(unit.id, wi + 1);
           const lessonCount = unit.lessons.length;
-          const H = wi === 0 ? 760 : Math.max(580, lessonCount * 110);
-          const T = 130;
+          const H = wi === 0 ? 820 : Math.max(640, lessonCount * 115 + 80);
+          const T = 160;
 
           const pts = getWindingPoints(lessonCount, H, T);
-          const roadPoints: RoadPoint[] = [[50, 0], ...pts, [50, H]];
+          const roadPoints: RoadPoint[] =
+            wi === 0
+              ? [[50, T - 30], ...pts, [50, H]]
+              : [[50, 0], ...pts, [50, H]];
           const roadPath = catmullRomRoad(roadPoints);
 
           return (
@@ -355,18 +358,27 @@ export function PulauRantaiMap({
                   />
                 ))}
 
-                {/* World Sign Board */}
+                {/* World Sign Board - Compact, Non-intrusive on Mobile, Rich on Desktop */}
                 <div
-                  className="wsign"
-                  style={{ top: "24px" }}
+                  className="absolute left-3 right-3 sm:left-4 sm:right-4 max-w-lg mx-auto top-2.5 z-10 bg-white/95 backdrop-blur-md border-2 border-ink-900 rounded-2xl px-3 py-2 sm:p-3.5 shadow-[2px_2px_0_#2B1622] transition-all pointer-events-auto"
                 >
-                  <p className="label font-extrabold text-[11px] text-[#D62A78] uppercase tracking-wider">
-                    Rute {unit.index} · {theme.kind}
-                  </p>
-                  <h3 className="text-lg font-black font-display text-ink-900 mt-0.5">
-                    {unit.title}
-                  </h3>
-                  <p className="text-xs text-ink-500 font-medium leading-relaxed mt-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-candy-500 text-white font-mono font-black text-[10px] tracking-wide shadow-xs">
+                        <span>RUTE {unit.index}</span>
+                        <span>·</span>
+                        <span>{theme.kind.toUpperCase()}</span>
+                      </span>
+                      <h3 className="text-xs sm:text-base font-black font-display text-ink-900 tracking-tight truncate">
+                        {unit.title}
+                      </h3>
+                    </div>
+                    <span className="shrink-0 text-[10px] font-mono font-bold text-ink-500 bg-sand-100 px-2 py-0.5 rounded-full border border-ink-900/15">
+                      {unit.lessons.filter((l) => l.kind !== "chest").length} Blok
+                    </span>
+                  </div>
+                  {/* Subtitle / Description - Subtle and hidden on mobile to avoid screen crowding */}
+                  <p className="hidden sm:block text-xs text-ink-600 font-medium leading-relaxed mt-1 line-clamp-1">
                     {theme.look}
                   </p>
                 </div>
@@ -415,7 +427,7 @@ export function PulauRantaiMap({
                         <div
                           className="absolute z-10 pointer-events-auto transition-all"
                           style={{
-                            left: x < 50 ? `calc(${x}% + 44px)` : `calc(${x}% - 96px)`,
+                            left: x <= 50 ? `calc(${x}% + 46px)` : `calc(${x}% - 96px)`,
                             top: `${y - 42}px`,
                           }}
                         >

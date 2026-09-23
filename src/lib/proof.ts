@@ -13,7 +13,7 @@ export const TONE_UI: Record<ProofTone, { label: string; border: string; text: s
   up: { label: "Cuan", border: "border-unit-teal", text: "text-unit-teal" },
   down: { label: "Hangus", border: "border-danger", text: "text-danger" },
   warn: { label: "Waspada", border: "border-streak", text: "text-streak" },
-  info: { label: "Fakta", border: "border-sky", text: "text-sky" },
+  info: { label: "Fakta", border: "border-candy-300", text: "text-candy-600" },
   drop: { label: "Airdrop", border: "border-unit-purple", text: "text-unit-purple" },
 };
 

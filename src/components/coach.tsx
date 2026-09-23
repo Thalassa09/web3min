@@ -217,7 +217,7 @@ export function CoachTour() {
         <div className="mt-4 flex items-center gap-2.5">
           <button
             type="button"
-            className="flex-1 py-3 px-5 rounded-full bg-candy hover:bg-candy-deep text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] active:scale-95 transition-all cursor-pointer"
+            className="flex-1 py-3 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] active:scale-95 transition-all cursor-pointer"
             onClick={next}
           >
             {current.done}

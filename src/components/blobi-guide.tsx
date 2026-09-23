@@ -53,7 +53,7 @@ export function BlobiFloatingCompanion({
 
   const [mood, setMood] = useState<MascotMood>("idle");
   const [speech, setSpeech] = useState<string | null>(null);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(() => typeof window !== "undefined" && window.innerWidth < 640);
   const [pokeIndex, setPokeIndex] = useState(0);
 
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -96,7 +96,7 @@ export function BlobiFloatingCompanion({
   };
 
   return (
-    <div className="fixed bottom-20 left-4 lg:bottom-6 lg:left-68 z-30 select-none transition-all duration-300">
+    <div className="hidden sm:block fixed bottom-20 left-4 lg:bottom-6 lg:left-68 z-30 select-none transition-all duration-300">
       {/* Speech Bubble */}
       {speech && !isMinimized && (
         <div className="relative mb-2.5 max-w-[260px] p-3 rounded-2xl bg-white/95 backdrop-blur-xl border-2 border-ink-900 shadow-[4px_4px_0_#0D2340] animate-in fade-in slide-in-from-bottom-2 duration-200">

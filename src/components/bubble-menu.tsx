@@ -92,10 +92,10 @@ export const DEFAULT_BUBBLE_ITEMS: MenuItem[] = [
     href: "/profile",
     ariaLabel: "Profil Penjelajah & Lisensi",
     rotation: 0,
-    icon: <User className="size-6 text-sky stroke-[2.5]" />,
+    icon: <User className="size-6 text-candy-500 stroke-[2.5]" />,
     badge: "LISENSI",
     description: "Analitik progres & struk blok",
-    hoverStyles: { bgColor: "#1CB0F6", textColor: "#ffffff" }
+    hoverStyles: { bgColor: "#E8437F", textColor: "#ffffff" }
   }
 ];
 

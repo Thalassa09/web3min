@@ -181,7 +181,7 @@ html[data-motion="reduced"] *::after,
   --tx: 'Nunito', system-ui, sans-serif;
   --fd: 'Nunito', system-ui, sans-serif;
   --ft: 'Nunito', system-ui, sans-serif;
-  --fm: 'JetBrains Mono', ui-monospace, monospace;
+  --fm: 'Pixelify Sans', monospace;
   --candy: #F26A99;
   --deep: #E8437F;
   --edge: #B01F62;
@@ -1145,8 +1145,8 @@ input:focus-visible {
 .wx-bubble {
   width: 8px;
   height: 8px;
-  border: 1.5px solid #8FC2FF;
-  background: rgba(228, 240, 255, 0.4);
+  border: 1.5px solid #FFA3C2;
+  background: rgba(255, 227, 236, 0.4);
   animation: wx-float-up 4s ease-in-out infinite;
 }
 
@@ -1454,9 +1454,9 @@ input:focus-visible {
   --grape: #8B5CF6;
   --grapesh: #6A3FD1;
   --grapesoft: #EEE7FF;
-  --sky: #1CB0F6;
-  --skytx: #0F75AB;
-  --skysoft: #DDF4FF;
+  --sky: #E8437F;
+  --skytx: #85174A;
+  --skysoft: #FFE3EC;
   --ruby: #E63329;
   --rubysh: #B01E18;
   --rubysoft: #FFECEC;
@@ -1465,7 +1465,7 @@ input:focus-visible {
   --fd: "Nunito", system-ui, sans-serif;
   --ft: "Nunito", system-ui, sans-serif;
   --fp: "Nunito", system-ui, sans-serif;
-  --fm: "JetBrains Mono", ui-monospace, monospace;
+  --fm: "Pixelify Sans", monospace;
   --back: cubic-bezier(.34, 1.56, .64, 1);
   --gloss: inset 0 3px 0 rgb(255 255 255 / .45);
 }

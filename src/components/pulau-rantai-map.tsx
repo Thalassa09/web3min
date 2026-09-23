@@ -190,33 +190,40 @@ export function PulauRantaiMap({
       </div>
 
       {/* Pulau Rantai Top Integrated Control Bar */}
-      <header className="sticky top-0 z-20 w-full bg-white/92 backdrop-blur-xl border-b-2 border-ink-900 px-4 py-3 shadow-[0_2px_0_#0D2340]">
+      <header className="sticky top-0 z-20 w-full bg-white/92 backdrop-blur-xl border-b-2 border-ink-900 px-4 py-2.5 shadow-[0_2px_0_#0D2340]">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🏝️</span>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="text-xl sm:text-2xl">🏝️</span>
             <div>
-              <h2 className="font-display font-black text-sm text-ink-900 leading-tight">
-                Pulau Rantai
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 className="font-display font-black text-sm sm:text-base text-ink-900 leading-tight">
+                  Pulau Rantai
+                </h2>
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-candy-soft text-[10px] font-bold text-candy-deep border border-candy-line">
+                  20 Rute
+                </span>
+              </div>
               <p className="text-[10px] font-bold text-candy-deep">
-                Peta Petualangan On-Chain · 20 Rute
+                Peta Petualangan On-Chain
               </p>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2">
             <button
               type="button"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-ink-900 border border-ink-900 text-xs font-bold transition-all active:scale-95 cursor-pointer"
+              className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-ink-900 border-2 border-ink-900 text-xs font-black transition-all active:scale-95 cursor-pointer shadow-xs"
               onClick={() => setShowProgresModal(true)}
+              title="Lihat Rincian 20 Rute"
             >
               <PulauIcon name="book" size={14} />
-              <span className="hidden sm:inline">Progres Rute</span>
+              <span>Progres Rute</span>
             </button>
+          </div>
+
+          <div className="flex items-center gap-2 lg:hidden">
             <button
               type="button"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-candy-soft hover:bg-candy/20 text-candy-deep border border-candy-line text-xs font-bold transition-all active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-candy-soft hover:bg-candy/20 text-candy-deep border border-candy-line text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
               onClick={() => setShowQuestsModal(true)}
+              title="Buka Misi Harian"
             >
               <PulauIcon name="star" size={14} fill />
               <span>Misi</span>

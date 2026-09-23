@@ -33,11 +33,11 @@ export function GameOverlayHUD({ children }: GameOverlayHUDProps) {
     <>
       {/* ─────────────────────────────────────────────────────────────
           1. DESKTOP / TABLET GAME OVERLAY (>= 1024px)
-          Floating on the right side of the map without squeezing it
+          Floating on the right side of the map below header without collision
          ───────────────────────────────────────────────────────────── */}
-      <div className="hidden lg:block fixed right-6 top-20 z-30 transition-all duration-300 ease-out">
+      <div className="hidden lg:block fixed right-6 top-32 z-30 transition-all duration-300 ease-out">
         {isDesktopOpen ? (
-          <div className="w-[320px] max-h-[calc(100vh-6.5rem)] rounded-[26px] bg-white/92 backdrop-blur-2xl border-2 border-ink-900 shadow-[6px_6px_0_#0D2340] overflow-hidden flex flex-col transition-all duration-200 animate-in fade-in zoom-in-95">
+          <div className="w-[320px] max-h-[calc(100vh-9.5rem)] rounded-[26px] bg-white/92 backdrop-blur-2xl border-2 border-ink-900 shadow-[6px_6px_0_#0D2340] overflow-hidden flex flex-col transition-all duration-200 animate-in fade-in zoom-in-95">
             {/* Game HUD Header */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-ink-900 text-white border-b-2 border-ink-900 shrink-0">
               <div className="flex items-center gap-2">

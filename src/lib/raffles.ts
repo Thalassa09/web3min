@@ -1,288 +1,223 @@
-export type RaffleStatus = "live" | "ended" | "upcoming";
+export type RaffleStatus = "live" | "ended" | "upcoming" | "drawn";
 
 export type RaffleCategory = "nft" | "gems" | "outfit" | "badge" | "tickets";
 
-export type NftRarity = "Mythic" | "Legendary" | "Rare" | "Uncommon";
-
-export type NftDetails = {
-  name: string;
-  collection: string;
-  rarity: NftRarity;
-  chain: "Ethereum" | "Base" | "Arbitrum" | "Optimism" | "Polygon";
-  standard: "ERC-721" | "ERC-1155";
-  contract: string;
-  tokenId: string;
-  perks: string[];
-  artworkType: "pixel-mascot" | "cyber-pass" | "sorcerer" | "gas-mask";
-  vrfSeed: string;
-  explorerUrl: string;
-};
+export type RaffleRarity = "mythic" | "legendary" | "rare" | "utility";
 
 export type RaffleItem = {
   id: string;
   title: string;
-  host: string;
-  hostAvatar?: string;
-  badge: string;
+  host?: string;
+  badge?: string;
   category: RaffleCategory;
   prize: string;
   prizeDetail: string;
   status: RaffleStatus;
+  startsAt?: number;
   endsAt: number; // fixed absolute timestamp
-  ticketCost: number; // in tickets (1 ticket)
-  starsCost: number; // in coins (10 coins per ticket)
-  totalEntries: number;
+  ticketCost: number; // in tickets
+  starsCost: number; // alternative in coins/gems
   winnerCount: number;
-  requirements: string[];
+  totalTickets?: number;
+  totalEntries?: number;
+  userTickets?: number;
+  requirements?: string[];
+  perks?: string[];
+  nftNetwork?: string;
+  nftContract?: string;
+  nftTokenId?: string;
+  nftRarity?: RaffleRarity;
+  imageUrl?: string;
+  isSimulation?: boolean;
+  accentColor?: string;
   winner?: {
     username: string;
     ticketId: string;
     announcedAt: string;
-    txHash?: string;
   };
-  accentColor: string;
-  nftDetails?: NftDetails;
 };
 
 export type ActivityEntry = {
   id: string;
-  type: "enter" | "win" | "convert";
+  type: "enter" | "win" | "buy";
   username: string;
   action: string;
   raffleTitle: string;
   timeAgo: string;
-  txHash?: string;
 };
 
-export const RAFFLE_TICKET_PRICE = 10; // 10 Koin = 1 Tiket
+export const RAFFLE_TICKET_PRICE = 10; // 10 koin = 1 tiket
 
-const NOW = Date.now();
-const DAY_MS = 24 * 60 * 60 * 1000;
+export function formatRaffleCountdown(endsAt: number): string {
+  const diff = endsAt - Date.now();
+  if (diff <= 0) return "Selesai";
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  if (days > 0) return `${days}h ${hours}j lagi`;
+  if (hours > 0) return `${hours}j ${minutes}m lagi`;
+  return `${minutes}m lagi`;
+}
 
 export const INITIAL_RAFFLES: RaffleItem[] = [
   {
-    id: "raf-nft-genesis-blobi",
+    id: "raf-genesis-blobi",
     title: "Genesis Blobi #001 (1-of-1 Mythic NFT)",
     host: "Web3min Genesis Vault",
     badge: "MYTHIC 1/1",
     category: "nft",
-    prize: "1x Genesis Blobi #001 NFT + 0.05 ETH Gas Grant",
-    prizeDetail: "NFT ERC-721 1-of-1 paling langka di ekosistem Web3min. Memberikan status Pioneer Kehormatan on-chain dan akses ke seluruh fitur masa depan tanpa batas.",
+    prize: "Genesis Blobi #001 NFT + 0.05 ETH Gas Grant",
+    prizeDetail: "Artefak ERC-721 1/1 di Ethereum Mainnet. Membawa buff permanen +50% XP dan akses seumur hidup ke seluruh ekosistem.",
     status: "live",
-    endsAt: NOW + 3 * DAY_MS + 14 * 3600 * 1000,
+    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
+    endsAt: new Date("2026-10-01T12:00:00Z").getTime(),
     ticketCost: 1,
     starsCost: 10,
+    totalTickets: 428,
     totalEntries: 428,
     winnerCount: 1,
-    requirements: ["Terbuka untuk semua petualang (Beli tiket pakai Koin)"],
-    accentColor: "#ec4899",
-    nftDetails: {
-      name: "Genesis Blobi #001",
-      collection: "Web3min Genesis Artifacts",
-      rarity: "Mythic",
-      chain: "Ethereum",
-      standard: "ERC-721",
-      contract: "0x461De9fA7157...001e",
-      tokenId: "#001",
-      perks: [
-        "1-of-1 Mythic Artwork Eksklusif",
-        "+50% XP Boost Permanen di Semua Modul",
-        "Airdrop Badge Pioneer Kehormatan",
-        "Grant Saldo Gas 0.05 ETH On-Chain",
-      ],
-      artworkType: "pixel-mascot",
-      vrfSeed: "0x7f4c9a8b12e09c8411d3fae50012bc44391b1f9e2089412a884efc71e41b",
-      explorerUrl: "https://etherscan.io/address/0x461De9fA7157a3e74288820f4c084e365001e",
-    },
+    nftRarity: "mythic",
+    nftNetwork: "Ethereum",
+    nftContract: "0x71c...blobi001",
+    nftTokenId: "#001",
+    perks: [
+      "1/1 ERC-721 Genesis Artifact di Ethereum Mainnet",
+      "0.05 ETH gas grant untuk wallet pemenang",
+      "+50% XP boost permanen di setiap rute pelajaran",
+    ],
+    accentColor: "#f59e0b",
   },
   {
-    id: "raf-nft-cyber-pass",
+    id: "raf-cyber-pass",
     title: "Cyber Pass Web3 Alpha (Legendary NFT)",
-    host: "Base Builders Guild",
+    host: "Web3min DAO",
     badge: "LEGENDARY NFT",
     category: "nft",
-    prize: "Cyber Pass Web3 Alpha Access NFT (Base L2)",
-    prizeDetail: "Tiket akses eksklusif jaringan Base L2. Memberikan hak voting kurikulum DAO, Discord Alpha Role, dan multiplier hadiah klasemen mingguan.",
+    prize: "Cyber Pass Alpha NFT di Base L2",
+    prizeDetail: "Tiket akses eksklusif Base L2 untuk fitur rute eksperimental, hak voting DAO Web3min, dan 25% Multiplier Klasemen.",
     status: "live",
-    endsAt: NOW + 2 * DAY_MS + 8 * 3600 * 1000,
+    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
+    endsAt: new Date("2026-10-03T12:00:00Z").getTime(),
     ticketCost: 1,
     starsCost: 10,
-    totalEntries: 615,
-    winnerCount: 1,
-    requirements: ["Terbuka untuk semua petualang (Beli tiket pakai Koin)"],
-    accentColor: "#3b82f6",
-    nftDetails: {
-      name: "Cyber Pass Alpha #077",
-      collection: "Base Web3min Alpha Access",
-      rarity: "Legendary",
-      chain: "Base",
-      standard: "ERC-721",
-      contract: "0x892a0134f1b...419a",
-      tokenId: "#077",
-      perks: [
-        "Akses VIP ke Room Riset Alpha",
-        "Multiplier Koin Klasemen +25%",
-        "Discord Sovereign Role & Alpha Chat",
-      ],
-      artworkType: "cyber-pass",
-      vrfSeed: "0x3a91bb2c0847dff5a1099248cb123e4981a81093129841fcaa901c",
-      explorerUrl: "https://basescan.org/address/0x892a0134f1b0a724bca09c81298419a",
-    },
+    totalTickets: 295,
+    totalEntries: 295,
+    winnerCount: 3,
+    nftRarity: "legendary",
+    nftNetwork: "Base",
+    nftContract: "0x42f...cyberpass",
+    nftTokenId: "#ALPHA",
+    perks: [
+      "Akses Alpha Room dan kurikulum preview rahasia",
+      "Hak suara voting DAO Web3min",
+      "25% Multiplier poin Klasemen Mingguan",
+    ],
+    accentColor: "#8b5cf6",
   },
   {
-    id: "raf-nft-defi-sorcerer",
+    id: "raf-defi-sorcerer",
     title: "DeFi Sorcerer #88 (Rare NFT)",
-    host: "Arbitrum Alchemists",
+    host: "Arbitrum Guild",
     badge: "RARE NFT",
     category: "nft",
-    prize: "DeFi Sorcerer Avatar NFT + 20% Staking Boost",
-    prizeDetail: "Avatar mistis DeFi di jaringan Arbitrum One. Mensimulasikan likuiditas yield on-chain dan memberikan booster koin otomatis setiap menyelesaikan babak kuis.",
+    prize: "DeFi Sorcerer In-Game Avatar NFT",
+    prizeDetail: "Karakter avatar mistis langka di Arbitrum One. Memberikan penghasilan pasif 20% Yield Koin Harian saat menyelesaikan kuis.",
     status: "live",
-    endsAt: NOW + 4 * DAY_MS + 18 * 3600 * 1000,
-    ticketCost: 1,
-    starsCost: 10,
-    totalEntries: 298,
-    winnerCount: 2,
-    requirements: ["Terbuka untuk semua petualang (Beli tiket pakai Koin)"],
-    accentColor: "#8b5cf6",
-    nftDetails: {
-      name: "DeFi Sorcerer #88",
-      collection: "Arbitrum Elemental Avatars",
-      rarity: "Rare",
-      chain: "Arbitrum",
-      standard: "ERC-721",
-      contract: "0x11fa38290bc...77d1",
-      tokenId: "#88",
-      perks: [
-        "Avatar Karakter Bertuah Mistis",
-        "+20% Yield Koin Harian Otomatis",
-        "Badge Spesial 'Alchemist' di Profil",
-      ],
-      artworkType: "sorcerer",
-      vrfSeed: "0xbf8001a4e8912389baac018491823901bca012849129419167e2",
-      explorerUrl: "https://arbiscan.io/address/0x11fa38290bc98124b81092841029177d1",
-    },
+    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
+    endsAt: new Date("2026-10-05T12:00:00Z").getTime(),
+    ticketCost: 2,
+    starsCost: 20,
+    totalTickets: 182,
+    totalEntries: 182,
+    winnerCount: 5,
+    nftRarity: "rare",
+    nftNetwork: "Arbitrum",
+    nftContract: "0x88c...sorcerer",
+    nftTokenId: "#88",
+    perks: [
+      "Skin avatar mistis eksklusif di peta Pulau Rantai",
+      "20% Yield Koin Harian otomatis",
+    ],
+    accentColor: "#3b82f6",
   },
   {
-    id: "raf-nft-golden-gas-mask",
+    id: "raf-gas-mask",
     title: "Golden Gas Mask #404 (Utility NFT)",
-    host: "Optimism Collective",
+    host: "Optimism Superchain",
     badge: "UTILITY NFT",
     category: "nft",
-    prize: "Golden Gas Mask NFT (Zero Gas Subsidy Pass)",
-    prizeDetail: "NFT utilitas bertema cyberpunk steampunk di jaringan Optimism. Mensubsidi biaya transaksi on-chain in-game saat kamu menjalankan tugas interaktif smart contract.",
+    prize: "Golden Gas Mask Utility NFT di Optimism",
+    prizeDetail: "Pass perlindungan gas fee on-chain dan memberikan efek aura emas berkilau di samping username pada leaderboard.",
     status: "live",
-    endsAt: NOW + 5 * DAY_MS + 22 * 3600 * 1000,
+    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
+    endsAt: new Date("2026-10-08T12:00:00Z").getTime(),
     ticketCost: 1,
     starsCost: 10,
-    totalEntries: 172,
-    winnerCount: 3,
-    requirements: ["Terbuka untuk semua petualang (Beli tiket pakai Koin)"],
-    accentColor: "#f59e0b",
-    nftDetails: {
-      name: "Golden Gas Mask #404",
-      collection: "Superchain Cyber Gear",
-      rarity: "Uncommon",
-      chain: "Optimism",
-      standard: "ERC-1155",
-      contract: "0xfa9180c412b...ee84",
-      tokenId: "#404",
-      perks: [
-        "Subsidi Gas Fee Otomatis di L2",
-        "Aksesori Masker Emas di Profil Blobi",
-        "Tiket Masuk Guild Penguji Testnet",
-      ],
-      artworkType: "gas-mask",
-      vrfSeed: "0x19ca442bc019842fba9012840912c8a192804bca091824109ee84",
-      explorerUrl: "https://optimistic.etherscan.io/address/0xfa9180c412b918240981204918249018ee84",
-    },
-  },
-  {
-    id: "raf-genesis-pioneer-ended",
-    title: "Genesis Pioneer Badge NFT #001",
-    host: "Web3min Curators",
-    badge: "SELESAI · TERVERIFIKASI",
-    category: "nft",
-    prize: "Lencana Kehormatan Genesis Pioneer ERC-721",
-    prizeDetail: "Undian putaran pembukaan telah selesai dan diverifikasi via Chainlink VRF on-chain.",
-    status: "ended",
-    endsAt: NOW - 2 * DAY_MS,
-    ticketCost: 1,
-    starsCost: 10,
-    totalEntries: 410,
-    winnerCount: 1,
-    requirements: ["Selesai rute 1-5"],
+    totalTickets: 114,
+    totalEntries: 114,
+    winnerCount: 10,
+    nftRarity: "utility",
+    nftNetwork: "Optimism",
+    nftContract: "0x404...gasmask",
+    nftTokenId: "#404",
+    perks: [
+      "Subsidi gas fee on-chain untuk tugas smart contract",
+      "Aura nama emas berkilau di tabel Klasemen",
+    ],
     accentColor: "#10b981",
-    winner: {
-      username: "satoshi_jkt",
-      ticketId: "#TKT-0418-WIN",
-      announcedAt: "2 hari yang lalu",
-      txHash: "0x78a1bc4019283749281a0bce84192084bca09124",
-    },
-    nftDetails: {
-      name: "Genesis Pioneer Badge #001",
-      collection: "Web3min Pioneer Badges",
-      rarity: "Legendary",
-      chain: "Ethereum",
-      standard: "ERC-721",
-      contract: "0x001a8291bf...99c1",
-      tokenId: "#001",
-      perks: ["Permanent Genesis Badge", "VIP Governance"],
-      artworkType: "pixel-mascot",
-      vrfSeed: "0xdeadbeef8192049120491820491824019284019284019284",
-      explorerUrl: "https://etherscan.io/tx/0x78a1bc4019283749281a0bce84192084bca09124",
-    },
-  },
-];
-
-export const MOCK_ACTIVITY: ActivityEntry[] = [
-  {
-    id: "act-1",
-    type: "enter",
-    username: "satoshi_jkt",
-    action: "memasukkan 10 tiket ke",
-    raffleTitle: "Genesis Blobi #001",
-    timeAgo: "42 detik lalu",
   },
   {
-    id: "act-2",
-    type: "convert",
-    username: "kripto_bunda",
-    action: "menukar 50 Koin ➔ 5 Tiket Raffle",
-    raffleTitle: "Kasir Tiket Koin",
-    timeAgo: "2 menit lalu",
+    id: "raf-gems-500",
+    title: "Paket 500 Bintang Penjelajah",
+    host: "Blobi Treasure Vault",
+    badge: "500 BINTANG",
+    category: "gems",
+    prize: "500 Bintang Toko Blobi",
+    prizeDetail: "Tambahan saldo bintang melimpah untuk memborong seluruh outfit dan booster belajar di Toko.",
+    status: "live",
+    endsAt: new Date("2026-10-01T12:00:00Z").getTime(),
+    ticketCost: 1,
+    starsCost: 10,
+    totalTickets: 342,
+    totalEntries: 342,
+    winnerCount: 3,
+    perks: ["500 Bintang langsung ke dompet Toko Blobi"],
+    accentColor: "#fbbf24",
   },
   {
-    id: "act-3",
-    type: "enter",
-    username: "defi_ninja",
-    action: "memasukkan 5 tiket ke",
-    raffleTitle: "Cyber Pass Web3 Alpha",
-    timeAgo: "5 menit lalu",
+    id: "raf-crown",
+    title: "Mahkota Emas Blobi Eksklusif",
+    host: "Ruang Ganti Blobi",
+    badge: "OUTFIT EKSKLUSIF",
+    category: "outfit",
+    prize: "Aksesori Mahkota Emas Blobi",
+    prizeDetail: "Aksesori kepala eksklusif berkilau yang hanya bisa diperoleh dari arena undian in-game.",
+    status: "live",
+    endsAt: new Date("2026-10-03T12:00:00Z").getTime(),
+    ticketCost: 1,
+    starsCost: 10,
+    totalTickets: 189,
+    totalEntries: 189,
+    winnerCount: 5,
+    perks: ["Mahkota Emas eksklusif untuk avatar Blobi"],
+    accentColor: "#a855f7",
   },
   {
-    id: "act-4",
-    type: "win",
-    username: "satoshi_jkt",
-    action: "memenangkan undian",
-    raffleTitle: "Genesis Pioneer Badge NFT",
-    timeAgo: "2 hari lalu",
-    txHash: "0x78a1...0912",
-  },
-  {
-    id: "act-5",
-    type: "enter",
-    username: "bayu_eth",
-    action: "memasukkan 3 tiket ke",
-    raffleTitle: "DeFi Sorcerer #88",
-    timeAgo: "12 menit lalu",
-  },
-  {
-    id: "act-6",
-    type: "convert",
-    username: "rani_web3",
-    action: "menukar 100 Koin ➔ 10 Tiket Raffle",
-    raffleTitle: "Kasir Tiket Koin",
-    timeAgo: "18 menit lalu",
+    id: "raf-badge-pioneer",
+    title: "Lencana Kehormatan 'Pioneer Web3'",
+    host: "Dewan Kehormatan Web3min",
+    badge: "LENCANA GELAR",
+    category: "badge",
+    prize: "Gelar Khusus 'Pioneer Web3' & Lencana Profil",
+    prizeDetail: "Lencana retro berkilau yang disematkan permanen di kartu profil petualangmu.",
+    status: "live",
+    endsAt: new Date("2026-10-05T12:00:00Z").getTime(),
+    ticketCost: 2,
+    starsCost: 20,
+    totalTickets: 512,
+    totalEntries: 512,
+    winnerCount: 1,
+    perks: ["Lencana profil berkilau permanen"],
+    accentColor: "#38bdf8",
   },
 ];

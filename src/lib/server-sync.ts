@@ -157,6 +157,10 @@ export async function syncProgressFromServer(): Promise<boolean> {
           typeof progress?.raffle_tickets === "number"
             ? Math.max(s.raffleTickets ?? 0, progress.raffle_tickets)
             : s.raffleTickets,
+        lastClaimedLeaderboardWeek:
+          typeof progress?.last_claimed_leaderboard_week === "string" && progress.last_claimed_leaderboard_week
+            ? progress.last_claimed_leaderboard_week
+            : s.lastClaimedLeaderboardWeek,
       };
     });
 
@@ -359,5 +363,133 @@ export async function saveBioToServer(bio: string): Promise<boolean> {
     return false;
   } finally {
     endOp(opKey);
+  }
+}
+
+export type DbLeaderboardUser = {
+  rank: number;
+  username: string;
+  xp: number;
+  weekly_xp: number;
+  streak: number;
+  coin_reward: number;
+};
+
+export async function rpcGetLeaderboard(limit = 100, offset = 0): Promise<DbLeaderboardUser[]> {
+  if (!isSupabaseConfigured || !supabase) return [];
+  try {
+    const { data, error } = await supabase.rpc("get_leaderboard", {
+      p_limit: limit,
+      p_offset: offset,
+    });
+    if (error || !Array.isArray(data)) return [];
+    return data as DbLeaderboardUser[];
+  } catch (err) {
+    console.warn("[server-sync] Failed to get leaderboard from DB:", err);
+    return [];
+  }
+}
+
+export async function rpcClaimWeeklyLeaderboardReward(
+  rank = 7,
+): Promise<{ success: boolean; reward: number; week: string; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, reward: 0, week: "", error: "Database offline" };
+  }
+  const opKey = `leaderboard:claim:${rank}`;
+  if (!canExecuteOp(opKey, 2000)) {
+    return { success: false, reward: 0, week: "", error: "Sedang diproses..." };
+  }
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) {
+      return { success: false, reward: 0, week: "", error: "Belum login" };
+    }
+
+    const { data, error } = await supabase.rpc("claim_weekly_leaderboard_reward", {
+      p_rank: rank,
+    });
+
+    if (error) {
+      return { success: false, reward: 0, week: "", error: error.message };
+    }
+
+    // Refresh store from server
+    void syncProgressFromServer();
+
+    return {
+      success: Boolean(data?.success),
+      reward: Number(data?.reward) || 0,
+      week: String(data?.week || ""),
+    };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return { success: false, reward: 0, week: "", error: msg };
+  } finally {
+    endOp(opKey);
+  }
+}
+
+export type DbRaffleItem = {
+  id: string;
+  title: string;
+  prize: string;
+  prize_detail: string;
+  category: "nft" | "gems" | "outfit" | "badge" | "tickets";
+  nft_network?: string;
+  nft_contract?: string;
+  nft_token_id?: string;
+  nft_rarity?: "mythic" | "legendary" | "rare" | "utility";
+  status: "live" | "upcoming" | "ended" | "drawn";
+  starts_at: string;
+  ends_at: string;
+  ticket_cost: number;
+  stars_cost: number;
+  winner_count: number;
+  perks: string[];
+  image_url?: string;
+  is_simulation?: boolean;
+};
+
+export async function rpcGetRaffles(): Promise<DbRaffleItem[]> {
+  if (!isSupabaseConfigured || !supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from("raffles")
+      .select("*")
+      .order("starts_at", { ascending: false });
+
+    if (error || !Array.isArray(data)) return [];
+    return data as DbRaffleItem[];
+  } catch (err) {
+    console.warn("[server-sync] Failed to load raffles from DB:", err);
+    return [];
+  }
+}
+
+export type DbRaffleStats = {
+  raffle_id: string;
+  total_tickets: number;
+  total_participants: number;
+};
+
+export async function rpcGetRaffleStats(raffleId?: string): Promise<Record<string, DbRaffleStats>> {
+  if (!isSupabaseConfigured || !supabase) return {};
+  try {
+    const { data, error } = await supabase.rpc("get_raffle_stats", {
+      p_raffle_id: raffleId || null,
+    });
+    if (error || !Array.isArray(data)) return {};
+    const map: Record<string, DbRaffleStats> = {};
+    for (const item of data as DbRaffleStats[]) {
+      if (item && item.raffle_id) {
+        map[item.raffle_id] = item;
+      }
+    }
+    return map;
+  } catch (err) {
+    console.warn("[server-sync] Failed to load raffle stats from DB:", err);
+    return {};
   }
 }

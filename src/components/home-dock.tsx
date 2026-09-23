@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Sparkles, Trophy } from "lucide-react";
-import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { firstPlayableId, getLesson, getUnit } from "@/lib/curriculum";
 import { formatHeartWait, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
@@ -37,23 +36,23 @@ export function HomeDock() {
 
   if (hearts <= 0) {
     return (
-      <div className="mx-3 sm:mx-4 mt-4 p-5 md:p-6 rounded-[24px] border-2 border-ink-900 bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="px-3 py-1 rounded-full text-xs font-black bg-candy-soft text-candy-deep border border-candy-line">
+      <div className="mx-3 sm:mx-4 mt-2 sm:mt-4 p-4 sm:p-6 rounded-[22px] border-2 border-ink-900 bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-candy-soft text-candy-deep border border-candy-line">
             Nyawa Habis
           </span>
         </div>
-        <h2 className="font-display font-black text-xl text-ink-900 tracking-tight">
+        <h2 className="font-display font-black text-lg sm:text-xl text-ink-900 tracking-tight">
           Istirahat Sejenak
         </h2>
         <p className="mt-1 text-xs sm:text-sm text-ink-500 leading-relaxed">
           Nyawa berikutnya pulih dalam {formatHeartWait(wait)}. Kamu tetap bisa membaca cerita Web3 tanpa mengurangi nyawa.
         </p>
-        <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
+        <div className="mt-3.5 flex flex-col sm:flex-row gap-2.5">
           <Link to="/kisah" className="flex-1">
             <button
               type="button"
-              className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full border-2 border-ink-900 bg-white text-ink-900 font-display font-black text-xs hover:bg-slate-50 transition-all cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full border-2 border-ink-900 bg-white text-ink-900 font-display font-black text-xs hover:bg-slate-50 transition-all cursor-pointer"
             >
               <BookOpen className="size-4" />
               <span>Baca Kisah Tanpa Nyawa</span>
@@ -62,7 +61,7 @@ export function HomeDock() {
           <Link to="/shop" className="sm:w-auto">
             <button
               type="button"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full border-2 border-ink-900 bg-candy text-white font-display font-black text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] hover:bg-candy-deep transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-full border-2 border-ink-900 bg-candy text-white font-display font-black text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] hover:bg-candy-deep transition-all cursor-pointer"
             >
               <Sparkles className="size-4" />
               <span>Pulihkan di Toko</span>
@@ -75,18 +74,18 @@ export function HomeDock() {
 
   if (!lesson || !world) {
     return (
-      <SurfaceCard className="mx-3 sm:mx-4 mt-4 p-6 bg-white rounded-[24px] border-2 border-ink-900 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
-        <h2 className="font-display font-black text-2xl text-ink-900 inline-flex items-center justify-center gap-2">
+      <SurfaceCard className="mx-3 sm:mx-4 mt-2 sm:mt-4 p-5 sm:p-6 bg-white rounded-[22px] border-2 border-ink-900 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
+        <h2 className="font-display font-black text-xl sm:text-2xl text-ink-900 inline-flex items-center justify-center gap-2">
           Semua Modul Selesai! <Trophy className="size-6 text-coin shrink-0" />
         </h2>
-        <p className="mt-1.5 text-xs sm:text-sm text-ink-500">
+        <p className="mt-1 text-xs sm:text-sm text-ink-500">
           Kamu telah menuntaskan seluruh modul kurikulum. Kunjungi Arena untuk melihat peringkat belajarmu!
         </p>
-        <div className="pt-4">
+        <div className="pt-3">
           <Link to="/leaderboard">
             <button
               type="button"
-              className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-candy text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B]"
+              className="inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-full bg-candy text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B]"
             >
               Buka Arena
             </button>
@@ -100,9 +99,39 @@ export function HomeDock() {
   const progressPercent = scoredLessons.length > 0 ? Math.round((lessonNo / scoredLessons.length) * 100) : 0;
 
   return (
-    <div className="mx-3 sm:mx-4 mt-3">
-      {/* Featured Next Lesson Banner — Apple layout hierarchy */}
-      <div className="rounded-[28px] border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)] bg-white overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_210px]">
+    <div className="mx-3 sm:mx-4 mt-2 sm:mt-3">
+      {/* Mobile Compact Hero Bar (Saves vertical space so map is prominent) */}
+      <div className="sm:hidden rounded-[20px] border-2 border-ink-900 bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)] p-3 flex items-center justify-between gap-2.5">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-candy-deep">
+            <span>Unit {unitNum}</span>
+            <span className="text-ink-300">·</span>
+            <span className="text-ink-500">{world.land}</span>
+            <span className="text-ink-300">·</span>
+            <span className="text-ink-500">{lessonNo}/{scoredLessons.length}</span>
+          </div>
+          <div className="font-display font-black text-sm text-ink-900 truncate mt-0.5">
+            {lesson.title}
+          </div>
+        </div>
+        <Link
+          to="/lesson/$lessonId"
+          params={{ lessonId: lesson.id }}
+          className="shrink-0"
+          onClick={() => useProgress.getState().completeGuide()}
+        >
+          <button
+            type="button"
+            className="inline-flex items-center justify-center gap-1 py-2 px-3.5 rounded-full bg-candy hover:bg-candy-deep text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] active:scale-95 transition-all cursor-pointer"
+          >
+            <span>{started ? "Lanjut" : "Mulai"}</span>
+            <ArrowRight className="size-3.5 stroke-[2.6]" />
+          </button>
+        </Link>
+      </div>
+
+      {/* Desktop & Tablet Expanded Rich Banner */}
+      <div className="hidden sm:grid rounded-[26px] border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)] bg-white overflow-hidden grid-cols-1 md:grid-cols-[1fr_210px]">
         {/* Left Info Body */}
         <div className="p-6 sm:p-7 flex flex-col justify-between min-w-0">
           <div>
@@ -156,7 +185,7 @@ export function HomeDock() {
             >
               <button
                 type="button"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-display font-black text-sm sm:text-base py-3.5 px-8 rounded-full bg-candy hover:bg-candy-deep text-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_3px_0_#A51D5B] hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-display font-black text-sm sm:text-base py-3 px-7 rounded-full bg-candy hover:bg-candy-deep text-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_3px_0_#A51D5B] hover:brightness-105 active:scale-95 transition-all cursor-pointer"
               >
                 <span>{started ? "Lanjutkan Pelajaran" : "Mulai Belajar"}</span>
                 <ArrowRight className="size-4 sm:size-5 shrink-0 stroke-[2.6]" />
@@ -165,13 +194,13 @@ export function HomeDock() {
           </div>
         </div>
 
-        {/* Right Art Panel (Clean Apple Aesthetic without Cartoon Grass) */}
-        <div className="hidden md:flex items-center justify-center relative border-l-2 border-ink-900 bg-gradient-to-br from-candy-soft/40 via-white to-candy-soft/20 p-6">
-          <div className="relative size-36 rounded-full bg-white/80 border-2 border-ink-900/10 flex items-center justify-center shadow-xs">
+        {/* Right Art Panel */}
+        <div className="hidden md:flex items-center justify-center relative border-l-2 border-ink-900 bg-gradient-to-br from-candy-soft/30 via-white to-candy-soft/10 p-6">
+          <div className="relative size-32 rounded-full bg-white/90 border-2 border-ink-900/10 flex items-center justify-center shadow-xs">
             <img
               src="/mascot/idle.png"
               alt="Blobi"
-              className="w-24 h-24 object-contain"
+              className="w-20 h-20 object-contain"
             />
           </div>
         </div>

@@ -16,9 +16,13 @@ import { DailyQuests } from "@/components/daily-quests";
 export function PulauRantaiMap({
   units,
   focusUnit,
+  viewMode,
+  onViewModeChange,
 }: {
   units: Unit[];
   focusUnit?: string | null;
+  viewMode?: "pulau" | "trail";
+  onViewModeChange?: (mode: "pulau" | "trail") => void;
 }) {
   const navigate = useNavigate();
   const completed = useProgress((s) => s.completed);
@@ -81,7 +85,7 @@ export function PulauRantaiMap({
     }
     const nowEl = containerRef.current.querySelector(".bn.now") as HTMLElement | null;
     if (nowEl) {
-      containerRef.current.scrollTop = Math.max(0, nowEl.offsetTop - 360);
+      containerRef.current.scrollTop = Math.max(0, nowEl.offsetTop - 200);
     }
   }, [focusUnit]);
 
@@ -142,51 +146,50 @@ export function PulauRantaiMap({
         {toastMsg}
       </div>
 
-      {/* Floating Action Buttons (FABs) */}
-      <div className="fabs">
-        <button
-          type="button"
-          className="fab"
-          onClick={() => setShowQuestsModal(true)}
-          aria-label="Misi harian"
-        >
-          <span className="jb sm">
-            <PulauIcon name="target" size={18} />
+      {/* Integrated Apple Header / Control Bar */}
+      <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-ink-900/95 backdrop-blur-md border-b-2 border-ink-900 shadow-sm">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-black text-white tracking-wide flex items-center gap-1.5">
+            <span>🏝️</span>
+            <span>Pulau Rantai</span>
           </span>
-          <span className="tx">Misi harian</span>
-        </button>
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-candy/20 text-candy border border-candy/40">
+            {units.length} Unit
+          </span>
+        </div>
 
-        <button
-          type="button"
-          className="fab"
-          onClick={() => {
-            void navigate({ to: "/kisah" });
-          }}
-          aria-label="Bedah kasus"
-        >
-          <span className="jb sm grape">
-            <PulauIcon name="shield" size={18} />
-          </span>
-          <span className="tx">Bedah kasus</span>
-        </button>
-
-        <button
-          type="button"
-          className="fab"
-          onClick={() => setShowProgresModal(true)}
-          aria-label="Progres"
-        >
-          <span className="jb sm coin">
-            <PulauIcon name="chart" size={18} />
-          </span>
-          <span className="tx">Progres</span>
-        </button>
+        {onViewModeChange && (
+          <div className="inline-flex items-center gap-1 p-0.5 bg-black/40 rounded-full border border-white/10">
+            <button
+              type="button"
+              className={`px-3 py-1 rounded-full text-[11px] font-black transition-all cursor-pointer ${
+                viewMode === "pulau"
+                  ? "bg-white text-ink-900 shadow-xs"
+                  : "text-white/70 hover:text-white"
+              }`}
+              onClick={() => onViewModeChange("pulau")}
+            >
+              🏝️ Pulau
+            </button>
+            <button
+              type="button"
+              className={`px-3 py-1 rounded-full text-[11px] font-black transition-all cursor-pointer ${
+                viewMode === "trail"
+                  ? "bg-white text-ink-900 shadow-xs"
+                  : "text-white/70 hover:text-white"
+              }`}
+              onClick={() => onViewModeChange("trail")}
+            >
+              🗺️ Jalur
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Map Scroll View */}
       <div
         ref={containerRef}
-        className="mapscroll h-[700px] sm:h-[760px] overflow-y-auto no-scrollbar relative"
+        className="mapscroll h-[700px] sm:h-[760px] overflow-y-auto no-scrollbar relative pb-36"
       >
         {units.map((unit, wi) => {
           const theme = getPulauTheme(unit.id, unit.index);
@@ -339,9 +342,6 @@ export function PulauRantaiMap({
                       size={26}
                       fill={status === "now" && !isChest}
                     />
-                    {status !== "lock" && (
-                      <span className="nl">{lesson.title}</span>
-                    )}
                     {status === "now" && !isChest && (
                       <span className="bubble">MULAI</span>
                     )}

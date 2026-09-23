@@ -29,38 +29,34 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
 
   return (
     <div className="flex flex-col overflow-x-clip pb-8">
-      {/* Apple-grade Segmented Control */}
-      <div className="mx-auto my-3 flex items-center justify-center w-full max-w-md px-3">
-        <div className="inline-flex items-center gap-1 p-1 bg-white/90 backdrop-blur-md border-2 border-ink-900 rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
-          <button
-            type="button"
-            className={`px-4 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer ${
-              viewMode === "pulau"
-                ? "bg-candy text-white shadow-xs"
-                : "text-ink-500 hover:text-ink-900"
-            }`}
-            onClick={() => setViewMode("pulau")}
-          >
-            🏝️ Pulau Rantai
-          </button>
-          <button
-            type="button"
-            className={`px-4 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer ${
-              viewMode === "trail"
-                ? "bg-candy text-white shadow-xs"
-                : "text-ink-500 hover:text-ink-900"
-            }`}
-            onClick={() => setViewMode("trail")}
-          >
-            🗺️ Peta Jalur
-          </button>
-        </div>
-      </div>
-
       {viewMode === "pulau" ? (
-        <PulauRantaiMap units={units} focusUnit={focusUnit} />
+        <PulauRantaiMap
+          units={units}
+          focusUnit={focusUnit}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
       ) : (
-        <>
+        <div className="flex flex-col">
+          {/* Apple-grade Segmented Control for Trail view */}
+          <div className="mx-auto my-3 flex items-center justify-center w-full max-w-md px-3">
+            <div className="inline-flex items-center gap-1 p-1 bg-slate-200/80 border border-slate-300 rounded-full shadow-inner">
+              <button
+                type="button"
+                className="px-4 py-1.5 rounded-full text-xs transition-all cursor-pointer text-ink-500 hover:text-ink-900 font-bold"
+                onClick={() => setViewMode("pulau")}
+              >
+                🏝️ Pulau Rantai
+              </button>
+              <button
+                type="button"
+                className="px-4 py-1.5 rounded-full text-xs transition-all cursor-pointer bg-white text-ink-900 font-black shadow-xs"
+                onClick={() => setViewMode("trail")}
+              >
+                🗺️ Peta Jalur
+              </button>
+            </div>
+          </div>
           {!showAll && currentUnit > 0 ? (
             <button type="button" className="mx-4 mb-2 min-h-11 text-left text-sm font-medium text-primary" onClick={() => setShowAll(true)}>
               Lihat rute sebelumnya
@@ -126,7 +122,7 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
           Kembali ke rute aktif
         </a>
       ) : null}
-        </>
+        </div>
       )}
       <Dialog
         open={Boolean(chest)}

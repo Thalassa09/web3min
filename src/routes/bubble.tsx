@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BubbleMenu, type MenuItem } from "@/components/bubble-menu";
-import { Compass, BookOpen, Trophy, ShoppingBag, User, Smartphone, RotateCcw, ArrowLeft, Sparkles } from "lucide-react";
+import { Compass, BookOpen, Trophy, ShoppingBag, User, RotateCcw, ArrowLeft, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/bubble")({
   component: BubbleMenuShowcasePage
@@ -60,16 +60,6 @@ function BubbleMenuShowcasePage() {
       badge: "ANALITIK",
       description: "Lisensi penjelajah & struk blok",
       hoverStyles: { bgColor: "#1CB0F6", textColor: "#ffffff" }
-    },
-    {
-      label: "Stage",
-      href: "/rantai",
-      ariaLabel: "Stage 3-Phone",
-      rotation: 0,
-      icon: <Smartphone className="size-6 text-candy-deep stroke-[2.5]" />,
-      badge: "3D PHONE",
-      description: "Simulator panggung ponsel",
-      hoverStyles: { bgColor: "#D62A78", textColor: "#ffffff" }
     }
   ];
 
@@ -151,14 +141,6 @@ function BubbleMenuShowcasePage() {
           <RotateCcw className="size-4 text-candy-deep" />
           Replay Animation
         </button>
-
-        <Link
-          to="/rantai"
-          className="px-6 py-2.5 rounded-full border-2 border-ink-900 bg-candy text-white hover:bg-candy-deep transition-all text-sm font-black shadow-ink-sm active:translate-y-0.5 active:shadow-none flex items-center gap-2"
-        >
-          <Smartphone className="size-4" />
-          Buka 3-Phone Stage Simulator
-        </Link>
       </div>
     </div>
   );

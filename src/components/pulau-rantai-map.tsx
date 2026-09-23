@@ -16,13 +16,9 @@ import { DailyQuests } from "@/components/daily-quests";
 export function PulauRantaiMap({
   units,
   focusUnit,
-  viewMode = "pulau",
-  onViewModeChange,
 }: {
   units: Unit[];
   focusUnit?: string | null;
-  viewMode?: "pulau" | "trail";
-  onViewModeChange?: (mode: "pulau" | "trail") => void;
 }) {
   const navigate = useNavigate();
   const completed = useProgress((s) => s.completed);
@@ -144,46 +140,6 @@ export function PulauRantaiMap({
         }`}
       >
         {toastMsg}
-      </div>
-
-      {/* Integrated Apple Header / Control Bar */}
-      <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-8 py-3 bg-ink-900/95 backdrop-blur-md border-b-2 border-ink-900 shadow-sm w-full">
-        <div className="flex items-center gap-2">
-          <span className="text-xs sm:text-sm font-black text-white tracking-wide flex items-center gap-1.5">
-            <span>🏝️</span>
-            <span>Pulau Rantai</span>
-          </span>
-          <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-candy/20 text-candy border border-candy/40">
-            {units.length} Unit
-          </span>
-        </div>
-
-        {onViewModeChange && (
-          <div className="inline-flex items-center gap-0.5 p-0.5 bg-black/40 rounded-full border border-white/10">
-            <button
-              type="button"
-              className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-black transition-all cursor-pointer ${
-                viewMode === "pulau"
-                  ? "bg-white text-ink-900 shadow-xs"
-                  : "text-white/70 hover:text-white"
-              }`}
-              onClick={() => onViewModeChange("pulau")}
-            >
-              🏝️ Pulau
-            </button>
-            <button
-              type="button"
-              className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-black transition-all cursor-pointer ${
-                viewMode === "trail"
-                  ? "bg-white text-ink-900 shadow-xs"
-                  : "text-white/70 hover:text-white"
-              }`}
-              onClick={() => onViewModeChange("trail")}
-            >
-              🗺️ Jalur
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Map Scroll View — Full Stage Height */}

@@ -27,7 +27,7 @@ export function SideNav() {
     setMounted(true);
   }, []);
 
-  // Close with Escape key
+  // Close with Escape key on desktop
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -41,7 +41,7 @@ export function SideNav() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, close, sound]);
 
-  // Lock body scroll when drawer is open
+  // Lock body scroll when drawer is open on desktop
   useEffect(() => {
     if (isOpen) {
       const originalOverflow = document.body.style.overflow;
@@ -57,13 +57,15 @@ export function SideNav() {
   return createPortal(
     <div
       className={cn(
-        "fixed inset-0 z-50 transition-all duration-300",
+        // MANDATORY REQUIREMENT: "untuk versi mobil tidak ada overlay"
+        // This entire overlay drawer portal is strictly hidden on mobile (< lg), active ONLY on desktop (lg:block)
+        "hidden lg:block fixed inset-0 z-50 transition-all duration-300",
         isOpen ? "pointer-events-auto visible" : "pointer-events-none invisible"
       )}
       aria-hidden={!isOpen}
     >
       {/* ─────────────────────────────────────────────────────────────
-          1. BACKDROP OVERLAY
+          1. BACKDROP OVERLAY (DESKTOP ONLY)
           Clicking the overlay dims/blurs background and HIDES this menu!
           ("buat ini muncul saat overlay di klik jadi ini bisa disembunyikan")
          ───────────────────────────────────────────────────────────── */}

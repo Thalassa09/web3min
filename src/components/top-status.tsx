@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Sparkles, Volume2, VolumeX, Menu } from "lucide-react";
+import { Menu, Sparkles, Volume2, VolumeX } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
 import { BlockStamp } from "@/components/motif";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
@@ -76,6 +76,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const hearts = useProgress((s) => s.hearts);
   const sound = useProgress((s) => s.sound);
   const setSound = useProgress((s) => s.setSound);
+
   const isNavOpen = useNavStore((s) => s.isOpen);
   const toggleNav = useNavStore((s) => s.toggle);
 
@@ -83,7 +84,11 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
     <header className="sticky top-0 z-30 flex h-14 sm:h-16 select-none items-center gap-2 border-b-2 border-choco-900 bg-cream/95 px-3 backdrop-blur-xl shadow-[0_2px_0_rgba(59,34,24,0.06)] sm:px-5">
       {brand && (
         <div className="flex items-center gap-2">
-          {/* Menu Hamburger Trigger Button */}
+          {/* ─────────────────────────────────────────────────────────────
+              DESKTOP ONLY MENU TRIGGER: "hidden lg:flex"
+              Requirement: "untuk versi mobil tidak ada overlay"
+              On mobile (< lg), this button does NOT render at all.
+             ───────────────────────────────────────────────────────────── */}
           <button
             type="button"
             aria-label={isNavOpen ? "Sembunyikan Menu" : "Buka Menu Utama"}
@@ -94,16 +99,17 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
             }}
             className={cn(
               pillBase,
-              "gap-1.5 px-2.5 sm:px-3 text-choco-900 hover:bg-candy-100 cursor-pointer active:translate-y-0.5",
+              "hidden lg:flex gap-1.5 px-3 text-choco-900 hover:bg-candy-100 cursor-pointer active:translate-y-0.5",
               isNavOpen && "bg-candy-100 border-candy-500 text-candy-600"
             )}
           >
             <Menu className="size-4 text-candy-500" />
-            <span className="hidden font-pixel text-xs font-bold sm:inline">
+            <span className="font-pixel text-xs font-bold">
               Menu
             </span>
           </button>
 
+          {/* Brand Logo & Title: Visible on all viewports */}
           <Link
             to="/"
             aria-label="Beranda"
@@ -116,13 +122,14 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
                 className="pixelated size-5 sm:size-6 object-contain"
               />
             </span>
-            <span className="hidden font-pixel text-base sm:text-lg font-bold text-choco-900 sm:inline">
+            <span className="font-pixel text-base sm:text-lg font-bold text-choco-900">
               web3<span className="text-candy-500">min</span>
             </span>
           </Link>
         </div>
       )}
 
+      {/* Resource Stats Pills & Controls */}
       <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
         <div className="hidden sm:block">
           <StatPill
@@ -197,33 +204,6 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           ) : (
             <VolumeX className="size-4 text-danger" />
           )}
-        </button>
-
-        {/* Global Nav Menu Trigger in Candy Pink (Burger / X) */}
-        <button
-          type="button"
-          aria-label={isNavOpen ? "Sembunyikan Menu Navigasi" : "Buka Menu Navigasi"}
-          title="Menu Navigasi Web3min"
-          onClick={() => {
-            if (sound) playTap();
-            toggleNav();
-          }}
-          className="bubble-trigger group relative flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-[#E8437F] text-white shadow-[0_2px_0_#3B2218] transition-all duration-150 active:translate-y-0.5 active:shadow-none cursor-pointer hover:brightness-105"
-        >
-          <div className="flex flex-col items-center justify-center gap-1">
-            <span
-              className={cn(
-                "block rounded-full bg-white transition-transform duration-200",
-                isNavOpen ? "w-4.5 h-[2.5px] translate-y-[3.5px] rotate-45" : "w-4.5 h-[2.5px]"
-              )}
-            />
-            <span
-              className={cn(
-                "block rounded-full bg-white transition-transform duration-200",
-                isNavOpen ? "w-4.5 h-[2.5px] -translate-y-[3.5px] -rotate-45" : "w-4.5 h-[2.5px]"
-              )}
-            />
-          </div>
         </button>
       </div>
     </header>

@@ -18,11 +18,11 @@ export function SurfaceCard({
   ...props
 }: SurfaceCardProps) {
   const variantStyles: Record<string, string> = {
-    default: "bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] text-[#1B1440]",
-    cream: "bg-[#FFF7EC] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] text-[#1B1440]",
-    sky: "bg-[#4D7CFF] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] text-white",
-    flat: "bg-white border-2 border-[#1B1440] shadow-none text-[#1B1440]",
-    interactive: "bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] hover:brightness-[1.02] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440] cursor-pointer transition-[transform,box-shadow,filter] duration-100 text-[#1B1440]",
+    default: "bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] text-ink-900",
+    cream: "bg-canvas border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] text-ink-900",
+    sky: "bg-sky-500 border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] text-white",
+    flat: "bg-white border-2 border-ink-900 shadow-none text-ink-900",
+    interactive: "bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] hover:brightness-[1.02] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440] cursor-pointer transition-[transform,box-shadow,filter] duration-100 text-ink-900",
   };
 
   return (

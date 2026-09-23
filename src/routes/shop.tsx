@@ -202,8 +202,8 @@ function ShopPage() {
 
             {/* Currency & Inventory Badges */}
             <div className="hidden sm:flex items-center gap-2 justify-end">
-              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[12px] bg-[#FFF1CC] border-2 border-[#1B1440] text-xs font-['Pixelify_Sans'] font-bold text-[#1B1440] shadow-[2px_2px_0_#1B1440]">
-                <Star size={14} className="text-[#FFC23D]" fill="currentColor" />
+              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[12px] bg-cream border-2 border-ink-900 text-xs font-['Pixelify_Sans'] font-bold text-ink-900 shadow-[2px_2px_0_#1B1440]">
+                <Star size={14} className="text-coin" fill="currentColor" />
                 <span>{formatGems(gems)} Bintang</span>
               </div>
             </div>
@@ -243,18 +243,18 @@ function ShopPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between px-1">
                 <div>
-                  <span className="block font-['Pixelify_Sans',monospace] text-[13px] font-medium uppercase tracking-wider text-[#5A5480]">
+                  <span className="block font-['Pixelify_Sans',monospace] text-[13px] font-medium uppercase tracking-wider text-ink-500">
                     Tukar bintang hasil belajar
                   </span>
-                  <h2 className="text-xl font-extrabold text-[#1B1440] flex items-center gap-2">
-                    <Store className="size-5 text-[#FF5C8A]" />
+                  <h2 className="text-xl font-extrabold text-ink-900 flex items-center gap-2">
+                    <Store className="size-5 text-blobi" />
                     <span>Item & Penguat Belajar</span>
                   </h2>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleModeChange("wardrobe")}
-                  className="inline-flex items-center gap-2 rounded-xl border-2 border-[#1B1440] bg-white px-3.5 py-2 text-[13px] font-extrabold text-[#1B1440] shadow-[3px_3px_0_#1B1440] transition-[transform,box-shadow] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                  className="inline-flex items-center gap-2 rounded-xl border-2 border-ink-900 bg-white px-3.5 py-2 text-[13px] font-extrabold text-ink-900 shadow-[3px_3px_0_#1B1440] transition-[transform,box-shadow] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
                 >
                   <Shirt className="size-4" strokeWidth={2.4} />
                   <span>Ruang Ganti</span>
@@ -263,20 +263,20 @@ function ShopPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {/* 1. Pelindung Streak */}
-                <div className="flex flex-col rounded-2xl border-2 border-[#1B1440] bg-white p-5 shadow-[4px_4px_0_#1B1440]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-[#1B1440] bg-[#E2E9FF] text-[#4D7CFF]">
+                <div className="flex flex-col rounded-2xl border-2 border-ink-900 bg-white p-5 shadow-[4px_4px_0_#1B1440]">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-sky-100 text-sky-500">
                     <Shield className="size-6" strokeWidth={2.4} />
                   </div>
-                  <h3 className="text-[17px] font-extrabold text-[#1B1440]">Pelindung Streak</h3>
-                  <p className="mt-1.5 font-medium leading-relaxed text-[#5A5480] text-xs">
+                  <h3 className="text-[17px] font-extrabold text-ink-900">Pelindung Streak</h3>
+                  <p className="mt-1.5 font-medium leading-relaxed text-ink-500 text-xs">
                     Streak aman kalau kamu bolos satu hari tanpa belajar.
                   </p>
-                  <div className="mt-2 text-xs font-bold text-[#1B1440] bg-[#FFF7EC] p-2 rounded-[10px] border border-[#1B1440]/20">
+                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-ink-900/20">
                     Dimiliki: <strong>{freeze} Pelindung</strong>
                   </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-[#1B1440]/10">
-                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-[#1B1440]">
-                      <Star size={16} className="text-[#FFC23D]" fill="currentColor" /> {FREEZE_COST}
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-ink-900/10">
+                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-ink-900">
+                      <Star size={16} className="text-coin" fill="currentColor" /> {FREEZE_COST}
                     </span>
                     <button
                       type="button"
@@ -292,10 +292,10 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className={`inline-flex items-center justify-center rounded-xl border-2 border-[#1B1440] px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
+                      className={`inline-flex items-center justify-center rounded-xl border-2 border-ink-900 px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
                         freeze > 0 || gems < FREEZE_COST
                           ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
-                          : "bg-[#FF5C8A] text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                          : "bg-blobi text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
                       }`}
                     >
                       {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Kurang" : "Beli"}
@@ -304,20 +304,20 @@ function ShopPage() {
                 </div>
 
                 {/* 2. Isi Ulang Nyawa */}
-                <div className="flex flex-col rounded-2xl border-2 border-[#1B1440] bg-white p-5 shadow-[4px_4px_0_#1B1440]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-[#1B1440] bg-[#FFE1EA] text-[#FF5C8A]">
+                <div className="flex flex-col rounded-2xl border-2 border-ink-900 bg-white p-5 shadow-[4px_4px_0_#1B1440]">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-blobi-soft text-blobi">
                     <Heart className="size-6" strokeWidth={2.4} fill="currentColor" />
                   </div>
-                  <h3 className="text-[17px] font-extrabold text-[#1B1440]">Isi Ulang Nyawa</h3>
-                  <p className="mt-1.5 font-medium leading-relaxed text-[#5A5480] text-xs">
+                  <h3 className="text-[17px] font-extrabold text-ink-900">Isi Ulang Nyawa</h3>
+                  <p className="mt-1.5 font-medium leading-relaxed text-ink-500 text-xs">
                     Balik ke 5/5 nyawa penuh dan langsung lanjut latihan.
                   </p>
-                  <div className="mt-2 text-xs font-bold text-[#1B1440] bg-[#FFF7EC] p-2 rounded-[10px] border border-[#1B1440]/20">
-                    Nyawa: <strong className="text-[#FF5C8A]">{hearts}/{MAX_HEARTS} Hati</strong>
+                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-ink-900/20">
+                    Nyawa: <strong className="text-blobi">{hearts}/{MAX_HEARTS} Hati</strong>
                   </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-[#1B1440]/10">
-                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-[#1B1440]">
-                      <Star size={16} className="text-[#FFC23D]" fill="currentColor" /> {HEART_REFILL_COST}
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-ink-900/10">
+                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-ink-900">
+                      <Star size={16} className="text-coin" fill="currentColor" /> {HEART_REFILL_COST}
                     </span>
                     <button
                       type="button"
@@ -333,10 +333,10 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className={`inline-flex items-center justify-center rounded-xl border-2 border-[#1B1440] px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
+                      className={`inline-flex items-center justify-center rounded-xl border-2 border-ink-900 px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
                         heartsFull || gems < HEART_REFILL_COST
                           ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
-                          : "bg-[#FF5C8A] text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                          : "bg-blobi text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
                       }`}
                     >
                       {heartsFull ? "Penuh" : gems < HEART_REFILL_COST ? "Kurang" : "Beli"}
@@ -345,20 +345,20 @@ function ShopPage() {
                 </div>
 
                 {/* 3. Mahkota Blobi */}
-                <div className="flex flex-col rounded-2xl border-2 border-[#1B1440] bg-white p-5 shadow-[4px_4px_0_#1B1440]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-[#1B1440] bg-[#FFF1CC] text-[#FFC23D]">
+                <div className="flex flex-col rounded-2xl border-2 border-ink-900 bg-white p-5 shadow-[4px_4px_0_#1B1440]">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-cream text-coin">
                     <Crown className="size-6" strokeWidth={2.4} />
                   </div>
-                  <h3 className="text-[17px] font-extrabold text-[#1B1440]">Mahkota Blobi</h3>
-                  <p className="mt-1.5 font-medium leading-relaxed text-[#5A5480] text-xs">
+                  <h3 className="text-[17px] font-extrabold text-ink-900">Mahkota Blobi</h3>
+                  <p className="mt-1.5 font-medium leading-relaxed text-ink-500 text-xs">
                     Kosmetik langka untuk Blobi-mu di lisensi profil.
                   </p>
-                  <div className="mt-2 text-xs font-bold text-[#1B1440] bg-[#FFF7EC] p-2 rounded-[10px] border border-[#1B1440]/20">
+                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-ink-900/20">
                     Status: <strong>{outfits.includes("crown") ? "Sudah Dimiliki" : "Belum Dimiliki"}</strong>
                   </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-[#1B1440]/10">
-                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-[#1B1440]">
-                      <Star size={16} className="text-[#FFC23D]" fill="currentColor" /> 120
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-ink-900/10">
+                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-ink-900">
+                      <Star size={16} className="text-coin" fill="currentColor" /> 120
                     </span>
                     <button
                       type="button"
@@ -371,10 +371,10 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className={`inline-flex items-center justify-center rounded-xl border-2 border-[#1B1440] px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
+                      className={`inline-flex items-center justify-center rounded-xl border-2 border-ink-900 px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
                         outfits.includes("crown") || gems < 120
                           ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
-                          : "bg-[#FF5C8A] text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                          : "bg-blobi text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
                       }`}
                     >
                       {outfits.includes("crown") ? "Dimiliki" : gems < 120 ? "Kurang" : "Beli"}

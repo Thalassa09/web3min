@@ -138,15 +138,15 @@ function UnitBlock({
 
   return (
     <section
-      className="relative mx-3 sm:mx-4 my-6 rounded-[16px] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] overflow-hidden scroll-mt-20 bg-white"
+      className="relative mx-3 sm:mx-4 my-6 rounded-[16px] border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] overflow-hidden scroll-mt-20 bg-white"
       id={`unit-${unit.id}`}
     >
       {/* Pixel Candy Unit Header */}
-      <div className="bg-[#1B1440] text-white px-5 py-4 border-b-2 border-[#1B1440] flex items-center justify-between gap-4">
+      <div className="bg-ink-900 text-white px-5 py-4 border-b-2 border-ink-900 flex items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className={cn("inline-block size-2 rounded-full", isAllDone ? "bg-[#1FCB8B]" : "bg-[#FF5C8A]")} />
-            <span className="text-xs font-['Pixelify_Sans'] font-bold tracking-widest text-[#FFC23D] uppercase">
+            <span className={cn("inline-block size-2 rounded-full", isAllDone ? "bg-leaf" : "bg-blobi")} />
+            <span className="text-xs font-['Pixelify_Sans'] font-bold tracking-widest text-coin uppercase">
               UNIT {unit.index} // {kindOf(unit.id).toUpperCase()}
             </span>
           </div>
@@ -155,7 +155,7 @@ function UnitBlock({
           </h2>
         </div>
         <div className="text-right shrink-0">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[8px] bg-white border-[1.5px] border-[#1B1440] text-xs font-['Pixelify_Sans'] font-bold text-[#1B1440]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[8px] bg-white border-[1.5px] border-ink-900 text-xs font-['Pixelify_Sans'] font-bold text-ink-900">
             {completedCount}/{unit.lessons.length} Selesai
           </span>
         </div>
@@ -466,7 +466,7 @@ function PathNode({
       }}
     >
       {current ? (
-        <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-[6px] px-2.5 py-0.5 text-[11px] font-['Pixelify_Sans'] font-bold uppercase tracking-wider bg-[#FF5C8A] text-white border-[1.5px] border-[#1B1440] shadow-[2px_2px_0_#1B1440] whitespace-nowrap z-20">
+        <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-[6px] px-2.5 py-0.5 text-[11px] font-['Pixelify_Sans'] font-bold uppercase tracking-wider bg-blobi text-white border-[1.5px] border-ink-900 shadow-[2px_2px_0_#1B1440] whitespace-nowrap z-20">
           {lesson.kind === "checkpoint" ? "Checkpoint" : lesson.kind === "chest" ? "Item" : "Mulai"}
         </span>
       ) : null}
@@ -489,11 +489,11 @@ function PathNode({
           className={cn(
             "flex items-center justify-center rounded-[20px] sm:rounded-[22px] border-2 transition-all duration-100 cursor-pointer select-none",
             "active:not-disabled:translate-x-[2px] active:not-disabled:translate-y-[2px] active:not-disabled:shadow-[1px_1px_0_#1B1440]",
-            current ? "size-[76px] lg:size-[84px] bg-[#FF5C8A] text-white border-[#1B1440] shadow-[4px_4px_0_#1B1440] ring-4 ring-[#FFE1EA]" :
-            done && lesson.kind !== "chest" ? "size-[68px] lg:size-[76px] bg-[#1FCB8B] text-white border-[#1B1440] shadow-[3px_3px_0_#1B1440]" :
-            lesson.kind === "chest" && !done ? "size-[68px] lg:size-[76px] bg-[#FFC23D] text-[#1B1440] border-[#1B1440] shadow-[3px_3px_0_#1B1440]" :
-            lockedLook ? "size-[68px] lg:size-[76px] bg-[#E9E6F0] text-[#9C98B3] border-dashed border-[#1B1440] shadow-none cursor-not-allowed" :
-            "size-[68px] lg:size-[76px] bg-white text-[#1B1440] border-[#1B1440] shadow-[3px_3px_0_#1B1440] hover:bg-[#FFF7EC]"
+            current ? "size-[76px] lg:size-[84px] bg-blobi text-white border-ink-900 shadow-[4px_4px_0_#1B1440] ring-4 ring-blobi-soft" :
+            done && lesson.kind !== "chest" ? "size-[68px] lg:size-[76px] bg-leaf text-white border-ink-900 shadow-[3px_3px_0_#1B1440]" :
+            lesson.kind === "chest" && !done ? "size-[68px] lg:size-[76px] bg-coin text-ink-900 border-ink-900 shadow-[3px_3px_0_#1B1440]" :
+            lockedLook ? "size-[68px] lg:size-[76px] bg-[#E9E6F0] text-[#9C98B3] border-dashed border-ink-900 shadow-none cursor-not-allowed" :
+            "size-[68px] lg:size-[76px] bg-white text-ink-900 border-ink-900 shadow-[3px_3px_0_#1B1440] hover:bg-canvas"
           )}
         >
           {done && lesson.kind !== "chest" ? (
@@ -503,16 +503,16 @@ function PathNode({
           )}
         </button>
         {lockedLook ? (
-          <span className="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-[6px] bg-[#E9E6F0] text-[#5A5480] border-[1.5px] border-[#1B1440] shadow-xs">
+          <span className="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-[6px] bg-[#E9E6F0] text-ink-500 border-[1.5px] border-ink-900 shadow-xs">
             <Lock className="size-3" weight="bold" />
           </span>
         ) : null}
       </span>
-      <p className="mt-2 max-w-32 rounded-[8px] px-1.5 py-0.5 text-center text-xs font-semibold leading-tight text-[#1B1440]">
+      <p className="mt-2 max-w-32 rounded-[8px] px-1.5 py-0.5 text-center text-xs font-semibold leading-tight text-ink-900">
         {lockedLook ? (
           <span className="text-[#9C98B3] font-normal">{lesson.title}</span>
         ) : (
-          <span className={cn(current ? "text-[#1B1440] font-extrabold" : "text-[#5A5480] font-bold")}>{lesson.title}</span>
+          <span className={cn(current ? "text-ink-900 font-extrabold" : "text-ink-500 font-bold")}>{lesson.title}</span>
         )}
       </p>
     </li>

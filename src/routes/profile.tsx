@@ -166,10 +166,10 @@ function ProfilePage() {
     <AppShell>
       <main className="px-3 py-4 sm:px-4 sm:py-6 pb-32 sm:pb-36 max-w-5xl mx-auto space-y-5">
         {/* Profile Explorer License Card with Pixel Candy Header */}
-        <div className="rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] overflow-hidden max-w-3xl">
+        <div className="rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] overflow-hidden max-w-3xl">
           {/* Blobi Pink Striped Banner */}
           <div
-            className="bg-[#FF5C8A] border-b-2 border-[#1B1440] p-4 sm:p-5 flex items-center justify-between text-white"
+            className="bg-blobi border-b-2 border-ink-900 p-4 sm:p-5 flex items-center justify-between text-white"
             style={{ backgroundImage: "repeating-linear-gradient(45deg, #ffffff18 0 10px, transparent 10px 20px)" }}
           >
             <span className="font-['Pixelify_Sans'] text-xs font-bold uppercase tracking-wider text-white">
@@ -185,20 +185,20 @@ function ProfilePage() {
             <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 mb-4">
               <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                 {/* Blobi Avatar */}
-                <div className="size-20 sm:size-24 rounded-[16px] bg-[#FFE1EA] border-2 border-[#1B1440] shadow-[3px_3px_0_#1B1440] flex items-center justify-center shrink-0">
+                <div className="size-20 sm:size-24 rounded-[16px] bg-blobi-soft border-2 border-ink-900 shadow-[3px_3px_0_#1B1440] flex items-center justify-center shrink-0">
                   <Mascot mood="proud" size={68} />
                 </div>
 
                 {/* Identity: Username + Level Chips */}
                 <div>
-                  <h1 className="font-sans font-extrabold text-2xl sm:text-3xl text-[#1B1440] tracking-tight">
+                  <h1 className="font-sans font-extrabold text-2xl sm:text-3xl text-ink-900 tracking-tight">
                     @{username || "penjelajah"}
                   </h1>
                   <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap mt-2">
-                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-[#FFF1CC] text-[#1B1440] border-[1.5px] border-[#1B1440]">
+                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-cream text-ink-900 border-[1.5px] border-ink-900">
                       Level {Math.floor(xp / 100) + 1}
                     </span>
-                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-[#E2E9FF] text-[#1B1440] border-[1.5px] border-[#1B1440]">
+                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-sky-100 text-ink-900 border-[1.5px] border-ink-900">
                       Murid Blobi
                     </span>
                   </div>
@@ -209,9 +209,9 @@ function ProfilePage() {
               <Link
                 to="/shop"
                 search={{ tab: "wardrobe" }}
-                className="px-4 py-2 rounded-[12px] bg-white border-2 border-[#1B1440] text-[#1B1440] text-xs font-extrabold shadow-[2px_2px_0_#1B1440] hover:bg-[#FFE1EA] transition-all flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
+                className="px-4 py-2 rounded-[12px] bg-white border-2 border-ink-900 text-ink-900 text-xs font-extrabold shadow-[2px_2px_0_#1B1440] hover:bg-blobi-soft transition-all flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
               >
-                <Sparkles className="size-3.5 text-[#FFC23D]" />
+                <Sparkles className="size-3.5 text-coin" />
                 <span>Ganti Blobi</span>
               </Link>
             </div>
@@ -256,10 +256,10 @@ function ProfilePage() {
                         }
                       }}
                       placeholder="Tulis status atau motto belajarmu..."
-                      className="w-full px-4 py-3 rounded-[12px] bg-[#FFF7EC] border-2 border-[#1B1440] text-sm text-[#1B1440] placeholder:text-[#5A5480]/50 focus:outline-none focus:ring-2 focus:ring-[#FF5C8A] resize-none font-medium"
+                      className="w-full px-4 py-3 rounded-[12px] bg-canvas border-2 border-ink-900 text-sm text-ink-900 placeholder:text-ink-500/50 focus:outline-none focus:ring-2 focus:ring-blobi resize-none font-medium"
                       autoFocus={isEditing}
                     />
-                    <span className="absolute right-3 bottom-2.5 text-xs font-['Pixelify_Sans'] font-bold text-[#5A5480]">
+                    <span className="absolute right-3 bottom-2.5 text-xs font-['Pixelify_Sans'] font-bold text-ink-500">
                       {bioDraft.length}/80
                     </span>
                   </div>
@@ -306,47 +306,47 @@ function ProfilePage() {
         {/* 4 Chunky Stat Cards */}
         {/* 4 Core Stat Cards in Pixel Candy Style */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl">
-          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A5480]">
+          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-ink-500">
               <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Total XP</span>
-              <Trophy className="size-4 text-[#FFC23D]" />
+              <Trophy className="size-4 text-coin" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#1FCB8B]">{xp}</div>
-              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Poin pengalaman</div>
+              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-leaf">{xp}</div>
+              <div className="text-xs font-medium text-ink-500 mt-0.5">Poin pengalaman</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A5480]">
+          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-ink-500">
               <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Streak</span>
               <Flame className="size-4 text-[#FF7A1A]" />
             </div>
             <div className="mt-2">
               <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#FF7A1A]">{streak} Hari</div>
-              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Berturut-turut</div>
+              <div className="text-xs font-medium text-ink-500 mt-0.5">Berturut-turut</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A5480]">
+          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-ink-500">
               <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Bintang</span>
-              <Sparkles className="size-4 text-[#FFC23D]" />
+              <Sparkles className="size-4 text-coin" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#FFC23D]">{formatGems(gems)}</div>
-              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Koin hadiah</div>
+              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-coin">{formatGems(gems)}</div>
+              <div className="text-xs font-medium text-ink-500 mt-0.5">Koin hadiah</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[#5A5480]">
+          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-ink-500">
               <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Modul</span>
-              <Compass className="size-4 text-[#4D7CFF]" />
+              <Compass className="size-4 text-sky-500" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#4D7CFF]">{lessonsDone}</div>
-              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Terselesaikan</div>
+              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-sky-500">{lessonsDone}</div>
+              <div className="text-xs font-medium text-ink-500 mt-0.5">Terselesaikan</div>
             </div>
           </div>
         </div>

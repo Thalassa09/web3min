@@ -167,8 +167,8 @@ function Onboarding() {
   };
 
   return (
-    <main className="min-h-dvh bg-[#FFF7EC] flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8 relative select-none overflow-x-hidden overflow-y-auto">
-      <div className="w-full max-w-3xl relative z-10 bg-white rounded-[16px] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] p-6 sm:p-8">
+    <main className="min-h-dvh bg-canvas flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8 relative select-none overflow-x-hidden overflow-y-auto">
+      <div className="w-full max-w-3xl relative z-10 bg-white rounded-[16px] border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] p-6 sm:p-8">
         {/* Step Progress Bar (Shown on Step 1 & 2) */}
         {step > 0 && (
           <div className="mb-4 flex items-center justify-between gap-3">
@@ -176,18 +176,18 @@ function Onboarding() {
               {[1, 2].map((i) => (
                 <span
                   key={i}
-                  className={`h-2.5 flex-1 rounded-[4px] border-2 border-[#1B1440] ${i <= step ? "bg-[#1FCB8B]" : "bg-white"}`}
+                  className={`h-2.5 flex-1 rounded-[4px] border-2 border-ink-900 ${i <= step ? "bg-leaf" : "bg-white"}`}
                 />
               ))}
             </div>
-            <span className="text-xs font-['Pixelify_Sans'] font-bold text-[#1B1440] shrink-0">
+            <span className="text-xs font-['Pixelify_Sans'] font-bold text-ink-900 shrink-0">
               Langkah {step} dari 2
             </span>
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
           {/* Mascot Side (5 Cols - Blobi on Pink Tile) */}
-          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-[#FFE1EA] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] rounded-[16px] p-5 gap-3.5">
+          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-blobi-soft border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] rounded-[16px] p-5 gap-3.5">
             <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
               <Mascot
                 key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
@@ -199,10 +199,10 @@ function Onboarding() {
               />
             </div>
             <div>
-              <div className="font-['Pixelify_Sans'] text-base sm:text-lg font-bold text-[#FF5C8A]">Blobi</div>
-              <p className="text-xs font-semibold text-[#5A5480] mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
+              <div className="font-['Pixelify_Sans'] text-base sm:text-lg font-bold text-blobi">Blobi</div>
+              <p className="text-xs font-semibold text-ink-500 mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
                 {isTypingPassword ? (
-                  <span className="text-[#FF5C8A] font-bold">
+                  <span className="text-blobi font-bold">
                     Tenang, aku tutup mata kok. Gak bakal ngintip!
                   </span>
                 ) : (

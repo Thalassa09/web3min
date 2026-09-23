@@ -9,7 +9,7 @@ import { playTap, setAudioEnabled } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 const pillBase =
-  "relative flex h-9 shrink-0 items-center gap-1.5 rounded-full border-2 border-ink-900 bg-white px-3 text-xs font-black text-ink-900 shadow-ink-xs transition-transform active:translate-y-0.5";
+  "relative flex h-9 shrink-0 items-center gap-1.5 rounded-full border-2 border-ink-900 bg-white/95 px-3 text-xs font-black text-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_1px_0_var(--color-ink-900)] transition-transform duration-100 ease-out active:scale-95 active:translate-y-0.5";
 
 function StatPill({ value, display, icon, title, floatColor = "var(--color-coin)" }: {
   value: number; display?: ReactNode; icon: ReactNode; title: string; floatColor?: string;
@@ -31,8 +31,8 @@ function StatPill({ value, display, icon, title, floatColor = "var(--color-coin)
 
   return (
     <div title={title} className={pillBase} style={{ animation: bump ? "pill-bump 420ms var(--ease-back)" : undefined }}>
-      {icon}
-      <span className="tabular-nums">{display ?? value}</span>
+      <span className="grid size-4 shrink-0 place-items-center">{icon}</span>
+      <span className="tabular-nums tracking-tight">{display ?? value}</span>
       {delta > 0 && <span className="pill-float" style={{ color: floatColor, textShadow: "0 1px 0 var(--color-ink-900)" }}>+{delta}</span>}
     </div>
   );
@@ -47,7 +47,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const setSound = useProgress((s) => s.setSound);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 select-none items-center gap-2 border-b-2 border-ink-900 bg-white/95 px-3 backdrop-blur-md sm:px-5">
+    <header className="sticky top-0 z-30 flex h-16 select-none items-center gap-2 border-b-2 border-ink-900 bg-white/80 px-3 backdrop-blur-xl backdrop-saturate-180 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-5">
       {brand && (
         <Link to="/" aria-label="Beranda" className="flex shrink-0 items-center gap-1.5 lg:hidden">
           <span className="grid size-9 place-items-center rounded-md border-2 border-ink-900 bg-blobi-soft shadow-ink-sm">

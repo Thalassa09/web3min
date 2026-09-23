@@ -117,9 +117,9 @@ export function BubbleMenu({
   menuContentColor = "#1B1440",
   useFixedPosition = true,
   items,
-  animationEase = "back.out(1.5)",
-  animationDuration = 0.45,
-  staggerDelay = 0.08,
+  animationEase = "back.out(1.2)",
+  animationDuration = 0.42,
+  staggerDelay = 0.07,
   compactTriggerOnly = false
 }: BubbleMenuProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -248,23 +248,23 @@ export function BubbleMenu({
           transform-origin: center;
         }
         .bubble-overlay {
-          background: radial-gradient(circle at center, rgba(27, 20, 64, 0.65) 0%, rgba(13, 35, 64, 0.88) 100%);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
+          background: radial-gradient(circle at center, rgba(13, 35, 64, 0.72) 0%, rgba(9, 24, 45, 0.94) 100%);
+          backdrop-filter: saturate(180%) blur(24px);
+          -webkit-backdrop-filter: saturate(180%) blur(24px);
         }
         .bubble-pill-btn {
           transform: rotate(var(--item-rot));
-          box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.7), 0 5px 0 var(--color-ink-900, #1B1440);
-          transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), background-color 0.2s ease, color 0.2s ease, box-shadow 0.18s ease;
+          box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.8), 0 5px 0 var(--color-ink-900, #1B1440);
+          transition: transform 0.16s cubic-bezier(0.2, 0.9, 0.3, 1), background-color 0.2s ease, color 0.2s ease, box-shadow 0.16s ease;
         }
         .bubble-pill-btn:hover {
-          transform: rotate(var(--item-rot)) scale(1.05) translateY(-2px);
+          transform: rotate(var(--item-rot)) scale(1.04) translateY(-2px);
           background: var(--hover-bg) !important;
           color: var(--hover-color) !important;
-          box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.8), 0 8px 0 var(--color-ink-900, #1B1440);
+          box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.9), 0 7px 0 var(--color-ink-900, #1B1440);
         }
         .bubble-pill-btn:hover .bubble-icon-wrap {
-          transform: scale(1.12) rotate(-4deg);
+          transform: scale(1.08) rotate(-3deg);
           background: #ffffff;
         }
         .bubble-pill-btn:hover .bubble-badge {
@@ -413,13 +413,23 @@ export function BubbleMenu({
             }
           }}
         >
+          {/* Apple-style Circular Close Button */}
+          <button
+            type="button"
+            onClick={handleToggle}
+            aria-label="Tutup menu navigasi"
+            className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 text-white shadow-lg backdrop-blur-md transition-all duration-120 hover:scale-105 hover:bg-white/20 active:scale-95 sm:right-8 sm:top-8"
+          >
+            <span className="text-base font-black leading-none">✕</span>
+          </button>
+
           {/* Header Title in Overlay */}
           <div className="mb-6 flex flex-col items-center text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/20 bg-white/10 px-4 py-1 text-xs font-black uppercase tracking-wider text-candy-soft backdrop-blur-md">
               <Sparkles className="size-3.5 text-coin" />
               Menu Navigasi Penjelajah
             </span>
-            <h2 className="mt-2 font-display text-2xl font-black text-white sm:text-3xl">
+            <h2 className="mt-2 font-display text-2xl font-black tracking-tight text-white sm:text-3xl">
               Mau jelajah ke mana hari ini?
             </h2>
           </div>

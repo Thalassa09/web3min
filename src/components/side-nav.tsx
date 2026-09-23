@@ -17,7 +17,7 @@ export function SideNav() {
   return (
     <nav
       aria-label="Menu Utama Web3min"
-      className="sticky top-0 z-20 hidden h-screen w-[248px] shrink-0 select-none flex-col overflow-y-auto border-r-2 border-ink-900 bg-white p-5 lg:flex"
+      className="sticky top-0 z-20 hidden h-screen w-[248px] shrink-0 select-none flex-col overflow-y-auto border-r-2 border-ink-900 bg-white/85 p-5 backdrop-blur-2xl backdrop-saturate-180 lg:flex"
     >
       <BrandMark className="px-1 pb-6" />
 
@@ -31,21 +31,21 @@ export function SideNav() {
                 to={item.to}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "group flex items-center gap-3 rounded-full border-2 px-3.5 py-2.5 text-sm font-black transition-all duration-150",
+                  "group flex items-center gap-3 rounded-full border-2 px-3.5 py-2 text-sm font-black transition-all duration-120 ease-out active:scale-95 active:translate-y-0.5",
                   active
-                    ? "border-ink-900 bg-candy text-white shadow-ink-sm translate-x-1"
-                    : "border-transparent text-ink-500 hover:border-ink-900/10 hover:bg-soft hover:text-ink-900",
+                    ? "border-ink-900 bg-candy text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] translate-x-1"
+                    : "border-transparent text-ink-500 hover:border-ink-900/10 hover:bg-candy-soft/50 hover:text-ink-900",
                 )}
               >
                 <div
                   className={cn(
-                    "flex size-8 shrink-0 items-center justify-center rounded-full border transition-colors",
-                    active ? "border-white/40 bg-white/20 text-white" : "border-ink-900/10 bg-canvas text-ink-700 group-hover:border-ink-900/20 group-hover:bg-white"
+                    "flex size-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                    active ? "border-white/40 bg-white/20 text-white" : "border-ink-900/10 bg-white/80 text-ink-700 group-hover:border-ink-900/20 group-hover:bg-white group-hover:text-candy-deep"
                   )}
                 >
-                  <Icon className="size-4 shrink-0" weight={active ? "fill" : "regular"} />
+                  <Icon className="size-4.5 shrink-0" weight={active ? "fill" : "regular"} />
                 </div>
-                <span className="flex-1 truncate">{item.label}</span>
+                <span className="flex-1 truncate tracking-[-0.01em]">{item.label}</span>
                 {item.badge && (
                   <span className="rounded-full border border-ink-900 bg-coin px-2 py-0.5 text-[10px] font-black text-ink-900 shadow-ink-xs">
                     {item.badge}
@@ -60,7 +60,7 @@ export function SideNav() {
       <Link
         to="/profile"
         title="Buka Profil & Koleksi Blobi"
-        className="group mt-auto flex items-center gap-3 rounded-2xl border-2 border-ink-900 bg-soft p-3 shadow-ink-sm transition-transform duration-150 hover:-translate-y-0.5"
+        className="group mt-auto flex items-center gap-3 rounded-[24px] border-2 border-ink-900 bg-white/90 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-ink-sm"
       >
         <div className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-ink-900 bg-white shadow-ink-xs">
           <Mascot mood="proud" size={34} lite fill={false} interactive={false} />

@@ -279,7 +279,7 @@ export function PulauRantaiMap({
               {/* World Sign Board */}
               <div
                 className="wsign"
-                style={{ top: wi === 0 ? "156px" : "24px" }}
+                style={{ top: "24px" }}
               >
                 <p className="label font-extrabold text-[11px] text-[#D62A78] uppercase tracking-wider">
                   Rute {unit.index} · {theme.kind}
@@ -336,7 +336,6 @@ export function PulauRantaiMap({
                     onClick={() => handleNodeClick(lesson, unit, status)}
                     aria-label={`Blok ${blockNo}: ${lesson.title}`}
                   >
-                    {!isChest && <span className="h">#{blockNo}</span>}
                     <PulauIcon
                       name={iconName}
                       size={26}

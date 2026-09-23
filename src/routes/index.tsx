@@ -29,7 +29,9 @@ function Home() {
   return (
     <AppShell rail={<DeskRail />}>
       <main className="space-y-4 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28">
-        <HomeDock />
+        <div className="hidden sm:block">
+          <HomeDock />
+        </div>
         <PathMap units={UNITS} focusUnit={unitId} />
       </main>
       <CoachTour />

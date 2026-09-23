@@ -524,8 +524,8 @@ export function PulauRantaiMap({
 
       {/* Progres Analytics Modal */}
       {showProgresModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3">
-          <div className="bg-canvas border-2 border-ink-900 rounded-[32px] w-full max-w-md max-h-[90vh] overflow-y-auto shadow-ink relative">
+        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-cream border-3 border-choco-900 rounded-[28px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_8px_0_#3B2218] p-4 sm:p-5 relative">
             <PulauRantaiProgres onClose={() => setShowProgresModal(false)} />
           </div>
         </div>

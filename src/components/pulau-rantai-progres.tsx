@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { useProgress } from "@/lib/store";
-import { UNITS, sequentialNodes, allPathNodes, getLesson, getUnit } from "@/lib/curriculum";
+import { UNITS, sequentialNodes, getLesson, getUnit } from "@/lib/curriculum";
 import { PulauIcon } from "@/lib/pulau-icons";
 import { generateBlockHash } from "@/lib/pulau-rantai";
 import { leagueOf } from "@/lib/quests";
 import { getWeekDays, getMonthWeeks } from "@/lib/activity-history";
 import { ProgressBar } from "@/components/ui/progress-bar";
+import { Fire } from "@/lib/kicon";
 import {
   ChevronDown,
   Layers,
@@ -18,8 +19,7 @@ import {
   ArrowRight,
   X,
   Share2,
-  Sparkles,
-  Flame,
+  ChevronLeft,
 } from "lucide-react";
 
 export function PulauRantaiProgres({
@@ -151,10 +151,10 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
   };
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto text-ink-900 font-sans pb-8 space-y-3">
+    <div className="relative w-full text-choco-900 font-sans pb-4 space-y-3.5 select-none">
       {/* Toast Notification */}
       {toastMsg && (
-        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-ink-900 text-cream px-4 py-2 rounded-full border-2 border-candy-500 text-xs font-bold shadow-[0_4px_12px_rgba(0,0,0,0.3)] animate-in fade-in slide-in-from-top-2">
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-choco-900 text-white px-4 py-2 rounded-full border-2 border-candy-500 text-xs font-bold shadow-[0_4px_12px_rgba(0,0,0,0.3)] animate-in fade-in slide-in-from-top-2">
           {toastMsg}
         </div>
       )}
@@ -164,40 +164,40 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
         <div className="flex items-center justify-between pt-1 pb-1">
           <button
             type="button"
-            className="jb sm"
+            className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-candy-100 text-choco-900 shadow-[0_2px_0_#3B2218] transition-all hover:bg-candy-200 active:translate-y-0.5 cursor-pointer"
             onClick={onClose}
             aria-label="Tutup"
             title="Kembali"
           >
-            <PulauIcon name="back" size={20} />
+            <ChevronLeft className="size-5 stroke-[2.5]" />
           </button>
-          <div className="ph text-2xl font-black text-ink-900 tracking-tight">
+          <h2 className="font-pixel text-xl sm:text-2xl font-bold text-choco-900 tracking-tight">
             Progres Belajar
-          </div>
+          </h2>
           <button
             type="button"
-            className="jb sm coin hover:scale-105 transition-transform"
+            className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-200 text-choco-900 shadow-[0_2px_0_#3B2218] transition-all hover:bg-amber-300 hover:scale-105 active:translate-y-0.5 cursor-pointer"
             onClick={() => setShowRekapModal(true)}
             aria-label="Buka Rekap Penjelajah"
             title="Buka Rekap Penjelajah"
           >
-            <BookOpen className="size-5 text-ink-900 stroke-[2.5]" />
+            <BookOpen className="size-5 stroke-[2.5]" />
           </button>
         </div>
       ) : (
         <div className="flex items-center justify-between pt-0.5 pb-0.5">
           <div>
-            <div className="text-[10px] font-black uppercase tracking-wider text-ink-500">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-choco-600">
               Metrik Aktivitas Belajar
             </div>
-            <h2 className="text-xl font-black font-display text-ink-900 tracking-tight">
+            <h2 className="text-xl font-bold font-pixel text-choco-900 tracking-tight">
               Aktivitas & Catatan Rantai
             </h2>
           </div>
           <button
             type="button"
             onClick={() => setShowRekapModal(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-candy-50 active:translate-y-0.5 border-2 border-ink-900 rounded-full shadow-[2px_2px_0_#2B1622] text-xs font-black text-ink-900 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-candy-50 active:translate-y-0.5 border-2 border-choco-900 rounded-full shadow-[0_2px_0_#3B2218] text-xs font-bold text-choco-900 transition-all cursor-pointer"
             title="Buka Rekap Penjelajah"
           >
             <BookOpen className="size-4 text-candy-600 stroke-[2.5]" />
@@ -211,22 +211,22 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
         <button
           type="button"
           onClick={() => setShowRouteSelector(true)}
-          className="sel flex-1 flex items-center justify-between gap-2 py-2 px-3.5 bg-white hover:bg-candy-50 border-2 border-ink-900 rounded-xl shadow-[2px_2px_0_#2B1622] transition-colors cursor-pointer"
+          className="flex-1 flex items-center justify-between gap-2 py-2 px-3.5 bg-white hover:bg-candy-50 border-2 border-choco-900 rounded-2xl shadow-[0_2px_0_#3B2218] transition-colors cursor-pointer"
           aria-label="Filter Rute Belajar"
         >
           <div className="flex items-center gap-2 truncate">
-            <Layers className="size-4 text-candy-600 stroke-[2.5] flex-shrink-0" />
-            <span className="font-extrabold text-xs text-ink-900 truncate">
+            <Layers className="size-4 text-candy-600 stroke-[2.5] shrink-0" />
+            <span className="font-bold text-xs sm:text-sm text-choco-900 truncate">
               {selectedUnit
                 ? `Rute ${selectedUnit.index}: ${selectedUnit.title}`
                 : "Semua 20 Rute Pulau Rantai"}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 flex-shrink-0">
-            <span className="text-[11px] font-bold font-mono text-candy-700 bg-candy-100 px-2 py-0.5 rounded-full border border-candy-300">
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="text-[11px] font-bold font-sans tabular-nums text-candy-700 bg-candy-100 px-2 py-0.5 rounded-full border border-candy-300">
               {completedInScope.length}/{nodesInScope.length} Blok
             </span>
-            <ChevronDown className="size-4 text-ink-600 stroke-[2.5]" />
+            <ChevronDown className="size-4 text-choco-600 stroke-[2.5]" />
           </div>
         </button>
 
@@ -237,7 +237,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               setSelectedUnitId("all");
               showToast("Filter direset ke semua 20 rute");
             }}
-            className="p-2 bg-white hover:bg-ruby-50 border-2 border-ink-900 rounded-xl shadow-[2px_2px_0_#2B1622] text-xs font-bold text-ink-700 transition-colors cursor-pointer"
+            className="p-2.5 bg-white hover:bg-candy-100 border-2 border-choco-900 rounded-2xl shadow-[0_2px_0_#3B2218] text-xs font-bold text-choco-700 transition-colors cursor-pointer active:translate-y-0.5"
             title="Reset ke Semua Rute"
           >
             <RotateCcw className="size-4 stroke-[2.5]" />
@@ -246,22 +246,26 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
       </div>
 
       {/* Main Stats Card with Interactive Chart */}
-      <div className="card bg-paper border-2 border-ink-900 rounded-2xl p-4 sm:p-5 shadow-[4px_4px_0_#2B1622]">
+      <div className="bg-white border-2 border-choco-900 rounded-2xl p-4 sm:p-5 shadow-[0_4px_0_#3B2218] space-y-4">
         {/* Top Controls: Scope Title + Segmented Weekly/Monthly Toggle */}
-        <div className="flex items-center justify-between gap-2 border-b border-ink-900/10 pb-2.5">
-          <div className="truncate">
-            <div className="text-[10px] uppercase tracking-wider font-extrabold text-ink-500">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-choco-900/10 pb-3">
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase tracking-wider font-bold text-choco-500">
               Cakupan Pantauan
             </div>
-            <div className="text-xs font-black text-ink-900 truncate">
+            <div className="text-xs sm:text-sm font-bold text-choco-900">
               {selectedUnit ? selectedUnit.title : "Seluruh Pulau Rantai (20 Rute)"}
             </div>
           </div>
 
-          <div className="seg flex-shrink-0">
+          <div className="self-start sm:self-auto flex items-center gap-1 bg-candy-50 border-2 border-choco-900 p-1 rounded-full shrink-0 shadow-[0_1px_0_#3B2218]">
             <button
               type="button"
-              className={mode === "w" ? "on" : ""}
+              className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                mode === "w"
+                  ? "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                  : "text-choco-600 hover:text-choco-900"
+              }`}
               onClick={() => {
                 setMode("w");
                 setSelectedCol(new Date().getDay());
@@ -271,7 +275,11 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
             </button>
             <button
               type="button"
-              className={mode === "m" ? "on" : ""}
+              className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                mode === "m"
+                  ? "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                  : "text-choco-600 hover:text-choco-900"
+              }`}
               onClick={() => {
                 setMode("m");
                 setSelectedCol(0);
@@ -282,41 +290,56 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
           </div>
         </div>
 
-        {/* Big Numbers & Scope Progress Bar */}
-        <div className="pt-2.5">
-          <div className="big flex items-baseline justify-between mb-2">
-            <div>
-              <b className="text-3xl sm:text-4xl font-black font-display text-ink-900">
+        {/* ─────────────────────────────────────────────────────────────
+            COHESIVE STAT PODS: Fixes false grouping of streak & remaining blocks
+           ───────────────────────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Pod 1: Progres Blok */}
+          <div className="p-3.5 bg-candy-50/50 rounded-2xl border-2 border-choco-900/20 flex flex-col justify-between">
+            <div className="text-[11px] font-bold text-choco-600 uppercase tracking-wide">
+              Progres Kurikulum
+            </div>
+            <div className="my-1.5 flex items-baseline gap-1.5">
+              <span className="text-3xl font-black font-sans text-choco-900 tabular-nums">
                 {completedInScope.length}
-              </b>
-              <span className="text-xs sm:text-sm font-bold text-ink-600">
-                /{nodesInScope.length} Blok
+              </span>
+              <span className="text-sm font-bold text-choco-600">
+                / {nodesInScope.length} Blok
               </span>
             </div>
-            <div className="text-right">
-              <b className="text-3xl sm:text-4xl font-black font-display text-candy-600">
-                {streak}
-              </b>
-              <span className="text-xs sm:text-sm font-bold text-ink-600">
-                Hari rantai
-              </span>
+            <ProgressBar value={percentInScope} size="sm" className="my-1" />
+            <div className="flex justify-between items-center text-[11px] font-bold text-choco-600 mt-1">
+              <span>{percentInScope}% terselesaikan</span>
+              <span>{nodesInScope.length - completedInScope.length} blok tersisa</span>
             </div>
           </div>
 
-          {/* Scope Completion Bar */}
-          <ProgressBar
-            value={percentInScope}
-            size="xs"
-          />
-          <div className="flex justify-between items-center text-[11px] font-bold text-ink-500 mt-1">
-            <span>{percentInScope}% terselesaikan</span>
-            <span>{nodesInScope.length - completedInScope.length} blok tersisa</span>
+          {/* Pod 2: Streak Rantai */}
+          <div className="p-3.5 bg-amber-50/50 rounded-2xl border-2 border-choco-900/20 flex flex-col justify-between">
+            <div className="text-[11px] font-bold text-choco-600 uppercase tracking-wide">
+              Hari Rantai Aktif
+            </div>
+            <div className="my-1.5 flex items-center gap-2">
+              <span className="text-3xl font-black font-sans text-orange-600 tabular-nums flex items-center gap-1.5">
+                <Fire className="size-7 text-orange-500 fill-orange-500 shrink-0" weight="fill" />
+                {streak}
+              </span>
+              <span className="text-sm font-bold text-choco-600">
+                Hari beruntun
+              </span>
+            </div>
+            <div className="text-[11px] font-bold text-choco-600 mt-auto pt-2 border-t border-choco-900/10 flex items-center justify-between">
+              <span>{streak > 0 ? "🔥 Rantai menyala!" : "Belum ada streak"}</span>
+              <span className="text-candy-600 font-extrabold">Pertahankan besok</span>
+            </div>
           </div>
         </div>
 
-        {/* Interactive Bar Chart Bricks with Full Ghost Grid */}
-        <div className="mt-3 pt-2 border-t border-ink-900/10">
-          <div className="bars h-40 sm:h-44 flex items-end gap-1.5 sm:gap-2 pt-4">
+        {/* ─────────────────────────────────────────────────────────────
+            INTERACTIVE ACTIVITY BAR CHART (Arcade Candy Style)
+           ───────────────────────────────────────────────────────────── */}
+        <div className="pt-2 border-t-2 border-choco-900/10">
+          <div className="min-h-[210px] flex items-end justify-between gap-1 sm:gap-2 pt-3 pb-2">
             {mode === "w"
               ? weekDays.map((col, idx) => {
                   const isSelected = selectedCol === idx;
@@ -329,60 +352,55 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                     <div
                       key={col.label}
                       onClick={() => setSelectedCol(idx)}
-                      className={`col flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform ${
-                        col.isToday ? "today" : ""
-                      }`}
+                      className="flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform"
                     >
                       {/* Floating Tooltip Indicator */}
-                      {isSelected && (
-                        <div className="val mb-1 px-2 py-0.5 bg-ink-900 text-cream text-[10px] sm:text-xs font-mono font-bold rounded-md shadow-sm whitespace-nowrap animate-in fade-in zoom-in-90">
-                          +{col.xp} XP
-                        </div>
-                      )}
+                      <div className="h-6 flex items-center justify-center mb-1">
+                        {isSelected && (
+                          <div className="px-2 py-0.5 bg-choco-900 text-white text-[10px] sm:text-xs font-sans font-bold tabular-nums rounded-full border border-choco-900 shadow-[0_2px_0_rgba(0,0,0,0.15)] whitespace-nowrap animate-in fade-in zoom-in-95">
+                            +{col.xp} XP
+                          </div>
+                        )}
+                      </div>
 
-                      {/* Stack of Bricks / Ghost Slots */}
+                      {/* Stack of Bricks / Clean Column Track */}
                       <div
-                        className={`w-full max-w-[38px] flex flex-col-reverse gap-1 p-1 rounded-xl transition-all ${
+                        className={`w-full max-w-[42px] h-28 sm:h-32 flex flex-col-reverse justify-start gap-1 p-1 rounded-2xl border-2 transition-all ${
                           isSelected
-                            ? "bg-candy-100/90 ring-2 ring-candy-500 shadow-xs"
-                            : "hover:bg-sand-100"
+                            ? "bg-candy-100/80 border-candy-500 shadow-[0_2px_0_#E8437F]"
+                            : "bg-cream/60 border-choco-900/15 hover:bg-cream hover:border-choco-900/30"
                         }`}
                       >
                         {brickCount === 0 ? (
-                          // Render 3 ghost slots so the chart feels structured & tangible even at 0 XP
-                          <div className="flex flex-col-reverse gap-1 w-full">
-                            <div className="h-5 sm:h-6 border-2 border-dashed border-ink-900/20 rounded-md flex items-center justify-center text-[10px] text-ink-400 font-mono font-bold">
-                              0
-                            </div>
-                            <div className="h-5 sm:h-6 border border-dashed border-ink-900/10 rounded-md" />
-                            <div className="h-5 sm:h-6 border border-dashed border-ink-900/5 rounded-md" />
+                          // Clean single empty state baseline (No 3-tier dashed clutter!)
+                          <div className="h-5 sm:h-6 w-full rounded-lg border-2 border-dashed border-choco-900/20 flex items-center justify-center text-[10px] text-choco-400 font-sans font-bold tabular-nums">
+                            0
                           </div>
                         ) : (
+                          // Stack of candy bricks in cohesive Candy Pink
                           Array.from({ length: brickCount }).map((_, bIdx) => (
                             <div
                               key={bIdx}
-                              className={`h-5 sm:h-6 rounded-md border-2 border-ink-900 shadow-[inset_0_2px_0_rgba(255,255,255,0.4)] ${
-                                bIdx % 2 === 0 ? "bg-candy-500" : "bg-purple-600"
-                              } transition-all duration-200 group-hover:brightness-105`}
+                              className="h-5 sm:h-6 rounded-lg border-2 border-choco-900 bg-candy-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_2px_0_#3B2218] transition-all group-hover:brightness-105"
                             />
                           ))
                         )}
                       </div>
 
-                      {/* Day Label & Date */}
-                      <div className="mt-2 flex flex-col items-center justify-center gap-0.5 pointer-events-none">
+                      {/* Day Label & Date (Clear Tabular Sans Font!) */}
+                      <div className="mt-2 flex flex-col items-center justify-center gap-1 pointer-events-none">
                         <span
-                          className={`text-[11px] sm:text-xs font-black leading-none ${
+                          className={`text-xs font-bold leading-none ${
                             col.isToday
-                              ? "text-white bg-candy-500 px-1.5 py-0.5 rounded-full shadow-xs"
+                              ? "text-white bg-candy-500 px-2 py-0.5 rounded-full border border-choco-900 shadow-[0_1px_0_#3B2218]"
                               : isSelected
-                              ? "text-ink-900 font-extrabold underline decoration-candy-500 decoration-2 underline-offset-2"
-                              : "text-ink-600"
+                              ? "text-choco-900 font-extrabold underline decoration-candy-500 decoration-2 underline-offset-2"
+                              : "text-choco-600"
                           }`}
                         >
                           {col.label}
                         </span>
-                        <span className="text-[10px] font-mono font-semibold text-ink-400">
+                        <span className="text-xs font-sans font-bold tabular-nums text-choco-600 leading-none">
                           {dateNum}
                         </span>
                       </div>
@@ -399,49 +417,44 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                     <div
                       key={col.label}
                       onClick={() => setSelectedCol(idx)}
-                      className={`col flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform ${
-                        col.isCurrentWeek ? "today" : ""
-                      }`}
+                      className="flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform"
                     >
-                      {isSelected && (
-                        <div className="val mb-1 px-2 py-0.5 bg-ink-900 text-cream text-[10px] sm:text-xs font-mono font-bold rounded-md shadow-sm whitespace-nowrap animate-in fade-in zoom-in-90">
-                          +{col.xp} XP
-                        </div>
-                      )}
+                      <div className="h-6 flex items-center justify-center mb-1">
+                        {isSelected && (
+                          <div className="px-2 py-0.5 bg-choco-900 text-white text-[10px] sm:text-xs font-sans font-bold tabular-nums rounded-full border border-choco-900 shadow-[0_2px_0_rgba(0,0,0,0.15)] whitespace-nowrap animate-in fade-in zoom-in-95">
+                            +{col.xp} XP
+                          </div>
+                        )}
+                      </div>
 
                       <div
-                        className={`w-full max-w-[48px] flex flex-col-reverse gap-1 p-1 rounded-xl transition-all ${
+                        className={`w-full max-w-[56px] h-28 sm:h-32 flex flex-col-reverse justify-start gap-1 p-1 rounded-2xl border-2 transition-all ${
                           isSelected
-                            ? "bg-candy-100/90 ring-2 ring-candy-500 shadow-xs"
-                            : "hover:bg-sand-100"
+                            ? "bg-candy-100/80 border-candy-500 shadow-[0_2px_0_#E8437F]"
+                            : "bg-cream/60 border-choco-900/15 hover:bg-cream hover:border-choco-900/30"
                         }`}
                       >
                         {brickCount === 0 ? (
-                          <div className="flex flex-col-reverse gap-1 w-full">
-                            <div className="h-6 border-2 border-dashed border-ink-900/20 rounded-md flex items-center justify-center text-[10px] text-ink-400 font-mono font-bold">
-                              0
-                            </div>
-                            <div className="h-6 border border-dashed border-ink-900/10 rounded-md" />
+                          <div className="h-6 w-full rounded-lg border-2 border-dashed border-choco-900/20 flex items-center justify-center text-[10px] text-choco-400 font-sans font-bold tabular-nums">
+                            0
                           </div>
                         ) : (
                           Array.from({ length: brickCount }).map((_, bIdx) => (
                             <div
                               key={bIdx}
-                              className={`h-5 sm:h-6 rounded-md border-2 border-ink-900 shadow-[inset_0_2px_0_rgba(255,255,255,0.4)] ${
-                                bIdx % 2 === 0 ? "bg-candy-500" : "bg-purple-600"
-                              }`}
+                              className="h-5 sm:h-6 rounded-lg border-2 border-choco-900 bg-candy-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_2px_0_#3B2218]"
                             />
                           ))
                         )}
                       </div>
 
                       <div
-                        className={`mt-1.5 text-xs font-black ${
+                        className={`mt-2 text-xs font-bold ${
                           col.isCurrentWeek
-                            ? "text-white bg-candy-500 px-2 py-0.5 rounded-full"
+                            ? "text-white bg-candy-500 px-2 py-0.5 rounded-full border border-choco-900 shadow-[0_1px_0_#3B2218]"
                             : isSelected
-                            ? "text-ink-900 underline decoration-2 underline-offset-2"
-                            : "text-ink-600"
+                            ? "text-choco-900 font-extrabold underline decoration-2 underline-offset-2"
+                            : "text-choco-600"
                         }`}
                       >
                         {col.label}
@@ -452,8 +465,8 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
           </div>
 
           {/* Interactive Day Inspector & Scale Note */}
-          <div className="mt-2.5 pt-2 border-t border-ink-900/10 flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div className="flex items-center gap-1.5 font-black text-ink-800 bg-sand-100 px-2.5 py-1 rounded-lg border border-ink-900/15">
+          <div className="mt-3 pt-2.5 border-t border-choco-900/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2 font-bold text-choco-900 bg-candy-100 px-3 py-1.5 rounded-full border border-choco-900/20 shadow-[0_1px_0_#3B2218] self-start">
               <span className="size-2 rounded-full bg-candy-500 animate-pulse" />
               <span>
                 {mode === "w"
@@ -461,8 +474,8 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                   : `${(activeColData as any).fullLabel}: ${(activeColData as any).xp} XP`}
               </span>
             </div>
-            <div className="text-[11px] font-bold text-ink-500">
-              {mode === "w" ? "1 kotak = 10 XP" : "1 kotak = 40 XP"} · Ketuk kolom untuk cek
+            <div className="text-[11px] font-bold text-choco-600 sm:text-right">
+              {mode === "w" ? "1 balok = 10 XP" : "1 balok = 40 XP"} · Ketuk kolom untuk cek
             </div>
           </div>
         </div>
@@ -471,31 +484,32 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
       {/* Connected League Card with Progress Bar */}
       <Link
         to="/leaderboard"
-        className="card lg bg-paper hover:bg-candy-50/50 border-2 border-ink-900 rounded-2xl p-3.5 sm:p-4 shadow-[4px_4px_0_#2B1622] flex flex-col gap-2.5 transition-all hover:translate-y-[-1px] active:translate-y-0.5 block cursor-pointer"
+        className="block bg-amber-50 hover:bg-amber-100/70 border-2 border-choco-900 rounded-2xl p-4 shadow-[0_4px_0_#3B2218] space-y-2.5 transition-all active:translate-y-0.5 cursor-pointer"
       >
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="size-10 rounded-full border-2 border-ink-900 bg-amber-100 flex items-center justify-center flex-shrink-0 shadow-xs">
-              <Trophy className="size-5 text-amber-600 stroke-[2.5]" />
+            <div className="size-9 rounded-full border-2 border-choco-900 bg-amber-300 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+              <Trophy className="size-4.5 text-choco-900 stroke-[2.5]" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <b className="font-extrabold text-sm text-ink-900 truncate">{league.name}</b>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.2 rounded-full border border-amber-300">
+                <span className="font-bold text-sm text-choco-900">{league.name}</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200 px-2 py-0.5 rounded-full border border-amber-400">
                   {league.id}
                 </span>
               </div>
-              <small className="text-xs font-semibold text-ink-600 block truncate">
-                {weeklyXp} XP minggu ini ·{" "}
-                {league.next ? `${Math.max(0, league.next - weeklyXp)} XP menuju promosi` : "Kasta Tertinggi"}
-              </small>
             </div>
           </div>
 
-          <div className="flex items-center gap-1 text-xs font-black text-candy-700 bg-candy-100 hover:bg-candy-200 px-3 py-1.5 rounded-full border border-candy-300 flex-shrink-0 transition-colors">
+          <div className="flex items-center gap-1 text-xs font-bold text-candy-600 bg-candy-100 hover:bg-candy-200 px-2.5 py-1 rounded-full border border-candy-300 shrink-0 transition-colors shadow-[0_1px_0_#3B2218]">
             <span>Klasemen</span>
-            <PulauIcon name="chev" size={14} />
+            <ArrowRight className="size-3.5 stroke-[2.5]" />
           </div>
+        </div>
+
+        <div className="text-xs font-bold text-choco-600">
+          {weeklyXp} XP minggu ini ·{" "}
+          {league.next ? `${Math.max(0, league.next - weeklyXp)} XP menuju promosi` : "Kasta Tertinggi"}
         </div>
 
         {/* League Promotion Progress Bar */}
@@ -509,18 +523,18 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
       </Link>
 
       {/* Living On-Chain Receipt (Struk Blok Terakhir) */}
-      <div className="card bg-paper border-2 border-ink-900 rounded-2xl p-4 sm:p-5 shadow-[4px_4px_0_#2B1622] space-y-3 relative overflow-hidden">
+      <div className="bg-white border-2 border-choco-900 rounded-2xl p-4 sm:p-5 shadow-[0_4px_0_#3B2218] space-y-3 relative overflow-hidden">
         {/* Receipt Header */}
-        <div className="flex items-center justify-between border-b-2 border-dashed border-ink-900/20 pb-2.5">
+        <div className="flex items-center justify-between border-b-2 border-dashed border-choco-900/20 pb-2.5">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-black uppercase tracking-wider text-ink-500">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-choco-500">
               Struk Blok Terakhir
             </span>
             {lastCompletedLesson && (
               <span className="size-2 rounded-full bg-emerald-500" title="Valid on-chain" />
             )}
           </div>
-          <span className="text-xs font-mono font-black text-candy-700 bg-candy-100 px-2.5 py-0.5 rounded-full border border-candy-300">
+          <span className="text-xs font-sans font-bold tabular-nums text-candy-700 bg-candy-100 px-2.5 py-0.5 rounded-full border border-candy-300">
             {lastCompletedLesson
               ? `#U${String(lastCompletedLesson.unit.index).padStart(2, "0")}-${lastCompletedLesson.lesson.id.split("-l")[1] || "1"}`
               : "#BELUM-ADA"}
@@ -531,41 +545,41 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
           <>
             <div className="space-y-2 text-xs">
               <div className="flex justify-between items-start gap-2">
-                <span className="text-ink-500 font-semibold flex-shrink-0">Pelajaran</span>
-                <span className="font-black text-ink-900 text-right truncate">
+                <span className="text-choco-500 font-bold shrink-0">Pelajaran</span>
+                <span className="font-bold text-choco-900 text-right truncate">
                   {lastCompletedLesson.lesson.title}
                 </span>
               </div>
 
               <div className="flex justify-between items-center gap-2">
-                <span className="text-ink-500 font-semibold flex-shrink-0">Rute</span>
-                <span className="font-bold text-ink-800 text-right truncate">
+                <span className="text-choco-500 font-bold shrink-0">Rute</span>
+                <span className="font-bold text-choco-800 text-right truncate">
                   Rute {lastCompletedLesson.unit.index} · {lastCompletedLesson.unit.title}
                 </span>
               </div>
 
               <div className="flex justify-between items-center gap-2">
-                <span className="text-ink-500 font-semibold flex-shrink-0">Status Konsensus</span>
+                <span className="text-choco-500 font-bold shrink-0">Status Konsensus</span>
                 <div className="flex items-center gap-1.5 font-bold text-emerald-700">
-                  <div className="conf flex gap-1">
-                    <i className="bg-emerald-500" />
-                    <i className="bg-emerald-500" />
-                    <i className="bg-emerald-500" />
+                  <div className="flex gap-1">
+                    <span className="size-2 rounded-full bg-emerald-500" />
+                    <span className="size-2 rounded-full bg-emerald-500" />
+                    <span className="size-2 rounded-full bg-emerald-500" />
                   </div>
                   <span>Tervalidasi (3/3)</span>
                 </div>
               </div>
 
-              <div className="flex justify-between items-center gap-2 pt-1 border-t border-dashed border-ink-900/15">
-                <span className="text-ink-500 font-semibold flex-shrink-0">Hash Blok</span>
+              <div className="flex justify-between items-center gap-2 pt-1 border-t border-dashed border-choco-900/15">
+                <span className="text-choco-500 font-bold shrink-0">Hash Blok</span>
                 <div className="flex items-center gap-1.5">
-                  <code className="font-mono text-ink-800 font-bold bg-sand-100 px-1.5 py-0.5 rounded border border-ink-900/15">
+                  <code className="font-mono text-choco-900 font-bold bg-cream px-2 py-0.5 rounded border border-choco-900/20 text-[11px]">
                     {generateBlockHash(lastCompletedLesson.lesson.id)}
                   </code>
                   <button
                     type="button"
                     onClick={() => copyHash(generateBlockHash(lastCompletedLesson.lesson.id))}
-                    className="p-1 hover:bg-candy-100 rounded transition-colors text-ink-700 cursor-pointer"
+                    className="p-1 hover:bg-candy-100 rounded-full transition-colors text-choco-700 cursor-pointer"
                     title="Salin Hash"
                   >
                     {copiedHash ? (
@@ -577,9 +591,9 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                 </div>
               </div>
 
-              <div className="flex justify-between items-center gap-2 pt-1 border-t border-dashed border-ink-900/15">
-                <span className="text-ink-500 font-semibold">Reward Didapat</span>
-                <span className="font-black text-candy-700 bg-candy-100 px-2 py-0.5 rounded-md border border-candy-300">
+              <div className="flex justify-between items-center gap-2 pt-1 border-t border-dashed border-choco-900/15">
+                <span className="text-choco-500 font-bold">Reward Didapat</span>
+                <span className="font-bold font-sans tabular-nums text-candy-700 bg-candy-100 px-2.5 py-0.5 rounded-full border border-candy-300">
                   +{lastCompletedLesson.lesson.xp} XP · +{lastCompletedLesson.lesson.gems} Koin
                 </span>
               </div>
@@ -590,7 +604,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               <Link
                 to="/lesson/$lessonId"
                 params={{ lessonId: lastCompletedLesson.lesson.id }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-extrabold text-xs rounded-xl border-2 border-ink-900 shadow-[2px_2px_0_#2B1622] transition-all cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-bold text-xs rounded-xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-all cursor-pointer"
               >
                 <span>Ulangi Blok Ini</span>
                 <ArrowRight className="size-3.5 stroke-[3]" />
@@ -599,14 +613,14 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
           </>
         ) : (
           <div className="py-4 text-center space-y-3">
-            <div className="size-12 mx-auto rounded-full bg-candy-100 border-2 border-ink-900 flex items-center justify-center text-candy-600 shadow-xs">
+            <div className="size-12 mx-auto rounded-full bg-candy-100 border-2 border-choco-900 flex items-center justify-center text-candy-600 shadow-[0_2px_0_#3B2218]">
               <BookOpen className="size-6 stroke-[2.5]" />
             </div>
             <div className="space-y-1">
-              <div className="font-black text-base text-ink-900">
+              <div className="font-bold text-base text-choco-900">
                 Belum Ada Blok Selesai di Rute Ini
               </div>
-              <p className="text-xs text-ink-600 max-w-sm mx-auto leading-relaxed">
+              <p className="text-xs text-choco-600 max-w-sm mx-auto leading-relaxed">
                 Mulai materi pertama untuk menambang blok dan mencetak struk on-chain pertamamu!
               </p>
             </div>
@@ -614,7 +628,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               <Link
                 to="/lesson/$lessonId"
                 params={{ lessonId: firstLessonInScope.id }}
-                className="inline-flex items-center gap-2 py-2.5 px-5 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-black text-xs rounded-full border-2 border-ink-900 shadow-[3px_3px_0_#2B1622] transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 py-2.5 px-5 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-bold text-xs rounded-full border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-all cursor-pointer"
               >
                 <span>Mulai Belajar Sekarang</span>
                 <ArrowRight className="size-4 stroke-[3]" />
@@ -626,20 +640,20 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
 
       {/* ROUTE SELECTOR MODAL / SHEET */}
       {showRouteSelector && (
-        <div className="fixed inset-0 z-50 bg-ink-900/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in">
-          <div className="w-full max-w-lg bg-paper border-t-2 sm:border-2 border-ink-900 rounded-t-3xl sm:rounded-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.3)] max-h-[85vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom-4">
+        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in">
+          <div className="w-full max-w-lg bg-cream border-t-3 sm:border-3 border-choco-900 rounded-t-[28px] sm:rounded-[28px] shadow-[0_8px_0_#3B2218] max-h-[85vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom-4">
             {/* Modal Header */}
-            <div className="p-4 border-b-2 border-ink-900 flex items-center justify-between bg-sand-100 flex-shrink-0">
+            <div className="p-4 border-b-2 border-choco-900 flex items-center justify-between bg-candy-100 shrink-0">
               <div className="flex items-center gap-2">
                 <Layers className="size-5 text-candy-600 stroke-[2.5]" />
-                <h3 className="font-black text-base text-ink-900">Pilih Rute Belajar</h3>
+                <h3 className="font-pixel text-lg font-bold text-choco-900">Pilih Rute Belajar</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowRouteSelector(false)}
-                className="p-1.5 hover:bg-sand-200 rounded-full border border-ink-900/20 text-ink-700 cursor-pointer"
+                className="p-1.5 hover:bg-candy-200 rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] cursor-pointer"
               >
-                <X className="size-5 stroke-[2.5]" />
+                <X className="size-4.5 stroke-[2.5]" />
               </button>
             </div>
 
@@ -653,17 +667,17 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                   setShowRouteSelector(false);
                   showToast("Menampilkan seluruh 20 rute");
                 }}
-                className={`w-full text-left p-3 rounded-2xl border-2 border-ink-900 transition-all cursor-pointer ${
+                className={`w-full text-left p-3.5 rounded-2xl border-2 border-choco-900 transition-all cursor-pointer ${
                   selectedUnitId === "all"
-                    ? "bg-candy-100 shadow-[3px_3px_0_#2B1622]"
-                    : "bg-white hover:bg-sand-100 shadow-[2px_2px_0_#2B1622]"
+                    ? "bg-candy-100 shadow-[0_3px_0_#3B2218]"
+                    : "bg-white hover:bg-candy-50/70 shadow-[0_2px_0_#3B2218]"
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="font-black text-sm text-ink-900">
+                  <span className="font-bold text-sm text-choco-900">
                     🌟 Seluruh Rute Pulau Rantai
                   </span>
-                  <span className="text-xs font-mono font-extrabold text-candy-700 bg-candy-200 px-2 py-0.5 rounded-full border border-candy-300">
+                  <span className="text-xs font-sans font-bold tabular-nums text-candy-700 bg-candy-200 px-2.5 py-0.5 rounded-full border border-candy-300">
                     {completed.length}/128 Blok
                   </span>
                 </div>
@@ -674,7 +688,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                 />
               </button>
 
-              <div className="text-[11px] font-black uppercase tracking-wider text-ink-500 pt-2 px-1">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-choco-500 pt-2 px-1">
                 Daftar 20 Rute Tematik
               </div>
 
@@ -694,18 +708,18 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                       setShowRouteSelector(false);
                       showToast(`Filter: Rute ${unit.index} (${unit.title})`);
                     }}
-                    className={`w-full text-left p-3 rounded-xl border-2 border-ink-900 transition-all cursor-pointer ${
+                    className={`w-full text-left p-3 rounded-2xl border-2 border-choco-900 transition-all cursor-pointer ${
                       isSelected
-                        ? "bg-candy-100 shadow-[3px_3px_0_#2B1622]"
-                        : "bg-white hover:bg-sand-100 shadow-[2px_2px_0_#2B1622]"
+                        ? "bg-candy-100 shadow-[0_3px_0_#3B2218]"
+                        : "bg-white hover:bg-candy-50/70 shadow-[0_2px_0_#3B2218]"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <div className="font-extrabold text-xs text-ink-900 truncate">
+                      <div className="font-bold text-xs text-choco-900 truncate">
                         Rute {unit.index}: {unit.title}
                       </div>
                       <span
-                        className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                        className={`text-[10px] font-sans font-bold tabular-nums px-2 py-0.5 rounded-full border ${
                           isAllDone
                             ? "bg-emerald-100 text-emerald-800 border-emerald-300"
                             : doneInUnit > 0
@@ -717,7 +731,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                       </span>
                     </div>
 
-                    <div className="w-full bg-line rounded-full h-1.5 border border-ink-900 overflow-hidden">
+                    <div className="w-full bg-cream rounded-full h-2 border border-choco-900/30 overflow-hidden">
                       <div
                         className={`h-full rounded-full ${
                           isAllDone ? "bg-emerald-500" : "bg-candy-500"
@@ -737,93 +751,93 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
 
       {/* REKAP PENJELAJAH MODAL */}
       {showRekapModal && (
-        <div className="fixed inset-0 z-50 bg-ink-900/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-          <div className="w-full max-w-md bg-paper border-2 border-ink-900 rounded-3xl p-5 shadow-[6px_6px_0_#2B1622] space-y-4 animate-in zoom-in-95">
+        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
+          <div className="w-full max-w-md bg-cream border-3 border-choco-900 rounded-[28px] p-5 shadow-[0_8px_0_#3B2218] space-y-4 animate-in zoom-in-95">
             {/* Header */}
-            <div className="flex items-center justify-between border-b-2 border-ink-900 pb-3">
+            <div className="flex items-center justify-between border-b-2 border-choco-900/20 pb-3">
               <div className="flex items-center gap-2">
                 <BookOpen className="size-5 text-candy-600 stroke-[2.5]" />
-                <h3 className="font-black text-lg text-ink-900">Rekap Penjelajah</h3>
+                <h3 className="font-pixel text-xl font-bold text-choco-900">Rekap Penjelajah</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowRekapModal(false)}
-                className="p-1 hover:bg-sand-200 rounded-full border border-ink-900/20 text-ink-700 cursor-pointer"
+                className="p-1.5 hover:bg-candy-100 rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] cursor-pointer"
               >
-                <X className="size-5 stroke-[2.5]" />
+                <X className="size-4.5 stroke-[2.5]" />
               </button>
             </div>
 
             {/* Profile Bar */}
-            <div className="flex items-center justify-between bg-candy-100 border-2 border-ink-900 rounded-2xl p-3 shadow-[2px_2px_0_#2B1622]">
+            <div className="flex items-center justify-between bg-candy-100 border-2 border-choco-900 rounded-2xl p-3 shadow-[0_2px_0_#3B2218]">
               <div className="flex items-center gap-2.5">
-                <div className="size-10 rounded-full bg-candy-500 border-2 border-ink-900 flex items-center justify-center font-black text-white">
+                <div className="size-10 rounded-full bg-candy-500 border-2 border-choco-900 flex items-center justify-center font-bold text-white shadow-[0_1px_0_#3B2218]">
                   {username.slice(0, 2).toUpperCase()}
                 </div>
                 <div>
-                  <div className="font-black text-sm text-ink-900">@{username}</div>
-                  <div className="text-xs font-semibold text-candy-800">{league.name}</div>
+                  <div className="font-bold text-sm text-choco-900">@{username}</div>
+                  <div className="text-xs font-bold text-candy-600">{league.name}</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xs font-mono font-bold text-ink-600">Oksigen</div>
-                <div className="text-sm font-black text-ink-900">{hearts}/5 ❤️</div>
+                <div className="text-xs font-bold text-choco-600">Nyawa</div>
+                <div className="text-sm font-bold text-choco-900 font-sans tabular-nums">{hearts}/5 ❤️</div>
               </div>
             </div>
 
             {/* 4 Stats Grid */}
             <div className="grid grid-cols-2 gap-2.5">
-              <div className="p-3 bg-white border-2 border-ink-900 rounded-xl shadow-[2px_2px_0_#2B1622]">
-                <div className="text-[11px] font-bold text-ink-500">Total Blok</div>
-                <div className="text-xl font-black font-display text-ink-900">
-                  {completed.length}
-                  <span className="text-xs text-ink-500 font-sans">/128</span>
+              <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
+                <div className="text-[11px] font-bold text-choco-500">Total Blok</div>
+                <div className="text-xl font-black font-sans text-choco-900 tabular-nums">
+                  {completed.length} <span className="text-xs text-choco-500 font-bold">/ 128</span>
                 </div>
-                <div className="text-[10px] text-ink-600 font-bold">
+                <div className="text-[10px] text-choco-600 font-bold">
                   {Math.round((completed.length / 128) * 100)}% Kurikulum
                 </div>
               </div>
 
-              <div className="p-3 bg-white border-2 border-ink-900 rounded-xl shadow-[2px_2px_0_#2B1622]">
-                <div className="text-[11px] font-bold text-ink-500">Total XP</div>
-                <div className="text-xl font-black font-display text-candy-600">
+              <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
+                <div className="text-[11px] font-bold text-choco-500">Total XP</div>
+                <div className="text-xl font-black font-sans text-candy-600 tabular-nums">
                   {xp}
                 </div>
-                <div className="text-[10px] text-ink-600 font-bold">
+                <div className="text-[10px] text-choco-600 font-bold">
                   +{weeklyXp} minggu ini
                 </div>
               </div>
 
-              <div className="p-3 bg-white border-2 border-ink-900 rounded-xl shadow-[2px_2px_0_#2B1622]">
-                <div className="text-[11px] font-bold text-ink-500">Hari Rantai</div>
-                <div className="text-xl font-black font-display text-amber-500">
-                  {streak} <span className="text-xs text-ink-500 font-sans">Hari</span>
+              <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
+                <div className="text-[11px] font-bold text-choco-500">Hari Rantai</div>
+                <div className="text-xl font-black font-sans text-orange-600 tabular-nums flex items-center gap-1">
+                  <Fire className="size-4.5 text-orange-500 fill-orange-500" weight="fill" />
+                  {streak} <span className="text-xs text-choco-500 font-bold">Hari</span>
                 </div>
-                <div className="text-[10px] text-ink-600 font-bold">Streak aktif</div>
+                <div className="text-[10px] text-choco-600 font-bold">Streak aktif</div>
               </div>
 
-              <div className="p-3 bg-white border-2 border-ink-900 rounded-xl shadow-[2px_2px_0_#2B1622]">
-                <div className="text-[11px] font-bold text-ink-500">Koin & Permata</div>
-                <div className="text-xl font-black font-display text-emerald-600">
-                  {gems} 🪙
+              <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
+                <div className="text-[11px] font-bold text-choco-500">Koin & Bintang</div>
+                <div className="text-xl font-black font-sans text-emerald-600 tabular-nums">
+                  {gems} ⌂
                 </div>
-                <div className="text-[10px] text-ink-600 font-bold">Saldo dompet</div>
+                <div className="text-[10px] text-choco-600 font-bold">Saldo dompet</div>
               </div>
             </div>
 
             {/* Additional Metrics */}
-            <div className="space-y-1.5 text-xs bg-sand-100 p-3 rounded-xl border border-ink-900/20">
+            <div className="space-y-1.5 text-xs bg-white p-3 rounded-xl border-2 border-choco-900/20">
               <div className="flex justify-between">
-                <span className="text-ink-600 font-semibold">Rute Selesai Penuh:</span>
-                <span className="font-black text-ink-900">{unitsCompletedCount} / 20 Rute</span>
+                <span className="text-choco-600 font-bold">Rute Selesai Penuh:</span>
+                <span className="font-bold text-choco-900 font-sans tabular-nums">{unitsCompletedCount} / 20 Rute</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-ink-600 font-semibold">Pelajaran Sempurna:</span>
-                <span className="font-black text-ink-900">{perfect.length} kali</span>
+                <span className="text-choco-600 font-bold">Pelajaran Sempurna:</span>
+                <span className="font-bold text-choco-900 font-sans tabular-nums">{perfect.length} kali</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-ink-600 font-semibold">Kisah Selesai:</span>
-                <span className="font-black text-ink-900">{completedStories.length} kisah</span>
+                <span className="text-choco-600 font-bold">Kisah Selesai:</span>
+                <span className="font-bold text-choco-900 font-sans tabular-nums">{completedStories.length} kisah</span>
               </div>
             </div>
 
@@ -832,7 +846,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               <button
                 type="button"
                 onClick={copyRekapText}
-                className="flex-1 py-2.5 px-3 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-black text-xs rounded-xl border-2 border-ink-900 shadow-[2px_2px_0_#2B1622] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                className="flex-1 py-2.5 px-3 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-bold text-xs rounded-xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
               >
                 {copiedRekap ? (
                   <>
@@ -850,7 +864,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               <button
                 type="button"
                 onClick={() => setShowRekapModal(false)}
-                className="py-2.5 px-4 bg-white hover:bg-sand-200 active:translate-y-0.5 text-ink-900 font-bold text-xs rounded-xl border-2 border-ink-900 shadow-[2px_2px_0_#2B1622] cursor-pointer"
+                className="py-2.5 px-4 bg-white hover:bg-candy-50 active:translate-y-0.5 text-choco-900 font-bold text-xs rounded-xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] cursor-pointer"
               >
                 Tutup
               </button>

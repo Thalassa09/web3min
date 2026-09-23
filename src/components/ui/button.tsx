@@ -12,6 +12,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   wide?: boolean;
   icon?: React.ReactNode;
   iconAfter?: React.ReactNode;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 }
 
 /**
@@ -31,6 +33,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       wide = false,
       icon,
       iconAfter,
+      leftIcon,
+      rightIcon,
       className,
       disabled,
       onClick,
@@ -111,9 +115,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...rest}
       >
-        {icon && <span className="inline-flex shrink-0 items-center justify-center">{icon}</span>}
+        {(leftIcon || icon) && (
+          <span className="inline-flex shrink-0 items-center justify-center">
+            {leftIcon || icon}
+          </span>
+        )}
         <span className="truncate">{children}</span>
-        {iconAfter && <span className="inline-flex shrink-0 items-center justify-center">{iconAfter}</span>}
+        {(rightIcon || iconAfter) && (
+          <span className="inline-flex shrink-0 items-center justify-center">
+            {rightIcon || iconAfter}
+          </span>
+        )}
       </button>
     );
   }

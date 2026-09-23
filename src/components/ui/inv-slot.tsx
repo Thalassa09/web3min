@@ -7,6 +7,7 @@ export interface InvSlotProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string;
   rarity?: string;
   active?: boolean;
+  selected?: boolean;
 }
 
 /**
@@ -19,15 +20,17 @@ export const InvSlot: React.FC<InvSlotProps> = ({
   label,
   rarity,
   active = false,
+  selected = false,
   className,
   ...rest
 }) => {
+  const isSelected = active || selected;
   return (
     <div className="flex flex-col items-center gap-1.5 select-none">
       <div
         className={cn(
           "inv-slot relative transition-all duration-150 cursor-pointer hover:scale-105 active:scale-95",
-          active && "border-solid border-candy-500 bg-candy-100 shadow-[0_3px_0_#3B2218]",
+          isSelected && "border-solid border-candy-500 bg-candy-100 shadow-[0_3px_0_#3B2218]",
           className
         )}
         {...rest}

@@ -371,19 +371,19 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                       </div>
 
                       {/* Day Label & Date */}
-                      <div className="mt-1.5 flex flex-col items-center">
-                        <div
-                          className={`text-xs font-black leading-none ${
+                      <div className="mt-2 flex flex-col items-center justify-center gap-0.5 pointer-events-none">
+                        <span
+                          className={`text-[11px] sm:text-xs font-black leading-none ${
                             col.isToday
-                              ? "text-white bg-candy-500 px-1.5 py-0.5 rounded-full"
+                              ? "text-white bg-candy-500 px-1.5 py-0.5 rounded-full shadow-xs"
                               : isSelected
-                              ? "text-ink-900 underline decoration-2 underline-offset-2"
+                              ? "text-ink-900 font-extrabold underline decoration-candy-500 decoration-2 underline-offset-2"
                               : "text-ink-600"
                           }`}
                         >
                           {col.label}
-                        </div>
-                        <span className="text-[10px] font-mono font-bold text-ink-400 mt-0.5">
+                        </span>
+                        <span className="text-[10px] font-mono font-semibold text-ink-400">
                           {dateNum}
                         </span>
                       </div>

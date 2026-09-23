@@ -9,6 +9,8 @@ import { sanitizeBio, sanitizeShout, sanitizeTwitter, sanitizeUsername, type Sho
 import { daysBetween, todayKey, weekId, yesterdayKey } from "@/lib/time";
 import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE } from "@/lib/raffles";
 import { recordDayActivity } from "@/lib/activity-history";
+import { getCoinRewardForRank } from "@/lib/leaderboard-prizes";
+import { rpcBuyTickets, rpcEnterRaffle, rpcClaimWeeklyLeaderboardReward } from "@/lib/server-sync";
 
 export type DailyGoal = 10 | 20 | 30 | 50;
 
@@ -79,6 +81,7 @@ export type ProgressState = {
   coachSeen: boolean;
   raffleTickets: number;
   enteredRaffles: Record<string, { count: number; enteredAt: number }>;
+  lastClaimedLeaderboardWeek?: string;
 };
 
 export function needsCoach(s: Pick<ProgressState, "coachSeen" | "completed">) {
@@ -112,6 +115,7 @@ type Actions = {
   completeCase: (id: string) => { xp: number; gems: number } | null;
   enterRaffle: (raffleId: string, count: number) => boolean;
   buyRaffleTicketsWithGems: (ticketAmount: number) => boolean;
+  claimWeeklyLeaderboardReward: (weekKey: string, rank: number) => { success: boolean; coins: number };
   addRaffleTicket: (count?: number) => void;
   reset: () => void;
   setSound: (on: boolean) => void;
@@ -157,6 +161,7 @@ const initial: ProgressState = {
   completedCases: [],
   raffleTickets: 3,
   enteredRaffles: {},
+  lastClaimedLeaderboardWeek: "",
 };
 
 function clamp(n: unknown, min: number, max: number, fallback: number) {
@@ -615,6 +620,8 @@ export const useProgress = create<ProgressState & Actions>()(
             [raffleId]: { count: currentCount + qty, enteredAt: Date.now() },
           },
         });
+        // Database sync in background
+        void rpcEnterRaffle(raffleId, qty);
         return true;
       },
       buyRaffleTicketsWithGems: (ticketAmount) => {
@@ -628,7 +635,24 @@ export const useProgress = create<ProgressState & Actions>()(
           gems: holdGems(s.gems, -cost),
           raffleTickets: newTickets,
         });
+        // Database sync in background
+        void rpcBuyTickets(qty);
         return true;
+      },
+      claimWeeklyLeaderboardReward: (weekKey, rank) => {
+        const s = get();
+        if (s.lastClaimedLeaderboardWeek === weekKey) {
+          return { success: false, coins: 0 };
+        }
+        const coins = getCoinRewardForRank(rank);
+        if (coins <= 0) return { success: false, coins: 0 };
+        set({
+          gems: (s.gems ?? 0) + coins,
+          lastClaimedLeaderboardWeek: weekKey,
+        });
+        // Database sync in background
+        void rpcClaimWeeklyLeaderboardReward(rank);
+        return { success: true, coins };
       },
       addRaffleTicket: (count = 1) => {
         const qty = Math.trunc(count);

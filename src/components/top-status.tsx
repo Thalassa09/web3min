@@ -9,7 +9,7 @@ import { playTap, setAudioEnabled } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 const pillBase =
-  "relative flex h-9 shrink-0 items-center gap-1.5 rounded-full border-2 border-ink-900 bg-white/95 px-3 text-xs font-black text-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_1px_0_var(--color-ink-900)] transition-transform duration-100 ease-out active:scale-95 active:translate-y-0.5";
+  "relative flex h-8 sm:h-9 shrink-0 items-center gap-1 sm:gap-1.5 rounded-full border-2 border-ink-900 bg-white/95 px-2.5 sm:px-3 text-xs font-black text-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_1px_0_var(--color-ink-900)] transition-transform duration-100 ease-out active:scale-95 active:translate-y-0.5";
 
 function StatPill({ value, display, icon, title, floatColor = "var(--color-coin)" }: {
   value: number; display?: ReactNode; icon: ReactNode; title: string; floatColor?: string;
@@ -47,14 +47,14 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const setSound = useProgress((s) => s.setSound);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 select-none items-center gap-2 border-b-2 border-ink-900 bg-white/80 px-3 backdrop-blur-xl backdrop-saturate-180 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-5">
+    <header className="sticky top-0 z-30 flex h-14 sm:h-16 select-none items-center gap-2 border-b-2 border-ink-900 bg-white/80 px-3 backdrop-blur-xl backdrop-saturate-180 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-5">
       {brand && (
-        <Link to="/" aria-label="Beranda" className="flex shrink-0 items-center gap-1.5 lg:hidden">
-          <span className="grid size-9 place-items-center rounded-md border-2 border-ink-900 bg-blobi-soft shadow-ink-sm">
-            <img src="/mascot/idle.png" alt="" className="pixelated size-6 object-contain" />
+        <Link to="/" aria-label="Beranda" className="flex shrink-0 items-center gap-2 lg:hidden">
+          <span className="grid size-8 sm:size-9 place-items-center rounded-full border-2 border-ink-900 bg-candy-soft shadow-xs">
+            <img src="/mascot/idle.png" alt="" className="pixelated size-5 sm:size-6 object-contain" />
           </span>
-          <span className="hidden font-display text-lg font-bold text-ink-900 sm:inline">
-            web3<span className="text-blobi">min</span>
+          <span className="hidden font-display text-base sm:text-lg font-black text-ink-900 sm:inline">
+            web3<span className="text-candy">min</span>
           </span>
         </Link>
       )}

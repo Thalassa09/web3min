@@ -47,7 +47,7 @@ export function SideNav() {
                 </div>
                 <span className="flex-1 truncate tracking-[-0.01em]">{item.label}</span>
                 {item.badge && (
-                  <span className="rounded-full border border-ink-900 bg-coin px-2 py-0.5 text-[10px] font-black text-ink-900 shadow-ink-xs">
+                  <span className="rounded-full border border-candy-line bg-candy-soft px-2 py-0.5 text-[10px] font-black text-candy-deep">
                     {item.badge}
                   </span>
                 )}

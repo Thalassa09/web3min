@@ -214,13 +214,17 @@ export function CoachTour() {
             <p id={titleId}>{current.say}</p>
           </SpeechBubble>
         </div>
-        <div className="mt-3.5 flex items-center gap-2.5">
-          <DuoButton className="min-w-32 flex-1" onClick={next}>
-            {current.done}
-          </DuoButton>
+        <div className="mt-4 flex items-center gap-2.5">
           <button
             type="button"
-            className="min-h-11 shrink-0 px-3 py-2 text-xs font-bold text-ink-500 hover:text-ink-900 rounded-xl border-2 border-slate-200 hover:border-line-strong bg-slate-50 transition-colors cursor-pointer"
+            className="flex-1 py-3 px-5 rounded-full bg-candy hover:bg-candy-deep text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] active:scale-95 transition-all cursor-pointer"
+            onClick={next}
+          >
+            {current.done}
+          </button>
+          <button
+            type="button"
+            className="min-h-11 shrink-0 px-4 py-2.5 text-xs font-black text-ink-500 hover:text-ink-900 rounded-full border-2 border-ink-900/15 hover:border-ink-900 bg-slate-50 transition-all cursor-pointer"
             onClick={() => completeGuide()}
           >
             Lewati

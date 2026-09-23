@@ -29,14 +29,14 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
 
   return (
     <div className="flex flex-col overflow-x-clip pb-8">
-      {/* Switcher Tampilan Peta */}
-      <div className="mx-auto mb-4 flex items-center justify-between w-full max-w-lg px-3">
-        <div className="flex items-center gap-1 p-1 bg-white border-2 border-ink-900 rounded-full shadow-[2px_2px_0_#0D2340]">
+      {/* Apple-grade Segmented Control */}
+      <div className="mx-auto my-3 flex items-center justify-center w-full max-w-md px-3">
+        <div className="inline-flex items-center gap-1 p-1 bg-white/90 backdrop-blur-md border-2 border-ink-900 rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
           <button
             type="button"
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer ${
               viewMode === "pulau"
-                ? "bg-blobi text-white shadow-xs"
+                ? "bg-candy text-white shadow-xs"
                 : "text-ink-500 hover:text-ink-900"
             }`}
             onClick={() => setViewMode("pulau")}
@@ -45,30 +45,15 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
           </button>
           <button
             type="button"
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-black transition-all cursor-pointer ${
               viewMode === "trail"
-                ? "bg-blobi text-white shadow-xs"
+                ? "bg-candy text-white shadow-xs"
                 : "text-ink-500 hover:text-ink-900"
             }`}
             onClick={() => setViewMode("trail")}
           >
             🗺️ Peta Jalur
           </button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Link
-            to="/bubble"
-            className="text-[11px] font-black text-candy-deep hover:text-candy underline flex items-center gap-1"
-          >
-            🫧 Bubble Menu ↗
-          </Link>
-          <Link
-            to="/rantai"
-            className="text-[11px] font-bold text-ink-500 hover:text-ink-900 underline flex items-center gap-1"
-          >
-            3-Phone Stage ↗
-          </Link>
         </div>
       </div>
 

@@ -1,123 +1,122 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Trophy, Flame, Sparkles } from "lucide-react";
 import { useProgress } from "@/lib/store";
 
 export function DeskRail() {
   const streak = useProgress((s) => s.streak);
   const xpToday = useProgress((s) => s.xpToday);
-  const completed = useProgress((s) => s.completed);
   const completedToday = xpToday > 0;
   const storiesToday = useProgress((s) => s.storiesToday ?? 0);
 
   return (
-    <div className="hidden xl:flex flex-col gap-4.5 w-[300px] shrink-0 p-5 z-10 sticky top-5 overflow-x-hidden">
-      {/* Blobi Speech Bubble */}
-      <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex items-center gap-3">
-        <img
-          src="/mascot/idle.png"
-          alt="Blobi"
-          className="size-14 pixelated object-contain shrink-0"
-        />
-        <div className="relative p-2.5 rounded-[12px] bg-sky-100 border-2 border-ink-900 text-xs font-semibold text-ink-900 leading-snug">
-          {streak > 0
-            ? `Streak ${streak} hari! Selesaikan 1 pelajaran lagi biar apinya nggak padam.`
-            : "Halo! Selesaikan 1 pelajaran pertamamu yuk, biar apinya menyala!"}
+    <div className="flex flex-col gap-4 p-4">
+      {/* Streak Status Pill Card */}
+      <div className="p-4 rounded-[22px] bg-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)] flex items-center gap-3.5">
+        <div className="grid size-12 shrink-0 place-items-center rounded-full border-2 border-ink-900 bg-candy-soft text-candy-deep shadow-ink-xs">
+          <Flame className="size-6 text-candy-deep stroke-[2.2] fill-candy" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-xs font-black uppercase tracking-wider text-candy-deep">
+            {streak > 0 ? `Streak ${streak} Hari` : "Mulai Streak"}
+          </div>
+          <p className="mt-0.5 text-xs font-semibold text-ink-500 leading-snug truncate">
+            {streak > 0 ? "Pertahankan api belajarmu!" : "Selesaikan 1 modul hari ini"}
+          </p>
         </div>
       </div>
 
       {/* Daily Quests Card */}
-      <div className="p-5 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440]">
-        <div className="font-['Pixelify_Sans'] text-xs font-semibold tracking-wider uppercase text-ink-500 mb-3">
-          Misi Harian
+      <div className="p-5 rounded-[22px] bg-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-xs font-black tracking-wide uppercase text-ink-500 flex items-center gap-1.5">
+            <Sparkles className="size-3.5 text-candy" />
+            Misi Harian
+          </span>
+          <span className="text-[11px] font-bold text-ink-400">Reset 24j</span>
         </div>
 
         <div className="space-y-3.5">
           {/* Mission 1 */}
-          <div className="pb-3 border-b-2 border-dashed border-ink-900/15">
-            <div className="flex justify-between items-center mb-2">
-              <b className="font-sans font-bold text-xs text-ink-900">
+          <div className="pb-3 border-b border-slate-100">
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="font-sans font-bold text-xs text-ink-900">
                 Selesaikan 1 pelajaran
-              </b>
-              <span className="font-['Pixelify_Sans'] text-xs font-bold px-2 py-0.5 rounded-[6px] border-[1.5px] border-ink-900 bg-cream text-ink-900">
+              </span>
+              <span className="text-[10px] font-black px-2 py-0.5 rounded-full border border-ink-900/10 bg-candy-soft text-candy-deep">
                 +3 ★
               </span>
             </div>
-            <div className="grid grid-cols-1 gap-1">
-              <span
-                className={`h-2.5 rounded-[4px] border-2 border-ink-900 ${
-                  completedToday ? "bg-leaf" : "bg-white"
-                }`}
+            <div className="h-2 rounded-full bg-slate-100 overflow-hidden border border-ink-900/10">
+              <div
+                className="h-full bg-candy rounded-full transition-all duration-300"
+                style={{ width: completedToday ? "100%" : "0%" }}
               />
             </div>
           </div>
 
           {/* Mission 2 */}
-          <div className="pb-3 border-b-2 border-dashed border-ink-900/15">
-            <div className="flex justify-between items-center mb-2">
-              <b className="font-sans font-bold text-xs text-ink-900">
+          <div className="pb-3 border-b border-slate-100">
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="font-sans font-bold text-xs text-ink-900">
                 Raih 20 XP hari ini
-              </b>
-              <span className="font-['Pixelify_Sans'] text-xs font-bold px-2 py-0.5 rounded-[6px] border-[1.5px] border-ink-900 bg-cream text-ink-900">
+              </span>
+              <span className="text-[10px] font-black px-2 py-0.5 rounded-full border border-ink-900/10 bg-candy-soft text-candy-deep">
                 +5 ★
               </span>
             </div>
-            <div className="grid grid-cols-4 gap-1">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-2.5 rounded-[4px] border-2 border-ink-900 ${
-                    xpToday >= (i + 1) * 5 ? "bg-leaf" : "bg-white"
-                  }`}
-                />
-              ))}
+            <div className="h-2 rounded-full bg-slate-100 overflow-hidden border border-ink-900/10">
+              <div
+                className="h-full bg-candy rounded-full transition-all duration-300"
+                style={{ width: `${Math.min(100, Math.round((xpToday / 20) * 100))}%` }}
+              />
             </div>
           </div>
 
           {/* Mission 3 */}
           <div>
-            <div className="flex justify-between items-center mb-2">
-              <b className="font-sans font-bold text-xs text-ink-900">
-                Baca 1 Kisah
-              </b>
-              <span className="font-['Pixelify_Sans'] text-xs font-bold px-2 py-0.5 rounded-[6px] border-[1.5px] border-ink-900 bg-cream text-ink-900">
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="font-sans font-bold text-xs text-ink-900">
+                Baca 1 Kisah On-Chain
+              </span>
+              <span className="text-[10px] font-black px-2 py-0.5 rounded-full border border-ink-900/10 bg-candy-soft text-candy-deep">
                 +4 ★
               </span>
             </div>
-            <div className="grid grid-cols-1 gap-1">
-              <span
-                className={`h-2.5 rounded-[4px] border-2 border-ink-900 ${
-                  storiesToday > 0 ? "bg-leaf" : "bg-white"
-                }`}
+            <div className="h-2 rounded-full bg-slate-100 overflow-hidden border border-ink-900/10">
+              <div
+                className="h-full bg-candy rounded-full transition-all duration-300"
+                style={{ width: storiesToday > 0 ? "100%" : "0%" }}
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Arena Weekly Preview */}
-      <div className="p-5 rounded-[16px] bg-sky-500 border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] text-white">
-        <div className="flex items-center justify-between gap-2 mb-2">
-          <span className="px-2 py-0.5 rounded-[6px] text-[11px] font-['Pixelify_Sans'] font-bold bg-white text-ink-900 border-[1.5px] border-ink-900">
+      {/* Arena Weekly Preview — Elegant Apple style with Candy Pink accents */}
+      <div className="p-5 rounded-[22px] bg-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)]">
+        <div className="flex items-center justify-between gap-2 mb-2.5">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-candy-soft text-candy-deep border border-candy-line">
+            <Trophy className="size-3 text-coin" />
             Arena Mingguan
           </span>
-          <span className="text-[11px] font-bold text-coin">
+          <span className="text-[11px] font-black text-coin">
             500 ★ Pool
           </span>
         </div>
-        <h3 className="font-sans font-extrabold text-base text-white">
+        <h3 className="font-display text-base font-black text-ink-900 tracking-tight">
           Kompetisi Belajar XP
         </h3>
-        <p className="mt-1 text-xs text-sky-100 leading-relaxed">
-          Top 10 pengumpul XP berbagi 500 Bintang Toko Blobi. Gratis, tanpa deposit. Cukup belajar.
+        <p className="mt-1 text-xs text-ink-500 leading-relaxed">
+          Top 10 pengumpul XP berbagi hadiah bintang toko. Cukup selesaikan modul belajar.
         </p>
         <div className="mt-3.5">
           <Link to="/leaderboard" className="block">
             <button
               type="button"
-              className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-[10px] bg-coin text-ink-900 border-2 border-ink-900 shadow-[2px_2px_0_#1B1440] font-sans font-extrabold text-xs hover:brightness-105 active:translate-y-[1px] cursor-pointer"
+              className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-candy hover:bg-candy-deep text-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] font-display text-xs font-black transition-all active:scale-95 cursor-pointer"
             >
-              <span>Buka Arena</span>
-              <ArrowRight className="size-3.5" />
+              <span>Buka Klasemen Arena</span>
+              <ArrowRight className="size-3.5 stroke-[2.4]" />
             </button>
           </Link>
         </div>

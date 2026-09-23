@@ -180,7 +180,7 @@ function Onboarding() {
                 />
               ))}
             </div>
-            <span className="text-xs font-['Pixelify_Sans'] font-bold text-ink-900 shrink-0">
+            <span className="text-xs font-sans font-bold text-ink-900 shrink-0">
               Langkah {step} dari 2
             </span>
           </div>
@@ -199,7 +199,7 @@ function Onboarding() {
               />
             </div>
             <div>
-              <div className="font-['Pixelify_Sans'] text-base sm:text-lg font-bold text-blobi">Blobi</div>
+              <div className="font-sans text-base sm:text-lg font-bold text-blobi">Blobi</div>
               <p className="text-xs font-semibold text-ink-500 mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
                 {isTypingPassword ? (
                   <span className="text-blobi font-bold">

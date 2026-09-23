@@ -14,6 +14,8 @@ import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
 import { DailyQuests } from "@/components/daily-quests";
 import { Mascot } from "@/components/mascot";
 import { BlobiFloatingCompanion, BlobiLockedModal } from "@/components/blobi-guide";
+import { ChainBlock } from "@/components/ui/chain-block";
+import { Button } from "@/components/ui/button";
 
 export function PulauRantaiMap({
   units,
@@ -276,36 +278,60 @@ export function PulauRantaiMap({
 
               {/* Playable Center Corridor */}
               <div className="relative w-full max-w-xl sm:max-w-2xl mx-auto h-full">
-                {/* Road SVG */}
+                {/* Road SVG — Mata Rantai Interlocking Chain System */}
                 <svg
                   className="road"
                   viewBox={`0 0 100 ${H}`}
                   preserveAspectRatio="none"
                   aria-hidden="true"
                 >
+                  {/* Road Plum Outer Base */}
                   <path
                     d={roadPath}
                     fill="none"
-                    stroke="#1B1440"
-                    strokeWidth="34"
+                    stroke="#2B1622"
+                    strokeWidth="32"
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
                   />
+                  {/* Road Canvas Inner Bed */}
                   <path
                     d={roadPath}
                     fill="none"
-                    stroke="#FDF6E2"
-                    strokeWidth="26"
+                    stroke="#FFF9FB"
+                    strokeWidth="24"
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
                   />
+                  {/* Mata Rantai Interlocking Outer Links */}
                   <path
                     d={roadPath}
                     fill="none"
-                    stroke="#F26A99"
+                    stroke="#2B1622"
+                    strokeWidth="7"
+                    strokeLinecap="round"
+                    strokeDasharray="14 10"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  {/* Mata Rantai Hollow Center */}
+                  <path
+                    d={roadPath}
+                    fill="none"
+                    stroke="#FFF9FB"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray="14 10"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  {/* Mata Rantai Connecting Interlinks */}
+                  <path
+                    d={roadPath}
+                    fill="none"
+                    stroke="#E8437F"
                     strokeWidth="5"
                     strokeLinecap="round"
-                    strokeDasharray={theme.dash}
+                    strokeDasharray="6 18"
+                    strokeDashoffset="10"
                     vectorEffect="non-scaling-stroke"
                   />
                 </svg>
@@ -358,61 +384,46 @@ export function PulauRantaiMap({
                     : "lock";
 
                   const blockNo = blockNumberMap.get(lesson.id) || i + 1;
-                  const nodeClasses = [
-                    "bn",
-                    isChest
-                      ? status === "lock"
-                        ? "chest"
-                        : status === "now"
-                        ? "ready"
-                        : "opened"
-                      : status,
-                    shakingId === lesson.id ? "shake" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ");
-
-                  const iconName = isChest
+                  const chainStatus: "done" | "active" | "locked" | "chest" = isChest
                     ? "chest"
                     : status === "done"
-                    ? "check"
+                    ? "done"
                     : status === "now"
-                    ? "star"
-                    : "lock";
+                    ? "active"
+                    : "locked";
+
+                  const confirmations = status === "done" ? 3 : status === "now" ? 1 : 0;
 
                   return (
                     <React.Fragment key={lesson.id}>
-                      <button
-                        type="button"
-                        className={nodeClasses}
+                      <div
+                        className="absolute -translate-x-1/2 -translate-y-1/2 z-2"
                         style={{ left: `${x}%`, top: `${y}px` }}
-                        onClick={() => handleNodeClick(lesson, unit, status, x, y)}
-                        aria-label={`Blok ${blockNo}: ${lesson.title}`}
                       >
-                        <PulauIcon
-                          name={iconName}
-                          size={26}
-                          fill={status === "now" && !isChest}
+                        <ChainBlock
+                          blockNo={blockNo}
+                          status={chainStatus}
+                          title={lesson.title}
+                          confirmations={confirmations}
+                          isShaking={shakingId === lesson.id}
+                          onClick={() => handleNodeClick(lesson, unit, status, x, y)}
                         />
-                        {status === "now" && !isChest && (
-                          <span className="bubble">MULAI</span>
-                        )}
-                      </button>
+                      </div>
 
                       {/* Blobi Mascot standing right on the active node */}
                       {isNow && !isChest && (
                         <div
                           className="absolute z-10 pointer-events-auto transition-all"
                           style={{
-                            left: x < 50 ? `calc(${x}% + 42px)` : `calc(${x}% - 94px)`,
-                            top: `${y - 38}px`,
+                            left: x < 50 ? `calc(${x}% + 44px)` : `calc(${x}% - 96px)`,
+                            top: `${y - 42}px`,
                           }}
                         >
                           <div className="relative flex flex-col items-center">
                             {/* Playful callout bubble */}
-                            <div className="mb-0.5 px-2 py-0.5 rounded-full bg-white border border-ink-900 shadow-[2px_2px_0_#0D2340] text-[10px] font-black text-candy-deep whitespace-nowrap animate-bounce flex items-center gap-1">
-                              <span>Ayo gas!</span>
-                              <span className="text-[8px]">🚀</span>
+                            <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-paper border-2 border-ink-900 shadow-xs text-[10px] font-black text-primary-hover whitespace-nowrap animate-bounce flex items-center gap-1">
+                              <span>Ayo tambang!</span>
+                              <span className="text-[9px]">⛏️</span>
                             </div>
 
                             {/* Mascot Avatar with click reaction */}
@@ -424,9 +435,9 @@ export function PulauRantaiMap({
                                 if (sound) playMoodSfx("celebrate");
                                 handleNodeClick(lesson, unit, status, x, y);
                               }}
-                              title="Klik Blobi untuk mulai modul ini!"
+                              title="Klik Blobi untuk tambang blok ini!"
                             >
-                              <div className="size-14 sm:size-16 drop-shadow-[0_4px_0_rgba(13,35,64,0.3)]">
+                              <div className="size-14 sm:size-16 drop-shadow-[0_4px_0_rgba(43,22,34,0.25)]">
                                 <Mascot mood="wave" size={58} />
                               </div>
                             </button>
@@ -471,31 +482,29 @@ export function PulauRantaiMap({
               <PulauIcon name="x" size={20} />
             </button>
 
-            <p className="label font-extrabold text-[11px] text-[#D62A78] uppercase tracking-wider">
-              Blok #{sheetLesson.blockNo} · Rute {sheetLesson.unit.index}{" "}
+            <p className="t-label text-primary">
+              Blok #0x{sheetLesson.blockNo.toString(16).toUpperCase().padStart(2, "0")} · Rute {sheetLesson.unit.index}{" "}
               {sheetLesson.unit.title}
             </p>
-            <h3 className="text-xl font-black font-display text-ink-900 mt-1">
+            <h3 className="t-heading text-ink-900 mt-1">
               {sheetLesson.lesson.title}
             </h3>
-            <p className="text-xs text-ink-500 font-medium mt-1">
-              {sheetLesson.lesson.exercises?.length || 3} soal kuis · +30 XP ·
-              jawaban salah = −1 nyawa
+            <p className="t-caption text-ink-500 mt-1">
+              {sheetLesson.lesson.exercises?.length || 3} soal kuis · +30 XP · 3 konfirmasi blok
             </p>
 
-            <div className="flex gap-2 mt-4">
-              <button
-                type="button"
-                className="btn btn-candy flex-1 py-3 rounded-2xl border-2 border-ink-900 font-bold text-sm text-white flex items-center justify-center gap-2 cursor-pointer transition-transform active:translate-y-1 shadow-[0_4px_0_#A51D5B]"
+            <div className="mt-5">
+              <Button
+                variant="primary"
+                size="lg"
+                wide
+                icon={<PulauIcon name="star" size={20} fill />}
                 onClick={() => startLesson(sheetLesson.lesson.id)}
               >
-                <PulauIcon name="star" size={18} fill />
-                <span>
-                  {sheetLesson.status === "done"
-                    ? "Latihan Lagi (+15 XP)"
-                    : "Tambang blok ini (+30 XP)"}
-                </span>
-              </button>
+                {sheetLesson.status === "done"
+                  ? "Validasi Ulang (+15 XP)"
+                  : "Tambang Blok Ini (+30 XP)"}
+              </Button>
             </div>
           </div>
         )}
@@ -504,7 +513,7 @@ export function PulauRantaiMap({
       {/* Progres Analytics Modal */}
       {showProgresModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3">
-          <div className="bg-canvas border-2 border-ink-900 rounded-[32px] w-full max-w-md max-h-[90vh] overflow-y-auto shadow-[6px_6px_0_#0D2340] relative">
+          <div className="bg-canvas border-2 border-ink-900 rounded-[32px] w-full max-w-md max-h-[90vh] overflow-y-auto shadow-ink relative">
             <PulauRantaiProgres onClose={() => setShowProgresModal(false)} />
           </div>
         </div>
@@ -513,7 +522,7 @@ export function PulauRantaiMap({
       {/* Quests Modal Dialog */}
       {showQuestsModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border-2 border-ink-900 rounded-[28px] w-full max-w-md p-5 shadow-[6px_6px_0_#0D2340] relative">
+          <div className="bg-paper border-2 border-ink-900 rounded-[28px] w-full max-w-md p-5 shadow-ink relative">
             <button
               type="button"
               className="absolute top-4 right-4 p-2 text-ink-500 hover:text-ink-900 font-bold cursor-pointer"

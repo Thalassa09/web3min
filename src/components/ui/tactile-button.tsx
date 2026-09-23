@@ -21,38 +21,38 @@ const VARIANT_STYLES: Record<
   { bg: string; text: string; border: string; shadowColor: string; hover: string }
 > = {
   primary: {
-    bg: "bg-blobi",
+    bg: "bg-primary",
     text: "text-white",
-    border: "border-2 border-ink-900",
-    shadowColor: "#1B1440",
-    hover: "hover:brightness-105",
+    border: "border-2 border-primary-shadow",
+    shadowColor: "#B01F62",
+    hover: "hover:bg-primary-hover hover:brightness-105",
   },
   secondary: {
-    bg: "bg-white",
+    bg: "bg-paper",
     text: "text-ink-900",
-    border: "border-2 border-ink-900",
-    shadowColor: "#1B1440",
-    hover: "hover:bg-canvas",
+    border: "border-2 border-line",
+    shadowColor: "#E5CFD9",
+    hover: "hover:bg-canvas hover:border-line-strong",
   },
   amber: {
     bg: "bg-coin",
     text: "text-ink-900",
-    border: "border-2 border-ink-900",
-    shadowColor: "#1B1440",
+    border: "border-2 border-coin-shadow",
+    shadowColor: "#D99400",
     hover: "hover:brightness-105",
   },
   danger: {
-    bg: "bg-blobi",
+    bg: "bg-danger",
     text: "text-white",
-    border: "border-2 border-ink-900",
-    shadowColor: "#1B1440",
+    border: "border-2 border-danger-shadow",
+    shadowColor: "#991B1B",
     hover: "hover:brightness-105",
   },
   success: {
-    bg: "bg-leaf",
+    bg: "bg-ok",
     text: "text-white",
-    border: "border-2 border-ink-900",
-    shadowColor: "#1B1440",
+    border: "border-2 border-ok-shadow",
+    shadowColor: "#15803D",
     hover: "hover:brightness-105",
   },
   ghost: {
@@ -60,14 +60,14 @@ const VARIANT_STYLES: Record<
     text: "text-ink-900",
     border: "border-2 border-transparent",
     shadowColor: "transparent",
-    hover: "hover:bg-blobi-soft hover:text-ink-900",
+    hover: "hover:bg-primary-soft hover:text-ink-900",
   },
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
-  sm: "h-9 px-3.5 text-xs font-extrabold gap-1.5 rounded-[12px]",
-  md: "h-11 px-5 text-sm font-extrabold gap-2 rounded-[12px]",
-  lg: "h-13 px-6 text-base font-extrabold gap-2.5 rounded-[14px]",
+  sm: "h-9 px-3.5 text-xs font-extrabold gap-1.5 rounded-sm",
+  md: "h-11 px-5 text-sm font-extrabold gap-2 rounded-md",
+  lg: "h-13 px-6 text-base font-extrabold gap-2.5 rounded-lg",
 };
 
 /**

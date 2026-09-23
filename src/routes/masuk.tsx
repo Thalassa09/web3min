@@ -64,7 +64,7 @@ function MasukPage() {
         <form className="space-y-3.5" onSubmit={onSubmit}>
           <div>
             <label
-              className="block font-['Pixelify_Sans'] text-xs font-bold uppercase tracking-wider text-ink-500 mb-1"
+              className="block font-sans text-xs font-bold uppercase tracking-wider text-ink-500 mb-1"
               htmlFor="login-user"
             >
               Username
@@ -81,7 +81,7 @@ function MasukPage() {
 
           <div>
             <label
-              className="block font-['Pixelify_Sans'] text-xs font-bold uppercase tracking-wider text-ink-500 mb-1"
+              className="block font-sans text-xs font-bold uppercase tracking-wider text-ink-500 mb-1"
               htmlFor="login-pass"
             >
               Password

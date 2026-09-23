@@ -57,11 +57,10 @@ function Intro() {
   if (!onboarded || introSeen) return null;
 
   return (
-    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-sky-500 to-sky-700 px-4 py-8 select-none overflow-hidden">
-      {/* Soft Background Clouds */}
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-canvas px-4 py-8 select-none overflow-hidden">
+      {/* Soft Background Ambient Glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
-        <div className="absolute top-12 left-8 w-64 h-32 rounded-full bg-white/20 blur-xl" />
-        <div className="absolute bottom-20 right-8 w-72 h-36 rounded-full bg-white/15 blur-2xl" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-primary-soft/50 blur-3xl" />
       </div>
 
       <div className="relative z-10 w-full max-w-md flex flex-col items-center">
@@ -69,7 +68,7 @@ function Intro() {
         <div className="w-full flex justify-end mb-4">
           <button
             type="button"
-            className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 text-xs font-extrabold text-white transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
+            className="px-4 py-2 rounded-full bg-paper hover:bg-primary-soft text-xs font-extrabold text-ink-700 border border-line transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
             onClick={leave}
           >
             Lewati
@@ -96,7 +95,7 @@ function Intro() {
               <span
                 key={i}
                 className={`h-2.5 rounded-full transition-[width,background-color] duration-200 ${
-                  i === beat ? "w-8 bg-coin shadow-[0_1px_0_#D99400]" : "w-2.5 bg-white/40"
+                  i === beat ? "w-8 bg-primary shadow-xs" : "w-2.5 bg-line-strong"
                 }`}
               />
             ))}

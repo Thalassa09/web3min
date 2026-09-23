@@ -188,7 +188,7 @@ export function PulauRantaiProgres({
                   }`}
                 >
                   {isToday && (
-                    <span className="val mb-1.5 px-1.5 py-0.5 bg-ink-900 text-white rounded-[6px] text-[10px] font-['Pixelify_Sans'] font-bold">
+                    <span className="val mb-1.5 px-1.5 py-0.5 bg-ink-900 text-white rounded-[6px] text-[10px] font-mono font-bold">
                       +{v}
                     </span>
                   )}

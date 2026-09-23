@@ -51,7 +51,7 @@ function KisahHub() {
     <AppShell>
       <main className="px-3.5 py-5 sm:px-6 sm:py-7 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-5xl mx-auto space-y-6">
         <div>
-          <div className="font-['Pixelify_Sans'] text-xs font-semibold tracking-wider uppercase text-ink-500">
+          <div className="font-sans text-xs font-semibold tracking-wider uppercase text-ink-500">
             Arsip Investigasi
           </div>
           <h1 className="font-sans font-extrabold text-3xl sm:text-4xl text-ink-900 tracking-tight mt-1.5">
@@ -63,7 +63,7 @@ function KisahHub() {
         {featured && (
           <div className="p-6 rounded-[16px] bg-ink-900 text-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
             <div>
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-[8px] bg-coin text-ink-900 border-[1.5px] border-ink-900 font-['Pixelify_Sans'] font-bold text-xs">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-[8px] bg-coin text-ink-900 border-[1.5px] border-ink-900 font-sans font-bold text-xs">
                 Pilihan minggu ini · {featured.minutes} menit
               </span>
               <h2 className="font-sans font-extrabold text-xl sm:text-2xl text-white mt-3 mb-1.5">
@@ -125,15 +125,15 @@ function KisahHub() {
                     <div className="p-4 sm:p-5 flex flex-col gap-2.5 flex-1">
                       <div className="flex items-center justify-between">
                         {isDone ? (
-                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-[#D8F7EA] text-ink-900 border-[1.5px] border-ink-900">
+                          <span className="inline-flex items-center gap-1 text-xs font-sans font-bold px-2 py-0.5 rounded-[6px] bg-[#D8F7EA] text-ink-900 border-[1.5px] border-ink-900">
                             <Check className="size-3 text-leaf" /> Selesai
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-blobi-soft text-ink-900 border-[1.5px] border-ink-900">
+                          <span className="inline-flex items-center gap-1 text-xs font-sans font-bold px-2 py-0.5 rounded-[6px] bg-blobi-soft text-ink-900 border-[1.5px] border-ink-900">
                             Baru
                           </span>
                         )}
-                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-ink-500">{band.name}</span>
+                        <span className="font-sans text-xs font-bold text-ink-500">{band.name}</span>
                       </div>
 
                       <h3 className="font-sans font-extrabold text-base sm:text-lg text-ink-900">
@@ -144,7 +144,7 @@ function KisahHub() {
                       </p>
 
                       <div className="flex items-center justify-between mt-auto pt-3 border-t-2 border-dashed border-ink-900/15">
-                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-ink-500">
+                        <span className="font-sans text-xs font-bold text-ink-500">
                           {s.minutes} mnt · <span className="text-[#FF7A1A]">+{s.xp} XP</span>
                         </span>
                         <Link to="/kisah/$storyId" params={{ storyId: s.id }}>
@@ -169,7 +169,7 @@ function KisahHub() {
 
             {lockedStories.length > 0 && (
               <div className="pt-4 space-y-3">
-                <div className="font-['Pixelify_Sans'] text-xs font-bold text-ink-500 uppercase tracking-wider">
+                <div className="font-sans text-xs font-bold text-ink-500 uppercase tracking-wider">
                   Terkunci · Selesaikan Modul Belajar untuk Membuka
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -181,7 +181,7 @@ function KisahHub() {
                       <Lock className="size-4 shrink-0 text-ink-900" />
                       <div className="min-w-0">
                         <div className="font-sans font-bold text-xs text-ink-900 truncate">{s.title}</div>
-                        <div className="font-['Pixelify_Sans'] text-[11px] text-ink-500 truncate">
+                        <div className="font-sans text-[11px] text-ink-500 truncate">
                           Perlu modul ke-{s.unlockAfter}
                         </div>
                       </div>
@@ -208,15 +208,15 @@ function KisahHub() {
                     <div className="p-4 sm:p-5 flex flex-col gap-2.5 flex-1">
                       <div className="flex items-center justify-between">
                         {isDone ? (
-                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-[#D8F7EA] text-ink-900 border-[1.5px] border-ink-900">
+                          <span className="inline-flex items-center gap-1 text-xs font-sans font-bold px-2 py-0.5 rounded-[6px] bg-[#D8F7EA] text-ink-900 border-[1.5px] border-ink-900">
                             <Check className="size-3 text-leaf" /> Selesai
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-blobi-soft text-ink-900 border-[1.5px] border-ink-900">
+                          <span className="inline-flex items-center gap-1 text-xs font-sans font-bold px-2 py-0.5 rounded-[6px] bg-blobi-soft text-ink-900 border-[1.5px] border-ink-900">
                             Kasus Nyata
                           </span>
                         )}
-                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-ink-500">Audit On-Chain</span>
+                        <span className="font-sans text-xs font-bold text-ink-500">Audit On-Chain</span>
                       </div>
 
                       <h3 className="font-sans font-extrabold text-base sm:text-lg text-ink-900">
@@ -227,7 +227,7 @@ function KisahHub() {
                       </p>
 
                       <div className="flex items-center justify-between mt-auto pt-3 border-t-2 border-dashed border-ink-900/15">
-                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-ink-500">
+                        <span className="font-sans text-xs font-bold text-ink-500">
                           {c.minutes} mnt · <span className="text-[#FF7A1A]">+{c.xp} XP</span>
                         </span>
                         <Link to="/bedah/$caseId" params={{ caseId: c.id }}>
@@ -252,7 +252,7 @@ function KisahHub() {
 
             {lockedCases.length > 0 && (
               <div className="pt-4 space-y-3">
-                <div className="font-['Pixelify_Sans'] text-xs font-bold text-ink-500 uppercase tracking-wider">
+                <div className="font-sans text-xs font-bold text-ink-500 uppercase tracking-wider">
                   Kasus Terkunci
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -264,7 +264,7 @@ function KisahHub() {
                       <Lock className="size-4 shrink-0 text-ink-900" />
                       <div className="min-w-0">
                         <div className="font-sans font-bold text-xs text-ink-900 truncate">{c.title}</div>
-                        <div className="font-['Pixelify_Sans'] text-[11px] text-ink-500 truncate">
+                        <div className="font-sans text-[11px] text-ink-500 truncate">
                           Perlu modul ke-{c.unlockAfter}
                         </div>
                       </div>

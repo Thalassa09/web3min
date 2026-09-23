@@ -1,6 +1,7 @@
 /**
  * web3min: Pulau Rantai
  * Mathematical Catmull-Rom spline curves & World Configuration
+ * Conforming to "Blok Rantai" Design System
  */
 
 export type RoadPoint = [number, number];
@@ -50,23 +51,22 @@ export function getWindingPoints(count: number, height: number, topOffset: numbe
   return pts;
 }
 
-export const WORLD_PULAU_THEMES: Record<
-  string,
-  {
-    bg: string;
-    dash: string;
-    kind: string;
-    land: string;
-    look: string;
-    props: Array<{ name: string; side: "left" | "right"; top: number; size: number; flip?: boolean }>;
-  }
-> = {
+export interface PulauTheme {
+  bg: string;
+  dash: string;
+  kind: string;
+  land: string;
+  look: string;
+  props: Array<{ name: string; side: "left" | "right"; top: number; size: number; flip?: boolean }>;
+}
+
+export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u1: {
     bg: "#7FBF67",
-    dash: "0 18",
-    kind: "Rumput",
-    land: "Hutan",
-    look: "Hutan permen. Jalan pelan, jangan nyasar.",
+    dash: "14 10",
+    kind: "Genesis",
+    land: "Hutan Genesis",
+    look: "Mulai kenalan sama internet yang kepemilikannya balik lagi ke tanganmu sendiri.",
     props: [
       { name: "mushroom", side: "left", top: 22, size: 52 },
       { name: "flower", side: "right", top: 48, size: 44 },
@@ -75,10 +75,10 @@ export const WORLD_PULAU_THEMES: Record<
   },
   u2: {
     bg: "#4B2F63",
-    dash: "14 12",
-    kind: "Gelap",
-    land: "Gua kunci",
-    look: "Gua kunci. Gelap. Kuncinya jangan sampe ilang.",
+    dash: "14 10",
+    kind: "Kriptografi",
+    land: "Gua Kunci Kripto",
+    look: "Kunci rumah jangan dikasih orang asing, kunci dompet on-chain jauh lebih keramat.",
     props: [
       { name: "lantern", side: "left", top: 18, size: 48 },
       { name: "key", side: "right", top: 44, size: 42 },
@@ -87,10 +87,10 @@ export const WORLD_PULAU_THEMES: Record<
   },
   u3: {
     bg: "#B27339",
-    dash: "24 16",
-    kind: "Baja",
-    land: "Tambang koin",
-    look: "Tambang koin. Berdebu, kilauannya bikin silau.",
+    dash: "14 10",
+    kind: "Konsensus",
+    land: "Tambang Koin",
+    look: "Bongkar cara kerja mesin konsensus di balik koin legendaris tanpa pusing rumus.",
     props: [
       { name: "coins", side: "left", top: 24, size: 46 },
       { name: "lantern", side: "right", top: 52, size: 44 },
@@ -99,10 +99,10 @@ export const WORLD_PULAU_THEMES: Record<
   },
   u4: {
     bg: "#D95280",
-    dash: "8 10",
-    kind: "Kristal",
-    land: "Galeri Seni",
-    look: "Pajangan NFT unik berbingkai neon digital.",
+    dash: "14 10",
+    kind: "Hak Cipta",
+    land: "Galeri Token Digital",
+    look: "Bukan sekadar gambar profil, tapi bukti kepemilikan digital yang anti-duplikasi.",
     props: [
       { name: "frame", side: "left", top: 20, size: 50 },
       { name: "flower", side: "right", top: 50, size: 42 },
@@ -111,37 +111,217 @@ export const WORLD_PULAU_THEMES: Record<
   },
   u5: {
     bg: "#256CA8",
-    dash: "12 8",
-    kind: "Air",
-    land: "Pasar DeFi",
-    look: "Pelabuhan kolam likuiditas dan pertukaran kilat.",
+    dash: "14 10",
+    kind: "Likuiditas",
+    land: "Dermaga DeFi",
+    look: "Tukar aset dan pinjam dana langsung lewat kode cerdas tanpa campur tangan calo.",
     props: [
       { name: "crate", side: "left", top: 22, size: 50 },
       { name: "lily", side: "right", top: 52, size: 42 },
       { name: "crate", side: "right", top: 80, size: 44 },
     ],
   },
+  u6: {
+    bg: "#9A3412",
+    dash: "14 10",
+    kind: "Pertahanan",
+    land: "Pos Anti-Phishing",
+    look: "Kenali jebakan link manis dan pop-up jahat sebelum isi dompetmu terkuras habis.",
+    props: [
+      { name: "shield", side: "left", top: 20, size: 48 },
+      { name: "lantern", side: "right", top: 50, size: 44 },
+      { name: "shield", side: "right", top: 76, size: 42 },
+    ],
+  },
+  u7: {
+    bg: "#3B82F6",
+    dash: "14 10",
+    kind: "Realitas Pasar",
+    land: "Medan Volatilitas",
+    look: "Bandingkan bayangan cuan di kalkulator sama kenyataan pahit biaya gas jaringan.",
+    props: [
+      { name: "coins", side: "left", top: 22, size: 46 },
+      { name: "star", side: "right", top: 54, size: 42 },
+      { name: "coins", side: "right", top: 80, size: 44 },
+    ],
+  },
+  u8: {
+    bg: "#0D9488",
+    dash: "14 10",
+    kind: "Eksekusi",
+    land: "Bursa Spot",
+    look: "Pahami cara beli santai di pasar spot sebelum buru-buru tergoda leverage.",
+    props: [
+      { name: "crate", side: "left", top: 20, size: 48 },
+      { name: "coins", side: "right", top: 52, size: 44 },
+      { name: "lantern", side: "right", top: 78, size: 42 },
+    ],
+  },
+  u9: {
+    bg: "#854D0E",
+    dash: "14 10",
+    kind: "Spekulasi",
+    land: "Rawa Memecoin",
+    look: "Tertawalah bareng meme viral, tapi cek likuiditasnya sebelum dana terkunci selamanya.",
+    props: [
+      { name: "mushroom", side: "left", top: 22, size: 50 },
+      { name: "coins", side: "right", top: 50, size: 46 },
+      { name: "mushroom", side: "right", top: 76, size: 42 },
+    ],
+  },
+  u10: {
+    bg: "#4338CA",
+    dash: "14 10",
+    kind: "Investigasi",
+    land: "Lab Explorer",
+    look: "Buktikan sendiri isi kontrak di explorer sebelum percaya omongan influencer timeline.",
+    props: [
+      { name: "key", side: "left", top: 24, size: 46 },
+      { name: "star", side: "right", top: 52, size: 44 },
+      { name: "lantern", side: "right", top: 80, size: 42 },
+    ],
+  },
+  u11: {
+    bg: "#15803D",
+    dash: "14 10",
+    kind: "Gerbang Fiat",
+    land: "Pasar P2P Lokal",
+    look: "Jalur resmi menukar rupiah ke dompet on-chain dengan aman dan taat aturan.",
+    props: [
+      { name: "crate", side: "left", top: 20, size: 50 },
+      { name: "coins", side: "right", top: 50, size: 46 },
+      { name: "crate", side: "right", top: 78, size: 44 },
+    ],
+  },
+  u12: {
+    bg: "#B91C1C",
+    dash: "14 10",
+    kind: "Jebakan Bunga",
+    land: "Tebing APY Semu",
+    look: "Kalau ada yang menjanjikan bunga ratusan persen sehari, hitung dari mana sumber uangnya.",
+    props: [
+      { name: "shield", side: "left", top: 22, size: 48 },
+      { name: "lantern", side: "right", top: 52, size: 44 },
+      { name: "coins", side: "right", top: 78, size: 40 },
+    ],
+  },
+  u13: {
+    bg: "#475569",
+    dash: "14 10",
+    kind: "Psikologi",
+    land: "Kuil Disiplin Diri",
+    look: "Kendalikan rem tangan mentalmu biar nggak gampang panik dan beli di pucuk.",
+    props: [
+      { name: "lantern", side: "left", top: 20, size: 46 },
+      { name: "star", side: "right", top: 52, size: 44 },
+      { name: "lantern", side: "right", top: 80, size: 42 },
+    ],
+  },
+  u14: {
+    bg: "#0284C7",
+    dash: "14 10",
+    kind: "Skalabilitas",
+    land: "Jembatan Layer-2",
+    look: "Meluncur di jalan tol Layer-2 biar transaksi kilat dan gas fee nggak bikin kantong bolong.",
+    props: [
+      { name: "star", side: "left", top: 22, size: 48 },
+      { name: "crate", side: "right", top: 50, size: 44 },
+      { name: "star", side: "right", top: 76, size: 42 },
+    ],
+  },
+  u15: {
+    bg: "#C026D3",
+    dash: "14 10",
+    kind: "Distribusi",
+    land: "Lembah Airdrop",
+    look: "Pilah hadiah komunitas yang jujur dari umpan licik pencuri seed phrase.",
+    props: [
+      { name: "coins", side: "left", top: 20, size: 48 },
+      { name: "key", side: "right", top: 52, size: 44 },
+      { name: "coins", side: "right", top: 78, size: 44 },
+    ],
+  },
+  u16: {
+    bg: "#047857",
+    dash: "14 10",
+    kind: "Patokan Nilai",
+    land: "Brankas Pasak Dolar",
+    look: "Pahami bagaimana token stabil menjaga nilainya tetap satu dolar saat badai pasar.",
+    props: [
+      { name: "shield", side: "left", top: 22, size: 48 },
+      { name: "coins", side: "right", top: 50, size: 46 },
+      { name: "shield", side: "right", top: 78, size: 42 },
+    ],
+  },
+  u17: {
+    bg: "#BE185D",
+    dash: "14 10",
+    kind: "Ekosistem Kreatif",
+    land: "Balai Komunitas NFT",
+    look: "Telusuri royalti kreator dan cara membedakan transaksi asli dari manipulasi volume.",
+    props: [
+      { name: "frame", side: "left", top: 20, size: 50 },
+      { name: "flower", side: "right", top: 52, size: 42 },
+      { name: "star", side: "right", top: 78, size: 44 },
+    ],
+  },
+  u18: {
+    bg: "#1E293B",
+    dash: "14 10",
+    kind: "Keamanan Keras",
+    land: "Benteng Kunci Dingin",
+    look: "Amankan aset besar memakai brankas offline dan persetujuan banyak pihak.",
+    props: [
+      { name: "key", side: "left", top: 22, size: 48 },
+      { name: "shield", side: "right", top: 52, size: 46 },
+      { name: "lantern", side: "right", top: 78, size: 42 },
+    ],
+  },
+  u19: {
+    bg: "#6366F1",
+    dash: "14 10",
+    kind: "Forensik On-Chain",
+    land: "Menara Buku Besar",
+    look: "Semua jejak transaksi terekam abadi di buku besar publik, tinggal kamu yang membaca datanya.",
+    props: [
+      { name: "lantern", side: "left", top: 20, size: 46 },
+      { name: "key", side: "right", top: 50, size: 44 },
+      { name: "coins", side: "right", top: 78, size: 42 },
+    ],
+  },
+  u20: {
+    bg: "#D97706",
+    dash: "14 10",
+    kind: "Kedaulatan Digital",
+    land: "Kota Mandiri Web3",
+    look: "Bangun reputasi digital, berkontribusi di komunitas mandiri, dan nikmati kedaulatanmu.",
+    props: [
+      { name: "star", side: "left", top: 22, size: 50 },
+      { name: "crate", side: "right", top: 52, size: 46 },
+      { name: "star", side: "right", top: 78, size: 44 },
+    ],
+  },
 };
 
-export function getPulauTheme(unitId: string, index: number) {
+export function getPulauTheme(unitId: string, index: number): PulauTheme {
   if (WORLD_PULAU_THEMES[unitId]) {
     return WORLD_PULAU_THEMES[unitId];
   }
-  // Generative fallback for u6..u20
-  const bgPalette = ["#8B5CF6", "#E63329", "#1CB0F6", "#F2841F", "#34C06A", "#1E3A5F"];
-  const dashPalette = ["14 12", "0 18", "20 14", "8 10"];
-  const kindPalette = ["Api", "Batu", "Udara", "Reruntuhan", "Benteng", "Puncak"];
-  const propList = ["shield", "star", "key", "lantern", "coins", "book", "crate", "ice"];
+  // Fallback if an unexpected unit ID arrives
+  const fallbackUnit = `u${index}`;
+  if (WORLD_PULAU_THEMES[fallbackUnit]) {
+    return WORLD_PULAU_THEMES[fallbackUnit];
+  }
 
   return {
-    bg: bgPalette[(index - 1) % bgPalette.length],
-    dash: dashPalette[(index - 1) % dashPalette.length],
-    kind: kindPalette[(index - 1) % kindPalette.length],
-    land: `Rute Pulau #${index}`,
-    look: "Lanjutkan penjelajahan on-chain kamu melintasi blok rantai.",
+    bg: "#4A283C",
+    dash: "14 10",
+    kind: "Rute Terbuka",
+    land: `Blok #${index}`,
+    look: "Jelajahi setiap blok secara mandiri dan validasi transaksi on-chain kamu.",
     props: [
-      { name: propList[(index * 2) % propList.length], side: "left" as const, top: 25, size: 46 },
-      { name: propList[(index * 3) % propList.length], side: "right" as const, top: 70, size: 44 },
+      { name: "star", side: "left", top: 25, size: 46 },
+      { name: "lantern", side: "right", top: 70, size: 44 },
     ],
   };
 }

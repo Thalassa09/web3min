@@ -594,7 +594,7 @@ function PhoneSimulator({ initialScreen = "belajar" }: { initialScreen: string }
                     }`}
                   >
                     {isToday && (
-                      <span className="val mb-1 px-1.5 py-0.5 bg-ink-900 text-white rounded text-[10px] font-['Pixelify_Sans']">
+                      <span className="val mb-1 px-1.5 py-0.5 bg-ink-900 text-white rounded text-[10px] font-mono">
                         +{v}
                       </span>
                     )}
@@ -866,7 +866,7 @@ function PulauRantaiShowcase() {
               >
                 🫧 Bubble Menu ↗
               </Link>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#FFE3EC] text-[#D62A78] border border-[#FFB3D6] text-[11px] font-bold font-['Pixelify_Sans']">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#FFE3EC] text-[#D62A78] border border-[#FFB3D6] text-[11px] font-bold font-mono">
                 PROTOTIPE AKTIF
               </span>
             </div>

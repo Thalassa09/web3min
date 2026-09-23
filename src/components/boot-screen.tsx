@@ -3,9 +3,9 @@ import { Mascot } from "@/components/mascot";
 import { cn } from "@/lib/utils";
 
 const STAGES = [
-  { label: "Menyiapkan rute…", width: "35%" },
-  { label: "Memuat modul…", width: "75%" },
-  { label: "Siap!", width: "100%" },
+  { label: "Menyusun blok pertama…", width: "35%" },
+  { label: "Memvalidasi rantai…", width: "75%" },
+  { label: "Rantai tervalidasi!", width: "100%" },
 ];
 
 export function BootScreen({
@@ -37,41 +37,39 @@ export function BootScreen({
   return (
     <div
       className={cn(
-        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-sky-500 to-sky-700 p-6 text-center select-none",
+        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-canvas p-6 text-center select-none",
         exiting && "boot-out",
-        className,
+        className
       )}
       role="status"
       aria-live="polite"
     >
-      {/* 3 Static High-Performance Background Clouds */}
+      {/* Calm ambient background (Apple-style subtle glow) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-10 -left-12 w-64 h-32 rounded-full bg-white/20 blur-xl" />
-        <div className="absolute top-1/4 -right-16 w-72 h-36 rounded-full bg-white/15 blur-2xl" />
-        <div className="absolute bottom-16 -left-10 w-80 h-40 rounded-full bg-white/20 blur-xl" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-primary-soft/50 blur-3xl" />
       </div>
 
       {/* Center Blobi & Wordmark */}
       <div className="relative z-10 flex flex-col items-center">
         <div className="relative">
-          <Mascot mood="wave" size={140} interactive />
+          <Mascot mood="wave" size={130} interactive />
         </div>
 
-        <h1 className="mt-4 font-display text-[34px] font-bold text-white tracking-tight drop-shadow-[0_2px_4px_rgba(11,79,209,0.5)]">
+        <h1 className="mt-4 font-sans text-[32px] font-black text-ink-900 tracking-tight">
           {title}
         </h1>
 
-        <p className="mt-2 text-sm font-semibold text-sky-100 max-w-xs transition-opacity duration-200">
+        <p className="mt-2 text-sm font-semibold text-ink-500 max-w-xs transition-opacity duration-200">
           {currentHint}
         </p>
 
-        {/* Real Stepped Yellow Progress Track 180x10 */}
+        {/* Pink Candy Progress Bar 180x10 */}
         <div
-          className="mt-6 h-2.5 w-[180px] overflow-hidden rounded-full bg-sky-700 border-2 border-white/90 shadow-inner"
+          className="mt-6 h-2.5 w-[180px] overflow-hidden rounded-full bg-primary-soft border-2 border-line-strong shadow-xs"
           aria-hidden
         >
           <div
-            className="h-full rounded-full bg-coin shadow-[0_0_8px_#FFC61A] transition-[width,background-color] duration-300 ease-out"
+            className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
             style={{ width: currentWidth }}
           />
         </div>

@@ -294,10 +294,10 @@ function ProfilePage() {
             className="bg-blobi border-b-2 border-ink-900 p-4 sm:p-5 flex items-center justify-between text-white"
             style={{ backgroundImage: "repeating-linear-gradient(45deg, #ffffff18 0 10px, transparent 10px 20px)" }}
           >
-            <span className="font-['Pixelify_Sans'] text-xs font-bold uppercase tracking-wider text-white">
+            <span className="font-sans text-xs font-bold uppercase tracking-wider text-white">
               Lisensi Penjelajah Web3
             </span>
-            <span className="font-['Pixelify_Sans'] text-sm font-bold text-white">
+            <span className="font-sans text-sm font-bold text-white">
               #{Math.abs((username || "pelajar").split("").reduce((a, b) => (a << 5) - a + b.charCodeAt(0), 0) % 100000).toString().padStart(5, "0")}
             </span>
           </div>
@@ -317,10 +317,10 @@ function ProfilePage() {
                     @{username || "penjelajah"}
                   </h1>
                   <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap mt-2">
-                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-cream text-ink-900 border-[1.5px] border-ink-900">
+                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-cream text-ink-900 border-[1.5px] border-ink-900">
                       Level {Math.floor(xp / 100) + 1}
                     </span>
-                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-sky-100 text-ink-900 border-[1.5px] border-ink-900">
+                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-sky-100 text-ink-900 border-[1.5px] border-ink-900">
                       Murid Blobi
                     </span>
                   </div>
@@ -381,7 +381,7 @@ function ProfilePage() {
                       className="w-full px-4 py-3 rounded-[12px] bg-canvas border-2 border-ink-900 text-sm text-ink-900 placeholder:text-ink-500/50 focus:outline-none focus:ring-2 focus:ring-blobi resize-none font-medium"
                       autoFocus={isEditing}
                     />
-                    <span className="absolute right-3 bottom-2.5 text-xs font-['Pixelify_Sans'] font-bold text-ink-500">
+                    <span className="absolute right-3 bottom-2.5 text-xs font-sans font-bold text-ink-500">
                       {bioDraft.length}/80
                     </span>
                   </div>
@@ -430,44 +430,44 @@ function ProfilePage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl">
           <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
             <div className="flex items-center justify-between text-ink-500">
-              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Total XP</span>
+              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Total XP</span>
               <Trophy className="size-4 text-coin" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-leaf">{xp}</div>
+              <div className="text-3xl font-bold font-sans text-leaf">{xp}</div>
               <div className="text-xs font-medium text-ink-500 mt-0.5">Poin pengalaman</div>
             </div>
           </div>
 
           <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
             <div className="flex items-center justify-between text-ink-500">
-              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Streak</span>
+              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Streak</span>
               <Flame className="size-4 text-[#FF7A1A]" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#FF7A1A]">{streak} Hari</div>
+              <div className="text-3xl font-bold font-sans text-[#FF7A1A]">{streak} Hari</div>
               <div className="text-xs font-medium text-ink-500 mt-0.5">Berturut-turut</div>
             </div>
           </div>
 
           <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
             <div className="flex items-center justify-between text-ink-500">
-              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Bintang</span>
+              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Bintang</span>
               <Sparkles className="size-4 text-coin" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-coin">{formatGems(gems)}</div>
+              <div className="text-3xl font-bold font-sans text-coin">{formatGems(gems)}</div>
               <div className="text-xs font-medium text-ink-500 mt-0.5">Koin hadiah</div>
             </div>
           </div>
 
           <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
             <div className="flex items-center justify-between text-ink-500">
-              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Modul</span>
+              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Modul</span>
               <Compass className="size-4 text-sky-500" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-sky-500">{lessonsDone}</div>
+              <div className="text-3xl font-bold font-sans text-sky-500">{lessonsDone}</div>
               <div className="text-xs font-medium text-ink-500 mt-0.5">Terselesaikan</div>
             </div>
           </div>

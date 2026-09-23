@@ -158,16 +158,16 @@ function ShopPage() {
         )}
 
         {/* PRIMARY MODE SELECTOR: Toko vs Ruang Ganti Blobi */}
-        <SurfaceCard className="p-3 sm:p-4 bg-white border-2 border-line-strong shadow-[0_6px_0_#0B4FD1]">
+        <SurfaceCard className="p-3 sm:p-4 bg-paper border-2 border-line shadow-3d-card">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             {/* Mode Switcher Buttons */}
-            <div className="inline-flex p-1.5 rounded-[18px] bg-sky-100 border-2 border-line-strong shadow-inner gap-1.5 w-full sm:w-auto">
+            <div className="inline-flex p-1.5 rounded-[18px] bg-primary-soft border-2 border-candy-line/60 shadow-inner gap-1.5 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => handleModeChange("shop")}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-sans font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
                   mode === "shop"
-                    ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_3px_0_#0B4FD1]"
+                    ? "bg-primary text-white border-2 border-primary-shadow shadow-3d-primary"
                     : "text-ink-500 hover:text-ink-900 hover:bg-white/60 border-2 border-transparent"
                 }`}
               >
@@ -178,9 +178,9 @@ function ShopPage() {
               <button
                 type="button"
                 onClick={() => handleModeChange("wardrobe")}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-sans font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
                   mode === "wardrobe"
-                    ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_3px_0_#0B4FD1]"
+                    ? "bg-primary text-white border-2 border-primary-shadow shadow-3d-primary"
                     : "text-ink-500 hover:text-ink-900 hover:bg-white/60 border-2 border-transparent"
                 }`}
               >
@@ -191,7 +191,7 @@ function ShopPage() {
                     className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold ${
                       mode === "wardrobe"
                         ? "bg-coin text-ink-900"
-                        : "bg-[#0B63F6] text-white"
+                        : "bg-primary text-white"
                     }`}
                   >
                     {ownedCount}
@@ -202,9 +202,9 @@ function ShopPage() {
 
             {/* Currency & Inventory Badges */}
             <div className="hidden sm:flex items-center gap-2 justify-end">
-              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[12px] bg-cream border-2 border-ink-900 text-xs font-['Pixelify_Sans'] font-bold text-ink-900 shadow-[2px_2px_0_#1B1440]">
+              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[12px] bg-paper border-2 border-ink-900 text-xs font-mono font-bold text-ink-900 shadow-xs">
                 <Star size={14} className="text-coin" fill="currentColor" />
-                <span>{formatGems(gems)} Bintang</span>
+                <span className="tabular-nums">{formatGems(gems)} Bintang</span>
               </div>
             </div>
           </div>
@@ -216,11 +216,11 @@ function ShopPage() {
         {mode === "shop" && (
           <div className="space-y-6">
             {/* Header Toko (Shown on tablet/desktop; on mobile the Mode Switcher above already acts as header) */}
-            <SurfaceCard className="hidden sm:block p-4 sm:p-6 bg-white space-y-2">
+            <SurfaceCard className="hidden sm:block p-4 sm:p-6 bg-paper space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h1 className="font-display font-bold text-xl sm:text-3xl text-ink-900 tracking-tight flex items-center gap-2">
-                    <Store className="size-6 sm:size-7 text-[#0B63F6]" />
+                  <h1 className="font-sans font-extrabold text-xl sm:text-3xl text-ink-900 tracking-tight flex items-center gap-2">
+                    <Store className="size-6 sm:size-7 text-primary" />
                     <span>Toko</span>
                   </h1>
                   <p className="text-xs sm:text-sm font-medium text-ink-500 mt-0.5 leading-relaxed">
@@ -230,7 +230,7 @@ function ShopPage() {
                 <button
                   type="button"
                   onClick={() => handleModeChange("wardrobe")}
-                  className="px-3.5 py-1.5 rounded-[12px] bg-sky-100 border-2 border-sky-300 text-sky-700 text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1.5 shrink-0 cursor-pointer active:translate-y-[1px]"
+                  className="px-3.5 py-1.5 rounded-[12px] bg-primary-soft border-2 border-candy-line text-primary-hover text-xs font-extrabold hover:bg-pink-100 shadow-xs transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1.5 shrink-0 cursor-pointer active:translate-y-[1px]"
                 >
                   <Shirt className="size-3.5" />
                   <span>Ruang Ganti ({ownedCount})</span>
@@ -243,18 +243,18 @@ function ShopPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between px-1">
                 <div>
-                  <span className="block font-['Pixelify_Sans',monospace] text-[13px] font-medium uppercase tracking-wider text-ink-500">
+                  <span className="block font-sans text-[12px] font-extrabold uppercase tracking-wider text-ink-500">
                     Tukar bintang hasil belajar
                   </span>
                   <h2 className="text-xl font-extrabold text-ink-900 flex items-center gap-2">
-                    <Store className="size-5 text-blobi" />
+                    <Store className="size-5 text-primary" />
                     <span>Item & Penguat Belajar</span>
                   </h2>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleModeChange("wardrobe")}
-                  className="inline-flex items-center gap-2 rounded-xl border-2 border-ink-900 bg-white px-3.5 py-2 text-[13px] font-extrabold text-ink-900 shadow-[3px_3px_0_#1B1440] transition-[transform,box-shadow] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                  className="inline-flex items-center gap-2 rounded-xl border-2 border-ink-900 bg-white px-3.5 py-2 text-[13px] font-extrabold text-ink-900 shadow-ink transition-[transform,box-shadow] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                 >
                   <Shirt className="size-4" strokeWidth={2.4} />
                   <span>Ruang Ganti</span>
@@ -263,19 +263,19 @@ function ShopPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {/* 1. Pelindung Streak */}
-                <div className="flex flex-col rounded-2xl border-2 border-ink-900 bg-white p-5 shadow-[4px_4px_0_#1B1440]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-sky-100 text-sky-500">
+                <div className="flex flex-col rounded-2xl border-2 border-line bg-paper p-5 shadow-3d-card">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-primary-soft text-primary">
                     <Shield className="size-6" strokeWidth={2.4} />
                   </div>
                   <h3 className="text-[17px] font-extrabold text-ink-900">Pelindung Streak</h3>
                   <p className="mt-1.5 font-medium leading-relaxed text-ink-500 text-xs">
                     Streak aman kalau kamu bolos satu hari tanpa belajar.
                   </p>
-                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-ink-900/20">
+                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-line">
                     Dimiliki: <strong>{freeze} Pelindung</strong>
                   </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-ink-900/10">
-                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-ink-900">
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-line">
+                    <span className="flex items-center gap-1 font-mono text-base font-bold text-ink-900">
                       <Star size={16} className="text-coin" fill="currentColor" /> {FREEZE_COST}
                     </span>
                     <button
@@ -294,8 +294,8 @@ function ShopPage() {
                       }}
                       className={`inline-flex items-center justify-center rounded-xl border-2 border-ink-900 px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
                         freeze > 0 || gems < FREEZE_COST
-                          ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
-                          : "bg-blobi text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                          ? "cursor-not-allowed border-line-strong bg-line text-ink-300 shadow-none"
+                          : "bg-primary text-white shadow-ink hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       }`}
                     >
                       {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Kurang" : "Beli"}
@@ -304,19 +304,19 @@ function ShopPage() {
                 </div>
 
                 {/* 2. Isi Ulang Nyawa */}
-                <div className="flex flex-col rounded-2xl border-2 border-ink-900 bg-white p-5 shadow-[4px_4px_0_#1B1440]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-blobi-soft text-blobi">
+                <div className="flex flex-col rounded-2xl border-2 border-line bg-paper p-5 shadow-3d-card">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-primary-soft text-primary">
                     <Heart className="size-6" strokeWidth={2.4} fill="currentColor" />
                   </div>
                   <h3 className="text-[17px] font-extrabold text-ink-900">Isi Ulang Nyawa</h3>
                   <p className="mt-1.5 font-medium leading-relaxed text-ink-500 text-xs">
                     Balik ke 5/5 nyawa penuh dan langsung lanjut latihan.
                   </p>
-                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-ink-900/20">
-                    Nyawa: <strong className="text-blobi">{hearts}/{MAX_HEARTS} Hati</strong>
+                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-line">
+                    Nyawa: <strong className="text-primary">{hearts}/{MAX_HEARTS} Hati</strong>
                   </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-ink-900/10">
-                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-ink-900">
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-line">
+                    <span className="flex items-center gap-1 font-mono text-base font-bold text-ink-900">
                       <Star size={16} className="text-coin" fill="currentColor" /> {HEART_REFILL_COST}
                     </span>
                     <button
@@ -335,8 +335,8 @@ function ShopPage() {
                       }}
                       className={`inline-flex items-center justify-center rounded-xl border-2 border-ink-900 px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
                         heartsFull || gems < HEART_REFILL_COST
-                          ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
-                          : "bg-blobi text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                          ? "cursor-not-allowed border-line-strong bg-line text-ink-300 shadow-none"
+                          : "bg-primary text-white shadow-ink hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       }`}
                     >
                       {heartsFull ? "Penuh" : gems < HEART_REFILL_COST ? "Kurang" : "Beli"}
@@ -345,19 +345,19 @@ function ShopPage() {
                 </div>
 
                 {/* 3. Mahkota Blobi */}
-                <div className="flex flex-col rounded-2xl border-2 border-ink-900 bg-white p-5 shadow-[4px_4px_0_#1B1440]">
-                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-cream text-coin">
+                <div className="flex flex-col rounded-2xl border-2 border-line bg-paper p-5 shadow-3d-card">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-ink-900 bg-amber-50 text-coin">
                     <Crown className="size-6" strokeWidth={2.4} />
                   </div>
                   <h3 className="text-[17px] font-extrabold text-ink-900">Mahkota Blobi</h3>
                   <p className="mt-1.5 font-medium leading-relaxed text-ink-500 text-xs">
                     Kosmetik langka untuk Blobi-mu di lisensi profil.
                   </p>
-                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-ink-900/20">
+                  <div className="mt-2 text-xs font-bold text-ink-900 bg-canvas p-2 rounded-[10px] border border-line">
                     Status: <strong>{outfits.includes("crown") ? "Sudah Dimiliki" : "Belum Dimiliki"}</strong>
                   </div>
-                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-ink-900/10">
-                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-ink-900">
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-line">
+                    <span className="flex items-center gap-1 font-mono text-base font-bold text-ink-900">
                       <Star size={16} className="text-coin" fill="currentColor" /> 120
                     </span>
                     <button
@@ -373,8 +373,8 @@ function ShopPage() {
                       }}
                       className={`inline-flex items-center justify-center rounded-xl border-2 border-ink-900 px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
                         outfits.includes("crown") || gems < 120
-                          ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
-                          : "bg-blobi text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                          ? "cursor-not-allowed border-line-strong bg-line text-ink-300 shadow-none"
+                          : "bg-primary text-white shadow-ink hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                       }`}
                     >
                       {outfits.includes("crown") ? "Dimiliki" : gems < 120 ? "Kurang" : "Beli"}
@@ -385,13 +385,13 @@ function ShopPage() {
             </div>
 
             {/* Exclusive Wardrobe Banner */}
-            <SurfaceCard className="p-5 sm:p-6 bg-gradient-to-r from-[#EAF4FF] to-[#FFF7E4] border-2 border-sky-300 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_4px_0_#0B4FD1]">
+            <SurfaceCard className="p-5 sm:p-6 bg-paper border-2 border-line flex flex-col sm:flex-row items-center justify-between gap-4 shadow-3d-card">
               <div className="flex items-center gap-4 text-center sm:text-left">
-                <div className="size-14 rounded-full bg-white border-2 border-sky-300 shadow-[0_3px_0_#C2DBFA] flex items-center justify-center shrink-0">
-                  <Sparkles className="size-7 text-[#0B63F6]" />
+                <div className="size-14 rounded-full bg-primary-soft border-2 border-candy-line shadow-xs flex items-center justify-center shrink-0">
+                  <Sparkles className="size-7 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base sm:text-lg text-ink-900">
+                  <h3 className="font-sans font-bold text-base sm:text-lg text-ink-900">
                     Koleksi Pakaian & Aksesori Blobi
                   </h3>
                   <p className="text-xs sm:text-sm text-ink-500 mt-0.5 leading-relaxed">

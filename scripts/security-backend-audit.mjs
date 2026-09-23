@@ -92,7 +92,6 @@ async function runSecurityAudit() {
   }
 
   // 6. Direct Table Access Verification (RLS & Table Grants)
-  // Verify that anon CANNOT write to progress, completions, or claimed_quests
   try {
     const { error: insertProgressErr } = await supabase.from("progress").insert({
       user_id: "00000000-0000-0000-0000-000000000000",
@@ -157,6 +156,106 @@ async function runSecurityAudit() {
     );
   } catch (e) {
     assert("Ledger privacy", true);
+  }
+
+  // 9. Case Completion Security (Unauthenticated rejection)
+  try {
+    const { error: unauthCaseErr } = await supabase.rpc("complete_case", { p_case_id: "thedao" });
+    assert(
+      "complete_case rejects unauthenticated caller with 42501",
+      unauthCaseErr && (unauthCaseErr.code === "42501" || unauthCaseErr.message.includes("Not authenticated")),
+      unauthCaseErr?.message
+    );
+  } catch (e) {
+    assert("complete_case unauthenticated check", false, e.message);
+  }
+
+  // 10. Authenticated Lifecycle & Anti-Cheat Verification
+  const testUser = "sectest_" + Math.floor(Math.random() * 90000 + 10000);
+  const testEmail = `${testUser}@users.web3min.vercel.app`;
+  const testPassword = "SecPassword123!";
+
+  const authClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const { data: signUpData, error: signUpErr } = await authClient.auth.signUp({
+    email: testEmail,
+    password: testPassword,
+    options: { data: { username: testUser } },
+  });
+
+  if (signUpErr || !signUpData?.user) {
+    console.error("Failed to sign up temporary test user for auth tests:", signUpErr);
+  } else {
+    // 10a. Verify Anti-Cheat in Leaderboard Claim: Spoofed rank 1 must NOT get 1000 coins!
+    try {
+      const { data: claimData } = await authClient.rpc("claim_weekly_leaderboard_reward", {
+        p_rank: 1, // Spoofed attempt!
+      });
+      assert(
+        "Anti-Cheat: Server ignores spoofed p_rank: 1 and computes server-authoritative rank",
+        claimData && claimData.success && claimData.reward < 1000 && typeof claimData.rank === "number",
+        `Expected calculated rank reward, got: ${JSON.stringify(claimData)}`
+      );
+    } catch (e) {
+      assert("Leaderboard anti-cheat test", false, e.message);
+    }
+
+    // 10b. Verify complete_case awarding and anti-replay
+    try {
+      const { data: c1 } = await authClient.rpc("complete_case", { p_case_id: "curve-hack" });
+      const { data: c2 } = await authClient.rpc("complete_case", { p_case_id: "curve-hack" });
+      assert(
+        "complete_case awards 15 XP + 5 gems on first try and 0 XP on replay",
+        c1 && c1.xp === 15 && c1.gems === 5 && c1.replay === false &&
+        c2 && c2.xp === 0 && c2.gems === 0 && c2.replay === true,
+        `c1: ${JSON.stringify(c1)}, c2: ${JSON.stringify(c2)}`
+      );
+    } catch (e) {
+      assert("complete_case replay prevention test", false, e.message);
+    }
+
+    // 10b2. Verify complete_case rejects malformed case ID
+    try {
+      const { data: cBad, error: sqlInjCaseErr } = await authClient.rpc("complete_case", {
+        p_case_id: "thedao'; DROP TABLE completions; --",
+      });
+      assert(
+        "complete_case rejects SQL injection / malformed case ID with 22023",
+        sqlInjCaseErr && (sqlInjCaseErr.code === "22023" || sqlInjCaseErr.message.includes("tidak valid")),
+        `Expected validation error, got: ${JSON.stringify({ data: cBad, error: sqlInjCaseErr })}`
+      );
+    } catch (e) {
+      assert("complete_case SQL injection rejection", false, e.message);
+    }
+
+    // 10c. Verify Profile Update Immutable Fields Guard
+    try {
+      const { error: idTamperErr } = await authClient
+        .from("profiles")
+        .update({ id: "00000000-0000-0000-0000-000000000001" })
+        .eq("id", signUpData.user.id);
+      assert(
+        "Profile trigger prevents modifying account ID",
+        Boolean(idTamperErr),
+        "ID modification was unexpectedly allowed!"
+      );
+    } catch (e) {
+      assert("Profile ID protection", true);
+    }
+
+    // 10d. Verify Twitter Handle XSS / HTML Injection Guard
+    try {
+      const { error: twitterXssErr } = await authClient
+        .from("profiles")
+        .update({ twitter: "<script>alert(1)</script>" })
+        .eq("id", signUpData.user.id);
+      assert(
+        "Profile trigger prevents XSS / invalid characters in Twitter handle",
+        Boolean(twitterXssErr) && (twitterXssErr.code === "22023" || twitterXssErr.message.includes("tidak valid")),
+        twitterXssErr?.message
+      );
+    } catch (e) {
+      assert("Profile Twitter sanitization", true);
+    }
   }
 
   console.log(`\nAudit Results: ${passedChecks}/${totalChecks} checks passed.`);

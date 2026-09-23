@@ -164,12 +164,18 @@ export async function syncProgressFromServer(): Promise<boolean> {
       };
     });
 
-    // Background convergence: upload any locally completed lessons that server doesn't have yet
+    // Background convergence: upload any locally completed lessons, stories, and cases that server doesn't have yet
     const localOnly = useProgress.getState().completed.filter((id) => !completed.includes(id));
-    if (localOnly.length > 0) {
-      for (const id of localOnly) {
-        void rpcCompleteLesson(id, useProgress.getState().perfect.includes(id));
-      }
+    for (const id of localOnly) {
+      void rpcCompleteLesson(id, useProgress.getState().perfect.includes(id));
+    }
+    const localStories = useProgress.getState().completedStories.filter((id) => !completedStories.includes(id));
+    for (const id of localStories) {
+      void rpcCompleteStory(id);
+    }
+    const localCases = useProgress.getState().completedCases.filter((id) => !completedCases.includes(id));
+    for (const id of localCases) {
+      void rpcCompleteCase(id);
     }
 
     return true;
@@ -244,6 +250,40 @@ export async function rpcCompleteStory(
     };
   } catch (err) {
     console.warn("[server-sync] RPC complete_story failed:", err);
+    return null;
+  } finally {
+    endOp(opKey);
+  }
+}
+
+export async function rpcCompleteCase(
+  caseId: string,
+): Promise<{ xp: number; gems: number; replay: boolean } | null> {
+  if (!isSupabaseConfigured || !supabase) return null;
+  const opKey = `case:${caseId}`;
+  if (!canExecuteOp(opKey, 1000)) return null;
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return null;
+
+    const { data, error } = await supabase.rpc("complete_case", {
+      p_case_id: caseId,
+    });
+
+    if (error || !data) {
+      if (error?.message?.includes("Rate limit") || error?.message?.includes("Terlalu banyak")) {
+        console.warn("[server-sync] Rate limited:", error.message);
+      }
+      return null;
+    }
+    return {
+      xp: data.xp,
+      gems: data.gems,
+      replay: data.replay,
+    };
+  } catch (err) {
+    console.warn("[server-sync] RPC complete_case failed:", err);
     return null;
   } finally {
     endOp(opKey);

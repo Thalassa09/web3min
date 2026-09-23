@@ -9,7 +9,7 @@ import { playComplete } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 import { DuoButton } from "@/components/duo-button";
 import { Mascot, SpeechBubble, TypeLine } from "@/components/mascot";
-import { rpcCompleteStory, syncProgressFromServer } from "@/lib/server-sync";
+import { rpcCompleteCase, syncProgressFromServer } from "@/lib/server-sync";
 
 export function CaseClinic({ study }: { study: CaseStudy }) {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export function CaseClinic({ study }: { study: CaseStudy }) {
     const awarded = completeCase(study.id) ?? { xp: 0, gems: 0 };
     setDone(awarded);
     if (sound) playComplete();
-    void rpcCompleteStory(study.id).then((ok) => {
+    void rpcCompleteCase(study.id).then((ok) => {
       if (ok) void syncProgressFromServer();
     });
   }

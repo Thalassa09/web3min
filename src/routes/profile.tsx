@@ -320,7 +320,7 @@ function ProfilePage() {
                     <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-cream text-ink-900 border-[1.5px] border-ink-900">
                       Level {Math.floor(xp / 100) + 1}
                     </span>
-                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-sky-100 text-ink-900 border-[1.5px] border-ink-900">
+                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-candy-100 text-choco-900 border-[1.5px] border-choco-900">
                       Murid Blobi
                     </span>
                   </div>
@@ -339,19 +339,19 @@ function ProfilePage() {
             </div>
 
             {/* User Motto / Status Section */}
-            <div className="pt-3 border-t-2 border-[#F0F6FF]">
+            <div className="pt-3 border-t-2 border-candy-100">
               {bio && !isEditing ? (
-                <div className="group relative flex items-center justify-between gap-3 p-3.5 rounded-[18px] bg-[#F7FAFC] border-2 border-line hover:border-sky-300 transition-all">
+                <div className="group relative flex items-center justify-between gap-3 p-3.5 rounded-[18px] bg-cream border-2 border-choco-900 shadow-[2px_2px_0_#3B2218] transition-all">
                   <div className="flex items-start gap-2.5 min-w-0">
-                    <Quote className="size-4 text-sky-600 shrink-0 mt-0.5" />
-                    <p className="text-xs sm:text-sm font-semibold text-ink-900 italic leading-relaxed break-words">
+                    <Quote className="size-4 text-candy-500 shrink-0 mt-0.5" />
+                    <p className="text-xs sm:text-sm font-semibold text-choco-900 italic leading-relaxed break-words">
                       “{bio}”
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-line shadow-[0_2px_0_#C8DBF0] text-xs font-extrabold text-sky-700 hover:bg-[#F0F6FF] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
+                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-xs font-bold text-candy-600 hover:bg-candy-50 active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
                     title="Ubah status belajarmu"
                   >
                     <Pencil className="size-3.5" />
@@ -461,28 +461,28 @@ function ProfilePage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-ink-500">
-              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Modul</span>
-              <Compass className="size-4 text-sky-500" />
+          <div className="p-4 rounded-[16px] bg-white border-2 border-choco-900 shadow-[4px_4px_0_#3B2218] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-choco-600">
+              <span className="font-pixel text-xs font-semibold uppercase tracking-wider">Modul</span>
+              <Compass className="size-4 text-candy-500" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-sans text-sky-500">{lessonsDone}</div>
-              <div className="text-xs font-medium text-ink-500 mt-0.5">Terselesaikan</div>
+              <div className="text-3xl font-bold font-pixel text-candy-500">{lessonsDone}</div>
+              <div className="text-xs font-medium text-choco-600 mt-0.5">Terselesaikan</div>
             </div>
           </div>
         </div>
 
         {/* Keahlian Web3 Terverifikasi (Atlassian Rovo UI Skills Spec) */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3.5 shadow-[0_4px_0_#C8DBF0]">
+        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3.5 shadow-[0_4px_0_#3B2218] border-2 border-choco-900">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
-              <Sparkles className="size-4 text-[#0B63F6] shrink-0" />
-              <h2 className="font-display font-bold text-sm sm:text-base text-ink-900">
+              <Sparkles className="size-4 text-candy-500 shrink-0" />
+              <h2 className="font-display font-bold text-sm sm:text-base text-choco-900">
                 Keahlian Web3 Terverifikasi
               </h2>
             </div>
-            <span className="text-xs font-mono font-extrabold text-[#0B63F6]">
+            <span className="text-xs font-pixel font-bold text-candy-600">
               {WEB3_SKILLS.filter(s => {
                 const u = unitStats.find(us => us.unit.index === s.unitIndex);
                 return u?.isCompleted;
@@ -502,9 +502,9 @@ function ProfilePage() {
                   <SkillTag
                     key={skill.name}
                     name={skill.name}
-                    icon={<SkillIcon className="size-3 text-leaf-shadow" />}
+                    icon={<SkillIcon className="size-3 text-mint-deep" />}
                     level="LULUS"
-                    className="bg-[#E8FBF0] text-leaf-shadow border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                    className="bg-mint/20 text-mint-deep border-mint shadow-[0_2px_0_#1E9E78]"
                   />
                 );
               }
@@ -514,7 +514,7 @@ function ProfilePage() {
                   <SkillTag
                     key={skill.name}
                     name={skill.name}
-                    icon={<SkillIcon className="size-3 text-[#0B63F6]" />}
+                    icon={<SkillIcon className="size-3 text-candy-500" />}
                     level="PROGRES"
                   />
                 );
@@ -550,9 +550,9 @@ function ProfilePage() {
                     20 UNIT
                   </Lozenge>
                 </div>
-                <p className="text-xs font-bold text-ink-500 mt-0.5">
-                  <span className="text-[#0B63F6] font-extrabold">{unitsDone}/20 Unit Selesai</span>
-                  <span className="hidden sm:inline text-[#708BA6] font-normal"> • {lessonsDone}/{totalLessons} Modul</span>
+                <p className="text-xs font-bold text-choco-600 mt-0.5">
+                  <span className="text-candy-500 font-extrabold">{unitsDone}/20 Unit Selesai</span>
+                  <span className="hidden sm:inline text-choco-600/70 font-normal"> • {lessonsDone}/{totalLessons} Modul</span>
                 </p>
               </div>
             </div>
@@ -561,7 +561,7 @@ function ProfilePage() {
               variant="secondary"
               size="sm"
               onClick={() => setBadgesOpen((v) => !v)}
-              className="shrink-0 text-xs font-extrabold"
+              className="shrink-0 text-xs font-pixel font-bold"
               icon={
                 <ChevronDown
                   className={`size-3.5 transition-transform duration-200 ${badgesOpen ? "rotate-180" : ""}`}
@@ -575,12 +575,12 @@ function ProfilePage() {
           {/* Overall Progress Bar */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-bold">
-              <span className="text-ink-500 font-medium">Progres Belajar</span>
-              <span className="font-mono text-[#0B63F6]">{pct}% SELESAI</span>
+              <span className="text-choco-600 font-medium">Progres Belajar</span>
+              <span className="font-pixel text-candy-600">{pct}% SELESAI</span>
             </div>
-            <div className="h-2.5 rounded-full bg-sky-100 border border-sky-300/40 overflow-hidden">
+            <div className="h-3 rounded-full bg-cream border-2 border-choco-900 overflow-hidden shadow-[0_2px_0_#3B2218]">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-sky-500 to-[#0B63F6] transition-all duration-500 ease-out"
+                className="h-full rounded-full candy-stripe transition-all duration-500 ease-out"
                 style={{ width: `${Math.max(pct, 2)}%` }}
               />
             </div>
@@ -588,34 +588,34 @@ function ProfilePage() {
 
           {/* When Collapsed: Clean summary highlight card */}
           {!badgesOpen && (
-            <div className="p-3.5 rounded-[18px] bg-[#F7FAFC] border-2 border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-3.5 rounded-[18px] bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               {unitsDone > 0 ? (
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="size-9 rounded-full bg-[#E8FBF0] border-2 border-[#98E4B5] flex items-center justify-center shrink-0 shadow-[0_2px_0_#98E4B5]">
+                  <div className="size-9 rounded-full bg-mint/20 border-2 border-mint flex items-center justify-center shrink-0 shadow-[0_2px_0_#1E9E78]">
                     <PixelIcon name="medal" size={18} alt="" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-extrabold text-ink-900">
+                    <div className="text-xs font-pixel font-bold text-choco-900">
                       {unitsDone} Lencana Unit Telah Diraih!
                     </div>
-                    <div className="text-[11px] font-medium text-ink-500 truncate">
+                    <div className="text-[11px] font-medium text-choco-600 truncate">
                       Lanjutkan modul untuk membuka lencana unit berikutnya.
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="size-9 rounded-full bg-sky-100 border-2 border-sky-300 flex items-center justify-center shrink-0">
+                  <div className="size-9 rounded-full bg-candy-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                     {(() => {
                       const ActiveIcon = UNIT_ICONS[currentActiveUnit.unit.index] ?? Compass;
-                      return <ActiveIcon className="size-4 text-[#0B63F6]" />;
+                      return <ActiveIcon className="size-4 text-candy-500" />;
                     })()}
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-extrabold text-ink-900 truncate">
+                    <div className="text-xs font-pixel font-bold text-choco-900 truncate">
                       Unit {currentActiveUnit.unit.index}: {currentActiveUnit.unit.title}
                     </div>
-                    <div className="text-[11px] font-medium text-ink-500">
+                    <div className="text-[11px] font-medium text-choco-600">
                       {currentActiveUnit.doneCount}/{currentActiveUnit.totalCount} modul • Selesaikan unit untuk klaim lencana!
                     </div>
                   </div>
@@ -625,10 +625,10 @@ function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setBadgesOpen(true)}
-                className="text-xs font-extrabold text-[#0B63F6] hover:text-sky-700 self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1"
+                className="text-xs font-pixel font-bold text-candy-600 hover:text-candy-500 self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1"
               >
                 <span>Lihat 20 Lencana</span>
-                <ArrowRight className="size-3.5" />
+                <ArrowRight className="size-3.5 text-candy-600" />
               </button>
             </div>
           )}
@@ -644,31 +644,31 @@ function ProfilePage() {
                       key={unit.id}
                       className={`p-3 rounded-[18px] text-center flex flex-col items-center justify-between gap-2 transition-all ${
                         isCompleted
-                          ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
+                          ? "bg-cream border-2 border-mint shadow-[0_4px_0_#1E9E78]"
                           : isStarted
-                          ? "bg-[#F0F7FF] border-2 border-sky-300 shadow-[0_4px_0_#8FC2FF]"
-                          : "bg-[#F7FAFC] border-2 border-line shadow-[0_3px_0_#DCE7F5] opacity-80"
+                          ? "bg-candy-50 border-2 border-choco-900 shadow-[0_4px_0_#3B2218]"
+                          : "bg-cream/60 border-2 border-choco-900/30 opacity-70"
                       }`}
                     >
                       {/* Badge Plate Icon */}
                       <div
                         className={`size-11 rounded-full flex items-center justify-center shrink-0 relative ${
                           isCompleted
-                            ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                            ? "bg-mint/20 border-2 border-mint shadow-[0_2px_0_#1E9E78]"
                             : isStarted
-                            ? "bg-white border-2 border-sky-300 shadow-[0_2px_0_#C2DBFA]"
-                            : "bg-sky-100/50 border-2 border-line"
+                            ? "bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                            : "bg-cream border-2 border-choco-900/20"
                         }`}
                       >
                         {isCompleted ? (
                           <PixelIcon name="medal" size={22} alt="Lencana Selesai" />
                         ) : isStarted ? (
-                          <ThematicIcon className="size-5 text-[#0B63F6]" />
+                          <ThematicIcon className="size-5 text-candy-500" />
                         ) : (
                           <>
-                            <ThematicIcon className="size-4 text-[#8FA5BD] opacity-60" />
-                            <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-sky-100 border border-line-strong flex items-center justify-center">
-                              <Lock className="size-2.5 text-[#5A789A]" />
+                            <ThematicIcon className="size-4 text-choco-600/50 opacity-60" />
+                            <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-lemon border border-choco-900 flex items-center justify-center">
+                              <Lock className="size-2.5 text-choco-900" />
                             </div>
                           </>
                         )}
@@ -676,10 +676,10 @@ function ProfilePage() {
 
                       {/* Unit Title */}
                       <div className="w-full">
-                        <div className="text-[10px] font-mono font-bold text-[#5A789A]">
+                        <div className="text-[10px] font-pixel font-bold text-choco-600">
                           Unit {unit.index}
                         </div>
-                        <div className="text-xs font-extrabold text-ink-900 line-clamp-2 leading-tight mt-0.5 min-h-[28px]">
+                        <div className="text-xs font-pixel font-bold text-choco-900 line-clamp-2 leading-tight mt-0.5 min-h-[28px]">
                           {unit.title}
                         </div>
                       </div>
@@ -687,15 +687,15 @@ function ProfilePage() {
                       {/* Progress Badge */}
                       <div className="w-full pt-0.5">
                         {isCompleted ? (
-                          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E8FBF0] text-leaf-shadow border border-[#98E4B5]">
+                          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint/20 text-mint-deep border border-mint">
                             Selesai
                           </span>
                         ) : (
                           <span
-                            className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                            className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                               isStarted
-                                ? "bg-white text-[#0B63F6] border border-sky-300"
-                                : "bg-sky-100 text-ink-500 border border-line"
+                                ? "bg-white text-candy-600 border border-choco-900"
+                                : "bg-cream text-choco-600 border border-choco-900/30"
                             }`}
                           >
                             {doneCount}/{totalCount}
@@ -759,7 +759,7 @@ function ProfilePage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
             <div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="size-4 text-[#0B63F6] shrink-0" />
+                <ShieldCheck className="size-4 text-candy-500 shrink-0" />
                 <h2 className="font-display font-bold text-sm sm:text-base text-ink-900">
                   Sesi Akun & Keamanan
                 </h2>

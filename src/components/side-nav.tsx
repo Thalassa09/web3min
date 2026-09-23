@@ -33,8 +33,8 @@ export function SideNav() {
                 className={cn(
                   "group flex items-center gap-3 rounded-full border-2 px-3.5 py-2 text-sm font-black transition-all duration-120 ease-out active:scale-95 active:translate-y-0.5",
                   active
-                    ? "border-ink-900 bg-candy text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] translate-x-1"
-                    : "border-transparent text-ink-500 hover:border-ink-900/10 hover:bg-candy-soft/50 hover:text-ink-900",
+                    ? "border-ink-900 bg-candy-500 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] translate-x-1"
+                    : "border-transparent text-ink-500 hover:border-ink-900/10 hover:bg-candy-50 hover:text-ink-900",
                 )}
               >
                 <div

@@ -66,8 +66,8 @@ export function Box({
     none: "border-0",
     subtle: "border-2 border-line",
     bold: "border-2 border-line-strong",
-    brand: "border-2 border-sky-300",
-    "brand-bold": "border-2 border-[#0B63F6]",
+    brand: "border-2 border-candy-300",
+    "brand-bold": "border-2 border-candy-500",
     dashed: "border-2 border-dashed border-line",
   };
 

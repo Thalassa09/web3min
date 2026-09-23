@@ -14,7 +14,7 @@ export interface SkillTagProps extends React.HTMLAttributes<HTMLSpanElement> {
  */
 export function SkillTag({
   name,
-  icon = <Sparkles className="size-3 text-[#0B63F6]" />,
+  icon = <Sparkles className="size-3 text-candy-500" />,
   level,
   className = "",
   ...props
@@ -23,8 +23,8 @@ export function SkillTag({
     <span
       className={`
         inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px]
-        bg-sky-100 border-2 border-sky-300 text-sky-700
-        text-[11px] font-extrabold shadow-[0_2px_0_#C2DBFA]
+        bg-candy-100 border-2 border-choco-900 text-candy-600
+        text-[11px] font-pixel font-bold shadow-[0_2px_0_#3B2218]
         select-none transition-all
         ${className}
       `}
@@ -33,7 +33,7 @@ export function SkillTag({
       {icon}
       <span>{name}</span>
       {level !== undefined && (
-        <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-white/80 text-[#0B63F6] border border-sky-300/60 font-bold">
+        <span className="font-pixel text-[10px] px-1 py-0.2 rounded bg-white text-candy-600 border border-choco-900 font-bold">
           {level}
         </span>
       )}

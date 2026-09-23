@@ -22,14 +22,14 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
     text: "text-leaf-shadow",
   },
   cyan: {
-    border: "border-sky-300",
-    bg: "bg-sky-100",
-    text: "text-sky-700",
+    border: "border-candy-300",
+    bg: "bg-candy-100",
+    text: "text-candy-600",
   },
   sky: {
-    border: "border-sky-300",
-    bg: "bg-sky-100",
-    text: "text-sky-700",
+    border: "border-candy-300",
+    bg: "bg-candy-100",
+    text: "text-candy-600",
   },
   violet: {
     border: "border-[#C4A8FF]",
@@ -67,14 +67,14 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
     text: "text-ruby-shadow",
   },
   zinc: {
-    border: "border-line-strong",
-    bg: "bg-sky-100",
-    text: "text-ink-700",
+    border: "border-choco-900/30",
+    bg: "bg-cream",
+    text: "text-choco-900",
   },
   default: {
-    border: "border-line-strong",
-    bg: "bg-sky-100",
-    text: "text-ink-700",
+    border: "border-choco-900/30",
+    bg: "bg-cream",
+    text: "text-choco-900",
   },
 };
 

@@ -46,10 +46,10 @@ export function StatusBanner({
       appearance: "success",
     },
     live: {
-      border: "border-sky-300",
-      bg: "bg-sky-100",
-      shadow: "shadow-[0_3px_0_#8FC2FF]",
-      icon: <Zap className="size-4 text-[#0B63F6]" />,
+      border: "border-2 border-choco-900",
+      bg: "bg-candy-100",
+      shadow: "shadow-[0_3px_0_#3B2218]",
+      icon: <Zap className="size-4 text-candy-500" />,
       badgeText: "LIVE FEED",
       appearance: "inprogress",
     },
@@ -62,10 +62,10 @@ export function StatusBanner({
       appearance: "moved",
     },
     info: {
-      border: "border-sky-300",
-      bg: "bg-sky-100",
-      shadow: "shadow-[0_3px_0_#8FC2FF]",
-      icon: <Info className="size-4 text-[#0B63F6]" />,
+      border: "border-2 border-choco-900",
+      bg: "bg-candy-100",
+      shadow: "shadow-[0_3px_0_#3B2218]",
+      icon: <Info className="size-4 text-candy-500" />,
       badgeText: "INFO",
       appearance: "default",
     },
@@ -122,7 +122,7 @@ export function StatusBanner({
             <span className="text-[10px] font-mono text-ink-300 uppercase tracking-wider font-bold">
               PROOF HASH
             </span>
-            <span className="text-xs font-mono font-bold text-sky-700 truncate max-w-[120px]">
+            <span className="text-xs font-pixel font-bold text-candy-600 truncate max-w-[120px]">
               {proofHash}
             </span>
           </div>

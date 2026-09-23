@@ -41,9 +41,9 @@ export function DailyQuests({ compact = false, className }: { compact?: boolean;
                   </div>
                 ) : (
                   <div className="mt-1.5 space-y-1">
-                    <div className="h-2 w-full rounded-full bg-sky-100 border border-line-strong overflow-hidden">
+                    <div className="h-2.5 w-full rounded-full bg-cream border-2 border-choco-900 overflow-hidden shadow-[0_1px_0_#3B2218]">
                       <div
-                        className="h-full rounded-full bg-[#0B63F6] transition-all duration-300"
+                        className="h-full rounded-full bg-candy-500 transition-all duration-300"
                         style={{ width: `${Math.min(100, Math.round((prog.have / prog.need) * 100))}%` }}
                       />
                     </div>

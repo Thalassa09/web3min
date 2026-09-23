@@ -8,6 +8,7 @@ import { getCase, getStory, isOpen, knownCaseIds, knownStoryIds } from "@/lib/st
 import { sanitizeBio, sanitizeShout, sanitizeTwitter, sanitizeUsername, type Shout } from "@/lib/people";
 import { daysBetween, todayKey, weekId, yesterdayKey } from "@/lib/time";
 import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE } from "@/lib/raffles";
+import { recordDayActivity } from "@/lib/activity-history";
 
 export type DailyGoal = 10 | 20 | 30 | 50;
 
@@ -458,6 +459,9 @@ export const useProgress = create<ProgressState & Actions>()(
         const dailyXpGain = already ? 0 : xpGain;
         const gemGain = already ? 0 : lesson.gems + (info.perfect ? 2 : 0);
         const ticketGain = already ? 0 : 1 + (info.perfect ? 1 : 0);
+        if (dailyXpGain > 0 || !already) {
+          recordDayActivity(todayKey(), dailyXpGain, already ? 0 : 1);
+        }
         set((s) => {
           let next = touchStreak(rollDay(regenHearts(s)));
           return {

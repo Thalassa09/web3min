@@ -501,7 +501,7 @@ function CompleteCard({
       <h2 className="mt-2 text-3xl font-extrabold text-ink-900">Pelajaran selesai</h2>
       <p className="mt-1 font-medium text-ink-500">{lesson.title}</p>
       {awarded.replay ? (
-        <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-[#EAF2FB] px-3.5 py-1 text-xs font-bold text-sky-700">
+        <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-choco-900 bg-candy-100 px-3.5 py-1 text-xs font-bold text-candy-600">
           <span>Pengulangan — hadiah disesuaikan</span>
         </div>
       ) : null}

@@ -422,7 +422,7 @@ function ShopPage() {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h1 className="font-display font-bold text-xl sm:text-3xl text-ink-900 tracking-tight flex items-center gap-2">
-                    <Sparkles className="size-6 sm:size-7 text-[#0B63F6]" />
+                    <Sparkles className="size-6 sm:size-7 text-candy-500" />
                     <span>Ruang Ganti Blobi</span>
                   </h1>
                   <p className="text-xs sm:text-sm font-medium text-ink-500 mt-0.5 leading-relaxed">
@@ -449,7 +449,7 @@ function ShopPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               {/* LEFT COLUMN: Panggung Busana Blobi (5 cols) */}
               <div className="lg:col-span-5 space-y-4">
-                <SurfaceCard className="p-6 flex flex-col items-center text-center bg-white border-2 border-sky-300 shadow-[0_6px_0_#0B4FD1]">
+                <SurfaceCard className="p-6 flex flex-col items-center text-center bg-white border-2 border-choco-900 shadow-[0_6px_0_#3B2218]">
                   <div className="w-full flex items-center justify-between pb-3 border-b-2 border-line">
                     <span className="text-xs font-extrabold text-ink-900">Panggung Busana</span>
                     <span className="text-[11px] font-bold text-ink-500">
@@ -459,14 +459,14 @@ function ShopPage() {
 
                   {/* Circular Blobi Pedestal */}
                   <div className="py-6 flex items-center justify-center relative">
-                    <div className="p-7 rounded-full bg-sky-100 border-4 border-sky-300 shadow-[0_8px_0_#C2DBFA] transition-transform hover:scale-105">
+                    <div className="p-7 rounded-full bg-candy-100 border-4 border-choco-900 shadow-[0_8px_0_#3B2218] transition-transform hover:scale-105">
                       <Mascot mood={blobiMood} size={160} worn={activeWorn} />
                     </div>
                   </div>
 
                   {/* Blobi Mood React Buttons */}
-                  <div className="w-full space-y-2 pt-2 border-t-2 border-[#F0F6FF]">
-                    <div className="text-[11px] font-bold text-ink-500">Reaksi Blobi:</div>
+                  <div className="w-full space-y-2 pt-2 border-t-2 border-candy-100">
+                    <div className="text-[11px] font-bold text-choco-600">Reaksi Blobi:</div>
                     <div className="grid grid-cols-2 gap-2">
                       {(
                         [
@@ -482,8 +482,8 @@ function ShopPage() {
                           onClick={() => setBlobiMood(mood)}
                           className={`flex items-center justify-center gap-2 px-3 py-2 rounded-[14px] text-xs font-extrabold select-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
                             blobiMood === mood
-                              ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1] border-2 border-sky-700"
-                              : "bg-[#F0F6FF] text-ink-500 hover:bg-sky-100 border-2 border-line"
+                              ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218] border-2 border-choco-900"
+                              : "bg-cream text-choco-600 hover:bg-candy-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                           }`}
                         >
                           <Icon className="size-4 shrink-0" />
@@ -557,14 +557,14 @@ function ShopPage() {
                   {/* Closet Controls: Scope Toggle + Slot Filter */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-[#F0F6FF]">
                     {/* Scope: Koleksi Dimiliki vs Katalog Lengkap */}
-                    <div className="w-full sm:w-auto inline-flex p-1 rounded-[14px] bg-sky-100 border border-line-strong gap-1 shrink-0">
+                    <div className="w-full sm:w-auto inline-flex p-1 rounded-[14px] bg-candy-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] gap-1 shrink-0">
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("owned")}
-                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
+                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-pixel font-bold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "owned"
-                            ? "bg-white text-sky-700 shadow-[0_2px_0_#C2DBFA]"
-                            : "text-ink-500 hover:text-ink-900"
+                            ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                            : "text-choco-600 hover:text-choco-900"
                         }`}
                       >
                         Koleksi Dimiliki ({ownedCount})
@@ -572,10 +572,10 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("all")}
-                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
+                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-pixel font-bold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "all"
-                            ? "bg-white text-sky-700 shadow-[0_2px_0_#C2DBFA]"
-                            : "text-ink-500 hover:text-ink-900"
+                            ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                            : "text-choco-600 hover:text-choco-900"
                         }`}
                       >
                         Katalog Coba ({totalCount})
@@ -587,10 +587,10 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeSlot("all")}
-                        className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
+                        className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                           wardrobeSlot === "all"
-                            ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_2px_0_#0B4FD1]"
-                            : "bg-[#F0F6FF] text-ink-500 border-2 border-line shadow-[0_2px_0_#DCE7F5] hover:bg-sky-100 hover:border-[#CBD5E1] hover:text-ink-900"
+                            ? "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                            : "bg-cream text-choco-600 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-candy-100 hover:text-choco-900"
                         }`}
                       >
                         Semua
@@ -600,10 +600,10 @@ function ShopPage() {
                           key={s}
                           type="button"
                           onClick={() => setWardrobeSlot(s)}
-                          className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
+                          className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                             wardrobeSlot === s
-                              ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_2px_0_#0B4FD1]"
-                              : "bg-[#F0F6FF] text-ink-500 border-2 border-line shadow-[0_2px_0_#DCE7F5] hover:bg-sky-100 hover:border-[#CBD5E1] hover:text-ink-900"
+                              ? "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                              : "bg-cream text-choco-600 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-candy-100 hover:text-choco-900"
                           }`}
                         >
                           {SLOT_LABEL[s]}
@@ -650,7 +650,7 @@ function ShopPage() {
                               : isPreviewing
                               ? "bg-[#FFF7D1] border-[#FFD84D] shadow-[0_3px_0_#FFD84D]"
                               : owned
-                              ? "bg-white border-line shadow-[0_3px_0_#C8DBF0] hover:border-sky-300"
+                              ? "bg-white border-line shadow-[0_3px_0_#C8DBF0] hover:border-choco-900"
                               : "bg-[#F7FAFC] border-dashed border-[#CBD5E1]"
                           }`}
                         >
@@ -675,7 +675,7 @@ function ShopPage() {
                             </div>
 
                             {/* Pixel Art Accessory Preview */}
-                            <div className="h-14 flex items-center justify-center p-1.5 rounded-[12px] bg-white border border-sky-100">
+                            <div className="h-14 flex items-center justify-center p-1.5 rounded-[12px] bg-white border-2 border-choco-900/30">
                               <img
                                 src={acc.src}
                                 alt={acc.name}
@@ -747,10 +747,10 @@ function ShopPage() {
                                       flash(`Mencoba "${acc.name}" pada Blobi!`);
                                     }
                                   }}
-                                  className={`flex-1 py-1 rounded-[10px] text-[10px] font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
+                                  className={`flex-1 py-1 rounded-[10px] text-[10px] font-pixel font-bold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                                     isPreviewing
-                                      ? "bg-white border-2 border-[#F4A4A0] text-ruby-shadow hover:bg-[#FFF5F5] shadow-[0_1px_0_#F4A4A0]"
-                                      : "bg-sky-100 border border-sky-300 text-sky-700 hover:bg-[#D4E8FF]"
+                                      ? "bg-white border-2 border-danger text-danger hover:bg-candy-50 shadow-[0_1px_0_#3B2218]"
+                                      : "bg-candy-100 border-2 border-choco-900 text-candy-600 hover:bg-candy-200 shadow-[0_1px_0_#3B2218]"
                                   }`}
                                 >
                                   {isPreviewing ? "Lepas" : "Coba"}
@@ -758,7 +758,7 @@ function ShopPage() {
                                 <button
                                   type="button"
                                   onClick={() => setConfirm(acc)}
-                                  className="flex-1 py-1 rounded-[10px] bg-coin text-ink-900 border border-[#E5A800] text-[10px] font-extrabold hover:bg-[#FFD147] shadow-[0_1px_0_#D99400] active:translate-y-[1px] cursor-pointer"
+                                  className="flex-1 py-1 rounded-[10px] bg-coin text-choco-900 border-2 border-choco-900 text-[10px] font-pixel font-bold hover:bg-lemon shadow-[0_2px_0_#3B2218] active:translate-y-[1px] cursor-pointer"
                                 >
                                   Beli
                                 </button>
@@ -783,8 +783,8 @@ function ShopPage() {
             onClose={() => setConfirm(null)}
           >
             <div className="space-y-4 pt-2">
-              <div className="p-4 rounded-[18px] bg-[#F7FAFC] border-2 border-line flex items-center gap-4">
-                <div className="size-16 rounded-[14px] bg-white border border-[#CBD5E1] flex items-center justify-center p-2 shrink-0">
+              <div className="p-4 rounded-[18px] bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex items-center gap-4">
+                <div className="size-16 rounded-[14px] bg-white border-2 border-choco-900 flex items-center justify-center p-2 shrink-0 shadow-[0_2px_0_#3B2218]">
                   <img
                     src={confirm.src}
                     alt={confirm.name}
@@ -793,11 +793,11 @@ function ShopPage() {
                   />
                 </div>
                 <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-ink-500 px-2 py-0.5 rounded-full bg-sky-100 border border-sky-300">
+                  <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-600 px-2 py-0.5 rounded-full bg-candy-100 border border-choco-900">
                     {SLOT_LABEL[confirm.slot]}
                   </span>
-                  <h4 className="font-extrabold text-sm text-ink-900 mt-1">{confirm.name}</h4>
-                  <p className="text-xs text-ink-500 mt-0.5 leading-relaxed">{confirm.blurb}</p>
+                  <h4 className="font-pixel font-bold text-sm text-choco-900 mt-1">{confirm.name}</h4>
+                  <p className="text-xs text-choco-600 mt-0.5 leading-relaxed">{confirm.blurb}</p>
                 </div>
               </div>
 

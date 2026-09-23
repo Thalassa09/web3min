@@ -260,13 +260,13 @@ function Onboarding() {
                       border="subtle"
                       className="flex items-start gap-3 bg-slate-50 border border-slate-200 hover:border-slate-300 transition-colors"
                     >
-                      <div className="p-2 rounded-[12px] bg-sky-50 text-sky-700 border border-sky-200 shrink-0 mt-0.5">
+                      <div className="p-2 rounded-[12px] bg-candy-100 text-candy-600 border border-choco-900 shrink-0 mt-0.5">
                         <ShieldCheck className="size-4" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-xs font-bold text-slate-900">100% Simulasi Aman</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-800">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-candy-200 text-choco-900 border border-choco-900">
                             Tanpa Risiko
                           </span>
                         </div>
@@ -336,7 +336,7 @@ function Onboarding() {
                         className={cn(
                           "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
                           authMode === "register"
-                            ? "bg-[#0B63F6] text-white shadow-sm"
+                            ? "bg-candy-500 text-white shadow-sm"
                             : "text-ink-500 hover:text-ink-900"
                         )}
                       >
@@ -351,7 +351,7 @@ function Onboarding() {
                         className={cn(
                           "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
                           authMode === "login"
-                            ? "bg-[#0B63F6] text-white shadow-sm"
+                            ? "bg-candy-500 text-white shadow-sm"
                             : "text-ink-500 hover:text-ink-900"
                         )}
                       >
@@ -383,7 +383,7 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         placeholder="contoh: satoshi atau blobi_fan"
-                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-candy-500 focus:bg-white transition-[border-color,background-color] shadow-inner"
                         autoFocus
                         autoComplete="username"
                       />
@@ -406,7 +406,7 @@ function Onboarding() {
                       onFocus={() => setIsTypingPassword(true)}
                       onBlur={() => setIsTypingPassword(false)}
                       autoComplete={authMode === "register" ? "new-password" : "current-password"}
-                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-candy-500 focus:bg-white transition-[border-color,background-color] shadow-inner"
                       placeholder={authMode === "register" ? "Minimal 8 karakter" : "Masukkan password akun"}
                     />
 
@@ -426,7 +426,7 @@ function Onboarding() {
                           onFocus={() => setIsTypingPassword(true)}
                           onBlur={() => setIsTypingPassword(false)}
                           autoComplete="new-password"
-                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-candy-500 focus:bg-white transition-[border-color,background-color] shadow-inner"
                           placeholder="Ulangi password yang sama"
                         />
                       </>
@@ -448,7 +448,7 @@ function Onboarding() {
                               setAuthMode("login");
                               setFormError(null);
                             }}
-                            className="text-sky-600 font-extrabold hover:underline cursor-pointer"
+                            className="text-candy-600 font-extrabold hover:underline cursor-pointer"
                           >
                             Masuk di sini
                           </button>
@@ -462,7 +462,7 @@ function Onboarding() {
                               setAuthMode("register");
                               setFormError(null);
                             }}
-                            className="text-sky-600 font-extrabold hover:underline cursor-pointer"
+                            className="text-candy-600 font-extrabold hover:underline cursor-pointer"
                           >
                             Daftar akun baru
                           </button>
@@ -536,7 +536,7 @@ function Onboarding() {
                             padding="sm"
                             className={`flex flex-col justify-between h-full transition-all ${
                               isSelected
-                                ? "bg-sky-100 shadow-[0_4px_0_#0B4FD1]"
+                                ? "bg-candy-100 border-2 border-choco-900 shadow-[0_4px_0_#3B2218]"
                                 : "bg-white hover:border-line-strong"
                             }`}
                           >
@@ -552,7 +552,7 @@ function Onboarding() {
                                 <span className="text-xs font-extrabold text-ink-900">{g.label}</span>
                               </div>
                               {isSelected ? (
-                                <span className="size-5 rounded-full bg-[#0B63F6] text-white flex items-center justify-center shadow-sm">
+                                <span className="size-5 rounded-full bg-candy-500 text-white flex items-center justify-center shadow-sm">
                                   <Check className="size-3" strokeWidth={3} />
                                 </span>
                               ) : (
@@ -560,7 +560,7 @@ function Onboarding() {
                               )}
                             </div>
                             <div className="mt-2.5">
-                              <div className="text-xs font-bold text-sky-700">{g.desc}</div>
+                              <div className="text-xs font-bold text-candy-600">{g.desc}</div>
                               <div className="text-[11px] font-semibold text-ink-500 mt-0.5">{g.modules}</div>
                             </div>
                           </Box>

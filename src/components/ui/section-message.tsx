@@ -36,11 +36,11 @@ export function SectionMessage({
     { bg: string; border: string; shadow: string; titleColor: string; defaultIcon: React.ReactNode }
   > = {
     information: {
-      bg: "bg-sky-100",
-      border: "border-2 border-sky-300",
-      shadow: "shadow-[0_3px_0_#C2DBFA]",
-      titleColor: "text-sky-700",
-      defaultIcon: <Info className="size-4 text-[#0B63F6]" />,
+      bg: "bg-candy-100",
+      border: "border-2 border-choco-900",
+      shadow: "shadow-[0_3px_0_#3B2218]",
+      titleColor: "text-candy-600",
+      defaultIcon: <Info className="size-4 text-candy-500" />,
     },
     warning: {
       bg: "bg-[#FFF8E1]",

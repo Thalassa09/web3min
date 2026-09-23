@@ -32,12 +32,12 @@ export function Lozenge({
   // Appearance Matrix: subtle (default) vs isBold
   const STYLES: Record<LozengeAppearance, { subtle: string; bold: string }> = {
     default: {
-      subtle: "bg-sky-100 text-sky-700 border-sky-300/60",
-      bold: "bg-[#0B63F6] text-white border-sky-700",
+      subtle: "bg-candy-100 text-candy-600 border-candy-300",
+      bold: "bg-candy-500 text-white border-candy-700",
     },
     inprogress: {
-      subtle: "bg-sky-100 text-[#0B63F6] border-sky-300",
-      bold: "bg-[#0B63F6] text-white border-sky-700",
+      subtle: "bg-candy-100 text-candy-600 border-candy-300",
+      bold: "bg-candy-500 text-white border-candy-700",
     },
     success: {
       subtle: "bg-[#E8FBF0] text-leaf-shadow border-[#98E4B5]",

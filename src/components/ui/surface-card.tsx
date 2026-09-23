@@ -20,7 +20,7 @@ export function SurfaceCard({
   const variantStyles: Record<string, string> = {
     default: "bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] text-ink-900",
     cream: "bg-canvas border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] text-ink-900",
-    sky: "bg-sky-500 border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] text-white",
+    sky: "bg-candy-500 border-2 border-choco-900 shadow-[4px_4px_0_#3B2218] text-white",
     flat: "bg-white border-2 border-ink-900 shadow-none text-ink-900",
     interactive: "bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] hover:brightness-[1.02] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440] cursor-pointer transition-[transform,box-shadow,filter] duration-100 text-ink-900",
   };

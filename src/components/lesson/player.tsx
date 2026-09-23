@@ -201,11 +201,11 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
 
   return (
     <div className={cn("quiz-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden bg-[#F8FAFC] lg:max-w-none", world.skin)}>
-      <div className="shrink-0 flex items-center gap-3 px-3 py-2.5 bg-white border-b-2 border-[#B9CFE9] shadow-sm lg:px-8">
+      <div className="shrink-0 flex items-center gap-3 px-3 py-2.5 bg-white border-b-2 border-line-strong shadow-sm lg:px-8">
         <button
           type="button"
           aria-label="Keluar"
-          className="grid size-10 place-items-center rounded-xl text-[#4A6580] hover:text-[#0D2340] hover:bg-[#EAF2FB] transition-colors cursor-pointer"
+          className="grid size-10 place-items-center rounded-xl text-ink-500 hover:text-ink-900 hover:bg-[#EAF2FB] transition-colors cursor-pointer"
           onClick={() => {
             if (phase === "done" || phase === "dead" || (index === 0 && mistakes === 0 && solved === 0)) {
               void navigate({ to: "/" });
@@ -219,57 +219,52 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <div className="mx-1 flex min-w-0 flex-1 items-center">
           <RouteChain have={solved} need={Math.max(1, scored)} label={`${solved}/${scored || 1}`} />
         </div>
-        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-[#E63329]">
-          <Heart className={cn("size-4 text-[#E63329]", phase === "feedback" && !ok && "heart-break")} weight="fill" />
+        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-ruby">
+          <Heart className={cn("size-4 text-ruby", phase === "feedback" && !ok && "heart-break")} weight="fill" />
           {hearts}
         </span>
       </div>
 
       {lesson.unitId === "u2" || lesson.unitId === "u6" ? (
-        <p className="mx-5 mt-2 text-xs leading-5 text-[#4A6580] lg:mx-8">
+        <p className="mx-5 mt-2 text-xs leading-5 text-ink-500 lg:mx-8">
           web3min tidak akan pernah meminta seed phrase, private key, atau password dompetmu. Kamu tidak perlu
           menghubungkan wallet untuk belajar.
         </p>
       ) : lesson.unitId === "u5" || lesson.unitId === "u7" || lesson.unitId === "u15" ? (
-        <p className="mx-5 mt-2 text-xs leading-5 text-[#4A6580] lg:mx-8">
+        <p className="mx-5 mt-2 text-xs leading-5 text-ink-500 lg:mx-8">
           Materi ini bersifat edukatif, bukan saran keuangan.
         </p>
       ) : null}
 
       <div
         className={cn(
-          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-12 sm:pb-16 pt-4 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8 select-text",
+          "flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-20 sm:pb-24 pt-4 lg:mx-auto lg:w-full lg:max-w-3xl lg:px-10 lg:pt-8 select-text",
           !isTip && phase !== "done" && phase !== "dead" && "lg:flex-row lg:items-start lg:gap-10 lg:pt-10 lg:max-w-6xl",
         )}
       >
         {phase !== "done" && phase !== "dead" && exercise ? (
           <>
-            <div
-              className={cn(
-                "mb-4 flex items-start gap-3",
-                isTip
-                  ? "lg:mb-5 lg:justify-center"
-                  : "lg:mb-0 lg:w-56 lg:shrink-0 lg:flex-col lg:items-center lg:pt-1",
-              )}
-            >
-              <div className={cn(
-                "cursor-pointer pointer-events-auto select-none",
-                isTip ? "size-[72px] shrink-0 lg:size-[120px]" : "size-[88px] shrink-0 lg:size-[160px]",
-              )}>
-                <Mascot fill mood={isTip ? "think" : mood} interactive />
+            {!isTip ? (
+              <div
+                className={cn(
+                  "mb-4 flex items-start gap-3",
+                  "lg:mb-0 lg:w-56 lg:shrink-0 lg:flex-col lg:items-center lg:pt-1",
+                )}
+              >
+                <div className="cursor-pointer pointer-events-auto select-none size-[88px] shrink-0 lg:size-[160px]">
+                  <Mascot fill mood={mood} interactive />
+                </div>
+                {blobiLine || phase === "feedback" ? (
+                  <SpeechBubble className="mt-2 max-w-sm sm:max-w-md lg:mt-4 lg:w-full" tail="left">
+                    {blobiLine ?? (phase === "ask" ? "Ada kuis muncul!" : ok ? "Mantap." : "Belum pas.")}
+                  </SpeechBubble>
+                ) : null}
               </div>
-              {isTip || blobiLine || phase === "feedback" ? (
-                <SpeechBubble className={cn("mt-2 max-w-sm sm:max-w-md", !isTip && "lg:mt-4 lg:w-full")} tail="left">
-                  {isTip
-                    ? "Baca sampe bawah dulu. Kuisnya nanti."
-                    : (blobiLine ?? (phase === "ask" ? "Ada kuis muncul!" : ok ? "Mantap." : "Belum pas."))}
-                </SpeechBubble>
-              ) : null}
-            </div>
+            ) : null}
             <div
               key={`${exercise.id}-${index}`}
               className={cn(
-                "min-w-0 flex-1 pb-6 enter-up select-text",
+                "min-w-0 flex-1 pb-6 sm:pb-8 enter-up select-text",
                 phase === "feedback" && !ok && "wrong-shake",
                 isTip && "lg:mx-auto lg:max-w-3xl",
               )}
@@ -322,11 +317,11 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       </div>
 
       {phase === "ask" && exercise ? (
-        <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-[#B9CFE9] px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgba(9,48,102,0.08)] lg:px-8">
+        <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xs lg:px-8">
           <div className="mx-auto w-full max-w-3xl flex items-center justify-between gap-4">
-            <p className="text-xs font-bold text-[#4A6580]">
+            <p className="text-xs font-semibold text-slate-500">
               {exercise.type === "tip"
-                ? "Pahami intinya sebelum lanjut ke kuis"
+                ? "Pahami konsep intinya sebelum lanjut ke kuis"
                 : exercise.type === "match"
                   ? "Ketuk dua kartu yang saling berhubungan"
                   : exercise.type === "order"
@@ -337,7 +332,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
             </p>
             {exercise.type === "match" ? (
               <div className="ml-auto flex items-center gap-2">
-                <span className="px-4 py-2 rounded-full bg-[#E4F0FF] border-2 border-[#8FC2FF] text-sky-600 text-xs font-extrabold shadow-sm">
+                <span className="px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold shadow-xs">
                   Pasangkan Semua Kartu
                 </span>
               </div>
@@ -349,7 +344,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                 disabled={!ready}
                 onClick={check}
               >
-                {isTip ? "Udah Paham, Lanjut" : "Periksa Jawaban"}
+                {isTip ? "Sudah Paham, Lanjut" : "Periksa Jawaban"}
               </DuoButton>
             )}
           </div>
@@ -360,25 +355,25 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <div className={cn("shrink-0 quiz-fb", ok ? "quiz-fb-ok" : "quiz-fb-bad")} role="status" aria-live="polite">
           <div className="mx-auto flex w-full max-w-3xl flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="min-w-0 flex-1">
-              <p className={cn("font-display text-xl font-bold flex items-center gap-2", ok ? "text-[#1E8A49]" : "text-[#E63329]")}>
+              <p className={cn("font-display text-xl font-bold flex items-center gap-2", ok ? "text-leaf-shadow" : "text-ruby")}>
                 {ok ? (
                   <>
-                    <Check className="size-6 text-[#1E8A49]" weight="bold" />
+                    <Check className="size-6 text-leaf-shadow" weight="bold" />
                     <span>Jawaban Benar!</span>
                   </>
                 ) : (
                   <>
-                    <X className="size-6 text-[#E63329]" weight="bold" />
+                    <X className="size-6 text-ruby" weight="bold" />
                     <span>Belum Pas</span>
                   </>
                 )}
               </p>
               {exercise && exercise.type !== "tip" && exercise.type !== "match" ? (
-                <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">{exercise.explanation}</p>
+                <p className="mt-1 text-sm font-medium leading-relaxed text-ink-700">{exercise.explanation}</p>
               ) : null}
               {exercise?.type === "match" ? (
                 <div>
-                  <p className="mt-1 text-sm font-medium leading-relaxed text-[#1E3A5F]">
+                  <p className="mt-1 text-sm font-medium leading-relaxed text-ink-700">
                     {exercise.explanation || "Semua kartu berhasil disambungkan."}
                   </p>
                   {matchHadMistakeRef.current ? (
@@ -503,21 +498,21 @@ function CompleteCard({
   return (
     <div className="flex flex-1 flex-col items-center justify-center text-center">
       <Mascot mood="celebrate" size={200} float />
-      <h2 className="mt-2 text-3xl font-extrabold text-[#0D2340]">Pelajaran selesai</h2>
-      <p className="mt-1 font-medium text-[#4A6580]">{lesson.title}</p>
+      <h2 className="mt-2 text-3xl font-extrabold text-ink-900">Pelajaran selesai</h2>
+      <p className="mt-1 font-medium text-ink-500">{lesson.title}</p>
       {awarded.replay ? (
-        <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[#B9CFE9] bg-[#EAF2FB] px-3.5 py-1 text-xs font-bold text-[#0B4FD1]">
+        <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-[#EAF2FB] px-3.5 py-1 text-xs font-bold text-sky-700">
           <span>Pengulangan — hadiah disesuaikan</span>
         </div>
       ) : null}
-      <p className="mt-5 text-sm font-bold text-[#4A6580]">XP</p>
+      <p className="mt-5 text-sm font-bold text-ink-500">XP</p>
       <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.xp}</p>
-      <p className="mt-3 flex items-center justify-center gap-1 text-sm font-bold text-[#4A6580]">
+      <p className="mt-3 flex items-center justify-center gap-1 text-sm font-bold text-ink-500">
         <BlockStamp size={16} />
         Bintang
       </p>
       <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.gems}</p>
-      {awarded.perfect ? <p className="mt-4 text-sm font-bold text-[#1E8A49]">Sempurna — tanpa salah.</p> : null}
+      {awarded.perfect ? <p className="mt-4 text-sm font-bold text-leaf-shadow">Sempurna — tanpa salah.</p> : null}
       {dailyHit ? <p className="mt-2 text-sm font-bold text-flame">Streak hari ini aman.</p> : null}
       <div className="mt-8 flex w-full flex-col gap-3">
         {nextLesson ? (

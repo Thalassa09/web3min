@@ -167,73 +167,54 @@ function Onboarding() {
   };
 
   return (
-    <main className="min-h-dvh bg-gradient-to-b from-[#1F7BFF] to-[#0B4FD1] flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8 relative select-none overflow-x-hidden overflow-y-auto">
-      {/* Soft Floating Clouds Decor */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
-        <div className="absolute top-10 -left-10 w-72 h-36 rounded-full bg-white/20 blur-2xl" />
-        <div className="absolute bottom-20 -right-10 w-80 h-40 rounded-full bg-white/15 blur-2xl" />
-      </div>
-
-      <div className="w-full max-w-3xl relative z-10">
-        <Box
-          elevation="raised"
-          radius="2xl"
-          padding="lg"
-          border="bold"
-          className="bg-white"
-        >
-          {/* Step Progress Bar (Shown on Step 1 & 2) */}
-          {step > 0 && (
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <div className="flex-1 flex items-center gap-1.5" aria-hidden="true">
-                {[1, 2].map((i) => (
-                  <span
-                    key={i}
-                    className={`h-1.5 flex-1 rounded-full ${i <= step ? "bg-[#0B63F6]" : "bg-[#DCE7F5]"}`}
-                  />
-                ))}
-              </div>
-              <span className="text-[11px] font-mono font-extrabold text-[#0B63F6] shrink-0">
-                Langkah {step} dari 2
-              </span>
-            </div>
-          )}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
-            {/* Mascot Side (5 Cols - Atlassian Styled Box) */}
-            <Box
-              elevation="default"
-              radius="xl"
-              padding="md"
-              border="brand"
-              className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-[#E4F0FF] shadow-[0_4px_0_#C2DBFA] gap-3.5"
-            >
-              <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
-                <Mascot
-                  key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
-                  mood={currentMood}
-                  fill
-                  float
-                  interactive
-                  hideParticles={isTypingPassword}
+    <main className="min-h-dvh bg-[#FFF7EC] flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8 relative select-none overflow-x-hidden overflow-y-auto">
+      <div className="w-full max-w-3xl relative z-10 bg-white rounded-[16px] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] p-6 sm:p-8">
+        {/* Step Progress Bar (Shown on Step 1 & 2) */}
+        {step > 0 && (
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div className="flex-1 flex items-center gap-1.5" aria-hidden="true">
+              {[1, 2].map((i) => (
+                <span
+                  key={i}
+                  className={`h-2.5 flex-1 rounded-[4px] border-2 border-[#1B1440] ${i <= step ? "bg-[#1FCB8B]" : "bg-white"}`}
                 />
-              </div>
-              <div>
-                <div className="font-display text-base sm:text-lg font-bold text-[#0B4FD1]">Blobi</div>
-                <p className="text-xs font-semibold text-[#4A6580] mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
-                  {isTypingPassword ? (
-                    <span className="text-[#0B63F6] font-bold">
-                      Tenang, aku tutup mata kok. Gak bakal ngintip!
-                    </span>
-                  ) : (
-                    <>
-                      {step === 0 && "Teman belajarmu di dunia Web3"}
-                      {step === 1 && (authMode === "register" ? "Pilih nama panggilan petualangmu" : "Selamat datang kembali! Masuk untuk lanjut")}
-                      {step === 2 && activeGoalConfig.quote}
-                    </>
-                  )}
-                </p>
-              </div>
-            </Box>
+              ))}
+            </div>
+            <span className="text-xs font-['Pixelify_Sans'] font-bold text-[#1B1440] shrink-0">
+              Langkah {step} dari 2
+            </span>
+          </div>
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
+          {/* Mascot Side (5 Cols - Blobi on Pink Tile) */}
+          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-[#FFE1EA] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] rounded-[16px] p-5 gap-3.5">
+            <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
+              <Mascot
+                key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
+                mood={currentMood}
+                fill
+                float
+                interactive
+                hideParticles={isTypingPassword}
+              />
+            </div>
+            <div>
+              <div className="font-['Pixelify_Sans'] text-base sm:text-lg font-bold text-[#FF5C8A]">Blobi</div>
+              <p className="text-xs font-semibold text-[#5A5480] mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
+                {isTypingPassword ? (
+                  <span className="text-[#FF5C8A] font-bold">
+                    Tenang, aku tutup mata kok. Gak bakal ngintip!
+                  </span>
+                ) : (
+                  <>
+                    {step === 0 && "Teman belajarmu di dunia Web3"}
+                    {step === 1 && (authMode === "register" ? "Pilih nama panggilan petualangmu" : "Selamat datang kembali! Masuk untuk lanjut")}
+                    {step === 2 && activeGoalConfig.quote}
+                  </>
+                )}
+              </p>
+            </div>
+          </div>
 
             {/* Step Content (7 Cols) */}
             <div className="md:col-span-7 flex flex-col justify-between min-h-0">
@@ -241,32 +222,34 @@ function Onboarding() {
               {step === 0 && (
                 <div className="space-y-5">
                   <div>
-                    <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340] tracking-tight leading-snug">
+                    <h1 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-snug">
                       Belajar Web3 dengan santai, 3 menit sehari.
                     </h1>
-                    <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm font-medium text-slate-600 mt-2 leading-relaxed">
                       Pahami wallet, smart contract, DeFi, dan keamanan on-chain lewat simulasi interaktif tanpa perlu modal dan tanpa risiko finansial.
                     </p>
                   </div>
 
-                  {/* 3 Core Highlights (Atlassian Feature Box Spec) */}
+                  {/* 3 Core Highlights */}
                   <div className="space-y-2.5 pt-1">
                     <Box
                       elevation="flat"
                       radius="md"
                       padding="sm"
                       border="subtle"
-                      className="flex items-start gap-3 bg-[#F0F6FF] hover:border-[#8FC2FF] transition-all"
+                      className="flex items-start gap-3 bg-slate-50 border border-slate-200 hover:border-slate-300 transition-colors"
                     >
-                      <div className="p-2 rounded-[12px] bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5] shrink-0 mt-0.5">
+                      <div className="p-2 rounded-[12px] bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0 mt-0.5">
                         <Clock className="size-4" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-extrabold text-[#0D2340]">20 Modul Terarah</span>
-                          <Lozenge appearance="inprogress">20 UNIT</Lozenge>
+                          <span className="text-xs font-bold text-slate-900">20 Modul Terarah</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                            Terstruktur
+                          </span>
                         </div>
-                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Rute belajar bertahap dari pemula hingga mahir.</div>
+                        <div className="text-[11px] font-medium text-slate-600 mt-0.5">Rute belajar bertahap dari konsep awal hingga praktik on-chain.</div>
                       </div>
                     </Box>
 
@@ -275,17 +258,19 @@ function Onboarding() {
                       radius="md"
                       padding="sm"
                       border="subtle"
-                      className="flex items-start gap-3 bg-[#F0F6FF] hover:border-[#8FC2FF] transition-all"
+                      className="flex items-start gap-3 bg-slate-50 border border-slate-200 hover:border-slate-300 transition-colors"
                     >
-                      <div className="p-2 rounded-[12px] bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF] shrink-0 mt-0.5">
+                      <div className="p-2 rounded-[12px] bg-sky-50 text-sky-700 border border-sky-200 shrink-0 mt-0.5">
                         <ShieldCheck className="size-4" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-extrabold text-[#0D2340]">100% Aman Simulasi</span>
-                          <Lozenge appearance="success">SIMULASI</Lozenge>
+                          <span className="text-xs font-bold text-slate-900">100% Simulasi Aman</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-800">
+                            Tanpa Risiko
+                          </span>
                         </div>
-                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Belajar konsep blockchain di lingkungan simulasi aman.</div>
+                        <div className="text-[11px] font-medium text-slate-600 mt-0.5">Latihan transfer, tanda tangan transaksi, dan audit tanpa modal uang riil.</div>
                       </div>
                     </Box>
 
@@ -294,17 +279,19 @@ function Onboarding() {
                       radius="md"
                       padding="sm"
                       border="subtle"
-                      className="flex items-start gap-3 bg-[#F0F6FF] hover:border-[#8FC2FF] transition-all"
+                      className="flex items-start gap-3 bg-slate-50 border border-slate-200 hover:border-slate-300 transition-colors"
                     >
-                      <div className="p-2 rounded-[12px] bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D] shrink-0 mt-0.5">
+                      <div className="p-2 rounded-[12px] bg-amber-50 text-amber-700 border border-amber-200 shrink-0 mt-0.5">
                         <Gift className="size-4" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-extrabold text-[#0D2340]">Hadiah Undian Nyata</span>
-                          <Lozenge appearance="moved">IN-GAME</Lozenge>
+                          <span className="text-xs font-bold text-slate-900">Pencapaian &amp; Reward</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                            Sertifikat
+                          </span>
                         </div>
-                        <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">Kumpulkan bintang dan tukarkan dengan tiket undian in-game.</div>
+                        <div className="text-[11px] font-medium text-slate-600 mt-0.5">Dapatkan poin reputasi (XP), bintang, dan lencana petualang on-chain.</div>
                       </div>
                     </Box>
                   </div>
@@ -328,10 +315,10 @@ function Onboarding() {
                 <div className="space-y-5">
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                     <div>
-                      <h1 className="font-display font-bold text-xl sm:text-2xl text-[#0D2340] tracking-tight">
+                      <h1 className="font-display font-bold text-xl sm:text-2xl text-ink-900 tracking-tight">
                         {authMode === "register" ? "Buat Username & Password" : "Masuk ke Akun"}
                       </h1>
-                      <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1">
+                      <p className="text-xs sm:text-sm font-medium text-ink-500 mt-1">
                         {authMode === "register"
                           ? "Username unik tersimpan di database. Tidak bisa dipakai orang lain."
                           : "Gunakan username unik dan password akun Web3min milikmu."}
@@ -339,7 +326,7 @@ function Onboarding() {
                     </div>
 
                     {/* Quick Mode Toggle Pill */}
-                    <div className="inline-flex rounded-full bg-[#F0F6FF] border-2 border-[#DCE7F5] p-0.5 shrink-0 self-start sm:self-auto">
+                    <div className="inline-flex rounded-full bg-[#F0F6FF] border-2 border-line p-0.5 shrink-0 self-start sm:self-auto">
                       <button
                         type="button"
                         onClick={() => {
@@ -350,7 +337,7 @@ function Onboarding() {
                           "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
                           authMode === "register"
                             ? "bg-[#0B63F6] text-white shadow-sm"
-                            : "text-[#4A6580] hover:text-[#0D2340]"
+                            : "text-ink-500 hover:text-ink-900"
                         )}
                       >
                         Daftar
@@ -365,7 +352,7 @@ function Onboarding() {
                           "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
                           authMode === "login"
                             ? "bg-[#0B63F6] text-white shadow-sm"
-                            : "text-[#4A6580] hover:text-[#0D2340]"
+                            : "text-ink-500 hover:text-ink-900"
                         )}
                       >
                         Masuk
@@ -384,7 +371,7 @@ function Onboarding() {
                       }
                     }}
                   >
-                    <label className="text-xs font-extrabold text-[#1E3A5F] block" htmlFor="username">
+                    <label className="text-xs font-extrabold text-ink-700 block" htmlFor="username">
                       Username
                     </label>
                     <div className="relative">
@@ -396,16 +383,16 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         placeholder="contoh: satoshi atau blobi_fan"
-                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#6B839C] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                         autoFocus
                         autoComplete="username"
                       />
-                      <span className="absolute right-3.5 top-3.5 text-xs font-mono font-bold text-[#4A6580]">
+                      <span className="absolute right-3.5 top-3.5 text-xs font-mono font-bold text-ink-500">
                         {username.length}/16
                       </span>
                     </div>
 
-                    <label className="text-xs font-extrabold text-[#1E3A5F] block pt-2" htmlFor="password">
+                    <label className="text-xs font-extrabold text-ink-700 block pt-2" htmlFor="password">
                       Password
                     </label>
                     <input
@@ -419,13 +406,13 @@ function Onboarding() {
                       onFocus={() => setIsTypingPassword(true)}
                       onBlur={() => setIsTypingPassword(false)}
                       autoComplete={authMode === "register" ? "new-password" : "current-password"}
-                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#6B839C] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                       placeholder={authMode === "register" ? "Minimal 8 karakter" : "Masukkan password akun"}
                     />
 
                     {authMode === "register" && (
                       <>
-                        <label className="text-xs font-extrabold text-[#1E3A5F] block pt-2" htmlFor="password2">
+                        <label className="text-xs font-extrabold text-ink-700 block pt-2" htmlFor="password2">
                           Ulangi password
                         </label>
                         <input
@@ -439,7 +426,7 @@ function Onboarding() {
                           onFocus={() => setIsTypingPassword(true)}
                           onBlur={() => setIsTypingPassword(false)}
                           autoComplete="new-password"
-                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-[#B9CFE9] text-sm font-bold text-[#0D2340] placeholder:text-[#6B839C] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
+                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] shadow-inner"
                           placeholder="Ulangi password yang sama"
                         />
                       </>
@@ -451,7 +438,7 @@ function Onboarding() {
                       </div>
                     ) : null}
 
-                    <div className="pt-2 text-[11px] font-semibold text-[#4A6580]">
+                    <div className="pt-2 text-[11px] font-semibold text-ink-500">
                       {authMode === "register" ? (
                         <>
                           Sudah punya akun?{" "}
@@ -524,10 +511,10 @@ function Onboarding() {
               {step === 2 && (
                 <div className="space-y-5">
                   <div>
-                    <h1 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
+                    <h1 className="font-display font-bold text-2xl text-ink-900 tracking-tight">
                       Tentukan Target Harianmu
                     </h1>
-                    <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1.5">
+                    <p className="text-xs sm:text-sm font-medium text-ink-500 mt-1.5">
                       Belajar konsisten beberapa menit tiap hari untuk membangun streak dan menjaga nyawa.
                     </p>
                   </div>
@@ -549,20 +536,20 @@ function Onboarding() {
                             padding="sm"
                             className={`flex flex-col justify-between h-full transition-all ${
                               isSelected
-                                ? "bg-[#E4F0FF] shadow-[0_4px_0_#0B4FD1]"
-                                : "bg-white hover:border-[#B9CFE9]"
+                                ? "bg-sky-100 shadow-[0_4px_0_#0B4FD1]"
+                                : "bg-white hover:border-line-strong"
                             }`}
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                <span className="size-7 rounded-xl bg-white/90 border border-[#B9CFE9] flex items-center justify-center shrink-0 shadow-sm">
+                                <span className="size-7 rounded-xl bg-white/90 border border-line-strong flex items-center justify-center shrink-0 shadow-sm">
                                   <img
                                     src={`/mascot/${g.mood}.png`}
                                     alt=""
                                     className="size-5 pixelated object-contain"
                                   />
                                 </span>
-                                <span className="text-xs font-extrabold text-[#0D2340]">{g.label}</span>
+                                <span className="text-xs font-extrabold text-ink-900">{g.label}</span>
                               </div>
                               {isSelected ? (
                                 <span className="size-5 rounded-full bg-[#0B63F6] text-white flex items-center justify-center shadow-sm">
@@ -573,8 +560,8 @@ function Onboarding() {
                               )}
                             </div>
                             <div className="mt-2.5">
-                              <div className="text-xs font-bold text-[#0B4FD1]">{g.desc}</div>
-                              <div className="text-[11px] font-semibold text-[#4A6580] mt-0.5">{g.modules}</div>
+                              <div className="text-xs font-bold text-sky-700">{g.desc}</div>
+                              <div className="text-[11px] font-semibold text-ink-500 mt-0.5">{g.modules}</div>
                             </div>
                           </Box>
                         </button>
@@ -605,8 +592,7 @@ function Onboarding() {
               )}
             </div>
           </div>
-        </Box>
-      </div>
+        </div>
     </main>
   );
 }

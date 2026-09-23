@@ -1,23 +1,45 @@
 import { useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { BookOpen, ShieldAlert, Clock, ArrowRight, Lock, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Lock } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { Mascot } from "@/components/mascot";
-import { Web3Map } from "@/components/web3-map";
 import { CASES, STORIES, isOpen } from "@/lib/stories";
 import { useProgress } from "@/lib/store";
-import { SurfaceCard } from "@/components/ui/surface-card";
-import { TactileButton } from "@/components/ui/tactile-button";
-import { SegmentedNav } from "@/components/ui/segmented-nav";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/kisah/")({ component: KisahHub });
+
+function getCategoryBand(s: { id: string; title: string; blurb: string }) {
+  const text = `${s.id} ${s.title} ${s.blurb}`.toLowerCase();
+  if (
+    text.includes("defi") ||
+    text.includes("pinjam") ||
+    text.includes("swap") ||
+    text.includes("pool") ||
+    text.includes("bank") ||
+    text.includes("lps") ||
+    text.includes("dex")
+  ) {
+    return { name: "DeFi", color: "#1FCB8B" }; // Mint
+  }
+  if (
+    text.includes("kerja") ||
+    text.includes("karir") ||
+    text.includes("gaji") ||
+    text.includes("bounty") ||
+    text.includes("community") ||
+    text.includes("intern") ||
+    text.includes("dao")
+  ) {
+    return { name: "Career", color: "#4D7CFF" }; // Sky
+  }
+  return { name: "Keamanan", color: "#FF5C8A" }; // Security Pink
+}
 
 function KisahHub() {
   const completed = useProgress((s) => s.completed);
   const doneStories = useProgress((s) => s.completedStories);
   const doneCases = useProgress((s) => s.completedCases);
-  const [tab, setTab] = useState<string>("cerita");
-  const [topics, setTopics] = useState(false);
+  const [tab, setTab] = useState<"cerita" | "kasus">("cerita");
 
   const openStories = STORIES.filter((s) => isOpen(s.unlockAfter, completed));
   const lockedStories = STORIES.filter((s) => !isOpen(s.unlockAfter, completed));
@@ -27,165 +49,140 @@ function KisahHub() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-5xl mx-auto space-y-6">
-        {/* Page Header Banner */}
-        <SurfaceCard className="p-6 bg-white">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-[20px] bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA] shrink-0">
-                <Mascot mood="think" size={56} />
-              </div>
-              <div>
-                <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340] tracking-tight">
-                  Arsip Investigasi & Kisah Web3
-                </h1>
-                <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-1 max-w-xl leading-relaxed">
-                  Web3 bukan cuma grafik harga. Pahami arsitektur wallet, celah smart contract, dan bukti on-chain nyata.
-                </p>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setTopics((v) => !v)}
-              className="px-4 py-2 rounded-[14px] bg-white border-2 border-[#DCE7F5] text-[#0D2340] text-xs font-extrabold hover:bg-[#F0F6FF] shadow-[0_3px_0_#C8DBF0] active:translate-y-[2px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] shrink-0 cursor-pointer"
-            >
-              {topics ? "Tutup Peta Topik" : "Lihat Peta Topik"}
-            </button>
+      <main className="px-3.5 py-5 sm:px-6 sm:py-7 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-5xl mx-auto space-y-6">
+        <div>
+          <div className="font-['Pixelify_Sans'] text-xs font-semibold tracking-wider uppercase text-[#5A5480]">
+            Arsip Investigasi
           </div>
-        </SurfaceCard>
+          <h1 className="font-sans font-extrabold text-3xl sm:text-4xl text-[#1B1440] tracking-tight mt-1.5">
+            Kisah Web3
+          </h1>
+        </div>
 
-        {/* Collapsible Topics Map */}
-        {topics && (
-          <SurfaceCard className="p-5 bg-white">
-            <Web3Map compact />
-          </SurfaceCard>
-        )}
-
-        {/* Featured Story Spotlight Card */}
+        {/* Feature Weekly Story */}
         {featured && (
-          <SurfaceCard className="p-6 bg-white border-2 border-[#8FC2FF]">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="space-y-2 max-w-2xl">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B63F6] border border-[#8FC2FF]">
-                    Rekomendasi Minggu Ini
-                  </span>
-                  <span className="flex items-center gap-1 text-xs font-medium text-[#4A6580]">
-                    <Clock className="size-3.5" />
-                    ~{featured.minutes} Menit Baca
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#B27B00] bg-[#FFF7D1] px-2.5 py-0.5 rounded-full border border-[#FFD84D]">
-                    <Sparkles className="size-3 text-[#B27B00] fill-[#FFC61A]" />
-                    +{featured.xp} XP
-                  </span>
-                </div>
-                <h2 className="font-display font-bold text-xl sm:text-2xl text-[#0D2340]">
-                  {featured.title}
-                </h2>
-                <p className="text-xs sm:text-sm font-medium text-[#4A6580] leading-relaxed">
-                  {featured.blurb}
-                </p>
-              </div>
-
-              <div className="shrink-0">
-                <Link to="/kisah/$storyId" params={{ storyId: featured.id }}>
-                  <TactileButton
-                    variant="primary"
-                    size="md"
-                    icon={<ArrowRight className="size-4" />}
-                  >
-                    Baca Kisah
-                  </TactileButton>
-                </Link>
-              </div>
+          <div className="p-6 rounded-[16px] bg-[#1B1440] text-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+            <div>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-[8px] bg-[#FFC23D] text-[#1B1440] border-[1.5px] border-[#1B1440] font-['Pixelify_Sans'] font-bold text-xs">
+                Pilihan minggu ini · {featured.minutes} menit
+              </span>
+              <h2 className="font-sans font-extrabold text-xl sm:text-2xl text-white mt-3 mb-1.5">
+                {featured.title}
+              </h2>
+              <p className="font-sans font-medium text-xs sm:text-sm text-[#C9C4E8] leading-relaxed max-w-xl">
+                {featured.blurb}
+              </p>
             </div>
-          </SurfaceCard>
+            <Link to="/kisah/$storyId" params={{ storyId: featured.id }}>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center gap-2 font-sans font-extrabold text-sm px-5 py-3 rounded-[12px] bg-[#FF5C8A] text-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440] cursor-pointer"
+              >
+                <span>Baca</span>
+                <ArrowRight className="size-4" />
+              </button>
+            </Link>
+          </div>
         )}
 
         {/* Segmented Filter Navigation */}
-        <div className="flex items-center justify-between gap-4 pt-1">
-          <SegmentedNav
-            activeId={tab}
-            onChange={setTab}
-            items={[
-              {
-                id: "cerita",
-                label: "Cerita Interaktif",
-                icon: <BookOpen className="size-3.5" />,
-                badge: openStories.length,
-              },
-              {
-                id: "kasus",
-                label: "Kasus Nyata On-Chain",
-                icon: <ShieldAlert className="size-3.5" />,
-                badge: openCases.length,
-              },
-            ]}
-          />
+        <div className="inline-flex gap-1 p-1 rounded-[14px] border-2 border-[#1B1440] bg-white shadow-[2px_2px_0_#1B1440]">
+          <button
+            type="button"
+            onClick={() => setTab("cerita")}
+            className={cn(
+              "px-4 py-2 rounded-[10px] font-sans font-extrabold text-sm transition-all cursor-pointer",
+              tab === "cerita" ? "bg-[#1B1440] text-white" : "text-[#5A5480] hover:text-[#1B1440]"
+            )}
+          >
+            Cerita Interaktif · {openStories.length}
+          </button>
+          <button
+            type="button"
+            onClick={() => setTab("kasus")}
+            className={cn(
+              "px-4 py-2 rounded-[10px] font-sans font-extrabold text-sm transition-all cursor-pointer",
+              tab === "kasus" ? "bg-[#1B1440] text-white" : "text-[#5A5480] hover:text-[#1B1440]"
+            )}
+          >
+            Kasus On-Chain · {openCases.length}
+          </button>
         </div>
 
         {/* Stories Tab */}
         {tab === "cerita" && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               {openStories.map((s) => {
                 const isDone = doneStories.includes(s.id);
+                const band = getCategoryBand(s);
                 return (
-                  <SurfaceCard key={s.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-[transform,box-shadow,background-color,border-color,color]">
-                    <div>
+                  <div
+                    key={s.id}
+                    className="p-0 overflow-hidden flex flex-col bg-white border-2 border-[#1B1440] rounded-[16px] shadow-[4px_4px_0_#1B1440]"
+                  >
+                    <div className="h-2.5 border-b-2 border-[#1B1440]" style={{ backgroundColor: band.color }} />
+                    <div className="p-4 sm:p-5 flex flex-col gap-2.5 flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-[#4A6580] flex items-center gap-1">
-                          <Clock className="size-3" />
-                          {s.minutes} Menit Baca
-                        </span>
-                        {isDone && (
-                          <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#1E8A49] bg-[#E8FBF0] px-2.5 py-0.5 rounded-full border border-[#98E4B5]">
-                            <CheckCircle2 className="size-3.5" /> Selesai
+                        {isDone ? (
+                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-[#D8F7EA] text-[#1B1440] border-[1.5px] border-[#1B1440]">
+                            <Check className="size-3 text-[#1FCB8B]" /> Selesai
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-[#FFE1EA] text-[#1B1440] border-[1.5px] border-[#1B1440]">
+                            Baru
                           </span>
                         )}
+                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-[#5A5480]">{band.name}</span>
                       </div>
-                      <h3 className="font-display font-bold text-lg text-[#0D2340] mt-2">
+
+                      <h3 className="font-sans font-extrabold text-base sm:text-lg text-[#1B1440]">
                         {s.title}
                       </h3>
-                      <p className="text-xs font-medium text-[#4A6580] mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="font-sans font-medium text-xs sm:text-sm text-[#5A5480] line-clamp-2 leading-relaxed">
                         {s.blurb}
                       </p>
-                    </div>
 
-                    <div className="mt-5 pt-3.5 border-t-2 border-[#F0F6FF] flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-extrabold">
-                        <span className="inline-flex items-center gap-1 text-[#B27B00]">
-                          <Sparkles className="size-3.5 text-[#FFC61A] fill-[#FFC61A]" />
-                          +{s.xp} XP
+                      <div className="flex items-center justify-between mt-auto pt-3 border-t-2 border-dashed border-[#1B1440]/15">
+                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-[#5A5480]">
+                          {s.minutes} mnt · <span className="text-[#FF7A1A]">+{s.xp} XP</span>
                         </span>
-                        <span className="text-[#DCE7F5]">·</span>
-                        <span className="text-[#0B63F6]">+{s.gems} Bintang</span>
+                        <Link to="/kisah/$storyId" params={{ storyId: s.id }}>
+                          <button
+                            type="button"
+                            className={cn(
+                              "inline-flex items-center justify-center font-sans font-extrabold text-xs px-3.5 py-1.5 rounded-[10px] border-2 border-[#1B1440] shadow-[2px_2px_0_#1B1440] transition-all active:translate-x-[1px] active:translate-y-[1px] active:shadow-none cursor-pointer",
+                              isDone
+                                ? "bg-white text-[#1B1440] hover:bg-[#FFF7EC]"
+                                : "bg-[#FF5C8A] text-white hover:brightness-105"
+                            )}
+                          >
+                            {isDone ? "Baca ulang" : "Baca"}
+                          </button>
+                        </Link>
                       </div>
-                      <Link to="/kisah/$storyId" params={{ storyId: s.id }}>
-                        <TactileButton variant={isDone ? "secondary" : "primary"} size="sm">
-                          {isDone ? "Baca Ulang" : "Baca Kisah →"}
-                        </TactileButton>
-                      </Link>
                     </div>
-                  </SurfaceCard>
+                  </div>
                 );
               })}
             </div>
 
             {lockedStories.length > 0 && (
               <div className="pt-4 space-y-3">
-                <div className="text-xs font-extrabold text-[#4A6580] uppercase tracking-wider">
+                <div className="font-['Pixelify_Sans'] text-xs font-bold text-[#5A5480] uppercase tracking-wider">
                   Terkunci · Selesaikan Modul Belajar untuk Membuka
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-75">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {lockedStories.map((s) => (
-                    <div key={s.id} className="p-4 rounded-[18px] bg-white/90 border-2 border-[#DCE7F5] flex items-center gap-3">
-                      <Lock className="size-4 text-[#4A6580] shrink-0" />
+                    <div
+                      key={s.id}
+                      className="p-4 rounded-[14px] bg-white/70 border-2 border-dashed border-[#1B1440]/40 flex items-center gap-3 text-[#5A5480]"
+                    >
+                      <Lock className="size-4 shrink-0 text-[#1B1440]" />
                       <div className="min-w-0">
-                        <div className="font-extrabold text-xs text-[#0D2340] truncate">{s.title}</div>
-                        <div className="text-[11px] font-medium text-[#4A6580] truncate">
-                          Perlu menyelesaikan modul ke-{s.unlockAfter}
+                        <div className="font-sans font-bold text-xs text-[#1B1440] truncate">{s.title}</div>
+                        <div className="font-['Pixelify_Sans'] text-[11px] text-[#5A5480] truncate">
+                          Perlu modul ke-{s.unlockAfter}
                         </div>
                       </div>
                     </div>
@@ -198,57 +195,77 @@ function KisahHub() {
 
         {/* Cases Tab */}
         {tab === "kasus" && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               {openCases.map((c) => {
                 const isDone = doneCases.includes(c.id);
                 return (
-                  <SurfaceCard key={c.id} className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-[transform,box-shadow,background-color,border-color,color]">
-                    <div>
+                  <div
+                    key={c.id}
+                    className="p-0 overflow-hidden flex flex-col bg-white border-2 border-[#1B1440] rounded-[16px] shadow-[4px_4px_0_#1B1440]"
+                  >
+                    <div className="h-2.5 border-b-2 border-[#1B1440] bg-[#FF5C8A]" />
+                    <div className="p-4 sm:p-5 flex flex-col gap-2.5 flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-[#4A6580] flex items-center gap-1">
-                          <Clock className="size-3" />
-                          Kasus Nyata
-                        </span>
-                        {isDone && (
-                          <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#1E8A49] bg-[#E8FBF0] px-2.5 py-0.5 rounded-full border border-[#98E4B5]">
-                            <CheckCircle2 className="size-3.5" /> Selesai
+                        {isDone ? (
+                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-[#D8F7EA] text-[#1B1440] border-[1.5px] border-[#1B1440]">
+                            <Check className="size-3 text-[#1FCB8B]" /> Selesai
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-xs font-['Pixelify_Sans'] font-bold px-2 py-0.5 rounded-[6px] bg-[#FFE1EA] text-[#1B1440] border-[1.5px] border-[#1B1440]">
+                            Kasus Nyata
                           </span>
                         )}
+                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-[#5A5480]">Audit On-Chain</span>
                       </div>
-                      <h3 className="font-display font-bold text-lg text-[#0D2340] mt-2">
+
+                      <h3 className="font-sans font-extrabold text-base sm:text-lg text-[#1B1440]">
                         {c.title}
                       </h3>
-                      <p className="text-xs font-medium text-[#4A6580] mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="font-sans font-medium text-xs sm:text-sm text-[#5A5480] line-clamp-2 leading-relaxed">
                         {c.blurb}
                       </p>
-                    </div>
 
-                    <div className="mt-5 pt-3.5 border-t-2 border-[#F0F6FF] flex items-center justify-end">
-                      <Link to="/bedah/$caseId" params={{ caseId: c.id }}>
-                        <TactileButton variant={isDone ? "secondary" : "primary"} size="sm">
-                          {isDone ? "Tinjau Ulang" : "Bedah Kasus →"}
-                        </TactileButton>
-                      </Link>
+                      <div className="flex items-center justify-between mt-auto pt-3 border-t-2 border-dashed border-[#1B1440]/15">
+                        <span className="font-['Pixelify_Sans'] text-xs font-bold text-[#5A5480]">
+                          {c.minutes} mnt · <span className="text-[#FF7A1A]">+{c.xp} XP</span>
+                        </span>
+                        <Link to="/bedah/$caseId" params={{ caseId: c.id }}>
+                          <button
+                            type="button"
+                            className={cn(
+                              "inline-flex items-center justify-center font-sans font-extrabold text-xs px-3.5 py-1.5 rounded-[10px] border-2 border-[#1B1440] shadow-[2px_2px_0_#1B1440] transition-all active:translate-x-[1px] active:translate-y-[1px] active:shadow-none cursor-pointer",
+                              isDone
+                                ? "bg-white text-[#1B1440] hover:bg-[#FFF7EC]"
+                                : "bg-[#FF5C8A] text-white hover:brightness-105"
+                            )}
+                          >
+                            {isDone ? "Tinjau ulang" : "Bedah"}
+                          </button>
+                        </Link>
+                      </div>
                     </div>
-                  </SurfaceCard>
+                  </div>
                 );
               })}
             </div>
 
             {lockedCases.length > 0 && (
               <div className="pt-4 space-y-3">
-                <div className="text-xs font-extrabold text-[#4A6580] uppercase tracking-wider">
+                <div className="font-['Pixelify_Sans'] text-xs font-bold text-[#5A5480] uppercase tracking-wider">
                   Kasus Terkunci
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-75">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {lockedCases.map((c) => (
-                    <div key={c.id} className="p-4 rounded-[18px] bg-white/90 border-2 border-[#DCE7F5] flex items-center gap-3">
-                      <Lock className="size-4 text-[#4A6580] shrink-0" />
+                    <div
+                      key={c.id}
+                      className="p-4 rounded-[14px] bg-white/70 border-2 border-dashed border-[#1B1440]/40 flex items-center gap-3 text-[#5A5480]"
+                    >
+                      <Lock className="size-4 shrink-0 text-[#1B1440]" />
                       <div className="min-w-0">
-                        <div className="font-extrabold text-xs text-[#0D2340] truncate">{c.title}</div>
-                        <div className="text-[11px] font-medium text-[#4A6580] truncate">
-                          Perlu menyelesaikan modul ke-{c.unlockAfter}
+                        <div className="font-sans font-bold text-xs text-[#1B1440] truncate">{c.title}</div>
+                        <div className="font-['Pixelify_Sans'] text-[11px] text-[#5A5480] truncate">
+                          Perlu modul ke-{c.unlockAfter}
                         </div>
                       </div>
                     </div>

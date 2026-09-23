@@ -64,17 +64,17 @@ export function Box({
   // Border tokens
   const BORDER_STYLES: Record<BoxBorder, string> = {
     none: "border-0",
-    subtle: "border-2 border-[#DCE7F5]",
-    bold: "border-2 border-[#B9CFE9]",
-    brand: "border-2 border-[#8FC2FF]",
+    subtle: "border-2 border-line",
+    bold: "border-2 border-line-strong",
+    brand: "border-2 border-sky-300",
     "brand-bold": "border-2 border-[#0B63F6]",
-    dashed: "border-2 border-dashed border-[#DCE7F5]",
+    dashed: "border-2 border-dashed border-line",
   };
 
   return (
     <Component
       className={`
-        relative text-[#0D2340]
+        relative text-ink-900
         ${ELEVATION_STYLES[elevation]}
         ${RADIUS_STYLES[radius]}
         ${PADDING_STYLES[padding]}

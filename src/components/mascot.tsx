@@ -202,19 +202,19 @@ export function SpeechBubble({
         <span
           aria-hidden
           className={cn(
-            "absolute size-3.5 rotate-45 border-b-2 border-l-2 border-[#B9CFE9] bg-white z-10",
+            "absolute size-3.5 rotate-45 border-b-2 border-l-2 border-line-strong bg-white z-10",
             compact ? "top-4 -left-[7px]" : "top-5 -left-[7px]",
           )}
         />
       ) : (
         <span
           aria-hidden
-          className="absolute -top-2 left-1/2 size-3.5 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-[#B9CFE9] bg-white z-10"
+          className="absolute -top-2 left-1/2 size-3.5 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-line-strong bg-white z-10"
         />
       )}
       <div
         className={cn(
-          "rounded-[18px] border-2 border-[#B9CFE9] bg-white text-left font-extrabold text-[#0D2340] shadow-[0_4px_0_#C8DBF0]",
+          "rounded-[18px] border-2 border-line-strong bg-white text-left font-extrabold text-ink-900 shadow-[0_4px_0_#C8DBF0]",
           compact ? "px-3 py-2 text-sm leading-5" : "px-4 py-3 text-base leading-snug",
         )}
       >

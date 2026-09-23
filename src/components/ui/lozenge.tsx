@@ -32,16 +32,16 @@ export function Lozenge({
   // Appearance Matrix: subtle (default) vs isBold
   const STYLES: Record<LozengeAppearance, { subtle: string; bold: string }> = {
     default: {
-      subtle: "bg-[#E4F0FF] text-[#0B4FD1] border-[#8FC2FF]/60",
-      bold: "bg-[#0B63F6] text-white border-[#0B4FD1]",
+      subtle: "bg-sky-100 text-sky-700 border-sky-300/60",
+      bold: "bg-[#0B63F6] text-white border-sky-700",
     },
     inprogress: {
-      subtle: "bg-[#E4F0FF] text-[#0B63F6] border-[#8FC2FF]",
-      bold: "bg-[#0B63F6] text-white border-[#0B4FD1]",
+      subtle: "bg-sky-100 text-[#0B63F6] border-sky-300",
+      bold: "bg-[#0B63F6] text-white border-sky-700",
     },
     success: {
-      subtle: "bg-[#E8FBF0] text-[#1E8A49] border-[#98E4B5]",
-      bold: "bg-[#34C06A] text-white border-[#1E8A49]",
+      subtle: "bg-[#E8FBF0] text-leaf-shadow border-[#98E4B5]",
+      bold: "bg-leaf text-white border-leaf-shadow",
     },
     new: {
       subtle: "bg-[#F3ECFF] text-[#6A3FD1] border-[#C4A8FF]",
@@ -49,11 +49,11 @@ export function Lozenge({
     },
     moved: {
       subtle: "bg-[#FFF8E1] text-[#B27B00] border-[#FFE08A]",
-      bold: "bg-[#FFC61A] text-[#0D2340] border-[#D99400]",
+      bold: "bg-coin text-ink-900 border-coin-shadow",
     },
     removed: {
-      subtle: "bg-[#FFECEC] text-[#B01E18] border-[#F4A4A0]",
-      bold: "bg-[#E63329] text-white border-[#B01E18]",
+      subtle: "bg-[#FFECEC] text-ruby-shadow border-[#F4A4A0]",
+      bold: "bg-ruby text-white border-ruby-shadow",
     },
   };
 

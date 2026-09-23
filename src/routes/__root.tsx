@@ -44,11 +44,11 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang" },
       { name: "description", content: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. Santai, berjenjang, bahasa orang. Pahami crypto, wallet, DeFi, dan smart contract dari nol." },
-      { name: "theme-color", content: "#0B63F6" },
+      { name: "theme-color", content: "#F26A99" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "web3min" },
       { property: "og:title", content: "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang" },
-      { property: "og:description", content: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. 20 modul visual, kuis interaktif, dan undian hadiah mingguan." },
+      { property: "og:description", content: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. 20 modul visual, kuis interaktif, dan kompetisi arena belajar mingguan." },
       { property: "og:url", content: "https://web3min.vercel.app" },
       { property: "og:image", content: "https://web3min.vercel.app/og-image.png" },
       { property: "og:image:width", content: "1200" },
@@ -64,7 +64,7 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap",
       },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.json" },
@@ -80,7 +80,7 @@ function RootDocument() {
       <head>
         <HeadContent />
       </head>
-      <body className="bg-canvas text-fg font-sans">
+      <body className="bg-canvas text-ink-900 font-sans">
         <AuthProvider>
           <HydrationGate>
             <AudioEffectBridge />

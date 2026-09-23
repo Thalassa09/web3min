@@ -23,7 +23,7 @@ export function SkillTag({
     <span
       className={`
         inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px]
-        bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1]
+        bg-sky-100 border-2 border-sky-300 text-sky-700
         text-[11px] font-extrabold shadow-[0_2px_0_#C2DBFA]
         select-none transition-all
         ${className}
@@ -33,7 +33,7 @@ export function SkillTag({
       {icon}
       <span>{name}</span>
       {level !== undefined && (
-        <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-white/80 text-[#0B63F6] border border-[#8FC2FF]/60 font-bold">
+        <span className="font-mono text-[10px] px-1 py-0.2 rounded bg-white/80 text-[#0B63F6] border border-sky-300/60 font-bold">
           {level}
         </span>
       )}
@@ -62,7 +62,7 @@ export function RovoGenerativeCard({
     <div
       className={`
         relative rounded-[22px] bg-white p-5 md:p-6
-        border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)]
+        border-2 border-line-strong shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)]
         ${isGenerating ? "rovo-generative-border border-transparent" : ""}
         ${className}
       `}

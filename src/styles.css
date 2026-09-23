@@ -7,7 +7,7 @@
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Fonts */
+  /* Fonts — Sunny World Display & Body Typography */
   --font-display: "Fredoka", "Plus Jakarta Sans", system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -20,7 +20,7 @@
   --radius-2xl: 32px;
   --radius-pill: 9999px;
 
-  /* Sunny World Tokens — Surfaces & Backgrounds */
+  /* Refined On-Chain Tokens — Canvas & Surfaces */
   --color-canvas: #F2F7FF;
   --color-sky-700: #0B4FD1;
   --color-sky-600: #1367E8;
@@ -68,7 +68,7 @@
   --color-primary: #FFC61A;
   --color-primary-shadow: #D99400;
   --color-primary-deep: #D99400;
-  --color-primary-soft: #FFF7D1;
+  --color-primary-soft: #FFEFC7;
   --color-primary-ink: #0D2340;
 
   --color-sky: #1F7BFF;
@@ -99,27 +99,6 @@
   --color-unit-teal: #2FB8A6;
   --color-unit-red: #E63329;
 
-  /* Atlassian Design System (ADS) Semantic Mappings */
-  --color-text-default: #0D2340;
-  --color-text-subtle: #4A6580;
-  --color-text-subtlest: #6B839C;
-  --color-text-brand: #0B63F6;
-  --color-text-danger: #B01E18;
-  --color-text-success: #1E8A49;
-  --color-text-warning: #B27B00;
-  --color-text-discovery: #6A3FD1;
-  --color-text-inverse: #FFFFFF;
-
-  --color-surface-sunken: #EAF2FC;
-  --color-surface-default: #FFFFFF;
-  --color-surface-raised: #FFFFFF;
-  --color-surface-overlay: #FFFFFF;
-  --color-surface-brand: #E4F0FF;
-  --color-surface-success: #E8FBF0;
-  --color-surface-warning: #FFF8E1;
-  --color-surface-danger: #FFECEC;
-  --color-surface-discovery: #F3ECFF;
-
   --color-border-subtle: #DCE7F5;
   --color-border-bold: #B9CFE9;
   --color-border-brand: #8FC2FF;
@@ -130,14 +109,18 @@
   --tracking-label: 0.08em;
   --tracking-hud: -0.01em;
 
-  /* Tactile Shadow Presets & ADS Elevation Tokens */
+  /* Tactile Shadow Presets */
   --shadow-press-1: 0 3px 0 var(--shadow-deep, #C8DBF0);
   --shadow-press-2: 0 5px 0 var(--shadow-deep, #C8DBF0), 0 12px 20px -10px rgba(9, 48, 102, 0.3);
   --shadow-card: 0 6px 0 #C8DBF0, 0 18px 34px -18px rgba(9, 48, 102, 0.35);
   --shadow-gloss: inset 0 3px 0 rgba(255, 255, 255, 0.55);
-  --shadow-elevation-sunken: inset 0 2px 4px rgba(9, 48, 102, 0.08);
-  --shadow-elevation-raised: 0 4px 0 #C8DBF0, 0 10px 24px -8px rgba(9, 48, 102, 0.18);
-  --shadow-elevation-overlay: 0 12px 36px -8px rgba(9, 48, 102, 0.28), 0 0 0 1px rgba(9, 48, 102, 0.08);
+}
+
+@theme {
+  --color-blobi-soft: #FFE3EC;
+  --shadow-ink: 0 4px 0 var(--color-ink-900);
+  --shadow-ink-sm: 0 2px 0 var(--color-ink-900);
+  --shadow-ink-xs: 0 1px 0 var(--color-ink-900);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -197,21 +180,85 @@ html[data-motion="reduced"] *::after,
   }
 }
 
+:root {
+  --ink: #1B1440;
+  --ink2: #5A5480;
+  --paper: #FFF7EC;
+  --card: #FFFFFF;
+  --pink: #FF5C8A;
+  --pink-s: #FFE1EA;
+  --mint: #1FCB8B;
+  --mint-s: #D8F7EA;
+  --sun: #FFC23D;
+  --sun-s: #FFF1CC;
+  --sky: #4D7CFF;
+  --sky-s: #E2E9FF;
+  --line: 2px solid var(--ink);
+  --sh: 4px 4px 0 var(--ink);
+  --r: 16px;
+  --px: 'Pixelify Sans', monospace;
+  --tx: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  font-family: var(--font-sans);
-  background: var(--color-canvas, #F2F7FF);
-  color: #0D2340;
+  font-family: var(--tx);
+  background: var(--paper);
+  background-image: radial-gradient(#1b144012 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.011em;
 }
 
-h1, h2, h3, .font-display {
+img.sprite, img.pixelated {
+  image-rendering: pixelated;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 600 13px var(--px);
+  padding: 3px 9px;
+  border-radius: 8px;
+  border: 1.5px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+}
+.chip.sun { background: var(--sun-s); }
+.chip.mint { background: var(--mint-s); }
+.chip.sky { background: var(--sky-s); }
+.chip.pink { background: var(--pink-s); }
+
+.seg {
+  display: grid;
+  gap: 4px;
+}
+.seg i, .seg span {
+  height: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  background: var(--card);
+}
+.seg i.on, .seg span.on { background: var(--mint); }
+.seg i.now, .seg span.now { background: var(--pink); }
+
+h1, h2, h3, h4, .font-display {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.font-mono, code, pre, .tabular-nums {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
 }
 
 button, input, textarea, select {
@@ -222,55 +269,12 @@ button, input, textarea, select {
    TACTILE CONTROL INTERACTIONS & ACCESSIBILITY
    ══════════════════════════════════════════════════════════════════════════════ */
 
+/* Focus rings */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
-  outline: 3px solid #0B63F6 !important;
+  outline: 3px solid var(--color-blobi) !important;
   outline-offset: 2px !important;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   ATLASSIAN ROVO UI — GENERATIVE BORDER & AI COMPANION STATES
-   ══════════════════════════════════════════════════════════════════════════════ */
-
-@keyframes rovo-shimmer-border {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.rovo-generative-border {
-  position: relative;
-  border-radius: inherit;
-}
-
-.rovo-generative-border::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  padding: 2px;
-  background: linear-gradient(
-    90deg,
-    #1F7BFF,
-    #8B5CF6,
-    #34C06A,
-    #FFC61A,
-    #1F7BFF
-  );
-  background-size: 300% 300%;
-  animation: rovo-shimmer-border 4s ease infinite;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  z-index: 10;
 }
 
 /* Tactile Button Press Physics */
@@ -663,9 +667,9 @@ input:focus-visible {
 }
 
 .world-node-now {
-  outline: 4px solid #FFC61A;
+  outline: 3px solid var(--color-blobi);
   outline-offset: 3px;
-  box-shadow: 0 5px 0 var(--world-shadow), 0 0 16px rgba(255, 198, 26, 0.6), inset 0 3px 0 rgba(255, 255, 255, 0.55);
+  box-shadow: 0 5px 0 var(--world-shadow), 0 0 16px rgba(242, 106, 153, 0.5), inset 0 3px 0 rgba(255, 255, 255, 0.55);
 }
 
 .node-pulse {
@@ -682,13 +686,14 @@ input:focus-visible {
   bottom: 0;
   right: 0;
   display: flex;
-  size: 24px;
+  width: 24px;
+  height: 24px;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: #0D2340;
-  color: #FFFFFF;
-  border: 2px solid #FFFFFF;
+  background: var(--color-ink-900);
+  color: #fff;
+  border: 2px solid #fff;
   box-shadow: 0 2px 0 rgba(13, 35, 64, 0.3);
 }
 
@@ -948,13 +953,13 @@ input:focus-visible {
 }
 
 .quiz-fb-ok {
-  background: #E8FBF0;
-  border-top: 3px solid #34C06A;
+  background: #D8F7EA;
+  border-top: 2px solid #1B1440;
 }
 
 .quiz-fb-bad {
-  background: #FFECEC;
-  border-top: 3px solid #E63329;
+  background: #FFE1EA;
+  border-top: 2px solid #1B1440;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -1169,50 +1174,50 @@ input:focus-visible {
   padding: 0.875rem 1rem;
   min-height: 3.6rem;
   background: #FFFFFF;
-  color: #0D2340;
-  border: 2.5px solid #B9CFE9;
-  border-bottom: 4px solid #B9CFE9;
-  border-radius: 1.25rem;
+  color: #0F172A;
+  border: 2px solid #E2E8F0;
+  border-bottom: 4px solid #CBD5E1;
+  border-radius: 1.15rem;
   text-align: left;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 3px 0 #C8DBF0;
+  box-shadow: 0 2px 0 #CBD5E1;
   transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .quiz-opt:hover:not(:disabled) {
-  border-color: #8FC2FF;
-  background: #F4F9FF;
+  border-color: #94A3B8;
+  background: #F8FAFC;
 }
 
 .quiz-opt:active:not(:disabled) {
   transform: translateY(2px);
-  border-bottom-width: 2.5px;
+  border-bottom-width: 2px;
   box-shadow: none !important;
 }
 
 .quiz-opt-on {
-  background: #EAF3FF !important;
-  border-color: #0B63F6 !important;
-  border-bottom-color: #0B4FD1 !important;
-  box-shadow: 0 4px 0 #0B4FD1 !important;
-  color: #0B4FD1 !important;
+  background: #ECFDF5 !important;
+  border-color: #059669 !important;
+  border-bottom-color: #047857 !important;
+  box-shadow: 0 3px 0 #047857 !important;
+  color: #064E3B !important;
 }
 
 .quiz-opt-ok {
-  background: #E8FBF0 !important;
-  border-color: #34C06A !important;
-  border-bottom-color: #1E8A49 !important;
-  box-shadow: 0 4px 0 #1E8A49 !important;
-  color: #0E582B !important;
+  background: #ECFDF5 !important;
+  border-color: #059669 !important;
+  border-bottom-color: #047857 !important;
+  box-shadow: 0 3px 0 #047857 !important;
+  color: #064E3B !important;
 }
 
 .quiz-opt-bad {
-  background: #FFECEC !important;
-  border-color: #E63329 !important;
-  border-bottom-color: #B01E18 !important;
-  box-shadow: 0 4px 0 #B01E18 !important;
-  color: #78100C !important;
+  background: #FFF1F2 !important;
+  border-color: #E11D48 !important;
+  border-bottom-color: #BE123C !important;
+  box-shadow: 0 3px 0 #BE123C !important;
+  color: #881337 !important;
   animation: shake 280ms ease-in-out;
 }
 
@@ -1226,10 +1231,10 @@ input:focus-visible {
   width: 2rem;
   height: 2rem;
   flex-shrink: 0;
-  background: #EAF2FB;
-  color: #1E3A5F;
-  border: 1.5px solid #C8DBF0;
-  border-radius: 0.65rem;
+  background: #F1F5F9;
+  color: #334155;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 0.5rem;
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -1237,19 +1242,19 @@ input:focus-visible {
 }
 
 .quiz-opt-on .quiz-key {
-  background: #0B63F6;
-  border-color: #0B4FD1;
+  background: #059669;
+  border-color: #047857;
   color: #FFFFFF;
 }
 
 .quiz-opt-ok .quiz-key {
-  background: #34C06A;
-  border-color: #1E8A49;
+  background: #059669;
+  border-color: #047857;
   color: #FFFFFF;
 }
 
 .quiz-opt-bad .quiz-key {
-  background: #E63329;
+  background: #E11D48;
   border-color: #B01E18;
   color: #FFFFFF;
 }

@@ -21,58 +21,58 @@ const VARIANT_STYLES: Record<
   { bg: string; text: string; border: string; shadowColor: string; hover: string }
 > = {
   primary: {
-    bg: "bg-[#FFC61A]",
-    text: "text-[#0D2340]",
-    border: "border-2 border-[#E5A800]",
-    shadowColor: "#D99400",
-    hover: "hover:bg-[#FFD147]",
+    bg: "bg-[#FF5C8A]",
+    text: "text-white",
+    border: "border-2 border-[#1B1440]",
+    shadowColor: "#1B1440",
+    hover: "hover:brightness-105",
   },
   secondary: {
-    bg: "bg-[#FFFFFF]",
-    text: "text-[#0D2340]",
-    border: "border-2 border-[#B9CFE9]",
-    shadowColor: "#C8DBF0",
-    hover: "hover:bg-[#F0F6FF]",
+    bg: "bg-white",
+    text: "text-[#1B1440]",
+    border: "border-2 border-[#1B1440]",
+    shadowColor: "#1B1440",
+    hover: "hover:bg-[#FFF7EC]",
   },
   amber: {
-    bg: "bg-[#FFC61A]",
-    text: "text-[#0D2340]",
-    border: "border-2 border-[#E5A800]",
-    shadowColor: "#D99400",
-    hover: "hover:bg-[#FFD147]",
+    bg: "bg-[#FFC23D]",
+    text: "text-[#1B1440]",
+    border: "border-2 border-[#1B1440]",
+    shadowColor: "#1B1440",
+    hover: "hover:brightness-105",
   },
   danger: {
-    bg: "bg-[#E63329]",
+    bg: "bg-[#FF5C8A]",
     text: "text-white",
-    border: "border-2 border-[#B01E18]",
-    shadowColor: "#B01E18",
-    hover: "hover:bg-[#F2443A]",
+    border: "border-2 border-[#1B1440]",
+    shadowColor: "#1B1440",
+    hover: "hover:brightness-105",
   },
   success: {
-    bg: "bg-[#34C06A]",
+    bg: "bg-[#1FCB8B]",
     text: "text-white",
-    border: "border-2 border-[#1E8A49]",
-    shadowColor: "#1E8A49",
-    hover: "hover:bg-[#43D47C]",
+    border: "border-2 border-[#1B1440]",
+    shadowColor: "#1B1440",
+    hover: "hover:brightness-105",
   },
   ghost: {
     bg: "bg-transparent",
-    text: "text-[#4A6580]",
+    text: "text-[#1B1440]",
     border: "border-2 border-transparent",
     shadowColor: "transparent",
-    hover: "hover:bg-white/15 hover:text-[#0D2340]",
+    hover: "hover:bg-[#FFE1EA] hover:text-[#1B1440]",
   },
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
-  sm: "h-10 px-4 text-xs font-extrabold gap-1.5 rounded-[14px]",
-  md: "h-12 px-5 text-sm font-extrabold gap-2 rounded-[16px]",
-  lg: "h-14 px-6 text-base font-extrabold gap-2.5 rounded-[18px]",
+  sm: "h-9 px-3.5 text-xs font-extrabold gap-1.5 rounded-[12px]",
+  md: "h-11 px-5 text-sm font-extrabold gap-2 rounded-[12px]",
+  lg: "h-13 px-6 text-base font-extrabold gap-2.5 rounded-[14px]",
 };
 
 /**
- * Chunky Tactile Button — Sunny World Console Game
- * Explicit pointer-events, hardware-accelerated translate3d depth, and instant haptic/audio snap.
+ * Chunky Tactile Button — Pixel Candy Identity
+ * Chunky 2px ink borders, hard offset shadows, pressing down when clicked.
  */
 export function TactileButton({
   variant = "primary",
@@ -126,7 +126,7 @@ export function TactileButton({
       }}
       className={`
         relative inline-flex items-center justify-center font-sans font-extrabold select-none cursor-pointer
-        focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-[#0B4FD1] focus-visible:ring-offset-2
+        focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-sky-700 focus-visible:ring-offset-2
         disabled:cursor-not-allowed disabled:shadow-none
         ${disabled ? "bg-line text-faint border-2 border-line-strong" : `${v.bg} ${v.text} ${v.border} ${disabled ? "" : v.hover}`}
         ${s} ${fullWidth ? "w-full" : ""} ${className}

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>web3min — Pixel Candy</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root{
+  --ink:#1B1440; --ink2:#5A5480; --paper:#FFF7EC; --card:#fff;
+  --pink:#FF5C8A; --pink-s:#FFE1EA;
+  --mint:#1FCB8B; --mint-s:#D8F7EA;
+  --sun:#FFC23D;  --sun-s:#FFF1CC;
+  --sky:#4D7CFF;  --sky-s:#E2E9FF;
+  --line:2px solid var(--ink); --sh:4px 4px 0 var(--ink); --r:16px;
+  --px:'Pixelify Sans',monospace; --tx:'Plus Jakarta Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--tx);color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(#1b144012 1.2px,transparent 1.2px);background-size:18px 18px}
+img.sprite{image-rendering:pixelated}
+i[data-lucide],svg.lucide{width:18px;height:18px;stroke-width:2.4}
+
+/* ---------- Layout ---------- */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+aside{position:sticky;top:0;height:100vh;padding:22px 16px;display:flex;flex-direction:column;
+  gap:6px;border-right:var(--line);background:var(--card)}
+.logo{display:flex;align-items:center;gap:10px;font:700 26px var(--px);margin:0 6px 22px}
+.logo span{color:var(--pink)}
+.logo img{width:40px;height:40px;border:var(--line);border-radius:12px;background:var(--pink-s)}
+.nav{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;font-weight:700;
+  cursor:pointer;border:2px solid transparent;color:var(--ink2);transition:.12s}
+.nav:hover{background:var(--paper);color:var(--ink)}
+.nav.active{background:var(--pink);color:#fff;border:var(--line);box-shadow:3px 3px 0 var(--ink)}
+.nav .tag{margin-left:auto;font:600 11px var(--px);background:var(--sun);color:var(--ink);
+  padding:2px 7px;border-radius:6px;border:1.5px solid var(--ink)}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:10px;border:var(--line);
+  border-radius:14px;background:var(--paper)}
+.me img{width:40px;height:40px;border-radius:10px;border:var(--line);background:var(--pink-s)}
+.me b{display:block;font-size:14px}.me small{font:500 12px var(--px);color:var(--ink2)}
+
+main{padding:20px 32px 60px;min-width:0}
+.hud{display:flex;justify-content:flex-end;gap:10px;margin-bottom:24px}
+.pill{display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--card);border:var(--line);
+  border-radius:12px;box-shadow:2px 2px 0 var(--ink);font:700 16px var(--px)}
+.pill.xp i{color:var(--mint)}.pill.fire i{color:#FF7A1A}.pill.star i{color:var(--sun)}.pill.heart i{color:var(--pink)}
+
+.page{display:none}.page.show{display:block;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+
+/* ---------- Primitives ---------- */
+.card{background:var(--card);border:var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:22px}
+.label{font:600 13px var(--px);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+h1{font-size:34px;line-height:1.1;font-weight:800;letter-spacing:-.02em}
+h2{font-size:22px;font-weight:800;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:800}
+p.muted{color:var(--ink2);font-weight:500;line-height:1.55}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:800 15px var(--tx);
+  padding:13px 22px;border:var(--line);border-radius:12px;background:var(--pink);color:#fff;cursor:pointer;
+  box-shadow:var(--sh);transition:transform .08s,box-shadow .08s}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.ghost{background:var(--card);color:var(--ink)}
+.btn.sm{padding:8px 14px;font-size:13px;box-shadow:3px 3px 0 var(--ink)}
+.btn:disabled{background:#E9E6F0;color:#9C98B3;box-shadow:none;cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;gap:5px;font:600 13px var(--px);padding:3px 9px;border-radius:8px;
+  border:1.5px solid var(--ink)}
+.chip.sun{background:var(--sun-s)}.chip.mint{background:var(--mint-s)}.chip.sky{background:var(--sky-s)}.chip.pink{background:var(--pink-s)}
+.seg{display:grid;gap:4px}
+.seg i{height:12px;border:2px solid var(--ink);border-radius:4px;background:var(--card)}
+.seg i.on{background:var(--mint)}.seg i.now{background:var(--pink)}
+
+/* ---------- Belajar ---------- */
+.hero{display:grid;grid-template-columns:1fr 200px;gap:10px;padding:0;overflow:hidden}
+.hero .body{padding:26px}
+.hero .art{background:linear-gradient(#FFD6E4,#FFE9D6);border-left:var(--line);display:grid;place-items:end center;position:relative}
+.hero .art::after{content:"";position:absolute;inset:auto 0 0;height:46px;background:var(--mint);border-top:var(--line)}
+.hero .art img{width:130px;position:relative;z-index:1;margin-bottom:26px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+.path{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+.step{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card);border:var(--line);border-radius:14px}
+.step .n{width:36px;height:36px;border-radius:10px;border:var(--line);display:grid;place-items:center;font:700 16px var(--px);flex:none}
+.step.done .n{background:var(--mint);color:#fff}
+.step.now{background:var(--pink-s);box-shadow:var(--sh)}
+.step.now .n{background:var(--pink);color:#fff}
+.step.lock{border-style:dashed;background:transparent;color:var(--ink2)}
+.step.lock .n{border-style:dashed}
+.step b{flex:1}.step small{font:600 13px var(--px)}
+
+.rail{display:flex;flex-direction:column;gap:18px;position:sticky;top:20px;overflow-x:hidden}
+.bubble{display:flex;gap:12px;align-items:center}
+.bubble img{width:56px;flex:none}
+.bubble p{position:relative;background:var(--sky-s);border:var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;line-height:1.45}
+.mission{padding:14px 0;border-top:2px dashed #1b144025}
+.mission:first-of-type{border-top:0;padding-top:6px}
+.mission .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.mission .row b{font-size:14px}
+
+/* ---------- Kisah ---------- */
+.feature{background:var(--ink);color:#fff;display:flex;gap:20px;align-items:center;justify-content:space-between}
+.feature p{color:#C9C4E8}
+.tabs{display:inline-flex;gap:4px;padding:4px;border:var(--line);border-radius:14px;background:var(--card);margin:26px 0 18px}
+.tab{padding:9px 16px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer}
+.tab.on{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.story{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.story .band{height:10px;border-bottom:var(--line)}
+.story .in{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.story .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px}
+
+/* ---------- Arena / Toko / Profil ---------- */
+.pool{background:var(--sky);color:#fff}
+.pool .big{font:700 44px var(--px);color:var(--sun);text-shadow:3px 3px 0 var(--ink);margin:10px 0}
+.stat{font:700 38px var(--px);line-height:1}
+.item .ico{width:52px;height:52px;border:var(--line);border-radius:14px;display:grid;place-items:center;margin-bottom:14px}
+.item .ico svg{width:26px;height:26px}
+.item .price{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.item .price span{font:700 18px var(--px);display:flex;gap:4px;align-items:center}
+.idcard{padding:0;overflow:hidden}
+.idcard .top{background:var(--pink);border-bottom:var(--line);padding:18px 22px;display:flex;justify-content:space-between;color:#fff;
+  background-image:repeating-linear-gradient(45deg,#ffffff18 0 10px,transparent 10px 20px)}
+.idcard .who{display:flex;gap:18px;align-items:center;padding:22px}
+.idcard .who img{width:96px;height:96px;border:var(--line);border-radius:18px;background:var(--pink-s);box-shadow:var(--sh);margin-top:-54px}
+textarea{width:100%;font:500 14px var(--tx);border:var(--line);border-radius:12px;padding:12px;resize:none;background:var(--paper)}
+textarea:focus{outline:3px solid var(--pink-s);border-color:var(--pink)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){.cols{grid-template-columns:1fr}.rail{position:static}}
+@media (max-width:760px){
+  .app{grid-template-columns:1fr}
+  aside{position:fixed;inset:auto 0 0 0;height:auto;flex-direction:row;justify-content:space-around;padding:8px;z-index:10;border-right:0;border-top:var(--line)}
+  .logo,.me,.nav .tag,.nav span{display:none}
+  main{padding:16px 16px 100px}.hero{grid-template-columns:1fr}.hero .art{display:none}
+  h1{font-size:28px}.hud{justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="logo"><img class="sprite" src="blobi.png" alt="">web3<span>min</span></div>
+    <div class="nav active" data-p="belajar"><i data-lucide="map"></i><span>Belajar</span></div>
+    <div class="nav" data-p="kisah"><i data-lucide="book-open"></i><span>Kisah</span></div>
+    <div class="nav" data-p="arena"><i data-lucide="trophy"></i><span>Arena</span><em class="tag">Hadiah</em></div>
+    <div class="nav" data-p="toko"><i data-lucide="store"></i><span>Toko</span></div>
+    <div class="nav" data-p="profil"><i data-lucide="user-round"></i><span>Profil</span></div>
+    <div class="me"><img class="sprite" src="blobi.png" alt=""><div><b>@rik</b><small>LV 1 · 1 hari</small></div></div>
+  </aside>
+
+  <main>
+    <div class="hud">
+      <div class="pill xp"><i data-lucide="zap"></i>40</div>
+      <div class="pill fire"><i data-lucide="flame"></i>1</div>
+      <div class="pill star"><i data-lucide="star"></i>60</div>
+      <div class="pill heart"><i data-lucide="heart"></i>5/5</div>
+    </div>
+
+    <!-- BELAJAR -->
+    <section class="page show" id="belajar">
+      <div class="cols">
+        <div>
+          <div class="card hero">
+            <div class="body">
+              <div class="label">Unit 1 · Hutan — Modul 2/8</div>
+              <h1 style="margin-top:8px">Web2 vs Web3</h1>
+              <p class="muted" style="margin-top:6px">Bedanya sama app yang kamu buka tiap hari.</p>
+              <div class="meta"><span class="chip">~2 menit</span><span class="chip sun">+12 XP · +2 ★</span></div>
+              <div class="seg" style="grid-template-columns:repeat(8,1fr);margin-bottom:22px">
+                <i class="on"></i><i class="now"></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <button class="btn">Mulai Belajar <i data-lucide="arrow-right"></i></button>
+            </div>
+            <div class="art"><img class="sprite" src="blobi.png" alt="Blobi"></div>
+          </div>
+
+          <div class="path">
+            <div class="step done"><div class="n"><i data-lucide="check"></i></div><b>Internet versi baru</b><small>Selesai</small></div>
+            <div class="step now"><div class="n">2</div><b>Web2 vs Web3</b><small>Sekarang</small></div>
+            <div class="step lock"><div class="n">3</div><b>Blockchain</b><i data-lucide="lock"></i></div>
+            <div class="step lock"><div class="n">4</div><b>Kripto vs uang bank</b><i data-lucide="lock"></i></div>
+          </div>
+        </div>
+
+        <div class="rail">
+          <div class="card bubble"><img class="sprite" src="blobi.png" alt=""><p>Streak 1 hari! Selesaikan 1 pelajaran lagi biar apinya nggak padam.</p></div>
+          <div class="card">
+            <div class="label" style="margin-bottom:10px">Misi Harian</div>
+            <div class="mission"><div class="row"><b>Selesaikan 1 pelajaran</b><span class="chip sun">+3 ★</span></div><div class="seg" style="grid-template-columns:1fr"><i></i></div></div>
+            <div class="mission"><div class="row"><b>Raih 20 XP hari ini</b><span class="chip sun">+5 ★</span></div><div class="seg" style="grid-template-columns:repeat(4,1fr)"><i></i><i></i><i></i><i></i></div></div>
+            <div class="mission"><div class="row"><b>Baca 1 Kisah</b><span class="chip sun">+4 ★</span></div><div class="seg" style="grid-template-columns:1fr"><i></i></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KISAH -->
+    <section class="page" id="kisah">
+      <div class="label">Arsip Investigasi</div>
+      <h1 style="margin:6px 0 20px">Kisah Web3</h1>
+      <div class="card feature">
+        <div>
+          <span class="chip sun" style="color:var(--ink)">Pilihan minggu ini · 4 menit</span>
+          <h2 style="margin:12px 0 6px">Gaji, bukan chart</h2>
+          <p>Community, bounty, intern. Kerjaan beneran yang nggak nungguin harga ETH.</p>
+        </div>
+        <button class="btn">Baca <i data-lucide="arrow-right"></i></button>
+      </div>
+      <div class="tabs"><div class="tab on">Cerita Interaktif · 13</div><div class="tab">Kasus On-Chain · 2</div></div>
+      <div class="grid">
+        <div class="card story"><div class="band" style="background:var(--sky)"></div><div class="in">
+          <span class="chip mint" style="align-self:flex-start"><i data-lucide="check"></i>Selesai</span>
+          <h3>Web3 bukan cuma chart</h3><p class="muted">Trade satu gang. Ada DeFi, kerja, DAO, NFT.</p>
+          <div class="foot"><span class="label">3 mnt · +6 XP</span><button class="btn ghost sm">Baca ulang</button></div></div></div>
+        <div class="card story"><div class="band" style="background:var(--mint)"></div><div class="in">
+          <span class="chip mint" style="align-self:flex-start"><i data-lucide="check"></i>Selesai</span>
+          <h3>Pinjam tanpa bank</h3><p class="muted">DeFi: lend, borrow, pool. Bukan chart, bukan LPS.</p>
+          <div class="foot"><span class="label">4 mnt · +6 XP</span><button class="btn ghost sm">Baca ulang</button></div></div></div>
+        <div class="card story"><div class="band" style="background:var(--pink)"></div><div class="in">
+          <span class="chip pink" style="align-self:flex-start">Baru</span>
+          <h3>Dompet yang bukan dompet</h3><p class="muted">Seed phrase, private key, dan kenapa nggak boleh di-screenshot.</p>
+          <div class="foot"><span class="label">5 mnt · +6 XP</span><button class="btn sm">Baca</button></div></div></div>
+      </div>
+    </section>
+
+    <!-- ARENA (was Undian) -->
+    <section class="page" id="arena">
+      <div class="label">Kompetisi belajar mingguan</div>
+      <h1 style="margin:6px 0 20px">Arena</h1>
+      <div class="cols">
+        <div class="card pool">
+          <span class="chip" style="background:#fff;color:var(--ink)">Berakhir 8j 10m</span>
+          <div class="big">500 ★</div>
+          <p style="font-weight:600;line-height:1.55;max-width:460px">Top 10 pengumpul XP minggu ini berbagi 500 Bintang Toko Blobi. Gratis, tanpa deposit. Cukup belajar.</p>
+          <div class="seg" style="grid-template-columns:repeat(10,1fr);margin:20px 0">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i>
+          </div>
+          <button class="btn" style="background:var(--sun);color:var(--ink)">Lihat Peringkat <i data-lucide="arrow-right"></i></button>
+        </div>
+        <div class="card">
+          <div class="label">Posisimu</div>
+          <div class="stat" style="margin:10px 0 4px">#128</div>
+          <p class="muted">Tambah 60 XP lagi untuk masuk top 100.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOKO -->
+    <section class="page" id="toko">
+      <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:20px;gap:12px;flex-wrap:wrap">
+        <div><div class="label">Tukar bintang hasil belajar</div><h1 style="margin-top:6px">Toko Blobi</h1></div>
+        <button class="btn ghost sm"><i data-lucide="shirt"></i>Ruang Ganti</button>
+      </div>
+      <div class="grid">
+        <div class="card item"><div class="ico" style="background:var(--sky-s)"><i data-lucide="shield"></i></div>
+          <h3>Pelindung Streak</h3><p class="muted" style="margin-top:6px">Streak aman kalau kamu bolos satu hari.</p>
+          <div class="price"><span><i data-lucide="star" style="color:var(--sun)"></i>50</span><button class="btn sm">Beli</button></div></div>
+        <div class="card item"><div class="ico" style="background:var(--pink-s)"><i data-lucide="heart"></i></div>
+          <h3>Isi Ulang Nyawa</h3><p class="muted" style="margin-top:6px">Balik ke 5/5 dan langsung lanjut latihan.</p>
+          <div class="price"><span><i data-lucide="star" style="color:var(--sun)"></i>80</span><button class="btn sm" disabled>Penuh</button></div></div>
+        <div class="card item"><div class="ico" style="background:var(--sun-s)"><i data-lucide="crown"></i></div>
+          <h3>Mahkota Blobi</h3><p class="muted" style="margin-top:6px">Kosmetik langka untuk Blobi-mu.</p>
+          <div class="price"><span><i data-lucide="star" style="color:var(--sun)"></i>120</span><button class="btn sm">Beli</button></div></div>
+      </div>
+    </section>
+
+    <!-- PROFIL -->
+    <section class="page" id="profil">
+      <div class="card idcard" style="max-width:760px">
+        <div class="top"><span class="label" style="color:#fff">Lisensi Penjelajah Web3</span><span style="font:700 15px var(--px)">#12916</span></div>
+        <div class="who">
+          <img class="sprite" src="blobi.png" alt="">
+          <div style="flex:1"><h2>@rik</h2><div class="meta" style="margin:8px 0 0"><span class="chip sun">Level 1</span><span class="chip sky">Murid Blobi</span></div></div>
+          <button class="btn ghost sm"><i data-lucide="sparkles"></i>Ganti Blobi</button>
+        </div>
+        <div style="padding:0 22px 22px"><textarea rows="2" maxlength="80" placeholder="Tulis motto belajarmu..."></textarea></div>
+      </div>
+      <div class="grid" style="margin-top:22px;max-width:760px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+        <div class="card"><div class="label">Total XP</div><div class="stat" style="margin-top:12px;color:var(--mint)">40</div></div>
+        <div class="card"><div class="label">Streak</div><div class="stat" style="margin-top:12px;color:#FF7A1A">1</div></div>
+        <div class="card"><div class="label">Bintang</div><div class="stat" style="margin-top:12px;color:var(--sun)">60</div></div>
+        <div class="card"><div class="label">Kisah</div><div class="stat" style="margin-top:12px;color:var(--sky)">2</div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  lucide.createIcons();
+  document.querySelectorAll('.nav').forEach(n => n.onclick = () => {
+    document.querySelectorAll('.nav').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+    n.classList.add('active');
+    document.getElementById(n.dataset.p).classList.add('show');
+  });
+  document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+    t.parentElement.querySelectorAll('.tab').forEach(x => x.classList.remove('on')); t.classList.add('on');
+  });
+</script>
+</body>
+</html>

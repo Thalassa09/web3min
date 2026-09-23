@@ -1,22 +1,16 @@
-import {
-  BookOpenText,
-  Compass,
-  Gift,
-  Storefront,
-  UserCircle,
-  type Icon,
-} from "@/lib/kicon";
+import { BookOpenText, Compass, Storefront, Trophy, UserCircle, type Icon } from "@/lib/kicon";
 
 export type NavItem = {
   to: "/" | "/kisah" | "/leaderboard" | "/shop" | "/profile";
   label: string;
   icon: Icon;
+  badge?: string;
 };
 
 export const NAV_ITEMS: NavItem[] = [
   { to: "/", label: "Belajar", icon: Compass },
   { to: "/kisah", label: "Kisah", icon: BookOpenText },
-  { to: "/leaderboard", label: "Undian", icon: Gift },
+  { to: "/leaderboard", label: "Arena", icon: Trophy, badge: "Hadiah" },
   { to: "/shop", label: "Toko", icon: Storefront },
   { to: "/profile", label: "Profil", icon: UserCircle },
 ];

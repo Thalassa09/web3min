@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Ticket, Sparkles, Clock, ArrowRight, BookOpen, Trophy } from "lucide-react";
+import { ArrowRight, Check, Lock, Sparkles, BookOpen, Trophy } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { SurfaceCard } from "@/components/ui/surface-card";
-import { RouteChain } from "@/components/motif";
 import { firstPlayableId, getLesson, getUnit } from "@/lib/curriculum";
 import { formatHeartWait, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
 import { worldOf } from "@/lib/worlds";
@@ -17,7 +16,6 @@ export function HomeDock() {
   const heartsUpdatedAt = useProgress((s) => s.heartsUpdatedAt);
   const completed = useProgress((s) => s.completed);
   const xpToday = useProgress((s) => s.xpToday);
-  const dailyGoal = useProgress((s) => s.dailyGoal);
   const [wait, setWait] = useState(() => msUntilHeart(heartsUpdatedAt));
 
   const currentId = firstPlayableId(completed);
@@ -27,10 +25,7 @@ export function HomeDock() {
   const scoredLessons = unit?.lessons.filter((l) => l.kind !== "chest") ?? [];
   const lessonNo = lesson ? scoredLessons.findIndex((l) => l.id === lesson.id) + 1 : 0;
   const started = xpToday > 0;
-  const goalHit = xpToday >= dailyGoal;
-  const mins = lesson ? minutesOf(lesson.exercises.length) : 3;
-  const guideSeen = useProgress((s) => s.guideSeen);
-  const showCaraLink = guideSeen || completed.length > 0;
+  const mins = lesson ? minutesOf(lesson.exercises.length) : 2;
 
   useEffect(() => {
     if (hearts >= MAX_HEARTS) return;
@@ -42,16 +37,16 @@ export function HomeDock() {
 
   if (hearts <= 0) {
     return (
-      <SurfaceCard className="mx-3 sm:mx-4 mt-4 p-5 md:p-6 border-2 border-[#F4A4A0] bg-[#FFF5F5]">
+      <div className="mx-3 sm:mx-4 mt-4 p-5 md:p-6 rounded-[16px] border-2 border-[#1B1440] bg-[#FFE1EA] shadow-[4px_4px_0_#1B1440]">
         <div className="flex items-center gap-2 mb-2">
-          <span className="px-3 py-0.5 rounded-full text-xs font-extrabold bg-[#E63329] text-white shadow-[0_2px_0_#B01E18]">
+          <span className="px-2.5 py-0.5 rounded-[8px] text-xs font-['Pixelify_Sans'] font-bold bg-[#FF5C8A] text-white border-[1.5px] border-[#1B1440]">
             Nyawa Habis
           </span>
         </div>
-        <h2 className="font-display font-bold text-xl text-[#0D2340]">
+        <h2 className="font-sans font-extrabold text-xl text-[#1B1440]">
           Istirahat Sejenak
         </h2>
-        <p className="mt-1 text-xs sm:text-sm text-[#4A6580] leading-relaxed">
+        <p className="mt-1 text-xs sm:text-sm text-[#5A5480] leading-relaxed">
           Nyawa berikutnya pulih dalam {formatHeartWait(wait)}. Kamu tetap bisa membaca cerita Web3 tanpa mengurangi nyawa.
         </p>
         <div className="mt-4 flex flex-col sm:flex-row gap-2.5">
@@ -66,141 +61,176 @@ export function HomeDock() {
             </TactileButton>
           </Link>
         </div>
+      </div>
+    );
+  }
+
+  if (!lesson || !world) {
+    return (
+      <SurfaceCard className="mx-3 sm:mx-4 mt-4 p-6 bg-white text-center">
+        <h2 className="font-sans font-extrabold text-2xl text-[#1B1440] inline-flex items-center justify-center gap-2">
+          Semua Modul Selesai! <Trophy className="size-6 text-[#FFC23D] shrink-0" />
+        </h2>
+        <p className="mt-1.5 text-xs sm:text-sm text-[#5A5480]">
+          Kamu telah menuntaskan seluruh modul kurikulum. Kunjungi Arena untuk melihat peringkat belajarmu!
+        </p>
+        <div className="pt-4">
+          <Link to="/leaderboard">
+            <TactileButton variant="primary" size="md">
+              Buka Arena
+            </TactileButton>
+          </Link>
+        </div>
       </SurfaceCard>
     );
   }
 
+  const unitNum = unit ? unit.id.replace(/^u/, "") : "1";
+
   return (
-    <SurfaceCard className="mx-3 sm:mx-4 mt-4 p-5 md:p-6 bg-white">
-      {lesson && world ? (
-        <div className="space-y-3.5">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
-                {world.land}
-              </span>
-              {lessonNo > 0 && (
-                <span className="text-xs font-bold text-[#4A6580]">
-                  Modul {lessonNo} dari {scoredLessons.length}
-                </span>
-              )}
+    <div className="mx-3 sm:mx-4 mt-4 space-y-4">
+      {/* Hero Card */}
+      <div className="rounded-[16px] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] bg-white overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_200px]">
+        {/* Left Body */}
+        <div className="p-6 flex flex-col justify-between min-w-0">
+          <div>
+            <div className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider text-[#5A5480]">
+              Unit {unitNum} · {world.land} — Modul {lessonNo}/{scoredLessons.length}
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5]">
-              <Ticket className="size-3.5" />
-              <span>+1 Tiket Undian</span>
+            <h1 className="font-sans font-extrabold text-2xl sm:text-3xl text-[#1B1440] tracking-tight mt-2 leading-tight">
+              {lesson.title}
+            </h1>
+            <p className="font-sans font-medium text-sm text-[#5A5480] mt-1.5 leading-relaxed">
+              {lesson.blurb}
+            </p>
+
+            {/* Single Sun Chip for Rewards & Duration Chip */}
+            <div className="flex items-center gap-2 flex-wrap my-3.5">
+              <span className="inline-flex items-center gap-1 font-['Pixelify_Sans'] text-xs font-semibold px-2.5 py-1 rounded-[8px] border-[1.5px] border-[#1B1440] bg-[#FFF7EC] text-[#1B1440]">
+                ~{mins} menit
+              </span>
+              <span className="inline-flex items-center gap-1 font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-1 rounded-[8px] border-[1.5px] border-[#1B1440] bg-[#FFF1CC] text-[#1B1440]">
+                +{lesson.xp} XP · +{lesson.gems} ★
+              </span>
+            </div>
+
+            {/* Segmented Pixel Blocks */}
+            <div
+              className="grid gap-1.5 mb-5"
+              style={{
+                gridTemplateColumns: `repeat(${Math.max(1, scoredLessons.length)}, minmax(0, 1fr))`,
+              }}
+            >
+              {scoredLessons.map((l) => {
+                const isDone = completed.includes(l.id);
+                const isNow = l.id === lesson.id;
+                return (
+                  <span
+                    key={l.id}
+                    className={`h-3 rounded-[4px] border-2 border-[#1B1440] transition-colors ${
+                      isDone
+                        ? "bg-[#1FCB8B]"
+                        : isNow
+                        ? "bg-[#FF5C8A]"
+                        : "bg-white"
+                    }`}
+                  />
+                );
+              })}
             </div>
           </div>
 
           <div>
-            <h2 className="font-display font-bold text-2xl text-[#0D2340] tracking-tight">
-              {goalHit ? "Target Harian Tercapai!" : lesson.title}
-            </h2>
-            <p className="mt-1 text-xs sm:text-sm text-[#4A6580] leading-relaxed">
-              {lesson.blurb}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3 text-xs font-bold text-[#4A6580] py-0.5">
-            <span className="flex items-center gap-1">
-              <Clock className="size-3.5 text-[#4A6580]" /> ~{mins} Menit
-            </span>
-            <span>·</span>
-            <span className="text-[#B27B00]">+{lesson.xp} XP</span>
-            <span>·</span>
-            <span className="text-[#B27B00]">+{lesson.gems} Bintang</span>
-          </div>
-
-          <div className="pt-2">
             <Link
               to="/lesson/$lessonId"
               params={{ lessonId: lesson.id }}
               className="block"
-              data-coach="start"
               onClick={() => useProgress.getState().completeGuide()}
             >
-              <TactileButton
-                variant="primary"
-                size="lg"
-                fullWidth
-                icon={<ArrowRight className="size-5" />}
+              <button
+                type="button"
+                className="w-full inline-flex items-center justify-center gap-2 font-sans font-extrabold text-sm sm:text-base py-3 px-6 rounded-[12px] bg-[#FF5C8A] text-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440] transition-[transform,box-shadow,filter] cursor-pointer"
               >
-                {started ? "Lanjutkan Pelajaran" : "Mulai Belajar Sekarang"}
-              </TactileButton>
+                <span>{started ? "Lanjutkan Pelajaran" : "Mulai Belajar"}</span>
+                <ArrowRight className="size-4 sm:size-5 shrink-0 stroke-[2.4]" />
+              </button>
             </Link>
           </div>
+        </div>
 
-          {scoredLessons.length > 0 && (
-            <div className="grid grid-cols-1 gap-1.5 pt-1">
-              {scoredLessons.slice(0, 4).map((item, i) => {
-                const done = completed.includes(item.id);
-                const here = item.id === lesson.id;
-                return (
-                  <div
-                    key={item.id}
-                    className={`flex items-center gap-2 rounded-xl border px-3 py-2 ${
-                      here
-                        ? "border-sky-500 bg-[#E4F0FF]"
-                        : done
-                          ? "border-[#98E4B5] bg-[#E8FBF0]"
-                          : "border-[#DCE7F5] bg-[#F7FBFF]"
-                    }`}
-                  >
-                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white text-[11px] font-extrabold text-[#0D2340] border border-[#DCE7F5]">
-                      {i + 1}
-                    </span>
-                    <span className="min-w-0 flex-1 truncate text-[13px] font-bold text-[#0D2340]">{item.title}</span>
-                    <span className="shrink-0 text-[11px] font-extrabold text-[#4A6580]">
-                      {done ? "Selesai" : here ? "Sekarang" : "Berikutnya"}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+        {/* Right Art Panel (Desktop) */}
+        <div className="hidden md:grid place-items-end justify-center relative border-l-2 border-[#1B1440] bg-gradient-to-b from-[#FFD6E4] to-[#FFE9D6] overflow-hidden">
+          <div className="absolute inset-x-0 bottom-0 h-11 bg-[#1FCB8B] border-t-2 border-[#1B1440]" />
+          <img
+            src="/mascot/idle.png"
+            alt="Blobi"
+            className="w-[120px] relative z-10 mb-6 pixelated animate-bounce duration-1000 object-contain"
+            style={{ animationDuration: "2.4s" }}
+          />
+        </div>
+      </div>
 
-          <div className="pt-2">
-            <div className="flex items-center justify-between text-xs font-extrabold text-[#1E3A5F] mb-1.5">
-              <span className="flex items-center gap-1.5">
-                <Sparkles className="size-3.5 text-[#D99400] fill-[#FFC61A]" />
-                Target Harian
-              </span>
-              <span className="tabular-nums font-bold text-[#4A6580]">
-                {xpToday} / {dailyGoal} XP
-              </span>
-            </div>
-            <div className="relative h-3.5 w-full overflow-hidden rounded-full bg-[#E4F0FF] border-2 border-[#B9CFE9] shadow-inner">
+      {/* Path Step List */}
+      <div className="flex flex-col gap-2.5">
+        {scoredLessons.slice(0, 4).map((item, idx) => {
+          const isDone = completed.includes(item.id);
+          const isNow = item.id === lesson.id;
+          const isLock = !isDone && !isNow;
+
+          if (isDone) {
+            return (
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#FFD84D] to-[#FF9E00] shadow-[0_1px_2px_rgba(217,148,0,0.5)] transition-[width,background-color] duration-300"
-                style={{ width: `${Math.min(100, Math.max(0, Math.round((xpToday / Math.max(1, dailyGoal)) * 100)))}%` }}
-              />
-            </div>
-          </div>
+                key={item.id}
+                className="flex items-center gap-3.5 p-3.5 bg-white border-2 border-[#1B1440] rounded-[14px]"
+              >
+                <div className="size-9 rounded-[10px] border-2 border-[#1B1440] bg-[#1FCB8B] text-white flex items-center justify-center shrink-0">
+                  <Check className="size-5 stroke-[2.5]" />
+                </div>
+                <b className="flex-1 font-sans font-bold text-sm text-[#1B1440] truncate">
+                  {item.title}
+                </b>
+                <span className="font-['Pixelify_Sans'] font-semibold text-xs text-[#5A5480]">
+                  Selesai
+                </span>
+              </div>
+            );
+          }
 
-          {showCaraLink && (
-            <div className="pt-1 flex justify-end">
-              <Link to="/cara" className="text-xs font-extrabold text-[#0B4FD1] hover:underline transition-colors">
-                Petunjuk Bermain →
-              </Link>
+          if (isNow) {
+            return (
+              <div
+                key={item.id}
+                className="flex items-center gap-3.5 p-3.5 bg-[#FFE1EA] border-2 border-[#1B1440] rounded-[14px] shadow-[4px_4px_0_#1B1440]"
+              >
+                <div className="size-9 rounded-[10px] border-2 border-[#1B1440] bg-[#FF5C8A] text-white flex items-center justify-center font-['Pixelify_Sans'] font-bold text-base shrink-0">
+                  {idx + 1}
+                </div>
+                <b className="flex-1 font-sans font-extrabold text-sm text-[#1B1440] truncate">
+                  {item.title}
+                </b>
+                <span className="font-['Pixelify_Sans'] font-bold text-xs text-[#FF5C8A]">
+                  Sekarang
+                </span>
+              </div>
+            );
+          }
+
+          return (
+            <div
+              key={item.id}
+              className="flex items-center gap-3.5 p-3.5 bg-transparent border-2 border-dashed border-[#1B1440] rounded-[14px] text-[#5A5480] opacity-80"
+            >
+              <div className="size-9 rounded-[10px] border-2 border-dashed border-[#1B1440] flex items-center justify-center font-['Pixelify_Sans'] font-bold text-sm shrink-0">
+                {idx + 1}
+              </div>
+              <b className="flex-1 font-sans font-medium text-sm truncate">
+                {item.title}
+              </b>
+              <Lock className="size-4 shrink-0 stroke-[2.2]" />
             </div>
-          )}
-        </div>
-      ) : (
-        <div className="text-center py-4 space-y-2">
-          <h2 className="font-display font-bold text-2xl text-[#0D2340] inline-flex items-center justify-center gap-2">
-            Semua Modul Selesai! <Trophy className="size-6 text-[#FFC61A] shrink-0" />
-          </h2>
-          <p className="text-xs sm:text-sm text-[#4A6580]">
-            Kamu telah menuntaskan seluruh 20 modul kurikulum. Kunjungi Arena Undian untuk menukar tiketmu!
-          </p>
-          <div className="pt-2">
-            <Link to="/leaderboard" className="inline-block">
-              <TactileButton variant="primary" size="md">
-                Buka Arena Undian Hadiah
-              </TactileButton>
-            </Link>
-          </div>
-        </div>
-      )}
-    </SurfaceCard>
+          );
+        })}
+      </div>
+    </div>
   );
 }

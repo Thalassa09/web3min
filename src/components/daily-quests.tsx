@@ -41,13 +41,13 @@ export function DailyQuests({ compact = false, className }: { compact?: boolean;
                   </div>
                 ) : (
                   <div className="mt-1.5 space-y-1">
-                    <div className="h-2 w-full rounded-full bg-[#E4F0FF] border border-[#B9CFE9] overflow-hidden">
+                    <div className="h-2 w-full rounded-full bg-sky-100 border border-line-strong overflow-hidden">
                       <div
                         className="h-full rounded-full bg-[#0B63F6] transition-all duration-300"
                         style={{ width: `${Math.min(100, Math.round((prog.have / prog.need) * 100))}%` }}
                       />
                     </div>
-                    <div className="flex justify-between text-[10px] font-bold text-[#4A6580]">
+                    <div className="flex justify-between text-[10px] font-bold text-ink-500">
                       <span>Progress</span>
                       <span className="tabular-nums">{Math.min(prog.have, prog.need)}/{prog.need} XP</span>
                     </div>

@@ -41,13 +41,13 @@ export function StatusBanner({
       border: "border-[#98E4B5]",
       bg: "bg-[#E8FBF0]",
       shadow: "shadow-[0_3px_0_#98E4B5]",
-      icon: <ShieldCheck className="size-4 text-[#1E8A49]" />,
+      icon: <ShieldCheck className="size-4 text-leaf-shadow" />,
       badgeText: "ON-CHAIN PROOF",
       appearance: "success",
     },
     live: {
-      border: "border-[#8FC2FF]",
-      bg: "bg-[#E4F0FF]",
+      border: "border-sky-300",
+      bg: "bg-sky-100",
       shadow: "shadow-[0_3px_0_#8FC2FF]",
       icon: <Zap className="size-4 text-[#0B63F6]" />,
       badgeText: "LIVE FEED",
@@ -62,8 +62,8 @@ export function StatusBanner({
       appearance: "moved",
     },
     info: {
-      border: "border-[#8FC2FF]",
-      bg: "bg-[#E4F0FF]",
+      border: "border-sky-300",
+      bg: "bg-sky-100",
       shadow: "shadow-[0_3px_0_#8FC2FF]",
       icon: <Info className="size-4 text-[#0B63F6]" />,
       badgeText: "INFO",
@@ -73,7 +73,7 @@ export function StatusBanner({
       border: "border-[#F4A4A0]",
       bg: "bg-[#FFECEC]",
       shadow: "shadow-[0_3px_0_#F4A4A0]",
-      icon: <AlertCircle className="size-4 text-[#B01E18]" />,
+      icon: <AlertCircle className="size-4 text-ruby-shadow" />,
       badgeText: "PENTING",
       appearance: "removed",
     },
@@ -81,7 +81,7 @@ export function StatusBanner({
       border: "border-[#98E4B5]",
       bg: "bg-[#E8FBF0]",
       shadow: "shadow-[0_3px_0_#98E4B5]",
-      icon: <CheckCircle2 className="size-4 text-[#1E8A49]" />,
+      icon: <CheckCircle2 className="size-4 text-leaf-shadow" />,
       badgeText: "SUKSES",
       appearance: "success",
     },
@@ -100,7 +100,7 @@ export function StatusBanner({
         </div>
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-display font-bold text-sm text-[#0D2340] leading-snug">
+            <span className="font-display font-bold text-sm text-ink-900 leading-snug">
               {title}
             </span>
             <Lozenge appearance={current.appearance} isBold={false}>
@@ -108,7 +108,7 @@ export function StatusBanner({
             </Lozenge>
           </div>
           {subtitle && (
-            <p className="text-xs text-[#4A6580] font-sans truncate mt-0.5 font-medium">
+            <p className="text-xs text-ink-500 font-sans truncate mt-0.5 font-medium">
               {subtitle}
             </p>
           )}
@@ -119,10 +119,10 @@ export function StatusBanner({
         {action}
         {proofHash && (
           <div className="hidden sm:flex flex-col items-end">
-            <span className="text-[10px] font-mono text-[#6B839C] uppercase tracking-wider font-bold">
+            <span className="text-[10px] font-mono text-ink-300 uppercase tracking-wider font-bold">
               PROOF HASH
             </span>
-            <span className="text-xs font-mono font-bold text-[#0B4FD1] truncate max-w-[120px]">
+            <span className="text-xs font-mono font-bold text-sky-700 truncate max-w-[120px]">
               {proofHash}
             </span>
           </div>

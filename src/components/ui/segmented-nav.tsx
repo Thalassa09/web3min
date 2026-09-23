@@ -26,7 +26,7 @@ export function SegmentedNav({
 }: SegmentedNavProps) {
   return (
     <div
-      className={`inline-flex items-center p-1.5 rounded-[16px] bg-[#E4F0FF] border-2 border-[#B9CFE9] shadow-inner ${className}`}
+      className={`inline-flex items-center p-1.5 rounded-[16px] bg-sky-100 border-2 border-line-strong shadow-inner ${className}`}
     >
       {items.map((item) => {
         const isActive = item.id === activeId;
@@ -41,8 +41,8 @@ export function SegmentedNav({
               active:translate-y-[1px]
               ${
                 isActive
-                  ? "bg-[#FFFFFF] text-[#0B4FD1] border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA]"
-                  : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/50 border-2 border-transparent"
+                  ? "bg-white text-sky-700 border-2 border-sky-300 shadow-[0_3px_0_#C2DBFA]"
+                  : "text-ink-500 hover:text-ink-900 hover:bg-white/50 border-2 border-transparent"
               }
             `}
           >
@@ -52,8 +52,8 @@ export function SegmentedNav({
               <span
                 className={`text-[10px] font-sans px-2 py-0.5 rounded-full font-extrabold ${
                   isActive
-                    ? "bg-[#FFC61A] text-[#0D2340]"
-                    : "bg-[#DCE7F5] text-[#1E3A5F]"
+                    ? "bg-coin text-ink-900"
+                    : "bg-line text-ink-700"
                 }`}
               >
                 {item.badge}

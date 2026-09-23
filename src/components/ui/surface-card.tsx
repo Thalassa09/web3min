@@ -7,9 +7,9 @@ interface SurfaceCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Sunny World Surface Card
- * Bright, clean, rounded card living on the sky blue background.
- * Follows DESIGN.md: 2px border #B9CFE9 and 6px solid tactile shadow #C8DBF0.
+ * Pixel Candy Surface Card
+ * Warm cream paper & crisp card surfaces with chunky 2px ink borders and hard offset shadows.
+ * Follows Pixel Candy identity: 2px border #1B1440 and 4px 4px 0 #1B1440 hard shadow.
  */
 export function SurfaceCard({
   children,
@@ -18,17 +18,17 @@ export function SurfaceCard({
   ...props
 }: SurfaceCardProps) {
   const variantStyles: Record<string, string> = {
-    default: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)] text-[#0D2340]",
-    cream: "bg-[#FFF7E4] border-2 border-[#EADBBD] shadow-[0_6px_0_#D8C7A0,0_18px_34px_-18px_rgba(9,48,102,0.25)] text-[#0D2340]",
-    sky: "bg-[#E4F0FF] border-2 border-[#8FC2FF] shadow-[0_6px_0_#C2DBFA,0_18px_34px_-18px_rgba(9,48,102,0.25)] text-[#0D2340]",
-    flat: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-none text-[#0D2340]",
-    interactive: "bg-[#FFFFFF] border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.3)] hover:border-[#8FC2FF] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-[0_2px_0_#C8DBF0] cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 text-[#0D2340]",
+    default: "bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] text-[#1B1440]",
+    cream: "bg-[#FFF7EC] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] text-[#1B1440]",
+    sky: "bg-[#4D7CFF] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] text-white",
+    flat: "bg-white border-2 border-[#1B1440] shadow-none text-[#1B1440]",
+    interactive: "bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] hover:brightness-[1.02] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440] cursor-pointer transition-[transform,box-shadow,filter] duration-100 text-[#1B1440]",
   };
 
   return (
     <div
       className={`
-        relative rounded-[20px] p-5 md:p-6
+        relative rounded-[16px] p-5 md:p-6
         ${variantStyles[variant] ?? variantStyles.default}
         ${className}
       `}

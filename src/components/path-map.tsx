@@ -133,48 +133,42 @@ function UnitBlock({
 }) {
   const world = worldOf(unit.id);
   const mirror = unit.index % 2 === 0;
+  const completedCount = unit.lessons.filter((l) => completed.includes(l.id)).length;
+  const isAllDone = completedCount === unit.lessons.length && unit.lessons.length > 0;
 
   return (
     <section
-      className={cn(
-        "relative mx-3 sm:mx-4 my-3 rounded-[26px] border-2 border-[#B9CFE9] shadow-[0_6px_0_#0B4FD1] overflow-hidden scroll-mt-20",
-        world.skin
-      )}
+      className="relative mx-3 sm:mx-4 my-6 rounded-[16px] border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] overflow-hidden scroll-mt-20 bg-white"
       id={`unit-${unit.id}`}
     >
-      {lit ? (
-        <img
-          src={world.art}
-          alt=""
-          width={720}
-          height={900}
-          loading={eager ? "eager" : "lazy"}
-          decoding="async"
-          fetchPriority={eager ? "high" : "low"}
-          sizes="(min-width: 1024px) 720px, 100vw"
-          className="world-art pointer-events-none absolute inset-0 h-full w-full object-cover object-top pixelated"
-        />
-      ) : (
-        <div className="world-art pointer-events-none absolute inset-0" style={{ background: "var(--world-banner, var(--color-paper))" }} />
-      )}
-      <div className="world-veil pointer-events-none absolute inset-0" />
-      {lit ? <WorldFx weather={world.weather} /> : null}
-      {lit ? <WorldProps world={world} /> : null}
-      <div className="relative px-4 pb-7 pt-3 lg:px-8 lg:pb-10 lg:pt-5">
-        <div className="world-flag route-sign mx-auto max-w-sm rounded-2xl border-b-4 px-4 py-3 lg:max-w-md">
-          <p className="flex items-center gap-2 text-[13px] font-semibold leading-[18px] tracking-label opacity-90">
-            <img src={world.stamp} alt="" className="size-5 pixelated object-contain" />
-            Rute {unit.index} · {world.land}
-            <span className="route-kind ml-auto">{kindOf(unit.id)}</span>
-          </p>
-          <h2 className="mt-1 text-xl font-bold leading-[26px]">{unit.title}</h2>
+      {/* Pixel Candy Unit Header */}
+      <div className="bg-[#1B1440] text-white px-5 py-4 border-b-2 border-[#1B1440] flex items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className={cn("inline-block size-2 rounded-full", isAllDone ? "bg-[#1FCB8B]" : "bg-[#FF5C8A]")} />
+            <span className="text-xs font-['Pixelify_Sans'] font-bold tracking-widest text-[#FFC23D] uppercase">
+              UNIT {unit.index} // {kindOf(unit.id).toUpperCase()}
+            </span>
+          </div>
+          <h2 className="mt-1 font-sans text-lg sm:text-xl font-extrabold tracking-tight text-white">
+            {unit.title}
+          </h2>
         </div>
-        <ol className="relative mt-4 flex flex-col items-center gap-7 pt-1 lg:mt-8 lg:gap-12">
+        <div className="text-right shrink-0">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[8px] bg-white border-[1.5px] border-[#1B1440] text-xs font-['Pixelify_Sans'] font-bold text-[#1B1440]">
+            {completedCount}/{unit.lessons.length} Selesai
+          </span>
+        </div>
+      </div>
+
+      {/* Modern Learning Tree Track */}
+      <div className="relative px-4 pb-10 pt-6 lg:px-8 lg:pb-12 bg-gradient-to-b from-slate-50/50 to-white">
+        <ol className="relative mt-2 flex flex-col items-center gap-7 pt-1 lg:gap-10">
           <PathTrail
             count={unit.lessons.length}
             world={world}
             mirror={mirror}
-            progress={unit.lessons.filter((l) => completed.includes(l.id)).length / Math.max(1, unit.lessons.length)}
+            progress={completedCount / Math.max(1, unit.lessons.length)}
           />
           {unit.lessons.map((lesson, i) => (
             <PathNode
@@ -209,24 +203,24 @@ function WorldGate({
 }) {
   if (open) {
     return (
-      <div className="world-gate relative z-10 mx-3 sm:mx-4 my-1 rounded-2xl border-2 border-[#DCE7F5] bg-white px-4 py-3 min-w-0">
-        <p className="text-center text-[13px] font-extrabold text-[#0D2340]">
+      <div className="world-gate relative z-10 mx-3 sm:mx-4 my-1 rounded-2xl border-2 border-line bg-white px-4 py-3 min-w-0">
+        <p className="text-center text-[13px] font-extrabold text-ink-900">
           {from.land} → {to.land}
         </p>
-        <p className="mt-0.5 text-center text-[12px] font-medium text-[#4A6580]">{nextTitle} sudah terbuka</p>
+        <p className="mt-0.5 text-center text-[12px] font-medium text-ink-500">{nextTitle} sudah terbuka</p>
       </div>
     );
   }
 
   return (
-    <div className="world-gate relative z-10 mx-3 sm:mx-4 my-1 rounded-[22px] border-2 border-[#DCE7F5] bg-white px-4 py-4 min-w-0 shadow-[0_4px_0_#DCE7F5]">
+    <div className="world-gate relative z-10 mx-3 sm:mx-4 my-1 rounded-[22px] border-2 border-line bg-white px-4 py-4 min-w-0 shadow-[0_4px_0_#DCE7F5]">
       <div className="flex items-start gap-3">
-        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#E4F0FF] text-sky-600 border border-[#8FC2FF]">
+        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-sky-100 text-sky-600 border border-sky-300">
           <Lock className="size-5" weight="bold" />
         </span>
         <div className="min-w-0">
-          <p className="text-[15px] font-extrabold text-[#0D2340] leading-tight">Rute berikutnya terkunci</p>
-          <p className="mt-1 text-[13px] font-medium leading-5 text-[#4A6580]">
+          <p className="text-[15px] font-extrabold text-ink-900 leading-tight">Rute berikutnya terkunci</p>
+          <p className="mt-1 text-[13px] font-medium leading-5 text-ink-500">
             Selesaikan {remaining} pelajaran di {from.land} untuk membuka {to.land}: {nextTitle}.
           </p>
         </div>
@@ -472,12 +466,12 @@ function PathNode({
       }}
     >
       {current ? (
-        <span className="world-start absolute -top-8 left-1/2 -translate-x-1/2 rounded-lg px-2 py-0.5 text-xs font-extrabold uppercase tracking-label path-bounce">
-          {lesson.kind === "checkpoint" ? "Laga" : lesson.kind === "chest" ? "Item" : "Mulai"}
+        <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-[6px] px-2.5 py-0.5 text-[11px] font-['Pixelify_Sans'] font-bold uppercase tracking-wider bg-[#FF5C8A] text-white border-[1.5px] border-[#1B1440] shadow-[2px_2px_0_#1B1440] whitespace-nowrap z-20">
+          {lesson.kind === "checkpoint" ? "Checkpoint" : lesson.kind === "chest" ? "Item" : "Mulai"}
         </span>
       ) : null}
       {current && !coaching ? (
-        <div className={cn("pointer-events-auto z-20 cursor-pointer absolute -top-2 lg:-top-4 size-16 lg:size-[88px]", shift > 8 ? "-left-16 lg:-left-24" : "-right-16 lg:-right-24")}>
+        <div className={cn("pointer-events-auto z-20 cursor-pointer absolute -top-2 lg:-top-4 size-14 lg:size-[76px]", shift > 8 ? "-left-16 lg:-left-20" : "-right-16 lg:-right-20")}>
           <Mascot mood="wave" fill interactive />
         </div>
       ) : null}
@@ -493,36 +487,32 @@ function PathNode({
           }
           data-coach={current ? "node" : undefined}
           className={cn(
-            "flex items-center justify-center rounded-full border-b-[6px] transition-transform duration-[180ms]",
-            "active:not-disabled:translate-y-1 active:not-disabled:border-b-2",
-            current ? "size-[78px] lg:size-[88px]" : "size-[70px] lg:size-[80px]",
-            lockedLook && "world-node-locked",
-            !lockedLook && lesson.kind === "chest" && "world-node-chest",
-            !lockedLook && lesson.kind !== "chest" && done && "world-node-done",
-            !lockedLook && lesson.kind !== "chest" && !done && "world-node-btn",
-            current && "world-node-now",
+            "flex items-center justify-center rounded-[20px] sm:rounded-[22px] border-2 transition-all duration-100 cursor-pointer select-none",
+            "active:not-disabled:translate-x-[2px] active:not-disabled:translate-y-[2px] active:not-disabled:shadow-[1px_1px_0_#1B1440]",
+            current ? "size-[76px] lg:size-[84px] bg-[#FF5C8A] text-white border-[#1B1440] shadow-[4px_4px_0_#1B1440] ring-4 ring-[#FFE1EA]" :
+            done && lesson.kind !== "chest" ? "size-[68px] lg:size-[76px] bg-[#1FCB8B] text-white border-[#1B1440] shadow-[3px_3px_0_#1B1440]" :
+            lesson.kind === "chest" && !done ? "size-[68px] lg:size-[76px] bg-[#FFC23D] text-[#1B1440] border-[#1B1440] shadow-[3px_3px_0_#1B1440]" :
+            lockedLook ? "size-[68px] lg:size-[76px] bg-[#E9E6F0] text-[#9C98B3] border-dashed border-[#1B1440] shadow-none cursor-not-allowed" :
+            "size-[68px] lg:size-[76px] bg-white text-[#1B1440] border-[#1B1440] shadow-[3px_3px_0_#1B1440] hover:bg-[#FFF7EC]"
           )}
         >
           {done && lesson.kind !== "chest" ? (
-            <Check className="size-8" weight="bold" />
+            <Check className="size-7 sm:size-8" weight="bold" />
           ) : (
-            <Icon className="size-8" weight="bold" />
+            <Icon className="size-7 sm:size-8" weight="bold" />
           )}
         </button>
         {lockedLook ? (
-          <span className="world-lock-badge">
+          <span className="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-[6px] bg-[#E9E6F0] text-[#5A5480] border-[1.5px] border-[#1B1440] shadow-xs">
             <Lock className="size-3" weight="bold" />
           </span>
         ) : null}
       </span>
-      <p className="world-caption mt-2 max-w-28 rounded-lg px-1.5 py-0.5 text-center text-[13px] font-semibold leading-[18px]">
+      <p className="mt-2 max-w-32 rounded-[8px] px-1.5 py-0.5 text-center text-xs font-semibold leading-tight text-[#1B1440]">
         {lockedLook ? (
-          <>
-            Terkunci
-            <span className="mt-0.5 block font-medium text-muted">{lesson.title}</span>
-          </>
+          <span className="text-[#9C98B3] font-normal">{lesson.title}</span>
         ) : (
-          lesson.title
+          <span className={cn(current ? "text-[#1B1440] font-extrabold" : "text-[#5A5480] font-bold")}>{lesson.title}</span>
         )}
       </p>
     </li>

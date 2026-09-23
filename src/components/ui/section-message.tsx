@@ -36,10 +36,10 @@ export function SectionMessage({
     { bg: string; border: string; shadow: string; titleColor: string; defaultIcon: React.ReactNode }
   > = {
     information: {
-      bg: "bg-[#E4F0FF]",
-      border: "border-2 border-[#8FC2FF]",
+      bg: "bg-sky-100",
+      border: "border-2 border-sky-300",
       shadow: "shadow-[0_3px_0_#C2DBFA]",
-      titleColor: "text-[#0B4FD1]",
+      titleColor: "text-sky-700",
       defaultIcon: <Info className="size-4 text-[#0B63F6]" />,
     },
     warning: {
@@ -53,15 +53,15 @@ export function SectionMessage({
       bg: "bg-[#FFECEC]",
       border: "border-2 border-[#F4A4A0]",
       shadow: "shadow-[0_3px_0_#F4A4A0]",
-      titleColor: "text-[#B01E18]",
-      defaultIcon: <AlertCircle className="size-4 text-[#B01E18]" />,
+      titleColor: "text-ruby-shadow",
+      defaultIcon: <AlertCircle className="size-4 text-ruby-shadow" />,
     },
     success: {
       bg: "bg-[#E8FBF0]",
       border: "border-2 border-[#98E4B5]",
       shadow: "shadow-[0_3px_0_#98E4B5]",
-      titleColor: "text-[#1E8A49]",
-      defaultIcon: <CheckCircle2 className="size-4 text-[#1E8A49]" />,
+      titleColor: "text-leaf-shadow",
+      defaultIcon: <CheckCircle2 className="size-4 text-leaf-shadow" />,
     },
     discovery: {
       bg: "bg-[#F3ECFF]",
@@ -94,7 +94,7 @@ export function SectionMessage({
               {title}
             </h4>
           )}
-          <div className="text-xs font-medium text-[#4A6580] mt-0.5 leading-relaxed">
+          <div className="text-xs font-medium text-ink-500 mt-0.5 leading-relaxed">
             {children}
           </div>
           {action && <div className="mt-2">{action}</div>}

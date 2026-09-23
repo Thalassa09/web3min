@@ -14,22 +14,22 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
   mint: {
     border: "border-[#98E4B5]",
     bg: "bg-[#E8FBF0]",
-    text: "text-[#1E8A49]",
+    text: "text-leaf-shadow",
   },
   leaf: {
     border: "border-[#98E4B5]",
     bg: "bg-[#E8FBF0]",
-    text: "text-[#1E8A49]",
+    text: "text-leaf-shadow",
   },
   cyan: {
-    border: "border-[#8FC2FF]",
-    bg: "bg-[#E4F0FF]",
-    text: "text-[#0B4FD1]",
+    border: "border-sky-300",
+    bg: "bg-sky-100",
+    text: "text-sky-700",
   },
   sky: {
-    border: "border-[#8FC2FF]",
-    bg: "bg-[#E4F0FF]",
-    text: "text-[#0B4FD1]",
+    border: "border-sky-300",
+    bg: "bg-sky-100",
+    text: "text-sky-700",
   },
   violet: {
     border: "border-[#C4A8FF]",
@@ -54,27 +54,27 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
   flame: {
     border: "border-[#FFB580]",
     bg: "bg-[#FFF0E4]",
-    text: "text-[#C85200]",
+    text: "text-flame-shadow",
   },
   rose: {
     border: "border-[#F4A4A0]",
     bg: "bg-[#FFECEC]",
-    text: "text-[#B01E18]",
+    text: "text-ruby-shadow",
   },
   ruby: {
     border: "border-[#F4A4A0]",
     bg: "bg-[#FFECEC]",
-    text: "text-[#B01E18]",
+    text: "text-ruby-shadow",
   },
   zinc: {
-    border: "border-[#B9CFE9]",
-    bg: "bg-[#E4F0FF]",
-    text: "text-[#1E3A5F]",
+    border: "border-line-strong",
+    bg: "bg-sky-100",
+    text: "text-ink-700",
   },
   default: {
-    border: "border-[#B9CFE9]",
-    bg: "bg-[#E4F0FF]",
-    text: "text-[#1E3A5F]",
+    border: "border-line-strong",
+    bg: "bg-sky-100",
+    text: "text-ink-700",
   },
 };
 

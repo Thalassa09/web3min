@@ -1,756 +1,246 @@
-import { useEffect, useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Trophy, Crown, Sparkles, Clock, Flame, ArrowUpRight, ShieldCheck } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import {
-  INITIAL_RAFFLES,
-  RAFFLE_TICKET_PRICE,
-  type RaffleItem,
-} from "@/lib/raffles";
-import { playBuy, playComplete, playDeny, playTap } from "@/lib/audio";
+import { DuoButton } from "@/components/duo-button";
 import { useProgress } from "@/lib/store";
-import { rpcEnterRaffle, syncProgressFromServer } from "@/lib/server-sync";
 import { cn } from "@/lib/utils";
-import { SurfaceCard } from "@/components/ui/surface-card";
-import { TactileButton } from "@/components/ui/tactile-button";
-import { Ticket, Sparkles, Trophy, ShieldCheck, AlertTriangle, Check, X } from "lucide-react";
 
-export const Route = createFileRoute("/leaderboard")({ component: RafflePage });
+export const Route = createFileRoute("/leaderboard")({
+  component: ArenaLeaderboardPage,
+});
 
-type FilterTab = "all" | "live" | "ended" | "mine";
+type League = "gold" | "silver" | "bronze";
 
-function formatCountdown(targetMs: number, nowMs: number) {
-  const diff = targetMs - nowMs;
-  if (diff <= 0) return "SELESAI";
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const secs = Math.floor((diff % (1000 * 60)) / 1000);
-  if (hours >= 24) {
-    const days = Math.floor(hours / 24);
-    const remHours = hours % 24;
-    return `${days}h ${remHours}j ${mins}m`;
-  }
-  return `${hours}j ${mins}m ${secs}d`;
+interface LeaderboardUser {
+  rank: number;
+  name: string;
+  xp: number;
+  streak: number;
+  isCurrentUser?: boolean;
+  avatarMood: "proud" | "happy" | "reading" | "idle";
 }
 
-function RafflePage() {
-  const username = useProgress((s) => s.username);
-  const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
-  const gems = useProgress((s) => s.gems);
-  const enteredRaffles = useProgress((s) => s.enteredRaffles ?? {});
-  const completed = useProgress((s) => s.completed);
-  const enterRaffle = useProgress((s) => s.enterRaffle);
-  const buyRaffleTicketsWithGems = useProgress((s) => s.buyRaffleTicketsWithGems);
+const MOCK_LEAGUES: Record<League, { title: string; desc: string; cutoff: number; participants: LeaderboardUser[] }> = {
+  gold: {
+    title: "Liga Emas",
+    desc: "10 besar bertahan di Liga Emas dan berbagi pool 500 Bintang.",
+    cutoff: 10,
+    participants: [
+      { rank: 1, name: "satoshi_jkt", xp: 480, streak: 14, avatarMood: "proud" },
+      { rank: 2, name: "kripto_bunda", xp: 420, streak: 9, avatarMood: "happy" },
+      { rank: 3, name: "defi_ninja", xp: 390, streak: 12, avatarMood: "proud" },
+      { rank: 4, name: "hawa_sol", xp: 340, streak: 7, avatarMood: "reading" },
+      { rank: 5, name: "bayu_eth", xp: 310, streak: 6, avatarMood: "idle" },
+      { rank: 6, name: "rani_web3", xp: 270, streak: 5, avatarMood: "happy" },
+      { rank: 7, name: "pelajar", xp: 240, streak: 4, isCurrentUser: true, avatarMood: "proud" },
+      { rank: 8, name: "dimas_node", xp: 220, streak: 3, avatarMood: "reading" },
+      { rank: 9, name: "alif_zk", xp: 190, streak: 2, avatarMood: "idle" },
+      { rank: 10, name: "cahya_l2", xp: 180, streak: 2, avatarMood: "reading" },
+      { rank: 11, name: "budi_airdrop", xp: 140, streak: 1, avatarMood: "idle" },
+      { rank: 12, name: "eko_miner", xp: 110, streak: 1, avatarMood: "idle" },
+    ],
+  },
+  silver: {
+    title: "Liga Perak",
+    desc: "Top 5 promosi ke Liga Emas minggu depan.",
+    cutoff: 5,
+    participants: [
+      { rank: 1, name: "andre_btc", xp: 320, streak: 5, avatarMood: "proud" },
+      { rank: 2, name: "citra_nft", xp: 290, streak: 4, avatarMood: "happy" },
+      { rank: 3, name: "fajar_dao", xp: 260, streak: 3, avatarMood: "reading" },
+      { rank: 4, name: "maya_web3", xp: 230, streak: 3, avatarMood: "idle" },
+      { rank: 5, name: "kevin_sol", xp: 200, streak: 2, avatarMood: "happy" },
+    ],
+  },
+  bronze: {
+    title: "Liga Perunggu",
+    desc: "Top 5 promosi ke Liga Perak minggu depan.",
+    cutoff: 5,
+    participants: [
+      { rank: 1, name: " pemula_ganteng", xp: 180, streak: 2, avatarMood: "happy" },
+      { rank: 2, name: "zaki_crypto", xp: 150, streak: 2, avatarMood: "proud" },
+      { rank: 3, name: "rudi_token", xp: 120, streak: 1, avatarMood: "idle" },
+    ],
+  },
+};
 
-  const [filter, setFilter] = useState<FilterTab>("all");
-  const [activeModalRaffle, setActiveModalRaffle] = useState<RaffleItem | null>(null);
-  const [ticketInput, setTicketInput] = useState<number>(1);
-  const [now, setNow] = useState(Date.now());
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+export function ArenaLeaderboardPage() {
+  const [league, setLeague] = useState<League>("gold");
+  const currentUsername = useProgress((s) => s.username) || "pelajar";
+  const userXp = useProgress((s) => s.xp);
+  const userStreak = useProgress((s) => s.streak);
 
-  const [featuredId] = useState<string>("raf-gems-500");
-  const [featuredStakeCount, setFeaturedStakeCount] = useState<number>(1);
-
-  useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const raffles = useMemo(() => INITIAL_RAFFLES, []);
-  const featuredRaffle = useMemo(
-    () => raffles.find((r) => r.id === featuredId) || raffles[0],
-    [raffles, featuredId],
-  );
-
-  const otherRaffles = useMemo(
-    () => raffles.filter((r) => r.id !== featuredRaffle.id),
-    [raffles, featuredRaffle.id],
-  );
-
-  const filteredCatalog = useMemo(() => {
-    if (filter === "live") return otherRaffles.filter((r) => r.status === "live");
-    if (filter === "ended") return otherRaffles.filter((r) => r.status === "ended");
-    if (filter === "mine") return otherRaffles.filter((r) => (enteredRaffles[r.id]?.count ?? 0) > 0);
-    return otherRaffles;
-  }, [otherRaffles, filter, enteredRaffles]);
-
-  const totalUserEntered = Object.values(enteredRaffles).reduce(
-    (acc, curr) => acc + (curr?.count ?? 0),
-    0,
-  );
-
-  function triggerToast(msg: string) {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3200);
-  }
-
-  function handleBuyTicket(qty = 1) {
-    const cost = qty * RAFFLE_TICKET_PRICE;
-    if (gems < cost) {
-      playDeny();
-      triggerToast(`Bintang tidak cukup! Butuh ${cost} bintang untuk ${qty} tiket.`);
-      return;
+  const activeData = MOCK_LEAGUES[league];
+  const participants = activeData.participants.map((p) => {
+    if (p.isCurrentUser) {
+      return {
+        ...p,
+        name: currentUsername,
+        xp: Math.max(p.xp, userXp),
+        streak: Math.max(p.streak, userStreak),
+      };
     }
-    if (buyRaffleTicketsWithGems(qty)) {
-      playBuy();
-      triggerToast(`Sukses menukar ${cost} Bintang menjadi ${qty} Tiket Undian!`);
-    }
-  }
-
-  function checkRaffleRequirement(raffle: RaffleItem): { met: boolean; reason?: string } {
-    if (raffle.requirements.some((r) => r.includes("Rute 1"))) {
-      const hasU1 = completed.some((id) => id.startsWith("u1-"));
-      if (!hasU1) return { met: false, reason: "Selesaikan minimal 1 pelajaran di Rute 1 terlebih dahulu!" };
-    }
-    if (raffle.requirements.some((r) => r.includes("Rute 3"))) {
-      const hasU3 = completed.some((id) => id.startsWith("u3-"));
-      if (!hasU3) return { met: false, reason: "Selesaikan minimal 1 pelajaran di Rute 3 terlebih dahulu!" };
-    }
-    if (raffle.requirements.some((r) => r.includes("Rute 6"))) {
-      const hasU6 = completed.some((id) => id.startsWith("u6-"));
-      if (!hasU6) return { met: false, reason: "Selesaikan minimal 1 pelajaran di Rute 6 terlebih dahulu!" };
-    }
-    if (raffle.requirements.some((r) => r.includes("rute 1-5"))) {
-      const hasU5 = completed.some((id) => id.startsWith("u5-"));
-      if (!hasU5) return { met: false, reason: "Selesaikan rute 1 sampai 5 terlebih dahulu!" };
-    }
-    return { met: true };
-  }
-
-  function handleStakeToFeatured() {
-    if (featuredStakeCount <= 0 || featuredStakeCount > raffleTickets) {
-      playDeny();
-      triggerToast("Jumlah tiket tidak valid atau saldo tiketmu tidak mencukupi.");
-      return;
-    }
-    const req = checkRaffleRequirement(featuredRaffle);
-    if (!req.met) {
-      playDeny();
-      triggerToast(req.reason || "Syarat partisipasi undian belum terpenuhi.");
-      return;
-    }
-    if (enterRaffle(featuredRaffle.id, featuredStakeCount)) {
-      playComplete();
-      triggerToast(`Berhasil menyetorkan ${featuredStakeCount} tiket ke ${featuredRaffle.title}!`);
-      const count = featuredStakeCount;
-      const id = featuredRaffle.id;
-      setFeaturedStakeCount(1);
-      void rpcEnterRaffle(id, count).then((ok) => {
-        if (ok) void syncProgressFromServer();
-      });
-    } else {
-      playDeny();
-    }
-  }
-
-  function handleOpenModal(raffle: RaffleItem) {
-    playTap();
-    setActiveModalRaffle(raffle);
-    setTicketInput(1);
-  }
-
-  function handleConfirmEntry() {
-    if (!activeModalRaffle) return;
-    if (ticketInput <= 0 || ticketInput > raffleTickets) {
-      playDeny();
-      triggerToast("Jumlah tiket tidak valid atau saldo tiketmu kurang.");
-      return;
-    }
-    const req = checkRaffleRequirement(activeModalRaffle);
-    if (!req.met) {
-      playDeny();
-      triggerToast(req.reason || "Syarat partisipasi undian belum terpenuhi.");
-      return;
-    }
-    if (enterRaffle(activeModalRaffle.id, ticketInput)) {
-      playComplete();
-      triggerToast(`Berhasil memasang ${ticketInput} tiket ke ${activeModalRaffle.title}!`);
-      const count = ticketInput;
-      const id = activeModalRaffle.id;
-      setActiveModalRaffle(null);
-      void rpcEnterRaffle(id, count).then((ok) => {
-        if (ok) void syncProgressFromServer();
-      });
-    } else {
-      playDeny();
-    }
-  }
-
-  const featuredUserEntries = enteredRaffles[featuredRaffle.id]?.count ?? 0;
-  const featuredPoolTotal = featuredRaffle.totalEntries + featuredUserEntries;
-  const featuredFutureTotal = featuredPoolTotal + featuredStakeCount;
-  const featuredLiveOdds = (
-    ((featuredUserEntries + featuredStakeCount) / Math.max(1, featuredFutureTotal)) *
-    100
-  ).toFixed(1);
+    return p;
+  });
 
   return (
     <AppShell>
-      <div className="max-w-6xl mx-auto px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 space-y-6">
-        {/* Flash Toast */}
-        {toastMessage && (
-          <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 rounded-[18px] bg-[#E8FBF0] border-2 border-[#98E4B5] text-[#1E8A49] px-6 py-3 text-sm font-extrabold shadow-[0_6px_0_#98E4B5] animate-in fade-in slide-in-from-top-4">
-            {toastMessage}
-          </div>
-        )}
-
-        {/* Top Telemetry & Activity Bar */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 text-xs font-extrabold text-[#0B63F6]">
-              <span className="relative flex size-2.5">
-                <span className="animate-ping absolute inline-flex size-full rounded-full bg-[#0B63F6] opacity-75" />
-                <span className="relative inline-flex rounded-full size-2.5 bg-[#0B63F6]" />
-              </span>
-              <span className="text-sm font-display font-bold text-[#0D2340]">Arena Undian Hadiah Web3min</span>
-              <span className="text-[#9DB4CE] hidden sm:inline">•</span>
-              <span className="text-[#4A6580] text-xs font-medium hidden sm:inline">Hadiah In-Game Berbasis Prestasi Belajar</span>
-            </div>
-
-            {/* Quick Balances */}
-            <div className="flex items-center gap-2 text-xs">
-              <div className="rounded-[14px] border-2 border-[#8FC2FF] bg-[#E4F0FF] px-3.5 py-1.5 flex items-center gap-1.5 font-bold shadow-sm">
-                <span className="text-[#4A6580]">Tiket:</span>
-                <span className="font-extrabold text-[#0B4FD1]">{raffleTickets}</span>
-              </div>
-              <div className="rounded-[14px] border-2 border-[#FFD84D] bg-[#FFF7D1] px-3.5 py-1.5 flex items-center gap-1.5 font-bold shadow-sm">
-                <span className="text-[#B27B00]">Bintang:</span>
-                <span className="font-extrabold text-[#B27B00] flex items-center gap-1">
-                  <span>{gems}</span>
-                  <Sparkles className="size-3 text-[#B27B00] fill-[#FFC61A]" />
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Telemetry Status Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 overflow-hidden rounded-[16px] border-2 border-[#DCE7F5] bg-[#F7FAFC] px-3.5 py-2">
-            <span className="text-xs font-extrabold text-sky-600 flex items-center gap-1.5 select-none shrink-0">
-              <Sparkles className="size-3.5 text-[#FFC61A]" />
-              Sistem Undian Edukasi
-            </span>
-            <span className="text-xs font-medium text-[#4A6580]">
-              Hadiah in-game berbasis reputasi belajar. Tanpa taruhan uang, tanpa deposit.
-            </span>
-          </div>
-        </SurfaceCard>
-
-        {/* Featured Arena Spotlight Card + Side Vault */}
-        <div className="grid gap-6 lg:grid-cols-12 items-start">
-          {/* Main Hero Spotlight (8 cols) */}
-          <div className="lg:col-span-8">
-            <SurfaceCard className="p-6 sm:p-7 bg-white border-2 border-[#8FC2FF] space-y-5">
-              {/* Header Badges */}
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#FFD84D] bg-[#FFF7D1] px-3 py-1 text-[11px] font-extrabold text-[#B27B00]">
-                    <span className="size-2 rounded-full bg-[#FFC61A]" />
-                    FEATURED POOL
-                  </span>
-                  <span className="border-2 border-[#DCE7F5] bg-[#F7FAFC] px-2.5 py-0.5 rounded-full text-xs font-bold text-[#4A6580]">
-                    {featuredRaffle.badge}
-                  </span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E8A49] bg-[#E8FBF0] border border-[#98E4B5] px-2.5 py-0.5 rounded-full">
-                  <ShieldCheck className="size-3.5 text-[#1E8A49]" />
-                  <span>Fair In-Game Draw</span>
-                </div>
-              </div>
-
-              {/* Title & Host */}
-              <div>
-                <span className="text-xs font-bold text-[#4A6580]">
-                  Disponsori oleh {featuredRaffle.host}
-                </span>
-                <h1 className="mt-1 font-display text-2xl sm:text-3xl font-bold text-[#0D2340]">
-                  {featuredRaffle.title}
-                </h1>
-                <p className="mt-2 text-xs sm:text-sm font-medium text-[#4A6580] leading-relaxed">
-                  {featuredRaffle.prizeDetail} Tiket diperoleh cuma-cuma dari menyelesaikan materi edukasi Web3. Tanpa taruhan uang, tanpa deposit.
-                </p>
-              </div>
-
-              {/* Blue Contrast Ticket Banner with side notches */}
-              <div className="rounded-[20px] bg-gradient-to-r from-[#0B4FD1] to-[#0B63F6] p-5 sm:p-6 text-white shadow-[0_6px_0_#07358F] relative overflow-hidden">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#E4F0FF] block">
-                      TOTAL HADIAH:
-                    </span>
-                    <div className="font-display text-2xl sm:text-4xl font-black text-[#FFC61A] drop-shadow-sm">
-                      {featuredRaffle.prize}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="block text-[11px] text-[#E4F0FF] font-extrabold uppercase">STATUS WAKTU</span>
-                    <span className="font-display font-bold text-white text-lg sm:text-xl">
-                      {formatCountdown(featuredRaffle.endsAt, now)}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-white/20 flex justify-between text-xs font-bold text-white/90">
-                  <span>Tiket Terkumpul di Pool:</span>
-                  <span className="font-mono font-black text-[#FFC61A]">{featuredPoolTotal} Tiket</span>
-                </div>
-              </div>
-
-              {/* Interactive Ticket Injector */}
-              <div className="rounded-[20px] border-2 border-[#DCE7F5] bg-[#F7FAFC] p-4 sm:p-5 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-[#DCE7F5] pb-3">
-                  <span className="text-xs font-extrabold uppercase text-[#0D2340] tracking-wide">
-                    Pasang Tiket Undian
-                  </span>
-                  <div className="text-xs font-bold text-[#0B63F6]">
-                    Tiket kamu di pool ini: <strong className="font-black">{featuredUserEntries} tiket</strong>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        playTap();
-                        setFeaturedStakeCount((c) => Math.max(1, c - 1));
-                      }}
-                      className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                    >
-                      -
-                    </button>
-                    <span className="font-display text-xl font-bold text-[#0D2340] w-12 text-center">
-                      {featuredStakeCount}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        playTap();
-                        setFeaturedStakeCount((c) => Math.min(raffleTickets, c + 1));
-                      }}
-                      className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                    >
-                      +
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs font-bold">
-                    {[1, 2, 5].map((amt) => (
-                      <button
-                        key={amt}
-                        type="button"
-                        onClick={() => {
-                          playTap();
-                          setFeaturedStakeCount(Math.min(raffleTickets, amt));
-                        }}
-                        className="rounded-[10px] border-2 border-[#DCE7F5] bg-white px-3 py-1.5 text-[#4A6580] hover:text-[#0D2340] hover:border-[#8FC2FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                      >
-                        +{amt}
-                      </button>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        playTap();
-                        setFeaturedStakeCount(Math.max(1, raffleTickets));
-                      }}
-                      className="rounded-[10px] border-2 border-[#8FC2FF] bg-[#E4F0FF] px-3.5 py-1.5 font-extrabold text-[#0B63F6] shadow-[0_2px_0_#C2DBFA] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                    >
-                      MAX ({raffleTickets})
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between rounded-[14px] bg-white border-2 border-[#DCE7F5] p-3 text-xs">
-                  <span className="font-bold text-[#4A6580]">ESTIMASI PELUANG MENANG:</span>
-                  <div className="text-right">
-                    <span className="font-display font-bold text-base text-[#0B63F6]">
-                      ~{featuredLiveOdds}%
-                    </span>
-                    <span className="text-[11px] font-medium text-[#9DB4CE] block">
-                      ({featuredUserEntries + featuredStakeCount} dari {featuredFutureTotal} total tiket)
-                    </span>
-                  </div>
-                </div>
-
-                {raffleTickets >= featuredRaffle.ticketCost ? (
-                  <TactileButton
-                    variant="primary"
-                    size="lg"
-                    fullWidth
-                    onClick={handleStakeToFeatured}
-                  >
-                    Setor {featuredStakeCount} Tiket ke Pool
-                  </TactileButton>
-                ) : (
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <button
-                      type="button"
-                      disabled
-                      className="flex-1 rounded-[16px] border-2 border-[#DCE7F5] bg-[#E4F0FF] py-3 text-xs font-bold text-[#4A6580] opacity-60 cursor-not-allowed"
-                    >
-                      Tiket Tidak Mencukupi
-                    </button>
-                    <TactileButton
-                      variant="primary"
-                      size="md"
-                      onClick={() => handleBuyTicket(1)}
-                    >
-                      + Tukar 10 Bintang = 1 Tiket
-                    </TactileButton>
-                  </div>
-                )}
-              </div>
-            </SurfaceCard>
-          </div>
-
-          {/* Side Command Tower (4 cols) */}
-          <div className="lg:col-span-4 space-y-5">
-            {/* Ticket Vault Card */}
-            <SurfaceCard className="p-5 bg-white space-y-4">
-              <div className="flex items-center justify-between border-b-2 border-[#F0F6FF] pb-3">
-                <span className="text-xs font-extrabold uppercase tracking-wide text-[#0D2340]">
-                  Dompet Tiket Kamu
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5]">
-                  Aktif
-                </span>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="size-16 rounded-[18px] border-2 border-[#8FC2FF] bg-[#E4F0FF] shadow-[0_3px_0_#C2DBFA] flex flex-col items-center justify-center shrink-0">
-                  <span className="font-display text-2xl font-bold text-[#0B63F6]">{raffleTickets}</span>
-                  <span className="text-[9px] font-extrabold uppercase text-[#4A6580]">TIKET</span>
-                </div>
-                <div>
-                  <span className="text-xs font-bold text-[#4A6580]">SALDO BINTANG</span>
-                  <div className="font-display text-lg font-bold text-[#B27B00] flex items-center gap-1">
-                    <span>{gems}</span>
-                    <Sparkles className="size-4 text-[#FFC61A] fill-[#FFC61A]" />
-                  </div>
-                  <span className="text-[11px] font-bold text-[#4A6580]">10 Bintang = 1 Tiket</span>
-                </div>
-              </div>
-
-              {/* Instant Quick Swap */}
-              <div className="pt-2 border-t-2 border-[#F0F6FF] space-y-2">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A6580] block">
-                  TUKAR CEPAT:
-                </span>
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleBuyTicket(1)}
-                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                  >
-                    +1 Tiket
-                    <span className="flex items-center justify-center gap-0.5 text-[10px] font-extrabold text-[#B27B00] mt-0.5">
-                      <span>10</span>
-                      <Sparkles className="size-2.5 text-[#FFC61A] fill-[#FFC61A]" />
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleBuyTicket(5)}
-                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                  >
-                    +5 Tiket
-                    <span className="flex items-center justify-center gap-0.5 text-[10px] font-extrabold text-[#B27B00] mt-0.5">
-                      <span>50</span>
-                      <Sparkles className="size-2.5 text-[#FFC61A] fill-[#FFC61A]" />
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleBuyTicket(10)}
-                    className="rounded-[12px] border-2 border-[#DCE7F5] bg-white hover:bg-[#F0F6FF] py-2 text-xs font-bold text-[#0D2340] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                  >
-                    +10 Tiket
-                    <span className="flex items-center justify-center gap-0.5 text-[10px] font-extrabold text-[#B27B00] mt-0.5">
-                      <span>100</span>
-                      <Sparkles className="size-2.5 text-[#FFC61A] fill-[#FFC61A]" />
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </SurfaceCard>
-
-            {/* Zero-loss principles Card */}
-            <SurfaceCard className="p-5 bg-white space-y-3">
-              <span className="text-xs font-extrabold uppercase text-[#0B63F6] tracking-wider block">
-                Prinsip Edukasi & Hadiah
-              </span>
-              <p className="text-xs font-medium text-[#4A6580] leading-relaxed">
-                Web3min Undian bukan judi. Semua hadiah disponsori mitra ekosistem edukasi tanpa taruhan uang.
-              </p>
-              <div className="space-y-2 pt-2 border-t-2 border-[#F0F6FF] text-xs font-medium text-[#0D2340]">
-                <div className="flex items-start gap-2">
-                  <Check className="size-4 text-[#1E8A49] shrink-0 mt-0.5" />
-                  <span>Gated by proof-of-learning (harus belajar materi).</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="size-4 text-[#1E8A49] shrink-0 mt-0.5" />
-                  <span>Sistem undian in-game acak adil tanpa taruhan uang.</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="size-4 text-[#1E8A49] shrink-0 mt-0.5" />
-                  <span>Klaim hadiah in-game instan ke akun profil pemain.</span>
-                </div>
-              </div>
-            </SurfaceCard>
-          </div>
-        </div>
-
-        {/* Other Pools Catalog */}
-        <section className="space-y-4 pt-4">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-[#DCE7F5] pb-4">
+      <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6">
+        {/* Header Banner */}
+        <div className="relative overflow-hidden rounded-xl border-2 border-ink-900 bg-white p-5 shadow-ink sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-bold text-[#0D2340]">
-                Daftar Undian Lainnya
-              </h2>
+              <div className="inline-flex items-center gap-1.5 rounded-sm border border-ink-900 bg-coin px-2.5 py-0.5 text-xs font-extrabold text-ink-900">
+                <Trophy className="size-3.5" />
+                <span>Arena Belajar Mingguan</span>
+              </div>
+              <h1 className="mt-2 font-display text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
+                Klasemen Mingguan
+              </h1>
+              <p className="mt-1 text-xs text-ink-500 sm:text-sm">
+                Raih XP dari pelajaran dan kuis. Top 10 Liga Emas berbagi pool hadiah <span className="font-extrabold text-ink-900">500 Bintang</span>.
+              </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-1.5 text-xs">
-              {(
-                [
-                  { id: "all", label: "Semua Pool" },
-                  { id: "live", label: "Sedang Berjalan" },
-                  { id: "ended", label: "Selesai" },
-                  { id: "mine", label: `Tiket Saya (${totalUserEntered})` },
-                ] as const
-              ).map((tab) => (
+            <div className="flex items-center gap-2 rounded-lg border-2 border-ink-900 bg-canvas p-3 text-xs font-bold text-ink-700 shadow-ink-xs sm:flex-col sm:items-start">
+              <span className="flex items-center gap-1 text-ink-500">
+                <Clock className="size-3.5 text-coin" />
+                <span>Reset Mingguan:</span>
+              </span>
+              <span className="font-mono text-sm font-extrabold text-ink-900">3h 14j 22m</span>
+            </div>
+          </div>
+
+          {/* League Tabs */}
+          <div className="mt-6 flex gap-2 border-t-2 border-line pt-4">
+            {(["gold", "silver", "bronze"] as League[]).map((tab) => {
+              const active = league === tab;
+              const names: Record<League, string> = {
+                gold: "Liga Emas",
+                silver: "Liga Perak",
+                bronze: "Liga Perunggu",
+              };
+              return (
                 <button
-                  key={tab.id}
+                  key={tab}
                   type="button"
-                  onClick={() => {
-                    playTap();
-                    setFilter(tab.id);
-                  }}
+                  onClick={() => setLeague(tab)}
                   className={cn(
-                    "px-3.5 py-1.5 font-extrabold rounded-full transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer",
-                    filter === tab.id
-                      ? "bg-sky-600 text-white shadow-[0_3px_0_#0B4FD1]"
-                      : "bg-white text-[#4A6580] hover:text-[#0D2340] border border-[#DCE7F5] shadow-sm hover:bg-[#F8FAFC]",
+                    "flex-1 rounded-md border-2 px-3 py-2 text-xs font-extrabold transition-all duration-150 sm:text-sm",
+                    active
+                      ? "border-ink-900 bg-coin text-ink-900 shadow-ink-sm"
+                      : "border-transparent bg-canvas text-ink-500 hover:border-line hover:text-ink-900",
                   )}
                 >
-                  {tab.label}
+                  {names[tab]}
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Catalog Grid */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredCatalog.map((raffle) => {
-              const userEntry = enteredRaffles[raffle.id]?.count ?? 0;
-              const isLive = raffle.status === "live";
-
-              return (
-                <SurfaceCard
-                  key={raffle.id}
-                  className="p-5 bg-white flex flex-col justify-between hover:border-[#8FC2FF] transition-[transform,box-shadow,background-color,border-color,color]"
-                >
-                  <div>
-                    {/* Top Row Badges */}
-                    <div className="flex items-center justify-between gap-2 text-[10px] font-extrabold uppercase">
-                      <span
-                        className={cn(
-                          "px-2.5 py-0.5 rounded-full border",
-                          isLive
-                            ? "border-[#98E4B5] bg-[#E8FBF0] text-[#1E8A49]"
-                            : "border-[#DCE7F5] bg-[#F7FAFC] text-[#4A6580]",
-                        )}
-                      >
-                        {raffle.status.toUpperCase()}
-                      </span>
-                      <span className="text-[#4A6580] border-2 border-[#DCE7F5] bg-[#F7FAFC] px-2 py-0.5 rounded-full">
-                        {raffle.badge}
-                      </span>
-                    </div>
-
-                    {/* Title & Host */}
-                    <div className="mt-3">
-                      <span className="text-[11px] font-medium text-[#4A6580]">
-                        Oleh {raffle.host}
-                      </span>
-                      <h3 className="mt-0.5 font-display text-lg font-bold text-[#0D2340]">
-                        {raffle.title}
-                      </h3>
-                    </div>
-
-                    {/* Prize Highlight Box */}
-                    <div className="mt-3 rounded-[16px] border-2 border-[#FFD84D] bg-[#FFF7D1] p-3">
-                      <span className="text-[10px] font-extrabold uppercase text-[#B27B00] block">HADIAH:</span>
-                      <span className="text-base font-display font-bold text-[#0D2340] block">{raffle.prize}</span>
-                      <span className="text-xs font-medium text-[#4A6580] block mt-1 leading-relaxed">
-                        {raffle.prizeDetail}
-                      </span>
-                    </div>
-
-                    {/* Metrics */}
-                    <div className="mt-4 grid grid-cols-2 gap-2 border-t-2 border-[#F0F6FF] pt-3 text-xs">
-                      <div>
-                        <span className="block text-[10px] font-bold text-[#9DB4CE] uppercase">SISA WAKTU</span>
-                        <span className="font-bold text-[#0D2340]">
-                          {isLive ? formatCountdown(raffle.endsAt, now) : "SELESAI"}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="block text-[10px] font-bold text-[#9DB4CE] uppercase">TOTAL TIKET</span>
-                        <span className="font-extrabold text-[#0B63F6]">
-                          {raffle.totalEntries + userEntry} Tiket
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Winner Banner if Ended */}
-                    {raffle.winner && (
-                      <div className="mt-3 rounded-[14px] border-2 border-[#FFD84D] bg-[#FFF7D1] p-2.5 text-xs text-[#B27B00] font-bold flex items-center gap-1.5">
-                        <Trophy className="size-4 shrink-0 text-[#B27B00]" />
-                        <span>PEMENANG: @{raffle.winner.username} (Tiket #{raffle.winner.ticketId})</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Bottom Action Area */}
-                  <div className="mt-5 border-t-2 border-[#F0F6FF] pt-3">
-                    {isLive ? (
-                      <div className="space-y-2">
-                        {userEntry > 0 && (
-                          <div className="flex justify-between text-xs font-extrabold text-[#1E8A49]">
-                            <span>TIKET ANDA:</span>
-                            <span>{userEntry} Tiket Terdaftar</span>
-                          </div>
-                        )}
-                        <TactileButton
-                          variant="primary"
-                          size="md"
-                          fullWidth
-                          onClick={() => handleOpenModal(raffle)}
-                        >
-                          {userEntry > 0 ? "+ Tambah Tiket" : `Ikuti (${raffle.ticketCost} Tiket)`}
-                        </TactileButton>
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        disabled
-                        className="w-full rounded-[14px] border-2 border-[#DCE7F5] bg-[#F7FAFC] py-2.5 text-xs font-bold text-[#9DB4CE] cursor-not-allowed"
-                      >
-                        Selesai
-                      </button>
-                    )}
-                  </div>
-                </SurfaceCard>
               );
             })}
           </div>
-        </section>
+        </div>
 
-        {/* Modal Entry Dialog */}
-        {activeModalRaffle && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-            <div className="w-full max-w-md rounded-[26px] bg-white border-4 border-[#0D2340] shadow-[0_10px_0_#0B4FD1] p-6 space-y-4">
-              <div className="flex items-center justify-between border-b-2 border-[#DCE7F5] pb-3">
-                <span className="text-xs font-extrabold text-[#0B63F6] uppercase tracking-wider">
-                  Ikuti Undian Hadiah
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setActiveModalRaffle(null)}
-                  className="flex items-center gap-1 text-xs font-bold text-[#4A6580] hover:text-[#0D2340] cursor-pointer"
-                >
-                  <X className="size-3.5" />
-                  <span>Tutup</span>
-                </button>
-              </div>
-
-              <div>
-                <h3 className="font-display text-xl font-bold text-[#0D2340]">
-                  {activeModalRaffle.title}
-                </h3>
-                <p className="mt-1 text-xs font-extrabold text-[#B27B00]">
-                  HADIAH: {activeModalRaffle.prize}
-                </p>
-              </div>
-
-              <div className="rounded-[16px] border-2 border-[#8FC2FF] bg-[#E4F0FF] p-3 text-xs text-[#0D2340] space-y-1">
-                <p>
-                  <span className="text-[#4A6580]">Tiket Tersedia:</span>{" "}
-                  <span className="font-extrabold text-[#0B63F6]">{raffleTickets} Tiket</span>
-                </p>
-                <p>
-                  <span className="text-[#4A6580]">Biaya Minimal:</span>{" "}
-                  <span className="font-extrabold">{activeModalRaffle.ticketCost} Tiket</span>
-                </p>
-              </div>
-
-              {/* Input quantity */}
-              <div className="text-xs space-y-2">
-                <span className="font-extrabold uppercase text-[#4A6580] block">JUMLAH TIKET YANG DISETORKAN:</span>
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setTicketInput((p) => Math.max(1, p - 1))}
-                    className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                  >
-                    -
-                  </button>
-                  <span className="font-display text-xl font-bold text-[#0D2340] w-12 text-center">
-                    {ticketInput}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setTicketInput((p) => Math.min(raffleTickets, p + 1))}
-                    className="size-10 rounded-[12px] border-2 border-[#DCE7F5] bg-white font-extrabold text-base text-[#0D2340] hover:bg-[#F0F6FF] shadow-[0_2px_0_#C8DBF0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
-                  >
-                    +
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setTicketInput(Math.max(1, raffleTickets))}
-                    className="ml-auto rounded-[10px] border-2 border-[#8FC2FF] bg-[#E4F0FF] px-3.5 py-1.5 font-extrabold text-[#0B63F6] cursor-pointer"
-                  >
-                    MAX ({raffleTickets})
-                  </button>
-                </div>
-
-                {/* Estimated odds */}
-                <div className="mt-3 flex items-center justify-between rounded-[14px] border-2 border-[#DCE7F5] bg-[#F7FAFC] p-3 text-xs">
-                  <span className="font-bold text-[#4A6580]">ESTIMASI PELUANG:</span>
-                  <span className="font-display font-bold text-sm text-[#0B63F6]">
-                    ~{(((enteredRaffles[activeModalRaffle.id]?.count ?? 0) + ticketInput) / Math.max(1, activeModalRaffle.totalEntries + (enteredRaffles[activeModalRaffle.id]?.count ?? 0) + ticketInput) * 100).toFixed(1)}%
-                  </span>
-                </div>
-              </div>
-
-              {raffleTickets < activeModalRaffle.ticketCost ? (
-                <div className="rounded-[14px] border-2 border-[#F4A4A0] bg-[#FFF5F5] p-3 text-xs font-bold text-[#B01E18] flex items-center gap-2">
-                  <AlertTriangle className="size-4 shrink-0 text-[#B01E18]" />
-                  <span>Tiketmu tidak cukup. Selesaikan pelajaran baru atau tukar 10 Bintang untuk 1 tiket.</span>
-                </div>
-              ) : null}
-
-              <div className="flex gap-3 pt-2">
-                <TactileButton
-                  variant="secondary"
-                  size="md"
-                  fullWidth
-                  onClick={() => setActiveModalRaffle(null)}
-                >
-                  Batal
-                </TactileButton>
-                <TactileButton
-                  variant="primary"
-                  size="md"
-                  fullWidth
-                  disabled={raffleTickets < activeModalRaffle.ticketCost}
-                  onClick={handleConfirmEntry}
-                >
-                  Konfirmasi ({ticketInput} Tiket)
-                </TactileButton>
-              </div>
+        {/* User Status Bar */}
+        <div className="mt-4 flex items-center justify-between rounded-lg border-2 border-ink-900 bg-blobi-soft p-4 shadow-ink-sm">
+          <div className="flex items-center gap-3">
+            <span className="grid size-9 place-items-center rounded-md border-2 border-ink-900 bg-white font-mono text-sm font-black text-ink-900 shadow-ink-xs">
+              #7
+            </span>
+            <div>
+              <div className="text-xs font-bold text-ink-500">Posisi Kamu Minggu Ini</div>
+              <div className="font-display text-base font-bold text-ink-900">@{currentUsername}</div>
             </div>
           </div>
-        )}
+
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <div className="flex items-center gap-1 text-xs font-extrabold text-ink-900">
+                <Sparkles className="size-3.5 text-leaf" />
+                <span>{Math.max(240, userXp)} XP</span>
+              </div>
+              <div className="text-[11px] font-bold text-leaf-shadow">Zona Promosi</div>
+            </div>
+            <Link to="/">
+              <DuoButton variant="primary" size="sm">
+                Kejar XP <ArrowUpRight className="size-3.5" />
+              </DuoButton>
+            </Link>
+          </div>
+        </div>
+
+        {/* Participants Table */}
+        <div className="mt-6 overflow-hidden rounded-xl border-2 border-ink-900 bg-white shadow-ink">
+          <div className="border-b-2 border-ink-900 bg-canvas px-4 py-3 text-xs font-bold text-ink-500">
+            {activeData.desc}
+          </div>
+
+          <ul className="divide-y-2 divide-line">
+            {participants.map((user) => {
+              const isPromoted = user.rank <= activeData.cutoff;
+              const isTopThree = user.rank <= 3;
+
+              return (
+                <li
+                  key={user.rank}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 transition-colors",
+                    user.isCurrentUser ? "bg-blobi-soft/60" : "hover:bg-canvas/50",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "grid size-8 shrink-0 place-items-center rounded-md border-2 font-mono text-xs font-extrabold shadow-ink-xs",
+                      user.rank === 1
+                        ? "border-ink-900 bg-coin text-ink-900"
+                        : user.rank === 2
+                          ? "border-ink-900 bg-white text-ink-700"
+                          : user.rank === 3
+                            ? "border-ink-900 bg-sand text-ink-900"
+                            : "border-line bg-canvas text-ink-500",
+                    )}
+                  >
+                    {isTopThree ? <Crown className="size-4" /> : user.rank}
+                  </span>
+
+                  <span className="grid size-9 shrink-0 place-items-center rounded-md border-2 border-ink-900 bg-canvas overflow-hidden">
+                    <img src="/mascot/idle.png" alt="" className="size-7 pixelated object-contain" />
+                  </span>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="truncate font-sans text-sm font-extrabold text-ink-900">
+                        @{user.name}
+                      </span>
+                      {user.isCurrentUser && (
+                        <span className="rounded-sm border border-ink-900 bg-blobi px-1.5 py-0.2 text-[10px] font-black text-white">
+                          Kamu
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 text-[11px] font-bold text-ink-500">
+                      <span className="flex items-center gap-0.5">
+                        <Flame className="size-3 text-flame" />
+                        {user.streak} hari
+                      </span>
+                      {isPromoted ? (
+                        <span className="flex items-center gap-0.5 text-leaf">
+                          <ShieldCheck className="size-3" /> Promosi
+                        </span>
+                      ) : (
+                        <span className="text-ink-300">Aman</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <span className="font-mono text-sm font-extrabold text-ink-900">{user.xp}</span>
+                    <span className="ml-1 text-[11px] font-bold text-ink-500">XP</span>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </AppShell>
   );

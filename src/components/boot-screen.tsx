@@ -37,7 +37,7 @@ export function BootScreen({
   return (
     <div
       className={cn(
-        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#1F7BFF] to-[#0B4FD1] p-6 text-center select-none",
+        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-sky-500 to-sky-700 p-6 text-center select-none",
         exiting && "boot-out",
         className,
       )}
@@ -61,17 +61,17 @@ export function BootScreen({
           {title}
         </h1>
 
-        <p className="mt-2 text-sm font-semibold text-[#E4F0FF] max-w-xs transition-opacity duration-200">
+        <p className="mt-2 text-sm font-semibold text-sky-100 max-w-xs transition-opacity duration-200">
           {currentHint}
         </p>
 
         {/* Real Stepped Yellow Progress Track 180x10 */}
         <div
-          className="mt-6 h-2.5 w-[180px] overflow-hidden rounded-full bg-[#0B4FD1] border-2 border-white/90 shadow-inner"
+          className="mt-6 h-2.5 w-[180px] overflow-hidden rounded-full bg-sky-700 border-2 border-white/90 shadow-inner"
           aria-hidden
         >
           <div
-            className="h-full rounded-full bg-[#FFC61A] shadow-[0_0_8px_#FFC61A] transition-[width,background-color] duration-300 ease-out"
+            className="h-full rounded-full bg-coin shadow-[0_0_8px_#FFC61A] transition-[width,background-color] duration-300 ease-out"
             style={{ width: currentWidth }}
           />
         </div>

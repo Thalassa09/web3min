@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
-  Ticket,
   Trophy,
   Flame,
   Check,
@@ -86,8 +85,6 @@ const UNIT_ICONS: Record<number, React.ComponentType<{ className?: string }>> = 
 function ProfilePage() {
   const navigate = useNavigate();
   const username = useProgress((s) => s.username);
-  const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
-  const enteredRaffles = useProgress((s) => s.enteredRaffles ?? {});
   const setBio = useProgress((s) => s.setBio);
   const bio = useProgress((s) => s.bio);
   const xp = useProgress((s) => s.xp);
@@ -168,45 +165,42 @@ function ProfilePage() {
   return (
     <AppShell>
       <main className="px-3 py-4 sm:px-4 sm:py-6 pb-32 sm:pb-36 max-w-5xl mx-auto space-y-5">
-        {/* Profile Explorer License Card with Blue Sky Header */}
-        <div className="rounded-[26px] bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#C8DBF0,0_18px_34px_-18px_rgba(9,48,102,0.35)] overflow-hidden">
-          {/* Blue Sky Banner with cloud accents */}
-          <div className="relative h-36 sm:h-44 bg-gradient-to-r from-[#1F7BFF] via-[#0B63F6] to-[#0B4FD1] p-5 sm:p-6 flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-2 right-6 size-24 rounded-full bg-white/10 blur-xl pointer-events-none" />
-            <div className="absolute -bottom-6 right-24 size-32 rounded-full bg-white/15 blur-2xl pointer-events-none" />
-            <div className="flex items-center justify-between z-10">
-              <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white text-[11px] font-extrabold uppercase tracking-wider">
-                Lisensi Penjelajah Web3
-              </span>
-              <span className="text-white/90 font-mono text-xs font-bold">
-                ID #{Math.abs((username || "pelajar").split("").reduce((a, b) => (a << 5) - a + b.charCodeAt(0), 0) % 100000).toString().padStart(5, "0")}
-              </span>
-            </div>
+        {/* Profile Explorer License Card with Pixel Candy Header */}
+        <div className="rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] overflow-hidden max-w-3xl">
+          {/* Blobi Pink Striped Banner */}
+          <div
+            className="bg-[#FF5C8A] border-b-2 border-[#1B1440] p-4 sm:p-5 flex items-center justify-between text-white"
+            style={{ backgroundImage: "repeating-linear-gradient(45deg, #ffffff18 0 10px, transparent 10px 20px)" }}
+          >
+            <span className="font-['Pixelify_Sans'] text-xs font-bold uppercase tracking-wider text-white">
+              Lisensi Penjelajah Web3
+            </span>
+            <span className="font-['Pixelify_Sans'] text-sm font-bold text-white">
+              #{Math.abs((username || "pelajar").split("").reduce((a, b) => (a << 5) - a + b.charCodeAt(0), 0) % 100000).toString().padStart(5, "0")}
+            </span>
           </div>
 
           {/* Profile Details (Avatar + User Identity + Wardrobe CTA) */}
-          <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 relative">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-12 sm:-mt-14 mb-4">
-              <div className="flex flex-col sm:flex-row items-center sm:items-end gap-3.5 text-center sm:text-left">
-                {/* Blobi Avatar overlapping the header */}
-                <div className="size-24 sm:size-28 rounded-full bg-white border-4 border-white shadow-[0_6px_0_#C8DBF0] flex items-center justify-center relative shrink-0 z-10">
-                  <div className="size-full rounded-full bg-[#E4F0FF] flex items-center justify-center overflow-hidden">
-                    <Mascot mood="proud" size={80} />
-                  </div>
+          <div className="p-5 sm:p-6 relative">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 mb-4">
+              <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                {/* Blobi Avatar */}
+                <div className="size-20 sm:size-24 rounded-[16px] bg-[#FFE1EA] border-2 border-[#1B1440] shadow-[3px_3px_0_#1B1440] flex items-center justify-center shrink-0">
+                  <Mascot mood="proud" size={68} />
                 </div>
 
-                {/* Identity: Username + Level Badges (Atlaskit Lozenge Spec) */}
-                <div className="space-y-1">
-                  <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#0D2340] tracking-tight">
+                {/* Identity: Username + Level Chips */}
+                <div>
+                  <h1 className="font-sans font-extrabold text-2xl sm:text-3xl text-[#1B1440] tracking-tight">
                     @{username || "penjelajah"}
                   </h1>
-                  <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                    <Lozenge appearance="moved">
+                  <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap mt-2">
+                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-[#FFF1CC] text-[#1B1440] border-[1.5px] border-[#1B1440]">
                       Level {Math.floor(xp / 100) + 1}
-                    </Lozenge>
-                    <Lozenge appearance="inprogress">
+                    </span>
+                    <span className="font-['Pixelify_Sans'] text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-[#E2E9FF] text-[#1B1440] border-[1.5px] border-[#1B1440]">
                       Murid Blobi
-                    </Lozenge>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -215,28 +209,27 @@ function ProfilePage() {
               <Link
                 to="/shop"
                 search={{ tab: "wardrobe" }}
-                className="self-center sm:self-end px-3.5 py-2 rounded-[14px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-all flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
+                className="px-4 py-2 rounded-[12px] bg-white border-2 border-[#1B1440] text-[#1B1440] text-xs font-extrabold shadow-[2px_2px_0_#1B1440] hover:bg-[#FFE1EA] transition-all flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
               >
-                <Sparkles className="size-3.5" />
-                <span>Ruang Ganti Blobi</span>
-                <ArrowRight className="size-3" />
+                <Sparkles className="size-3.5 text-[#FFC23D]" />
+                <span>Ganti Blobi</span>
               </Link>
             </div>
 
             {/* User Motto / Status Section */}
             <div className="pt-3 border-t-2 border-[#F0F6FF]">
               {bio && !isEditing ? (
-                <div className="group relative flex items-center justify-between gap-3 p-3.5 rounded-[18px] bg-[#F7FAFC] border-2 border-[#DCE7F5] hover:border-[#8FC2FF] transition-all">
+                <div className="group relative flex items-center justify-between gap-3 p-3.5 rounded-[18px] bg-[#F7FAFC] border-2 border-line hover:border-sky-300 transition-all">
                   <div className="flex items-start gap-2.5 min-w-0">
                     <Quote className="size-4 text-sky-600 shrink-0 mt-0.5" />
-                    <p className="text-xs sm:text-sm font-semibold text-[#0D2340] italic leading-relaxed break-words">
+                    <p className="text-xs sm:text-sm font-semibold text-ink-900 italic leading-relaxed break-words">
                       “{bio}”
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-[#DCE7F5] shadow-[0_2px_0_#C8DBF0] text-xs font-extrabold text-[#0B4FD1] hover:bg-[#F0F6FF] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
+                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-line shadow-[0_2px_0_#C8DBF0] text-xs font-extrabold text-sky-700 hover:bg-[#F0F6FF] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
                     title="Ubah status belajarmu"
                   >
                     <Pencil className="size-3.5" />
@@ -263,10 +256,10 @@ function ProfilePage() {
                         }
                       }}
                       placeholder="Tulis status atau motto belajarmu..."
-                      className="w-full px-4 py-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-sm text-[#0D2340] placeholder:text-[#9DB4CE] focus:outline-none focus:border-[#0B63F6] focus:bg-white transition-[border-color,background-color] resize-none font-medium"
+                      className="w-full px-4 py-3 rounded-[12px] bg-[#FFF7EC] border-2 border-[#1B1440] text-sm text-[#1B1440] placeholder:text-[#5A5480]/50 focus:outline-none focus:ring-2 focus:ring-[#FF5C8A] resize-none font-medium"
                       autoFocus={isEditing}
                     />
-                    <span className="absolute right-3 bottom-2.5 text-[11px] font-mono font-bold text-[#4A6580]">
+                    <span className="absolute right-3 bottom-2.5 text-xs font-['Pixelify_Sans'] font-bold text-[#5A5480]">
                       {bioDraft.length}/80
                     </span>
                   </div>
@@ -283,7 +276,7 @@ function ProfilePage() {
                             setBioDraft(bio);
                             setIsEditing(false);
                           }}
-                          className="px-3 py-1.5 rounded-[12px] text-xs font-bold text-[#4A6580] hover:text-[#0D2340] hover:bg-[#F0F6FF] transition-colors cursor-pointer"
+                          className="px-3 py-1.5 rounded-[12px] text-xs font-bold text-ink-500 hover:text-ink-900 hover:bg-[#F0F6FF] transition-colors cursor-pointer"
                         >
                           Batal
                         </button>
@@ -302,7 +295,7 @@ function ProfilePage() {
               )}
 
               {saved && (
-                <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-extrabold text-[#1E8A49] bg-[#E8FBF0] px-3 py-1 rounded-full border border-[#98E4B5]">
+                <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-extrabold text-leaf-shadow bg-[#E8FBF0] px-3 py-1 rounded-full border border-[#98E4B5]">
                   <Check className="size-3.5" /> Status tersimpan di profil!
                 </div>
               )}
@@ -311,50 +304,51 @@ function ProfilePage() {
         </div>
 
         {/* 4 Chunky Stat Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
-            <div className="flex items-center justify-between text-[#4A6580]">
-              <span className="text-xs font-extrabold uppercase tracking-wide">Total XP</span>
-              <Trophy className="size-4 text-[#FFC61A]" />
+        {/* 4 Core Stat Cards in Pixel Candy Style */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl">
+          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#5A5480]">
+              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Total XP</span>
+              <Trophy className="size-4 text-[#FFC23D]" />
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{xp}</div>
-              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Poin pengalaman</div>
+            <div className="mt-2">
+              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#1FCB8B]">{xp}</div>
+              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Poin pengalaman</div>
             </div>
-          </SurfaceCard>
+          </div>
 
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
-            <div className="flex items-center justify-between text-[#4A6580]">
-              <span className="text-xs font-extrabold uppercase tracking-wide">Streak Belajar</span>
-              <Flame className="size-4 text-flame" />
+          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#5A5480]">
+              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Streak</span>
+              <Flame className="size-4 text-[#FF7A1A]" />
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{streak} Hari</div>
-              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Berturut-turut</div>
+            <div className="mt-2">
+              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#FF7A1A]">{streak} Hari</div>
+              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Berturut-turut</div>
             </div>
-          </SurfaceCard>
+          </div>
 
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
-            <div className="flex items-center justify-between text-[#4A6580]">
-              <span className="text-xs font-extrabold uppercase tracking-wide">Saldo Bintang</span>
-              <BlockStamp size={16} className="text-[#FFC61A]" />
+          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#5A5480]">
+              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Bintang</span>
+              <Sparkles className="size-4 text-[#FFC23D]" />
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{formatGems(gems)}</div>
-              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Koin hadiah</div>
+            <div className="mt-2">
+              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#FFC23D]">{formatGems(gems)}</div>
+              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Koin hadiah</div>
             </div>
-          </SurfaceCard>
+          </div>
 
-          <SurfaceCard className="p-4 bg-white flex flex-col justify-between shadow-[0_4px_0_#C8DBF0]">
-            <div className="flex items-center justify-between text-[#4A6580]">
-              <span className="text-xs font-extrabold uppercase tracking-wide">Tiket Undian</span>
-              <Ticket className="size-4 text-[#0B63F6]" />
+          <div className="p-4 rounded-[16px] bg-white border-2 border-[#1B1440] shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-[#5A5480]">
+              <span className="font-['Pixelify_Sans'] text-xs font-semibold uppercase tracking-wider">Modul</span>
+              <Compass className="size-4 text-[#4D7CFF]" />
             </div>
-            <div className="mt-3">
-              <div className="text-2xl sm:text-3xl font-bold font-display text-[#0D2340]">{raffleTickets}</div>
-              <div className="text-xs font-medium text-[#4A6580] mt-0.5">Tiket undian aktif</div>
+            <div className="mt-2">
+              <div className="text-3xl font-bold font-['Pixelify_Sans'] text-[#4D7CFF]">{lessonsDone}</div>
+              <div className="text-xs font-medium text-[#5A5480] mt-0.5">Terselesaikan</div>
             </div>
-          </SurfaceCard>
+          </div>
         </div>
 
         {/* Keahlian Web3 Terverifikasi (Atlassian Rovo UI Skills Spec) */}
@@ -362,7 +356,7 @@ function ProfilePage() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
               <Sparkles className="size-4 text-[#0B63F6] shrink-0" />
-              <h2 className="font-display font-bold text-sm sm:text-base text-[#0D2340]">
+              <h2 className="font-display font-bold text-sm sm:text-base text-ink-900">
                 Keahlian Web3 Terverifikasi
               </h2>
             </div>
@@ -386,9 +380,9 @@ function ProfilePage() {
                   <SkillTag
                     key={skill.name}
                     name={skill.name}
-                    icon={<SkillIcon className="size-3 text-[#1E8A49]" />}
+                    icon={<SkillIcon className="size-3 text-leaf-shadow" />}
                     level="LULUS"
-                    className="bg-[#E8FBF0] text-[#1E8A49] border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
+                    className="bg-[#E8FBF0] text-leaf-shadow border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
                   />
                 );
               }
@@ -407,7 +401,7 @@ function ProfilePage() {
               return (
                 <div
                   key={skill.name}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#F7FAFC] border border-[#DCE7F5] text-[#8FA5BD] text-[11px] font-bold select-none opacity-70"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#F7FAFC] border border-line text-[#8FA5BD] text-[11px] font-bold select-none opacity-70"
                 >
                   <Lock className="size-2.5 text-[#8FA5BD]" />
                   <span>{skill.name}</span>
@@ -427,14 +421,14 @@ function ProfilePage() {
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <h2 className="font-display font-bold text-base text-[#0D2340]">
+                  <h2 className="font-display font-bold text-base text-ink-900">
                     Lencana Kurikulum
                   </h2>
                   <Lozenge appearance="inprogress" isBold className="hidden sm:inline-flex">
                     20 UNIT
                   </Lozenge>
                 </div>
-                <p className="text-xs font-bold text-[#4A6580] mt-0.5">
+                <p className="text-xs font-bold text-ink-500 mt-0.5">
                   <span className="text-[#0B63F6] font-extrabold">{unitsDone}/20 Unit Selesai</span>
                   <span className="hidden sm:inline text-[#708BA6] font-normal"> • {lessonsDone}/{totalLessons} Modul</span>
                 </p>
@@ -459,12 +453,12 @@ function ProfilePage() {
           {/* Overall Progress Bar */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-bold">
-              <span className="text-[#4A6580] font-medium">Progres Belajar</span>
+              <span className="text-ink-500 font-medium">Progres Belajar</span>
               <span className="font-mono text-[#0B63F6]">{pct}% SELESAI</span>
             </div>
-            <div className="h-2.5 rounded-full bg-[#E4F0FF] border border-[#8FC2FF]/40 overflow-hidden">
+            <div className="h-2.5 rounded-full bg-sky-100 border border-sky-300/40 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#1F7BFF] to-[#0B63F6] transition-all duration-500 ease-out"
+                className="h-full rounded-full bg-gradient-to-r from-sky-500 to-[#0B63F6] transition-all duration-500 ease-out"
                 style={{ width: `${Math.max(pct, 2)}%` }}
               />
             </div>
@@ -472,34 +466,34 @@ function ProfilePage() {
 
           {/* When Collapsed: Clean summary highlight card */}
           {!badgesOpen && (
-            <div className="p-3.5 rounded-[18px] bg-[#F7FAFC] border-2 border-[#DCE7F5] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-3.5 rounded-[18px] bg-[#F7FAFC] border-2 border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               {unitsDone > 0 ? (
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="size-9 rounded-full bg-[#E8FBF0] border-2 border-[#98E4B5] flex items-center justify-center shrink-0 shadow-[0_2px_0_#98E4B5]">
                     <PixelIcon name="medal" size={18} alt="" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-extrabold text-[#0D2340]">
+                    <div className="text-xs font-extrabold text-ink-900">
                       {unitsDone} Lencana Unit Telah Diraih!
                     </div>
-                    <div className="text-[11px] font-medium text-[#4A6580] truncate">
+                    <div className="text-[11px] font-medium text-ink-500 truncate">
                       Lanjutkan modul untuk membuka lencana unit berikutnya.
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="size-9 rounded-full bg-[#E4F0FF] border-2 border-[#8FC2FF] flex items-center justify-center shrink-0">
+                  <div className="size-9 rounded-full bg-sky-100 border-2 border-sky-300 flex items-center justify-center shrink-0">
                     {(() => {
                       const ActiveIcon = UNIT_ICONS[currentActiveUnit.unit.index] ?? Compass;
                       return <ActiveIcon className="size-4 text-[#0B63F6]" />;
                     })()}
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-extrabold text-[#0D2340] truncate">
+                    <div className="text-xs font-extrabold text-ink-900 truncate">
                       Unit {currentActiveUnit.unit.index}: {currentActiveUnit.unit.title}
                     </div>
-                    <div className="text-[11px] font-medium text-[#4A6580]">
+                    <div className="text-[11px] font-medium text-ink-500">
                       {currentActiveUnit.doneCount}/{currentActiveUnit.totalCount} modul • Selesaikan unit untuk klaim lencana!
                     </div>
                   </div>
@@ -509,7 +503,7 @@ function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setBadgesOpen(true)}
-                className="text-xs font-extrabold text-[#0B63F6] hover:text-[#0B4FD1] self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1"
+                className="text-xs font-extrabold text-[#0B63F6] hover:text-sky-700 self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1"
               >
                 <span>Lihat 20 Lencana</span>
                 <ArrowRight className="size-3.5" />
@@ -530,8 +524,8 @@ function ProfilePage() {
                         isCompleted
                           ? "bg-white border-2 border-[#98E4B5] shadow-[0_4px_0_#98E4B5]"
                           : isStarted
-                          ? "bg-[#F0F7FF] border-2 border-[#8FC2FF] shadow-[0_4px_0_#8FC2FF]"
-                          : "bg-[#F7FAFC] border-2 border-[#DCE7F5] shadow-[0_3px_0_#DCE7F5] opacity-80"
+                          ? "bg-[#F0F7FF] border-2 border-sky-300 shadow-[0_4px_0_#8FC2FF]"
+                          : "bg-[#F7FAFC] border-2 border-line shadow-[0_3px_0_#DCE7F5] opacity-80"
                       }`}
                     >
                       {/* Badge Plate Icon */}
@@ -540,8 +534,8 @@ function ProfilePage() {
                           isCompleted
                             ? "bg-[#E8FBF0] border-2 border-[#98E4B5] shadow-[0_2px_0_#98E4B5]"
                             : isStarted
-                            ? "bg-white border-2 border-[#8FC2FF] shadow-[0_2px_0_#C2DBFA]"
-                            : "bg-[#E4F0FF]/50 border-2 border-[#DCE7F5]"
+                            ? "bg-white border-2 border-sky-300 shadow-[0_2px_0_#C2DBFA]"
+                            : "bg-sky-100/50 border-2 border-line"
                         }`}
                       >
                         {isCompleted ? (
@@ -551,7 +545,7 @@ function ProfilePage() {
                         ) : (
                           <>
                             <ThematicIcon className="size-4 text-[#8FA5BD] opacity-60" />
-                            <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-[#E4F0FF] border border-[#B9CFE9] flex items-center justify-center">
+                            <div className="absolute -bottom-1 -right-1 size-4 rounded-full bg-sky-100 border border-line-strong flex items-center justify-center">
                               <Lock className="size-2.5 text-[#5A789A]" />
                             </div>
                           </>
@@ -563,7 +557,7 @@ function ProfilePage() {
                         <div className="text-[10px] font-mono font-bold text-[#5A789A]">
                           Unit {unit.index}
                         </div>
-                        <div className="text-xs font-extrabold text-[#0D2340] line-clamp-2 leading-tight mt-0.5 min-h-[28px]">
+                        <div className="text-xs font-extrabold text-ink-900 line-clamp-2 leading-tight mt-0.5 min-h-[28px]">
                           {unit.title}
                         </div>
                       </div>
@@ -571,15 +565,15 @@ function ProfilePage() {
                       {/* Progress Badge */}
                       <div className="w-full pt-0.5">
                         {isCompleted ? (
-                          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E8FBF0] text-[#1E8A49] border border-[#98E4B5]">
+                          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E8FBF0] text-leaf-shadow border border-[#98E4B5]">
                             Selesai
                           </span>
                         ) : (
                           <span
                             className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
                               isStarted
-                                ? "bg-white text-[#0B63F6] border border-[#8FC2FF]"
-                                : "bg-[#E4F0FF] text-[#4A6580] border border-[#DCE7F5]"
+                                ? "bg-white text-[#0B63F6] border border-sky-300"
+                                : "bg-sky-100 text-ink-500 border border-line"
                             }`}
                           >
                             {doneCount}/{totalCount}
@@ -607,53 +601,35 @@ function ProfilePage() {
           )}
         </SurfaceCard>
 
-        {/* Partisipasi Undian Web3 */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3 shadow-[0_4px_0_#C8DBF0]">
+        {/* Arena Belajar Mingguan */}
+        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3 shadow-ink-sm border-2 border-ink-900">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
-              <Ticket className="size-4 text-[#0B63F6] shrink-0" />
-              <h2 className="font-display font-bold text-sm sm:text-base text-[#0D2340]">
-                Partisipasi Undian Web3
+              <Trophy className="size-4 text-coin shrink-0" />
+              <h2 className="font-display font-bold text-sm sm:text-base text-ink-900">
+                Arena Belajar Mingguan
               </h2>
             </div>
             <Link
               to="/leaderboard"
-              className="text-xs font-extrabold text-[#0B63F6] hover:underline shrink-0"
+              className="text-xs font-extrabold text-ink-900 hover:text-blobi shrink-0"
             >
-              Arena Undian →
+              Lihat Klasemen →
             </Link>
           </div>
 
-          {Object.keys(enteredRaffles).length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {Object.entries(enteredRaffles).map(([poolId, tickets]) => (
-                <div
-                  key={poolId}
-                  className="p-3 rounded-[16px] bg-[#E4F0FF] border-2 border-[#8FC2FF] flex items-center justify-between shadow-[0_2px_0_#C2DBFA]"
-                >
-                  <div>
-                    <div className="text-xs font-extrabold text-[#0D2340]">Kolam #{poolId}</div>
-                    <div className="text-[11px] font-medium text-[#4A6580] mt-0.5">
-                      Tiket terpasang: {tickets.count} tiket
-                    </div>
-                  </div>
-                  <Lozenge appearance="success" isBold>
-                    Terdaftar
-                  </Lozenge>
-                </div>
-              ))}
+          <div className="p-3.5 rounded-lg bg-canvas border-2 border-ink-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-ink-500">
+            <div>
+              <div className="font-extrabold text-ink-900">Peringkat #7 di Liga Emas</div>
+              <div className="text-[11px] text-ink-500 mt-0.5">Top 10 berbagi pool reward 500 Bintang mingguan.</div>
             </div>
-          ) : (
-            <div className="p-3.5 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-[#4A6580]">
-              <span>Kamu belum memasang tiket pada undian mingguan yang sedang berjalan.</span>
-              <Link
-                to="/leaderboard"
-                className="font-extrabold text-[#0B63F6] hover:underline shrink-0"
-              >
-                Pasang Tiket Sekarang →
-              </Link>
-            </div>
-          )}
+            <Link
+              to="/leaderboard"
+              className="font-extrabold text-ink-900 hover:underline shrink-0"
+            >
+              Buka Arena →
+            </Link>
+          </div>
         </SurfaceCard>
 
         {/* Sesi Akun & Keamanan (Logout) */}
@@ -662,12 +638,12 @@ function ProfilePage() {
             <div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="size-4 text-[#0B63F6] shrink-0" />
-                <h2 className="font-display font-bold text-sm sm:text-base text-[#0D2340]">
+                <h2 className="font-display font-bold text-sm sm:text-base text-ink-900">
                   Sesi Akun & Keamanan
                 </h2>
               </div>
-              <p className="text-xs font-medium text-[#4A6580] mt-1">
-                Terhubung sebagai <span className="font-bold text-[#0D2340]">@{username || "pelajar"}</span>. Progres dan saldo bintangmu tersimpan di database Web3min.
+              <p className="text-xs font-medium text-ink-500 mt-1">
+                Terhubung sebagai <span className="font-bold text-ink-900">@{username || "pelajar"}</span>. Progres dan saldo bintangmu tersimpan di database Web3min.
               </p>
             </div>
 
@@ -676,14 +652,14 @@ function ProfilePage() {
                 variant="secondary"
                 size="sm"
                 onClick={() => setConfirmLogout(true)}
-                className="self-start sm:self-auto shrink-0 text-[#B01E18] border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
-                icon={<LogOut className="size-3.5 text-[#B01E18]" />}
+                className="self-start sm:self-auto shrink-0 text-ruby-shadow border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
+                icon={<LogOut className="size-3.5 text-ruby-shadow" />}
               >
                 Keluar Akun
               </TactileButton>
             ) : (
               <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-                <span className="text-xs font-extrabold text-[#B01E18]">
+                <span className="text-xs font-extrabold text-ruby-shadow">
                   Yakin keluar?
                 </span>
                 <TactileButton

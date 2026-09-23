@@ -57,7 +57,7 @@ function Intro() {
   if (!onboarded || introSeen) return null;
 
   return (
-    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-[#1F7BFF] to-[#0B4FD1] px-4 py-8 select-none overflow-hidden">
+    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-sky-500 to-sky-700 px-4 py-8 select-none overflow-hidden">
       {/* Soft Background Clouds */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
         <div className="absolute top-12 left-8 w-64 h-32 rounded-full bg-white/20 blur-xl" />
@@ -84,7 +84,7 @@ function Intro() {
 
           <div className="w-full mt-4">
             <SpeechBubble className="w-full">
-              <button type="button" className="w-full text-left font-sans text-sm sm:text-base font-extrabold text-[#0D2340] cursor-pointer" onClick={next}>
+              <button type="button" className="w-full text-left font-sans text-sm sm:text-base font-extrabold text-ink-900 cursor-pointer" onClick={next}>
                 {doneTyping ? current.say : <TypeLine text={current.say} onDone={() => setDoneTyping(true)} />}
               </button>
             </SpeechBubble>
@@ -96,7 +96,7 @@ function Intro() {
               <span
                 key={i}
                 className={`h-2.5 rounded-full transition-[width,background-color] duration-200 ${
-                  i === beat ? "w-8 bg-[#FFC61A] shadow-[0_1px_0_#D99400]" : "w-2.5 bg-white/40"
+                  i === beat ? "w-8 bg-coin shadow-[0_1px_0_#D99400]" : "w-2.5 bg-white/40"
                 }`}
               />
             ))}

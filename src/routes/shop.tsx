@@ -3,6 +3,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Ticket,
   ShieldCheck,
+  Shield,
+  Crown,
+  Star,
   Heart,
   Sparkles,
   Check,
@@ -140,13 +143,13 @@ function ShopPage() {
       <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-6xl mx-auto space-y-6">
         {/* Flash Notification */}
         {note && (
-          <div className="p-3.5 rounded-[18px] bg-[#E8FBF0] border-2 border-[#98E4B5] text-[#1E8A49] text-sm font-extrabold flex flex-col sm:flex-row items-center justify-between gap-2 shadow-[0_3px_0_#98E4B5] animate-in fade-in slide-in-from-top-2">
+          <div className="p-3.5 rounded-[18px] bg-[#E8FBF0] border-2 border-[#98E4B5] text-leaf-shadow text-sm font-extrabold flex flex-col sm:flex-row items-center justify-between gap-2 shadow-[0_3px_0_#98E4B5] animate-in fade-in slide-in-from-top-2">
             <span>{note.text}</span>
             {note.actionText && note.onAction && (
               <button
                 type="button"
                 onClick={note.onAction}
-                className="px-3.5 py-1 rounded-[10px] bg-[#1E8A49] text-white text-xs font-extrabold hover:bg-[#156E38] shadow-[0_2px_0_#0E4F28] cursor-pointer"
+                className="px-3.5 py-1 rounded-[10px] bg-leaf-shadow text-white text-xs font-extrabold hover:bg-[#156E38] shadow-[0_2px_0_#0E4F28] cursor-pointer"
               >
                 {note.actionText} →
               </button>
@@ -155,17 +158,17 @@ function ShopPage() {
         )}
 
         {/* PRIMARY MODE SELECTOR: Toko vs Ruang Ganti Blobi */}
-        <SurfaceCard className="p-3 sm:p-4 bg-white border-2 border-[#B9CFE9] shadow-[0_6px_0_#0B4FD1]">
+        <SurfaceCard className="p-3 sm:p-4 bg-white border-2 border-line-strong shadow-[0_6px_0_#0B4FD1]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             {/* Mode Switcher Buttons */}
-            <div className="inline-flex p-1.5 rounded-[18px] bg-[#E4F0FF] border-2 border-[#B9CFE9] shadow-inner gap-1.5 w-full sm:w-auto">
+            <div className="inline-flex p-1.5 rounded-[18px] bg-sky-100 border-2 border-line-strong shadow-inner gap-1.5 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => handleModeChange("shop")}
                 className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
                   mode === "shop"
-                    ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_3px_0_#0B4FD1]"
-                    : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
+                    ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_3px_0_#0B4FD1]"
+                    : "text-ink-500 hover:text-ink-900 hover:bg-white/60 border-2 border-transparent"
                 }`}
               >
                 <Store className="size-4.5" />
@@ -177,8 +180,8 @@ function ShopPage() {
                 onClick={() => handleModeChange("wardrobe")}
                 className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-[14px] font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
                   mode === "wardrobe"
-                    ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_3px_0_#0B4FD1]"
-                    : "text-[#4A6580] hover:text-[#0D2340] hover:bg-white/60 border-2 border-transparent"
+                    ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_3px_0_#0B4FD1]"
+                    : "text-ink-500 hover:text-ink-900 hover:bg-white/60 border-2 border-transparent"
                 }`}
               >
                 <Sparkles className="size-4.5" />
@@ -187,7 +190,7 @@ function ShopPage() {
                   <span
                     className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold ${
                       mode === "wardrobe"
-                        ? "bg-[#FFC61A] text-[#0D2340]"
+                        ? "bg-coin text-ink-900"
                         : "bg-[#0B63F6] text-white"
                     }`}
                   >
@@ -197,15 +200,11 @@ function ShopPage() {
               </button>
             </div>
 
-            {/* Currency & Inventory Badges (Hidden on mobile to avoid duplication with top status bar) */}
+            {/* Currency & Inventory Badges */}
             <div className="hidden sm:flex items-center gap-2 justify-end">
-              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FFF7D1] border-2 border-[#FFD84D] text-xs font-extrabold text-[#B27B00] shadow-[0_2px_0_#FFE680]">
-                <BlockStamp size={14} className="text-[#FFC61A]" />
+              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[12px] bg-[#FFF1CC] border-2 border-[#1B1440] text-xs font-['Pixelify_Sans'] font-bold text-[#1B1440] shadow-[2px_2px_0_#1B1440]">
+                <Star size={14} className="text-[#FFC23D]" fill="currentColor" />
                 <span>{formatGems(gems)} Bintang</span>
-              </div>
-              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#E4F0FF] border-2 border-[#8FC2FF] text-xs font-extrabold text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]">
-                <Ticket className="size-3.5" />
-                <span>{raffleTickets} Tiket</span>
               </div>
             </div>
           </div>
@@ -220,18 +219,18 @@ function ShopPage() {
             <SurfaceCard className="hidden sm:block p-4 sm:p-6 bg-white space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h1 className="font-display font-bold text-xl sm:text-3xl text-[#0D2340] tracking-tight flex items-center gap-2">
+                  <h1 className="font-display font-bold text-xl sm:text-3xl text-ink-900 tracking-tight flex items-center gap-2">
                     <Store className="size-6 sm:size-7 text-[#0B63F6]" />
                     <span>Toko</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-0.5 leading-relaxed">
-                    Tukarkan bintang dari hasil belajar untuk membeli penguat streak, tiket undian hadiah nyata, dan isi ulang nyawa.
+                  <p className="text-xs sm:text-sm font-medium text-ink-500 mt-0.5 leading-relaxed">
+                    Tukarkan bintang dari hasil belajar untuk membeli penguat streak, isi ulang nyawa, dan aksesori eksklusif Blobi.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleModeChange("wardrobe")}
-                  className="px-3.5 py-1.5 rounded-[12px] bg-[#E4F0FF] border-2 border-[#8FC2FF] text-[#0B4FD1] text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1.5 shrink-0 cursor-pointer active:translate-y-[1px]"
+                  className="px-3.5 py-1.5 rounded-[12px] bg-sky-100 border-2 border-sky-300 text-sky-700 text-xs font-extrabold hover:bg-[#D4E8FF] shadow-[0_2px_0_#C2DBFA] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1.5 shrink-0 cursor-pointer active:translate-y-[1px]"
                 >
                   <Shirt className="size-3.5" />
                   <span>Ruang Ganti ({ownedCount})</span>
@@ -240,104 +239,52 @@ function ShopPage() {
               </div>
             </SurfaceCard>
 
-            {/* SECTION: Penguat Belajar (Boosters & Utility) */}
-            <div className="space-y-3">
+            {/* SECTION: Item Toko Blobi */}
+            <div className="space-y-4">
               <div className="flex items-center justify-between px-1">
-                <h2 className="text-sm font-extrabold text-[#0D2340] uppercase tracking-wider flex items-center gap-2">
-                  <ShieldCheck className="size-4.5 text-[#FFC61A]" />
-                  <span>Item & Penguat Belajar</span>
-                </h2>
-                <span className="text-xs font-bold text-[#4A6580]">3 Item Tersedia</span>
+                <div>
+                  <span className="block font-['Pixelify_Sans',monospace] text-[13px] font-medium uppercase tracking-wider text-[#5A5480]">
+                    Tukar bintang hasil belajar
+                  </span>
+                  <h2 className="text-xl font-extrabold text-[#1B1440] flex items-center gap-2">
+                    <Store className="size-5 text-[#FF5C8A]" />
+                    <span>Item & Penguat Belajar</span>
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleModeChange("wardrobe")}
+                  className="inline-flex items-center gap-2 rounded-xl border-2 border-[#1B1440] bg-white px-3.5 py-2 text-[13px] font-extrabold text-[#1B1440] shadow-[3px_3px_0_#1B1440] transition-[transform,box-shadow] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                >
+                  <Shirt className="size-4" strokeWidth={2.4} />
+                  <span>Ruang Ganti</span>
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* 1. Tiket Undian Web3 */}
-                <SurfaceCard className="p-5 bg-white border-2 border-[#8FC2FF] flex flex-col justify-between space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 rounded-[16px] bg-[#E4F0FF] text-[#0B63F6] border-2 border-[#8FC2FF] shadow-[0_2px_0_#C2DBFA]">
-                        <Ticket className="size-6" />
-                      </div>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FFF7D1] text-[#B27B00] border border-[#FFD84D]">
-                        Hadiah Riil
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base text-[#0D2340]">
-                        Tiket Undian Web3
-                      </h3>
-                      <p className="text-xs text-[#4A6580] mt-1 leading-relaxed">
-                        Tiket resmi untuk mengikuti undian bintang, mahkota, dan lencana eksklusif di Arena Undian.
-                      </p>
-                    </div>
-                    <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
-                      Saldo: <strong className="text-[#0B4FD1] font-mono">{raffleTickets} Tiket</strong>
-                    </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {/* 1. Pelindung Streak */}
+                <div className="flex flex-col rounded-2xl border-2 border-[#1B1440] bg-white p-5 shadow-[4px_4px_0_#1B1440]">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-[#1B1440] bg-[#E2E9FF] text-[#4D7CFF]">
+                    <Shield className="size-6" strokeWidth={2.4} />
                   </div>
-
-                  <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
-                      <BlockStamp size={13} className="text-[#FFC61A]" />
-                      <span>50 Bintang</span>
-                    </div>
-                    <TactileButton
-                      variant="primary"
-                      size="sm"
-                      disabled={gems < 50}
-                      onClick={() => {
-                        if (buyRaffleTicketsWithGems(1)) {
-                          playBuy();
-                          flash("Berhasil menukar 50 Bintang menjadi 1 Tiket Undian!");
-                          void rpcBuyTickets(1).then((ok) => {
-                            if (ok) void syncProgressFromServer();
-                          });
-                        } else {
-                          playDeny();
-                        }
-                      }}
-                    >
-                      Tukar Tiket
-                    </TactileButton>
+                  <h3 className="text-[17px] font-extrabold text-[#1B1440]">Pelindung Streak</h3>
+                  <p className="mt-1.5 font-medium leading-relaxed text-[#5A5480] text-xs">
+                    Streak aman kalau kamu bolos satu hari tanpa belajar.
+                  </p>
+                  <div className="mt-2 text-xs font-bold text-[#1B1440] bg-[#FFF7EC] p-2 rounded-[10px] border border-[#1B1440]/20">
+                    Dimiliki: <strong>{freeze} Pelindung</strong>
                   </div>
-                </SurfaceCard>
-
-                {/* 2. Pelindung Streak */}
-                <SurfaceCard className="p-5 bg-white flex flex-col justify-between space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 rounded-[16px] bg-[#FFF0E4] text-flame border-2 border-[#FFB580] shadow-[0_2px_0_#FFB580]">
-                        <ShieldCheck className="size-6" />
-                      </div>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#E4F0FF] text-[#0B4FD1] border border-[#8FC2FF]">
-                        Otomatis
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base text-[#0D2340]">
-                        Pelindung Streak
-                      </h3>
-                      <p className="text-xs text-[#4A6580] mt-1 leading-relaxed">
-                        Menjaga agar rekor hari berturut-turut belajarmu tidak hangus jika terlewat satu hari.
-                      </p>
-                    </div>
-                    <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
-                      Status: {freeze > 0 ? <strong className="text-flame">Aktif ({freeze} siap)</strong> : "Belum Aktif"}
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
-                      <BlockStamp size={13} className="text-[#FFC61A]" />
-                      <span>{FREEZE_COST} Bintang</span>
-                    </div>
-                    <TactileButton
-                      variant="secondary"
-                      size="sm"
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-[#1B1440]/10">
+                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-[#1B1440]">
+                      <Star size={16} className="text-[#FFC23D]" fill="currentColor" /> {FREEZE_COST}
+                    </span>
+                    <button
+                      type="button"
                       disabled={freeze > 0 || gems < FREEZE_COST}
                       onClick={() => {
                         if (buyFreeze()) {
-                          playFreeze();
-                          flash("Pelindung Streak berhasil diaktifkan!");
+                          playBuy();
+                          flash("Pelindung Streak berhasil dibeli!");
                           void rpcBuyFreeze().then((ok) => {
                             if (ok) void syncProgressFromServer();
                           });
@@ -345,44 +292,35 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
+                      className={`inline-flex items-center justify-center rounded-xl border-2 border-[#1B1440] px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
+                        freeze > 0 || gems < FREEZE_COST
+                          ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
+                          : "bg-[#FF5C8A] text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                      }`}
                     >
-                      {freeze > 0 ? "Sudah Aktif" : "Pasang"}
-                    </TactileButton>
+                      {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Kurang" : "Beli"}
+                    </button>
                   </div>
-                </SurfaceCard>
+                </div>
 
-                {/* 3. Isi Ulang Nyawa Penuh */}
-                <SurfaceCard className="p-5 bg-white flex flex-col justify-between space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 rounded-[16px] bg-[#FFF5F5] text-[#E63329] border-2 border-[#F4A4A0] shadow-[0_2px_0_#F4A4A0]">
-                        <Heart className="size-6" />
-                      </div>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FFF5F5] text-[#E63329] border border-[#F4A4A0]">
-                        Instan
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base text-[#0D2340]">
-                        Isi Ulang Nyawa
-                      </h3>
-                      <p className="text-xs text-[#4A6580] mt-1 leading-relaxed">
-                        Pulihkan nyawa belajarmu ke 5/5 seketika agar bisa lanjut latihan tanpa menunggu.
-                      </p>
-                    </div>
-                    <div className="text-xs font-bold text-[#1E3A5F] bg-[#F0F6FF] p-2 rounded-[10px] border border-[#DCE7F5]">
-                      Nyawa: <strong className="text-[#E63329]">{hearts}/{MAX_HEARTS} Hati</strong>
-                    </div>
+                {/* 2. Isi Ulang Nyawa */}
+                <div className="flex flex-col rounded-2xl border-2 border-[#1B1440] bg-white p-5 shadow-[4px_4px_0_#1B1440]">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-[#1B1440] bg-[#FFE1EA] text-[#FF5C8A]">
+                    <Heart className="size-6" strokeWidth={2.4} fill="currentColor" />
                   </div>
-
-                  <div className="pt-2 border-t-2 border-[#F0F6FF] flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#B27B00]">
-                      <BlockStamp size={13} className="text-[#FFC61A]" />
-                      <span>{HEART_REFILL_COST} Bintang</span>
-                    </div>
-                    <TactileButton
-                      variant="danger"
-                      size="sm"
+                  <h3 className="text-[17px] font-extrabold text-[#1B1440]">Isi Ulang Nyawa</h3>
+                  <p className="mt-1.5 font-medium leading-relaxed text-[#5A5480] text-xs">
+                    Balik ke 5/5 nyawa penuh dan langsung lanjut latihan.
+                  </p>
+                  <div className="mt-2 text-xs font-bold text-[#1B1440] bg-[#FFF7EC] p-2 rounded-[10px] border border-[#1B1440]/20">
+                    Nyawa: <strong className="text-[#FF5C8A]">{hearts}/{MAX_HEARTS} Hati</strong>
+                  </div>
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-[#1B1440]/10">
+                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-[#1B1440]">
+                      <Star size={16} className="text-[#FFC23D]" fill="currentColor" /> {HEART_REFILL_COST}
+                    </span>
+                    <button
+                      type="button"
                       disabled={heartsFull || gems < HEART_REFILL_COST}
                       onClick={() => {
                         if (refillHearts()) {
@@ -395,25 +333,68 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
+                      className={`inline-flex items-center justify-center rounded-xl border-2 border-[#1B1440] px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
+                        heartsFull || gems < HEART_REFILL_COST
+                          ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
+                          : "bg-[#FF5C8A] text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                      }`}
                     >
-                      {heartsFull ? "Penuh" : "Isi Ulang"}
-                    </TactileButton>
+                      {heartsFull ? "Penuh" : gems < HEART_REFILL_COST ? "Kurang" : "Beli"}
+                    </button>
                   </div>
-                </SurfaceCard>
+                </div>
+
+                {/* 3. Mahkota Blobi */}
+                <div className="flex flex-col rounded-2xl border-2 border-[#1B1440] bg-white p-5 shadow-[4px_4px_0_#1B1440]">
+                  <div className="mb-3.5 grid size-12 place-items-center rounded-2xl border-2 border-[#1B1440] bg-[#FFF1CC] text-[#FFC23D]">
+                    <Crown className="size-6" strokeWidth={2.4} />
+                  </div>
+                  <h3 className="text-[17px] font-extrabold text-[#1B1440]">Mahkota Blobi</h3>
+                  <p className="mt-1.5 font-medium leading-relaxed text-[#5A5480] text-xs">
+                    Kosmetik langka untuk Blobi-mu di lisensi profil.
+                  </p>
+                  <div className="mt-2 text-xs font-bold text-[#1B1440] bg-[#FFF7EC] p-2 rounded-[10px] border border-[#1B1440]/20">
+                    Status: <strong>{outfits.includes("crown") ? "Sudah Dimiliki" : "Belum Dimiliki"}</strong>
+                  </div>
+                  <div className="mt-auto flex items-center justify-between pt-4 border-t-2 border-[#1B1440]/10">
+                    <span className="flex items-center gap-1 font-['Pixelify_Sans',monospace] text-base font-bold text-[#1B1440]">
+                      <Star size={16} className="text-[#FFC23D]" fill="currentColor" /> 120
+                    </span>
+                    <button
+                      type="button"
+                      disabled={outfits.includes("crown") || gems < 120}
+                      onClick={() => {
+                        if (buyOutfit("crown")) {
+                          playBuy();
+                          flash("Mahkota Blobi berhasil dibuka di Ruang Ganti!");
+                        } else {
+                          playDeny();
+                        }
+                      }}
+                      className={`inline-flex items-center justify-center rounded-xl border-2 border-[#1B1440] px-4 py-2 text-xs font-extrabold transition-[transform,box-shadow] ${
+                        outfits.includes("crown") || gems < 120
+                          ? "cursor-not-allowed border-ink/25 bg-[#E9E6F0] text-[#9C98B3] shadow-none"
+                          : "bg-[#FF5C8A] text-white shadow-[3px_3px_0_#1B1440] hover:brightness-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#1B1440]"
+                      }`}
+                    >
+                      {outfits.includes("crown") ? "Dimiliki" : gems < 120 ? "Kurang" : "Beli"}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Exclusive Wardrobe Banner */}
-            <SurfaceCard className="p-5 sm:p-6 bg-gradient-to-r from-[#EAF4FF] to-[#FFF7E4] border-2 border-[#8FC2FF] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_4px_0_#0B4FD1]">
+            <SurfaceCard className="p-5 sm:p-6 bg-gradient-to-r from-[#EAF4FF] to-[#FFF7E4] border-2 border-sky-300 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_4px_0_#0B4FD1]">
               <div className="flex items-center gap-4 text-center sm:text-left">
-                <div className="size-14 rounded-full bg-white border-2 border-[#8FC2FF] shadow-[0_3px_0_#C2DBFA] flex items-center justify-center shrink-0">
+                <div className="size-14 rounded-full bg-white border-2 border-sky-300 shadow-[0_3px_0_#C2DBFA] flex items-center justify-center shrink-0">
                   <Sparkles className="size-7 text-[#0B63F6]" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base sm:text-lg text-[#0D2340]">
+                  <h3 className="font-display font-bold text-base sm:text-lg text-ink-900">
                     Koleksi Pakaian & Aksesori Blobi
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#4A6580] mt-0.5 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-ink-500 mt-0.5 leading-relaxed">
                     Semua baju, topi, kacamata, dan aksesori Blobi kini tersedia eksklusif di <strong>Ruang Ganti Blobi</strong>. Coba atau pasang langsung pada karaktermu!
                   </p>
                 </div>
@@ -440,16 +421,16 @@ function ShopPage() {
             <SurfaceCard className="hidden sm:block p-4 sm:p-6 bg-white space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h1 className="font-display font-bold text-xl sm:text-3xl text-[#0D2340] tracking-tight flex items-center gap-2">
+                  <h1 className="font-display font-bold text-xl sm:text-3xl text-ink-900 tracking-tight flex items-center gap-2">
                     <Sparkles className="size-6 sm:size-7 text-[#0B63F6]" />
                     <span>Ruang Ganti Blobi</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-medium text-[#4A6580] mt-0.5 leading-relaxed">
+                  <p className="text-xs sm:text-sm font-medium text-ink-500 mt-0.5 leading-relaxed">
                     Atur gaya dan padukan penampilan Blobi. Coba berbagai pakaian yang sudah kamu miliki, atau coba aksesori baru langsung pada karakter!
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="px-3 py-1 rounded-full bg-[#E8FBF0] border-2 border-[#98E4B5] text-[#1E8A49] text-xs font-extrabold shadow-[0_2px_0_#98E4B5]">
+                  <span className="px-3 py-1 rounded-full bg-[#E8FBF0] border-2 border-[#98E4B5] text-leaf-shadow text-xs font-extrabold shadow-[0_2px_0_#98E4B5]">
                     {ownedCount}/{totalCount} Koleksi
                   </span>
                   <button
@@ -468,24 +449,24 @@ function ShopPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               {/* LEFT COLUMN: Panggung Busana Blobi (5 cols) */}
               <div className="lg:col-span-5 space-y-4">
-                <SurfaceCard className="p-6 flex flex-col items-center text-center bg-white border-2 border-[#8FC2FF] shadow-[0_6px_0_#0B4FD1]">
-                  <div className="w-full flex items-center justify-between pb-3 border-b-2 border-[#DCE7F5]">
-                    <span className="text-xs font-extrabold text-[#0D2340]">Panggung Busana</span>
-                    <span className="text-[11px] font-bold text-[#4A6580]">
+                <SurfaceCard className="p-6 flex flex-col items-center text-center bg-white border-2 border-sky-300 shadow-[0_6px_0_#0B4FD1]">
+                  <div className="w-full flex items-center justify-between pb-3 border-b-2 border-line">
+                    <span className="text-xs font-extrabold text-ink-900">Panggung Busana</span>
+                    <span className="text-[11px] font-bold text-ink-500">
                       {isWearingSomething ? "Tampil Bergaya" : "Gaya Standar"}
                     </span>
                   </div>
 
                   {/* Circular Blobi Pedestal */}
                   <div className="py-6 flex items-center justify-center relative">
-                    <div className="p-7 rounded-full bg-[#E4F0FF] border-4 border-[#8FC2FF] shadow-[0_8px_0_#C2DBFA] transition-transform hover:scale-105">
+                    <div className="p-7 rounded-full bg-sky-100 border-4 border-sky-300 shadow-[0_8px_0_#C2DBFA] transition-transform hover:scale-105">
                       <Mascot mood={blobiMood} size={160} worn={activeWorn} />
                     </div>
                   </div>
 
                   {/* Blobi Mood React Buttons */}
                   <div className="w-full space-y-2 pt-2 border-t-2 border-[#F0F6FF]">
-                    <div className="text-[11px] font-bold text-[#4A6580]">Reaksi Blobi:</div>
+                    <div className="text-[11px] font-bold text-ink-500">Reaksi Blobi:</div>
                     <div className="grid grid-cols-2 gap-2">
                       {(
                         [
@@ -501,8 +482,8 @@ function ShopPage() {
                           onClick={() => setBlobiMood(mood)}
                           className={`flex items-center justify-center gap-2 px-3 py-2 rounded-[14px] text-xs font-extrabold select-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
                             blobiMood === mood
-                              ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1] border-2 border-[#0B4FD1]"
-                              : "bg-[#F0F6FF] text-[#4A6580] hover:bg-[#E4F0FF] border-2 border-[#DCE7F5]"
+                              ? "bg-[#0B63F6] text-white shadow-[0_2px_0_#0B4FD1] border-2 border-sky-700"
+                              : "bg-[#F0F6FF] text-ink-500 hover:bg-sky-100 border-2 border-line"
                           }`}
                         >
                           <Icon className="size-4 shrink-0" />
@@ -513,8 +494,8 @@ function ShopPage() {
                   </div>
 
                   {/* Currently Worn Breakdown */}
-                  <div className="w-full mt-4 p-3 rounded-[16px] bg-[#F7FAFC] border-2 border-[#DCE7F5] text-left space-y-2">
-                    <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#4A6580] flex items-center justify-between">
+                  <div className="w-full mt-4 p-3 rounded-[16px] bg-[#F7FAFC] border-2 border-line text-left space-y-2">
+                    <div className="text-[11px] font-extrabold uppercase tracking-wide text-ink-500 flex items-center justify-between">
                       <span className="flex items-center gap-1.5">
                         <span>Aksesori Aktif:</span>
                         {previewWorn && (
@@ -532,7 +513,7 @@ function ShopPage() {
                             playUnequip();
                             flash("Semua aksesori Blobi telah dilepas.");
                           }}
-                          className="text-[10px] font-extrabold text-[#B01E18] hover:underline flex items-center gap-1 cursor-pointer"
+                          className="text-[10px] font-extrabold text-ruby-shadow hover:underline flex items-center gap-1 cursor-pointer"
                         >
                           <RotateCcw className="size-3" />
                           <span>Lepas Semua</span>
@@ -553,13 +534,13 @@ function ShopPage() {
                                 ? "bg-[#FFFDF5] border-[#FFD84D] shadow-[0_1px_0_#FFE680]"
                                 : acc
                                 ? "bg-[#F0FDF4] border-[#98E4B5]"
-                                : "bg-white border-[#DCE7F5]"
+                                : "bg-white border-line"
                             }`}
                           >
-                            <span className="block text-[10px] font-bold text-[#4A6580]">
+                            <span className="block text-[10px] font-bold text-ink-500">
                               {SLOT_LABEL[slot]}
                             </span>
-                            <strong className="block text-[10px] sm:text-[11px] leading-tight text-[#0D2340] line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
+                            <strong className="block text-[10px] sm:text-[11px] leading-tight text-ink-900 line-clamp-2 mt-0.5 min-h-[26px] flex items-center justify-center">
                               {acc ? acc.name : "Polos"}
                             </strong>
                           </div>
@@ -576,14 +557,14 @@ function ShopPage() {
                   {/* Closet Controls: Scope Toggle + Slot Filter */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-[#F0F6FF]">
                     {/* Scope: Koleksi Dimiliki vs Katalog Lengkap */}
-                    <div className="w-full sm:w-auto inline-flex p-1 rounded-[14px] bg-[#E4F0FF] border border-[#B9CFE9] gap-1 shrink-0">
+                    <div className="w-full sm:w-auto inline-flex p-1 rounded-[14px] bg-sky-100 border border-line-strong gap-1 shrink-0">
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("owned")}
                         className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "owned"
-                            ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
-                            : "text-[#4A6580] hover:text-[#0D2340]"
+                            ? "bg-white text-sky-700 shadow-[0_2px_0_#C2DBFA]"
+                            : "text-ink-500 hover:text-ink-900"
                         }`}
                       >
                         Koleksi Dimiliki ({ownedCount})
@@ -593,8 +574,8 @@ function ShopPage() {
                         onClick={() => setWardrobeScope("all")}
                         className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-extrabold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
                           wardrobeScope === "all"
-                            ? "bg-white text-[#0B4FD1] shadow-[0_2px_0_#C2DBFA]"
-                            : "text-[#4A6580] hover:text-[#0D2340]"
+                            ? "bg-white text-sky-700 shadow-[0_2px_0_#C2DBFA]"
+                            : "text-ink-500 hover:text-ink-900"
                         }`}
                       >
                         Katalog Coba ({totalCount})
@@ -608,8 +589,8 @@ function ShopPage() {
                         onClick={() => setWardrobeSlot("all")}
                         className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                           wardrobeSlot === "all"
-                            ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_2px_0_#0B4FD1]"
-                            : "bg-[#F0F6FF] text-[#4A6580] border-2 border-[#DCE7F5] shadow-[0_2px_0_#DCE7F5] hover:bg-[#E4F0FF] hover:border-[#CBD5E1] hover:text-[#0D2340]"
+                            ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_2px_0_#0B4FD1]"
+                            : "bg-[#F0F6FF] text-ink-500 border-2 border-line shadow-[0_2px_0_#DCE7F5] hover:bg-sky-100 hover:border-[#CBD5E1] hover:text-ink-900"
                         }`}
                       >
                         Semua
@@ -621,8 +602,8 @@ function ShopPage() {
                           onClick={() => setWardrobeSlot(s)}
                           className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-extrabold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                             wardrobeSlot === s
-                              ? "bg-[#0B63F6] text-white border-2 border-[#0B4FD1] shadow-[0_2px_0_#0B4FD1]"
-                              : "bg-[#F0F6FF] text-[#4A6580] border-2 border-[#DCE7F5] shadow-[0_2px_0_#DCE7F5] hover:bg-[#E4F0FF] hover:border-[#CBD5E1] hover:text-[#0D2340]"
+                              ? "bg-[#0B63F6] text-white border-2 border-sky-700 shadow-[0_2px_0_#0B4FD1]"
+                              : "bg-[#F0F6FF] text-ink-500 border-2 border-line shadow-[0_2px_0_#DCE7F5] hover:bg-sky-100 hover:border-[#CBD5E1] hover:text-ink-900"
                           }`}
                         >
                           {SLOT_LABEL[s]}
@@ -637,10 +618,10 @@ function ShopPage() {
                       <div className="size-16 mx-auto rounded-full bg-[#FFF7D1] border-2 border-[#FFD84D] flex items-center justify-center text-[#B27B00]">
                         <Shirt className="size-8" />
                       </div>
-                      <h3 className="font-display font-bold text-base text-[#0D2340]">
+                      <h3 className="font-display font-bold text-base text-ink-900">
                         Belum Ada Koleksi di Sini
                       </h3>
-                      <p className="text-xs text-[#4A6580] max-w-sm mx-auto">
+                      <p className="text-xs text-ink-500 max-w-sm mx-auto">
                         Kamu belum mengoleksi pakaian untuk kategori ini. Buka katalog lengkap untuk mencoba dan mendapatkan pakaian baru!
                       </p>
                       <TactileButton
@@ -669,17 +650,17 @@ function ShopPage() {
                               : isPreviewing
                               ? "bg-[#FFF7D1] border-[#FFD84D] shadow-[0_3px_0_#FFD84D]"
                               : owned
-                              ? "bg-white border-[#DCE7F5] shadow-[0_3px_0_#C8DBF0] hover:border-[#8FC2FF]"
+                              ? "bg-white border-line shadow-[0_3px_0_#C8DBF0] hover:border-sky-300"
                               : "bg-[#F7FAFC] border-dashed border-[#CBD5E1]"
                           }`}
                         >
                           <div className="space-y-1.5">
                             <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-bold text-[#4A6580]">
+                              <span className="text-[10px] font-bold text-ink-500">
                                 {SLOT_LABEL[acc.slot]}
                               </span>
                               {isEquipped ? (
-                                <span className="inline-flex items-center gap-0.5 text-[10px] font-extrabold text-[#1E8A49] bg-white px-2 py-0.5 rounded-full border border-[#98E4B5]">
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-extrabold text-leaf-shadow bg-white px-2 py-0.5 rounded-full border border-[#98E4B5]">
                                   <Check className="size-3" /> Dipakai
                                 </span>
                               ) : isPreviewing ? (
@@ -694,7 +675,7 @@ function ShopPage() {
                             </div>
 
                             {/* Pixel Art Accessory Preview */}
-                            <div className="h-14 flex items-center justify-center p-1.5 rounded-[12px] bg-white border border-[#E4F0FF]">
+                            <div className="h-14 flex items-center justify-center p-1.5 rounded-[12px] bg-white border border-sky-100">
                               <img
                                 src={acc.src}
                                 alt={acc.name}
@@ -704,10 +685,10 @@ function ShopPage() {
                             </div>
 
                             <div>
-                              <div className="font-extrabold text-xs text-[#0D2340] line-clamp-2 leading-tight">
+                              <div className="font-extrabold text-xs text-ink-900 line-clamp-2 leading-tight">
                                 {acc.name}
                               </div>
-                              <div className="text-[10px] font-medium text-[#4A6580] line-clamp-2 leading-tight mt-0.5">
+                              <div className="text-[10px] font-medium text-ink-500 line-clamp-2 leading-tight mt-0.5">
                                 {acc.blurb}
                               </div>
                             </div>
@@ -725,7 +706,7 @@ function ShopPage() {
                                     playUnequip();
                                     flash(`"${acc.name}" dilepas dari Blobi.`);
                                   }}
-                                  className="w-full py-1.5 rounded-[10px] bg-white border-2 border-[#F4A4A0] text-[11px] font-extrabold text-[#B01E18] hover:bg-[#FFF5F5] shadow-[0_2px_0_#F4A4A0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
+                                  className="w-full py-1.5 rounded-[10px] bg-white border-2 border-[#F4A4A0] text-[11px] font-extrabold text-ruby-shadow hover:bg-[#FFF5F5] shadow-[0_2px_0_#F4A4A0] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                                 >
                                   Lepas
                                 </button>
@@ -738,7 +719,7 @@ function ShopPage() {
                                     playEquip();
                                     flash(`"${acc.name}" dipasang pada Blobi!`);
                                   }}
-                                  className="w-full py-1.5 rounded-[10px] bg-[#1E8A49] text-white border-2 border-[#156E38] text-[11px] font-extrabold hover:bg-[#156E38] shadow-[0_2px_0_#0E4F28] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
+                                  className="w-full py-1.5 rounded-[10px] bg-leaf-shadow text-white border-2 border-[#156E38] text-[11px] font-extrabold hover:bg-[#156E38] shadow-[0_2px_0_#0E4F28] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                                 >
                                   Pakai
                                 </button>
@@ -768,8 +749,8 @@ function ShopPage() {
                                   }}
                                   className={`flex-1 py-1 rounded-[10px] text-[10px] font-extrabold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                                     isPreviewing
-                                      ? "bg-white border-2 border-[#F4A4A0] text-[#B01E18] hover:bg-[#FFF5F5] shadow-[0_1px_0_#F4A4A0]"
-                                      : "bg-[#E4F0FF] border border-[#8FC2FF] text-[#0B4FD1] hover:bg-[#D4E8FF]"
+                                      ? "bg-white border-2 border-[#F4A4A0] text-ruby-shadow hover:bg-[#FFF5F5] shadow-[0_1px_0_#F4A4A0]"
+                                      : "bg-sky-100 border border-sky-300 text-sky-700 hover:bg-[#D4E8FF]"
                                   }`}
                                 >
                                   {isPreviewing ? "Lepas" : "Coba"}
@@ -777,7 +758,7 @@ function ShopPage() {
                                 <button
                                   type="button"
                                   onClick={() => setConfirm(acc)}
-                                  className="flex-1 py-1 rounded-[10px] bg-[#FFC61A] text-[#0D2340] border border-[#E5A800] text-[10px] font-extrabold hover:bg-[#FFD147] shadow-[0_1px_0_#D99400] active:translate-y-[1px] cursor-pointer"
+                                  className="flex-1 py-1 rounded-[10px] bg-coin text-ink-900 border border-[#E5A800] text-[10px] font-extrabold hover:bg-[#FFD147] shadow-[0_1px_0_#D99400] active:translate-y-[1px] cursor-pointer"
                                 >
                                   Beli
                                 </button>
@@ -802,7 +783,7 @@ function ShopPage() {
             onClose={() => setConfirm(null)}
           >
             <div className="space-y-4 pt-2">
-              <div className="p-4 rounded-[18px] bg-[#F7FAFC] border-2 border-[#DCE7F5] flex items-center gap-4">
+              <div className="p-4 rounded-[18px] bg-[#F7FAFC] border-2 border-line flex items-center gap-4">
                 <div className="size-16 rounded-[14px] bg-white border border-[#CBD5E1] flex items-center justify-center p-2 shrink-0">
                   <img
                     src={confirm.src}
@@ -812,23 +793,23 @@ function ShopPage() {
                   />
                 </div>
                 <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#4A6580] px-2 py-0.5 rounded-full bg-[#E4F0FF] border border-[#8FC2FF]">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-ink-500 px-2 py-0.5 rounded-full bg-sky-100 border border-sky-300">
                     {SLOT_LABEL[confirm.slot]}
                   </span>
-                  <h4 className="font-extrabold text-sm text-[#0D2340] mt-1">{confirm.name}</h4>
-                  <p className="text-xs text-[#4A6580] mt-0.5 leading-relaxed">{confirm.blurb}</p>
+                  <h4 className="font-extrabold text-sm text-ink-900 mt-1">{confirm.name}</h4>
+                  <p className="text-xs text-ink-500 mt-0.5 leading-relaxed">{confirm.blurb}</p>
                 </div>
               </div>
 
               <div className="p-3 rounded-[16px] bg-[#FFF7D1] border-2 border-[#FFD84D] flex items-center justify-between">
-                <span className="text-xs font-bold text-[#1E3A5F]">Harga item:</span>
+                <span className="text-xs font-bold text-ink-700">Harga item:</span>
                 <span className="flex items-center gap-1.5 text-sm font-extrabold text-[#B27B00]">
-                  <BlockStamp size={14} className="text-[#FFC61A]" />
+                  <BlockStamp size={14} className="text-coin" />
                   {confirm.cost} Bintang
                 </span>
               </div>
 
-              <div className="text-xs text-[#4A6580] text-center">
+              <div className="text-xs text-ink-500 text-center">
                 Setelah dibeli, pakaian ini akan langsung tersimpan di <strong>Ruang Ganti Blobi</strong> kamu.
               </div>
 

@@ -4,6 +4,7 @@ import { AppShell } from "@/components/app-shell";
 import { Dialog } from "@/components/dialog";
 import { DuoButton } from "@/components/duo-button";
 import { sanitizeTwitter } from "@/lib/people";
+import { saveTwitterToServer } from "@/lib/server-sync";
 import { useProgress } from "@/lib/store";
 
 export const Route = createFileRoute("/settings")({ component: SettingsPage });
@@ -52,6 +53,7 @@ function SettingsPage() {
             disabled={!dirty}
             onClick={() => {
               setTwitter(twDraft);
+              void saveTwitterToServer(twDraft);
               setSaved(true);
               window.setTimeout(() => setSaved(false), 4000);
             }}

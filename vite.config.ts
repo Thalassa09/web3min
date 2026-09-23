@@ -186,6 +186,9 @@ export default defineConfig(({ command, isPreview }) => ({
                   "x-content-type-options": "nosniff",
                   "x-frame-options": "SAMEORIGIN",
                   "referrer-policy": "strict-origin-when-cross-origin",
+                  "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+                  "permissions-policy": "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+                  "x-permitted-cross-domain-policies": "none",
                 },
               },
               "/assets/**": {

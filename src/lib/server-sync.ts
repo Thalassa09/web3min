@@ -352,14 +352,45 @@ export async function saveBioToServer(bio: string): Promise<boolean> {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) return false;
 
+    const cleanBio = bio.trim().slice(0, 160);
     const { error } = await supabase
       .from("profiles")
-      .update({ bio })
+      .update({ bio: cleanBio })
       .eq("id", session.user.id);
 
     return !error;
   } catch (err) {
     console.warn("[server-sync] Failed to save bio to server:", err);
+    return false;
+  } finally {
+    endOp(opKey);
+  }
+}
+
+export async function saveTwitterToServer(twitter: string): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = "profile:twitter";
+  if (!canExecuteOp(opKey, 2000)) return false;
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    // Sanitize twitter handle: strip leading @ and disallow illegal characters
+    const cleanTwitter = twitter.trim().replace(/^@+/, "");
+    if (cleanTwitter !== "" && !/^[a-zA-Z0-9_]{1,32}$/.test(cleanTwitter)) {
+      console.warn("[server-sync] Invalid twitter handle format");
+      return false;
+    }
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({ twitter: cleanTwitter })
+      .eq("id", session.user.id);
+
+    return !error;
+  } catch (err) {
+    console.warn("[server-sync] Failed to save twitter to server:", err);
     return false;
   } finally {
     endOp(opKey);

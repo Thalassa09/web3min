@@ -1,4 +1,4 @@
-import { useState, type ReactNode, useEffect } from "react";
+import { useState, type ReactNode, useEffect, useCallback } from "react";
 import { Sparkles, Trophy, Flame, ChevronRight, ChevronLeft, X } from "lucide-react";
 import { useProgress } from "@/lib/store";
 
@@ -17,60 +17,84 @@ export function GameOverlayHUD({ children }: GameOverlayHUDProps) {
   const q3 = storiesToday > 0 ? 1 : 0;
   const completedQuests = q1 + q2 + q3;
 
-  // Desktop overlay open/collapsed state (starts open on xl screens)
-  const [isDesktopOpen, setIsDesktopOpen] = useState(true);
-  // Mobile modal overlay state
+  // IMPORTANT: Overlay starts CLOSED by default on all screen sizes!
+  // User must explicitly click/tap the floating trigger button to open it.
+  const [isDesktopOpen, setIsDesktopOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  // Responsive default setup
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsDesktopOpen(window.innerWidth >= 1280);
-    }
+  const closeAll = useCallback(() => {
+    setIsDesktopOpen(false);
+    setIsMobileOpen(false);
   }, []);
+
+  // Close with Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeAll();
+      }
+    };
+    if (isDesktopOpen || isMobileOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isDesktopOpen, isMobileOpen, closeAll]);
 
   return (
     <>
       {/* ─────────────────────────────────────────────────────────────
           1. DESKTOP / TABLET GAME OVERLAY (>= 1024px)
-          Floating on the right side of the map below header without collision
+          Starts collapsed as a tactile pill on the right side.
+          Opens only when clicked by the user!
          ───────────────────────────────────────────────────────────── */}
       <div className="hidden lg:block fixed right-6 top-32 z-30 transition-all duration-300 ease-out">
         {isDesktopOpen ? (
-          <div className="w-[320px] max-h-[calc(100vh-9.5rem)] rounded-[26px] bg-white/92 backdrop-blur-2xl border-2 border-ink-900 shadow-[6px_6px_0_#0D2340] overflow-hidden flex flex-col transition-all duration-200 animate-in fade-in zoom-in-95">
-            {/* Game HUD Header */}
-            <div className="flex items-center justify-between px-4 py-2.5 bg-ink-900 text-white border-b-2 border-ink-900 shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-black uppercase tracking-wider text-candy flex items-center gap-1.5">
-                  <Sparkles className="size-3.5 text-candy" />
-                  Quest & Arena HUD
-                </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/10 text-white/90">
-                  {completedQuests}/3 Misi
-                </span>
-              </div>
-              <button
-                type="button"
-                className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 cursor-pointer transition-colors"
-                onClick={() => setIsDesktopOpen(false)}
-                title="Sembunyikan HUD"
-              >
-                <ChevronRight className="size-4" />
-              </button>
-            </div>
+          <>
+            {/* Click-outside backdrop to dismiss */}
+            <div
+              className="fixed inset-0 z-30 bg-black/10 backdrop-blur-[1px] animate-in fade-in"
+              onClick={() => setIsDesktopOpen(false)}
+              aria-label="Tutup overlay"
+            />
 
-            {/* Scrollable HUD Content */}
-            <div className="overflow-y-auto no-scrollbar flex-1">
-              {children}
+            {/* Expanded HUD Card */}
+            <div className="relative z-40 w-[330px] max-h-[calc(100vh-9.5rem)] rounded-[26px] bg-white/95 backdrop-blur-2xl border-2 border-ink-900 shadow-[6px_6px_0_#0D2340] overflow-hidden flex flex-col transition-all duration-200 animate-in fade-in zoom-in-95">
+              {/* Game HUD Header */}
+              <div className="flex items-center justify-between px-4 py-2.5 bg-ink-900 text-white border-b-2 border-ink-900 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-candy flex items-center gap-1.5">
+                    <Sparkles className="size-3.5 text-candy" />
+                    Quest & Arena HUD
+                  </span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/10 text-white/90">
+                    {completedQuests}/3 Misi
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 cursor-pointer transition-colors"
+                    onClick={() => setIsDesktopOpen(false)}
+                    title="Tutup HUD (Esc)"
+                  >
+                    <X className="size-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Scrollable HUD Content */}
+              <div className="overflow-y-auto no-scrollbar flex-1">
+                {children}
+              </div>
             </div>
-          </div>
+          </>
         ) : (
-          /* Minimized Floating HUD Pill on the right edge */
+          /* Minimized Floating HUD Pill on the right edge (Default state) */
           <button
             type="button"
-            className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-full bg-white/95 backdrop-blur-xl border-2 border-ink-900 shadow-[4px_4px_0_#0D2340] cursor-pointer hover:scale-105 active:scale-95 transition-all text-xs font-black text-ink-900 group"
+            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white/95 backdrop-blur-xl border-2 border-ink-900 shadow-[4px_4px_0_#0D2340] cursor-pointer hover:scale-105 active:scale-95 transition-all text-xs font-black text-ink-900 group"
             onClick={() => setIsDesktopOpen(true)}
-            title="Buka Game HUD"
+            title="Klik untuk membuka Quest & Arena HUD"
           >
             <ChevronLeft className="size-4 text-candy transition-transform group-hover:-translate-x-0.5" />
             <div className="flex items-center gap-1.5 text-candy-deep">
@@ -99,6 +123,7 @@ export function GameOverlayHUD({ children }: GameOverlayHUDProps) {
           type="button"
           className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/95 backdrop-blur-xl border-2 border-ink-900 shadow-[3px_3px_0_#0D2340] cursor-pointer active:scale-95 transition-all text-xs font-black text-ink-900"
           onClick={() => setIsMobileOpen(true)}
+          title="Buka Misi & Arena"
         >
           <div className="flex items-center gap-1 text-candy-deep">
             <Flame className="size-3.5 fill-candy text-candy-deep" />
@@ -122,6 +147,7 @@ export function GameOverlayHUD({ children }: GameOverlayHUDProps) {
           <div
             className="absolute inset-0"
             onClick={() => setIsMobileOpen(false)}
+            aria-label="Tutup overlay"
           />
 
           <div className="relative w-full max-w-md bg-white border-t-2 sm:border-2 border-ink-900 rounded-t-[28px] sm:rounded-[28px] shadow-[0_-4px_24px_rgba(13,35,64,0.25)] overflow-hidden max-h-[85vh] flex flex-col z-10 animate-in slide-in-from-bottom-6 duration-200">
@@ -140,6 +166,7 @@ export function GameOverlayHUD({ children }: GameOverlayHUDProps) {
                 type="button"
                 className="p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 cursor-pointer"
                 onClick={() => setIsMobileOpen(false)}
+                title="Tutup (Esc)"
               >
                 <X className="size-4" />
               </button>

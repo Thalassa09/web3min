@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Mascot } from "@/components/mascot";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { cn } from "@/lib/utils";
 
 const STAGES = [
@@ -63,14 +64,11 @@ export function BootScreen({
           {currentHint}
         </p>
 
-        {/* Pink Candy Progress Bar 180x10 */}
-        <div
-          className="mt-6 h-2.5 w-[180px] overflow-hidden rounded-full bg-primary-soft border-2 border-line-strong shadow-xs"
-          aria-hidden
-        >
-          <div
-            className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
-            style={{ width: currentWidth }}
+        {/* Candy-Stripe Loading Bar */}
+        <div className="mt-6 w-[200px]" aria-hidden>
+          <ProgressBar
+            value={stage === 0 ? 35 : stage === 1 ? 75 : 100}
+            size="md"
           />
         </div>
       </div>

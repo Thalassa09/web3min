@@ -43,6 +43,7 @@ import { TactileButton } from "@/components/ui/tactile-button";
 import { PixelIcon } from "@/components/ui/pixel-icon";
 import { Lozenge } from "@/components/ui/lozenge";
 import { SkillTag } from "@/components/ui/rovo-companion";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { PulauIcon, BlobiPixel } from "@/lib/pulau-icons";
 import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
 import { getPulauTheme } from "@/lib/pulau-rantai";
@@ -578,12 +579,7 @@ function ProfilePage() {
               <span className="text-choco-600 font-medium">Progres Belajar</span>
               <span className="font-pixel text-candy-600">{pct}% SELESAI</span>
             </div>
-            <div className="h-3 rounded-full bg-cream border-2 border-choco-900 overflow-hidden shadow-[0_2px_0_#3B2218]">
-              <div
-                className="h-full rounded-full candy-stripe transition-all duration-500 ease-out"
-                style={{ width: `${Math.max(pct, 2)}%` }}
-              />
-            </div>
+            <ProgressBar value={pct} size="sm" />
           </div>
 
           {/* When Collapsed: Clean summary highlight card */}

@@ -4,6 +4,7 @@ import {
   Button,
   CandyBox,
   ProgressBar,
+  CandyLoader,
   Badge,
   Lollipop,
   CoinToken,
@@ -210,6 +211,13 @@ function ArcadeCandyComponentsShowcase() {
                 <span className="text-mint-deep font-bold">✓ PERFECT</span>
               </div>
               <ProgressBar value={100} size="lg" showLabel />
+            </div>
+
+            <div className="pt-4 border-t-2 border-dashed border-choco-900/20 space-y-3">
+              <div className="text-xs font-pixel uppercase tracking-wider text-choco-900">
+                INDETERMINATE CANDY LOADER ("SEMUA LOADING HARUS BEGINI")
+              </div>
+              <CandyLoader size="md" label="MEMUAT DATA BLOK & TRANSAKSI ON-CHAIN…" />
             </div>
           </CandyBox>
         </section>

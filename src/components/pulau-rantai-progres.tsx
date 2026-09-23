@@ -6,6 +6,7 @@ import { PulauIcon } from "@/lib/pulau-icons";
 import { generateBlockHash } from "@/lib/pulau-rantai";
 import { leagueOf } from "@/lib/quests";
 import { getWeekDays, getMonthWeeks } from "@/lib/activity-history";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import {
   ChevronDown,
   Layers,
@@ -303,12 +304,10 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
           </div>
 
           {/* Scope Completion Bar */}
-          <div className="w-full bg-line rounded-full h-2.5 border-2 border-ink-900 overflow-hidden p-0.5">
-            <div
-              className="bg-candy-500 h-full rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${Math.min(100, Math.max(percentInScope > 0 ? 4 : 0, percentInScope))}%` }}
-            />
-          </div>
+          <ProgressBar
+            value={percentInScope}
+            size="xs"
+          />
           <div className="flex justify-between items-center text-[11px] font-bold text-ink-500 mt-1">
             <span>{percentInScope}% terselesaikan</span>
             <span>{nodesInScope.length - completedInScope.length} blok tersisa</span>
@@ -501,12 +500,11 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
 
         {/* League Promotion Progress Bar */}
         {league.next && (
-          <div className="w-full bg-sand-200 rounded-full h-1.5 border border-ink-900/20 overflow-hidden">
-            <div
-              className="bg-amber-500 h-full rounded-full transition-all duration-300"
-              style={{ width: `${Math.min(100, Math.max(5, (weeklyXp / league.next) * 100))}%` }}
-            />
-          </div>
+          <ProgressBar
+            value={weeklyXp}
+            max={league.next}
+            size="xs"
+          />
         )}
       </Link>
 
@@ -669,12 +667,11 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                     {completed.length}/128 Blok
                   </span>
                 </div>
-                <div className="w-full bg-line rounded-full h-2 border border-ink-900 overflow-hidden">
-                  <div
-                    className="bg-candy-500 h-full rounded-full"
-                    style={{ width: `${Math.round((completed.length / 128) * 100)}%` }}
-                  />
-                </div>
+                <ProgressBar
+                  value={completed.length}
+                  max={128}
+                  size="xs"
+                />
               </button>
 
               <div className="text-[11px] font-black uppercase tracking-wider text-ink-500 pt-2 px-1">

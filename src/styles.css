@@ -297,15 +297,67 @@ body {
   box-shadow: 0 4px 0 var(--color-choco-900), inset 0 -4px 0 #991B1B;
 }
 
-.candy-stripe {
-  background: repeating-linear-gradient(-45deg,
-    var(--color-candy-500) 0 12px,
-    var(--color-candy-300) 12px 24px);
-  background-size: 34px 34px;
-  animation: stripe 1s linear infinite;
+.candy-stripe,
+.candy-stripe-fill {
+  background-color: #F8A1BE;
+  background-image: linear-gradient(
+    45deg,
+    #DC326A 25%,
+    #F8A1BE 25%,
+    #F8A1BE 50%,
+    #DC326A 50%,
+    #DC326A 75%,
+    #F8A1BE 75%,
+    #F8A1BE
+  );
+  background-size: 36px 36px;
+  animation: candy-stripe-scroll 1.2s linear infinite;
 }
+
+@keyframes candy-stripe-scroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 36px 0;
+  }
+}
+
+/* Legacy alias keyframe */
 @keyframes stripe {
-  to { background-position: 34px 0; }
+  to { background-position: 36px 0; }
+}
+
+/* Standalone Indeterminate Candy Loading Bar */
+.candy-loading-bar {
+  width: 100%;
+  height: 24px;
+  border: 3.5px solid #3B1317;
+  border-radius: 9999px;
+  overflow: hidden;
+  background-color: #F8A1BE;
+  background-image: linear-gradient(
+    45deg,
+    #DC326A 25%,
+    #F8A1BE 25%,
+    #F8A1BE 50%,
+    #DC326A 50%,
+    #DC326A 75%,
+    #F8A1BE 75%,
+    #F8A1BE
+  );
+  background-size: 36px 36px;
+  animation: candy-stripe-scroll 1.2s linear infinite;
+}
+
+/* Candy Progress Track Container */
+.candy-progress-track {
+  position: relative;
+  width: 100%;
+  border: 3.5px solid #3B1317;
+  border-radius: 9999px;
+  background-color: #FFF0F5;
+  overflow: hidden;
 }
 
 .inv-slot {

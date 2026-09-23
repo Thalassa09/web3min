@@ -27,6 +27,7 @@ import {
 } from "@/lib/leaderboard-prizes";
 import { rpcGetLeaderboard, type DbLeaderboardUser } from "@/lib/server-sync";
 import { weekId } from "@/lib/time";
+import { CandyLoader } from "@/components/ui/progress-bar";
 
 export const Route = createFileRoute("/leaderboard")({
   component: LeaderboardPage,
@@ -386,7 +387,11 @@ function LeaderboardPage() {
         </div>
 
         <div className="divide-y-2 divide-ink-900/10">
-          {participants.length === 0 ? (
+          {isDbLoading ? (
+            <div className="p-12 flex flex-col items-center justify-center space-y-4">
+              <CandyLoader size="lg" label="MENYELARASKAN DATA KLASEMEN..." />
+            </div>
+          ) : participants.length === 0 ? (
             <div className="p-8 text-center text-ink-600 font-bold">
               Tidak ada petualang yang cocok dengan filter.
             </div>

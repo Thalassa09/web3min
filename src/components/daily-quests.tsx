@@ -5,6 +5,7 @@ import { rpcClaimQuest, syncProgressFromServer } from "@/lib/server-sync";
 import { cn } from "@/lib/utils";
 import { DuoButton } from "@/components/duo-button";
 import { BlockStamp, RouteChain } from "@/components/motif";
+import { ProgressBar } from "@/components/ui/progress-bar";
 
 export function DailyQuests({ compact = false, className }: { compact?: boolean; className?: string }) {
   const xpToday = useProgress((s) => s.xpToday);
@@ -41,12 +42,11 @@ export function DailyQuests({ compact = false, className }: { compact?: boolean;
                   </div>
                 ) : (
                   <div className="mt-1.5 space-y-1">
-                    <div className="h-2.5 w-full rounded-full bg-cream border-2 border-choco-900 overflow-hidden shadow-[0_1px_0_#3B2218]">
-                      <div
-                        className="h-full rounded-full bg-candy-500 transition-all duration-300"
-                        style={{ width: `${Math.min(100, Math.round((prog.have / prog.need) * 100))}%` }}
-                      />
-                    </div>
+                    <ProgressBar
+                      value={prog.have}
+                      max={prog.need}
+                      size="xs"
+                    />
                     <div className="flex justify-between text-[10px] font-bold text-ink-500">
                       <span>Progress</span>
                       <span className="tabular-nums">{Math.min(prog.have, prog.need)}/{prog.need} XP</span>

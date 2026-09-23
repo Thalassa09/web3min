@@ -8,6 +8,7 @@ import { formatHeartWait, HEART_MS, msUntilHeart, useProgress } from "@/lib/stor
 import { DuoButton } from "@/components/duo-button";
 import { Mascot, SpeechBubble } from "@/components/mascot";
 import { BlockStamp, RouteChain } from "@/components/motif";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { ExerciseView, type CheckHandle } from "@/components/lesson/exercises";
 import { HEART_REFILL_COST } from "@/lib/shop";
 import { playComplete, playCorrect, playHeart, playWrong } from "@/lib/audio";
@@ -217,7 +218,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           <X className="size-6" weight="bold" />
         </button>
         <div className="mx-1 flex min-w-0 flex-1 items-center">
-          <RouteChain have={solved} need={Math.max(1, scored)} label={`${solved}/${scored || 1}`} />
+          <ProgressBar value={solved} max={Math.max(1, scored)} size="sm" />
         </div>
         <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-ruby">
           <Heart className={cn("size-4 text-ruby", phase === "feedback" && !ok && "heart-break")} weight="fill" />

@@ -33,6 +33,7 @@ import {
 } from "@/lib/server-sync";
 import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE, type RaffleItem } from "@/lib/raffles";
 import { playBuy, playClaim, playDeny, playTap } from "@/lib/audio";
+import { CandyLoader } from "@/components/ui/progress-bar";
 
 export const Route = createFileRoute("/raffle")({
   component: RafflePage,
@@ -461,8 +462,13 @@ export function RafflePage() {
         </div>
 
         {/* Raffles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredRaffles.map((raffle) => {
+        {allRaffles.length === 0 && isDbLoading ? (
+          <div className="p-12 flex flex-col items-center justify-center space-y-4">
+            <CandyLoader size="lg" label="MENYINKRONKAN KATALOG UNDIAN NFT..." />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredRaffles.map((raffle) => {
             const rarityStyle = getRarityStyle(raffle.nftRarity);
             const RarityIcon = rarityStyle.icon;
             const stats = statsMap[raffle.id];
@@ -614,6 +620,7 @@ export function RafflePage() {
             );
           })}
         </div>
+        )}
 
         {/* Bottom Educational Banner */}
         <div className="rounded-3xl border-4 border-ink-900 bg-white p-6 md:p-8 shadow-[4px_4px_0_#2B1622] space-y-4">

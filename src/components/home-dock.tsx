@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Sparkles, Trophy } from "lucide-react";
 import { SurfaceCard } from "@/components/ui/surface-card";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { firstPlayableId, getLesson, getUnit } from "@/lib/curriculum";
 import { formatHeartWait, MAX_HEARTS, msUntilHeart, useProgress } from "@/lib/store";
 import { worldOf } from "@/lib/worlds";
@@ -167,12 +168,7 @@ export function HomeDock() {
                 <span>Progres Unit</span>
                 <span>{progressPercent}%</span>
               </div>
-              <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden border border-ink-900/10">
-                <div
-                  className="h-full bg-candy rounded-full transition-all duration-300"
-                  style={{ width: `${Math.max(8, progressPercent)}%` }}
-                />
-              </div>
+              <ProgressBar value={progressPercent} size="xs" />
             </div>
           </div>
 

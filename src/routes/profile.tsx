@@ -188,14 +188,14 @@ function ProfilePage() {
         )}
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1.5 p-1 bg-white border-2 border-ink-900 rounded-full shadow-[2px_2px_0_#0D2340] max-w-fit">
+        <div className="flex items-center gap-1.5 p-1 bg-cream border-2 border-choco-900 rounded-full shadow-[2px_2px_0_#3B2218] max-w-fit">
           <button
             type="button"
             onClick={() => setProfileTab("lisensi")}
             className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
               profileTab === "lisensi"
-                ? "bg-blobi text-white shadow-xs"
-                : "text-ink-500 hover:text-ink-900"
+                ? "bg-candy-500 text-white shadow-xs"
+                : "text-choco-600 hover:text-choco-900"
             }`}
           >
             Lisensi & Wardrobe
@@ -205,22 +205,22 @@ function ProfilePage() {
             onClick={() => setProfileTab("progres")}
             className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
               profileTab === "progres"
-                ? "bg-blobi text-white shadow-xs"
-                : "text-ink-500 hover:text-ink-900"
+                ? "bg-candy-500 text-white shadow-xs"
+                : "text-choco-600 hover:text-choco-900"
             }`}
           >
-            📊 Analitik Progres
+            Analitik Progres
           </button>
           <button
             type="button"
             onClick={() => setProfileTab("rute")}
             className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
               profileTab === "rute"
-                ? "bg-blobi text-white shadow-xs"
-                : "text-ink-500 hover:text-ink-900"
+                ? "bg-candy-500 text-white shadow-xs"
+                : "text-choco-600 hover:text-choco-900"
             }`}
           >
-            🏝️ Rute Belajar
+            Rute Belajar
           </button>
         </div>
 

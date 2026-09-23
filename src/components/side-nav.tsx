@@ -86,7 +86,7 @@ export function SideNav() {
       <nav
         aria-label="Menu Utama Web3min"
         className={cn(
-          "relative z-50 flex h-full w-[280px] max-w-[85vw] select-none flex-col overflow-y-auto border-r-3 border-ink-900 bg-white/95 p-5 shadow-[8px_0_0_#2B1622] backdrop-blur-2xl backdrop-saturate-180 transition-transform duration-300 ease-out",
+          "relative z-50 flex h-full w-[280px] max-w-[85vw] select-none flex-col overflow-y-auto border-r-3 border-choco-900 bg-cream/95 p-5 shadow-[8px_0_0_#3B2218] backdrop-blur-2xl transition-transform duration-300 ease-out",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -101,7 +101,7 @@ export function SideNav() {
             }}
             aria-label="Sembunyikan menu"
             title="Sembunyikan menu (Esc)"
-            className="flex size-9 items-center justify-center rounded-full border-2 border-ink-900 bg-candy-soft text-ink-900 shadow-ink-xs transition-all hover:bg-candy-100 hover:rotate-90 active:scale-95 cursor-pointer"
+            className="flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-candy-100 text-choco-900 shadow-[0_2px_0_#3B2218] transition-all hover:bg-candy-200 hover:rotate-90 active:scale-95 cursor-pointer"
           >
             <X className="size-4.5 stroke-[2.5]" />
           </button>
@@ -124,21 +124,23 @@ export function SideNav() {
                   className={cn(
                     "group flex items-center gap-3 rounded-full border-2 px-3.5 py-2 text-sm font-black transition-all duration-120 ease-out active:scale-95 active:translate-y-0.5",
                     active
-                      ? "border-ink-900 bg-candy-500 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] translate-x-1"
-                      : "border-transparent text-ink-500 hover:border-ink-900/10 hover:bg-candy-50 hover:text-ink-900",
+                      ? "border-choco-900 bg-candy-500 text-white shadow-[0_2px_0_#3B2218] translate-x-1"
+                      : "border-transparent text-choco-900/60 hover:border-choco-900/20 hover:bg-candy-100 hover:text-choco-900",
                   )}
                 >
                   <div
                     className={cn(
                       "flex size-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
-                      active ? "border-white/40 bg-white/20 text-white" : "border-ink-900/10 bg-white/80 text-ink-700 group-hover:border-ink-900/20 group-hover:bg-white group-hover:text-candy-deep"
+                      active
+                        ? "border-white/40 bg-white/20 text-white"
+                        : "border-choco-900/20 bg-white text-choco-900 group-hover:border-choco-900 group-hover:bg-candy-100"
                     )}
                   >
                     <Icon className="size-4.5 shrink-0" weight={active ? "fill" : "regular"} />
                   </div>
                   <span className="flex-1 truncate tracking-[-0.01em]">{item.label}</span>
                   {item.badge && (
-                    <span className="rounded-full border border-candy-line bg-candy-soft px-2 py-0.5 text-[10px] font-black text-candy-deep">
+                    <span className="rounded-full border border-candy-300 bg-candy-100 px-2 py-0.5 text-[10px] font-black text-candy-600">
                       {item.badge}
                     </span>
                   )}
@@ -146,6 +148,39 @@ export function SideNav() {
               </li>
             );
           })}
+
+          {/* Raffle NFT */}
+          <li key="/raffle">
+            <Link
+              to="/raffle"
+              aria-current={pathname === "/raffle" ? "page" : undefined}
+              onClick={() => {
+                if (sound) playTap();
+                close();
+              }}
+              className={cn(
+                "group flex items-center gap-3 rounded-full border-2 px-3.5 py-2 text-sm font-black transition-all duration-120 ease-out active:scale-95 active:translate-y-0.5",
+                pathname === "/raffle"
+                  ? "border-choco-900 bg-candy-500 text-white shadow-[0_2px_0_#3B2218] translate-x-1"
+                  : "border-transparent text-choco-900/60 hover:border-choco-900/20 hover:bg-candy-100 hover:text-choco-900"
+              )}
+            >
+              <div
+                className={cn(
+                  "flex size-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                  pathname === "/raffle"
+                    ? "border-white/40 bg-white/20 text-white"
+                    : "border-choco-900/20 bg-white text-choco-900 group-hover:border-choco-900 group-hover:bg-candy-100"
+                )}
+              >
+                <Ticket className="size-4.5 shrink-0" />
+              </div>
+              <span className="flex-1 truncate tracking-[-0.01em]">Raffle NFT</span>
+              <span className="rounded-full border border-amber-400 bg-amber-100 px-2 py-0.5 text-[10px] font-black text-amber-900">
+                NFT
+              </span>
+            </Link>
+          </li>
         </ul>
 
         {/* Bottom Profile & Collection Card */}
@@ -156,22 +191,22 @@ export function SideNav() {
             if (sound) playTap();
             close();
           }}
-          className="group mt-auto flex items-center gap-3 rounded-[24px] border-2 border-ink-900 bg-white/90 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_2px_0_var(--color-ink-900)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-ink-sm"
+          className="group mt-auto flex items-center gap-3 rounded-[24px] border-2 border-choco-900 bg-white p-3 shadow-[0_2px_0_#3B2218] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_0_#3B2218]"
         >
-          <div className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-ink-900 bg-white shadow-ink-xs">
+          <div className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-choco-900 bg-candy-100 shadow-[0_1px_0_#3B2218]">
             <Mascot mood="proud" size={34} lite fill={false} interactive={false} />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="truncate font-display text-sm font-black text-ink-900">@{username || "pelajar"}</div>
-            <div className="mt-1 flex items-center gap-2 text-[11px] font-black tabular-nums text-ink-500">
-              <span className={cn("inline-flex items-center gap-1", streak > 0 ? "text-flame-shadow" : "text-ink-300")}>
+            <div className="truncate font-pixel text-sm font-bold text-choco-900">@{username || "pelajar"}</div>
+            <div className="mt-1 flex items-center gap-2 text-[11px] font-bold tabular-nums text-choco-600">
+              <span className={cn("inline-flex items-center gap-1", streak > 0 ? "text-orange-600" : "text-choco-400")}>
                 <Fire className="size-3" weight={streak > 0 ? "fill" : "regular"} />
                 {streak > 0 ? `${streak} hari` : "Mulai streak"}
               </span>
               <span>Lv. {level}</span>
             </div>
           </div>
-          <ChevronRight className="size-4 shrink-0 text-ink-300 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-900" />
+          <ChevronRight className="size-4 shrink-0 text-choco-400 transition-transform group-hover:translate-x-0.5 group-hover:text-choco-900" />
         </Link>
       </nav>
     </div>,

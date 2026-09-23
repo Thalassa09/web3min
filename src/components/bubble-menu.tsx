@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
 import { gsap } from "gsap";
-import { Compass, BookOpen, Trophy, ShoppingBag, User, Smartphone, Sparkles, X } from "lucide-react";
+import { Compass, BookOpen, Trophy, ShoppingBag, User, Sparkles, X } from "lucide-react";
 import { playTap } from "@/lib/audio";
 import { useProgress } from "@/lib/store";
 
@@ -96,16 +96,6 @@ export const DEFAULT_BUBBLE_ITEMS: MenuItem[] = [
     badge: "LISENSI",
     description: "Analitik progres & struk blok",
     hoverStyles: { bgColor: "#1CB0F6", textColor: "#ffffff" }
-  },
-  {
-    label: "Stage",
-    href: "/rantai",
-    ariaLabel: "Simulasi 3-Phone Stage Pulau Rantai",
-    rotation: 0,
-    icon: <Smartphone className="size-6 text-candy stroke-[2.5]" />,
-    badge: "STAGE 3D",
-    description: "Simulasi interaktif panggung ponsel",
-    hoverStyles: { bgColor: "#D62A78", textColor: "#ffffff" }
   }
 ];
 

@@ -16,9 +16,13 @@ import { DailyQuests } from "@/components/daily-quests";
 export function PulauRantaiMap({
   units,
   focusUnit,
+  viewMode = "pulau",
+  onViewModeChange,
 }: {
   units: Unit[];
   focusUnit?: string | null;
+  viewMode?: "pulau" | "trail";
+  onViewModeChange?: (mode: "pulau" | "trail") => void;
 }) {
   const navigate = useNavigate();
   const completed = useProgress((s) => s.completed);
@@ -132,7 +136,7 @@ export function PulauRantaiMap({
   }
 
   return (
-    <div className="relative w-full max-w-lg mx-auto bg-ink-900 border-2 border-ink-900 rounded-[28px] overflow-hidden shadow-[6px_6px_0_#0D2340]">
+    <div className="relative w-full bg-ink-900 overflow-hidden min-h-[calc(100vh-4rem)]">
       {/* Toast Notification */}
       <div
         className={`toast fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-ink-900 text-white px-4 py-2.5 rounded-2xl text-xs font-bold transition-all duration-200 pointer-events-none border-2 border-white shadow-[3px_3px_0_#0D2340] max-w-[85%] text-center ${
@@ -142,10 +146,50 @@ export function PulauRantaiMap({
         {toastMsg}
       </div>
 
-      {/* Map Scroll View */}
+      {/* Integrated Apple Header / Control Bar */}
+      <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-8 py-3 bg-ink-900/95 backdrop-blur-md border-b-2 border-ink-900 shadow-sm w-full">
+        <div className="flex items-center gap-2">
+          <span className="text-xs sm:text-sm font-black text-white tracking-wide flex items-center gap-1.5">
+            <span>🏝️</span>
+            <span>Pulau Rantai</span>
+          </span>
+          <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-candy/20 text-candy border border-candy/40">
+            {units.length} Unit
+          </span>
+        </div>
+
+        {onViewModeChange && (
+          <div className="inline-flex items-center gap-0.5 p-0.5 bg-black/40 rounded-full border border-white/10">
+            <button
+              type="button"
+              className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-black transition-all cursor-pointer ${
+                viewMode === "pulau"
+                  ? "bg-white text-ink-900 shadow-xs"
+                  : "text-white/70 hover:text-white"
+              }`}
+              onClick={() => onViewModeChange("pulau")}
+            >
+              🏝️ Pulau
+            </button>
+            <button
+              type="button"
+              className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-black transition-all cursor-pointer ${
+                viewMode === "trail"
+                  ? "bg-white text-ink-900 shadow-xs"
+                  : "text-white/70 hover:text-white"
+              }`}
+              onClick={() => onViewModeChange("trail")}
+            >
+              🗺️ Jalur
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Map Scroll View — Full Stage Height */}
       <div
         ref={containerRef}
-        className="mapscroll h-[700px] sm:h-[760px] overflow-y-auto no-scrollbar relative pb-36"
+        className="mapscroll h-[calc(100dvh-3.5rem)] sm:h-[calc(100vh-4rem)] overflow-y-auto no-scrollbar relative pb-36"
       >
         {units.map((unit, wi) => {
           const theme = getPulauTheme(unit.id, unit.index);
@@ -161,7 +205,7 @@ export function PulauRantaiMap({
             <div
               key={unit.id}
               id={`unit-${unit.id}`}
-              className="world relative overflow-hidden"
+              className="world relative overflow-hidden w-full"
               style={
                 {
                   "--wbg": theme.bg,
@@ -169,7 +213,7 @@ export function PulauRantaiMap({
                 } as React.CSSProperties
               }
             >
-              {/* World Cover Image */}
+              {/* World Cover Image — spans 100% full screen width */}
               <img
                 className="art"
                 src={`/worlds/${unit.id}.jpg`}
@@ -179,130 +223,133 @@ export function PulauRantaiMap({
                 }}
               />
 
-              {/* Road SVG */}
-              <svg
-                className="road"
-                viewBox={`0 0 100 ${H}`}
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                <path
-                  d={roadPath}
-                  fill="none"
-                  stroke="#1B1440"
-                  strokeWidth="34"
-                  strokeLinecap="round"
-                  vectorEffect="non-scaling-stroke"
-                />
-                <path
-                  d={roadPath}
-                  fill="none"
-                  stroke="#FFF4E6"
-                  strokeWidth="29"
-                  strokeLinecap="round"
-                  vectorEffect="non-scaling-stroke"
-                />
-                <path
-                  d={roadPath}
-                  fill="none"
-                  stroke="#F26A99"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  strokeDasharray={theme.dash}
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
+              {/* Playable Center Corridor */}
+              <div className="relative w-full max-w-xl sm:max-w-2xl mx-auto h-full">
+                {/* Road SVG */}
+                <svg
+                  className="road"
+                  viewBox={`0 0 100 ${H}`}
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d={roadPath}
+                    fill="none"
+                    stroke="#1B1440"
+                    strokeWidth="34"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <path
+                    d={roadPath}
+                    fill="none"
+                    stroke="#FFF4E6"
+                    strokeWidth="29"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <path
+                    d={roadPath}
+                    fill="none"
+                    stroke="#F26A99"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeDasharray={theme.dash}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
 
-              {/* Decorative World Props */}
-              {theme.props.map((p, pi) => (
-                <img
-                  key={pi}
-                  className="prop"
-                  src={`/props/${p.name}.png`}
-                  alt=""
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                  style={{
-                    [p.side]: "8px",
-                    top: `${T + (p.top * (H - T)) / 100 - p.size / 2}px`,
-                    width: `${p.size * 1.25}px`,
-                    transform: p.flip ? "scaleX(-1)" : undefined,
-                  }}
-                />
-              ))}
+                {/* Decorative World Props */}
+                {theme.props.map((p, pi) => (
+                  <img
+                    key={pi}
+                    className="prop"
+                    src={`/props/${p.name}.png`}
+                    alt=""
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                    style={{
+                      [p.side]: "8px",
+                      top: `${T + (p.top * (H - T)) / 100 - p.size / 2}px`,
+                      width: `${p.size * 1.25}px`,
+                      transform: p.flip ? "scaleX(-1)" : undefined,
+                    }}
+                  />
+                ))}
 
-              {/* World Sign Board */}
-              <div
-                className="wsign"
-                style={{ top: "24px" }}
-              >
-                <p className="label font-extrabold text-[11px] text-[#D62A78] uppercase tracking-wider">
-                  Rute {unit.index} · {theme.kind}
-                </p>
-                <h3 className="text-lg font-black font-display text-ink-900 mt-0.5">
-                  {unit.title}
-                </h3>
-                <p className="text-xs text-ink-500 font-medium leading-relaxed mt-1">
-                  {theme.look}
-                </p>
+                {/* World Sign Board */}
+                <div
+                  className="wsign"
+                  style={{ top: "24px" }}
+                >
+                  <p className="label font-extrabold text-[11px] text-[#D62A78] uppercase tracking-wider">
+                    Rute {unit.index} · {theme.kind}
+                  </p>
+                  <h3 className="text-lg font-black font-display text-ink-900 mt-0.5">
+                    {unit.title}
+                  </h3>
+                  <p className="text-xs text-ink-500 font-medium leading-relaxed mt-1">
+                    {theme.look}
+                  </p>
+                </div>
+
+                {/* Lesson Nodes */}
+                {unit.lessons.map((lesson, i) => {
+                  const [x, y] = pts[i] || [50, T + i * 90];
+                  const isChest = lesson.kind === "chest";
+                  const isDone = completed.includes(lesson.id);
+                  const isNow = nextLessonId === lesson.id;
+                  const status: "now" | "done" | "lock" = isDone
+                    ? "done"
+                    : isNow
+                    ? "now"
+                    : "lock";
+
+                  const blockNo = blockNumberMap.get(lesson.id) || i + 1;
+                  const nodeClasses = [
+                    "bn",
+                    isChest
+                      ? status === "lock"
+                        ? "chest"
+                        : status === "now"
+                        ? "ready"
+                        : "opened"
+                      : status,
+                    shakingId === lesson.id ? "shake" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ");
+
+                  const iconName = isChest
+                    ? "chest"
+                    : status === "done"
+                    ? "check"
+                    : status === "now"
+                    ? "star"
+                    : "lock";
+
+                  return (
+                    <button
+                      key={lesson.id}
+                      type="button"
+                      className={nodeClasses}
+                      style={{ left: `${x}%`, top: `${y}px` }}
+                      onClick={() => handleNodeClick(lesson, unit, status)}
+                      aria-label={`Blok ${blockNo}: ${lesson.title}`}
+                    >
+                      <PulauIcon
+                        name={iconName}
+                        size={26}
+                        fill={status === "now" && !isChest}
+                      />
+                      {status === "now" && !isChest && (
+                        <span className="bubble">MULAI</span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
-
-              {/* Lesson Nodes */}
-              {unit.lessons.map((lesson, i) => {
-                const [x, y] = pts[i] || [50, T + i * 90];
-                const isChest = lesson.kind === "chest";
-                const isDone = completed.includes(lesson.id);
-                const isNow = nextLessonId === lesson.id;
-                const status: "now" | "done" | "lock" = isDone
-                  ? "done"
-                  : isNow
-                  ? "now"
-                  : "lock";
-
-                const blockNo = blockNumberMap.get(lesson.id) || i + 1;
-                const nodeClasses = [
-                  "bn",
-                  isChest
-                    ? status === "lock"
-                      ? "chest"
-                      : status === "now"
-                      ? "ready"
-                      : "opened"
-                    : status,
-                  shakingId === lesson.id ? "shake" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ");
-
-                const iconName = isChest
-                  ? "chest"
-                  : status === "done"
-                  ? "check"
-                  : status === "now"
-                  ? "star"
-                  : "lock";
-
-                return (
-                  <button
-                    key={lesson.id}
-                    type="button"
-                    className={nodeClasses}
-                    style={{ left: `${x}%`, top: `${y}px` }}
-                    onClick={() => handleNodeClick(lesson, unit, status)}
-                    aria-label={`Blok ${blockNo}: ${lesson.title}`}
-                  >
-                    <PulauIcon
-                      name={iconName}
-                      size={26}
-                      fill={status === "now" && !isChest}
-                    />
-                    {status === "now" && !isChest && (
-                      <span className="bubble">MULAI</span>
-                    )}
-                  </button>
-                );
-              })}
             </div>
           );
         })}

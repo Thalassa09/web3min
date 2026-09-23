@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Check, Lock } from "@/lib/kicon";
 import type { Lesson, Unit } from "@/lib/curriculum";
 import { firstIncompleteId, isUnlocked } from "@/lib/curriculum";
@@ -11,6 +11,7 @@ import { DuoButton } from "@/components/duo-button";
 import { Dialog } from "@/components/dialog";
 import { Mascot } from "@/components/mascot";
 import { playBuy } from "@/lib/audio";
+import { PulauRantaiMap } from "@/components/pulau-rantai-map";
 
 const OFFSETS = [0, -18, 7, 20, -4, -14, 12];
 
@@ -20,6 +21,7 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
   const [chest, setChest] = useState<Lesson | null>(null);
   const [showAll, setShowAll] = useState(Boolean(focusUnit));
   const currentUnit = units.findIndex((u) => u.lessons.some((l) => l.id === currentId));
+  const [viewMode, setViewMode] = useState<"pulau" | "trail">("pulau");
 
   useEffect(() => {
     if (focusUnit) setShowAll(true);
@@ -27,12 +29,51 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
 
   return (
     <div className="flex flex-col overflow-x-clip pb-8">
-      {!showAll && currentUnit > 0 ? (
-        <button type="button" className="mx-4 mb-2 min-h-11 text-left text-sm font-medium text-primary" onClick={() => setShowAll(true)}>
-          Lihat rute sebelumnya
-        </button>
-      ) : null}
-      {units.map((unit, i) => {
+      {/* Switcher Tampilan Peta */}
+      <div className="mx-auto mb-4 flex items-center justify-between w-full max-w-lg px-3">
+        <div className="flex items-center gap-1 p-1 bg-white border-2 border-ink-900 rounded-full shadow-[2px_2px_0_#0D2340]">
+          <button
+            type="button"
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              viewMode === "pulau"
+                ? "bg-blobi text-white shadow-xs"
+                : "text-ink-500 hover:text-ink-900"
+            }`}
+            onClick={() => setViewMode("pulau")}
+          >
+            🏝️ Pulau Rantai
+          </button>
+          <button
+            type="button"
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              viewMode === "trail"
+                ? "bg-blobi text-white shadow-xs"
+                : "text-ink-500 hover:text-ink-900"
+            }`}
+            onClick={() => setViewMode("trail")}
+          >
+            🗺️ Peta Jalur
+          </button>
+        </div>
+
+        <Link
+          to="/rantai"
+          className="text-[11px] font-bold text-ink-500 hover:text-ink-900 underline flex items-center gap-1"
+        >
+          3-Phone Stage ↗
+        </Link>
+      </div>
+
+      {viewMode === "pulau" ? (
+        <PulauRantaiMap units={units} focusUnit={focusUnit} />
+      ) : (
+        <>
+          {!showAll && currentUnit > 0 ? (
+            <button type="button" className="mx-4 mb-2 min-h-11 text-left text-sm font-medium text-primary" onClick={() => setShowAll(true)}>
+              Lihat rute sebelumnya
+            </button>
+          ) : null}
+          {units.map((unit, i) => {
         const next = units[i + 1];
         const near = currentUnit === -1 ? i === units.length - 1 : Math.abs(i - currentUnit) <= 1;
         const farAhead = !showAll && currentUnit !== -1 && i > currentUnit + 1;
@@ -92,6 +133,8 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
           Kembali ke rute aktif
         </a>
       ) : null}
+        </>
+      )}
       <Dialog
         open={Boolean(chest)}
         title="Peti dibuka!"

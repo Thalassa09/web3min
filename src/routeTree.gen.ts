@@ -20,6 +20,7 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RaffleRouteImport } from './routes/raffle'
+import { Route as RantaiRouteImport } from './routes/rantai'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as WardrobeRouteImport } from './routes/wardrobe'
@@ -83,6 +84,11 @@ const RaffleRoute = RaffleRouteImport.update({
   path: '/raffle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RantaiRoute = RantaiRouteImport.update({
+  id: '/rantai',
+  path: '/rantai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/raffle': typeof RaffleRoute
+  '/rantai': typeof RantaiRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
   '/wardrobe': typeof WardrobeRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/raffle': typeof RaffleRoute
+  '/rantai': typeof RantaiRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
   '/wardrobe': typeof WardrobeRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/raffle': typeof RaffleRoute
+  '/rantai': typeof RantaiRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
   '/wardrobe': typeof WardrobeRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/raffle'
+    | '/rantai'
     | '/settings'
     | '/shop'
     | '/wardrobe'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/raffle'
+    | '/rantai'
     | '/settings'
     | '/shop'
     | '/wardrobe'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/raffle'
+    | '/rantai'
     | '/settings'
     | '/shop'
     | '/wardrobe'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   RaffleRoute: typeof RaffleRoute
+  RantaiRoute: typeof RantaiRoute
   SettingsRoute: typeof SettingsRoute
   ShopRoute: typeof ShopRoute
   WardrobeRoute: typeof WardrobeRoute
@@ -339,6 +352,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RaffleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rantai': {
+      id: '/rantai'
+      path: '/rantai'
+      fullPath: '/rantai'
+      preLoaderRoute: typeof RantaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -415,6 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   RaffleRoute: RaffleRoute,
+  RantaiRoute: RantaiRoute,
   SettingsRoute: SettingsRoute,
   ShopRoute: ShopRoute,
   WardrobeRoute: WardrobeRoute,

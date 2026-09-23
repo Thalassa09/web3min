@@ -43,6 +43,9 @@ import { TactileButton } from "@/components/ui/tactile-button";
 import { PixelIcon } from "@/components/ui/pixel-icon";
 import { Lozenge } from "@/components/ui/lozenge";
 import { SkillTag } from "@/components/ui/rovo-companion";
+import { PulauIcon, BlobiPixel } from "@/lib/pulau-icons";
+import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
+import { getPulauTheme } from "@/lib/pulau-rantai";
 
 export const Route = createFileRoute("/profile")({ component: ProfilePage });
 
@@ -92,7 +95,9 @@ function ProfilePage() {
   const streak = useProgress((s) => s.streak);
   const completed = useProgress((s) => s.completed);
   const reset = useProgress((s) => s.reset);
+  const hearts = useProgress((s) => s.hearts);
 
+  const [profileTab, setProfileTab] = useState<"lisensi" | "progres" | "rute">("lisensi");
   const [bioDraft, setBioDraft] = useState(bio);
   const [isEditing, setIsEditing] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -165,6 +170,123 @@ function ProfilePage() {
   return (
     <AppShell>
       <main className="px-3 py-4 sm:px-4 sm:py-6 pb-32 sm:pb-36 max-w-5xl mx-auto space-y-5">
+        {/* Oksigen / Nyawa Alert */}
+        {hearts < 5 && (
+          <button
+            type="button"
+            className="alert cursor-pointer hover:bg-slate-50 transition-colors"
+            onClick={() => void navigate({ to: "/shop" })}
+          >
+            <span className="ai">
+              <PulauIcon name="o2" size={18} />
+            </span>
+            <span className="text-xs text-ink-900 font-semibold">
+              Nyawa tinggal <b className="text-[#E63329] font-bold">{hearts}</b>. Pulih 1 tiap 30 menit, atau isi ulang di Toko.
+            </span>
+            <PulauIcon name="chev" size={18} />
+          </button>
+        )}
+
+        {/* Tab Switcher */}
+        <div className="flex items-center gap-1.5 p-1 bg-white border-2 border-ink-900 rounded-full shadow-[2px_2px_0_#0D2340] max-w-fit">
+          <button
+            type="button"
+            onClick={() => setProfileTab("lisensi")}
+            className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
+              profileTab === "lisensi"
+                ? "bg-blobi text-white shadow-xs"
+                : "text-ink-500 hover:text-ink-900"
+            }`}
+          >
+            Lisensi & Wardrobe
+          </button>
+          <button
+            type="button"
+            onClick={() => setProfileTab("progres")}
+            className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
+              profileTab === "progres"
+                ? "bg-blobi text-white shadow-xs"
+                : "text-ink-500 hover:text-ink-900"
+            }`}
+          >
+            📊 Analitik Progres
+          </button>
+          <button
+            type="button"
+            onClick={() => setProfileTab("rute")}
+            className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
+              profileTab === "rute"
+                ? "bg-blobi text-white shadow-xs"
+                : "text-ink-500 hover:text-ink-900"
+            }`}
+          >
+            🏝️ Rute Belajar
+          </button>
+        </div>
+
+        {profileTab === "progres" && (
+          <div className="max-w-3xl">
+            <PulauRantaiProgres />
+          </div>
+        )}
+
+        {profileTab === "rute" && (
+          <div className="max-w-3xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-black font-display text-ink-900">
+                  20 Rute Pulau Rantai
+                </h2>
+                <p className="text-xs text-ink-500">
+                  {unitsDone} dari 20 pulau telah kamu jelajahi sepenuhnya
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {unitStats.map(({ unit, doneCount, totalCount, isCompleted, isStarted }) => {
+                const theme = getPulauTheme(unit.id, unit.index);
+                const firstProp = theme.props[0]?.name || "mushroom";
+                return (
+                  <button
+                    key={unit.id}
+                    type="button"
+                    className="rc text-left transition-transform active:scale-95"
+                    style={{ background: theme.bg, color: "#fff" }}
+                    onClick={() => {
+                      void navigate({ to: "/", hash: `unit-${unit.id}` });
+                    }}
+                  >
+                    <small className="block text-[11px] font-bold opacity-90">
+                      Rute {unit.index} · {theme.kind}
+                    </small>
+                    <h3 className="text-lg font-black font-display mt-0.5 drop-shadow-xs">
+                      {unit.title}
+                    </h3>
+                    <small className="block text-xs font-semibold opacity-90 mt-0.5">
+                      {doneCount}/{totalCount} blok selesai
+                    </small>
+                    <span className="pb text-ink-900">
+                      {isCompleted
+                        ? "Jelajahi Lagi"
+                        : isStarted
+                        ? "Lanjut"
+                        : "Mulai Rute"}
+                    </span>
+                    <img
+                      src={`/props/${firstProp}.png`}
+                      alt=""
+                      onError={(e) => (e.currentTarget.style.display = "none")}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {profileTab === "lisensi" && (
+          <>
         {/* Profile Explorer License Card with Pixel Candy Header */}
         <div className="rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] overflow-hidden max-w-3xl">
           {/* Blobi Pink Striped Banner */}
@@ -683,6 +805,8 @@ function ProfilePage() {
             )}
           </div>
         </SurfaceCard>
+          </>
+        )}
       </main>
     </AppShell>
   );

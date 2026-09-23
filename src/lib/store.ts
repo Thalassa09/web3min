@@ -9,6 +9,7 @@ import { sanitizeBio, sanitizeShout, sanitizeTwitter, sanitizeUsername, type Sho
 import { daysBetween, todayKey, weekId, yesterdayKey } from "@/lib/time";
 import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE } from "@/lib/raffles";
 import { recordDayActivity } from "@/lib/activity-history";
+import { getCoinRewardForRank } from "@/lib/leaderboard-prizes";
 
 export type DailyGoal = 10 | 20 | 30 | 50;
 
@@ -79,6 +80,7 @@ export type ProgressState = {
   coachSeen: boolean;
   raffleTickets: number;
   enteredRaffles: Record<string, { count: number; enteredAt: number }>;
+  lastClaimedLeaderboardWeek?: string;
 };
 
 export function needsCoach(s: Pick<ProgressState, "coachSeen" | "completed">) {
@@ -113,6 +115,7 @@ type Actions = {
   enterRaffle: (raffleId: string, count: number) => boolean;
   buyRaffleTicketsWithGems: (ticketAmount: number) => boolean;
   addRaffleTicket: (count?: number) => void;
+  claimWeeklyLeaderboardReward: (rank?: number) => number;
   reset: () => void;
   setSound: (on: boolean) => void;
   setReduceMotion: (on: boolean) => void;
@@ -157,6 +160,7 @@ const initial: ProgressState = {
   completedCases: [],
   raffleTickets: 3,
   enteredRaffles: {},
+  lastClaimedLeaderboardWeek: undefined,
 };
 
 function clamp(n: unknown, min: number, max: number, fallback: number) {
@@ -299,6 +303,7 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
     completedCases: knownCaseIds(raw.completedCases),
     raffleTickets: clamp(raw.raffleTickets, 0, 9999, 3),
     enteredRaffles: sanitizeEnteredRaffles(raw.enteredRaffles),
+    lastClaimedLeaderboardWeek: typeof raw.lastClaimedLeaderboardWeek === "string" ? raw.lastClaimedLeaderboardWeek : undefined,
   };
 }
 
@@ -634,6 +639,18 @@ export const useProgress = create<ProgressState & Actions>()(
         const qty = Math.trunc(count);
         if (!Number.isFinite(qty) || qty <= 0) return;
         set((s) => ({ raffleTickets: Math.min(9999, (s.raffleTickets ?? 0) + qty) }));
+      },
+      claimWeeklyLeaderboardReward: (rank = 7) => {
+        const s = get();
+        const currentWeek = s.weekKey || "2026-W39";
+        if (s.lastClaimedLeaderboardWeek === currentWeek) return 0;
+        const reward = getCoinRewardForRank(rank);
+        if (reward <= 0) return 0;
+        set({
+          gems: holdGems(s.gems, reward),
+          lastClaimedLeaderboardWeek: currentWeek,
+        });
+        return reward;
       },
       reset: () => set({ ...initial, heartsUpdatedAt: Date.now() }),
       setSound: (on) => set({ sound: Boolean(on) }),

@@ -66,6 +66,10 @@
   --color-primary-shadow: #3B2218;
   --color-primary-hover: #D62A78;
   --color-primary-soft: #FFE3EC;
+  --color-ruby: #E5484D;
+  --color-ruby-soft: #FFE3EC;
+  --color-leaf: #6FE3C1;
+  --color-leaf-deep: #1E9E78;
   --color-brand: #F26A99;
 
   /* 3D Box Shadows */
@@ -389,9 +393,14 @@ h1, h2, h3, h4, .font-display {
   line-height: 1.15;
 }
 
-.font-mono, code, pre, .tabular-nums {
+.font-mono, code, pre {
   font-family: var(--font-mono);
   font-feature-settings: "tnum" 1;
+}
+
+.tabular-nums {
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
 }
 
 button, input, textarea, select {

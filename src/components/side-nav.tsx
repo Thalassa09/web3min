@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Ticket } from "lucide-react";
 import { Fire } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { Mascot } from "@/components/mascot";
@@ -55,6 +55,33 @@ export function SideNav() {
             </li>
           );
         })}
+        <li key="/raffle">
+          <Link
+            to="/raffle"
+            aria-current={pathname === "/raffle" ? "page" : undefined}
+            className={cn(
+              "group flex items-center gap-3 rounded-full border-2 px-3.5 py-2 text-sm font-black transition-all duration-120 ease-out active:scale-95 active:translate-y-0.5",
+              pathname === "/raffle"
+                ? "border-ink-900 bg-candy-500 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] translate-x-1"
+                : "border-transparent text-ink-500 hover:border-ink-900/10 hover:bg-candy-50 hover:text-ink-900"
+            )}
+          >
+            <div
+              className={cn(
+                "flex size-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                pathname === "/raffle"
+                  ? "border-white/40 bg-white/20 text-white"
+                  : "border-ink-900/10 bg-white/80 text-ink-700 group-hover:border-ink-900/20 group-hover:bg-white group-hover:text-candy-deep"
+              )}
+            >
+              <Ticket className="size-4.5 shrink-0" />
+            </div>
+            <span className="flex-1 truncate tracking-[-0.01em]">Raffle NFT</span>
+            <span className="rounded-full border border-amber-300 bg-amber-100 px-2 py-0.5 text-[10px] font-black text-amber-900">
+              NFT
+            </span>
+          </Link>
+        </li>
       </ul>
 
       <Link

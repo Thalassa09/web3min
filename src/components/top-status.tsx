@@ -9,10 +9,20 @@ import { playTap, setAudioEnabled } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 const pillBase =
-  "relative flex h-8 sm:h-9 shrink-0 items-center gap-1 sm:gap-1.5 rounded-full border-2 border-ink-900 bg-white/95 px-2.5 sm:px-3 text-xs font-black text-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_1px_0_var(--color-ink-900)] transition-transform duration-100 ease-out active:scale-95 active:translate-y-0.5";
+  "relative flex h-8 sm:h-9 shrink-0 items-center gap-1 sm:gap-1.5 rounded-full border-2 border-choco-900 bg-cream px-2 sm:px-2.5 text-xs sm:text-sm font-black text-choco-900 shadow-[0_2px_0_#3B2218] transition-transform duration-100 ease-out active:scale-95 active:translate-y-0.5";
 
-function StatPill({ value, display, icon, title, floatColor = "var(--color-coin)" }: {
-  value: number; display?: ReactNode; icon: ReactNode; title: string; floatColor?: string;
+function StatPill({
+  value,
+  display,
+  icon,
+  title,
+  floatColor = "var(--color-lemon-deep)",
+}: {
+  value: number;
+  display?: ReactNode;
+  icon: ReactNode;
+  title: string;
+  floatColor?: string;
 }) {
   const prev = useRef(value);
   const [delta, setDelta] = useState(0);
@@ -26,14 +36,35 @@ function StatPill({ value, display, icon, title, floatColor = "var(--color-coin)
     setBump(true);
     const a = setTimeout(() => setDelta(0), 900);
     const b = setTimeout(() => setBump(false), 420);
-    return () => { clearTimeout(a); clearTimeout(b); };
+    return () => {
+      clearTimeout(a);
+      clearTimeout(b);
+    };
   }, [value]);
 
   return (
-    <div title={title} className={pillBase} style={{ animation: bump ? "pill-bump 420ms var(--ease-back)" : undefined }}>
+    <div
+      title={title}
+      className={pillBase}
+      style={{
+        animation: bump ? "pill-bump 420ms var(--ease-back)" : undefined,
+      }}
+    >
       <span className="grid size-4 shrink-0 place-items-center">{icon}</span>
-      <span className="tabular-nums tracking-tight">{display ?? value}</span>
-      {delta > 0 && <span className="pill-float" style={{ color: floatColor, textShadow: "0 1px 0 var(--color-ink-900)" }}>+{delta}</span>}
+      <span className="font-sans font-black text-xs sm:text-sm text-choco-900 tabular-nums tracking-tight leading-none">
+        {display ?? value}
+      </span>
+      {delta > 0 && (
+        <span
+          className="pill-float"
+          style={{
+            color: floatColor,
+            textShadow: "0 1px 0 var(--color-choco-900)",
+          }}
+        >
+          +{delta}
+        </span>
+      )}
     </div>
   );
 }
@@ -49,7 +80,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const toggleNav = useNavStore((s) => s.toggle);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 sm:h-16 select-none items-center gap-2 border-b-2 border-ink-900 bg-white/80 px-3 backdrop-blur-xl backdrop-saturate-180 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-5">
+    <header className="sticky top-0 z-30 flex h-14 sm:h-16 select-none items-center gap-2 border-b-2 border-choco-900 bg-cream/95 px-3 backdrop-blur-xl shadow-[0_2px_0_rgba(59,34,24,0.06)] sm:px-5">
       {brand && (
         <div className="flex items-center gap-2">
           {/* Menu Hamburger Trigger Button */}
@@ -63,57 +94,109 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
             }}
             className={cn(
               pillBase,
-              "gap-1.5 px-2.5 sm:px-3 text-ink-900 hover:bg-candy-50 cursor-pointer active:translate-y-0.5",
-              isNavOpen && "bg-candy-50 border-candy-deep text-candy-deep"
+              "gap-1.5 px-2.5 sm:px-3 text-choco-900 hover:bg-candy-100 cursor-pointer active:translate-y-0.5",
+              isNavOpen && "bg-candy-100 border-candy-500 text-candy-600"
             )}
           >
-            <Menu className="size-4 text-candy-deep" />
-            <span className="hidden font-display text-xs font-black sm:inline">
+            <Menu className="size-4 text-candy-500" />
+            <span className="hidden font-pixel text-xs font-bold sm:inline">
               Menu
             </span>
           </button>
 
-          <Link to="/" aria-label="Beranda" className="flex shrink-0 items-center gap-2">
-            <span className="grid size-8 sm:size-9 place-items-center rounded-full border-2 border-ink-900 bg-candy-soft shadow-xs">
-              <img src="/mascot/idle.png" alt="" className="pixelated size-5 sm:size-6 object-contain" />
+          <Link
+            to="/"
+            aria-label="Beranda"
+            className="flex shrink-0 items-center gap-2"
+          >
+            <span className="grid size-8 sm:size-9 place-items-center rounded-full border-2 border-choco-900 bg-candy-100 shadow-[0_2px_0_#3B2218]">
+              <img
+                src="/mascot/idle.png"
+                alt=""
+                className="pixelated size-5 sm:size-6 object-contain"
+              />
             </span>
-            <span className="hidden font-display text-base sm:text-lg font-black text-ink-900 sm:inline">
-              web3<span className="text-candy">min</span>
+            <span className="hidden font-pixel text-base sm:text-lg font-bold text-choco-900 sm:inline">
+              web3<span className="text-candy-500">min</span>
             </span>
           </Link>
         </div>
       )}
 
-      <div className="ml-auto flex items-center gap-2">
+      <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
         <div className="hidden sm:block">
-          <StatPill value={xp} display={`${xp} XP`} title="Total XP" icon={<Sparkles className="size-4 text-leaf" />} floatColor="var(--color-leaf)" />
+          <StatPill
+            value={xp}
+            title={`${xp} Total XP`}
+            icon={<Sparkles className="size-3.5 text-candy-500 fill-candy-500" />}
+            floatColor="var(--color-candy-500)"
+          />
         </div>
+
         <StatPill
           value={streak}
-          title="Streak Belajar Harian"
-          icon={<Fire className={cn("size-4", streak > 0 ? "flame-active text-flame" : "text-ink-300")} weight={streak > 0 ? "fill" : "regular"} />}
-          floatColor="var(--color-flame)"
+          title={`${streak} hari beruntun`}
+          icon={
+            <Fire
+              className={cn("size-3.5", streak > 0 ? "text-flame-500" : "text-choco-900/40")}
+              weight={streak > 0 ? "fill" : "regular"}
+            />
+          }
+          floatColor="var(--color-flame-500)"
         />
-        <StatPill value={gems} display={formatGems(gems)} title="Saldo Bintang" icon={<BlockStamp size={13} className="text-coin" />} />
+
         <StatPill
-          value={hearts}
-          title="Nyawa"
-          display={<>{hearts}<span className="hidden sm:inline">/{MAX_HEARTS}</span></>}
-          icon={<Heart className="size-4 text-ruby" weight="fill" />}
-          floatColor="var(--color-ruby)"
+          value={gems}
+          display={formatGems(gems)}
+          title={`${gems} Bintang`}
+          icon={<BlockStamp size={16} lit={false} />}
+          floatColor="var(--color-lemon-deep)"
         />
+
+        <Link
+          to="/shop"
+          title={`Nyawa ${hearts}/${MAX_HEARTS} — buka Toko`}
+          className={cn(
+            pillBase,
+            hearts <= 1 && "animate-pulse border-danger text-danger bg-danger/10",
+          )}
+        >
+          <span className="grid size-4 shrink-0 place-items-center">
+            <Heart
+              className={cn("size-3.5", hearts > 0 ? "text-danger" : "text-choco-900/40")}
+              weight={hearts > 0 ? "fill" : "regular"}
+            />
+          </span>
+          <span className="font-sans font-black text-xs sm:text-sm text-choco-900 tabular-nums tracking-tight leading-none">
+            {hearts}
+          </span>
+          {hearts < MAX_HEARTS && (
+            <span className="text-candy-500 text-xs font-black leading-none">+</span>
+          )}
+        </Link>
+
+        {/* Sound FX Toggle Pill */}
         <button
           type="button"
-          aria-label={sound ? "Matikan Suara" : "Nyalakan Suara"}
+          aria-label={sound ? "Matikan suara" : "Nyalakan suara"}
+          title={sound ? "Suara aktif (klik untuk matikan)" : "Suara senyap (klik untuk aktifkan)"}
           onClick={() => {
             const next = !sound;
             setSound(next);
             setAudioEnabled(next);
             if (next) playTap();
           }}
-          className={cn(pillBase, "hidden size-9 justify-center px-0 active:translate-y-[2px] active:shadow-none sm:flex")}
+          className={cn(
+            pillBase,
+            "px-2 sm:px-2.5",
+            !sound && "opacity-60 bg-cream/70 text-choco-900/50"
+          )}
         >
-          {sound ? <Volume2 className="size-4" /> : <VolumeX className="size-4 text-ruby" />}
+          {sound ? (
+            <Volume2 className="size-4 text-choco-900" />
+          ) : (
+            <VolumeX className="size-4 text-danger" />
+          )}
         </button>
 
         {/* Global Nav Menu Trigger in Candy Pink (Burger / X) */}
@@ -125,7 +208,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
             if (sound) playTap();
             toggleNav();
           }}
-          className="bubble-trigger group relative flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-ink-900 bg-[#F26A99] text-white shadow-ink-sm transition-all duration-150 active:translate-y-0.5 active:shadow-none cursor-pointer hover:brightness-105"
+          className="bubble-trigger group relative flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-[#E8437F] text-white shadow-[0_2px_0_#3B2218] transition-all duration-150 active:translate-y-0.5 active:shadow-none cursor-pointer hover:brightness-105"
         >
           <div className="flex flex-col items-center justify-center gap-1">
             <span

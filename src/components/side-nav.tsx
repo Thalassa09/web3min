@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight, Ticket, X } from "lucide-react";
 import { Fire } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { Mascot } from "@/components/mascot";

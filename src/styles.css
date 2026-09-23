@@ -650,7 +650,7 @@ input:focus-visible {
 
 .desk-shell {
   min-height: 100dvh;
-  background: #F8FAFD;
+  background: var(--color-cream);
   display: flex;
   position: relative;
 }

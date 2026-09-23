@@ -650,7 +650,7 @@ function ShopPage() {
                               ? "bg-candy-50 border-2 border-choco-900 shadow-[0_4px_0_#3B2218]"
                               : owned
                               ? "bg-cream border-2 border-choco-900 shadow-[0_4px_0_#3B2218] hover:translate-y-[-1px]"
-                              : "bg-cream/70 border-2 border-dashed border-choco-900/40 shadow-[0_2px_0_rgba(59,34,24,0.06)]"
+                              : "bg-cream border-2 border-dashed border-choco-600 shadow-[0_2px_0_rgba(59,34,24,0.08)]"
                           }`}
                         >
                           <div className="space-y-1.5">

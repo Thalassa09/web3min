@@ -860,6 +860,12 @@ function PulauRantaiShowcase() {
                 <PulauIcon name="back" size={14} />
                 Kembali ke Beranda
               </Link>
+              <Link
+                to="/bubble"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-candy text-white border-2 border-ink-900 text-xs font-black shadow-[2px_2px_0_#0D2340] hover:bg-candy-deep transition-colors"
+              >
+                🫧 Bubble Menu ↗
+              </Link>
               <span className="px-2.5 py-0.5 rounded-full bg-[#FFE3EC] text-[#D62A78] border border-[#FFB3D6] text-[11px] font-bold font-['Pixelify_Sans']">
                 PROTOTIPE AKTIF
               </span>

@@ -3,12 +3,13 @@ import { Link } from "@tanstack/react-router";
 import { Sparkles, Volume2, VolumeX } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
 import { BlockStamp } from "@/components/motif";
+import { BubbleMenu } from "@/components/bubble-menu";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
 import { playTap, setAudioEnabled } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 const pillBase =
-  "relative flex h-9 shrink-0 items-center gap-1 rounded-md border-2 border-ink-900 bg-white px-2.5 text-xs font-extrabold text-ink-900 shadow-ink-sm";
+  "relative flex h-9 shrink-0 items-center gap-1.5 rounded-full border-2 border-ink-900 bg-white px-3 text-xs font-black text-ink-900 shadow-ink-xs transition-transform active:translate-y-0.5";
 
 function StatPill({ value, display, icon, title, floatColor = "var(--color-coin)" }: {
   value: number; display?: ReactNode; icon: ReactNode; title: string; floatColor?: string;
@@ -85,10 +86,13 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
             setAudioEnabled(next);
             if (next) playTap();
           }}
-          className={cn(pillBase, "hidden w-9 justify-center px-0 active:translate-y-[2px] active:shadow-none sm:flex")}
+          className={cn(pillBase, "hidden size-9 justify-center px-0 active:translate-y-[2px] active:shadow-none sm:flex")}
         >
           {sound ? <Volume2 className="size-4" /> : <VolumeX className="size-4 text-ruby" />}
         </button>
+
+        {/* Bubble Menu Global Trigger in Candy Pink */}
+        <BubbleMenu compactTriggerOnly menuBg="#F26A99" menuContentColor="#ffffff" />
       </div>
     </header>
   );

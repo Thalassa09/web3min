@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as BubbleRouteImport } from './routes/bubble'
 import { Route as CaraRouteImport } from './routes/cara'
 import { Route as IntroRouteImport } from './routes/intro'
 import { Route as KisahRouteImport } from './routes/kisah'
@@ -37,6 +38,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BubbleRoute = BubbleRouteImport.update({
+  id: '/bubble',
+  path: '/bubble',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CaraRoute = CaraRouteImport.update({
@@ -128,6 +134,7 @@ const LessonLessonIdRoute = LessonLessonIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bubble': typeof BubbleRoute
   '/cara': typeof CaraRoute
   '/intro': typeof IntroRoute
   '/kisah': typeof KisahRouteWithChildren
@@ -149,6 +156,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bubble': typeof BubbleRoute
   '/cara': typeof CaraRoute
   '/intro': typeof IntroRoute
   '/leaderboard': typeof LeaderboardRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bubble': typeof BubbleRoute
   '/cara': typeof CaraRoute
   '/intro': typeof IntroRoute
   '/kisah': typeof KisahRouteWithChildren
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/bubble'
     | '/cara'
     | '/intro'
     | '/kisah'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/bubble'
     | '/cara'
     | '/intro'
     | '/leaderboard'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/bubble'
     | '/cara'
     | '/intro'
     | '/kisah'
@@ -256,6 +268,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  BubbleRoute: typeof BubbleRoute
   CaraRoute: typeof CaraRoute
   IntroRoute: typeof IntroRoute
   KisahRoute: typeof KisahRouteWithChildren
@@ -287,6 +300,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bubble': {
+      id: '/bubble'
+      path: '/bubble'
+      fullPath: '/bubble'
+      preLoaderRoute: typeof BubbleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cara': {
@@ -426,6 +446,7 @@ const KisahRouteWithChildren = KisahRoute._addFileChildren(KisahRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  BubbleRoute: BubbleRoute,
   CaraRoute: CaraRoute,
   IntroRoute: IntroRoute,
   KisahRoute: KisahRouteWithChildren,

@@ -56,12 +56,20 @@ export function PathMap({ units, focusUnit }: { units: Unit[]; focusUnit?: strin
           </button>
         </div>
 
-        <Link
-          to="/rantai"
-          className="text-[11px] font-bold text-ink-500 hover:text-ink-900 underline flex items-center gap-1"
-        >
-          3-Phone Stage ↗
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            to="/bubble"
+            className="text-[11px] font-black text-candy-deep hover:text-candy underline flex items-center gap-1"
+          >
+            🫧 Bubble Menu ↗
+          </Link>
+          <Link
+            to="/rantai"
+            className="text-[11px] font-bold text-ink-500 hover:text-ink-900 underline flex items-center gap-1"
+          >
+            3-Phone Stage ↗
+          </Link>
+        </div>
       </div>
 
       {viewMode === "pulau" ? (

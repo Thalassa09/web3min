@@ -335,14 +335,14 @@ export function BubbleMenu({
       className={[
         useFixedPosition ? "fixed inset-0 z-[9999]" : "absolute inset-0 z-50",
         "flex flex-col items-center justify-center p-4 sm:p-6 overflow-y-auto",
-        "bg-[#0D2340]/85 backdrop-blur-xl"
+        "bg-black/25 backdrop-blur-md"
       ].join(" ")}
       style={{
-        WebkitBackdropFilter: "blur(20px)"
+        WebkitBackdropFilter: "blur(12px)"
       }}
       aria-hidden={!isMenuOpen}
       onClick={(e) => {
-        if (e.target === overlayRef.current) {
+        if (e.target === overlayRef.current || e.target === cardContainerRef.current) {
           handleToggle();
         }
       }}
@@ -352,7 +352,7 @@ export function BubbleMenu({
         type="button"
         onClick={handleToggle}
         aria-label="Tutup menu navigasi"
-        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[10000] flex size-11 items-center justify-center rounded-full border-2 border-white/30 bg-white/20 text-white shadow-lg backdrop-blur-md transition-all duration-150 hover:scale-105 hover:bg-white/30 active:scale-95 cursor-pointer"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[10000] flex size-11 items-center justify-center rounded-full border-2 border-white/40 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all duration-150 hover:scale-105 hover:bg-black/60 active:scale-95 cursor-pointer"
       >
         <X className="size-5 stroke-[2.5]" />
       </button>
@@ -364,11 +364,11 @@ export function BubbleMenu({
       >
         {/* Header Title in Overlay */}
         <div className="mb-6 flex flex-col items-center text-center px-4">
-          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/25 bg-white/15 px-4 py-1 text-xs font-black uppercase tracking-wider text-white shadow-sm backdrop-blur-md">
+          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/35 bg-black/35 px-4 py-1 text-xs font-black uppercase tracking-wider text-white shadow-sm backdrop-blur-md">
             <Sparkles className="size-3.5 text-coin" />
             Menu Navigasi Penjelajah
           </span>
-          <h2 className="mt-2.5 font-display text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-sm">
+          <h2 className="mt-2.5 font-sans text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
             Mau jelajah ke mana hari ini?
           </h2>
         </div>
@@ -391,7 +391,7 @@ export function BubbleMenu({
               aria-label={item.ariaLabel || item.label}
               className={[
                 "group relative flex w-full items-center gap-3.5 sm:gap-4 rounded-2xl border-2 border-ink-900 bg-white p-3.5 sm:p-4 text-left no-underline",
-                "shadow-[0_4px_0_#0D2340] hover:shadow-[0_6px_0_#0D2340] hover:-translate-y-0.5",
+                "shadow-[0_4px_0_#2B1622] hover:shadow-[0_6px_0_#2B1622] hover:-translate-y-0.5",
                 "active:translate-y-1 active:shadow-none transition-all duration-150 cursor-pointer select-none"
               ].join(" ")}
             >
@@ -403,7 +403,7 @@ export function BubbleMenu({
               {/* Label & Details */}
               <div className="flex flex-1 flex-col justify-center min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="truncate font-display text-base sm:text-lg font-black text-ink-900 group-hover:text-candy-deep transition-colors">
+                  <span className="truncate font-sans text-base sm:text-lg font-black text-ink-900 group-hover:text-candy-deep transition-colors">
                     {item.label}
                   </span>
                   {item.badge && (
@@ -426,7 +426,7 @@ export function BubbleMenu({
         <button
           type="button"
           onClick={handleToggle}
-          className="mt-8 flex items-center gap-2 rounded-full border-2 border-white/20 bg-white/10 px-5 py-2 text-xs font-black text-white/90 backdrop-blur-md transition-all hover:bg-white/20 active:translate-y-0.5 cursor-pointer"
+          className="mt-8 flex items-center gap-2 rounded-full border-2 border-white/30 bg-black/35 px-5 py-2 text-xs font-black text-white shadow-sm backdrop-blur-md transition-all hover:bg-black/55 active:translate-y-0.5 cursor-pointer"
         >
           <X className="size-3.5" /> Tutup Menu (Esc)
         </button>

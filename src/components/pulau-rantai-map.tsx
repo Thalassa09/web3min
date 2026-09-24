@@ -272,10 +272,11 @@ export function PulauRantaiMap({
                   loop
                   muted
                   playsInline
-                  poster={`/worlds/${unit.id}.jpg`}
+                  poster={`/worlds/${unit.id}.jpg?v=2`}
                   className="art object-cover w-full h-full absolute inset-0 pointer-events-none"
-                  src={`/worlds/${unit.id}.mp4`}
-                />
+                >
+                  <source src={`/worlds/${unit.id}.mp4?v=2`} type="video/mp4" />
+                </video>
               ) : (
                 <img
                   className="art"

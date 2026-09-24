@@ -83,7 +83,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
               : "bg-canvas text-ink-300 border border-line"
           )}
         >
-          {hexHash}
+          {status === "chest" ? "PETI" : hexHash}
         </span>
       </div>
 

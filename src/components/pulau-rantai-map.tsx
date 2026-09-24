@@ -146,7 +146,8 @@ export function PulauRantaiMap({
     }
 
     if (status === "now") {
-      setSheetLesson({ lesson, unit, blockNo, status });
+      startLesson(lesson.id);
+      return;
     } else if (status === "done") {
       setSheetLesson({ lesson, unit, blockNo, status });
     } else {
@@ -407,30 +408,24 @@ export function PulauRantaiMap({
                             top: `${y - 42}px`,
                           }}
                         >
-                          <div className="relative flex flex-col items-center">
-                            {/* Playful callout bubble */}
-                            <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-candy-500 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-[10px] font-pixel font-bold text-white whitespace-nowrap animate-bounce flex items-center gap-1">
-                              <span>Ayo tambang!</span>
-                              <span className="text-[9px]">⛏️</span>
+                          <button
+                            type="button"
+                            className="relative flex flex-col items-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              startLesson(lesson.id);
+                            }}
+                            title="Mulai kuis blok ini"
+                            aria-label={`Mulai kuis: ${lesson.title}`}
+                          >
+                            <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-candy-500 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-[10px] font-pixel font-bold text-white whitespace-nowrap animate-bounce">
+                              Ayo tambang!
                             </div>
-
-                            {/* Mascot Avatar with click reaction */}
-                            <button
-                              type="button"
-                              className="cursor-pointer transition-transform hover:scale-110 active:scale-90"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (sound) playMoodSfx("celebrate");
-                                playTap();
-                                startLesson(lesson.id);
-                              }}
-                              title="Mulai tambang blok ini bersama Blobi!"
-                            >
-                              <div className="size-14 sm:size-16 drop-shadow-[0_6px_0_rgba(59,34,24,0.35)]">
-                                <Mascot mood="wave" size={58} />
-                              </div>
-                            </button>
-                          </div>
+                            <div className="size-14 sm:size-16 drop-shadow-[0_6px_0_rgba(59,34,24,0.35)] pointer-events-none">
+                              <Mascot mood="wave" size={58} interactive={false} />
+                            </div>
+                          </button>
                         </div>
                       )}
                     </React.Fragment>

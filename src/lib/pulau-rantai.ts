@@ -62,16 +62,12 @@ export interface PulauTheme {
 
 export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u1: {
-    bg: "#7FBF67",
+    bg: "#1D3B22",
     dash: "14 10",
     kind: "Genesis",
     land: "Hutan Genesis",
     look: "Mulai kenalan sama internet yang kepemilikannya balik lagi ke tanganmu sendiri.",
-    props: [
-      { name: "mushroom", side: "left", top: 22, size: 52 },
-      { name: "flower", side: "right", top: 48, size: 44 },
-      { name: "mushroom", side: "right", top: 78, size: 40, flip: true },
-    ],
+    props: [],
   },
   u2: {
     bg: "#4B2F63",

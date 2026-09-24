@@ -1765,6 +1765,11 @@ button.jb:active, .fab:active .jb {
   image-rendering: crisp-edges;
   image-rendering: -webkit-optimize-contrast;
 }
+
+.world video.art,
+.world#unit-u1 > .art {
+  image-rendering: auto;
+}
 .road {
   position: absolute;
   inset: 0;

@@ -265,15 +265,27 @@ export function PulauRantaiMap({
                 } as React.CSSProperties
               }
             >
-              {/* World Cover Image — High Definition with Crisp Pixel Grid */}
-              <img
-                className="art"
-                src={`/worlds/${unit.id}.jpg`}
-                alt=""
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-              />
+              {/* World Cover Video (Lane 1 animated background) or High Definition Cover Image */}
+              {unit.id === "u1" ? (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  poster={`/worlds/${unit.id}.jpg`}
+                  className="art object-cover w-full h-full absolute inset-0 pointer-events-none"
+                  src={`/worlds/${unit.id}.mp4`}
+                />
+              ) : (
+                <img
+                  className="art"
+                  src={`/worlds/${unit.id}.jpg`}
+                  alt=""
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              )}
 
               {/* HD Atmospheric Lighting Overlay for rich depth & contrast */}
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/10 via-transparent to-ink-950/20 z-1" />
@@ -358,9 +370,9 @@ export function PulauRantaiMap({
                   />
                 ))}
 
-                {/* World Sign Board - Compact, Non-intrusive on Mobile, Rich on Desktop */}
+                {/* World Sign Board - Tactile Beveled Style */}
                 <div
-                  className="absolute left-3 right-3 sm:left-4 sm:right-4 max-w-lg mx-auto top-2.5 z-10 bg-white/95 backdrop-blur-md border-2 border-ink-900 rounded-2xl px-3 py-2 sm:p-3.5 shadow-[2px_2px_0_#2B1622] transition-all pointer-events-auto"
+                  className="absolute left-3 right-3 sm:left-4 sm:right-4 max-w-lg mx-auto top-2.5 z-10 bg-gradient-to-b from-white/95 via-[#FFF9F5]/95 to-[#FDEEE4]/95 backdrop-blur-md border-2 border-choco-900/18 rounded-3xl px-3.5 py-2.5 sm:p-3.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.14)] transition-all pointer-events-auto"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">

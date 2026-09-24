@@ -591,7 +591,7 @@ export function RafflePage() {
             const rarityStyle = getRarityStyle(raffle.nftRarity);
             const RarityIcon = rarityStyle.icon;
             const stats = statsMap[raffle.id];
-            const liveTotalTickets = stats?.total_tickets ?? (raffle.id === "raf-genesis-blobi" ? 48 : 24);
+            const liveTotalTickets = stats?.total_tickets;
             const userEntered = enteredRaffles[raffle.id]?.count ?? 0;
             const isLive = raffle.status === "live";
 
@@ -604,7 +604,7 @@ export function RafflePage() {
                 <div className="space-y-3">
                   {/* Top Badges */}
                   <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <span
                         className={`inline-flex items-center gap-1 rounded-lg border-2 border-choco-900/20 px-2 py-0.5 text-[11px] font-bold shadow-[0_1.5px_0_#3B2218] ${rarityStyle.badgeBg}`}
                       >
@@ -612,11 +612,9 @@ export function RafflePage() {
                         {rarityStyle.label}
                       </span>
 
-                      {raffle.nftNetwork && (
-                        <span className="rounded-lg border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] px-2 py-0.5 text-[11px] font-bold text-choco-800 shadow-[0_1px_0_#B01F62]">
-                          {raffle.nftNetwork}
-                        </span>
-                      )}
+                      <span className="rounded-lg border border-choco-900/15 bg-cream/80 px-2 py-0.5 text-[10px] font-bold text-choco-600">
+                        Hadiah dalam aplikasi, bukan aset kripto sungguhan
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-1.5">
@@ -645,11 +643,6 @@ export function RafflePage() {
                       <Award className="h-3.5 w-3.5 shrink-0" />
                       {raffle.prize}
                     </div>
-                    {raffle.nftContract && (
-                      <div className="text-[11px] font-mono text-choco-500 mt-0.5">
-                        Kontrak: {raffle.nftContract} {raffle.nftTokenId ? `• ${raffle.nftTokenId}` : ""}
-                      </div>
-                    )}
                   </div>
 
                   {/* Artwork / Image Space for NFT or Project */}
@@ -695,7 +688,7 @@ export function RafflePage() {
                       <div className="text-[10px] font-bold uppercase text-choco-500">Tiket Terkumpul</div>
                       <div className="font-display font-bold text-choco-900 text-sm flex items-center gap-1 mt-0.5">
                         <Ticket className="h-3.5 w-3.5 text-amber-600" />
-                        {liveTotalTickets} Tiket
+                        {liveTotalTickets ? `${liveTotalTickets} Tiket` : "—"}
                       </div>
                     </div>
                     <div>

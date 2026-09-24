@@ -17,7 +17,7 @@ export const HOW_TO_CORE: HowToItem[] = [
   },
   {
     title: "Nyawa untuk kuis",
-    body: "Salah jawab, nyawa berkurang. Pulih sendiri. Habis? Buka Kisah tanpa mengurangi nyawa.",
+    body: "Salah jawab, nyawa berkurang. Pulih sendiri. Kalau nyawa habis, kamu tetap bisa baca Kisah karena Kisah tidak memakai nyawa.",
     Icon: Heart,
   },
   {

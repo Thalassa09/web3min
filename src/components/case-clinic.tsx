@@ -104,7 +104,14 @@ export function CaseClinic({ study }: { study: CaseStudy }) {
                 <p className={cn("text-[10px] font-extrabold uppercase tracking-label", tone.text)}>{tone.label}</p>
                 <p className="text-sm font-extrabold">{proof.value}</p>
               </div>
-              <p className="max-w-[55%] truncate text-right text-xs font-bold text-muted">{proof.via}</p>
+              <div className="max-w-[55%] text-right">
+                <p className="truncate text-xs font-bold text-muted">{proof.via}</p>
+                {proof.via?.toLowerCase().startsWith("x") && (
+                  <p className="text-[9px] font-semibold text-choco-600/70 italic leading-tight truncate">
+                    Unggahan publik, belum diverifikasi.
+                  </p>
+                )}
+              </div>
             </figcaption>
           </figure>
         ) : null}

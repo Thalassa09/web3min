@@ -272,7 +272,7 @@ function ShopPage() {
                           <Heart className="size-3.5 fill-current" /> Vitalitas Kuis
                         </span>
                         <span className="text-[11px] font-bold text-choco-600">
-                          {heartsFull ? "Nyawa Kamu Penuh" : `${hearts}/${MAX_HEARTS} Hati Tersisa`}
+                          {heartsFull ? "Nyawa Kamu Penuh" : `${hearts}/${MAX_HEARTS} Nyawa Tersisa`}
                         </span>
                       </div>
                       {/* Hearts Meter Indicator */}
@@ -291,10 +291,10 @@ function ShopPage() {
                     </div>
 
                     <h3 className="text-xl font-display font-bold text-choco-900 tracking-tight">
-                      Isi Ulang 5 Hati Penuh
+                      Isi Ulang 5 Nyawa Penuh
                     </h3>
                     <p className="mt-2 text-xs md:text-sm font-semibold leading-relaxed text-choco-700 max-w-xl">
-                      Salah nebak pas ngerjain kuis? Pulihin 5 hati penuh sekaligus biar kamu bisa langsung lanjut push rute pulau tanpa harus nunggu jeda istirahat.
+                      Salah nebak pas ngerjain kuis? Pulihin 5 nyawa penuh sekaligus biar kamu bisa langsung lanjut push rute pulau tanpa harus nunggu jeda istirahat.
                     </p>
                   </div>
 

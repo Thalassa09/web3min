@@ -29,7 +29,7 @@ const STEPS: Step[] = [
   {
     target: "hearts",
     mood: "think",
-    say: "Salah jawab, nyawa berkurang. Habis? Buka Kisah tanpa mengurangi nyawa.",
+    say: "Salah jawab, nyawa berkurang. Kalau nyawa habis, kamu tetap bisa baca Kisah karena Kisah tidak memakai nyawa.",
     done: "Lanjut",
     pad: 8,
     radius: 999,

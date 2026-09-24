@@ -25,6 +25,8 @@ export interface AnimatedFeatureCardProps extends Omit<HTMLMotionProps<"div">, "
   imageAlt?: string;
   /** If the card represents locked content */
   isLocked?: boolean;
+  /** Image badge label: defaults to "BUKTI" for /cases/ or "KISAH" for /stories/ */
+  badgeLabel?: string;
   /** Optional children elements */
   children?: React.ReactNode;
 }
@@ -83,6 +85,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
       footer,
       imageAlt,
       isLocked = false,
+      badgeLabel,
       children,
       style,
       ...props
@@ -166,7 +169,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
                 }}
               />
               <div className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-choco-900/85 backdrop-blur-xs text-[9px] font-pixel font-bold text-white shadow-xs">
-                ARSIP BUKTI
+                {badgeLabel || (imageSrc.includes("/cases/") ? "BUKTI" : "KISAH")}
               </div>
             </div>
           ) : (

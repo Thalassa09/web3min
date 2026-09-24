@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, Sparkles, Volume2, VolumeX } from "lucide-react";
+import { Menu, Sparkles, Volume2, VolumeX, Gamepad2 } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
 import { BlockStamp, CoinIcon } from "@/components/motif";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
@@ -226,7 +226,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
               : "opacity-85 hover:opacity-100 text-choco-900"
           )}
         >
-          <span className="text-xs select-none">{pixelMode ? "👾" : "✨"}</span>
+          <span className="text-xs select-none flex items-center">{pixelMode ? <Gamepad2 className="size-3.5 text-candy-600" /> : <Sparkles className="size-3.5 text-candy-500" />}</span>
           <span className="hidden sm:inline font-mono text-[10px] font-bold tracking-tight">
             {pixelMode ? "PIXEL" : "MODERN"}
           </span>

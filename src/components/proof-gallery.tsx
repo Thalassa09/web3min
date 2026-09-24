@@ -82,7 +82,16 @@ export function ProofCard({ proof, compact }: { proof: Proof; compact?: boolean 
         <p className={cn("text-xs font-extrabold uppercase tracking-label", tone.text)}>{tone.label}</p>
         <p className="text-sm font-extrabold tabular-nums leading-tight">{proof.value}</p>
         <p className="truncate text-xs font-bold text-muted">{proof.cap}</p>
-        {compact ? null : <p className="truncate text-[10px] font-bold text-faint">{proof.via}</p>}
+        {compact ? null : (
+          <div className="mt-0.5">
+            <p className="truncate text-[10px] font-bold text-faint">{proof.via}</p>
+            {proof.via?.toLowerCase().startsWith("x") && (
+              <p className="text-[9px] font-semibold text-choco-600/70 italic leading-tight truncate">
+                Unggahan publik, belum diverifikasi.
+              </p>
+            )}
+          </div>
+        )}
       </figcaption>
     </figure>
   );

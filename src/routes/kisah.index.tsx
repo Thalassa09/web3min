@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Check, Lock, Sparkles, Compass } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { CASES, STORIES, isOpen } from "@/lib/stories";
+import { getLesson, getUnit } from "@/lib/curriculum";
 import { useProgress } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { AnimatedFeatureCard, FeatureCardColor } from "@/components/ui/feature-card-1";
@@ -10,26 +11,26 @@ import { AnimatedFeatureCard, FeatureCardColor } from "@/components/ui/feature-c
 export const Route = createFileRoute("/kisah/")({ component: KisahHub });
 
 const STORY_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag: string }> = {
-  "s-peta": { image: "/stories/s-peta.jpg", color: "blue", tag: "Ekosistem Web3" },
-  "s-defi": { image: "/stories/s-defi.jpg", color: "emerald", tag: "Aave Lending" },
-  "s-kerja": { image: "/stories/s-kerja.jpg", color: "purple", tag: "Gitcoin DAO" },
-  "s-eth": { image: "/stories/s-eth.jpg", color: "blue", tag: "The Merge ETH" },
-  "s-liq": { image: "/stories/s-liq.jpg", color: "orange", tag: "Risiko Likuidasi" },
-  "s-flash": { image: "/stories/s-flash.jpg", color: "emerald", tag: "Flash Loan Arbitrage" },
-  "s-oracle": { image: "/stories/s-oracle.jpg", color: "purple", tag: "Mango Oracle Attack" },
-  "s-arb": { image: "/stories/s-arb.jpg", color: "orange", tag: "MEV Sandwich" },
-  "s-poison": { image: "/stories/s-poison.jpg", color: "rose", tag: "Address Poisoning" },
-  "s-permit": { image: "/stories/s-permit.jpg", color: "rose", tag: "Permit Signature" },
-  "s-il": { image: "/stories/s-il.jpg", color: "emerald", tag: "Impermanent Loss" },
-  "s-dm": { image: "/stories/s-dm.jpg", color: "rose", tag: "Never DM First" },
-  "s-seed": { image: "/stories/s-seed.jpg", color: "rose", tag: "Seed Phrase Rules" },
-  "s-airdrop": { image: "/stories/s-airdrop.jpg", color: "blue", tag: "Fake Airdrop Site" },
-  "s-drop-cuan": { image: "/stories/s-drop-cuan.jpg", color: "emerald", tag: "Klaim 400 UNI" },
-  "s-copy": { image: "/stories/s-copy.jpg", color: "rose", tag: "Phishing Clone URL" },
-  "s-honey": { image: "/stories/s-honey.jpg", color: "rose", tag: "Honeypot +605%" },
-  "s-cs": { image: "/stories/s-cs.jpg", color: "rose", tag: "Admin Palsu Telegram" },
-  "s-izin": { image: "/stories/s-izin.jpg", color: "rose", tag: "Bahaya Eth_Sign" },
-  "s-cukup": { image: "/stories/s-cukup.jpg", color: "purple", tag: "Pnut $2.4B Bleed" },
+  "s-peta": { image: "/stories/s-peta.jpg", color: "blue", tag: "Peta Web3" },
+  "s-defi": { image: "/stories/s-defi.jpg", color: "emerald", tag: "DeFi dasar" },
+  "s-kerja": { image: "/stories/s-kerja.jpg", color: "purple", tag: "Kerja di web3" },
+  "s-eth": { image: "/stories/s-eth.jpg", color: "blue", tag: "Sejarah Ethereum" },
+  "s-liq": { image: "/stories/s-liq.jpg", color: "orange", tag: "Likuidasi" },
+  "s-flash": { image: "/stories/s-flash.jpg", color: "emerald", tag: "Flash loan" },
+  "s-oracle": { image: "/stories/s-oracle.jpg", color: "purple", tag: "Serangan oracle" },
+  "s-arb": { image: "/stories/s-arb.jpg", color: "orange", tag: "Arbitrase & sandwich" },
+  "s-poison": { image: "/stories/s-poison.jpg", color: "rose", tag: "Alamat racun" },
+  "s-permit": { image: "/stories/s-permit.jpg", color: "rose", tag: "Tanda tangan izin" },
+  "s-il": { image: "/stories/s-il.jpg", color: "emerald", tag: "Impermanent loss" },
+  "s-dm": { image: "/stories/s-dm.jpg", color: "rose", tag: "CS palsu" },
+  "s-seed": { image: "/stories/s-seed.jpg", color: "rose", tag: "Simpan seed" },
+  "s-airdrop": { image: "/stories/s-airdrop.jpg", color: "blue", tag: "Airdrop palsu" },
+  "s-drop-cuan": { image: "/stories/s-drop-cuan.jpg", color: "emerald", tag: "Airdrop asli" },
+  "s-copy": { image: "/stories/s-copy.jpg", color: "rose", tag: "Grup sinyal" },
+  "s-honey": { image: "/stories/s-honey.jpg", color: "rose", tag: "Honeypot" },
+  "s-cs": { image: "/stories/s-cs.jpg", color: "rose", tag: "Situs palsu" },
+  "s-izin": { image: "/stories/s-izin.jpg", color: "rose", tag: "Izin tersembunyi" },
+  "s-cukup": { image: "/stories/s-cukup.jpg", color: "purple", tag: "Ambil untung" },
 };
 
 const CASE_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag: string }> = {
@@ -39,7 +40,7 @@ const CASE_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag:
   "b-honey": { image: "/cases/b-honey.jpg", color: "orange", tag: "Honeypot +605%" },
   "b-drain": { image: "/cases/b-drain.jpg", color: "rose", tag: "Vendoir Permit Drainer" },
   "b-sim": { image: "/cases/b-sim.jpg", color: "rose", tag: "Fake Tx Simulation" },
-  "b-cuan": { image: "/cases/b-cuan.jpg", color: "emerald", tag: "Bevan Rp20 Miliar" },
+  "b-cuan": { image: "/cases/b-cuan.jpg", color: "emerald", tag: "Bevan Rp 20 miliar" },
   "b-drop": { image: "/cases/b-drop.jpg", color: "blue", tag: "Arbitrum Foundation" },
   "b-rugi": { image: "/cases/b-rugi.jpg", color: "rose", tag: "Hyperliquid −$30M" },
   "b-zach": { image: "/cases/b-zach.jpg", color: "rose", tag: "ZachXBT $1.2M Trezor" },
@@ -48,6 +49,15 @@ const CASE_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag:
   "b-coinex": { image: "/cases/b-coinex.jpg", color: "rose", tag: "CoinEx Security Alert" },
   "b-dict": { image: "/cases/b-dict.jpg", color: "rose", tag: "Milk Sad CVE-2023-39910" },
 };
+
+function getUnlockRequirementLabel(unlockAfter: string | null | undefined): string {
+  if (!unlockAfter) return "Selesaikan modul sebelumnya";
+  const lesson = getLesson(unlockAfter);
+  if (!lesson) return "Selesaikan modul sebelumnya";
+  const unit = getUnit(lesson.unitId);
+  const routeNum = unit?.index ?? lesson.unitId.replace(/\D/g, "");
+  return `Terbuka setelah pelajaran ${lesson.title} di Rute ${routeNum}`;
+}
 
 function KisahHub() {
   const completed = useProgress((s) => s.completed);
@@ -77,7 +87,7 @@ function KisahHub() {
               Kisah Web3
             </h1>
             <p className="font-sans text-xs sm:text-sm text-choco-600 mt-1 max-w-xl">
-              Eksplorasi cerita interaktif, simulasi nyata, dan bedah audit forensik on-chain dengan kartu animasi 3D & bukti otentik.
+              Cerita pendek dari kasus nyata. Pilih langkahmu, lihat akibatnya, lalu ingat satu pelajarannya.
             </p>
           </div>
 
@@ -116,7 +126,7 @@ function KisahHub() {
             <div className="relative z-10 max-w-2xl space-y-2">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-300 text-choco-900 border-2 border-choco-900 font-pixel font-bold text-[11px] sm:text-xs shadow-[0_2px_0_#3B2218]">
                 <Sparkles className="size-3.5 text-amber-800 fill-amber-500" />
-                <span>PILIHAN MINGGU INI · {featured.minutes} MENIT BACA</span>
+                <span>PILIHAN MINGGU INI · 3 MENIT BACA</span>
               </div>
 
               <h2 className="font-display font-extrabold text-xl sm:text-3xl text-choco-900 tracking-tight leading-snug">
@@ -207,7 +217,7 @@ function KisahHub() {
                       footer={
                         <div className="flex items-center justify-between">
                           <span className="font-sans text-[11px] font-semibold text-choco-600">
-                            ⏱ {s.minutes} Menit Baca
+                            3 menit baca
                           </span>
                           <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-600 group-hover:translate-x-1 transition-transform">
                             {isDone ? "Baca Ulang" : "Mulai"}
@@ -249,7 +259,7 @@ function KisahHub() {
                       footer={
                         <div className="flex items-center justify-between">
                           <span className="font-sans text-[11px] font-medium text-choco-500">
-                            Selesaikan modul sebelumnya
+                            {getUnlockRequirementLabel(s.unlockAfter)}
                           </span>
                           <Lock className="size-3.5 text-choco-400" />
                         </div>
@@ -314,7 +324,7 @@ function KisahHub() {
                       footer={
                         <div className="flex items-center justify-between">
                           <span className="font-sans text-[11px] font-semibold text-choco-600">
-                            ⏱ {c.minutes} Menit Audit
+                            3 menit audit
                           </span>
                           <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-600 group-hover:translate-x-1 transition-transform">
                             <span>Bedah Bukti</span>
@@ -356,7 +366,7 @@ function KisahHub() {
                       footer={
                         <div className="flex items-center justify-between">
                           <span className="font-sans text-[11px] font-medium text-choco-500">
-                            Selesaikan kasus sebelumnya
+                            {getUnlockRequirementLabel(c.unlockAfter)}
                           </span>
                           <Lock className="size-3.5 text-choco-400" />
                         </div>

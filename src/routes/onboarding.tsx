@@ -294,7 +294,7 @@ function Onboarding() {
                         </span>
                       </div>
                       <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
-                        Kumpulin XP, rawat streak harian, dan klaim tiket undian NFT artefak gratis setiap minggu.
+                        Kumpulin XP, rawat streak harian, dan ikut undian hadiah dalam aplikasi setiap minggu.
                       </p>
                     </div>
                   </div>

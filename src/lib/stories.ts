@@ -50,7 +50,7 @@ export const STORIES: Story[] = [
   {
     id: "s-peta",
     title: "Web3 bukan cuma chart",
-    blurb: "Trade satu gang. Ada DeFi, kerja, DAO, NFT.",
+    blurb: "Trading cuma satu pintu. Ada DeFi, kerja, DAO, dan NFT juga.",
     minutes: 3,
     xp: 6,
     gems: 2,
@@ -77,7 +77,7 @@ export const STORIES: Story[] = [
       {
         type: "proof",
         proofId: "drop-arb-18k",
-        text: "2.125 ARB, $18 ribu. Bukan all-in futures. Pake L2, gas murah, token nyangkut.",
+        text: "Ada yang dapat airdrop karena rajin pakai jaringan L2. Tapi banyak juga yang pakai dan nggak dapat apa-apa.",
       },
       {
         type: "fork",
@@ -109,7 +109,7 @@ export const STORIES: Story[] = [
     minutes: 4,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u5-l1",
     color: "teal",
     beats: [
       {
@@ -127,7 +127,7 @@ export const STORIES: Story[] = [
         type: "talk",
         who: "web3min",
         mood: "think",
-        text: "Lend: orang minjem, kamu dapet bunga. Borrow: kunci ETH, cairin stable. Pool: taruh dua token, dapet fee. Harga geser, bisa kalah vs hold.",
+        text: "Lend: orang minjem, kamu dapet bunga. Borrow: kunci ETH sebagai jaminan, lalu pinjam stablecoin. Pool: taruh dua token, dapet fee. Harga geser, bisa kalah vs hold (kehilangan potensi keuntungan lebih tinggi/upside).",
       },
       {
         type: "fork",
@@ -159,7 +159,7 @@ export const STORIES: Story[] = [
     minutes: 4,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u20-l5",
     color: "gold",
     beats: [
       {
@@ -196,7 +196,7 @@ export const STORIES: Story[] = [
       },
       {
         type: "end",
-        text: "Keahlian riset, desain, pemrograman, dan analisis data on-chain adalah modal berharga untuk berkarier di industri ini.",
+        text: "Skill riset, desain, nulis, kode, dan baca data on-chain itu modal nyata buat kerja di web3.",
         remember: "Kerja yang beneran nggak minta kamu transfer dulu.",
       },
     ],
@@ -208,7 +208,7 @@ export const STORIES: Story[] = [
     minutes: 4,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u3-l5",
     color: "purple",
     beats: [
       {
@@ -235,7 +235,7 @@ export const STORIES: Story[] = [
           {
             label: "Iya, harus jual semua.",
             good: false,
-            reply: "Salah. Merge ganti mesin jaga jaringan: dari ditambang ke staking. Koinnnya tetep ETH.",
+            reply: "Salah. Merge ganti mesin jaga jaringan: dari ditambang ke staking. Koinnya tetep ETH.",
           },
           {
             label: "Bukan. Ganti mesin, koin yang sama.",
@@ -258,7 +258,7 @@ export const STORIES: Story[] = [
     minutes: 4,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u5-l7",
     color: "rose",
     beats: [
       {
@@ -270,12 +270,12 @@ export const STORIES: Story[] = [
         type: "talk",
         who: "web3min",
         mood: "sad",
-        text: "Likuidasi. Kamu max pinjam. Harga jatuh. Health factor tembus di bawah 1. Bot bayar utangmu, nyita agunan plus bonus.",
+        text: "Itu likuidasi. Kamu pinjam hampir maksimal. Harga ETH jatuh, health factor (angka kesehatan pinjaman) turun di bawah 1. Bot otomatis melunasi utangmu dan mengambil jaminanmu plus bonus.",
       },
       {
         type: "proof",
         proofId: "rugi-liqs",
-        text: "Peta likuidasi mencakup pasar spot, pinjaman DeFi, hingga derivatif perps.",
+        text: "Likuidasi terjadi tiap hari, di DeFi maupun di bursa futures.",
       },
       {
         type: "talk",
@@ -294,7 +294,7 @@ export const STORIES: Story[] = [
           {
             label: "Nggak ada CS. Seharusnya nambah agunan sebelum HF nyenggol 1.",
             good: true,
-            reply: "Bantal. LTV jauh di bawah max. Siapin stable buat bayar. Oracle bisa ngejer harga jelek pas crash.",
+            reply: "Betul. Jaga pinjaman jauh di bawah batas maksimal, dan siapkan dana buat nambah jaminan saat harga turun.",
           },
         ],
       },
@@ -307,18 +307,18 @@ export const STORIES: Story[] = [
   },
   {
     id: "s-flash",
-    title: "Minjem 5 juta, lunas sedetik",
+    title: "Pinjam US$5 juta, lunas sedetik",
     blurb: "Flash loan. Tanpa agunan. Wajib balik sebelum transaksi selesai.",
     minutes: 5,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u5-l8",
     color: "teal",
     beats: [
       {
         type: "talk",
         who: "teman",
-        text: "Orang di X pinjam 5 juta dolar tanpa agunan. Nol jaminan. Itu sulap atau bank bodong?",
+        text: "Orang di X pinjam US$5 juta tanpa agunan. Nol jaminan. Itu sulap atau bank bodong?",
       },
       {
         type: "talk",
@@ -338,12 +338,12 @@ export const STORIES: Story[] = [
           {
             label: "Sama aja. Semua ngejar orang pake hukum.",
             good: false,
-            reply: "Bank ngejar KTP, berbulan-bulan. Bursa nyita dari buku mereka. DeFi ngejar agunan. Flash loan bikin yang nyita nggak perlu kaya dulu.",
+            reply: "Bukan. Bank menagih lewat hukum. DeFi cukup mengambil jaminan otomatis. Flash loan bikin penagih nggak perlu punya modal.",
           },
           {
-            label: "Bank ngejar orang. DeFi ngejar agunan. Flash loan: bot tanpa modal.",
+            label: "Bank menagih orang. DeFi mengambil jaminan. Flash loan bikin siapa pun bisa jadi penagih tanpa modal.",
             good: true,
-            reply: "Pas. Hukum vs kode. Minggu vs detik. Liquidator kecil bisa nyita posisi gede, asal cuannya nutup fee.",
+            reply: "Pas. Bank butuh proses hukum berminggu-minggu. Di DeFi, kode jalan dalam hitungan detik.",
           },
         ],
       },
@@ -355,7 +355,7 @@ export const STORIES: Story[] = [
       },
       {
         type: "end",
-        text: "Flash loan bukan hadiah 5 juta. Utang yang wajib lunas sebelum blok selesai. Kamu yang max LTV: bot ini yang ngejar, bukan teller yang bisa diajak ngobrol.",
+        text: "Flash loan bukan hadiah US$5 juta. Utang yang wajib lunas sebelum blok selesai. Kamu yang max LTV: bot ini yang ngejar, bukan teller yang bisa diajak ngobrol.",
         remember: "Lunas di transaksi yang sama, atau seolah nggak terjadi. Bank ngejar orang. Flash loan ngejar agunan.",
       },
     ],
@@ -367,13 +367,13 @@ export const STORIES: Story[] = [
     minutes: 5,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u5-l9",
     color: "rose",
     beats: [
       {
         type: "talk",
         who: "teman",
-        text: "Protokol pinjem ini LTV 90% di token baru. Oracle-nya Uniswap pool. APY rame. Gas?",
+        text: "Ada protokol yang kasih pinjaman sampai 90% dari nilai jaminan (LTV 90%) di token baru. Harganya diambil dari satu pool Uniswap. APY-nya tinggi. Ikut nggak?",
       },
       {
         type: "talk",
@@ -386,21 +386,21 @@ export const STORIES: Story[] = [
         prompt: "Masih mau titip?",
         options: [
           {
-            label: "Gas. LTV tinggi = efisien.",
+            label: "Ikut. LTV tinggi berarti modal lebih efisien.",
             good: false,
-            reply: "LTV gila di koin sepi = undangan. Harvest, bZx, yang lain: pola yang sama.",
+            reply: "LTV tinggi di koin sepi itu undangan buat penyerang. Protokol Harvest dan bZx pernah dibobol dengan pola yang sama.",
           },
           {
             label: "Nggak. Harga harus susah dibeli. Chainlink, cap, pool dalam.",
             good: true,
-            reply: "Nah. Oracle aggregator, LTV rendah, likuiditas jauh di atas yang bisa dipinjam. Kalau nggak, kamu likuiditasnya penyerang.",
+            reply: "Betul. Harga harus sulit dimanipulasi: pakai oracle gabungan seperti Chainlink, LTV rendah, dan pool yang dalam.",
           },
         ],
       },
       {
         type: "end",
         text: "Arb nyamain harga dua tempat yang sah. Oracle attack bikin satu protokol percaya harga yang cuma hidup sedetik. Jangan ketuker.",
-        remember: "Oracle murah = brankas terbuka. Jangan jadi likuiditasnya penyerang.",
+        remember: "Harga yang gampang dibeli bikin brankas gampang dibobol.",
       },
     ],
   },
@@ -411,19 +411,19 @@ export const STORIES: Story[] = [
     minutes: 4,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u5-l10",
     color: "teal",
     beats: [
       {
         type: "talk",
         who: "teman",
-        text: "Gw swap ETH gede di Uni. Keisi lebih mahal dari Binance. Bot cuan. Mereka ngerampok gw?",
+        text: "Aku swap ETH besar di Uniswap. Harganya lebih mahal dari Binance. Terus ada bot yang untung. Aku dirampok?",
       },
       {
         type: "talk",
         who: "web3min",
         mood: "think",
-        text: "Dua kemungkinan. Kamu dorong harga pool sendirian: slippage. Bot backrun, nyamain ke CEX. Itu akibat slippage pada pool likuiditas atau transaksi terkena sandwich attack oleh bot antrian.",
+        text: "Ada dua kemungkinan. Pertama, order besarmu menggeser harga pool sendiri (slippage), lalu bot menyamakan harga ke bursa lain. Itu wajar. Kedua, bot beli tepat sebelum kamu dan jual tepat sesudahnya (sandwich). Itu yang merugikanmu.",
       },
       {
         type: "fork",
@@ -437,7 +437,7 @@ export const STORIES: Story[] = [
           {
             label: "Pecah order, slippage ketat, jauhi pool sepi.",
             good: true,
-            reply: "Arbitrase menjaga keselarasan harga antarpasar, sedangkan risiko sandwich attack dapat ditekan dengan membatasi slippage toleransi.",
+            reply: "Betul. Arbitrase cuma merapikan harga antarpasar. Sandwich bisa dicegah dengan batas slippage yang ketat.",
           },
         ],
       },
@@ -455,7 +455,7 @@ export const STORIES: Story[] = [
     minutes: 3,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u2-l6",
     color: "rose",
     beats: [
       {
@@ -478,7 +478,7 @@ export const STORIES: Story[] = [
         type: "fork",
         prompt: "Lain kali?",
         options: [
-          { label: "Copas dari tx masuk yang aneh. Cepet.", good: false, reply: "Itu umpannya." },
+          { label: "Copas dari tx masuk yang aneh. Cepet.", good: false, reply: "Itu jebakannya. Alamat di transaksi masuk yang aneh sengaja dibuat mirip supaya kamu salah salin." },
           { label: "Buku alamat. Cek 6 karakter awal dan akhir.", good: true, reply: "Plus cek lagi setelah paste. Clipboard bisa ditukar malware." },
         ],
       },
@@ -496,7 +496,7 @@ export const STORIES: Story[] = [
     minutes: 4,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u6-l5",
     color: "purple",
     beats: [
       {
@@ -519,13 +519,13 @@ export const STORIES: Story[] = [
         type: "fork",
         prompt: "Sekarang?",
         options: [
-          { label: "DM 'helper' minta seed biar di-refund.", good: false, reply: "Gelombang dua. Jangan." },
+          { label: "DM 'helper' minta seed biar di-refund.", good: false, reply: "Itu penipuan tahap kedua. 'Helper' di DM mengincar korban yang sedang panik. Jangan kasih seed." },
           { label: "Cabut izin. Pindahin sisa. Jangan kasih seed.", good: true, reply: "Revoke. Wallet baru kalo kuncinya dicurigai. Helper di DM bukan polisi." },
         ],
       },
       {
         type: "end",
-        text: "Hijau 0 ETH bukan restu. Baca spend, unlimited, setApprovalForAll.",
+        text: "Tampilan '0 ETH' bukan berarti aman. Baca izinnya: jumlah yang boleh diambil, unlimited atau tidak, dan apakah ada setApprovalForAll.",
         remember: "Seed nyawa. Permit kunci cadangan. Cabut yang nggak kepake.",
       },
     ],
@@ -537,7 +537,7 @@ export const STORIES: Story[] = [
     minutes: 3,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u5-l11",
     color: "gold",
     beats: [
       {
@@ -549,7 +549,7 @@ export const STORIES: Story[] = [
         type: "talk",
         who: "web3min",
         mood: "wave",
-        text: "Impermanent loss. Pool jual ETH-mu ke yang beli pas naik. Kamu dapet fee, kehilangan upside. Bukan bug. Rumus.",
+        text: "Impermanent loss. Pool jual ETH-mu ke yang beli pas naik. Kamu dapet fee, kehilangan potensi keuntungan lebih tinggi (upside). Bukan bug. Rumus.",
       },
       {
         type: "proof",
@@ -561,12 +561,12 @@ export const STORIES: Story[] = [
         prompt: "Pair meme 2000% APY?",
         options: [
           { label: "Gas. Fee nutup semua.", good: false, reply: "Fee kecil. IL + rug gede. Pair liar bukan tabungan." },
-          { label: "Pair ramai, paham IL, jangan max hidup.", good: true, reply: "Fee nyata. IL nyata. Banner 2000% umpan." },
+          { label: "Pilih pool yang ramai, pahami IL, dan jangan taruh uang kebutuhan hidup.", good: true, reply: "Fee nyata. IL nyata. Banner 2000% umpan." },
         ],
       },
       {
         type: "end",
-        text: "Kamu bukan deposito. Kamu jadi pasar. Harga cabut, rumus ngegeser porsi kamu.",
+        text: "Di pool, kamu bukan penabung, kamu jadi pasar. Kalau harga bergerak jauh, rumus pool mengubah porsi asetmu.",
         remember: "AMM = rumus. IL = kalah vs hold. Fee belum tentu nutup.",
       },
     ],
@@ -610,17 +610,17 @@ export const STORIES: Story[] = [
           {
             label: "Ketik 12 katanya, biar cepat",
             good: false,
-            reply: "Wallet itu anggap mati. Penipu udah salin seed. Dompet tersebut sudah terkompromi karena seed phrase bocor. Segera amankan aset yang tersisa ke dompet baru yang bersih.",
+            reply: "Anggap wallet itu sudah bocor. Penipu sudah menyalin seed-mu. Segera pindahkan sisa aset ke wallet baru.",
           },
           {
             label: "Block. Cek di situs resmi, bukan dari chat",
             good: true,
-            reply: "Betul. Buka bursa dari bookmark kamu sendiri. Selalu akses situs resmi dari bookmark tersimpan. Pihak resmi tidak akan pernah berinisiatif menghubungi duluan meminta kredensial.",
+            reply: "Betul. Buka bursa dari bookmark kamu sendiri. Pihak resmi nggak pernah menghubungi duluan untuk minta data rahasia.",
           },
           {
             label: "Kirim ke grup, tanya temen",
             good: true,
-            reply: "Boleh, asal jangan tempel seed-nya. Cukup: 'ada yang ngaku CS minta seed, ini scam kan?'",
+            reply: "Boleh, asal jangan tempel seed-nya. Hati-hati juga, penipu sering menyamar jadi 'penolong' yang DM kamu setelah kamu tanya di grup.",
           },
         ],
       },
@@ -639,8 +639,8 @@ export const STORIES: Story[] = [
   },
   {
     id: "s-seed",
-    title: "12 kata di kafe",
-    blurb: "Foto struk, foto seed. Satu galeri, dua bahaya.",
+    title: "12 kata di galeri",
+    blurb: "Foto seed di HP. Satu galeri, satu pintu buat malware.",
     minutes: 4,
     xp: 6,
     gems: 2,
@@ -650,7 +650,7 @@ export const STORIES: Story[] = [
       {
         type: "talk",
         who: "teman",
-        text: "Gw foto seed di Notes biar gampang. Laptop rusak kemarin, untung ada cadangan.",
+        text: "Aku foto seed dan simpan di Notes biar gampang. Kemarin laptop rusak, untung ada cadangan.",
       },
       {
         type: "talk",
@@ -727,7 +727,7 @@ export const STORIES: Story[] = [
             reply: "Gas gratis sering berarti mereka yang nulis izinnya. Bisa jadi kamu setuju drain, bukan klaim.",
           },
           {
-            label: "Tolak. Cek kontrak di explorer dulu",
+            label: "Tolak. Buka situs resmi proyek dari bookmark.",
             good: true,
             reply: "Betul. Kalau nggak bisa jelasin izin yang kamu kasih, jangan tanda tangan.",
           },
@@ -743,23 +743,23 @@ export const STORIES: Story[] = [
   {
     id: "s-drop-cuan",
     title: "Modal gas, cair token",
-    blurb: "Bukan PnL. Airdrop. Orang pake produk, token nyangkut.",
+    blurb: "Bukan PnL. Airdrop. Orang pake produk, token masuk ke wallet.",
     minutes: 4,
     xp: 6,
     gems: 2,
-    unlockAfter: null,
+    unlockAfter: "u15-l1",
     color: "purple",
     beats: [
       {
         type: "talk",
         who: "web3min",
         mood: "wave",
-        text: "Orang kira web3 cuma chart hijau. Ada jalur lain: pake produk, snapshot, token nyangkut. Modalnya gas.",
+        text: "Orang kira web3 cuma chart hijau. Ada jalur lain: pake produk, snapshot, token masuk ke wallet. Modalnya gas.",
       },
       {
         type: "talk",
         who: "teman",
-        text: "Gw cuma swap 20 dolar di Uniswap. Taunya 400 UNI. Dijual, lebih dari gaji.",
+        text: "Aku pernah swap US$20 di Uniswap. Ternyata dapat 400 UNI.",
       },
       {
         type: "proof",
@@ -769,22 +769,22 @@ export const STORIES: Story[] = [
       {
         type: "proof",
         proofId: "drop-uni-ath",
-        text: "Di puncak, 400 UNI sempat ~$18 ribu. Satu-dua swap. Modal gas. Bukan all-in futures.",
+        text: "Di puncak, 400 UNI sempat ~US$18 ribu. Satu-dua swap. Modal gas. Bukan all-in futures.",
       },
       {
         type: "proof",
         proofId: "drop-arb-18k",
-        text: "2.125 ARB, $18 ribu di wallet. Pake L2. Bukan all-in chart.",
+        text: "2.125 ARB masuk ke wallet karena rutin pakai Arbitrum.",
       },
       {
         type: "proof",
         proofId: "drop-wif-1k5",
-        text: "1.000 WIF nyangkut $1.500. Modal nol. Bukan sinyal, bukan leverage.",
+        text: "1.000 WIF masuk ke wallet, sekitar US$1.500 saat itu.",
       },
       {
         type: "proof",
         proofId: "drop-met-34k",
-        text: "Ada yang cair $34 ribu dari airdrop. Dijual. Bukan PnL futures.",
+        text: "Ada yang cair US$34 ribu dari airdrop. Dijual. Bukan PnL futures.",
       },
       {
         type: "fork",
@@ -804,7 +804,7 @@ export const STORIES: Story[] = [
       },
       {
         type: "end",
-        text: "Airdrop itu lotre kerja. Kadang gede. Kadang nol. Yang pasti: nggak pernah minta kamu bayar dulu.",
+        text: "Airdrop itu lotre kerja. Kadang gede. Kadang nol. Banyak juga yang sudah rajin pakai produk tapi nggak dapat apa-apa. Yang pasti: nggak pernah minta kamu bayar dulu.",
         remember: "Pake produk beneran. Klaim di situs yang kamu ketik. Jangan utang buat farm.",
       },
     ],
@@ -822,7 +822,7 @@ export const STORIES: Story[] = [
       {
         type: "talk",
         who: "teman",
-        text: "4 bulan, Rp20 miliar. Gw kirim screenshot. Join grup sinyal, copy aja.",
+        text: "Dia untung Rp 20 miliar dalam 4 bulan. Aku kirim screenshot-nya. Ayo gabung grup sinyal, tinggal ikutin aja.",
       },
       {
         type: "talk",
@@ -845,20 +845,20 @@ export const STORIES: Story[] = [
         prompt: "Grup sinyal minta 2 juta 'biaya mentor'. Kamu?",
         options: [
           {
-            label: "Bayar. Yang Rp20 M itu bukti",
+            label: "Bayar. Yang Rp 20 miliar itu bukti",
             good: false,
-            reply: "Orang lain cuan bukan berarti sinyal mereka valid. Mentor bayar di muka? Hampir selalu toko harapan.",
+            reply: "Untung orang lain bukan bukti sinyalnya valid. 'Mentor' yang minta bayaran di awal biasanya jualan harapan.",
           },
           {
             label: "Tolak. Belajar sendiri, jangan beli entry",
             good: true,
-            reply: "Itu peta yang aku kerjain. Kamu yang nyetir. Screenshot orang lain bukan setir kamu.",
+            reply: "Betul. Belajar sendiri, jangan beli 'entry'. Screenshot orang lain bukan setir buat kamu.",
           },
         ],
       },
       {
         type: "end",
-        text: "Jual mimpi itu gampang. Jual peta itu kerjaan aku. Kamu yang pilih jalan.",
+        text: "Jual mimpi itu gampang. web3min kasih peta, kamu yang pilih jalannya.",
         remember: "PnL orang lain = fakta mereka, bukan sinyal kamu. Jangan bayar entry.",
       },
     ],
@@ -876,7 +876,7 @@ export const STORIES: Story[] = [
       {
         type: "talk",
         who: "kamu",
-        text: "Chart-nya gila. Beli $10, sekarang $200. Gw jual dikit dulu.",
+        text: "Grafiknya gila. Aku beli US$10, sekarang kelihatannya US$70. Aku jual sedikit dulu.",
       },
       {
         type: "talk",
@@ -908,7 +908,7 @@ export const STORIES: Story[] = [
       {
         type: "end",
         text: "Hijau di layar bukan uang. Uang itu yang berhasil kamu tarik.",
-        remember: "Tes jual dulu pakai pecahan. Lakukan uji transaksi jual dalam jumlah kecil terlebih dahulu. Jika gagal, jangan menambah dana.",
+        remember: "Tes jual dulu dalam jumlah kecil. Kalau gagal, jangan tambah modal.",
       },
     ],
   },
@@ -1004,7 +1004,7 @@ export const STORIES: Story[] = [
           {
             label: "Approve unlimited, biar nggak sign berkali-kali",
             good: false,
-            reply: "Unlimited = mereka boleh sedot kapan aja, bukan cuma sekali. Radiant dan yang lain udah contohnya.",
+            reply: "Unlimited artinya mereka boleh ambil kapan aja, bukan cuma sekali. Pengguna protokol Radiant pernah kehilangan dana lewat izin seperti ini.",
           },
           {
             label: "Tolak. Approve pas-pasan, atau jangan",
@@ -1016,7 +1016,7 @@ export const STORIES: Story[] = [
       {
         type: "proof",
         proofId: "warn-revoke",
-        text: "revoke.cash dan yang sejenis. Cabut izin setelah main di situs degen. Ini PR, bukan opsional.",
+        text: "Pakai revoke.cash atau alat sejenis. Cabut izin setiap habis mencoba situs baru.",
       },
       {
         type: "end",
@@ -1038,7 +1038,7 @@ export const STORIES: Story[] = [
       {
         type: "talk",
         who: "teman",
-        text: "Masih naik. Jangan dijual. Nanti 10x. FOMO kalah sama yang hold.",
+        text: "Masih naik. Jangan dijual. Nanti bisa 10x. Yang sabar pasti menang.",
       },
       {
         type: "talk",
@@ -1054,7 +1054,7 @@ export const STORIES: Story[] = [
       {
         type: "proof",
         proofId: "fumble-193m",
-        text: "Ada yang jual 2 menit keburu, ketinggalan $193 juta. Ada juga yang nggak jual, balik ke 0. Dua-duanya luka.",
+        text: "Ada yang jual terlalu cepat dan ketinggalan kenaikan besar. Ada juga yang nggak jual dan balik ke nol. Dua-duanya menyakitkan.",
       },
       {
         type: "fork",
@@ -1074,7 +1074,7 @@ export const STORIES: Story[] = [
       },
       {
         type: "end",
-        text: "Aku peta, bukan dukun. Cukup itu keputusan, bukan perasaan.",
+        text: "web3min cuma peta, bukan dukun. Kapan 'cukup' itu keputusan yang kamu buat sebelum masuk, bukan perasaan saat harga naik.",
         remember: "Hijau kertas ≠ cuan. Tarik sesuai aturan kamu, bukan sesuai grup.",
       },
     ],
@@ -1142,7 +1142,7 @@ export const CASES: CaseStudy[] = [
     steps: [
       { look: "Angka plus besar.", say: "Kertas. Belum ada yang berhasil jual. Chart nggak peduli kamu bisa cair atau nggak." },
       { look: "Nggak ada volume keluar yang sehat.", say: "Honeypot: beli boleh, jual dikunci. Pajak 100%, blacklist, atau fungsi sell palsu." },
-      { look: "Caption orang yang nyangkut.", say: "Tes jual pecahan dulu. Uji jual dalam nominal kecil terlebih dahulu. Jika transaksi ditolak, jangan menambah posisi." },
+      { look: "Caption orang yang nyangkut.", say: "Tes jual dulu dalam jumlah kecil. Kalau ditolak, jangan tambah posisi." },
     ],
     remember: "Bisa beli ≠ bisa jual. Tes keluar sebelum nambah modal.",
   },
@@ -1173,14 +1173,14 @@ export const CASES: CaseStudy[] = [
     unlockAfter: "u18-l1",
     steps: [
       { look: "Layar bilang kamu terima token.", say: "Simulasi bisa dibohongi. Jangan percaya ringkasan cantik di pop-up." },
-      { look: "Izin yang diminta di belakang.", say: "Fungsi setApprovalForAll atau transferFrom tanpa batas adalah metode umum pengurasan dompet." },
+      { look: "Izin yang diminta di belakang.", say: "Izin setApprovalForAll atau transferFrom tanpa batas adalah cara paling umum menguras wallet." },
       { look: "Sumber link-nya.", say: "Situs resmi yang kamu ketik. Kalau ragu, jangan sign. Nggak ada airdrop yang kabur." },
     ],
     remember: "Simulasi bukan auditor. Baca izin, atau jangan tanda tangan.",
   },
   {
     id: "b-cuan",
-    title: "Rp20 miliar, 4 bulan",
+    title: "Rp 20 miliar, 4 bulan",
     blurb: "Nyata. Bukan undangan copy.",
     proofId: "cuan-20m",
     minutes: 3,
@@ -1189,7 +1189,7 @@ export const CASES: CaseStudy[] = [
     unlockAfter: "u7-l1",
     steps: [
       { look: "Angka yang gila.", say: "Ada orang yang tembus. Itu fakta dia. Bukan sinyal entry buat kamu." },
-      { look: "Yang nggak tertulis: modal, drawdown, yang kalah.", say: "Screenshot menang nggak bawa yang hangus. Dua sisi hidup di unit 7." },
+      { look: "Yang nggak tertulis: modal, drawdown, yang kalah.", say: "Screenshot yang menang nggak memperlihatkan yang kalah. Dua sisinya ada di Rute 7." },
       { look: "Ajakan 'copy saya'.", say: "Kalau ada yang jual sinyal pakai angka ini, yang dijual harapan, bukan peta." },
     ],
     remember: "Cuan orang lain nyata. Copy buta tetap judi. Kamu nyetir.",
@@ -1204,9 +1204,9 @@ export const CASES: CaseStudy[] = [
     gems: 1,
     unlockAfter: null,
     steps: [
-      { look: "2.125 ARB, $18 ribu.", say: "Ini bukan trading. Orang pake L2, snapshot, token nyangkut. Modalnya gas." },
+      { look: "2.125 ARB, US$18 ribu.", say: "Ini bukan trading. Orang pake L2, snapshot, token masuk ke wallet. Modalnya gas." },
       { look: "Nggak ada 'kirim dulu'.", say: "Resmi: connect, tanda tangan pesan, klaim. Yang minta ETH dulu = umpan." },
-      { look: "1.000 WIF modal nol. $34 rb dicairin.", say: "Ada yang gede, ada yang kecil. Rata-rata bukan jaminan kamu. Jangan utang buat kejar." },
+      { look: "Ada yang dapat kecil, ada yang besar.", say: "1.000 WIF sekitar US$1.500. Ada juga airdrop lain yang dicairkan sampai US$34 ribu. Hasil orang lain bukan jaminan buat kamu. Jangan berutang buat mengejar airdrop." },
     ],
     remember: "Airdrop = hadiah pake. Bukan gaji, bukan sinyal. Klaim di situs yang kamu ketik.",
   },
@@ -1252,8 +1252,8 @@ export const CASES: CaseStudy[] = [
     gems: 1,
     unlockAfter: "u13-l1",
     steps: [
-      { look: "PnL hijau di aplikasi.", say: "Itu mark-to-market. Belum di rekening. Spread, pajak, likuiditas bisa makan." },
-      { look: "Postingan udah jalan.", say: "Klaim keuntungan fantastis di media sosial sering kali belum direalisasikan. Tetaplah berpegang pada rencana investasimu." },
+      { look: "PnL hijau di aplikasi.", say: "Itu untung di atas kertas (mark-to-market). Belum masuk rekening. Spread, pajak, dan likuiditas bisa memotongnya." },
+      { look: "Postingan udah jalan.", say: "Banyak klaim untung di media sosial belum benar-benar dicairkan. Pegang rencanamu sendiri." },
       { look: "Nggak ada bukti withdraw.", say: "Cuan = yang udah kamu tarik sesuai aturan kamu. Sisanya masih permainan." },
     ],
     remember: "Hijau di layar bukan gaji. Gaji itu yang udah keluar.",
@@ -1261,7 +1261,7 @@ export const CASES: CaseStudy[] = [
   {
     id: "b-revoke",
     title: "Cabut izin",
-    blurb: "PR setelah degen.",
+    blurb: "Tugas wajib setelah mencoba situs baru.",
     proofId: "warn-revoke",
     minutes: 2,
     xp: 4,
@@ -1270,7 +1270,7 @@ export const CASES: CaseStudy[] = [
     steps: [
       { look: "Daftar approval.", say: "Tiap dapp yang kamu sign bisa masih pegang kunci. Nggak hilang sendiri." },
       { look: "Alat revoke.", say: "revoke.cash dan sejenis. Bukan iklan, ini sapu. Pakai yang kamu ketik sendiri." },
-      { look: "Setelah situs random.", say: "Setelah selesai bertransaksi atau mencoba aplikasi, segera cabut izin persetujuan token yang tidak lagi digunakan." },
+      { look: "Setelah situs random.", say: "Setelah selesai mencoba aplikasi, cabut izin token yang sudah nggak dipakai." },
     ],
     remember: "Izin nggak kadaluarsa sendiri. Cabut. Rutin.",
   },
@@ -1284,7 +1284,7 @@ export const CASES: CaseStudy[] = [
     gems: 1,
     unlockAfter: "u11-l1",
     steps: [
-      { look: "Bursa kena. Saldo titipan.", say: "Not your keys. Yang di CEX itu IOU. Pas bobol, antrian tarik." },
+      { look: "Bursa kena. Saldo titipan.", say: "Saldo di CEX itu titipan, secara hukum janji bayar dari bursa (IOU). Saat bursa dibobol, semua antre menarik dana." },
       { look: "147 ribu alamat, 70% keambil 3 hari.", say: "Cepat. Bukan 'nanti ganti semua, tenang'. Ada yang keburu ilang." },
       { look: "On-ramp boleh. Tabungan jangan.", say: "Beli di CEX berizin, tarik. Gaji setahun di sana = satu berita, hidup goyang." },
     ],
@@ -1300,7 +1300,7 @@ export const CASES: CaseStudy[] = [
     gems: 1,
     unlockAfter: "u2-l2",
     steps: [
-      { look: "Bukan phishing. Brute-force.", say: "Seed yang lemah / di-generate asal / ketik di komputer bisa di-tebak. 12 kata bukan mantra suci kalo entropinya jelek." },
+      { look: "Bukan phishing. Brute-force.", say: "Seed yang dibuat asal-asalan atau dari situs acak bisa ditebak komputer. Keamanan 12 kata tergantung seberapa acak kata-katanya dibuat." },
       { look: "1.444 korban, $3,5 juta.", say: "Skala. Bukan satu orang sial. Pola." },
       { look: "Di mana seed-mu hidup.", say: "Jangan foto, jangan iCloud, jangan notes HP. Baja/kertas, offline. Hardware kalo udah gede." },
     ],

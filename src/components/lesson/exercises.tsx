@@ -270,6 +270,17 @@ function ChoiceList({
 }) {
   const [selected, setSelected] = useState<number | null>(null);
 
+  // Shuffle options per prompt render, and remap the correct answer index
+  const { shuffledOptions, mappedAnswer } = useMemo(() => {
+    const indexed = options.map((opt, origIdx) => ({ opt, origIdx }));
+    const shuffled = shuffle(indexed);
+    const newAnswerIdx = shuffled.findIndex((item) => item.origIdx === answer);
+    return {
+      shuffledOptions: shuffled.map((item) => item.opt),
+      mappedAnswer: newAnswerIdx >= 0 ? newAnswerIdx : answer,
+    };
+  }, [prompt, options, answer]);
+
   useEffect(() => {
     setSelected(null);
   }, [prompt]);
@@ -277,12 +288,12 @@ function ChoiceList({
   useEffect(() => {
     onHandle({
       ready: selected !== null,
-      isCorrect: () => selected === answer,
+      isCorrect: () => selected === mappedAnswer,
     });
-  }, [selected, answer, onHandle]);
+  }, [selected, mappedAnswer, onHandle]);
 
   const shown = blank
-    ? prompt.replace("___", selected === null ? "____" : options[selected] ?? "____")
+    ? prompt.replace("___", selected === null ? "____" : shuffledOptions[selected] ?? "____")
     : prompt;
 
   return (
@@ -290,10 +301,10 @@ function ChoiceList({
       <p className="text-xl font-black leading-snug lg:text-2xl">{shown}</p>
       <QuizClip ids={proofs} />
       <ul className="stagger-in mt-5 flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-3">
-        {options.map((opt, i) => {
+        {shuffledOptions.map((opt, i) => {
           const on = selected === i;
-          const markOk = Boolean(reveal && i === answer);
-          const markBad = Boolean(reveal && on && selected !== answer);
+          const markOk = Boolean(reveal && i === mappedAnswer);
+          const markBad = Boolean(reveal && on && selected !== mappedAnswer);
           return (
             <li key={opt}>
               <button

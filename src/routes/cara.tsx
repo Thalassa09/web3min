@@ -49,9 +49,9 @@ const STEPS = [
   {
     num: "06",
     title: "Sikat Undian Tiket Mingguan",
-    desc: "Tukarkan koinmu dengan tiket undian mingguan untuk memperebutkan artefak NFT langka dan merchandise Web3min.",
+    desc: "Tukarkan koinmu dengan tiket undian mingguan untuk memperebutkan hadiah dalam aplikasi yang eksklusif.",
     icon: Award,
-    badge: "Hadiah NFT",
+    badge: "Undian In-App",
     badgeColor: "bg-emerald-100 text-emerald-800",
   },
 ];

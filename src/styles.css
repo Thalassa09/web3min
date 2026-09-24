@@ -1416,14 +1416,14 @@ input:focus-visible {
 .coach-catch {
   position: fixed;
   inset: 0;
-  background: rgba(13, 35, 64, 0.55);
+  background: rgba(59, 34, 24, 0.60);
   backdrop-filter: blur(4px);
 }
 
 .coach-spot {
   position: fixed;
-  box-shadow: 0 0 0 9999px rgba(13, 35, 64, 0.55);
-  outline: 3px solid #F26A99;
+  box-shadow: 0 0 0 9999px rgba(59, 34, 24, 0.60);
+  outline: 3px solid #E8437F;
   outline-offset: 4px;
   pointer-events: none;
   transition:
@@ -1444,11 +1444,11 @@ input:focus-visible {
 .coach-panel {
   position: fixed;
   z-index: 55;
-  background: #FFFFFF;
-  border: 2px solid #0D2340;
-  border-radius: 24px;
-  padding: 18px 20px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 12px 32px rgba(13, 35, 64, 0.18);
+  background: #FFF6EE;
+  border: 3px solid #3B2218;
+  border-radius: 28px;
+  padding: 20px 22px;
+  box-shadow: 0 8px 0 #3B2218;
   transition: top 400ms var(--ease-out-quint), left 400ms var(--ease-out-quint);
 }
 
@@ -2044,16 +2044,16 @@ button.jb:active, .fab:active .jb {
   max-width: 440px;
   margin: 0 auto;
   z-index: 60;
-  background: #FFFFFF;
-  border: 2px solid var(--color-line, #F3E3EA);
-  border-radius: var(--radius-xl, 28px);
+  background: #FFF6EE;
+  border: 3px solid #3B2218;
+  border-radius: 28px;
   padding: 20px;
-  box-shadow: 0 12px 32px -8px rgba(43, 22, 34, 0.12), 0 4px 0 var(--color-line-strong, #E5CFD9);
+  box-shadow: 0 8px 0 #3B2218;
   transform: translateY(calc(100% + 130px));
   transition: transform .28s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 .sheet.on { transform: none; }
-.sheet h3 { font-size: 20px; font-family: var(--font-sans); font-weight: 800; margin: 4px 0; color: var(--color-ink-900); }
+.sheet h3 { font-size: 20px; font-family: var(--font-sans); font-weight: 800; margin: 4px 0; color: #3B2218; }
 .btn-candy {
   background: var(--color-primary, #E8437F);
   color: #FFFFFF;
@@ -2086,19 +2086,21 @@ button.jb:active, .fab:active .jb {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm, 10px);
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
   display: grid;
   place-items: center;
-  color: var(--color-ink-500, #785368);
-  border: 1.5px solid var(--color-line, #F3E3EA);
+  color: #3B2218;
+  border: 2px solid #3B2218;
   background: #FFFFFF;
+  box-shadow: 0 1.5px 0 #3B2218;
   cursor: pointer;
+  transition: all 120ms ease;
 }
 .xclose:hover {
-  background: var(--color-pink-50, #FFF4F8);
-  color: var(--color-ink-900, #2B1622);
+  background: var(--color-candy-100, #FFE4EC);
+  color: #3B2218;
 }
 
 /* Progres Bar Chart Bricks */

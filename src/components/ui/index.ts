@@ -34,4 +34,5 @@ export {
 export { Progress as BitProgress } from "./8bit-progress";
 export { default as HealthBar } from "./8bit-health-bar";
 export { default as ManaBar } from "./8bit-mana-bar";
+export * from "./feature-card-1";
 

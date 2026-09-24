@@ -71,7 +71,7 @@ export function SideNav() {
          ───────────────────────────────────────────────────────────── */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-300 ease-out",
+          "fixed inset-0 bg-choco-900/60 backdrop-blur-xs transition-opacity duration-300 ease-out",
           isOpen ? "opacity-100" : "opacity-0"
         )}
         onClick={() => {

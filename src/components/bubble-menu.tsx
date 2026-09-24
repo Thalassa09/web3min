@@ -325,7 +325,7 @@ export function BubbleMenu({
       className={[
         useFixedPosition ? "fixed inset-0 z-[9999]" : "absolute inset-0 z-50",
         "flex flex-col items-center justify-center p-4 sm:p-6 overflow-y-auto",
-        "bg-black/25 backdrop-blur-md"
+        "bg-choco-900/70 backdrop-blur-md"
       ].join(" ")}
       style={{
         WebkitBackdropFilter: "blur(12px)"
@@ -337,12 +337,12 @@ export function BubbleMenu({
         }
       }}
     >
-      {/* Apple-style Circular Close Button */}
+      {/* Circular Close Button */}
       <button
         type="button"
         onClick={handleToggle}
         aria-label="Tutup menu navigasi"
-        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[10000] flex size-11 items-center justify-center rounded-full border-2 border-white/40 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all duration-150 hover:scale-105 hover:bg-black/60 active:scale-95 cursor-pointer"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[10000] flex size-11 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_2px_0_#3B2218] transition-all duration-150 hover:scale-105 hover:bg-candy-100 active:scale-95 cursor-pointer"
       >
         <X className="size-5 stroke-[2.5]" />
       </button>

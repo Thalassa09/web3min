@@ -44,6 +44,7 @@ import { PixelIcon } from "@/components/ui/pixel-icon";
 import { Lozenge } from "@/components/ui/lozenge";
 import { SkillTag } from "@/components/ui/rovo-companion";
 import { ProgressBar } from "@/components/ui/progress-bar";
+import { StreakBadge } from "@/components/ui/streak-badge";
 import { PulauIcon, BlobiPixel } from "@/lib/pulau-icons";
 import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
 import { getPulauTheme } from "@/lib/pulau-rantai";
@@ -440,15 +441,14 @@ function ProfilePage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-ink-500">
-              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Streak</span>
-              <Flame className="size-4 text-[#FF7A1A]" />
-            </div>
-            <div className="mt-2">
-              <div className="text-3xl font-bold font-sans text-[#FF7A1A]">{streak} Hari</div>
-              <div className="text-xs font-medium text-ink-500 mt-0.5">Berturut-turut</div>
-            </div>
+          <div className="flex flex-col justify-center items-center">
+            <StreakBadge
+              length={streak}
+              frequency="daily"
+              variant="colored"
+              subtitle="Hari Beruntun"
+              className="w-full h-full min-h-[110px]"
+            />
           </div>
 
           <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">

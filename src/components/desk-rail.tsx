@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { Flame, Sparkles, Trophy, ArrowRight } from "lucide-react";
+import { Sparkles, Trophy, ArrowRight } from "lucide-react";
 import { useProgress } from "@/lib/store";
 import { Card } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { StreakBadge } from "@/components/ui/streak-badge";
 
 export function DeskRail() {
   const streak = useProgress((s) => s.streak);
@@ -15,19 +16,15 @@ export function DeskRail() {
   return (
     <div className="flex flex-col gap-4 p-4">
       {/* 1. Streak Status Card */}
-      <Card variant="default" padding="sm" className="flex items-center gap-3">
-        <div className="grid size-11 shrink-0 place-items-center rounded-md border-2 border-orange-200 bg-orange-50 text-orange-600 shadow-xs">
-          <Flame className="size-6 text-streak fill-streak" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="t-label text-streak">
-            {streak > 0 ? `Streak ${streak} Hari` : "Mulai Streak"}
-          </div>
-          <p className="t-caption text-ink-500 truncate mt-0.5">
-            {streak > 0 ? "Pertahankan api belajarmu!" : "Selesaikan 1 blok hari ini"}
-          </p>
-        </div>
-      </Card>
+      <div className="flex justify-center">
+        <StreakBadge
+          length={streak}
+          frequency="daily"
+          variant="colored"
+          subtitle={streak > 0 ? "Api Belajar Aktif" : "Mulai Hari Ini"}
+          className="w-full"
+        />
+      </div>
 
       {/* 2. Daily Quests Card */}
       <Card variant="default" padding="md" className="space-y-4">

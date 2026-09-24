@@ -12,6 +12,8 @@ import {
   InvSlot,
   SectionTitle,
   CandyToggle,
+  StreakBadge,
+  GameProgress,
 } from "@/components/ui";
 import {
   Sparkles,
@@ -366,6 +368,16 @@ function ArcadeCandyComponentsShowcase() {
               >
                 {pixelMode ? "Ganti ke Pristine Modern ✨" : "Ganti ke Retro Pixel 👾"}
               </Button>
+            </div>
+
+            {/* Retro 8-bit Game Progress Component */}
+            <div className="pt-4 border-t border-choco-900/10">
+              <p className="text-xs font-pixel text-choco-600 mb-3 tracking-wide">
+                [LIVE 8-BIT GAME PROGRESS MODULE]
+              </p>
+              <div className="flex justify-center p-2 bg-choco-900/5 rounded-xl">
+                <GameProgress className="w-full max-w-md" />
+              </div>
             </div>
           </CandyBox>
         </section>

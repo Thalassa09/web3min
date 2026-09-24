@@ -1,5 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@600;700&family=Press+Start+2P&display=swap");
 @import "tailwindcss";
+@import "tw-animate-css";
 
 /* ══════════════════════════════════════════════════════════════════════════════
    MASTER DESIGN SYSTEM — web3min: "Tactile Spatial Arcade"
@@ -113,6 +114,7 @@
 
 :root {
   color-scheme: light;
+  --radius: 0.5rem;
 
   /* Motion & Spring Timing Tokens */
   --dur-tap: 90ms;
@@ -139,6 +141,21 @@ html {
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.dark {
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+.retro {
+  font-family: "Press Start 2P", "Pixelify Sans", "Silkscreen", monospace, system-ui;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 html[data-motion="reduced"] *,

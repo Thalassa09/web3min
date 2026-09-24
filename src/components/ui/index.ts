@@ -20,3 +20,18 @@ export * from "./telemetry-badge";
 export * from "./lame-avatar";
 export * from "./segmented-nav";
 export * from "./pixel-icon";
+export * from "./streak-badge";
+export { default as GameProgress } from "./8bit-game-progress";
+export {
+  Card as BitCard,
+  CardHeader as BitCardHeader,
+  CardTitle as BitCardTitle,
+  CardContent as BitCardContent,
+  CardDescription as BitCardDescription,
+  CardFooter as BitCardFooter,
+  CardAction as BitCardAction,
+} from "./8bit-card";
+export { Progress as BitProgress } from "./8bit-progress";
+export { default as HealthBar } from "./8bit-health-bar";
+export { default as ManaBar } from "./8bit-mana-bar";
+

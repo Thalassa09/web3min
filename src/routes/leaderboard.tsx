@@ -56,6 +56,7 @@ function LeaderboardPage() {
   const [showPrizeModal, setShowPrizeModal] = React.useState(false);
   const [claimedNotice, setClaimedNotice] = React.useState<string | null>(null);
   const [dbUsers, setDbUsers] = React.useState<DbLeaderboardUser[]>([]);
+  const [dbTotalCount, setDbTotalCount] = React.useState(0);
   const [isDbLoading, setIsDbLoading] = React.useState(true);
   const [isDbConnected, setIsDbConnected] = React.useState(false);
 
@@ -100,9 +101,10 @@ function LeaderboardPage() {
     async function loadDb() {
       setIsDbLoading(true);
       try {
-        const users = await rpcGetLeaderboard(100, 0);
-        if (active && Array.isArray(users) && users.length > 0) {
-          setDbUsers(users);
+        const res = await rpcGetLeaderboard(100, 0);
+        if (active && res && Array.isArray(res.users)) {
+          setDbUsers(res.users);
+          setDbTotalCount(res.totalCount);
           setIsDbConnected(true);
         }
       } catch (err) {
@@ -121,8 +123,8 @@ function LeaderboardPage() {
     () => ({
       username: username || "pelajar",
       xp: xp ?? 0,
-      weeklyXp: weeklyXp ?? xp ?? 240,
-      streak: streak ?? 4,
+      weeklyXp: weeklyXp ?? xp ?? 0,
+      streak: streak ?? 0,
     }),
     [username, xp, weeklyXp, streak],
   );
@@ -131,13 +133,14 @@ function LeaderboardPage() {
     () =>
       getLeaderboardParticipants(
         currentUser,
-        7,
+        1,
         100,
         filterTier,
         search,
         dbUsers,
+        dbTotalCount,
       ),
-    [currentUser, filterTier, search, dbUsers],
+    [currentUser, filterTier, search, dbUsers, dbTotalCount],
   );
 
   const isClaimedThisWeek = lastClaimedLeaderboardWeek === currentWeek;
@@ -175,16 +178,16 @@ function LeaderboardPage() {
             className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
           >
             <Ticket className="h-4 w-4 shrink-0 text-choco-700" />
-            <span>Undian Raffle NFT</span>
+            <span>Undian Hadiah</span>
           </Link>
         </div>
       {/* Top Header Card */}
-      <div className="relative overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-6 md:p-8 shadow-[0_6px_0_#D97706,0_12px_28px_-4px_rgba(217,119,6,0.22)]">
+      <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
               <Trophy className="h-4 w-4 text-amber-500 fill-amber-400" />
-              Liga Emas • Reset dalam 3 Hari 14 Jam
+              Liga Emas • Reset Mingguan
             </div>
             <h1 className="text-3xl md:text-4xl font-pixel font-bold tracking-tight text-choco-900">
               Klasemen Mingguan & Pool Hadiah Koin
@@ -202,7 +205,7 @@ function LeaderboardPage() {
           <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
             <button
               onClick={() => setShowPrizeModal(true)}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-white px-4 py-2.5 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-white px-4 py-2.5 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
             >
               <Award className="h-4 w-4 text-candy-500" />
               Rincian Hadiah (1 s.d. 1.000)
@@ -211,11 +214,11 @@ function LeaderboardPage() {
         </div>
       </div>
 
-      {/* Promo Banner: Raffle NFT Bridge */}
-      <div className="relative overflow-hidden rounded-3xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#B01F62,0_12px_28px_-4px_rgba(232,67,127,0.22)]">
+      {/* Promo Banner: Hadiah Undian Bridge */}
+      <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_3px_0_#D97706]">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-choco-900 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_3px_0_#3B2218]">
               <Ticket className="h-8 w-8 stroke-[2.5]" />
             </div>
             <div className="space-y-1">
@@ -223,28 +226,28 @@ function LeaderboardPage() {
                 Undian Mingguan Aktif
               </div>
               <h2 className="text-xl md:text-2xl font-pixel font-bold text-choco-900">
-                Gunakan Koin untuk Ikut Undian Raffle NFT!
+                Gunakan Koin untuk Ikut Undian Hadiah!
               </h2>
               <p className="text-xs md:text-sm font-semibold text-choco-700 max-w-lg leading-relaxed">
-                Tukarkan koin kemenangan klasemenmu dengan Tiket Raffle untuk memenangkan Genesis Blobi #001 (1/1 Mythic NFT), Cyber Pass, & koleksi langka lainnya!
+                Gunakan Koin untuk ikut Undian Hadiah. Menangkan item Blobi edisi terbatas atau slot mint NFT dari proyek mitra.
               </p>
             </div>
           </div>
 
           <Link
             to="/raffle"
-            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
           >
-            Buka Undian Raffle →
+            <span>Buka Undian Hadiah</span>
           </Link>
         </div>
       </div>
 
       {/* Claimed Toast Banner */}
       {claimedNotice && (
-        <div className="flex items-center gap-3 rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] p-4 font-bold text-emerald-950 shadow-[0_4px_0_#15803D,0_10px_20px_-4px_rgba(21,128,61,0.22)] animate-bounce">
+        <div className="flex items-center gap-3 rounded-2xl border-2 border-choco-900 bg-emerald-100 p-4 font-bold text-emerald-950 shadow-[0_4px_0_#3B2218]">
           <CheckCircle2 className="h-6 w-6 text-emerald-700 shrink-0" />
-          <p className="text-sm">{claimedNotice}</p>
+          <p className="text-sm font-semibold">{claimedNotice}</p>
         </div>
       )}
 
@@ -358,13 +361,13 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier(undefined);
                 }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 cursor-pointer ${
                   filterTier === undefined
-                    ? "bg-ink-900 text-white"
-                    : "bg-white text-ink-900 hover:bg-yellow-100"
+                    ? "bg-choco-900 text-white"
+                    : "bg-white text-choco-900 hover:bg-yellow-100"
                 }`}
               >
-                Semua (Top 100)
+                Semua
               </button>
               <button
                 type="button"
@@ -372,10 +375,10 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top10");
                 }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top10"
                     ? "bg-candy-500 text-white"
-                    : "bg-white text-ink-900 hover:bg-candy-100"
+                    : "bg-white text-choco-900 hover:bg-candy-100"
                 }`}
               >
                 <Crown className="size-3.5 text-amber-500 shrink-0" />
@@ -390,10 +393,10 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top50");
                 }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top50"
                     ? "bg-lemon text-choco-900"
-                    : "bg-white text-ink-900 hover:bg-lemon/40"
+                    : "bg-white text-choco-900 hover:bg-lemon/40"
                 }`}
               >
                 <Star className="size-3.5 text-amber-600 shrink-0" />
@@ -408,10 +411,10 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top100");
                 }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top100"
                     ? "bg-emerald-500 text-white"
-                    : "bg-white text-ink-900 hover:bg-emerald-100"
+                    : "bg-white text-choco-900 hover:bg-emerald-100"
                 }`}
               >
                 <Flame className="size-3.5 text-emerald-500 shrink-0" />
@@ -426,10 +429,10 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top500");
                 }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top500"
                     ? "bg-amber-500 text-white"
-                    : "bg-white text-ink-900 hover:bg-amber-100"
+                    : "bg-white text-choco-900 hover:bg-amber-100"
                 }`}
               >
                 <Zap className="size-3.5 text-amber-500 shrink-0" />
@@ -444,10 +447,10 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top1000");
                 }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top1000"
                     ? "bg-slate-700 text-white"
-                    : "bg-white text-ink-900 hover:bg-slate-200"
+                    : "bg-white text-choco-900 hover:bg-slate-200"
                 }`}
               >
                 <Shield className="size-3.5 text-slate-500 shrink-0" />
@@ -485,7 +488,7 @@ function LeaderboardPage() {
       </div>
 
       {/* Leaderboard Table Card in Tactile Beveled Style */}
-      <div className="rounded-3xl border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)] overflow-hidden">
+      <div className="rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_6px_0_#3B2218] overflow-hidden">
         <div className="border-b-2 border-choco-900/15 bg-gradient-to-r from-[#FFF0F5] to-[#FFE4EC] px-6 py-3 flex items-center justify-between text-xs font-bold uppercase text-choco-900 tracking-wider">
           <div className="flex items-center gap-4">
             <span className="w-12 text-center">Rank</span>
@@ -498,13 +501,18 @@ function LeaderboardPage() {
           </div>
         </div>
 
-        <div className="divide-y-2 divide-ink-900/10">
+        <div className="text-[11px] font-bold text-choco-600 px-6 py-2 bg-cream/70 border-b border-choco-900/10 flex items-center justify-between">
+          <span>Menampilkan {participants.length} dari {totalCount} petualang</span>
+          <span className="text-[10px] uppercase font-pixel text-choco-500">Liga Emas</span>
+        </div>
+
+        <div className="divide-y-2 divide-choco-900/10">
           {isDbLoading ? (
             <div className="p-12 flex flex-col items-center justify-center space-y-4">
               <CandyLoader size="lg" label="MENYELARASKAN DATA KLASEMEN..." />
             </div>
           ) : participants.length === 0 ? (
-            <div className="p-8 text-center text-ink-600 font-bold">
+            <div className="p-8 text-center text-choco-600 font-bold">
               Tidak ada petualang yang cocok dengan filter.
             </div>
           ) : (
@@ -512,7 +520,6 @@ function LeaderboardPage() {
               const isFirst = p.rank === 1;
               const isSecond = p.rank === 2;
               const isThird = p.rank === 3;
-              const isTopThree = isFirst || isSecond || isThird;
 
               return (
                 <div
@@ -520,7 +527,7 @@ function LeaderboardPage() {
                   id={p.isCurrentUser ? "current-user-row" : undefined}
                   className={`flex items-center justify-between px-4 sm:px-6 py-3.5 transition-colors ${
                     p.isCurrentUser
-                      ? "bg-candy-100 font-black border-l-8 border-l-candy-500"
+                      ? "bg-candy-100 font-bold border-l-8 border-l-candy-500"
                       : isFirst
                       ? "bg-amber-50/70"
                       : isSecond
@@ -534,40 +541,40 @@ function LeaderboardPage() {
                   <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                     <div className="w-10 sm:w-12 flex items-center justify-center shrink-0">
                       {isFirst ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-amber-400 font-black text-ink-900 shadow-[1px_1px_0_#2B1622] text-xs">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-400 font-bold text-choco-900 shadow-[0_1px_0_#3B2218] text-xs">
                           1
                         </div>
                       ) : isSecond ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-slate-300 font-black text-ink-900 shadow-[1px_1px_0_#2B1622] text-xs">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-choco-900 bg-slate-300 font-bold text-choco-900 shadow-[0_1px_0_#3B2218] text-xs">
                           2
                         </div>
                       ) : isThird ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-amber-600 text-white font-black shadow-[1px_1px_0_#2B1622] text-xs">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-600 text-white font-bold shadow-[0_1px_0_#3B2218] text-xs">
                           3
                         </div>
                       ) : (
-                        <span className="text-xs sm:text-sm font-black text-ink-700">
+                        <span className="text-xs sm:text-sm font-bold text-choco-700">
                           #{p.rank}
                         </span>
                       )}
                     </div>
 
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-ink-900 bg-candy-200">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-choco-900 bg-candy-200">
                       <Mascot mood={p.avatarMood} size={32} className="h-8 w-8" />
                     </div>
 
                     <div className="min-w-0 truncate">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs sm:text-sm font-black text-ink-900 truncate">
+                        <span className="text-xs sm:text-sm font-bold text-choco-900 truncate">
                           @{p.name}
                         </span>
                         {p.isCurrentUser && (
-                          <span className="rounded-full bg-candy-400 px-2 py-0.5 text-[9px] font-black uppercase text-ink-900 border border-ink-900 shrink-0">
+                          <span className="rounded-full bg-candy-400 px-2 py-0.5 text-[9px] font-bold uppercase text-choco-900 border border-choco-900 shrink-0">
                             Kamu
                           </span>
                         )}
                       </div>
-                      <div className="text-[10px] text-ink-500 font-bold block sm:hidden">
+                      <div className="text-[10px] text-choco-500 font-bold block sm:hidden">
                         {p.weeklyXp} XP • {p.streak} Hari
                       </div>
                     </div>
@@ -580,21 +587,21 @@ function LeaderboardPage() {
                       {p.streak}
                     </div>
 
-                    <div className="w-16 sm:w-20 text-right text-xs sm:text-sm font-black text-ink-900">
-                      {p.weeklyXp.toLocaleString("id-ID")} <span className="text-[10px] text-ink-500 font-bold">XP</span>
+                    <div className="w-16 sm:w-20 text-right text-xs sm:text-sm font-bold text-choco-900">
+                      {p.weeklyXp.toLocaleString("id-ID")} <span className="text-[10px] text-choco-500 font-bold">XP</span>
                     </div>
 
                     <div className="w-24 sm:w-28 text-right">
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-xl border-2 border-ink-900 text-xs font-black shadow-[1px_1px_0_#2B1622] ${
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border-2 border-choco-900 text-xs font-bold shadow-[0_1px_0_#3B2218] ${
                           isFirst
-                            ? "bg-amber-300 text-ink-900"
+                            ? "bg-amber-300 text-choco-900"
                             : isSecond
-                            ? "bg-slate-200 text-ink-900"
+                            ? "bg-slate-200 text-choco-900"
                             : isThird
                             ? "bg-amber-600 text-white"
                             : p.rank <= 10
-                            ? "bg-candy-300 text-ink-900"
+                            ? "bg-candy-300 text-choco-900"
                             : p.rank <= 50
                             ? "bg-lemon text-choco-900"
                             : p.rank <= 100

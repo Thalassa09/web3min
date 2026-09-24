@@ -44,9 +44,12 @@ import {
   rpcAdminUpsertRaffle,
   rpcAdminDeleteRaffle,
   rpcAdminGetRaffleEntries,
+  rpcAdminGetUsers,
+  rpcAdminSetUserCensorship,
   type DbRaffleItem,
   type DbRaffleStats,
   type DbRaffleEntryParticipant,
+  type DbAdminUserItem,
 } from "@/lib/server-sync";
 import { INITIAL_RAFFLES } from "@/lib/raffles";
 import { CandyLoader } from "@/components/ui/progress-bar";
@@ -119,9 +122,17 @@ export function AdminPage() {
   const [loginLoading, setLoginLoading] = React.useState(false);
   const [loginError, setLoginError] = React.useState<string | null>(null);
 
+  const [activeAdminTab, setActiveAdminTab] = React.useState<"raffles" | "users">("raffles");
+
   const [dbRaffles, setDbRaffles] = React.useState<DbRaffleItem[]>([]);
   const [statsMap, setStatsMap] = React.useState<Record<string, DbRaffleStats>>({});
   const [isLoading, setIsLoading] = React.useState(true);
+
+  // User Management State
+  const [adminUsers, setAdminUsers] = React.useState<DbAdminUserItem[]>([]);
+  const [userFilter, setUserFilter] = React.useState<string>("all");
+  const [userSearch, setUserSearch] = React.useState("");
+  const [isUsersLoading, setIsUsersLoading] = React.useState(false);
 
   // Search & Filter State
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -140,6 +151,18 @@ export function AdminPage() {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(null), 3500);
   };
+
+  const refreshUsers = React.useCallback(async (key: string) => {
+    setIsUsersLoading(true);
+    try {
+      const u = await rpcAdminGetUsers(key, userFilter);
+      setAdminUsers(u);
+    } catch (err) {
+      console.warn("[admin] Failed to load users:", err);
+    } finally {
+      setIsUsersLoading(false);
+    }
+  }, [userFilter]);
 
   const refreshData = React.useCallback(async () => {
     setIsLoading(true);
@@ -161,19 +184,21 @@ export function AdminPage() {
     }
   }, []);
 
-  // Restore session
+  // Restore session from sessionStorage (not localStorage)
   React.useEffect(() => {
     try {
-      const saved = localStorage.getItem("web3min_admin_auth");
+      localStorage.removeItem("web3min_admin_auth"); // clean any legacy storage
+      const saved = sessionStorage.getItem("web3min_admin_auth");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed?.key) {
           setAdminKey(parsed.key);
+          void refreshUsers(parsed.key);
         }
       }
     } catch {}
     void refreshData();
-  }, [refreshData]);
+  }, [refreshData, refreshUsers]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -187,13 +212,14 @@ export function AdminPage() {
       const isValid = await rpcAdminVerifyKey(passwordInput.trim());
       if (isValid) {
         const key = passwordInput.trim();
-        localStorage.setItem(
+        sessionStorage.setItem(
           "web3min_admin_auth",
           JSON.stringify({ key, authAt: Date.now() })
         );
         setAdminKey(key);
         showToast("Login Admin Berhasil!");
         void refreshData();
+        void refreshUsers(key);
       } else {
         setLoginError("Kunci admin salah! Akses ditolak.");
       }
@@ -205,10 +231,28 @@ export function AdminPage() {
   };
 
   const handleLogout = () => {
+    sessionStorage.removeItem("web3min_admin_auth");
     localStorage.removeItem("web3min_admin_auth");
     setAdminKey(null);
     setPasswordInput("");
     showToast("Berhasil keluar dari mode admin.");
+  };
+
+  const handleToggleCensorship = async (userId: string, currentCensored: boolean, uName: string) => {
+    if (!adminKey) return;
+    const nextState = !currentCensored;
+    const res = await rpcAdminSetUserCensorship(
+      adminKey,
+      userId,
+      nextState,
+      nextState ? "Disensor manual oleh admin" : "Dipulihkan manual oleh admin"
+    );
+    if (res.success) {
+      showToast(`Status sensor untuk @${uName} berhasil diubah.`);
+      void refreshUsers(adminKey);
+    } else {
+      showToast(res.error || "Gagal mengubah status sensor.");
+    }
   };
 
   const handleOpenCreate = () => {
@@ -501,7 +545,7 @@ export function AdminPage() {
                   className="py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-2"
                 >
                   <Plus className="size-4" />
-                  <span>+ Tambah Undian Baru</span>
+                  <span>Buat Undian Baru</span>
                 </button>
                 <button
                   type="button"
@@ -513,6 +557,39 @@ export function AdminPage() {
                 </button>
               </div>
             </div>
+
+            {/* Admin Section Tabs */}
+            <div className="flex items-center gap-2 border-b-2 border-choco-900/20 pb-3 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setActiveAdminTab("raffles")}
+                className={`px-4 py-2 rounded-full font-pixel text-xs font-bold border-2 border-choco-900 transition-all cursor-pointer ${
+                  activeAdminTab === "raffles"
+                    ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                    : "bg-white text-choco-700 hover:bg-cream"
+                }`}
+              >
+                Kelola Undian ({displayRaffles.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveAdminTab("users");
+                  if (adminKey) void refreshUsers(adminKey);
+                }}
+                className={`px-4 py-2 rounded-full font-pixel text-xs font-bold border-2 border-choco-900 transition-all cursor-pointer flex items-center gap-1.5 ${
+                  activeAdminTab === "users"
+                    ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                    : "bg-white text-choco-700 hover:bg-cream"
+                }`}
+              >
+                <Users className="size-3.5" />
+                <span>Manajemen Pengguna & Sensor ({adminUsers.length})</span>
+              </button>
+            </div>
+
+            {activeAdminTab === "raffles" ? (
+              <>
 
             {/* Quick Stats Grid (5 Accurate KPI Cards) */}
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
@@ -828,6 +905,152 @@ export function AdminPage() {
                 </div>
               )}
             </div>
+            </>
+          ) : (
+            /* USER MANAGEMENT & CENSORSHIP TAB */
+            <div className="space-y-4">
+              <div className="p-4 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex flex-col md:flex-row items-center justify-between gap-3">
+                <div className="relative w-full md:w-80">
+                  <Search className="size-4 text-choco-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                    placeholder="Cari username atau display name..."
+                    className="w-full pl-9 pr-4 py-2 rounded-xl bg-cream/50 border border-choco-900 text-xs font-semibold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:ring-2 focus:ring-candy-500 shadow-[0_1px_0_#3B2218]"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1 p-1 bg-cream rounded-xl border border-choco-900/30 overflow-x-auto">
+                  {[
+                    { id: "all", label: "Semua" },
+                    { id: "user", label: "User" },
+                    { id: "censored", label: "Tersensor" },
+                    { id: "test", label: "Test" },
+                    { id: "demo", label: "Demo" },
+                  ].map((f) => (
+                    <button
+                      key={f.id}
+                      type="button"
+                      onClick={() => {
+                        setUserFilter(f.id);
+                        if (adminKey) void refreshUsers(adminKey);
+                      }}
+                      className={`px-3 py-1 rounded-lg font-pixel text-[10px] font-bold transition-all cursor-pointer ${
+                        userFilter === f.id
+                          ? "bg-choco-900 text-cream shadow-[0_1px_0_#3B2218]"
+                          : "text-choco-700 hover:text-choco-900"
+                      }`}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {isUsersLoading ? (
+                <div className="p-12 flex flex-col items-center justify-center space-y-4">
+                  <CandyLoader size="lg" label="MEMUAT DAFTAR PENGGUNA..." />
+                </div>
+              ) : adminUsers.length === 0 ? (
+                <div className="p-12 text-center rounded-3xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
+                  <p className="font-bold text-choco-700 text-sm">Tidak ada pengguna yang cocok dengan filter.</p>
+                </div>
+              ) : (
+                <div className="rounded-2xl border-2 border-choco-900 bg-white overflow-hidden shadow-[0_4px_0_#3B2218]">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-cream border-b-2 border-choco-900/20 text-choco-900 font-pixel uppercase text-[10px]">
+                        <tr>
+                          <th className="p-3">User ID</th>
+                          <th className="p-3">Username Asli</th>
+                          <th className="p-3">Nama Tampil (Publik)</th>
+                          <th className="p-3">Tipe</th>
+                          <th className="p-3">Status Sensor</th>
+                          <th className="p-3 text-right">XP Mingguan</th>
+                          <th className="p-3 text-right">Total XP</th>
+                          <th className="p-3 text-center">Aksi Sensor</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-choco-900/10 font-medium text-choco-900">
+                        {adminUsers
+                          .filter((u) => {
+                            if (!userSearch.trim()) return true;
+                            const q = userSearch.toLowerCase();
+                            return (
+                              u.username.toLowerCase().includes(q) ||
+                              u.display_name.toLowerCase().includes(q)
+                            );
+                          })
+                          .map((u) => (
+                            <tr key={u.id} className="hover:bg-cream/40 transition-colors">
+                              <td className="p-3 font-mono text-[10px] text-choco-500">
+                                {u.id.slice(0, 8)}…
+                              </td>
+                              <td className="p-3 font-mono font-bold">
+                                @{u.username}
+                              </td>
+                              <td className="p-3 font-semibold">
+                                {u.display_name}
+                              </td>
+                              <td className="p-3">
+                                <span
+                                  className={`px-2 py-0.5 rounded-full font-pixel text-[9px] font-bold border border-choco-900 ${
+                                    u.account_type === "user"
+                                      ? "bg-emerald-100 text-emerald-800"
+                                      : u.account_type === "test"
+                                      ? "bg-amber-100 text-amber-800"
+                                      : "bg-purple-100 text-purple-800"
+                                  }`}
+                                >
+                                  {u.account_type}
+                                </span>
+                              </td>
+                              <td className="p-3">
+                                {u.username_censored ? (
+                                  <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-pixel text-[9px] font-bold border border-rose-300">
+                                    Tersensor
+                                  </span>
+                                ) : (
+                                  <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-pixel text-[9px] font-bold">
+                                    Normal
+                                  </span>
+                                )}
+                              </td>
+                              <td className="p-3 text-right font-mono font-bold text-amber-800">
+                                {u.weekly_xp}
+                              </td>
+                              <td className="p-3 text-right font-mono">
+                                {u.xp}
+                              </td>
+                              <td className="p-3 text-center">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    handleToggleCensorship(
+                                      u.id,
+                                      u.username_censored,
+                                      u.username
+                                    )
+                                  }
+                                  className={`px-3 py-1 rounded-full font-pixel text-[10px] font-bold border border-choco-900 shadow-[0_1px_0_#3B2218] active:translate-y-0.5 cursor-pointer ${
+                                    u.username_censored
+                                      ? "bg-emerald-300 hover:bg-emerald-400 text-choco-900"
+                                      : "bg-rose-200 hover:bg-rose-300 text-rose-900"
+                                  }`}
+                                >
+                                  {u.username_censored ? "Pulihkan" : "Sensor"}
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           </div>
         )}
       </div>
@@ -964,8 +1187,8 @@ function AdminParticipantsModal({
             </div>
           ) : participants.length === 0 ? (
             <div className="p-8 rounded-2xl bg-white border-2 border-choco-900/20 text-center space-y-2">
-              <div className="size-12 mx-auto rounded-2xl bg-stone-100 border border-choco-900/30 flex items-center justify-center text-xl">
-                🎟️
+              <div className="size-12 mx-auto rounded-2xl bg-amber-100 border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_2px_0_#3B2218]">
+                <Ticket className="size-6 text-choco-700" />
               </div>
               <h4 className="font-pixel text-sm font-bold text-choco-900">
                 Belum Ada Peserta
@@ -995,11 +1218,12 @@ function AdminParticipantsModal({
                     </div>
 
                     <div className="flex items-center gap-3 text-xs flex-wrap pt-0.5">
-                      {/* Discord */}
-                      <span className="inline-flex items-center gap-1 font-mono text-[11px] text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200">
-                        <MessageSquare className="size-3 text-indigo-500" />
-                        <strong>Discord:</strong> {p.discord || "-"}
-                      </span>
+                      {/* Wallet EVM */}
+                      {p.wallet_address ? (
+                        <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-900 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-300">
+                          <strong>Wallet:</strong> {p.wallet_address}
+                        </span>
+                      ) : null}
 
                       {/* X (Twitter) */}
                       <span className="inline-flex items-center gap-1 font-mono text-[11px] text-sky-700 bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">

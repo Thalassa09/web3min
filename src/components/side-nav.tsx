@@ -30,7 +30,7 @@ export function SideNav() {
 
   useEffect(() => {
     try {
-      const auth = localStorage.getItem("web3min_admin_auth");
+      const auth = sessionStorage.getItem("web3min_admin_auth");
       setIsAdmin(Boolean(auth && JSON.parse(auth)?.key));
     } catch {
       setIsAdmin(false);

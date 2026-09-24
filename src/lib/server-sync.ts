@@ -45,10 +45,10 @@ export async function syncProgressFromServer(): Promise<boolean> {
 
     const [progressRes, profileRes, completionsRes, questsRes, raffleRes] = await Promise.all([
       supabase.from("progress").select("*").eq("user_id", uid).maybeSingle(),
-      supabase.from("profiles").select("username, bio, twitter").eq("id", uid).maybeSingle(),
+      supabase.from("profiles").select("username, bio, twitter, last_wallet_address, username_censored").eq("id", uid).maybeSingle(),
       supabase.from("completions").select("lesson_id, perfect").eq("user_id", uid),
       supabase.from("claimed_quests").select("quest_id, quest_date").eq("user_id", uid).eq("quest_date", today),
-      supabase.from("raffle_entries").select("raffle_id, tickets, entered_at").eq("user_id", uid),
+      supabase.from("raffle_entries").select("raffle_id, tickets, entered_at, wallet_address, x_handle").eq("user_id", uid),
     ]);
 
     const progress = progressRes.data;
@@ -84,7 +84,7 @@ export async function syncProgressFromServer(): Promise<boolean> {
       .map((q) => SERVER_QUEST_TO_CLIENT[String(q.quest_id)])
       .filter((id): id is "lesson" | "xp" | "kisah" | "perfect" => Boolean(id));
 
-    const enteredRaffles: Record<string, { count: number; enteredAt: number }> = {};
+    const enteredRaffles: Record<string, { count: number; enteredAt: number; walletAddress?: string; xHandle?: string }> = {};
     for (const row of raffleRows) {
       const rid = String(row.raffle_id ?? "");
       const count = Number(row.tickets) || 0;
@@ -92,6 +92,8 @@ export async function syncProgressFromServer(): Promise<boolean> {
       enteredRaffles[rid] = {
         count,
         enteredAt: row.entered_at ? new Date(row.entered_at).getTime() : Date.now(),
+        walletAddress: row.wallet_address || "",
+        xHandle: row.x_handle || "",
       };
     }
 
@@ -126,6 +128,8 @@ export async function syncProgressFromServer(): Promise<boolean> {
         username: serverUsername || s.username,
         bio: typeof profile?.bio === "string" && profile.bio ? profile.bio : s.bio,
         twitter: typeof profile?.twitter === "string" && profile.twitter ? profile.twitter : s.twitter,
+        lastWalletAddress: typeof profile?.last_wallet_address === "string" && profile.last_wallet_address ? profile.last_wallet_address : (s.lastWalletAddress || ""),
+        usernameCensored: Boolean(profile?.username_censored),
         dailyGoal: dailyGoal ?? s.dailyGoal,
         completed: mergedCompleted,
         perfect: mergedPerfect,
@@ -365,38 +369,66 @@ export async function rpcBuyTickets(count: number): Promise<boolean> {
 export async function rpcEnterRaffle(
   raffleId: string,
   tickets: number,
-  discord: string = "",
+  walletAddress: string,
   xHandle: string = ""
-): Promise<boolean> {
-  if (!isSupabaseConfigured || !supabase) return false;
+): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
   const opKey = `raffle:${raffleId}`;
-  if (!canExecuteOp(opKey, 1000)) return false;
+  if (!canExecuteOp(opKey, 1000)) return { success: false, error: "Tunggu sebentar..." };
   startOp(opKey);
   try {
     const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) return false;
+    if (!session?.user) return { success: false, error: "Silakan masuk terlebih dahulu" };
 
     const { error } = await supabase.rpc("enter_raffle", {
       p_raffle_id: raffleId,
       p_tickets: tickets,
-      p_discord: discord.trim(),
-      p_x_handle: xHandle.trim(),
+      p_wallet_address: walletAddress.trim().toLowerCase(),
+      p_x_handle: xHandle.trim().replace(/^@+/, ""),
     });
-    return !error;
-  } catch {
-    return false;
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal memasang tiket" };
   } finally {
     endOp(opKey);
+  }
+}
+
+export async function rpcUpdateRaffleWallet(
+  raffleId: string,
+  walletAddress: string,
+  xHandle: string = ""
+): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return { success: false, error: "Silakan masuk terlebih dahulu" };
+
+    const { error } = await supabase.rpc("update_raffle_entry_wallet", {
+      p_raffle_id: raffleId,
+      p_wallet_address: walletAddress.trim().toLowerCase(),
+      p_x_handle: xHandle.trim().replace(/^@+/, ""),
+    });
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal memperbarui wallet" };
   }
 }
 
 export type DbRaffleEntryParticipant = {
   user_id: string;
   username: string;
-  tickets: number;
-  discord: string;
+  wallet_address: string;
   x_handle: string;
+  tickets: number;
   entered_at: string;
+  is_multi_account?: boolean;
 };
 
 export async function rpcAdminGetRaffleEntries(
@@ -473,23 +505,97 @@ export async function saveTwitterToServer(twitter: string): Promise<boolean> {
 export type DbLeaderboardUser = {
   rank: number;
   username: string;
+  username_censored?: boolean;
   xp: number;
   weekly_xp: number;
   streak: number;
   coin_reward: number;
 };
 
-export async function rpcGetLeaderboard(limit = 100, offset = 0): Promise<DbLeaderboardUser[]> {
-  if (!isSupabaseConfigured || !supabase) return [];
+export type LeaderboardResult = {
+  users: DbLeaderboardUser[];
+  totalCount: number;
+};
+
+export async function rpcGetLeaderboard(limit = 100, offset = 0): Promise<LeaderboardResult> {
+  if (!isSupabaseConfigured || !supabase) return { users: [], totalCount: 0 };
   try {
     const { data, error } = await supabase.rpc("get_leaderboard", {
       p_limit: limit,
       p_offset: offset,
     });
-    if (error || !Array.isArray(data)) return [];
-    return data as DbLeaderboardUser[];
+    if (error || !data) return { users: [], totalCount: 0 };
+    if (Array.isArray(data)) {
+      return { users: data as DbLeaderboardUser[], totalCount: data.length };
+    }
+    const res = data as { users?: DbLeaderboardUser[]; total_count?: number };
+    return {
+      users: Array.isArray(res.users) ? res.users : [],
+      totalCount: Number(res.total_count) || (Array.isArray(res.users) ? res.users.length : 0),
+    };
   } catch (err) {
     console.warn("[server-sync] Failed to get leaderboard from DB:", err);
+    return { users: [], totalCount: 0 };
+  }
+}
+
+export async function rpcChangeUsername(newUsername: string): Promise<{ success: boolean; username?: string; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true, username: newUsername };
+  try {
+    const { data, error } = await supabase.rpc("change_username", {
+      p_new_username: newUsername.trim().toLowerCase(),
+    });
+    if (error) return { success: false, error: error.message };
+    const res = data as { success?: boolean; username?: string };
+    return { success: Boolean(res?.success), username: res?.username || newUsername };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal mengganti username" };
+  }
+}
+
+export async function rpcAdminSetUserCensorship(
+  key: string,
+  userId: string,
+  censored: boolean,
+  reason = ""
+): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
+  try {
+    const { error } = await supabase.rpc("admin_set_user_censorship", {
+      p_key: key,
+      p_user_id: userId,
+      p_censored: censored,
+      p_reason: reason,
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal mengubah status sensor" };
+  }
+}
+
+export type DbAdminUserItem = {
+  id: string;
+  username: string;
+  display_name: string;
+  username_censored: boolean;
+  account_type: "user" | "test" | "demo";
+  xp: number;
+  weekly_xp: number;
+  streak: number;
+  created_at: string;
+};
+
+export async function rpcAdminGetUsers(key: string, filterType = "all"): Promise<DbAdminUserItem[]> {
+  if (!isSupabaseConfigured || !supabase) return [];
+  try {
+    const { data, error } = await supabase.rpc("admin_get_users", {
+      p_key: key,
+      p_filter_type: filterType,
+    });
+    if (error || !Array.isArray(data)) return [];
+    return data as DbAdminUserItem[];
+  } catch {
     return [];
   }
 }
@@ -545,7 +651,7 @@ export type DbRaffleItem = {
   nft_contract?: string;
   nft_token_id?: string;
   nft_rarity?: "mythic" | "legendary" | "rare" | "utility";
-  status: "live" | "upcoming" | "ended" | "drawn";
+  status: "live" | "verifying" | "ended" | "upcoming" | "drawn";
   starts_at: string;
   ends_at: string;
   ticket_cost: number;
@@ -554,6 +660,31 @@ export type DbRaffleItem = {
   perks: string[];
   image_url?: string;
   is_simulation?: boolean;
+  requirement_x_handle?: string;
+  official_mint_domain?: string;
+  announcement_date?: string;
+  seed_hash?: string;
+  draw_seed?: string;
+  candidates?: {
+    winners: Array<{
+      user_id: string;
+      username: string;
+      wallet_address: string;
+      x_handle: string;
+      tickets: number;
+      rank: number;
+      verified?: boolean;
+    }>;
+    reserves: Array<{
+      user_id: string;
+      username: string;
+      wallet_address: string;
+      x_handle: string;
+      tickets: number;
+      rank: number;
+    }>;
+  };
+  discord_group_link?: string;
 };
 
 export async function rpcGetRaffles(): Promise<DbRaffleItem[]> {
@@ -629,6 +760,10 @@ export type AdminUpsertRafflePayload = {
   nftRarity?: string;
   perks?: string[];
   isSimulation?: boolean;
+  requirementXHandle?: string;
+  officialMintDomain?: string;
+  announcementDate?: string;
+  discordGroupLink?: string;
 };
 
 export async function rpcAdminUpsertRaffle(payload: AdminUpsertRafflePayload): Promise<{ success: boolean; id?: string; error?: string }> {
@@ -653,7 +788,11 @@ export async function rpcAdminUpsertRaffle(payload: AdminUpsertRafflePayload): P
       p_nft_token_id: payload.nftTokenId || "",
       p_nft_rarity: payload.nftRarity || "rare",
       p_perks: payload.perks || [],
-      p_is_simulation: payload.isSimulation ?? true,
+      p_is_simulation: payload.isSimulation ?? false,
+      p_requirement_x_handle: payload.requirementXHandle || "",
+      p_official_mint_domain: payload.officialMintDomain || "",
+      p_announcement_date: payload.announcementDate || "",
+      p_discord_group_link: payload.discordGroupLink || "",
     });
     if (error) {
       return { success: false, error: error.message };
@@ -681,6 +820,109 @@ export async function rpcAdminDeleteRaffle(key: string, raffleId: string): Promi
     return { success: Boolean(res?.success) };
   } catch (err: unknown) {
     return { success: false, error: (err as Error)?.message || "Gagal menghapus undian" };
+  }
+}
+
+export async function rpcAdminTriggerDraw(key: string, raffleId: string): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
+  try {
+    const { data, error } = await supabase.rpc("admin_trigger_draw", {
+      p_key: key,
+      p_raffle_id: raffleId,
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal memproses undian" };
+  }
+}
+
+export async function rpcAdminVerifyWinner(
+  key: string,
+  raffleId: string,
+  userId: string,
+  verified: boolean
+): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
+  try {
+    const { error } = await supabase.rpc("admin_verify_winner", {
+      p_key: key,
+      p_raffle_id: raffleId,
+      p_user_id: userId,
+      p_verified: verified,
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal memverifikasi pemenang" };
+  }
+}
+
+export async function rpcAdminSwapReserveWinner(
+  key: string,
+  raffleId: string,
+  winnerUserId: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
+  try {
+    const { error } = await supabase.rpc("admin_swap_reserve_winner", {
+      p_key: key,
+      p_raffle_id: raffleId,
+      p_winner_user_id: winnerUserId,
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal menukar dengan cadangan" };
+  }
+}
+
+export async function rpcAdminAnnounceWinners(
+  key: string,
+  raffleId: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
+  try {
+    const { error } = await supabase.rpc("admin_announce_winners", {
+      p_key: key,
+      p_raffle_id: raffleId,
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal mengumumkan pemenang" };
+  }
+}
+
+export type RafflePublicResults = {
+  success: boolean;
+  raffle_id: string;
+  status: string;
+  seed_hash?: string;
+  draw_seed?: string;
+  winners: Array<{
+    masked_wallet: string;
+    announced_at: string;
+  }>;
+  is_user_winner: boolean;
+  user_win_info?: {
+    prize: string;
+    wallet_address: string;
+    official_mint_domain: string;
+    discord_group_link?: string;
+  };
+};
+
+export async function rpcGetRafflePublicResults(raffleId: string): Promise<RafflePublicResults | null> {
+  if (!isSupabaseConfigured || !supabase) return null;
+  try {
+    const { data, error } = await supabase.rpc("get_raffle_public_results", {
+      p_raffle_id: raffleId,
+    });
+    if (error || !data) return null;
+    return data as RafflePublicResults;
+  } catch {
+    return null;
   }
 }
 

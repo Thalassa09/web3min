@@ -3,6 +3,7 @@ import { SideNav } from "@/components/side-nav";
 import { TopStatus } from "@/components/top-status";
 import { BottomNav } from "@/components/bottom-nav";
 import { GameOverlayHUD } from "@/components/game-overlay-hud";
+import { CensoredUsernameModal } from "@/components/censored-username-modal";
 
 export function AppShell({
   children,
@@ -22,6 +23,7 @@ export function AppShell({
         </div>
         <BottomNav />
       </div>
+      <CensoredUsernameModal />
     </div>
   );
 }

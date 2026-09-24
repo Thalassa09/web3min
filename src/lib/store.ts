@@ -10,7 +10,8 @@ import { daysBetween, todayKey, weekId, yesterdayKey } from "@/lib/time";
 import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE } from "@/lib/raffles";
 import { recordDayActivity } from "@/lib/activity-history";
 import { getCoinRewardForRank } from "@/lib/leaderboard-prizes";
-import { rpcBuyTickets, rpcEnterRaffle, rpcClaimWeeklyLeaderboardReward } from "@/lib/server-sync";
+import { rpcBuyTickets, rpcEnterRaffle, rpcUpdateRaffleWallet, rpcClaimWeeklyLeaderboardReward, rpcChangeUsername } from "@/lib/server-sync";
+import { isValidEvmAddress } from "@/lib/wallet";
 
 export type DailyGoal = 10 | 20 | 30 | 50;
 
@@ -82,7 +83,9 @@ export type ProgressState = {
   guideSeen: boolean;
   coachSeen: boolean;
   raffleTickets: number;
-  enteredRaffles: Record<string, { count: number; enteredAt: number; discord?: string; xHandle?: string }>;
+  enteredRaffles: Record<string, { count: number; enteredAt: number; discord?: string; xHandle?: string; walletAddress?: string }>;
+  lastWalletAddress?: string;
+  usernameCensored?: boolean;
   lastClaimedLeaderboardWeek?: string;
 };
 
@@ -96,6 +99,7 @@ type Actions = {
   completeIntro: () => void;
   completeGuide: () => void;
   setUsername: (username: string) => void;
+  updateUsername: (newUsername: string) => Promise<{ success: boolean; error?: string }>;
   setTwitter: (handle: string) => boolean;
   setDiscord: (handle: string) => boolean;
   addFriend: (username: string, twitter?: string) => boolean;
@@ -116,7 +120,8 @@ type Actions = {
   claimQuest: (id: string) => boolean;
   completeStory: (id: string) => { xp: number; gems: number } | null;
   completeCase: (id: string) => { xp: number; gems: number } | null;
-  enterRaffle: (raffleId: string, count: number, discord?: string, xHandle?: string) => boolean;
+  enterRaffle: (raffleId: string, count: number, walletAddress: string, xHandle?: string) => Promise<{ success: boolean; error?: string }>;
+  updateRaffleWallet: (raffleId: string, walletAddress: string, xHandle?: string) => Promise<{ success: boolean; error?: string }>;
   buyRaffleTicketsWithGems: (ticketAmount: number) => boolean;
   claimWeeklyLeaderboardReward: (weekKey: string, rank: number) => { success: boolean; coins: number };
   addRaffleTicket: (count?: number) => void;
@@ -231,18 +236,20 @@ function sanitizeShouts(raw: unknown): Shout[] {
   return rows.slice(0, 20);
 }
 
-function sanitizeEnteredRaffles(raw: unknown): Record<string, { count: number; enteredAt: number }> {
+function sanitizeEnteredRaffles(raw: unknown): Record<string, { count: number; enteredAt: number; discord?: string; xHandle?: string; walletAddress?: string }> {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
-  const validIds = new Set(INITIAL_RAFFLES.map((r) => r.id));
-  const out: Record<string, { count: number; enteredAt: number }> = {};
+  const out: Record<string, { count: number; enteredAt: number; discord?: string; xHandle?: string; walletAddress?: string }> = {};
   for (const [id, val] of Object.entries(raw as Record<string, unknown>)) {
-    if (!validIds.has(id) || !val || typeof val !== "object") continue;
-    const v = val as { count?: unknown; enteredAt?: unknown };
+    if (!id || typeof id !== "string" || !val || typeof val !== "object") continue;
+    const v = val as { count?: unknown; enteredAt?: unknown; discord?: unknown; xHandle?: unknown; walletAddress?: unknown };
     const count = clamp(v.count, 0, 9999, 0);
     if (count <= 0) continue;
     out[id] = {
       count,
       enteredAt: typeof v.enteredAt === "number" && Number.isFinite(v.enteredAt) ? v.enteredAt : Date.now(),
+      discord: typeof v.discord === "string" ? v.discord : undefined,
+      xHandle: typeof v.xHandle === "string" ? v.xHandle : undefined,
+      walletAddress: typeof v.walletAddress === "string" ? v.walletAddress : undefined,
     };
   }
   return out;
@@ -411,6 +418,14 @@ export const useProgress = create<ProgressState & Actions>()(
         const clean = sanitizeUsername(username);
         if (clean.length < 3) return;
         set({ username: clean, friends: get().friends.filter((id) => id !== clean) });
+      },
+      updateUsername: async (newUsername) => {
+        const res = await rpcChangeUsername(newUsername);
+        if (res.success && res.username) {
+          set({ username: res.username, usernameCensored: false });
+          return { success: true };
+        }
+        return { success: false, error: res.error || "Gagal mengganti username" };
       },
       setTwitter: (handle) => {
         set({ twitter: sanitizeTwitter(handle) });
@@ -617,31 +632,64 @@ export const useProgress = create<ProgressState & Actions>()(
         });
         return awarded;
       },
-      enterRaffle: (raffleId, count, discord = "", xHandle = "") => {
+      enterRaffle: async (raffleId, count, walletAddress, xHandle = "") => {
         const s = get();
         const qty = Math.trunc(count);
-        if (!Number.isFinite(qty) || qty <= 0 || (s.raffleTickets ?? 0) < qty) return false;
+        if (!Number.isFinite(qty) || qty <= 0 || (s.raffleTickets ?? 0) < qty) {
+          return { success: false, error: "Tiket tidak mencukupi" };
+        }
+        const cleanWallet = walletAddress.trim().toLowerCase();
+        if (!isValidEvmAddress(cleanWallet)) {
+          return { success: false, error: "Alamat wallet EVM tidak valid" };
+        }
         const currentEntry = s.enteredRaffles?.[raffleId];
         const currentCount = currentEntry?.count ?? 0;
-        const cleanDiscord = discord.trim().slice(0, 64);
         const cleanX = xHandle.trim().replace(/^@+/, "").slice(0, 64);
+
         set({
           raffleTickets: (s.raffleTickets ?? 0) - qty,
+          lastWalletAddress: cleanWallet,
           enteredRaffles: {
             ...s.enteredRaffles,
             [raffleId]: {
               count: currentCount + qty,
               enteredAt: Date.now(),
-              discord: cleanDiscord || currentEntry?.discord || "",
+              walletAddress: cleanWallet,
               xHandle: cleanX || currentEntry?.xHandle || "",
             },
           },
-          ...(cleanDiscord ? { discord: cleanDiscord } : {}),
           ...(cleanX ? { twitter: cleanX } : {}),
         });
-        // Database sync in background
-        void rpcEnterRaffle(raffleId, qty, cleanDiscord, cleanX);
-        return true;
+
+        // Server sync
+        const res = await rpcEnterRaffle(raffleId, qty, cleanWallet, cleanX);
+        return res;
+      },
+      updateRaffleWallet: async (raffleId, walletAddress, xHandle = "") => {
+        const s = get();
+        const cleanWallet = walletAddress.trim().toLowerCase();
+        if (!isValidEvmAddress(cleanWallet)) {
+          return { success: false, error: "Alamat wallet EVM tidak valid" };
+        }
+        const currentEntry = s.enteredRaffles?.[raffleId];
+        if (!currentEntry) {
+          return { success: false, error: "Belum terdaftar di undian ini" };
+        }
+        const cleanX = xHandle.trim().replace(/^@+/, "").slice(0, 64);
+        set({
+          lastWalletAddress: cleanWallet,
+          enteredRaffles: {
+            ...s.enteredRaffles,
+            [raffleId]: {
+              ...currentEntry,
+              walletAddress: cleanWallet,
+              xHandle: cleanX || currentEntry.xHandle || "",
+            },
+          },
+          ...(cleanX ? { twitter: cleanX } : {}),
+        });
+        const res = await rpcUpdateRaffleWallet(raffleId, cleanWallet, cleanX);
+        return res;
       },
       buyRaffleTicketsWithGems: (ticketAmount) => {
         const s = get();

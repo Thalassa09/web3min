@@ -202,71 +202,78 @@ export function BlobiFloatingCompanion({
     if (sound) playMoodSfx(item.mood);
   }, [pokeIndex, sound, showSpeech]);
 
-  // Drag Handlers
+  // Drag Handlers with Window-level pointer listeners for infallible tracking
   const handlePointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
     try {
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     } catch {}
 
-    pointerStartRef.current = { x: e.clientX, y: e.clientY };
-    blobiStartPosRef.current = coords || { x: 20, y: 500 };
-    lastPointerPosRef.current = { x: e.clientX, y: e.clientY, time: Date.now() };
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const initialPos = coords || { x: 20, y: typeof window !== "undefined" ? window.innerHeight - 130 : 500 };
+    pointerStartRef.current = { x: startX, y: startY };
+    blobiStartPosRef.current = initialPos;
+    lastPointerPosRef.current = { x: startX, y: startY, time: Date.now() };
     hasMovedRef.current = false;
     setIsDragging(true);
-  };
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!pointerStartRef.current || !blobiStartPosRef.current) return;
+    const onPointerMove = (evt: PointerEvent) => {
+      const dx = evt.clientX - startX;
+      const dy = evt.clientY - startY;
 
-    const dx = e.clientX - pointerStartRef.current.x;
-    const dy = e.clientY - pointerStartRef.current.y;
+      if (!hasMovedRef.current && Math.hypot(dx, dy) > 5) {
+        hasMovedRef.current = true;
+      }
 
-    if (!hasMovedRef.current && Math.hypot(dx, dy) > 5) {
-      hasMovedRef.current = true;
-    }
-
-    if (hasMovedRef.current) {
-      // Calculate dynamic velocity tilt for squishy physical feel
-      if (lastPointerPosRef.current) {
-        const dt = Math.max(1, Date.now() - lastPointerPosRef.current.time);
-        const vx = (e.clientX - lastPointerPosRef.current.x) / dt;
-        setDragTilt(Math.max(-20, Math.min(20, vx * 12)));
-        if (Math.abs(vx) > 0.1) {
-          setFacing(vx > 0 ? 1 : -1);
+      if (hasMovedRef.current) {
+        if (lastPointerPosRef.current) {
+          const dt = Math.max(1, Date.now() - lastPointerPosRef.current.time);
+          const vx = (evt.clientX - lastPointerPosRef.current.x) / dt;
+          setDragTilt(Math.max(-20, Math.min(20, vx * 12)));
+          if (Math.abs(vx) > 0.08) {
+            setFacing(vx > 0 ? 1 : -1);
+          }
         }
+        lastPointerPosRef.current = { x: evt.clientX, y: evt.clientY, time: Date.now() };
+
+        const newX = Math.max(12, Math.min(window.innerWidth - 95, initialPos.x + dx));
+        const newY = Math.max(50, Math.min(window.innerHeight - 105, initialPos.y + dy));
+        setCoords({ x: newX, y: newY });
       }
-      lastPointerPosRef.current = { x: e.clientX, y: e.clientY, time: Date.now() };
+    };
 
-      const newX = Math.max(12, Math.min(window.innerWidth - 95, blobiStartPosRef.current.x + dx));
-      const newY = Math.max(50, Math.min(window.innerHeight - 105, blobiStartPosRef.current.y + dy));
-      setCoords({ x: newX, y: newY });
-    }
-  };
+    const onPointerUp = () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
 
-  const handlePointerUp = (e: React.PointerEvent) => {
-    try {
-      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    } catch {}
+      setIsDragging(false);
+      setDragTilt(0);
 
-    setIsDragging(false);
-    setDragTilt(0);
-
-    if (!hasMovedRef.current) {
-      // It was a tap / poke!
-      handlePokeBlobi();
-    } else {
-      // It was a drag: squish slightly on landing & persist position
-      setIsSquishing(true);
-      setTimeout(() => setIsSquishing(false), 450);
-      if (coords) {
-        localStorage.setItem("web3min_blobi_coords", JSON.stringify(coords));
+      if (!hasMovedRef.current) {
+        // It was a tap / poke!
+        handlePokeBlobi();
+      } else {
+        // It was a drag: squish slightly on landing & persist position
+        setIsSquishing(true);
+        setTimeout(() => setIsSquishing(false), 450);
+        setCoords((curr) => {
+          if (curr) {
+            localStorage.setItem("web3min_blobi_coords", JSON.stringify(curr));
+          }
+          return curr;
+        });
+        if (sound) playTap();
       }
-      if (sound) playTap();
-    }
 
-    pointerStartRef.current = null;
-    blobiStartPosRef.current = null;
+      pointerStartRef.current = null;
+      blobiStartPosRef.current = null;
+    };
+
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
   };
 
   const currentX = coords ? coords.x : 20;
@@ -362,9 +369,6 @@ export function BlobiFloatingCompanion({
             {/* Draggable Blobi Body */}
             <div
               onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              onPointerCancel={handlePointerUp}
               style={{
                 transform: `scaleX(${facing}) rotate(${dragTilt}deg) ${
                   isDragging ? "scale(1.12, 0.9)" : ""
@@ -418,11 +422,8 @@ export function BlobiFloatingCompanion({
           /* Minimized pill: also draggable! */
           <div
             onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
             style={{ cursor: isDragging ? "grabbing" : "grab" }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-ink-900 shadow-[3px_3px_0_#0D2340] text-xs font-black text-candy-deep hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_3px_0_#3B2218,0_6px_12px_rgba(59,34,24,0.14)] text-xs font-black text-candy-600 hover:scale-105 active:scale-95 transition-all"
             title="Klik untuk buka Blobi, atau geser posisi"
           >
             <span className="text-base pointer-events-none">🐣</span>
@@ -460,11 +461,11 @@ export function BlobiLockedModal({
   onScrollToActive?: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-900/50 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-sm p-5 rounded-[26px] bg-white border-3 border-ink-900 shadow-[8px_8px_0_#0D2340] animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full max-w-sm p-5 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] animate-in zoom-in-95 duration-200">
         <button
           type="button"
-          className="absolute top-3 right-3 p-1.5 rounded-full text-ink-400 hover:text-ink-900 hover:bg-slate-100 cursor-pointer"
+          className="absolute top-3 right-3 p-1.5 rounded-full text-choco-400 hover:text-choco-900 hover:bg-white/80 cursor-pointer"
           onClick={onDismiss}
           aria-label="Tutup"
         >

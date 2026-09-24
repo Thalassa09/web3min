@@ -120,27 +120,27 @@ function LeaderboardPage() {
     <AppShell>
       <div className="mx-auto max-w-4xl px-4 py-6 md:py-8 space-y-6">
         {/* Arena Sub-Navigation Tabs */}
-        <div className="flex items-center gap-2 rounded-2xl border-3 border-ink-900 bg-white/90 p-1.5 shadow-[3px_3px_0_#2B1622] max-w-md mx-auto">
+        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)] max-w-md mx-auto">
           <Link
             to="/leaderboard"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-ink-900 bg-amber-400 text-xs md:text-sm font-black text-ink-900 shadow-[2px_2px_0_#2B1622] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
           >
-            <Trophy className="h-4 w-4 shrink-0 text-ink-900" />
+            <Trophy className="h-4 w-4 shrink-0 text-choco-900" />
             <span>Klasemen Mingguan</span>
           </Link>
           <Link
             to="/raffle"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-ink-900 hover:bg-candy-50 text-xs md:text-sm font-bold text-ink-600 hover:text-ink-900 transition-all"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
           >
-            <Ticket className="h-4 w-4 shrink-0 text-ink-700" />
+            <Ticket className="h-4 w-4 shrink-0 text-choco-700" />
             <span>Undian Raffle NFT</span>
           </Link>
         </div>
       {/* Top Header Card */}
-      <div className="relative overflow-hidden rounded-3xl border-3 border-choco-900 bg-lemon p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
+      <div className="relative overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-6 md:p-8 shadow-[0_6px_0_#D97706,0_12px_28px_-4px_rgba(217,119,6,0.22)]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full border-2 border-choco-900 bg-cream px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
+            <div className="inline-flex items-center gap-2 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
               <Trophy className="h-4 w-4 text-amber-500 fill-amber-400" />
               Liga Emas • Reset dalam 3 Hari 14 Jam
             </div>
@@ -149,7 +149,7 @@ function LeaderboardPage() {
             </h1>
             <p className="text-sm md:text-base font-bold text-choco-700 max-w-xl leading-relaxed">
               Peringkat <strong className="text-choco-900 underline decoration-candy-500 underline-offset-2">1 s/d 1.000</strong> berhak mendapatkan hadiah koin mingguan dengan total prize pool{" "}
-              <span className="inline-flex items-center gap-1 font-pixel font-bold text-choco-900 bg-amber-200 px-2 py-0.5 rounded-lg border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
+              <span className="inline-flex items-center gap-1 font-pixel font-bold text-choco-900 bg-amber-200 px-2 py-0.5 rounded-lg border-2 border-choco-900/30 shadow-[0_2px_0_#3B2218]">
                 <Coins className="h-4 w-4 fill-amber-500" />
                 {TOTAL_WEEKLY_PRIZE_COINS.toLocaleString("id-ID")}+ Koin
               </span>
@@ -160,7 +160,7 @@ function LeaderboardPage() {
           <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
             <button
               onClick={() => setShowPrizeModal(true)}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-cream px-4 py-2.5 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-white px-4 py-2.5 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
             >
               <Award className="h-4 w-4 text-candy-500" />
               Rincian Hadiah (1 s.d. 1.000)
@@ -170,14 +170,14 @@ function LeaderboardPage() {
       </div>
 
       {/* Promo Banner: Raffle NFT Bridge */}
-      <div className="relative overflow-hidden rounded-3xl border-3 border-choco-900 bg-candy-100 p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
+      <div className="relative overflow-hidden rounded-3xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#B01F62,0_12px_28px_-4px_rgba(232,67,127,0.22)]">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-3 border-choco-900 bg-lemon text-choco-900 shadow-[0_3px_0_#3B2218]">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_3px_0_#D97706]">
               <Ticket className="h-8 w-8 stroke-[2.5]" />
             </div>
             <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-cream px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_1px_0_#3B2218]">
+              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_1px_0_#3B2218]">
                 Undian Mingguan Aktif
               </div>
               <h2 className="text-xl md:text-2xl font-pixel font-bold text-choco-900">
@@ -191,7 +191,7 @@ function LeaderboardPage() {
 
           <Link
             to="/raffle"
-            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-candy-500 px-5 py-3 text-xs md:text-sm font-pixel font-bold text-white shadow-[0_4px_0_#3B2218] hover:bg-candy-600 active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow]"
+            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
           >
             Buka Undian Raffle →
           </Link>
@@ -200,41 +200,41 @@ function LeaderboardPage() {
 
       {/* Claimed Toast Banner */}
       {claimedNotice && (
-        <div className="flex items-center gap-3 rounded-2xl border-3 border-ink-900 bg-emerald-100 p-4 font-black text-emerald-950 shadow-[3px_3px_0_#2B1622] animate-bounce">
-          <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0" />
+        <div className="flex items-center gap-3 rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] p-4 font-bold text-emerald-950 shadow-[0_4px_0_#15803D,0_10px_20px_-4px_rgba(21,128,61,0.22)] animate-bounce">
+          <CheckCircle2 className="h-6 w-6 text-emerald-700 shrink-0" />
           <p className="text-sm">{claimedNotice}</p>
         </div>
       )}
 
-      {/* User Status Sticky Card */}
-      <div className="rounded-3xl border-4 border-ink-900 bg-candy-100 p-5 md:p-6 shadow-[4px_4px_0_#2B1622]">
+      {/* User Status Sticky Card in Tactile Beveled Style */}
+      <div className="rounded-3xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#B01F62,0_12px_28px_-4px_rgba(232,67,127,0.22)]">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border-3 border-ink-900 bg-candy-400 shadow-[2px_2px_0_#2B1622]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-candy-600/50 bg-gradient-to-b from-white via-[#FFF0F5] to-[#FDC8D8] shadow-[0_3px_0_#B01F62]">
                 <Mascot mood="proud" size={40} className="h-10 w-10" />
               </div>
-              <div className="absolute -top-2 -left-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-ink-900 bg-yellow-400 text-xs font-black text-ink-900 shadow-[1px_1px_0_#2B1622]">
+              <div className="absolute -top-2 -left-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-choco-900/30 bg-amber-400 text-xs font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218]">
                 #{calculatedUserRank}
               </div>
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-lg md:text-xl font-black text-ink-900">@{currentUser.username}</span>
-                <span className="rounded-md border border-ink-900 bg-candy-300 px-1.5 py-0.5 text-[10px] font-black uppercase text-ink-900">
+                <span className="text-lg md:text-xl font-display font-bold text-choco-900">@{currentUser.username}</span>
+                <span className="rounded-lg border-2 border-candy-600/40 bg-white/90 px-2 py-0.5 text-[10px] font-bold uppercase text-candy-600 shadow-[0_1px_0_#B01F62]">
                   Kamu
                 </span>
               </div>
-              <div className="flex items-center gap-3 text-xs md:text-sm font-bold text-ink-700 mt-1">
+              <div className="flex items-center gap-3 text-xs md:text-sm font-semibold text-choco-700 mt-1">
                 <span>{currentUser.weeklyXp} XP Mingguan</span>
                 <span>•</span>
-                <span className="flex items-center gap-1 text-orange-600">
+                <span className="flex items-center gap-1 text-orange-600 font-bold">
                   <Flame className="h-4 w-4 fill-orange-500" />
                   {currentUser.streak} Hari
                 </span>
                 <span>•</span>
-                <span className="flex items-center gap-1 text-amber-700 font-black">
+                <span className="flex items-center gap-1 text-amber-700 font-bold">
                   <Coins className="h-4 w-4 fill-amber-500" />
                   Saldo: {gems} Koin
                 </span>
@@ -244,8 +244,8 @@ function LeaderboardPage() {
 
           <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             <div className="text-right hidden md:block">
-              <div className="text-xs font-bold text-ink-600">Estimasi Hadiah:</div>
-              <div className="text-base font-black text-amber-600 flex items-center gap-1 justify-end">
+              <div className="text-xs font-bold text-choco-600">Estimasi Hadiah:</div>
+              <div className="text-base font-bold text-amber-700 flex items-center gap-1 justify-end font-pixel">
                 <Coins className="h-4 w-4 fill-amber-500" />
                 +{userRankItem.rewardCoins} Koin
               </div>
@@ -254,10 +254,10 @@ function LeaderboardPage() {
             <button
               onClick={handleClaim}
               disabled={isClaimedThisWeek}
-              className={`inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-ink-900 px-5 py-3 text-xs md:text-sm font-black shadow-[3px_3px_0_#2B1622] transition-transform ${
+              className={`inline-flex items-center justify-center gap-2 rounded-2xl border-2 px-5 py-3 text-xs md:text-sm font-bold transition-transform ${
                 isClaimedThisWeek
-                  ? "bg-stone-200 text-stone-500 cursor-not-allowed"
-                  : "bg-emerald-400 text-ink-900 hover:-translate-y-0.5 active:translate-y-0.5"
+                  ? "bg-stone-200 border-stone-300 text-stone-500 cursor-not-allowed shadow-none"
+                  : "border-emerald-600/60 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] text-white shadow-[0_4px_0_#047857,0_8px_16px_-2px_rgba(16,185,129,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
               }`}
             >
               {isClaimedThisWeek ? (
@@ -276,7 +276,7 @@ function LeaderboardPage() {
             <button
               onClick={scrollToUser}
               title="Lihat posisi saya di tabel"
-              className="p-3 rounded-2xl border-3 border-ink-900 bg-white hover:bg-candy-200 text-ink-900 shadow-[2px_2px_0_#2B1622] transition-transform active:translate-y-0.5"
+              className="p-3 rounded-2xl border-2 border-choco-900/20 bg-white hover:bg-candy-50 text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5"
             >
               📍
             </button>
@@ -353,21 +353,21 @@ function LeaderboardPage() {
 
           {/* Search Box */}
           <div className="relative shrink-0 sm:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-choco-400" />
             <input
               type="text"
               placeholder="Cari user atau rank..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-2xl border-3 border-ink-900 bg-white py-2 pl-9 pr-3 text-xs md:text-sm font-bold text-ink-900 placeholder:text-ink-400 shadow-[2px_2px_0_#2B1622] focus:outline-none focus:ring-2 focus:ring-candy-400"
+              className="w-full rounded-2xl border-2 border-choco-900/20 bg-white py-2 pl-9 pr-3 text-xs md:text-sm font-semibold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-400"
             />
           </div>
         </div>
       </div>
 
-      {/* Leaderboard Table Card */}
-      <div className="rounded-3xl border-4 border-ink-900 bg-white shadow-[4px_4px_0_#2B1622] overflow-hidden">
-        <div className="border-b-3 border-ink-900 bg-candy-200 px-6 py-3 flex items-center justify-between text-xs font-black uppercase text-ink-800 tracking-wider">
+      {/* Leaderboard Table Card in Tactile Beveled Style */}
+      <div className="rounded-3xl border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)] overflow-hidden">
+        <div className="border-b-2 border-choco-900/15 bg-gradient-to-r from-[#FFF0F5] to-[#FFE4EC] px-6 py-3 flex items-center justify-between text-xs font-bold uppercase text-choco-900 tracking-wider">
           <div className="flex items-center gap-4">
             <span className="w-12 text-center">Rank</span>
             <span>Petualang</span>
@@ -503,22 +503,22 @@ function LeaderboardPage() {
 
       {/* Prize Breakdown Modal */}
       {showPrizeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-900/60 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-lg rounded-3xl border-4 border-ink-900 bg-white p-6 shadow-[6px_6px_0_#2B1622] space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b-2 border-ink-900 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/60 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-lg rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-3">
               <div className="flex items-center gap-2">
                 <Trophy className="h-6 w-6 text-amber-500 fill-amber-400" />
-                <h3 className="text-xl font-black text-ink-900">Skema Hadiah Koin (1 s.d. 1.000)</h3>
+                <h3 className="text-xl font-display font-bold text-choco-900">Skema Hadiah Koin (1 s.d. 1.000)</h3>
               </div>
               <button
                 onClick={() => setShowPrizeModal(false)}
-                className="h-8 w-8 rounded-full border-2 border-ink-900 bg-candy-200 hover:bg-candy-300 flex items-center justify-center font-black text-ink-900"
+                className="h-8 w-8 rounded-full border-2 border-choco-900/20 bg-white hover:bg-candy-100 flex items-center justify-center font-bold text-choco-900 shadow-[0_2px_0_#3B2218]"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-xs font-bold text-ink-700 leading-relaxed">
+            <p className="text-xs font-semibold text-choco-700 leading-relaxed">
               Setiap reset mingguan (Senin 00:00 WIB), pemain pada peringkat 1 hingga 1.000 mendapatkan hadiah Koin langsung ke saldo petualangan yang dapat dibelanjakan untuk membeli Tiket Undian NFT di halaman Raffle!
             </p>
 
@@ -526,13 +526,13 @@ function LeaderboardPage() {
               {LEADERBOARD_PRIZE_TIERS.map((tier) => (
                 <div
                   key={tier.id}
-                  className="flex items-center justify-between p-3 rounded-2xl border-2 border-ink-900 bg-candy-50/60 shadow-[2px_2px_0_#2B1622]"
+                  className="flex items-center justify-between p-3 rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] shadow-[0_2px_0_#B01F62]"
                 >
                   <div className="space-y-0.5">
-                    <div className="text-xs font-black text-ink-900">{tier.label}</div>
-                    <div className="text-[11px] font-bold text-ink-600">{tier.description}</div>
+                    <div className="text-xs font-bold text-choco-900">{tier.label}</div>
+                    <div className="text-[11px] font-semibold text-choco-600">{tier.description}</div>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-ink-900 bg-amber-300 font-black text-xs text-ink-900 shadow-[1px_1px_0_#2B1622]">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl border-2 border-amber-600/40 bg-gradient-to-b from-[#FFE873] to-[#FFD84D] font-bold text-xs text-choco-900 shadow-[0_1.5px_0_#C8940C]">
                     <Coins className="h-3.5 w-3.5 fill-amber-500" />
                     +{tier.coins} Koin
                   </div>
@@ -540,14 +540,14 @@ function LeaderboardPage() {
               ))}
             </div>
 
-            <div className="rounded-2xl border-2 border-ink-900 bg-yellow-100 p-3 text-xs font-bold text-yellow-950 flex items-center gap-2">
-              <HelpCircle className="h-4 w-4 shrink-0 text-yellow-700" />
+            <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-3 text-xs font-semibold text-amber-950 flex items-center gap-2 shadow-[0_2px_0_#D97706]">
+              <HelpCircle className="h-4 w-4 shrink-0 text-amber-700" />
               <span>Total Prize Pool Mingguan: <strong>30.150+ Koin</strong> yang didistribusikan kepada 1.000 petualang aktif!</span>
             </div>
 
             <button
               onClick={() => setShowPrizeModal(false)}
-              className="w-full rounded-2xl border-3 border-ink-900 bg-candy-400 py-3 font-black text-ink-900 shadow-[3px_3px_0_#2B1622] transition-transform active:translate-y-0.5"
+              className="w-full rounded-2xl border-2 border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] py-3 font-bold text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
             >
               Tutup Rincian
             </button>

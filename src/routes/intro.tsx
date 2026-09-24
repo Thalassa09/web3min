@@ -86,7 +86,7 @@ function Intro() {
           </div>
 
           <div className="w-full mt-4">
-            <SpeechBubble className="w-full border-3 border-choco-900 shadow-[0_6px_0_#3B2218]">
+            <SpeechBubble className="w-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_5px_0_#3B2218,0_10px_24px_-4px_rgba(59,34,24,0.12)]">
               <button type="button" className="w-full text-left font-sans text-sm sm:text-base font-extrabold text-choco-900 cursor-pointer" onClick={next}>
                 {doneTyping ? current.say : <TypeLine text={current.say} onDone={() => setDoneTyping(true)} />}
               </button>
@@ -98,8 +98,8 @@ function Intro() {
             {BEATS.map((_, i) => (
               <span
                 key={i}
-                className={`h-3 rounded-full border-2 border-choco-900 transition-all duration-200 ${
-                  i === beat ? "w-8 bg-candy-500 shadow-[0_2px_0_#3B2218]" : "w-3 bg-candy-100"
+                className={`h-3 rounded-full border-2 border-choco-900/30 transition-all duration-200 ${
+                  i === beat ? "w-8 bg-candy-500 shadow-[0_2px_0_#B01F62]" : "w-3 bg-candy-100"
                 }`}
               />
             ))}
@@ -109,7 +109,7 @@ function Intro() {
             <button
               type="button"
               onClick={next}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-candy-500 py-3.5 px-6 font-pixel text-base font-bold text-white shadow-[0_4px_0_#3B2218] hover:bg-candy-600 active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow]"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] py-3.5 px-6 font-display text-base font-bold text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer"
             >
               {last ? "Gas Mulai Belajar! 🚀" : "Lanjut →"}
             </button>

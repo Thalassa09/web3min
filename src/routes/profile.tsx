@@ -289,11 +289,11 @@ function ProfilePage() {
 
         {profileTab === "lisensi" && (
           <>
-        {/* Profile Explorer License Card with Pixel Candy Header */}
-        <div className="rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] overflow-hidden max-w-3xl">
+        {/* Profile Explorer License Card with Tactile Beveled Arcade Header */}
+        <div className="rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.14)] overflow-hidden max-w-3xl">
           {/* Blobi Pink Striped Banner */}
           <div
-            className="bg-blobi border-b-2 border-ink-900 p-4 sm:p-5 flex items-center justify-between text-white"
+            className="bg-gradient-to-r from-candy-500 via-candy-400 to-candy-500 border-b-2 border-candy-600/50 p-4 sm:p-5 flex items-center justify-between text-white"
             style={{ backgroundImage: "repeating-linear-gradient(45deg, #ffffff18 0 10px, transparent 10px 20px)" }}
           >
             <span className="font-sans text-xs font-bold uppercase tracking-wider text-white">
@@ -309,7 +309,7 @@ function ProfilePage() {
             <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 mb-4">
               <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                 {/* Blobi Avatar */}
-                <div className="size-20 sm:size-24 rounded-[16px] bg-blobi-soft border-2 border-ink-900 shadow-[3px_3px_0_#1B1440] flex items-center justify-center shrink-0">
+                <div className="size-20 sm:size-24 rounded-2xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/50 shadow-[0_3px_0_#B01F62] flex items-center justify-center shrink-0">
                   <Mascot mood="proud" size={68} />
                 </div>
 
@@ -319,10 +319,10 @@ function ProfilePage() {
                     @{username || "penjelajah"}
                   </h1>
                   <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap mt-2">
-                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-cream text-ink-900 border-[1.5px] border-ink-900">
+                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-xl bg-gradient-to-b from-white to-[#FBE9DC] text-choco-900 border-2 border-choco-900/20 shadow-[0_2px_0_#3B2218]">
                       Level {Math.floor(xp / 100) + 1}
                     </span>
-                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-[8px] bg-candy-100 text-choco-900 border-[1.5px] border-choco-900">
+                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-xl bg-gradient-to-b from-[#FFF0F5] to-[#FDC8D8] text-choco-900 border-2 border-candy-500/40 shadow-[0_2px_0_#B01F62]">
                       Murid Blobi
                     </span>
                   </div>
@@ -333,7 +333,7 @@ function ProfilePage() {
               <Link
                 to="/shop"
                 search={{ tab: "wardrobe" }}
-                className="px-4 py-2 rounded-[12px] bg-white border-2 border-ink-900 text-ink-900 text-xs font-extrabold shadow-[2px_2px_0_#1B1440] hover:bg-blobi-soft transition-all flex items-center gap-1.5 cursor-pointer active:translate-y-[1px]"
+                className="px-4 py-2 rounded-xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <Sparkles className="size-3.5 text-coin" />
                 <span>Ganti Blobi</span>
@@ -427,17 +427,16 @@ function ProfilePage() {
           </div>
         </div>
 
-        {/* 4 Chunky Stat Cards */}
-        {/* 4 Core Stat Cards in Pixel Candy Style */}
+        {/* 4 Chunky Stat Cards in Tactile Beveled Style */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl">
-          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-ink-500">
+          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] border-2 border-emerald-500/40 shadow-[0_4px_0_#15803D,0_10px_24px_-4px_rgba(21,128,61,0.22)] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-emerald-800">
               <span className="font-sans text-xs font-semibold uppercase tracking-wider">Total XP</span>
-              <Trophy className="size-4 text-coin" />
+              <Trophy className="size-4 text-emerald-700" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-sans text-leaf">{xp}</div>
-              <div className="text-xs font-medium text-ink-500 mt-0.5">Poin pengalaman</div>
+              <div className="text-3xl font-bold font-sans text-emerald-950">{xp}</div>
+              <div className="text-xs font-medium text-emerald-800 mt-0.5">Poin pengalaman</div>
             </div>
           </div>
 
@@ -451,31 +450,31 @@ function ProfilePage() {
             />
           </div>
 
-          <div className="p-4 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-ink-500">
+          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-amber-500/40 shadow-[0_4px_0_#D97706,0_10px_24px_-4px_rgba(217,119,6,0.22)] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-amber-800">
               <span className="font-sans text-xs font-semibold uppercase tracking-wider">Bintang</span>
-              <Sparkles className="size-4 text-coin" />
+              <Sparkles className="size-4 text-amber-600" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-sans text-coin">{formatGems(gems)}</div>
-              <div className="text-xs font-medium text-ink-500 mt-0.5">Koin hadiah</div>
+              <div className="text-3xl font-bold font-sans text-amber-950">{formatGems(gems)}</div>
+              <div className="text-xs font-medium text-amber-800 mt-0.5">Koin hadiah</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-[16px] bg-white border-2 border-choco-900 shadow-[4px_4px_0_#3B2218] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-choco-600">
+          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 shadow-[0_4px_0_#B01F62,0_10px_24px_-4px_rgba(232,67,127,0.22)] flex flex-col justify-between">
+            <div className="flex items-center justify-between text-candy-800">
               <span className="font-pixel text-xs font-semibold uppercase tracking-wider">Modul</span>
-              <Compass className="size-4 text-candy-500" />
+              <Compass className="size-4 text-candy-600" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-pixel text-candy-500">{lessonsDone}</div>
-              <div className="text-xs font-medium text-choco-600 mt-0.5">Terselesaikan</div>
+              <div className="text-3xl font-bold font-pixel text-candy-950">{lessonsDone}</div>
+              <div className="text-xs font-medium text-candy-800 mt-0.5">Terselesaikan</div>
             </div>
           </div>
         </div>
 
         {/* Keahlian Web3 Terverifikasi (Atlassian Rovo UI Skills Spec) */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3.5 shadow-[0_4px_0_#3B2218] border-2 border-choco-900">
+        <SurfaceCard variant="default" className="p-4 sm:p-5 space-y-3.5">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
               <Sparkles className="size-4 text-candy-500 shrink-0" />
@@ -535,7 +534,7 @@ function ProfilePage() {
         </SurfaceCard>
 
         {/* Lencana Kurikulum (20 Unit) — Engineered for Appllama & Duolingo High Fidelity */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-4 scroll-mt-20 shadow-[0_4px_0_#C8DBF0]">
+        <SurfaceCard variant="default" className="p-4 sm:p-5 space-y-4 scroll-mt-20">
           {/* Header Row: Compact & Non-wrapping */}
           <div className="flex items-center justify-between gap-2.5">
             <div className="flex items-center gap-3 min-w-0">
@@ -720,30 +719,30 @@ function ProfilePage() {
         </SurfaceCard>
 
         {/* Arena Belajar Mingguan */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white space-y-3 shadow-ink-sm border-2 border-ink-900">
+        <SurfaceCard variant="default" className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
               <Trophy className="size-4 text-coin shrink-0" />
-              <h2 className="font-display font-bold text-sm sm:text-base text-ink-900">
+              <h2 className="font-display font-bold text-sm sm:text-base text-choco-900">
                 Arena Belajar Mingguan
               </h2>
             </div>
             <Link
               to="/leaderboard"
-              className="text-xs font-extrabold text-ink-900 hover:text-blobi shrink-0"
+              className="text-xs font-bold text-candy-600 hover:text-candy-700 shrink-0"
             >
               Lihat Klasemen →
             </Link>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-canvas border-2 border-ink-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-ink-500">
+          <div className="p-3.5 rounded-2xl bg-gradient-to-b from-white to-[#FFF9F5] border-2 border-choco-900/18 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-choco-600">
             <div>
-              <div className="font-extrabold text-ink-900">Peringkat #7 di Liga Emas</div>
-              <div className="text-[11px] text-ink-500 mt-0.5">Top 10 berbagi pool reward 500 Bintang mingguan.</div>
+              <div className="font-bold text-choco-900">Peringkat #7 di Liga Emas</div>
+              <div className="text-[11px] text-choco-500 mt-0.5">Top 10 berbagi pool reward 500 Bintang mingguan.</div>
             </div>
             <Link
               to="/leaderboard"
-              className="font-extrabold text-ink-900 hover:underline shrink-0"
+              className="font-bold text-candy-600 hover:underline shrink-0"
             >
               Buka Arena →
             </Link>
@@ -751,7 +750,7 @@ function ProfilePage() {
         </SurfaceCard>
 
         {/* Sesi Akun & Keamanan (Logout) */}
-        <SurfaceCard className="p-4 sm:p-5 bg-white shadow-[0_4px_0_#C8DBF0]">
+        <SurfaceCard variant="default" className="p-4 sm:p-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
             <div>
               <div className="flex items-center gap-2">

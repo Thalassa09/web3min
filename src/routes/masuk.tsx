@@ -35,10 +35,10 @@ function MasukPage() {
 
   return (
     <main className="min-h-dvh bg-canvas flex items-center justify-center px-4 py-8 overflow-x-hidden select-none">
-      <div className="w-full max-w-md p-6 sm:p-7 rounded-[16px] bg-white border-2 border-ink-900 shadow-[4px_4px_0_#1B1440]">
+      <div className="w-full max-w-md p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.14)]">
         <div className="flex items-center gap-3.5 mb-5">
-          {/* Blobi on Pink Tile */}
-          <div className="size-16 rounded-[14px] bg-blobi-soft border-2 border-ink-900 shadow-[2px_2px_0_#1B1440] flex items-center justify-center shrink-0">
+          {/* Blobi on Tactile Pink Tile */}
+          <div className="size-16 rounded-2xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 shadow-[0_3px_0_#B01F62] flex items-center justify-center shrink-0">
             <Mascot
               mood={isTypingPassword ? "sleep" : "wave"}
               size={52}
@@ -46,12 +46,12 @@ function MasukPage() {
             />
           </div>
           <div>
-            <h1 className="font-sans font-extrabold text-2xl text-ink-900">
+            <h1 className="font-display font-extrabold text-2xl text-choco-900">
               Masuk
             </h1>
-            <p className="font-sans font-medium text-xs text-ink-500 mt-0.5">
+            <p className="font-sans font-medium text-xs text-choco-600 mt-0.5">
               {isTypingPassword ? (
-                <span className="text-blobi font-bold">
+                <span className="text-candy-600 font-bold">
                   Tenang, aku tutup mata... gak ngintip!
                 </span>
               ) : (
@@ -64,7 +64,7 @@ function MasukPage() {
         <form className="space-y-3.5" onSubmit={onSubmit}>
           <div>
             <label
-              className="block font-sans text-xs font-bold uppercase tracking-wider text-ink-500 mb-1"
+              className="block font-sans text-xs font-bold uppercase tracking-wider text-choco-500 mb-1"
               htmlFor="login-user"
             >
               Username
@@ -74,14 +74,14 @@ function MasukPage() {
               value={username}
               onChange={(e) => setUsername(sanitizeUsername(e.target.value))}
               autoComplete="username"
-              className="w-full h-12 px-4 rounded-[12px] bg-canvas border-2 border-ink-900 text-sm font-bold text-ink-900 placeholder:text-ink-500/50 focus:outline-none focus:ring-2 focus:ring-blobi"
+              className="w-full h-12 px-4 rounded-xl bg-white/80 border-2 border-choco-900/20 text-sm font-bold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:border-candy-500 focus:ring-2 focus:ring-candy-200 transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.03)]"
               placeholder="contoh: satoshi atau blobi_fan"
             />
           </div>
 
           <div>
             <label
-              className="block font-sans text-xs font-bold uppercase tracking-wider text-ink-500 mb-1"
+              className="block font-sans text-xs font-bold uppercase tracking-wider text-choco-500 mb-1"
               htmlFor="login-pass"
             >
               Password
@@ -94,12 +94,12 @@ function MasukPage() {
               onFocus={() => setIsTypingPassword(true)}
               onBlur={() => setIsTypingPassword(false)}
               autoComplete="current-password"
-              className="w-full h-12 px-4 rounded-[12px] bg-canvas border-2 border-ink-900 text-sm font-bold text-ink-900 focus:outline-none focus:ring-2 focus:ring-blobi"
+              className="w-full h-12 px-4 rounded-xl bg-white/80 border-2 border-choco-900/20 text-sm font-bold text-choco-900 focus:outline-none focus:border-candy-500 focus:ring-2 focus:ring-candy-200 transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.03)]"
             />
           </div>
 
           {error && (
-            <p className="font-sans text-xs font-bold text-blobi bg-blobi-soft p-2.5 rounded-[8px] border-[1.5px] border-ink-900">
+            <p className="font-sans text-xs font-bold text-danger bg-red-50 p-2.5 rounded-xl border border-red-300">
               {error}
             </p>
           )}
@@ -117,9 +117,9 @@ function MasukPage() {
           </div>
         </form>
 
-        <p className="mt-4 text-xs font-medium text-ink-500">
+        <p className="mt-4 text-xs font-medium text-choco-500">
           Belum punya akun?{" "}
-          <Link to="/onboarding" className="font-extrabold text-blobi hover:underline">
+          <Link to="/onboarding" className="font-extrabold text-candy-600 hover:underline">
             Daftar Sekarang
           </Link>
         </p>

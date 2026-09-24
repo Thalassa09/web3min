@@ -525,7 +525,7 @@ export function PulauRantaiMap({
       {/* Progres Analytics Modal */}
       {showProgresModal && (
         <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-          <div className="bg-cream border-3 border-choco-900 rounded-[28px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_8px_0_#3B2218] p-4 sm:p-5 relative">
+          <div className="bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] p-4 sm:p-5 relative">
             <PulauRantaiProgres onClose={() => setShowProgresModal(false)} />
           </div>
         </div>
@@ -533,11 +533,11 @@ export function PulauRantaiMap({
 
       {/* Quests Modal Dialog */}
       {showQuestsModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-paper border-2 border-ink-900 rounded-[28px] w-full max-w-md p-5 shadow-ink relative">
+        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 rounded-3xl w-full max-w-md p-5 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] relative">
             <button
               type="button"
-              className="absolute top-4 right-4 p-2 text-ink-500 hover:text-ink-900 font-bold cursor-pointer"
+              className="absolute top-4 right-4 p-2 text-choco-400 hover:text-choco-900 font-bold cursor-pointer"
               onClick={() => setShowQuestsModal(false)}
             >
               <PulauIcon name="x" size={20} />

@@ -168,7 +168,7 @@ function Onboarding() {
 
   return (
     <main className="min-h-dvh bg-canvas flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8 relative select-none overflow-x-hidden overflow-y-auto">
-      <div className="w-full max-w-3xl relative z-10 bg-white rounded-[16px] border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] p-6 sm:p-8">
+      <div className="w-full max-w-3xl relative z-10 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] rounded-3xl border-2 border-choco-900/18 shadow-[0_8px_0_#3B2218,0_16px_32px_-4px_rgba(59,34,24,0.14)] p-6 sm:p-8">
         {/* Step Progress Bar (Shown on Step 1 & 2) */}
         {step > 0 && (
           <div className="mb-4 flex items-center justify-between gap-3">
@@ -176,18 +176,18 @@ function Onboarding() {
               {[1, 2].map((i) => (
                 <span
                   key={i}
-                  className={`h-2.5 flex-1 rounded-[4px] border-2 border-ink-900 ${i <= step ? "bg-leaf" : "bg-white"}`}
+                  className={`h-2.5 flex-1 rounded-full border-2 border-choco-900/30 ${i <= step ? "bg-emerald-500 shadow-[0_1px_0_#15803D]" : "bg-white"}`}
                 />
               ))}
             </div>
-            <span className="text-xs font-sans font-bold text-ink-900 shrink-0">
+            <span className="text-xs font-sans font-bold text-choco-900 shrink-0">
               Langkah {step} dari 2
             </span>
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
-          {/* Mascot Side (5 Cols - Blobi on Pink Tile) */}
-          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-blobi-soft border-2 border-ink-900 shadow-[4px_4px_0_#1B1440] rounded-[16px] p-5 gap-3.5">
+          {/* Mascot Side (5 Cols - Blobi on Tactile Pink Tile) */}
+          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 shadow-[0_5px_0_#B01F62,0_10px_20px_-4px_rgba(232,67,127,0.22)] rounded-3xl p-5 gap-3.5">
             <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
               <Mascot
                 key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
@@ -199,10 +199,10 @@ function Onboarding() {
               />
             </div>
             <div>
-              <div className="font-sans text-base sm:text-lg font-bold text-blobi">Blobi</div>
-              <p className="text-xs font-semibold text-ink-500 mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
+              <div className="font-display text-base sm:text-lg font-bold text-candy-600">Blobi</div>
+              <p className="text-xs font-semibold text-choco-600 mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
                 {isTypingPassword ? (
-                  <span className="text-blobi font-bold">
+                  <span className="text-candy-600 font-bold">
                     Tenang, aku tutup mata kok. Gak bakal ngintip!
                   </span>
                 ) : (

@@ -65,37 +65,37 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variantClasses = {
       primary: cn(
         "btn-gummy",
-        "bg-candy-500 text-white border-[3px] border-choco-900",
-        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_var(--color-candy-700)]",
+        "bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] text-white border-2 border-candy-600/60",
+        "shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25),inset_0_1px_0_rgba(255,255,255,0.55)]",
         "hover:brightness-105 active:translate-y-1 active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-candy-300"
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-400"
       ),
       secondary: cn(
         "btn-gummy btn-gummy--secondary",
-        "bg-cream text-candy-600 border-[3px] border-choco-900",
-        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_var(--color-candy-100)]",
+        "bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] text-choco-900 border-2 border-choco-900/20",
+        "shadow-[0_4px_0_#3B2218,0_8px_16px_-2px_rgba(59,34,24,0.12),inset_0_1px_0_rgba(255,255,255,0.9)]",
         "hover:brightness-105 active:translate-y-1 active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-candy-300"
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-choco-600"
       ),
       danger: cn(
         "btn-gummy btn-gummy--danger",
-        "bg-danger text-white border-[3px] border-choco-900",
-        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_#991B1B]",
+        "bg-gradient-to-b from-[#EF4444] via-[#DC2626] to-[#B91C1C] text-white border-2 border-red-700/60",
+        "shadow-[0_4px_0_#991B1B,0_8px_16px_-2px_rgba(220,38,38,0.25),inset_0_1px_0_rgba(255,255,255,0.45)]",
         "hover:brightness-105 active:translate-y-1 active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-danger"
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger"
       ),
       coin: cn(
         "btn-gummy",
-        "bg-lemon text-choco-900 border-[3px] border-choco-900",
-        "shadow-[0_4px_0_var(--color-choco-900),inset_0_-4px_0_var(--color-lemon-deep)]",
+        "bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 border-2 border-amber-600/50",
+        "shadow-[0_4px_0_#C8940C,0_8px_16px_-2px_rgba(255,216,77,0.25),inset_0_1px_0_rgba(255,255,255,0.7)]",
         "hover:brightness-105 active:translate-y-1 active:shadow-none",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-lemon"
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lemon"
       ),
       ghost: cn(
-        "relative inline-flex items-center justify-center font-pixel font-bold text-choco-600",
-        "hover:bg-candy-100 hover:text-choco-900 rounded-[12px] p-2",
+        "relative inline-flex items-center justify-center font-bold text-choco-600",
+        "hover:bg-candy-100 hover:text-choco-900 rounded-[14px] p-2",
         "active:translate-y-0.5",
-        "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-candy-300"
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-300"
       ),
     }[variant];
 

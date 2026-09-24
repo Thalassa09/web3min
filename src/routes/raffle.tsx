@@ -292,17 +292,17 @@ export function RafflePage() {
     <AppShell>
       <div className="mx-auto max-w-4xl px-4 py-6 md:py-8 space-y-6">
         {/* Arena Sub-Navigation Tabs */}
-        <div className="flex items-center gap-2 rounded-2xl border-3 border-ink-900 bg-white/90 p-1.5 shadow-[3px_3px_0_#2B1622] max-w-md mx-auto">
+        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)] max-w-md mx-auto">
           <Link
             to="/leaderboard"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-ink-900 hover:bg-candy-50 text-xs md:text-sm font-bold text-ink-600 hover:text-ink-900 transition-all"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
           >
-            <Trophy className="h-4 w-4 shrink-0 text-ink-700" />
+            <Trophy className="h-4 w-4 shrink-0 text-choco-700" />
             <span>Klasemen Mingguan</span>
           </Link>
           <Link
             to="/raffle"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-ink-900 bg-purple-500 text-xs md:text-sm font-black text-white shadow-[2px_2px_0_#2B1622] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-purple-600/50 bg-gradient-to-b from-[#A855F7] via-[#9333EA] to-[#7E22CE] text-xs md:text-sm font-bold text-white shadow-[0_3px_0_#581C87] transition-transform"
           >
             <Ticket className="h-4 w-4 shrink-0 text-yellow-300" />
             <span>Undian Raffle NFT</span>
@@ -310,14 +310,14 @@ export function RafflePage() {
         </div>
 
         {/* Hero Banner Card (Solid Arcade Candy Neo-Brutalism) */}
-        <div className="relative overflow-hidden rounded-3xl border-3 border-choco-900 bg-lemon p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
+        <div className="relative overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#D97706,0_12px_28px_-4px_rgba(217,119,6,0.22)]">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-white px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
-                <Trophy className="h-3.5 w-3.5 text-choco-900" />
+              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
+                <Trophy className="h-3.5 w-3.5 text-amber-500" />
                 Arena Undian On-Chain • Siklus Aktif
               </div>
-              <h1 className="text-2xl md:text-3xl font-pixel font-bold tracking-tight text-choco-900">
+              <h1 className="text-2xl md:text-3xl font-display font-bold tracking-tight text-choco-900">
                 Undian Hadiah & NFT Artefak
               </h1>
               <p className="text-xs md:text-sm font-semibold text-choco-700 max-w-xl leading-relaxed">
@@ -331,7 +331,7 @@ export function RafflePage() {
                   playTap();
                   setShowFaqModal(true);
                 }}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-choco-900 bg-white px-3.5 py-2 text-xs font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+                className="inline-flex items-center justify-center gap-1.5 rounded-2xl border-2 border-choco-900/20 bg-white px-3.5 py-2 text-xs font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
               >
                 <HelpCircle className="h-3.5 w-3.5 text-choco-900" />
                 <span>Cara Kerja</span>
@@ -341,23 +341,23 @@ export function RafflePage() {
         </div>
 
         {/* User Balance Wallet Card (Compact) */}
-        <div className="rounded-2xl border-3 border-ink-900 bg-candy-100 p-3.5 md:p-4 shadow-[3px_3px_0_#2B1622]">
+        <div className="rounded-3xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-4 md:p-5 text-choco-900 shadow-[0_6px_0_#B01F62,0_12px_28px_-4px_rgba(232,67,127,0.22)]">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-ink-900 bg-amber-400 text-ink-900 shadow-[2px_2px_0_#2B1622] shrink-0">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_3px_0_#D97706] shrink-0">
                 <Ticket className="h-6 w-6 stroke-[2.5]" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-lg md:text-xl font-black text-ink-900">
+                  <span className="text-lg md:text-xl font-display font-bold text-choco-900">
                     {raffleTickets} Tiket Undian
                   </span>
-                  <span className="rounded-md border border-ink-900 bg-yellow-300 px-1.5 py-0.2 text-[10px] font-black text-ink-900 uppercase">
+                  <span className="rounded-lg border-2 border-candy-600/40 bg-white/90 px-2 py-0.5 text-[10px] font-bold text-candy-600 uppercase shadow-[0_1px_0_#B01F62]">
                     Tersedia
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-bold text-ink-700 mt-0.5">
-                  <span className="flex items-center gap-1 text-amber-900 font-black">
+                <div className="flex items-center gap-2 text-xs font-semibold text-choco-700 mt-0.5">
+                  <span className="flex items-center gap-1 text-amber-800 font-bold">
                     <Coins className="h-3.5 w-3.5 fill-amber-500 text-amber-700" />
                     Saldo: {gems} Koin
                   </span>
@@ -373,7 +373,7 @@ export function RafflePage() {
                   playTap();
                   setShowBuyModal(true);
                 }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-ink-900 bg-yellow-400 px-4 py-2 text-xs md:text-sm font-black text-ink-900 shadow-[2px_2px_0_#2B1622] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-2xl border-2 border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] px-4 py-2 text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
               >
                 <Plus className="h-4 w-4 stroke-[3]" />
                 <span>Beli Tiket Tambahan</span>
@@ -384,8 +384,8 @@ export function RafflePage() {
 
         {/* Toast Banner */}
         {toastMessage && (
-          <div className="flex items-center gap-3 rounded-2xl border-3 border-ink-900 bg-emerald-100 p-4 font-black text-emerald-950 shadow-[3px_3px_0_#2B1622] animate-bounce">
-            <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0" />
+          <div className="flex items-center gap-3 rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] p-4 font-bold text-emerald-950 shadow-[0_4px_0_#15803D,0_10px_20px_-4px_rgba(21,128,61,0.22)] animate-bounce">
+            <CheckCircle2 className="h-6 w-6 text-emerald-700 shrink-0" />
             <p className="text-sm">{toastMessage}</p>
           </div>
         )}
@@ -469,21 +469,21 @@ export function RafflePage() {
               <div
                 key={raffle.id}
                 data-raffle-card
-                className="flex flex-col justify-between overflow-hidden rounded-3xl border-3 border-ink-900 bg-white p-4 md:p-5 shadow-[4px_4px_0_#2B1622] transition-transform hover:-translate-y-1"
+                className="flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-4 md:p-5 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)] transition-transform hover:-translate-y-1"
               >
                 <div className="space-y-3">
                   {/* Top Badges */}
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div className="flex items-center gap-1.5">
                       <span
-                        className={`inline-flex items-center gap-1 rounded-lg border-2 border-ink-900 px-2 py-0.5 text-[11px] font-black shadow-[1px_1px_0_#2B1622] ${rarityStyle.badgeBg}`}
+                        className={`inline-flex items-center gap-1 rounded-lg border-2 border-choco-900/20 px-2 py-0.5 text-[11px] font-bold shadow-[0_1.5px_0_#3B2218] ${rarityStyle.badgeBg}`}
                       >
                         <RarityIcon className="h-3 w-3" />
                         {rarityStyle.label}
                       </span>
 
                       {raffle.nftNetwork && (
-                        <span className="rounded-lg border-2 border-ink-900 bg-candy-100 px-2 py-0.5 text-[11px] font-black text-ink-800">
+                        <span className="rounded-lg border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] px-2 py-0.5 text-[11px] font-bold text-choco-800 shadow-[0_1px_0_#B01F62]">
                           {raffle.nftNetwork}
                         </span>
                       )}
@@ -491,7 +491,7 @@ export function RafflePage() {
 
                     <div className="flex items-center gap-1.5">
                       {isLive ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-black text-emerald-800">
+                        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] to-[#DCFCE7] px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 shadow-[0_1.5px_0_#15803D]">
                           <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
@@ -499,7 +499,7 @@ export function RafflePage() {
                           LIVE
                         </span>
                       ) : (
-                        <span className="rounded-full border border-ink-300 bg-ink-100 px-2.5 py-0.5 text-[10px] font-black text-ink-600">
+                        <span className="rounded-full border border-choco-900/20 bg-stone-100 px-2.5 py-0.5 text-[10px] font-bold text-choco-600">
                           SELESAI
                         </span>
                       )}
@@ -508,34 +508,34 @@ export function RafflePage() {
 
                   {/* Title & Prize */}
                   <div>
-                    <h2 className="text-xl font-black text-ink-900 leading-tight">
+                    <h2 className="text-xl font-display font-bold text-choco-900 leading-tight">
                       {raffle.title}
                     </h2>
-                    <div className="text-xs font-extrabold text-candy-600 mt-1 flex items-center gap-1">
+                    <div className="text-xs font-bold text-candy-600 mt-1 flex items-center gap-1">
                       <Award className="h-3.5 w-3.5 shrink-0" />
                       {raffle.prize}
                     </div>
                     {raffle.nftContract && (
-                      <div className="text-[11px] font-mono text-ink-500 mt-0.5">
+                      <div className="text-[11px] font-mono text-choco-500 mt-0.5">
                         Kontrak: {raffle.nftContract} {raffle.nftTokenId ? `• ${raffle.nftTokenId}` : ""}
                       </div>
                     )}
                   </div>
 
                   {/* Prize Details & Perks */}
-                  <p className="text-xs font-bold text-ink-700 leading-relaxed">
+                  <p className="text-xs font-semibold text-choco-700 leading-relaxed">
                     {raffle.prizeDetail}
                   </p>
 
                   <div className="space-y-1.5 pt-1">
-                    <div className="text-[11px] font-black uppercase text-ink-500 tracking-wider">
+                    <div className="text-[11px] font-bold uppercase text-choco-500 tracking-wider">
                       Keistimewaan Artefak:
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {raffle.perks.map((perk, i) => (
                         <span
                           key={i}
-                          className="inline-flex items-center gap-1 rounded-md border border-ink-900/20 bg-candy-50/80 px-2 py-0.5 text-[11px] font-bold text-ink-800"
+                          className="inline-flex items-center gap-1 rounded-md border border-choco-900/15 bg-white/90 px-2 py-0.5 text-[11px] font-semibold text-choco-800 shadow-[0_1px_0_rgba(59,34,24,0.1)]"
                         >
                           <CheckCircle2 className="h-3 w-3 text-emerald-600" />
                           {perk}
@@ -545,30 +545,30 @@ export function RafflePage() {
                   </div>
 
                   {/* Pool Telemetry */}
-                  <div className="grid grid-cols-2 gap-2 rounded-2xl border-2 border-ink-900 bg-candy-50 p-3 text-xs">
+                  <div className="grid grid-cols-2 gap-2 rounded-2xl border-2 border-candy-500/25 bg-gradient-to-b from-[#FFF5F8] to-[#FFEBF1] p-3 text-xs shadow-[0_2px_0_#B01F62]">
                     <div>
-                      <div className="text-[10px] font-black uppercase text-ink-500">Tiket Terkumpul</div>
-                      <div className="font-black text-ink-900 text-sm flex items-center gap-1 mt-0.5">
+                      <div className="text-[10px] font-bold uppercase text-choco-500">Tiket Terkumpul</div>
+                      <div className="font-display font-bold text-choco-900 text-sm flex items-center gap-1 mt-0.5">
                         <Ticket className="h-3.5 w-3.5 text-amber-600" />
                         {liveTotalTickets} Tiket
                       </div>
                     </div>
                     <div>
-                      <div className="text-[10px] font-black uppercase text-ink-500">Pemenang</div>
-                      <div className="font-black text-ink-900 text-sm flex items-center gap-1 mt-0.5">
+                      <div className="text-[10px] font-bold uppercase text-choco-500">Pemenang</div>
+                      <div className="font-display font-bold text-choco-900 text-sm flex items-center gap-1 mt-0.5">
                         <Crown className="h-3.5 w-3.5 text-yellow-600" />
                         {raffle.winnerCount} Pemenang
                       </div>
                     </div>
                     <div>
-                      <div className="text-[10px] font-black uppercase text-ink-500">Tiket Kamu</div>
-                      <div className="font-black text-candy-600 text-sm mt-0.5">
+                      <div className="text-[10px] font-bold uppercase text-choco-500">Tiket Kamu</div>
+                      <div className="font-bold text-candy-600 text-sm mt-0.5 font-display">
                         {userEntered > 0 ? `${userEntered} Tiket Dipasang` : "Belum Ikut"}
                       </div>
                     </div>
                     <div>
-                      <div className="text-[10px] font-black uppercase text-ink-500">Sisa Waktu</div>
-                      <div className="font-black text-ink-900 text-sm flex items-center gap-1 mt-0.5">
+                      <div className="text-[10px] font-bold uppercase text-choco-500">Sisa Waktu</div>
+                      <div className="font-display font-bold text-choco-900 text-sm flex items-center gap-1 mt-0.5">
                         <Clock className="h-3.5 w-3.5 text-purple-600" />
                         {formatCountdown(raffle.endsAt)}
                       </div>
@@ -577,16 +577,16 @@ export function RafflePage() {
                 </div>
 
                 {/* Card CTA Bottom */}
-                <div className="pt-3.5 border-t-2 border-ink-900/10 mt-3.5 space-y-1.5">
+                <div className="pt-3.5 border-t-2 border-choco-900/10 mt-3.5 space-y-1.5">
                   <button
                     disabled={!isLive}
                     onClick={() => handleOpenEnterModal(raffle)}
-                    className={`w-full inline-flex items-center justify-center gap-2 rounded-xl border-2 border-ink-900 py-2.5 text-xs md:text-sm font-black transition-transform shadow-[2px_2px_0_#2B1622] ${
+                    className={`w-full inline-flex items-center justify-center gap-2 rounded-2xl border-2 py-2.5 text-xs md:text-sm font-bold transition-transform shadow-[0_3px_0_#B01F62] ${
                       !isLive
-                        ? "bg-ink-200 text-ink-500 cursor-not-allowed"
+                        ? "bg-stone-200 border-stone-300 text-stone-500 cursor-not-allowed shadow-none"
                         : raffleTickets > 0
-                        ? "bg-candy-500 text-white hover:-translate-y-0.5 active:translate-y-0.5"
-                        : "bg-amber-300 text-ink-900 hover:-translate-y-0.5 active:translate-y-0.5"
+                        ? "border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] text-white hover:brightness-105 active:translate-y-[2px] active:shadow-none"
+                        : "border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 hover:brightness-105 active:translate-y-[2px] active:shadow-none"
                     }`}
                   >
                     <Ticket className="h-4 w-4" />
@@ -600,7 +600,7 @@ export function RafflePage() {
                   </button>
 
                   {userEntered > 0 && (
-                    <div className="text-center text-[11px] font-black text-emerald-700 bg-emerald-50 rounded-lg py-1 border border-emerald-300">
+                    <div className="text-center text-[11px] font-bold text-emerald-800 bg-emerald-50 rounded-xl py-1 border-2 border-emerald-300 shadow-[0_1px_0_#15803D]">
                       Kamu memiliki {userEntered} nomor entri aktif di undian ini!
                     </div>
                   )}
@@ -611,17 +611,17 @@ export function RafflePage() {
         </div>
         )}
 
-        {/* Bottom Educational Banner */}
-        <div className="rounded-3xl border-4 border-ink-900 bg-white p-6 md:p-8 shadow-[4px_4px_0_#2B1622] space-y-4">
+        {/* Bottom Educational Banner in Tactile Beveled Style */}
+        <div className="rounded-3xl border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 md:p-8 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)] space-y-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 bg-yellow-300 text-ink-900 shadow-[2px_2px_0_#2B1622]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_2px_0_#D97706]">
               <HelpCircle className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-lg font-black text-ink-900">
+              <h3 className="text-lg font-display font-bold text-choco-900">
                 Transparansi & Mekanisme Undian Web3min
               </h3>
-              <p className="text-xs font-bold text-ink-600">
+              <p className="text-xs font-semibold text-choco-600">
                 Pemenang ditentukan secara adil berbasis hash kriptografis terdesentralisasi
               </p>
             </div>
@@ -630,12 +630,12 @@ export function RafflePage() {
           {/* Asymmetrical Bento Step Flow */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
             {/* Step 1 & 2: Asymmetric Left Pods */}
-            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900 bg-cream p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
+            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white to-[#FBE9DC] p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
               <div className="flex items-center gap-2.5">
-                <div className="size-8 rounded-lg border-2 border-choco-900 bg-amber-100 flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+                <div className="size-8 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] flex items-center justify-center shadow-[0_1.5px_0_#D97706] shrink-0">
                   <img src="/props/coins.png" alt="Koin" className="size-5 object-contain pixelated" />
                 </div>
-                <div className="text-xs font-pixel font-bold text-choco-900">
+                <div className="text-xs font-display font-bold text-choco-900">
                   1. Belajar & Sikat Koin
                 </div>
               </div>
@@ -644,12 +644,12 @@ export function RafflePage() {
               </p>
             </div>
 
-            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900 bg-cream p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
+            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white to-[#FBE9DC] p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
               <div className="flex items-center gap-2.5">
-                <div className="size-8 rounded-lg border-2 border-choco-900 bg-lemon flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+                <div className="size-8 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] flex items-center justify-center shadow-[0_1.5px_0_#D97706] shrink-0">
                   <Ticket className="size-4 text-choco-900" />
                 </div>
-                <div className="text-xs font-pixel font-bold text-choco-900">
+                <div className="text-xs font-display font-bold text-choco-900">
                   2. Tukar Tiket Undian
                 </div>
               </div>
@@ -658,14 +658,14 @@ export function RafflePage() {
               </p>
             </div>
 
-            {/* Step 3: Hero Bento Card (Elevated with Blobi Mascot & High Contrast) */}
-            <div className="flex flex-col justify-between rounded-2xl border-3 border-choco-900 bg-lemon p-4 space-y-2 shadow-[0_4px_0_#3B2218]">
+            {/* Step 3: Hero Bento Card */}
+            <div className="flex flex-col justify-between rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-4 space-y-2 shadow-[0_4px_0_#D97706]">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <div className="size-8 rounded-lg border-2 border-choco-900 bg-white flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+                  <div className="size-8 rounded-xl border-2 border-choco-900/20 bg-white flex items-center justify-center shadow-[0_1.5px_0_#3B2218] shrink-0">
                     <Crown className="size-4 text-choco-900" />
                   </div>
-                  <div className="text-xs font-pixel font-bold text-choco-900">
+                  <div className="text-xs font-display font-bold text-choco-900">
                     3. Klaim On-Chain!
                   </div>
                 </div>
@@ -680,16 +680,16 @@ export function RafflePage() {
 
         {/* Modal: Beli Tiket */}
         {showBuyModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/60 p-4 backdrop-blur-sm animate-fade-in">
-            <div className="relative w-full max-w-md rounded-3xl border-4 border-ink-900 bg-white p-6 shadow-[6px_6px_0_#2B1622] space-y-5 animate-scale-in">
-              <div className="flex items-center justify-between border-b-2 border-ink-900/10 pb-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-choco-900/60 p-4 backdrop-blur-sm animate-fade-in">
+            <div className="relative w-full max-w-md rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-5 animate-scale-in">
+              <div className="flex items-center justify-between border-b-2 border-choco-900/10 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 bg-yellow-300 text-ink-900 shadow-[2px_2px_0_#2B1622]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_2px_0_#D97706]">
                     <Ticket className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-ink-900">Beli Tiket Undian</h3>
-                    <p className="text-xs font-bold text-ink-500">1 Tiket = {RAFFLE_TICKET_PRICE} Koin</p>
+                    <h3 className="text-lg font-display font-bold text-choco-900">Beli Tiket Undian</h3>
+                    <p className="text-xs font-semibold text-choco-500">1 Tiket = {RAFFLE_TICKET_PRICE} Koin</p>
                   </div>
                 </div>
                 <button
@@ -697,16 +697,16 @@ export function RafflePage() {
                     playTap();
                     setShowBuyModal(false);
                   }}
-                  className="rounded-xl border-2 border-ink-900 bg-ink-100 p-1.5 text-xs font-black text-ink-800 hover:bg-ink-200"
+                  className="rounded-xl border-2 border-choco-900/20 bg-white p-1.5 text-xs font-bold text-choco-800 hover:bg-candy-50 shadow-[0_1.5px_0_#3B2218]"
                 >
                   ✕
                 </button>
               </div>
 
               <div className="space-y-4">
-                <div className="rounded-2xl border-2 border-ink-900 bg-amber-50 p-4 flex items-center justify-between">
-                  <div className="text-xs font-bold text-ink-700">Saldo Koin Kamu</div>
-                  <div className="font-black text-sm text-amber-900 flex items-center gap-1">
+                <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-4 flex items-center justify-between shadow-[0_2px_0_#D97706]">
+                  <div className="text-xs font-bold text-choco-700">Saldo Koin Kamu</div>
+                  <div className="font-bold text-sm text-amber-900 flex items-center gap-1 font-pixel">
                     <Coins className="h-4 w-4 fill-amber-500 text-amber-700" />
                     {gems} Koin
                   </div>
@@ -714,31 +714,31 @@ export function RafflePage() {
 
                 {/* Amount Selector */}
                 <div className="space-y-2">
-                  <div className="text-xs font-black text-ink-700">Pilih Jumlah Tiket:</div>
-                  <div className="flex items-center justify-between rounded-2xl border-3 border-ink-900 bg-candy-50 p-3">
+                  <div className="text-xs font-bold text-choco-700">Pilih Jumlah Tiket:</div>
+                  <div className="flex items-center justify-between rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF5F8] to-[#FFEBF1] p-3 shadow-[0_2px_0_#B01F62]">
                     <button
                       disabled={buyAmount <= 1}
                       onClick={() => {
                         playTap();
                         setBuyAmount((p) => Math.max(1, p - 1));
                       }}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 font-black shadow-[2px_2px_0_#2B1622] active:translate-y-0.5 ${
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 ${
                         buyAmount <= 1
-                          ? "bg-ink-100 text-ink-400 cursor-not-allowed"
-                          : "bg-white text-ink-900"
+                          ? "bg-stone-100 text-stone-400 cursor-not-allowed shadow-none"
+                          : "bg-white text-choco-900"
                       }`}
                     >
                       <Minus className="h-4 w-4" />
                     </button>
-                    <div className="text-2xl font-black text-ink-900">
-                      {buyAmount} <span className="text-xs font-bold text-ink-500">Tiket</span>
+                    <div className="text-2xl font-display font-bold text-choco-900">
+                      {buyAmount} <span className="text-xs font-semibold text-choco-500">Tiket</span>
                     </div>
                     <button
                       onClick={() => {
                         playTap();
                         setBuyAmount((p) => Math.min(100, p + 1));
                       }}
-                      className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 bg-white font-black shadow-[2px_2px_0_#2B1622] active:translate-y-0.5"
+                      className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 bg-white font-bold text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -753,8 +753,10 @@ export function RafflePage() {
                           playTap();
                           setBuyAmount(num);
                         }}
-                        className={`flex-1 py-1.5 rounded-xl border-2 border-ink-900 text-xs font-black ${
-                          buyAmount === num ? "bg-amber-300 shadow-[2px_2px_0_#2B1622]" : "bg-white"
+                        className={`flex-1 py-1.5 rounded-xl border-2 text-xs font-bold transition-all ${
+                          buyAmount === num
+                            ? "border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 shadow-[0_2px_0_#C8940C]"
+                            : "border-choco-900/20 bg-white text-choco-800 shadow-[0_1.5px_0_#3B2218]"
                         }`}
                       >
                         +{num}
@@ -766,7 +768,7 @@ export function RafflePage() {
                         const maxTickets = Math.max(1, Math.floor(gems / RAFFLE_TICKET_PRICE));
                         setBuyAmount(maxTickets);
                       }}
-                      className="px-3 py-1.5 rounded-xl border-2 border-ink-900 bg-candy-100 text-xs font-black text-candy-900 hover:bg-candy-200"
+                      className="px-3 py-1.5 rounded-xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] text-xs font-bold text-candy-800 shadow-[0_1.5px_0_#B01F62] hover:bg-candy-100"
                     >
                       Maks
                     </button>
@@ -774,17 +776,17 @@ export function RafflePage() {
                 </div>
 
                 {/* Summary */}
-                <div className="rounded-2xl border-2 border-ink-900 bg-white p-3 space-y-2 text-xs">
-                  <div className="flex justify-between font-bold text-ink-700">
+                <div className="rounded-2xl border-2 border-choco-900/15 bg-white p-3 space-y-2 text-xs shadow-[0_1.5px_0_#3B2218]">
+                  <div className="flex justify-between font-semibold text-choco-700">
                     <span>Total Biaya:</span>
-                    <span className="font-black text-ink-900">
+                    <span className="font-bold text-choco-900 font-pixel">
                       {buyAmount * RAFFLE_TICKET_PRICE} Koin
                     </span>
                   </div>
-                  <div className="flex justify-between font-bold text-ink-700">
+                  <div className="flex justify-between font-semibold text-choco-700">
                     <span>Sisa Saldo Koin:</span>
                     <span
-                      className={`font-black ${
+                      className={`font-bold font-pixel ${
                         gems >= buyAmount * RAFFLE_TICKET_PRICE
                           ? "text-emerald-700"
                           : "text-red-600"
@@ -802,17 +804,17 @@ export function RafflePage() {
                     playTap();
                     setShowBuyModal(false);
                   }}
-                  className="flex-1 rounded-2xl border-2 border-ink-900 bg-ink-100 py-3 text-xs md:text-sm font-black text-ink-800 shadow-[2px_2px_0_#2B1622] active:translate-y-0.5"
+                  className="flex-1 rounded-2xl border-2 border-choco-900/20 bg-white py-3 text-xs md:text-sm font-bold text-choco-800 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
                 >
                   Batal
                 </button>
                 <button
                   disabled={gems < buyAmount * RAFFLE_TICKET_PRICE}
                   onClick={handleBuyTickets}
-                  className={`flex-1 rounded-2xl border-3 border-ink-900 py-3 text-xs md:text-sm font-black shadow-[3px_3px_0_#2B1622] active:translate-y-0.5 ${
+                  className={`flex-1 rounded-2xl border-2 py-3 text-xs md:text-sm font-bold shadow-[0_3px_0_#C8940C] active:translate-y-0.5 ${
                     gems >= buyAmount * RAFFLE_TICKET_PRICE
-                      ? "bg-yellow-400 text-ink-900 hover:-translate-y-0.5"
-                      : "bg-ink-200 text-ink-400 cursor-not-allowed"
+                      ? "border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 hover:brightness-105"
+                      : "bg-stone-200 border-stone-300 text-stone-400 cursor-not-allowed shadow-none"
                   }`}
                 >
                   Beli {buyAmount} Tiket
@@ -824,16 +826,16 @@ export function RafflePage() {
 
         {/* Modal: Pasang Tiket ke Undian */}
         {enteringRaffle && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/60 p-4 backdrop-blur-sm animate-fade-in">
-            <div className="relative w-full max-w-md rounded-3xl border-4 border-ink-900 bg-white p-6 shadow-[6px_6px_0_#2B1622] space-y-5 animate-scale-in">
-              <div className="flex items-center justify-between border-b-2 border-ink-900/10 pb-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-choco-900/60 p-4 backdrop-blur-sm animate-fade-in">
+            <div className="relative w-full max-w-md rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-5 animate-scale-in">
+              <div className="flex items-center justify-between border-b-2 border-choco-900/10 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 bg-purple-400 text-ink-900 shadow-[2px_2px_0_#2B1622]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-purple-500/50 bg-gradient-to-b from-[#FAF5FF] via-[#F3E8FF] to-[#E9D5FF] text-purple-700 shadow-[0_2px_0_#7E22CE]">
                     <Ticket className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-ink-900">Pasang Tiket Undian</h3>
-                    <p className="text-xs font-bold text-ink-500">{enteringRaffle.title}</p>
+                    <h3 className="text-lg font-display font-bold text-choco-900">Pasang Tiket Undian</h3>
+                    <p className="text-xs font-semibold text-choco-500">{enteringRaffle.title}</p>
                   </div>
                 </div>
                 <button
@@ -841,44 +843,44 @@ export function RafflePage() {
                     playTap();
                     setEnteringRaffle(null);
                   }}
-                  className="rounded-xl border-2 border-ink-900 bg-ink-100 p-1.5 text-xs font-black text-ink-800 hover:bg-ink-200"
+                  className="rounded-xl border-2 border-choco-900/20 bg-white p-1.5 text-xs font-bold text-choco-800 hover:bg-candy-50 shadow-[0_1.5px_0_#3B2218]"
                 >
                   ✕
                 </button>
               </div>
 
               <div className="space-y-4">
-                <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1">
-                  <div className="text-[11px] font-black uppercase text-ink-500">Hadiah Utama</div>
-                  <div className="font-black text-sm text-ink-900">{enteringRaffle.prize}</div>
-                  <div className="text-xs font-bold text-ink-600">{enteringRaffle.prizeDetail}</div>
+                <div className="rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] p-4 space-y-1 shadow-[0_2px_0_#B01F62]">
+                  <div className="text-[11px] font-bold uppercase text-candy-600">Hadiah Utama</div>
+                  <div className="font-display font-bold text-sm text-choco-900">{enteringRaffle.prize}</div>
+                  <div className="text-xs font-semibold text-choco-600">{enteringRaffle.prizeDetail}</div>
                 </div>
 
-                <div className="flex items-center justify-between rounded-2xl border-2 border-ink-900 bg-amber-50 p-3">
-                  <span className="text-xs font-bold text-ink-700">Tiket Undian Kamu:</span>
-                  <span className="font-black text-amber-900 text-sm">{raffleTickets} Tiket</span>
+                <div className="flex items-center justify-between rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-3 shadow-[0_2px_0_#D97706]">
+                  <span className="text-xs font-bold text-choco-700">Tiket Undian Kamu:</span>
+                  <span className="font-bold text-amber-900 text-sm font-pixel">{raffleTickets} Tiket</span>
                 </div>
 
                 {/* Amount Selector */}
                 <div className="space-y-2">
-                  <div className="text-xs font-black text-ink-700">Jumlah Tiket yang Dipasang:</div>
-                  <div className="flex items-center justify-between rounded-2xl border-3 border-ink-900 bg-candy-50 p-3">
+                  <div className="text-xs font-bold text-choco-700">Jumlah Tiket yang Dipasang:</div>
+                  <div className="flex items-center justify-between rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF5F8] to-[#FFEBF1] p-3 shadow-[0_2px_0_#B01F62]">
                     <button
                       disabled={ticketToEnter <= 1}
                       onClick={() => {
                         playTap();
                         setTicketToEnter((p) => Math.max(1, p - 1));
                       }}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 font-black shadow-[2px_2px_0_#2B1622] active:translate-y-0.5 ${
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 ${
                         ticketToEnter <= 1
-                          ? "bg-ink-100 text-ink-400 cursor-not-allowed"
-                          : "bg-white text-ink-900"
+                          ? "bg-stone-100 text-stone-400 cursor-not-allowed shadow-none"
+                          : "bg-white text-choco-900"
                       }`}
                     >
                       <Minus className="h-4 w-4" />
                     </button>
-                    <div className="text-2xl font-black text-ink-900">
-                      {ticketToEnter} <span className="text-xs font-bold text-ink-500">Tiket</span>
+                    <div className="text-2xl font-display font-bold text-choco-900">
+                      {ticketToEnter} <span className="text-xs font-semibold text-choco-500">Tiket</span>
                     </div>
                     <button
                       disabled={ticketToEnter >= raffleTickets}
@@ -886,10 +888,10 @@ export function RafflePage() {
                         playTap();
                         setTicketToEnter((p) => Math.min(raffleTickets, p + 1));
                       }}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 font-black shadow-[2px_2px_0_#2B1622] active:translate-y-0.5 ${
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 ${
                         ticketToEnter >= raffleTickets
-                          ? "bg-ink-100 text-ink-400 cursor-not-allowed"
-                          : "bg-white text-ink-900"
+                          ? "bg-stone-100 text-stone-400 cursor-not-allowed shadow-none"
+                          : "bg-white text-choco-900"
                       }`}
                     >
                       <Plus className="h-4 w-4" />
@@ -906,8 +908,10 @@ export function RafflePage() {
                           playTap();
                           setTicketToEnter(num);
                         }}
-                        className={`flex-1 py-1.5 rounded-xl border-2 border-ink-900 text-xs font-black ${
-                          ticketToEnter === num ? "bg-purple-300 shadow-[2px_2px_0_#2B1622]" : "bg-white"
+                        className={`flex-1 py-1.5 rounded-xl border-2 text-xs font-bold transition-all ${
+                          ticketToEnter === num
+                            ? "border-purple-600/50 bg-gradient-to-b from-[#FAF5FF] via-[#F3E8FF] to-[#E9D5FF] text-purple-900 shadow-[0_2px_0_#7E22CE]"
+                            : "border-choco-900/20 bg-white text-choco-800 shadow-[0_1.5px_0_#3B2218]"
                         }`}
                       >
                         {num} Tiket
@@ -918,7 +922,7 @@ export function RafflePage() {
                         playTap();
                         setTicketToEnter(raffleTickets);
                       }}
-                      className="px-3 py-1.5 rounded-xl border-2 border-ink-900 bg-candy-100 text-xs font-black text-candy-900 hover:bg-candy-200"
+                      className="px-3 py-1.5 rounded-xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] text-xs font-bold text-candy-800 shadow-[0_1.5px_0_#B01F62] hover:bg-candy-100"
                     >
                       Semua ({raffleTickets})
                     </button>
@@ -934,22 +938,22 @@ export function RafflePage() {
                   const oddsPercent = totalAfter > 0 ? ((myTotal / totalAfter) * 100).toFixed(1) : "100";
 
                   return (
-                    <div className="rounded-2xl border-2 border-ink-900 bg-purple-50 p-3 space-y-1.5 text-xs">
-                      <div className="flex justify-between items-center font-bold text-ink-700">
+                    <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-b from-[#FAF5FF] to-[#F3E8FF] p-3 space-y-1.5 text-xs shadow-[0_2px_0_#7E22CE]">
+                      <div className="flex justify-between items-center font-semibold text-choco-700">
                         <span className="flex items-center gap-1">
                           <Zap className="h-3.5 w-3.5 text-purple-600" />
                           Tiket Kamu di Undian Ini:
                         </span>
-                        <span className="font-black text-purple-900">
+                        <span className="font-bold text-purple-900 font-pixel">
                           {alreadyEntered > 0 ? `${alreadyEntered} + ${ticketToEnter}` : ticketToEnter} Tiket
                         </span>
                       </div>
-                      <div className="flex justify-between items-center font-bold text-ink-700">
+                      <div className="flex justify-between items-center font-semibold text-choco-700">
                         <span className="flex items-center gap-1">
                           <Sparkles className="h-3.5 w-3.5 text-amber-500" />
                           Estimasi Peluang Menang:
                         </span>
-                        <span className="font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-600">
+                        <span className="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-500/40 shadow-[0_1px_0_#15803D]">
                           ~{oddsPercent}%
                         </span>
                       </div>
@@ -964,13 +968,13 @@ export function RafflePage() {
                     playTap();
                     setEnteringRaffle(null);
                   }}
-                  className="flex-1 rounded-2xl border-2 border-ink-900 bg-ink-100 py-3 text-xs md:text-sm font-black text-ink-800 shadow-[2px_2px_0_#2B1622] active:translate-y-0.5"
+                  className="flex-1 rounded-2xl border-2 border-choco-900/20 bg-white py-3 text-xs md:text-sm font-bold text-choco-800 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
                 >
                   Batal
                 </button>
                 <button
                   onClick={handleConfirmEnter}
-                  className="flex-1 rounded-2xl border-3 border-ink-900 bg-candy-500 py-3 text-xs md:text-sm font-black text-white shadow-[3px_3px_0_#2B1622] hover:-translate-y-0.5 active:translate-y-0.5"
+                  className="flex-1 rounded-2xl border-2 border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
                 >
                   Konfirmasi Pasang
                 </button>
@@ -981,16 +985,16 @@ export function RafflePage() {
 
         {/* Modal: FAQ & Cara Kerja */}
         {showFaqModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/60 p-4 backdrop-blur-sm animate-fade-in">
-            <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border-4 border-ink-900 bg-white p-6 md:p-8 shadow-[6px_6px_0_#2B1622] space-y-5 animate-scale-in">
-              <div className="flex items-center justify-between border-b-2 border-ink-900/10 pb-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-choco-900/60 p-4 backdrop-blur-sm animate-fade-in">
+            <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 md:p-8 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-5 animate-scale-in">
+              <div className="flex items-center justify-between border-b-2 border-choco-900/10 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-ink-900 bg-purple-300 text-ink-900 shadow-[2px_2px_0_#2B1622]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-purple-500/50 bg-gradient-to-b from-[#FAF5FF] via-[#F3E8FF] to-[#E9D5FF] text-purple-700 shadow-[0_2px_0_#7E22CE]">
                     <HelpCircle className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-ink-900">Panduan Undian Raffle</h3>
-                    <p className="text-xs font-bold text-ink-500">Mekanisme transparan & fair</p>
+                    <h3 className="text-xl font-display font-bold text-choco-900">Panduan Undian Raffle</h3>
+                    <p className="text-xs font-semibold text-choco-500">Mekanisme transparan & fair</p>
                   </div>
                 </div>
                 <button
@@ -998,36 +1002,36 @@ export function RafflePage() {
                     playTap();
                     setShowFaqModal(false);
                   }}
-                  className="rounded-xl border-2 border-ink-900 bg-ink-100 p-1.5 text-xs font-black text-ink-800 hover:bg-ink-200"
+                  className="rounded-xl border-2 border-choco-900/20 bg-white p-1.5 text-xs font-bold text-choco-800 hover:bg-candy-50 shadow-[0_1.5px_0_#3B2218]"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="space-y-4 text-xs font-bold text-ink-800 leading-relaxed">
-                <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1">
-                  <div className="font-black text-sm text-ink-900">Apa itu Undian Raffle Web3min?</div>
+              <div className="space-y-4 text-xs font-semibold text-choco-800 leading-relaxed">
+                <div className="rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] p-4 space-y-1 shadow-[0_2px_0_#B01F62]">
+                  <div className="font-display font-bold text-sm text-choco-900">Apa itu Undian Raffle Web3min?</div>
                   <p>
                     Raffle adalah arena undian berhadiah resmi Web3min di mana kamu dapat menukarkan koin kemenangan belajar untuk memenangkan artefak NFT langka, gelar profil, dan voucher in-game.
                   </p>
                 </div>
 
-                <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1">
-                  <div className="font-black text-sm text-ink-900">Bagaimana Cara Mendapatkan Tiket?</div>
+                <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-4 space-y-1 shadow-[0_2px_0_#D97706]">
+                  <div className="font-display font-bold text-sm text-choco-900">Bagaimana Cara Mendapatkan Tiket?</div>
                   <p>
                     Tiket dapat dibeli seharga 10 Koin per tiket di halaman ini atau Toko Blobi. Kamu juga mendapatkan tiket gratis saat menyelesaikan rute checkpoint tertentu!
                   </p>
                 </div>
 
-                <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1">
-                  <div className="font-black text-sm text-ink-900">Bagaimana Pengundian Pemenang Dilakukan?</div>
+                <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] to-[#DCFCE7] p-4 space-y-1 shadow-[0_2px_0_#15803D]">
+                  <div className="font-display font-bold text-sm text-choco-900">Bagaimana Pengundian Pemenang Dilakukan?</div>
                   <p>
                     Ketika waktu mundur berakhir, database memicu fungsi draw dengan seed acak kriptografis (VRF pattern) yang memilih pemenang berdasarkan proporsi tiket yang dipasang. Semakin banyak tiket yang kamu pasang, semakin besar peluang menangmu!
                   </p>
                 </div>
 
-                <div className="rounded-2xl border-2 border-ink-900 bg-candy-50 p-4 space-y-1">
-                  <div className="font-black text-sm text-ink-900">Bagaimana Cara Menerima NFT yang Dimenangkan?</div>
+                <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-b from-[#FAF5FF] to-[#F3E8FF] p-4 space-y-1 shadow-[0_2px_0_#7E22CE]">
+                  <div className="font-display font-bold text-sm text-choco-900">Bagaimana Cara Menerima NFT yang Dimenangkan?</div>
                   <p>
                     Jika kamu memenangkan NFT, kamu dapat menghubungkan dompet Web3 kamu di menu profil untuk mengklaim transfer kepemilikan NFT ke jaringan yang sesuai (Ethereum, Base, Arbitrum, atau Optimism).
                   </p>
@@ -1039,7 +1043,7 @@ export function RafflePage() {
                   playTap();
                   setShowFaqModal(false);
                 }}
-                className="w-full rounded-2xl border-3 border-ink-900 bg-yellow-400 py-3 font-black text-ink-900 shadow-[3px_3px_0_#2B1622] active:translate-y-0.5"
+                className="w-full rounded-2xl border-2 border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] py-3 font-bold text-choco-900 shadow-[0_4px_0_#C8940C,0_8px_16px_-2px_rgba(255,216,77,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
               >
                 Saya Paham
               </button>

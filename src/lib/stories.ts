@@ -155,7 +155,7 @@ export const STORIES: Story[] = [
   {
     id: "s-kerja",
     title: "Gaji, bukan chart",
-    blurb: "Community, bounty, intern. Kerjaan beneran nggak nagi ETH.",
+    blurb: "Komunitas, bounty, magang. Pekerjaan resmi tidak meminta deposit ETH.",
     minutes: 4,
     xp: 6,
     gems: 2,
@@ -176,21 +176,21 @@ export const STORIES: Story[] = [
       {
         type: "talk",
         who: "teman",
-        text: "Terus ada DM: kerja remote $5.000, transfer 0,05 ETH dulu biar kontrak kebuka.",
+        text: "Terus ada DM: kerja remote $5.000, transfer biaya gas deposit dulu biar kontrak kebuka.",
       },
       {
         type: "fork",
         prompt: "Kamu?",
         options: [
           {
-            label: "Kirim. Takut kesempatan ilang.",
+            label: "Kirim. Takut kesempatan hilang.",
             good: false,
-            reply: "Umpan. Kerjaan beneran nggak minta kamu bayar tiket masuk. HR nggak nagi gas.",
+            reply: "Umpan penipuan. Pekerjaan resmi tidak meminta kamu membayar tiket masuk atau transfer gas.",
           },
           {
-            label: "Blokir. Kerjaan nggak nagi transfer dulu.",
+            label: "Blokir. Pekerjaan resmi tidak meminta transfer di awal.",
             good: true,
-            reply: "Betul. Jejak waras: kontribusi, bounty, hackathon, portofolio. Kelihatan kerjanya, baru ditawarin.",
+            reply: "Betul. Jejak waras: kontribusi, bounty, hackathon, portofolio. Kelihatan kerjanya, baru ditawari.",
           },
         ],
       },
@@ -253,8 +253,8 @@ export const STORIES: Story[] = [
   },
   {
     id: "s-liq",
-    title: "Agunan disikat semalem",
-    blurb: "Health factor < 1. Bot masuk. CS nggak ada.",
+    title: "Agunan Terlikuidasi Semalam",
+    blurb: "Health factor < 1. Bot eksekusi otomatis. CS bank tidak ada.",
     minutes: 4,
     xp: 6,
     gems: 2,
@@ -407,7 +407,7 @@ export const STORIES: Story[] = [
   {
     id: "s-arb",
     title: "Selisih 12 dolar, bot yang makan",
-    blurb: "Arb rapihin harga. Sandwich ngerampok tx kamu.",
+    blurb: "Arbitrase menyeimbangkan harga, sedangkan sandwich bot mengeksploitasi slippage transaksi.",
     minutes: 4,
     xp: 6,
     gems: 2,
@@ -743,7 +743,7 @@ export const STORIES: Story[] = [
   {
     id: "s-drop-cuan",
     title: "Modal gas, cair token",
-    blurb: "Bukan PnL. Airdrop. Orang pake produk, token masuk ke wallet.",
+    blurb: "Distribusi hadiah protokol. Pengguna memakai produk resmi, token dialokasikan langsung.",
     minutes: 4,
     xp: 6,
     gems: 2,
@@ -754,7 +754,7 @@ export const STORIES: Story[] = [
         type: "talk",
         who: "web3min",
         mood: "wave",
-        text: "Orang kira web3 cuma chart hijau. Ada jalur lain: pake produk, snapshot, token masuk ke wallet. Modalnya gas.",
+        text: "Ekosistem Web3 bukan hanya pergerakan chart. Ada jalur partisipasi awal: memakai produk resmi dan token dialokasikan langsung ke wallet.",
       },
       {
         type: "talk",
@@ -764,31 +764,31 @@ export const STORIES: Story[] = [
       {
         type: "proof",
         proofId: "drop-uni-400",
-        text: "2020. Tiap wallet yang pernah pake Uniswap, 400 UNI. Bukan sinyal trading. Hadiah karena memakai produk.",
+        text: "Tahun 2020: tiap wallet yang pernah memakai Uniswap mendapatkan 400 UNI sebagai apresiasi pengguna awal.",
       },
       {
         type: "proof",
         proofId: "drop-uni-ath",
-        text: "Di puncak, 400 UNI sempat ~US$18 ribu. Satu-dua swap. Modal gas. Bukan all-in futures.",
+        text: "Di puncak, 400 UNI sempat bernilai sekitar US$18 ribu dari transaksi swap wajar.",
       },
       {
         type: "proof",
         proofId: "drop-arb-18k",
-        text: "2.125 ARB masuk ke wallet karena rutin pakai Arbitrum.",
+        text: "2.125 ARB dialokasikan karena rutin memakai jaringan layer-2 Arbitrum.",
       },
       {
         type: "proof",
         proofId: "drop-wif-1k5",
-        text: "1.000 WIF masuk ke wallet, sekitar US$1.500 saat itu.",
+        text: "1.000 token WIF bernilai sekitar US$1.500 saat didistribusikan.",
       },
       {
         type: "proof",
         proofId: "drop-met-34k",
-        text: "Ada yang cair US$34 ribu dari airdrop. Dijual. Bukan PnL futures.",
+        text: "Ada pengguna yang menerima alokasi hingga US$34 ribu dari distribusi awal dan langsung mencairkannya, bukan dari profit trading leverage.",
       },
       {
         type: "fork",
-        prompt: "Teman suruh 'kirim dulu 0,05 ETH biar klaim HYPE kebuka'. Kamu?",
+        prompt: "Teman mengajak 'kirim dulu deposit biaya gas biar klaim token terbuka'. Kamu?",
         options: [
           {
             label: "Kirim, takut ketinggalan",

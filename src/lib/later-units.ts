@@ -100,7 +100,7 @@ export const LATER_UNITS: Unit[] = [
             "Syarat sybil (banyak akun palsu): satu orang banyak wallet palsu bisa didiskualifikasi.",
             "Token airdrop bisa dump hari pertama. Bukan gaji.",
           ],
-          example: "Situs 'claim ARB extra' minta 0.05 ETH 'gas insurance'. Bukan claim. Drainer.",
+          example: "Situs palsu minta deposit saldo untuk 'gas insurance'. Bukan claim resmi, melainkan drainer.",
           remember: "Hadiah nggak minta kamu transfer dulu.",
           proofs: ["drop-arb-18k", "drop-wif-1k5", "drop-met-34k", "drop-uni-ath"],
         }),
@@ -519,7 +519,7 @@ export const LATER_UNITS: Unit[] = [
         tip("u20l5t", "Ada lowongan. Ada juga umpan.", "Proyek web3 butuh tangan: jaga Discord, nulis docs, desain, kode, riset, BD, support. Banyak proyek Web3 mencari kontributor yang aktif memberikan nilai tambah. Waspadai tawaran kerja yang meminta deposit dana di awal karena itu adalah modus penipuan.", {
           points: [
             "Peran yang sering ada: community, intern, developer, designer, researcher, BD, support, translator.",
-            "Cara waras: portofolio, kontribusi publik, hackathon, bounty. Bukan 'kerja bayar 0,05 ETH dulu'.",
+            "Cara waras: portofolio, kontribusi publik, hackathon, bounty. Bukan kerja yang meminta biaya deposit.",
             "Bounty & grant: bayar per kerjaan. Kontributor ≠ karyawan. Baca aturannya.",
             "Remote global itu nyata. Tetap butuh skill. Bahasa Inggris ngebantu, bukan syarat sulap.",
           ],
@@ -538,8 +538,8 @@ export const LATER_UNITS: Unit[] = [
         ),
         c(
           "u20l5q2",
-          "DM: 'kerja remote $5.000, transfer 0,05 ETH dulu biar kontrak kebuka'. Itu apa?",
-          ["Umpan. Kerjaan beneran nggak minta transfer dulu", "Standar HR web3", "Gas resmi", "KYC bank"],
+          "DM: 'kerja remote $5.000, transfer deposit ETH dulu biar kontrak kebuka'. Itu apa?",
+          ["Umpan. Pekerjaan resmi tidak meminta transfer uang", "Standar HR web3", "Gas resmi", "KYC bank"],
           0,
           "Pekerjaan profesional yang sah tidak pernah meminta biaya registrasi atau transfer deposit kripto dari calon pekerjanya.",
         ),
@@ -656,7 +656,7 @@ export const LATER_UNITS: Unit[] = [
         }),
         j("u20l4q1","Apakah web3min menjamin untung?",["Nggak. web3min panduan belajar, bukan penjamin untung","Ya, lulus 20 rute pasti kaya","Ya, kalau bagikan seed","Ya, pakai leverage 50x"],0,"Keputusan dan risikonya tetap di kamu."),
         M("u20l4q2","Lulus rute 20 artinya saatnya all-in.",false,"Salah. Lulus artinya kamu siap mengambil keputusan dengan lebih hati-hati."),
-        j("u20l4q3","Ada tawaran kerja remote US$5.000 per bulan, tapi minta deposit 0,05 ETH dulu. Gimana?",["Tolak, kerja asli nggak minta bayar di awal","Kirim biar nggak ketinggalan","Pinjam uang buat deposit","Kasih seed biar diproses"],0,"Perusahaan asli membayar kamu, bukan sebaliknya."),
+        j("u20l4q3","Ada tawaran kerja remote US$5.000 per bulan, tapi minta deposit sejumlah dana dulu. Gimana?",["Tolak, pekerjaan resmi tidak meminta bayaran di awal","Kirim biar tidak tertinggal","Pinjam uang untuk deposit","Beri seed phrase agar diproses"],0,"Perusahaan asli membayar kamu, bukan sebaliknya."),
         j("u20l4q4","Setelah selesai 20 rute, kebiasaan apa yang harus dijaga?",["Batas rugi, jurnal, dan seed yang aman","Pinjam bank buat modal","Matikan 2FA biar praktis","Ikuti semua call grup"],0,"Kebiasaan kecil ini yang melindungimu dalam jangka panjang."),
       ]),
       L("u20", "u20-cp", "checkpoint", "Ujian penutup", "20 rute. Kalo lulus, kamu masih di meja.", "flag", [

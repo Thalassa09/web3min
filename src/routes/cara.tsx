@@ -32,8 +32,8 @@ const STEPS = [
   },
   {
     num: "04",
-    title: "Kumpulkan Koin & Bintang XP",
-    desc: "Dapatkan XP dan koin dari setiap latihan, streak harian, dan peti misteri. Gunakan koin untuk outfit Blobi dan tiket undian!",
+    title: "Kumpulkan Koin & XP",
+    desc: "Dapatkan XP dan Koin dari setiap latihan, streak harian, dan peti tantangan. Gunakan Koin untuk outfit Blobi dan tiket undian hadiah!",
     icon: Sparkles,
     badge: "Reward",
     badgeColor: "bg-candy-100 text-candy-800",
@@ -48,10 +48,10 @@ const STEPS = [
   },
   {
     num: "06",
-    title: "Sikat Undian Tiket Mingguan",
-    desc: "Tukarkan koinmu dengan tiket undian mingguan untuk memperebutkan hadiah dalam aplikasi yang eksklusif.",
+    title: "Ikuti Undian Hadiah Mingguan",
+    desc: "Kumpulkan XP, jaga streak harian, dan tukar Koin untuk ikut undian item Blobi limited dan slot mint NFT.",
     icon: Award,
-    badge: "Undian In-App",
+    badge: "Undian Hadiah",
     badgeColor: "bg-emerald-100 text-emerald-800",
   },
 ];

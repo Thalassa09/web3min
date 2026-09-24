@@ -1,37 +1,10 @@
-import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useProgress } from "@/lib/store";
-import {
-  Button,
-  CandyBox,
-  ProgressBar,
-  CandyLoader,
-  Badge,
-  Lollipop,
-  CoinToken,
-  InvSlot,
-  SectionTitle,
-  CandyToggle,
-  StreakBadge,
-  GameProgress,
-} from "@/components/ui";
-import {
-  Sparkles,
-  Zap,
-  ShieldAlert,
-  Flame,
-  Star,
-  CheckCircle2,
-  Gift,
-  Coins,
-  ArrowRight,
-  Compass,
-  Trophy,
-  Gamepad2,
-} from "lucide-react";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/bubble")({
-  component: ArcadeCandyComponentsShowcase,
+  beforeLoad: () => {
+    throw redirect({ to: "/" });
+  },
+  component: () => null,
 });
 
 function ArcadeCandyComponentsShowcase() {

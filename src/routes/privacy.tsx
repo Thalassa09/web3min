@@ -41,7 +41,7 @@ function PrivacyPage() {
                   </span>
                 </div>
                 <p className="text-xs font-semibold text-choco-700 mt-1.5 leading-relaxed">
-                  Web3min tidak pernah dan tidak akan pernah meminta seed phrase, private key, atau kata sandi dompet kripto pribadimu. Kamu tidak perlu menghubungkan dompet riil (Metamask/Phantom) untuk belajar di sini.
+                  Web3min tidak pernah dan tidak akan pernah meminta seed phrase, private key, atau kata sandi dompet kripto pribadimu. Kamu tidak perlu menghubungkan dompet untuk belajar. Alamat wallet hanya diminta jika kamu ikut undian slot mint.
                 </p>
               </div>
             </div>
@@ -108,6 +108,50 @@ function PrivacyPage() {
                 </div>
                 <p className="text-xs font-semibold text-choco-700 mt-1.5 leading-relaxed">
                   Kamu bisa menghapus seluruh riwayat progres kapan saja lewat tombol Reset di menu Pengaturan. Menghapus cookie & situs data di browsermu juga akan membersihkan data lokal secara seketika.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 5: Data Undian */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+            <div className="flex items-start gap-4">
+              <div className="size-11 rounded-2xl bg-purple-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+                <Shield className="size-6 text-purple-800" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-pixel text-xs sm:text-sm font-bold text-choco-900">
+                    Data Undian
+                  </h3>
+                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-purple-200 text-purple-900 border border-choco-900">
+                    Transparan
+                  </span>
+                </div>
+                <p className="text-xs font-semibold text-choco-700 mt-1.5 leading-relaxed">
+                  Jika ikut undian slot mint, kami menyimpan alamat wallet publik dan akun X. Alamat wallet pemenang diteruskan ke proyek mitra untuk allowlist. Untuk undian item, kami tidak meminta alamat wallet. Data peserta yang tidak menang dihapus 30 hari setelah undian selesai. Kami tetap tidak pernah meminta seed phrase atau private key.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 6: Pedoman Komunitas & Sensor Username */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+            <div className="flex items-start gap-4">
+              <div className="size-11 rounded-2xl bg-emerald-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+                <CheckCircle2 className="size-6 text-emerald-800" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-pixel text-xs sm:text-sm font-bold text-choco-900">
+                    Pedoman Komunitas & Moderasi Nama
+                  </h3>
+                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-emerald-200 text-emerald-900 border border-choco-900">
+                    Aman
+                  </span>
+                </div>
+                <p className="text-xs font-semibold text-choco-700 mt-1.5 leading-relaxed">
+                  Username yang melanggar pedoman komunitas dapat disensor secara otomatis maupun manual oleh admin tanpa menghapus akun. Progres belajar, XP, tiket, dan koin tetap tersimpan aman.
                 </p>
               </div>
             </div>

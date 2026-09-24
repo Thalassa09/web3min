@@ -13,7 +13,7 @@ function AboutPage() {
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 text-center sm:text-left">
             <div className="flex-1">
               <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-white px-3 py-1 font-pixel text-[10px] font-bold text-choco-900 shadow-[0_2px_0_#3B2218] mb-2">
-                📜 MANIFESTO WEB3MIN
+                MANIFESTO WEB3MIN
               </span>
               <h1 className="mt-1 text-2xl md:text-3xl font-display font-black text-choco-900 tracking-tight">
                 Tentang Web3min
@@ -60,7 +60,7 @@ function AboutPage() {
               </div>
               <div>
                 <span className="px-2 py-0.5 rounded-full text-[9px] font-pixel font-bold bg-emerald-200 border border-choco-900 text-emerald-900">
-                  Hukum Besi
+                  Prinsip 2
                 </span>
                 <h2 className="text-base sm:text-lg font-pixel font-bold text-choco-900 mt-0.5">
                   Seed Phrase Itu Nyawa

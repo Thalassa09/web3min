@@ -28,7 +28,7 @@ const BLOBO_IDLE_QUIPS = [
   "Mau beli mahkota buat Blobi di Toko? Kumpulin bintang dulu di sini! 👑",
   "Awas penipu! Di Web3 jangan pernah kasih seed phrase ke siapa pun ya! 🛡️",
   "Ayo buruan mulai, peringkat kamu di Arena mingguan bisa disalip orang! 🏆",
-  "Geser aku ke mana aja sesukamu! Blobi bisa nemenin kamu di mana aja! ✨",
+  "Tarik & geser aku ke mana aja! Blobi bisa jalan-jalan nemenin kamu! 🎈",
 ];
 
 const BLOBO_POKE_REACTIONS: { mood: MascotMood; text: string }[] = [
@@ -57,12 +57,13 @@ export function BlobiFloatingCompanion({
   const [isMinimized, setIsMinimized] = useState(false);
   const [pokeIndex, setPokeIndex] = useState(0);
 
-  // Position & Dragging State
+  // Position, Physics & Dragging State
   const [coords, setCoords] = useState<{ x: number; y: number } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragTilt, setDragTilt] = useState(0);
   const [facing, setFacing] = useState<1 | -1>(1); // 1 = right, -1 = left
   const [isSquishing, setIsSquishing] = useState(false);
+  const [isHopping, setIsHopping] = useState(false);
 
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const blobiStartPosRef = useRef<{ x: number; y: number } | null>(null);
@@ -71,8 +72,18 @@ export function BlobiFloatingCompanion({
 
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const roamTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const speechTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Initialize Position (client-only, with localStorage cache)
+  // Show speech bubble with automatic dismiss after duration
+  const showSpeech = useCallback((text: string, duration = 6500) => {
+    setSpeech(text);
+    if (speechTimerRef.current) clearTimeout(speechTimerRef.current);
+    speechTimerRef.current = setTimeout(() => {
+      setSpeech(null);
+    }, duration);
+  }, []);
+
+  // Initialize Position on Client
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -83,7 +94,7 @@ export function BlobiFloatingCompanion({
         const parsed = JSON.parse(saved);
         if (typeof parsed.x === "number" && typeof parsed.y === "number") {
           setCoords({
-            x: clamp(parsed.x, 16, window.innerWidth - 90),
+            x: clamp(parsed.x, 16, window.innerWidth - 95),
             y: clamp(parsed.y, 60, window.innerHeight - 110),
           });
           return;
@@ -99,13 +110,13 @@ export function BlobiFloatingCompanion({
     });
   }, []);
 
-  // Update position on window resize to prevent Blobi from getting stuck outside
+  // Auto-clamp on window resize
   useEffect(() => {
     const handleResize = () => {
       setCoords((prev) => {
         if (!prev) return null;
         return {
-          x: Math.max(16, Math.min(window.innerWidth - 90, prev.x)),
+          x: Math.max(16, Math.min(window.innerWidth - 95, prev.x)),
           y: Math.max(60, Math.min(window.innerHeight - 110, prev.y)),
         };
       });
@@ -114,43 +125,43 @@ export function BlobiFloatingCompanion({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Autonomous Roaming / Wandering ("Gerak-gerak engga diem disini")
+  // Autonomous Roaming & Movement ("Gerak-gerak engga diem disini")
   useEffect(() => {
     if (isMinimized || isDragging) return;
 
-    // Periodically Blobi does a cute autonomous little hop / roam
+    // Periodically Blobi does a playful little hop and wanders around
     roamTimerRef.current = setInterval(() => {
-      // Don't hop if speech bubble is open or user is interacting
-      if (speech || isDragging) return;
+      // Don't wander while dragging
+      if (isDragging) return;
 
       setCoords((prev) => {
         if (!prev || typeof window === "undefined") return prev;
 
-        // Choose a random small hop delta: -35px to +35px horizontally, -20px to +20px vertically
+        // Choose a random hop delta: -40px to +40px horizontally, -25px to +25px vertically
         const hopDirX = Math.random() > 0.5 ? 1 : -1;
-        const hopDistX = (20 + Math.random() * 25) * hopDirX;
+        const hopDistX = (15 + Math.random() * 30) * hopDirX;
         const hopDistY = (Math.random() - 0.5) * 30;
 
-        const newX = Math.max(20, Math.min(window.innerWidth - 95, prev.x + hopDistX));
-        const newY = Math.max(80, Math.min(window.innerHeight - 120, prev.y + hopDistY));
+        const newX = Math.max(16, Math.min(window.innerWidth - 95, prev.x + hopDistX));
+        const newY = Math.max(70, Math.min(window.innerHeight - 120, prev.y + hopDistY));
 
         setFacing(hopDirX > 0 ? 1 : -1);
-        setIsSquishing(true);
-        setTimeout(() => setIsSquishing(false), 600);
+        setIsHopping(true);
+        setTimeout(() => setIsHopping(false), 550);
 
-        // Randomly show an idle mood during wander
+        // Randomly show an expressive mood during roaming
         const wanderMoods: MascotMood[] = ["think", "wave", "proud", "idle"];
         const nextMood = wanderMoods[Math.floor(Math.random() * wanderMoods.length)];
         setMood(nextMood);
 
         return { x: newX, y: newY };
       });
-    }, 11000); // hops every 11 seconds
+    }, 7000); // hops every 7 seconds so Blobi is actively alive!
 
     return () => {
       if (roamTimerRef.current) clearInterval(roamTimerRef.current);
     };
-  }, [isMinimized, isDragging, speech]);
+  }, [isMinimized, isDragging]);
 
   // Periodic Idle Pestering Quips
   useEffect(() => {
@@ -161,9 +172,9 @@ export function BlobiFloatingCompanion({
         const randomQuip = BLOBO_IDLE_QUIPS[Math.floor(Math.random() * BLOBO_IDLE_QUIPS.length)]
           .replace("{streak}", String(streak));
         setMood("wave");
-        setSpeech(randomQuip);
+        showSpeech(randomQuip, 6500);
         if (sound) playMoodSfx("wave");
-      }, 14000); // 14s of inactivity
+      }, 12000); // 12s of inactivity
     }
 
     resetIdleTimer();
@@ -177,7 +188,7 @@ export function BlobiFloatingCompanion({
       window.removeEventListener("pointerdown", handleActivity);
       window.removeEventListener("keydown", handleActivity);
     };
-  }, [streak, sound, isDragging, isMinimized]);
+  }, [streak, sound, isDragging, isMinimized, showSpeech]);
 
   // Handle poking / clicking Blobi
   const handlePokeBlobi = useCallback(() => {
@@ -185,17 +196,18 @@ export function BlobiFloatingCompanion({
     setPokeIndex(nextIdx);
     const item = BLOBO_POKE_REACTIONS[nextIdx];
     setMood(item.mood);
-    setSpeech(item.text);
+    showSpeech(item.text, 6000);
     setIsSquishing(true);
     setTimeout(() => setIsSquishing(false), 500);
     if (sound) playMoodSfx(item.mood);
-  }, [pokeIndex, sound]);
+  }, [pokeIndex, sound, showSpeech]);
 
   // Drag Handlers
   const handlePointerDown = (e: React.PointerEvent) => {
-    // Only drag with primary mouse button / single touch
     if (e.button !== 0) return;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {}
 
     pointerStartRef.current = { x: e.clientX, y: e.clientY };
     blobiStartPosRef.current = coords || { x: 20, y: 500 };
@@ -226,8 +238,8 @@ export function BlobiFloatingCompanion({
       }
       lastPointerPosRef.current = { x: e.clientX, y: e.clientY, time: Date.now() };
 
-      const newX = Math.max(12, Math.min(window.innerWidth - 90, blobiStartPosRef.current.x + dx));
-      const newY = Math.max(50, Math.min(window.innerHeight - 100, blobiStartPosRef.current.y + dy));
+      const newX = Math.max(12, Math.min(window.innerWidth - 95, blobiStartPosRef.current.x + dx));
+      const newY = Math.max(50, Math.min(window.innerHeight - 105, blobiStartPosRef.current.y + dy));
       setCoords({ x: newX, y: newY });
     }
   };
@@ -244,7 +256,7 @@ export function BlobiFloatingCompanion({
       // It was a tap / poke!
       handlePokeBlobi();
     } else {
-      // It was a drag: squish slightly on drop & persist position
+      // It was a drag: squish slightly on landing & persist position
       setIsSquishing(true);
       setTimeout(() => setIsSquishing(false), 450);
       if (coords) {
@@ -257,11 +269,10 @@ export function BlobiFloatingCompanion({
     blobiStartPosRef.current = null;
   };
 
-  // If coords haven't initialized yet, position via fixed bottom-left fallback
   const currentX = coords ? coords.x : 20;
   const currentY = coords ? coords.y : 500;
 
-  // Determine smart speech bubble placement
+  // Determine smart speech bubble placement based on screen position
   const isRightSide = typeof window !== "undefined" && currentX > window.innerWidth - 280;
   const isTopSide = currentY < 200;
 
@@ -274,7 +285,7 @@ export function BlobiFloatingCompanion({
       className="fixed top-0 left-0 z-40 select-none touch-none"
     >
       {/* Speech Bubble */}
-      {speech && !isMinimized && (
+      {speech && !isMinimized && !isDragging && (
         <div
           className={`absolute max-w-[260px] p-3 rounded-2xl bg-white/95 backdrop-blur-xl border-2 border-ink-900 shadow-[4px_4px_0_#0D2340] animate-in fade-in zoom-in-95 duration-200 pointer-events-auto ${
             isTopSide
@@ -362,12 +373,18 @@ export function BlobiFloatingCompanion({
                 cursor: isDragging ? "grabbing" : "grab",
               }}
               className={`relative block transition-transform duration-150 ${
-                isSquishing ? "blobi-squishing" : !isDragging ? "blobi-anim-idle" : ""
+                isSquishing
+                  ? "blobi-squishing"
+                  : isHopping
+                  ? "blobi-hopping"
+                  : !isDragging
+                  ? "blobi-anim-idle"
+                  : ""
               }`}
               title="Tarik & geser Blobi ke mana saja! Atau klik untuk toel!"
             >
-              <div className="size-16 sm:size-20 drop-shadow-[0_8px_0_rgba(13,35,64,0.3)] filter transition-all">
-                <Mascot mood={mood} size={76} />
+              <div className="size-16 sm:size-20 drop-shadow-[0_8px_0_rgba(13,35,64,0.3)] filter transition-all pointer-events-none">
+                <Mascot mood={mood} size={76} interactive={false} />
               </div>
 
               {/* Tap badge ("Toel!") */}
@@ -415,7 +432,7 @@ export function BlobiFloatingCompanion({
               onClick={() => {
                 if (!hasMovedRef.current) {
                   setIsMinimized(false);
-                  setSpeech("Aku balik lagi nemenin kamu belajar! 🌟");
+                  showSpeech("Aku balik lagi nemenin kamu belajar! 🌟", 5000);
                 }
               }}
             >
@@ -457,7 +474,7 @@ export function BlobiLockedModal({
         {/* Mascot Header */}
         <div className="flex items-center gap-3.5 mb-3">
           <div className="size-16 shrink-0 -mt-2">
-            <Mascot mood="angry" size={64} />
+            <Mascot mood="angry" size={64} interactive={false} />
           </div>
           <div>
             <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-ruby-soft text-ruby font-black text-[10px] uppercase">

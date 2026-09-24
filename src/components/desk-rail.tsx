@@ -90,7 +90,7 @@ export function DeskRail() {
                 Selesaikan 1 blok pelajaran
               </span>
               <Badge variant="coin" size="sm">
-                +3 ★
+                +3 Koin
               </Badge>
             </div>
             <ProgressBar value={completedToday ? 1 : 0} max={1} size="sm" />
@@ -103,7 +103,7 @@ export function DeskRail() {
                 Raih 20 XP hari ini
               </span>
               <Badge variant="coin" size="sm">
-                +5 ★
+                +5 Koin
               </Badge>
             </div>
             <ProgressBar value={Math.min(20, xpToday)} max={20} size="sm" />
@@ -116,7 +116,7 @@ export function DeskRail() {
                 Baca 1 Kisah On-Chain
               </span>
               <Badge variant="coin" size="sm">
-                +4 ★
+                +4 Koin
               </Badge>
             </div>
             <ProgressBar value={storiesToday > 0 ? 1 : 0} max={1} size="sm" />
@@ -132,7 +132,7 @@ export function DeskRail() {
             Arena Mingguan
           </Badge>
           <Badge variant="coin" size="sm">
-            500 ★ Pool
+            500 Koin Pool
           </Badge>
         </div>
         <div>

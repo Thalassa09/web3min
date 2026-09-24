@@ -1,6 +1,6 @@
 import { Check, X } from "@/lib/kicon";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Lightbulb, BookOpen } from "lucide-react";
+import { Lightbulb, BookOpen, ArrowRight } from "lucide-react";
 import { Mascot } from "@/components/mascot";
 import type { Exercise, TipExercise } from "@/lib/curriculum";
 import { cn, shuffle } from "@/lib/utils";
@@ -151,7 +151,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
                 </span>
                 <div className="my-2 flex items-center justify-center gap-1.5 text-xs font-mono text-slate-600">
                   <span className="p-1 rounded bg-slate-100 border border-slate-200 text-[11px]">User</span>
-                  <span className="text-slate-400">➔</span>
+                  <ArrowRight className="size-3 text-slate-400 shrink-0" />
                   <span className="p-1 rounded bg-rose-50 border border-rose-200 font-bold text-rose-800 text-[11px]">Server Korporat</span>
                 </div>
                 <p className="text-[10.5px] text-slate-500 leading-snug">
@@ -166,7 +166,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
                 </span>
                 <div className="my-2 flex items-center justify-center gap-1.5 text-xs font-mono text-slate-600">
                   <span className="p-1 rounded bg-white border border-emerald-300 font-bold text-emerald-800 text-[11px]">Wallet</span>
-                  <span className="text-emerald-500">➔</span>
+                  <ArrowRight className="size-3 text-emerald-500 shrink-0" />
                   <span className="p-1 rounded bg-emerald-100 border border-emerald-300 font-bold text-emerald-900 text-[11px]">Smart Contract</span>
                 </div>
                 <p className="text-[10.5px] text-slate-600 leading-snug">
@@ -184,7 +184,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
                 className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 cursor-pointer"
               >
                 <span>Lihat Contoh Kasus & Poin Kunci</span>
-                <span>➔</span>
+                <ArrowRight className="size-3" />
               </button>
             </div>
           ) : null}

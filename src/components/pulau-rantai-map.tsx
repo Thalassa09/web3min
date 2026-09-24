@@ -128,7 +128,7 @@ export function PulauRantaiMap({
         if (ok) {
           playClaim();
           if (sound) playMoodSfx("celebrate");
-          showToast(`Peti terbuka! +${lesson.gems || 50} bintang 🌟`);
+          showToast(`Peti terbuka! +${lesson.gems || 50} koin`);
         } else {
           showToast("Peti ini sudah pernah dibuka.");
         }
@@ -140,7 +140,7 @@ export function PulauRantaiMap({
           playDeny();
           playMoodSfx("think");
         }
-        showToast("Peti ini masih terkunci! Selesaikan blok sebelumnya dulu. 🔒");
+        showToast("Peti ini masih terkunci! Selesaikan blok sebelumnya dulu.");
       }
       return;
     }
@@ -156,7 +156,7 @@ export function PulauRantaiMap({
         playDeny();
         playMoodSfx("angry");
       }
-      showToast("Modul masih terkunci! Selesaikan blok aktif terlebih dahulu. 🔒");
+      showToast("Modul masih terkunci! Selesaikan blok aktif terlebih dahulu.");
     }
   }
 
@@ -470,7 +470,7 @@ export function PulauRantaiMap({
                   {sheetLesson.lesson.title}
                 </h3>
                 <p className="text-xs font-semibold text-candy-600 font-pixel mt-0.5">
-                  {sheetLesson.status === "done" ? "Blok Selesai Ditambang! 🎉" : "Siap Ditambang Bersama Blobi! ⛏️"}
+                  {sheetLesson.status === "done" ? "Blok Selesai Ditambang!" : "Siap Ditambang Bersama Blobi!"}
                 </p>
               </div>
             </div>

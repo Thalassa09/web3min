@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Lock, KeyRound } from "lucide-react";
+import { ArrowRight, AlertTriangle } from "lucide-react";
 import { Mascot } from "@/components/mascot";
 import { loginAccount, validateUsername } from "@/lib/account";
 import { sanitizeUsername } from "@/lib/people";
@@ -54,7 +54,7 @@ function MasukPage() {
             <p className="text-xs font-bold text-choco-600 mt-0.5">
               {isTypingPassword ? (
                 <span className="text-candy-600 font-bold">
-                  🙈 Tenang, aku tutup mata... gak ngintip!
+                  Tenang, aku tutup mata... gak ngintip!
                 </span>
               ) : (
                 "Masukkan username & password kamu."
@@ -79,7 +79,7 @@ function MasukPage() {
                 setError(null);
               }}
               autoComplete="username"
-              className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+              className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_3px_0_#3B2218] outline-none transition-all"
               placeholder="contoh: satoshi atau blobi_fan"
               autoFocus
             />
@@ -103,14 +103,15 @@ function MasukPage() {
               onFocus={() => setIsTypingPassword(true)}
               onBlur={() => setIsTypingPassword(false)}
               autoComplete="current-password"
-              className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+              className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_3px_0_#3B2218] outline-none transition-all"
               placeholder="Masukkan password akun"
             />
           </div>
 
           {error && (
-            <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48]">
-              ⚠️ {error}
+            <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
+              <AlertTriangle className="size-4 text-rose-600 shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
@@ -118,9 +119,9 @@ function MasukPage() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full py-4 px-6 rounded-2xl bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-sm sm:text-base border-3 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
+              className="w-full py-4 px-6 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
             >
-              <span>{busy ? "Memeriksa Akun..." : "Masuk Sekarang 🚀"}</span>
+              <span>{busy ? "Memeriksa Akun..." : "Masuk Sekarang"}</span>
               <ArrowRight className="size-5" />
             </button>
           </div>

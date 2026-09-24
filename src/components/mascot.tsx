@@ -26,8 +26,8 @@ if (typeof window !== "undefined") {
 
 const PARTICLES: Partial<Record<MascotMood, { ch: string; className: string; delay: string }[]>> = {
   celebrate: [
-    { ch: "✦", className: "left-[10%] top-[12%] text-[0.55em] text-gold", delay: "0s" },
-    { ch: "✦", className: "right-[12%] top-[16%] text-[0.65em] text-blob", delay: "0.5s" },
+    { ch: "*", className: "left-[10%] top-[12%] text-[0.7em] text-gold font-black", delay: "0s" },
+    { ch: "*", className: "right-[12%] top-[16%] text-[0.8em] text-blob font-black", delay: "0.5s" },
   ],
   sad: [{ ch: "•", className: "left-[24%] top-[38%] text-[0.8em] font-bold text-candy-400", delay: "0.3s" }],
   angry: [
@@ -39,7 +39,7 @@ const PARTICLES: Partial<Record<MascotMood, { ch: string; className: string; del
     { ch: "Z", className: "right-[8%] top-[2%] text-[0.7em] font-black text-choco-600", delay: "0.8s" },
   ],
   think: [{ ch: "?", className: "right-[12%] top-[8%] text-[0.7em] font-black text-fg", delay: "0s" }],
-  proud: [{ ch: "✦", className: "right-[14%] top-[10%] text-[0.55em] text-gold", delay: "0.2s" }],
+  proud: [{ ch: "*", className: "right-[14%] top-[10%] text-[0.7em] text-gold font-black", delay: "0.2s" }],
 };
 
 type Props = {

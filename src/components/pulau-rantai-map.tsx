@@ -13,7 +13,6 @@ import { playTap, playClaim, playDeny, playMoodSfx } from "@/lib/audio";
 import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
 import { DailyQuests } from "@/components/daily-quests";
 import { Mascot } from "@/components/mascot";
-import { BlobiFloatingCompanion, BlobiLockedModal } from "@/components/blobi-guide";
 import { ChainBlock } from "@/components/ui/chain-block";
 import { Button } from "@/components/ui/button";
 
@@ -41,13 +40,6 @@ export function PulauRantaiMap({
   const [showQuestsModal, setShowQuestsModal] = useState(false);
 
   // Mascot interaction state
-  const [lockedWarn, setLockedWarn] = useState<{
-    lesson: Lesson;
-    unit: Unit;
-    x: number;
-    y: number;
-  } | null>(null);
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   const showToast = (msg: string) => {
@@ -148,7 +140,7 @@ export function PulauRantaiMap({
           playDeny();
           playMoodSfx("think");
         }
-        setLockedWarn({ lesson, unit, x, y });
+        showToast("Peti ini masih terkunci! Selesaikan blok sebelumnya dulu. 🔒");
       }
       return;
     }
@@ -163,7 +155,7 @@ export function PulauRantaiMap({
         playDeny();
         playMoodSfx("angry");
       }
-      setLockedWarn({ lesson, unit, x, y });
+      showToast("Modul masih terkunci! Selesaikan blok aktif terlebih dahulu. 🔒");
     }
   }
 
@@ -445,9 +437,10 @@ export function PulauRantaiMap({
                               onClick={(e) => {
                                 e.stopPropagation();
                                 if (sound) playMoodSfx("celebrate");
-                                handleNodeClick(lesson, unit, status, x, y);
+                                playTap();
+                                startLesson(lesson.id);
                               }}
-                              title="Klik Blobi untuk tambang blok ini!"
+                              title="Mulai tambang blok ini bersama Blobi!"
                             >
                               <div className="size-14 sm:size-16 drop-shadow-[0_6px_0_rgba(59,34,24,0.35)]">
                                 <Mascot mood="wave" size={58} />
@@ -464,22 +457,6 @@ export function PulauRantaiMap({
           );
         })}
       </div>
-
-      {/* Floating Interactive Blobi Companion (Mengganggu & Mengarahkan User) */}
-      <BlobiFloatingCompanion
-        activeLesson={activeInfo?.lesson}
-        onStartActiveLesson={() => activeInfo && startLesson(activeInfo.lesson.id)}
-        onScrollToActive={scrollToActive}
-      />
-
-      {/* Blobi Locked Node Warning Modal */}
-      {lockedWarn && (
-        <BlobiLockedModal
-          warn={lockedWarn}
-          onDismiss={() => setLockedWarn(null)}
-          onScrollToActive={scrollToActive}
-        />
-      )}
 
       {/* Modal / Sheet for Block Details */}
       {sheetLesson && (

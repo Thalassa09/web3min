@@ -263,6 +263,18 @@ function ArcadeCandyComponentsShowcase() {
                 <Badge variant="level">LEVEL UP</Badge>
               </div>
             </div>
+
+            <div className="pt-4 border-t-2 border-choco-900/10">
+              <div className="text-xs font-pixel uppercase tracking-widest text-choco-600 mb-3">
+                STREAK BADGES BERWARNA (SHADCN CVA + TACTILE ARCADE)
+              </div>
+              <div className="flex flex-wrap items-center gap-4">
+                <StreakBadge length={7} frequency="daily" variant="colored" size="sm" subtitle="HARI AKTIF" />
+                <StreakBadge length={14} frequency="daily" variant="flame" size="default" subtitle="API BELAJAR" />
+                <StreakBadge length={30} frequency="daily" variant="glow" size="default" subtitle="LEGEND STREAK" />
+                <StreakBadge length={100} frequency="daily" variant="candy" size="sm" subtitle="MASTERY" />
+              </div>
+            </div>
           </CandyBox>
         </section>
 

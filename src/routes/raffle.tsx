@@ -14,7 +14,6 @@ import {
   HelpCircle,
   Plus,
   Minus,
-  Database,
   ExternalLink,
   Zap,
   Gem,
@@ -337,14 +336,6 @@ export function RafflePage() {
                 <HelpCircle className="h-3.5 w-3.5 text-choco-900" />
                 <span>Cara Kerja</span>
               </button>
-              <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-cream text-[11px] font-pixel font-bold text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
-                <Database className="h-3.5 w-3.5 text-mint" />
-                <span>
-                  {isDbConnected
-                    ? "Supabase Live"
-                    : "Simulasi Lokal"}
-                </span>
-              </div>
             </div>
           </div>
         </div>

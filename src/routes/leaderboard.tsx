@@ -12,7 +12,6 @@ import {
   ChevronRight,
   Gift,
   HelpCircle,
-  Database,
   ArrowRight,
   Crown,
   Coins,
@@ -166,10 +165,6 @@ function LeaderboardPage() {
               <Award className="h-4 w-4 text-candy-500" />
               Rincian Hadiah (1 s.d. 1.000)
             </button>
-            <div className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl border border-choco-900/20 bg-cream text-[11px] font-pixel font-bold text-choco-700">
-              <Database className="h-3.5 w-3.5 text-emerald-600" />
-              {isDbConnected ? "Tersinkron Database Supabase" : isDbLoading ? "Menghubungkan DB..." : "Mode Offline"}
-            </div>
           </div>
         </div>
       </div>

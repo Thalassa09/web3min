@@ -163,7 +163,7 @@ export function renderWebManifest(hostHeader) {
     {
       name: name || DEFAULT_APP_NAME,
       short_name: "web3min",
-      description: "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. Santai, berjenjang, bahasa orang.",
+      description: "Platform edukasi dan simulasi Web3 interaktif.",
       id: "/",
       start_url: "/",
       scope: "/",

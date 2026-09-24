@@ -1,7 +1,7 @@
 {
-  "name": "web3min — Belajar Web3 Santai, Berjenjang & Bahasa Orang",
+  "name": "web3min",
   "short_name": "web3min",
-  "description": "Kursus interaktif Web3 bergaya Duolingo dalam bahasa Indonesia. Santai, berjenjang, bahasa orang. Pahami crypto, wallet, DeFi, dan smart contract dari nol.",
+  "description": "Platform edukasi dan simulasi Web3 interaktif.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFF6EE",

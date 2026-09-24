@@ -110,7 +110,7 @@ export function SideNav() {
         </div>
 
         {/* Navigation Item List — active = pink capsule, idle = round tactile buttons */}
-        <ul className="m-0 flex list-none flex-col gap-3.5 p-0">
+        <ul className="m-0 flex list-none flex-col gap-4 p-0">
           {NAV_ITEMS.map((item) => {
             const active = navActive(pathname, item.to);
             const Icon = item.icon;
@@ -204,21 +204,21 @@ function NavRow({
       to={to}
       aria-current={active ? "page" : undefined}
       onClick={onNavigate}
-      className="group grid w-max grid-cols-[2.75rem_8.75rem_auto] items-center gap-x-2"
+      className="group inline-flex w-max max-w-full items-center gap-3"
     >
       {active ? (
-        <span className="col-span-2 inline-flex w-full items-center gap-2 rounded-full border-b-[3px] border-[#9E1848] bg-gradient-to-b from-[#FF7AAB] via-[#E8437F] to-[#D4266A] py-1 pl-1 pr-3.5 text-white shadow-[0_4px_0_#9E1848] transition-all active:translate-y-[3px] active:border-b-0 active:shadow-none">
-          <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 border-white/80 bg-white/15">
+        <span className="inline-flex items-center gap-2 rounded-full border-b-[4px] border-[#C2185B] bg-gradient-to-b from-[#FF6FA3] to-[#E8437F] py-1.5 pl-1.5 pr-5 text-white shadow-[0_6px_14px_-6px_rgba(232,67,127,0.65)] transition-all active:translate-y-[3px] active:border-b-0 active:shadow-none">
+          <span className="grid size-8 place-items-center rounded-full bg-white text-[#E8437F]">
             {icon}
           </span>
-          <span className="truncate font-display text-[15px] font-extrabold tracking-[-0.02em]">{label}</span>
+          <span className="font-display text-[15px] font-extrabold tracking-[-0.02em]">{label}</span>
         </span>
       ) : (
         <>
-          <span className="grid size-11 place-items-center rounded-full border-2 border-choco-900 bg-gradient-to-b from-white to-[#F3EBE3] text-choco-900 shadow-[0_3px_0_#3B2218] transition-all group-hover:brightness-105 group-active:translate-y-[2px] group-active:shadow-[0_1px_0_#3B2218]">
+          <span className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-choco-900 bg-gradient-to-b from-white to-[#F6EFE8] text-choco-900 shadow-[0_3px_0_#3B2218] transition-all group-hover:brightness-105 group-active:translate-y-[2px] group-active:shadow-[0_1px_0_#3B2218]">
             {icon}
           </span>
-          <span className="truncate font-display text-[15px] font-bold tracking-[-0.02em] text-choco-900">
+          <span className="font-display text-[15px] font-bold tracking-[-0.02em] text-choco-900">
             {label}
           </span>
         </>
@@ -226,17 +226,15 @@ function NavRow({
       {badge ? (
         <span
           className={cn(
-            "justify-self-start rounded-full border-2 px-2 py-0.5 text-[10px] font-extrabold leading-none",
+            "shrink-0 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-extrabold leading-none",
             badgeTone === "amber"
-              ? "border-[#C8940C] bg-gradient-to-b from-[#FFF6C8] to-[#FFE38A] text-[#8A5A00] shadow-[0_2px_0_#C8940C]"
-              : "border-[#E8437F] bg-gradient-to-b from-[#FFE4EE] to-[#FFC2D6] text-[#B01F62] shadow-[0_2px_0_#E8437F]",
+              ? "border-[#E0B84A] bg-[#FFF6D8] text-[#C48A00] shadow-[0_2px_0_#E0B84A]"
+              : "border-[#F3A8C4] bg-[#FFF0F6] text-[#E8437F] shadow-[0_2px_0_#F3A8C4]",
           )}
         >
           {badge}
         </span>
-      ) : (
-        <span aria-hidden="true" />
-      )}
+      ) : null}
     </Link>
   );
 }

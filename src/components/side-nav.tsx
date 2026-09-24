@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronRight, Ticket, X } from "lucide-react";
@@ -88,7 +88,7 @@ export function SideNav() {
       <nav
         aria-label="Menu Utama Web3min"
         className={cn(
-          "relative z-50 flex h-full w-[280px] max-w-[85vw] select-none flex-col overflow-y-auto border-r-2 border-choco-900/18 bg-gradient-to-b from-[#FFFDF8] via-[#FFF9F5] to-[#FDEEE4] p-5 shadow-[6px_0_24px_-4px_rgba(59,34,24,0.18)] backdrop-blur-2xl transition-transform duration-300 ease-out",
+          "relative z-50 flex h-full w-[300px] max-w-[85vw] select-none flex-col overflow-y-auto border-r-2 border-choco-900/10 bg-[#FFFDF8] p-5 shadow-[6px_0_24px_-4px_rgba(59,34,24,0.18)] transition-transform duration-300 ease-out",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -109,79 +109,44 @@ export function SideNav() {
           </button>
         </div>
 
-        {/* Navigation Item List */}
-        <ul className="m-0 flex list-none flex-col gap-2 p-0">
+        {/* Navigation Item List — active = pink capsule, idle = round tactile buttons */}
+        <ul className="m-0 flex list-none flex-col gap-3.5 p-0">
           {NAV_ITEMS.map((item) => {
             const active = navActive(pathname, item.to);
             const Icon = item.icon;
             return (
               <li key={item.to}>
-                <Link
+                <NavRow
                   to={item.to}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => {
+                  label={item.label}
+                  active={active}
+                  badge={item.badge}
+                  badgeTone="pink"
+                  onNavigate={() => {
                     if (sound) playTap();
                     close();
                   }}
-                  className={cn(
-                    "group flex items-center gap-3 rounded-2xl border-2 px-3.5 py-2.5 text-sm font-bold transition-all duration-120 ease-out active:scale-95 active:translate-y-0.5",
-                    active
-                      ? "border-candy-600/50 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.30)] translate-x-0.5"
-                      : "border-transparent text-choco-900/70 hover:border-choco-900/15 hover:bg-white/80 hover:text-choco-900",
-                  )}
-                >
-                  <div
-                    className={cn(
-                      "flex size-9 shrink-0 items-center justify-center rounded-xl border-2 transition-all",
-                      active
-                        ? "border-white/50 bg-white/20 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
-                        : "border-choco-900/15 bg-gradient-to-b from-white to-[#FFF9F5] text-choco-900 shadow-[0_2px_0_#3B2218,0_4px_8px_rgba(59,34,24,0.06)] group-hover:border-choco-900/30 group-hover:scale-105"
-                    )}
-                  >
-                    <Icon className="size-4.5 shrink-0" weight={active ? "fill" : "regular"} />
-                  </div>
-                  <span className="flex-1 truncate tracking-[-0.01em]">{item.label}</span>
-                  {item.badge && (
-                    <span className="rounded-full border border-candy-400/50 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] px-2.5 py-0.5 text-[10px] font-bold text-candy-700 shadow-[0_1.5px_0_#B01F62]">
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
+                  icon={
+                    <Icon className="size-5 shrink-0" weight={active ? "fill" : "regular"} />
+                  }
+                />
               </li>
             );
           })}
 
-          {/* Raffle NFT */}
           <li key="/raffle">
-            <Link
+            <NavRow
               to="/raffle"
-              aria-current={pathname === "/raffle" ? "page" : undefined}
-              onClick={() => {
+              label="Raffle NFT"
+              active={pathname === "/raffle"}
+              badge="NFT"
+              badgeTone="amber"
+              onNavigate={() => {
                 if (sound) playTap();
                 close();
               }}
-              className={cn(
-                "group flex items-center gap-3 rounded-2xl border-2 px-3.5 py-2.5 text-sm font-bold transition-all duration-120 ease-out active:scale-95 active:translate-y-0.5",
-                pathname === "/raffle"
-                  ? "border-amber-500/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 shadow-[0_4px_0_#C8940C,0_8px_16px_-2px_rgba(255,216,77,0.30)] translate-x-0.5"
-                  : "border-transparent text-choco-900/70 hover:border-choco-900/15 hover:bg-white/80 hover:text-choco-900"
-              )}
-            >
-              <div
-                className={cn(
-                  "flex size-9 shrink-0 items-center justify-center rounded-xl border-2 transition-all",
-                  pathname === "/raffle"
-                    ? "border-white/60 bg-white/40 text-choco-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]"
-                    : "border-choco-900/15 bg-gradient-to-b from-white to-[#FFF9F5] text-choco-900 shadow-[0_2px_0_#3B2218,0_4px_8px_rgba(59,34,24,0.06)] group-hover:border-choco-900/30 group-hover:scale-105"
-                )}
-              >
-                <Ticket className="size-4.5 shrink-0" />
-              </div>
-              <span className="flex-1 truncate tracking-[-0.01em]">Raffle NFT</span>
-              <span className="rounded-full border border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] px-2.5 py-0.5 text-[10px] font-bold text-amber-900 shadow-[0_1.5px_0_#D97706]">
-                NFT
-              </span>
-            </Link>
+              icon={<Ticket className="size-5 shrink-0" />}
+            />
           </li>
         </ul>
 
@@ -214,5 +179,62 @@ export function SideNav() {
       </nav>
     </div>,
     document.body
+  );
+}
+
+function NavRow({
+  to,
+  label,
+  active,
+  badge,
+  badgeTone = "pink",
+  onNavigate,
+  icon,
+}: {
+  to: "/" | "/kisah" | "/leaderboard" | "/shop" | "/profile" | "/raffle";
+  label: string;
+  active: boolean;
+  badge?: string;
+  badgeTone?: "pink" | "amber";
+  onNavigate: () => void;
+  icon: ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      aria-current={active ? "page" : undefined}
+      onClick={onNavigate}
+      className="group flex w-full items-center gap-3"
+    >
+      {active ? (
+        <span className="inline-flex items-center gap-2.5 rounded-full border-b-[3px] border-[#9E1848] bg-gradient-to-b from-[#FF7AAB] via-[#E8437F] to-[#D4266A] py-1.5 pl-1.5 pr-5 text-white shadow-[0_5px_0_#9E1848,0_10px_18px_-6px_rgba(232,67,127,0.55)] transition-all active:translate-y-[3px] active:border-b-0 active:shadow-[0_1px_0_#9E1848]">
+          <span className="grid size-9 place-items-center rounded-full border-2 border-white/80 bg-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+            {icon}
+          </span>
+          <span className="font-display text-[15px] font-extrabold tracking-[-0.02em]">{label}</span>
+        </span>
+      ) : (
+        <>
+          <span className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-choco-900 bg-gradient-to-b from-white to-[#F3EBE3] text-choco-900 shadow-[0_3px_0_#3B2218] transition-all group-hover:brightness-105 group-active:translate-y-[2px] group-active:shadow-[0_1px_0_#3B2218]">
+            {icon}
+          </span>
+          <span className="font-display text-[15px] font-bold tracking-[-0.02em] text-choco-900">
+            {label}
+          </span>
+        </>
+      )}
+      {badge ? (
+        <span
+          className={cn(
+            "ml-auto shrink-0 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-extrabold",
+            badgeTone === "amber"
+              ? "border-[#C8940C] bg-gradient-to-b from-[#FFF6C8] to-[#FFE38A] text-[#8A5A00] shadow-[0_2px_0_#C8940C]"
+              : "border-[#E8437F] bg-gradient-to-b from-[#FFE4EE] to-[#FFC2D6] text-[#B01F62] shadow-[0_2px_0_#E8437F]",
+          )}
+        >
+          {badge}
+        </span>
+      ) : null}
+    </Link>
   );
 }

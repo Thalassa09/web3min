@@ -51,6 +51,7 @@ export function BlobiFloatingCompanion({
 }) {
   const streak = useProgress((s) => s.streak);
   const sound = useProgress((s) => s.sound);
+  const coachActive = useProgress((s) => !s.coachSeen && s.completed.length === 0);
 
   const [mood, setMood] = useState<MascotMood>("idle");
   const [speech, setSpeech] = useState<string | null>(null);
@@ -59,6 +60,7 @@ export function BlobiFloatingCompanion({
 
   // Position, Physics & Dragging State
   const [coords, setCoords] = useState<{ x: number; y: number } | null>(null);
+  const homePosRef = useRef<{ x: number; y: number } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragTilt, setDragTilt] = useState(0);
   const [facing, setFacing] = useState<1 | -1>(1); // 1 = right, -1 = left
@@ -93,10 +95,12 @@ export function BlobiFloatingCompanion({
       try {
         const parsed = JSON.parse(saved);
         if (typeof parsed.x === "number" && typeof parsed.y === "number") {
-          setCoords({
+          const pt = {
             x: clamp(parsed.x, 16, window.innerWidth - 95),
             y: clamp(parsed.y, 60, window.innerHeight - 110),
-          });
+          };
+          setCoords(pt);
+          homePosRef.current = pt;
           return;
         }
       } catch {}
@@ -104,10 +108,12 @@ export function BlobiFloatingCompanion({
 
     // Default smart anchor: bottom-left
     const isDesktop = window.innerWidth >= 1024;
-    setCoords({
+    const def = {
       x: isDesktop ? 270 : 20,
       y: window.innerHeight - (isDesktop ? 130 : 160),
-    });
+    };
+    setCoords(def);
+    homePosRef.current = def;
   }, []);
 
   // Auto-clamp on window resize
@@ -129,21 +135,22 @@ export function BlobiFloatingCompanion({
   useEffect(() => {
     if (isMinimized || isDragging) return;
 
-    // Periodically Blobi does a playful little hop and wanders around
+    // Periodically Blobi does a playful little hop and wanders around its home spot
     roamTimerRef.current = setInterval(() => {
       // Don't wander while dragging
       if (isDragging) return;
 
       setCoords((prev) => {
         if (!prev || typeof window === "undefined") return prev;
+        const home = homePosRef.current || prev;
 
-        // Choose a random hop delta: -40px to +40px horizontally, -25px to +25px vertically
+        // Choose a random hop delta around home position (+/- 35px X, +/- 25px Y)
         const hopDirX = Math.random() > 0.5 ? 1 : -1;
-        const hopDistX = (15 + Math.random() * 30) * hopDirX;
+        const hopDistX = (10 + Math.random() * 25) * hopDirX;
         const hopDistY = (Math.random() - 0.5) * 30;
 
-        const newX = Math.max(16, Math.min(window.innerWidth - 95, prev.x + hopDistX));
-        const newY = Math.max(70, Math.min(window.innerHeight - 120, prev.y + hopDistY));
+        const newX = Math.max(16, Math.min(window.innerWidth - 95, home.x + hopDistX));
+        const newY = Math.max(70, Math.min(window.innerHeight - 120, home.y + hopDistY));
 
         setFacing(hopDirX > 0 ? 1 : -1);
         setIsHopping(true);
@@ -260,6 +267,7 @@ export function BlobiFloatingCompanion({
         setTimeout(() => setIsSquishing(false), 450);
         setCoords((curr) => {
           if (curr) {
+            homePosRef.current = curr;
             localStorage.setItem("web3min_blobi_coords", JSON.stringify(curr));
           }
           return curr;
@@ -275,6 +283,8 @@ export function BlobiFloatingCompanion({
     window.addEventListener("pointerup", onPointerUp);
     window.addEventListener("pointercancel", onPointerUp);
   };
+
+  if (coachActive) return null;
 
   const currentX = coords ? coords.x : 20;
   const currentY = coords ? coords.y : 500;
@@ -306,11 +316,11 @@ export function BlobiFloatingCompanion({
         >
           <button
             type="button"
-            className="absolute top-1.5 right-1.5 p-1 rounded-full text-ink-400 hover:text-ink-900 hover:bg-ink-100 cursor-pointer"
+            className="absolute top-1.5 right-1.5 size-6 flex items-center justify-center rounded-full text-ink-400 hover:text-ink-900 hover:bg-ink-100 cursor-pointer text-xs font-bold"
             onClick={() => setSpeech(null)}
             aria-label="Tutup pesan"
           >
-            <X className="size-3.5" />
+            ✕
           </button>
 
           <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-candy-deep mb-1">
@@ -419,26 +429,30 @@ export function BlobiFloatingCompanion({
             </button>
           </div>
         ) : (
-          /* Minimized pill: also draggable! */
+          /* Minimized pill: also draggable & tappable anywhere! */
           <div
+            role="button"
+            tabIndex={0}
             onPointerDown={handlePointerDown}
+            onClick={() => {
+              if (!hasMovedRef.current) {
+                setIsMinimized(false);
+                showSpeech("Aku balik lagi nemenin kamu belajar! 🌟", 5000);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setIsMinimized(false);
+                showSpeech("Aku balik lagi nemenin kamu belajar! 🌟", 5000);
+              }
+            }}
             style={{ cursor: isDragging ? "grabbing" : "grab" }}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_3px_0_#3B2218,0_6px_12px_rgba(59,34,24,0.14)] text-xs font-black text-candy-600 hover:scale-105 active:scale-95 transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_3px_0_#3B2218,0_6px_12px_rgba(59,34,24,0.14)] text-xs font-black text-candy-600 hover:scale-105 active:scale-95 transition-all cursor-pointer select-none touch-none"
             title="Klik untuk buka Blobi, atau geser posisi"
           >
             <span className="text-base pointer-events-none">🐣</span>
-            <button
-              type="button"
-              className="cursor-pointer"
-              onClick={() => {
-                if (!hasMovedRef.current) {
-                  setIsMinimized(false);
-                  showSpeech("Aku balik lagi nemenin kamu belajar! 🌟", 5000);
-                }
-              }}
-            >
-              Blobi
-            </button>
+            <span className="pointer-events-none">Blobi</span>
           </div>
         )}
       </div>

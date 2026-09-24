@@ -174,7 +174,13 @@ export function CoachTour() {
 
   return createPortal(
     <div className="coach-root" role="dialog" aria-modal="true" aria-labelledby={titleId}>
-      <div className="coach-catch" />
+      <div
+        className="coach-catch cursor-pointer"
+        onClick={() => completeGuide()}
+        role="button"
+        tabIndex={-1}
+        aria-label="Lewati petunjuk tur"
+      />
       {spot ? (
         <div
           className="coach-spot"

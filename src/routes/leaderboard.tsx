@@ -19,6 +19,8 @@ import {
   Star,
   Zap,
   Shield,
+  MapPin,
+  X,
 } from "lucide-react";
 import { CoinIcon } from "@/components/motif";
 import { useProgress } from "@/lib/store";
@@ -294,7 +296,7 @@ function LeaderboardPage() {
             <button
               onClick={handleClaim}
               disabled={isClaimedThisWeek}
-              className={`inline-flex items-center justify-center gap-2 rounded-2xl border-2 px-5 py-3 text-xs md:text-sm font-bold transition-transform ${
+              className={`inline-flex items-center justify-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs md:text-sm font-bold transition-transform ${
                 isClaimedThisWeek
                   ? "bg-stone-200 border-stone-300 text-stone-500 cursor-not-allowed shadow-none"
                   : "border-emerald-600/60 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] text-white shadow-[0_4px_0_#047857,0_8px_16px_-2px_rgba(16,185,129,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
@@ -303,7 +305,7 @@ function LeaderboardPage() {
               {isClaimedThisWeek ? (
                 <>
                   <CheckCircle2 className="h-4 w-4" />
-                  <span>Hadiah Diklaim ✓</span>
+                  <span>Hadiah Diklaim</span>
                 </>
               ) : (
                 <>
@@ -316,9 +318,9 @@ function LeaderboardPage() {
             <button
               onClick={scrollToUser}
               title="Lihat posisi saya di tabel"
-              className="p-3 rounded-2xl border-2 border-choco-900/20 bg-white hover:bg-candy-50 text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5"
+              className="size-11 rounded-full border-2 border-choco-900/20 bg-white hover:bg-candy-50 text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5 flex items-center justify-center cursor-pointer"
             >
-              📍
+              <MapPin className="size-4 text-choco-900" />
             </button>
           </div>
         </div>
@@ -532,16 +534,16 @@ function LeaderboardPage() {
                   <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                     <div className="w-10 sm:w-12 flex items-center justify-center shrink-0">
                       {isFirst ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-amber-400 font-black text-ink-900 shadow-[1px_1px_0_#2B1622]">
-                          👑 1
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-amber-400 font-black text-ink-900 shadow-[1px_1px_0_#2B1622] text-xs">
+                          1
                         </div>
                       ) : isSecond ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-slate-300 font-black text-ink-900 shadow-[1px_1px_0_#2B1622]">
-                          🥈 2
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-slate-300 font-black text-ink-900 shadow-[1px_1px_0_#2B1622] text-xs">
+                          2
                         </div>
                       ) : isThird ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-amber-600 text-white font-black shadow-[1px_1px_0_#2B1622]">
-                          🥉 3
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink-900 bg-amber-600 text-white font-black shadow-[1px_1px_0_#2B1622] text-xs">
+                          3
                         </div>
                       ) : (
                         <span className="text-xs sm:text-sm font-black text-ink-700">
@@ -550,7 +552,7 @@ function LeaderboardPage() {
                       )}
                     </div>
 
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-ink-900 bg-candy-200">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-ink-900 bg-candy-200">
                       <Mascot mood={p.avatarMood} size={32} className="h-8 w-8" />
                     </div>
 
@@ -560,13 +562,13 @@ function LeaderboardPage() {
                           @{p.name}
                         </span>
                         {p.isCurrentUser && (
-                          <span className="rounded bg-candy-400 px-1 py-0.2 text-[9px] font-black uppercase text-ink-900 border border-ink-900 shrink-0">
+                          <span className="rounded-full bg-candy-400 px-2 py-0.5 text-[9px] font-black uppercase text-ink-900 border border-ink-900 shrink-0">
                             Kamu
                           </span>
                         )}
                       </div>
                       <div className="text-[10px] text-ink-500 font-bold block sm:hidden">
-                        {p.weeklyXp} XP • {p.streak}🔥
+                        {p.weeklyXp} XP • {p.streak} Hari
                       </div>
                     </div>
                   </div>
@@ -639,7 +641,7 @@ function LeaderboardPage() {
                 className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
                 aria-label="Tutup"
               >
-                ✕
+                <X className="size-4" />
               </button>
             </div>
 

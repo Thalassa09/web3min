@@ -834,9 +834,9 @@ export function AdminRaffleModal({
                   onChange={(e) => setStatus(e.target.value as AdminRaffleData["status"])}
                   className="w-full px-2.5 py-2 rounded-xl bg-white border-2 border-choco-900 text-xs font-bold shadow-[0_1.5px_0_#3B2218] cursor-pointer"
                 >
-                  <option value="live">🟢 Live Aktif</option>
-                  <option value="upcoming">🟡 Segera Datang</option>
-                  <option value="ended">⚪ Selesai / Riwayat</option>
+                  <option value="live">Live Aktif</option>
+                  <option value="upcoming">Segera Datang</option>
+                  <option value="ended">Selesai / Riwayat</option>
                 </select>
               </div>
 
@@ -879,7 +879,7 @@ export function AdminRaffleModal({
                     <option value="Optimism">Optimism</option>
                     <option value="Polygon">Polygon</option>
                     <option value="Solana">Solana</option>
-                    <option value="custom">✍️ Tulis Kustom...</option>
+                    <option value="custom">Tulis Kustom...</option>
                   </select>
                 ) : (
                   <div className="flex items-center gap-1">

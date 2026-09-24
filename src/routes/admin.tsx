@@ -25,6 +25,10 @@ import {
   Palette,
   Layers,
   ArrowRight,
+  Users,
+  MessageSquare,
+  AtSign,
+  X,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import {
@@ -39,8 +43,10 @@ import {
   rpcAdminVerifyKey,
   rpcAdminUpsertRaffle,
   rpcAdminDeleteRaffle,
+  rpcAdminGetRaffleEntries,
   type DbRaffleItem,
   type DbRaffleStats,
+  type DbRaffleEntryParticipant,
 } from "@/lib/server-sync";
 import { INITIAL_RAFFLES } from "@/lib/raffles";
 import { CandyLoader } from "@/components/ui/progress-bar";
@@ -125,6 +131,7 @@ export function AdminPage() {
   const [showRaffleModal, setShowRaffleModal] = React.useState(false);
   const [editingRaffle, setEditingRaffle] = React.useState<AdminRaffleData | null>(null);
   const [deletingRaffle, setDeletingRaffle] = React.useState<DbRaffleItem | null>(null);
+  const [viewingParticipantsRaffle, setViewingParticipantsRaffle] = React.useState<DbRaffleItem | null>(null);
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isSeedingArtwork, setIsSeedingArtwork] = React.useState(false);
   const [toastMsg, setToastMsg] = React.useState<string | null>(null);
@@ -185,7 +192,7 @@ export function AdminPage() {
           JSON.stringify({ key, authAt: Date.now() })
         );
         setAdminKey(key);
-        showToast("Login Admin Berhasil! 👑");
+        showToast("Login Admin Berhasil!");
         void refreshData();
       } else {
         setLoginError("Kunci admin salah! Akses ditolak.");
@@ -289,7 +296,7 @@ export function AdminPage() {
           updatedCount++;
         }
       }
-      showToast(`Berhasil menerapkan artwork ke ${updatedCount} undian! 🎨`);
+      showToast(`Berhasil menerapkan artwork ke ${updatedCount} undian!`);
       void refreshData();
     } catch {
       showToast("Gagal memperbarui beberapa artwork.");
@@ -460,10 +467,10 @@ export function AdminPage() {
           /* Authenticated Admin Dashboard */
           <div className="space-y-6">
             {/* Top Admin Header Bar */}
-            <div className="p-5 sm:p-6 rounded-[32px] bg-amber-300 border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="p-5 sm:p-6 rounded-[32px] bg-amber-300 border-2 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-3.5">
                 <div className="size-14 rounded-2xl bg-choco-900 text-amber-300 flex items-center justify-center font-bold text-2xl shadow-[0_3px_0_#3B2218]">
-                  👑
+                  <Crown className="size-7 text-amber-300" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -658,8 +665,8 @@ export function AdminPage() {
                 </div>
               ) : filteredRaffles.length === 0 ? (
                 <div className="p-8 rounded-2xl bg-white border-2 border-choco-900/30 text-center space-y-3">
-                  <div className="size-14 mx-auto rounded-2xl bg-amber-100 border-2 border-choco-900 flex items-center justify-center text-2xl shadow-[0_2px_0_#3B2218]">
-                    🔍
+                  <div className="size-14 mx-auto rounded-2xl bg-amber-100 border-2 border-choco-900 flex items-center justify-center text-choco-700 shadow-[0_2px_0_#3B2218]">
+                    <Search className="size-6 text-choco-700" />
                   </div>
                   <h4 className="font-pixel text-base font-bold text-choco-900">
                     Tidak ada undian yang cocok
@@ -730,10 +737,10 @@ export function AdminPage() {
                                 }`}
                               >
                                 {raffle.status === "live"
-                                  ? "🟢 LIVE"
+                                  ? "LIVE"
                                   : raffle.status === "upcoming"
-                                  ? "🟡 AKAN DATANG"
-                                  : "⚪ SELESAI"}
+                                  ? "AKAN DATANG"
+                                  : "SELESAI"}
                               </span>
                               <span className="px-2 py-0.5 rounded-full bg-candy-100 text-candy-800 font-pixel text-[9px] font-bold border border-choco-900">
                                 {raffle.category.toUpperCase()}
@@ -786,8 +793,17 @@ export function AdminPage() {
                           </div>
                         </div>
 
-                        {/* Actions (Tactile Edit & Safe Delete) */}
-                        <div className="flex items-center gap-2 pt-2 md:pt-0 border-t border-choco-900/10 md:border-0 justify-end shrink-0">
+                        {/* Actions (Tactile Edit, Peserta & Safe Delete) */}
+                        <div className="flex items-center gap-2 pt-2 md:pt-0 border-t border-choco-900/10 md:border-0 justify-end shrink-0 flex-wrap">
+                          <button
+                            type="button"
+                            onClick={() => setViewingParticipantsRaffle(raffle)}
+                            className="py-2 px-3 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                            title="Lihat daftar tiket dan kontak Discord / X peserta"
+                          >
+                            <Users className="size-3.5 text-purple-700" />
+                            <span>Peserta ({ticketsCount})</span>
+                          </button>
                           <button
                             type="button"
                             onClick={() => handleOpenEdit(raffle)}
@@ -825,7 +841,7 @@ export function AdminPage() {
             setEditingRaffle(null);
           }}
           onSaved={() => {
-            showToast("Data undian berhasil disimpan ke database! 🚀");
+            showToast("Data undian berhasil disimpan ke database!");
             void refreshData();
           }}
           initialData={editingRaffle}
@@ -843,6 +859,176 @@ export function AdminPage() {
           loading={isDeleting}
         />
       )}
+
+      {/* Admin View Participants Modal */}
+      {viewingParticipantsRaffle && adminKey && (
+        <AdminParticipantsModal
+          isOpen={Boolean(viewingParticipantsRaffle)}
+          onClose={() => setViewingParticipantsRaffle(null)}
+          raffle={viewingParticipantsRaffle}
+          adminKey={adminKey}
+        />
+      )}
     </AppShell>
+  );
+}
+
+function AdminParticipantsModal({
+  isOpen,
+  onClose,
+  raffle,
+  adminKey,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  raffle: DbRaffleItem;
+  adminKey: string;
+}) {
+  const [participants, setParticipants] = React.useState<DbRaffleEntryParticipant[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
+  }, [isOpen, onClose]);
+
+  React.useEffect(() => {
+    if (!isOpen || !raffle) return;
+    setLoading(true);
+    rpcAdminGetRaffleEntries(adminKey, raffle.id).then((res) => {
+      setParticipants(res);
+      setLoading(false);
+    });
+  }, [isOpen, raffle, adminKey]);
+
+  if (!isOpen) return null;
+
+  const totalTickets = participants.reduce((acc, p) => acc + (p.tickets || 0), 0);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150 overflow-y-auto"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-xl max-h-[90vh] flex flex-col rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="shrink-0 p-4 sm:p-5 border-b-2 border-choco-900/15 flex items-center justify-between bg-cream-50">
+          <div className="flex items-center gap-3">
+            <div className="size-10 rounded-2xl bg-purple-500 border-2 border-choco-900 text-white flex items-center justify-center shadow-[0_2px_0_#3B2218]">
+              <Users className="size-5" />
+            </div>
+            <div>
+              <span className="px-2 py-0.5 rounded-full bg-purple-100 border border-choco-900 font-pixel text-[9px] font-bold text-purple-800 uppercase">
+                Peserta & Kontak Undian
+              </span>
+              <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900 leading-tight truncate max-w-xs sm:max-w-sm">
+                {raffle.title}
+              </h3>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
+            aria-label="Tutup"
+          >
+            <X className="size-4.5 stroke-[2.5]" />
+          </button>
+        </div>
+
+        {/* Summary Bar */}
+        <div className="shrink-0 px-5 py-3 bg-white border-b-2 border-choco-900/10 flex items-center justify-between text-xs font-pixel">
+          <span className="text-choco-600 font-bold">
+            Total Peserta: <strong className="text-choco-900">{participants.length}</strong> Orang
+          </span>
+          <span className="text-amber-800 font-bold">
+            Total Tiket: <strong className="text-amber-900">{totalTickets}</strong> Tiket
+          </span>
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 tactile-scrollbar">
+          {loading ? (
+            <div className="p-8 flex flex-col items-center justify-center">
+              <CandyLoader size="md" label="MEMUAT DAFTAR PESERTA..." />
+            </div>
+          ) : participants.length === 0 ? (
+            <div className="p-8 rounded-2xl bg-white border-2 border-choco-900/20 text-center space-y-2">
+              <div className="size-12 mx-auto rounded-2xl bg-stone-100 border border-choco-900/30 flex items-center justify-center text-xl">
+                🎟️
+              </div>
+              <h4 className="font-pixel text-sm font-bold text-choco-900">
+                Belum Ada Peserta
+              </h4>
+              <p className="text-xs text-choco-600 max-w-xs mx-auto">
+                Belum ada tiket yang dipasang untuk undian ini. Kontak Discord dan X akan muncul di sini saat user mendaftar.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-2.5">
+              {participants.map((p, idx) => (
+                <div
+                  key={`${p.user_id}-${idx}`}
+                  className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="size-5 rounded-full bg-choco-900 text-cream font-pixel text-[10px] flex items-center justify-center font-bold">
+                        {idx + 1}
+                      </span>
+                      <span className="font-pixel text-xs font-bold text-choco-900">
+                        @{p.username || "pelajar"}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-amber-100 border border-choco-900 text-amber-900 font-pixel text-[9px] font-bold">
+                        {p.tickets} Tiket
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3 text-xs flex-wrap pt-0.5">
+                      {/* Discord */}
+                      <span className="inline-flex items-center gap-1 font-mono text-[11px] text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200">
+                        <MessageSquare className="size-3 text-indigo-500" />
+                        <strong>Discord:</strong> {p.discord || "-"}
+                      </span>
+
+                      {/* X (Twitter) */}
+                      <span className="inline-flex items-center gap-1 font-mono text-[11px] text-sky-700 bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">
+                        <AtSign className="size-3 text-sky-500" />
+                        <strong>X:</strong> {p.x_handle ? (p.x_handle.startsWith("@") ? p.x_handle : `@${p.x_handle}`) : "-"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-[10px] text-choco-500 font-semibold text-right sm:text-left shrink-0">
+                    {p.entered_at ? new Date(p.entered_at).toLocaleDateString("id-ID") : ""}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="shrink-0 p-3.5 border-t-2 border-choco-900/15 bg-cream-50 flex items-center justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="py-2 px-5 rounded-full bg-choco-900 hover:bg-choco-800 text-cream font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

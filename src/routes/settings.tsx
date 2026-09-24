@@ -6,7 +6,7 @@ import { DuoButton } from "@/components/duo-button";
 import { sanitizeTwitter } from "@/lib/people";
 import { saveTwitterToServer, pingAndWakeDatabase, type DbPingResult } from "@/lib/server-sync";
 import { useProgress } from "@/lib/store";
-import { Database, Zap, RefreshCw, CheckCircle, AlertTriangle, ShieldCheck } from "lucide-react";
+import { Database, Zap, RefreshCw, CheckCircle, AlertTriangle, ShieldCheck, Lock, Trash2, Volume2, VolumeX, Sparkles, Gamepad2, Check } from "lucide-react";
 
 export const Route = createFileRoute("/settings")({ component: SettingsPage });
 
@@ -95,10 +95,10 @@ function SettingsPage() {
               type="button"
               onClick={checkDb}
               disabled={dbPingLoading}
-              className="py-2 px-4 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 active:shadow-none cursor-pointer flex items-center gap-1.5 transition-all"
+              className="py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 active:shadow-none cursor-pointer flex items-center gap-1.5 transition-all"
             >
               <Zap className={`size-3.5 ${dbPingLoading ? "animate-spin" : ""}`} />
-              <span>{dbPingLoading ? "Membangunkan Database..." : "⚡ Bangunkan & Ping Database"}</span>
+              <span>{dbPingLoading ? "Membangunkan Database..." : "Bangunkan & Ping Database"}</span>
             </button>
             <span className="text-[11px] font-mono text-choco-600">
               Host: oopfefvptezqonilpfkk
@@ -107,7 +107,7 @@ function SettingsPage() {
         </section>
 
         {/* X Account Section */}
-        <section className="mt-5 p-4 sm:p-5 rounded-3xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+        <section className="mt-5 p-4 sm:p-5 rounded-3xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
           <label className="block font-pixel text-xs font-bold text-choco-900 mb-1" htmlFor="tw">
             Username X (Twitter)
           </label>
@@ -117,7 +117,7 @@ function SettingsPage() {
               value={twDraft}
               onChange={(e) => setTwDraft(sanitizeTwitter(e.target.value))}
               placeholder="username tanpa @"
-              className="w-full h-12 px-4 rounded-xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none"
+              className="w-full h-12 px-4 rounded-2xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none"
               maxLength={15}
               autoCapitalize="off"
               autoCorrect="off"
@@ -137,19 +137,20 @@ function SettingsPage() {
               setSaved(true);
               window.setTimeout(() => setSaved(false), 4000);
             }}
-            className="mt-3 py-2 px-4 rounded-xl bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+            className="mt-3 py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
           >
             Simpan Akun X
           </button>
           {saved ? (
-            <p className="mt-2 text-xs font-bold text-emerald-700 bg-emerald-100 p-2 rounded-xl border border-emerald-400" role="status" aria-live="polite">
-              ✓ Perubahan akun X berhasil disimpan!
+            <p className="mt-2 text-xs font-bold text-emerald-700 bg-emerald-100 p-2.5 rounded-2xl border border-emerald-400 flex items-center gap-1.5" role="status" aria-live="polite">
+              <Check className="size-4 text-emerald-700 shrink-0" />
+              <span>Perubahan akun X berhasil disimpan!</span>
             </p>
           ) : null}
         </section>
 
         {/* Audio Setting */}
-        <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_3px_0_#3B2218] p-4">
+        <div className="mt-4 flex items-center justify-between gap-3 rounded-3xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] p-4 sm:p-5">
           <div>
             <p className="font-pixel text-xs font-bold text-choco-900">Efek Suara</p>
             <p className="text-xs font-semibold text-choco-600 mt-0.5">
@@ -159,18 +160,19 @@ function SettingsPage() {
           <button
             type="button"
             onClick={() => setSound(!sound)}
-            className={`py-2 px-4 rounded-xl font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all ${
+            className={`py-2 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all flex items-center gap-1.5 ${
               sound
                 ? "bg-candy-500 text-white"
                 : "bg-cream text-choco-700"
             }`}
           >
-            {sound ? "Aktif 🔊" : "Mute 🔇"}
+            {sound ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
+            <span>{sound ? "Aktif" : "Mute"}</span>
           </button>
         </div>
 
         {/* Motion Accessibility Setting */}
-        <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_3px_0_#3B2218] p-4">
+        <div className="mt-3 flex items-center justify-between gap-3 rounded-3xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] p-4 sm:p-5">
           <div>
             <p className="font-pixel text-xs font-bold text-choco-900">Kurangi Gerakan</p>
             <p className="text-xs font-semibold text-choco-600 mt-0.5">
@@ -180,7 +182,7 @@ function SettingsPage() {
           <button
             type="button"
             onClick={() => setReduceMotion(!reduceMotion)}
-            className={`py-2 px-4 rounded-xl font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all ${
+            className={`py-2 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all ${
               reduceMotion
                 ? "bg-candy-500 text-white"
                 : "bg-cream text-choco-700"
@@ -191,10 +193,10 @@ function SettingsPage() {
         </div>
 
         {/* Retro Pixel Mode Setting */}
-        <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_3px_0_#3B2218] p-4">
+        <div className="mt-3 flex items-center justify-between gap-3 rounded-3xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] p-4 sm:p-5">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-base select-none">{pixelMode ? "👾" : "✨"}</span>
+              <span className="text-choco-900 select-none">{pixelMode ? <Gamepad2 className="size-4 text-amber-500" /> : <Sparkles className="size-4 text-candy-500" />}</span>
               <p className="font-pixel text-xs font-bold text-choco-900">Mode Tipografi Retro Pixel</p>
             </div>
             <p className="text-xs font-semibold text-choco-600 mt-0.5">
@@ -204,13 +206,14 @@ function SettingsPage() {
           <button
             type="button"
             onClick={() => setPixelMode(!pixelMode)}
-            className={`py-2 px-4 rounded-xl font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0 ${
+            className={`py-2 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0 flex items-center gap-1.5 ${
               pixelMode
                 ? "bg-amber-400 text-choco-900"
                 : "bg-candy-500 text-white"
             }`}
           >
-            {pixelMode ? "🕹️ Pixel ON" : "✨ Modern"}
+            {pixelMode ? <Gamepad2 className="size-3.5" /> : <Sparkles className="size-3.5" />}
+            <span>{pixelMode ? "Pixel ON" : "Modern"}</span>
           </button>
         </div>
 
@@ -218,37 +221,38 @@ function SettingsPage() {
         <div className="mt-6 grid grid-cols-2 gap-3">
           <Link
             to="/cara"
-            className="p-3.5 rounded-2xl bg-white hover:bg-cream-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
+            className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Cara Main</span>
-            <span className="text-candy-600">→</span>
+            <span className="text-candy-600 font-bold">→</span>
           </Link>
           <Link
             to="/privacy"
-            className="p-3.5 rounded-2xl bg-white hover:bg-cream-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
+            className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Privasi Data</span>
-            <span className="text-candy-600">→</span>
+            <span className="text-candy-600 font-bold">→</span>
           </Link>
           <Link
             to="/about"
-            className="p-3.5 rounded-2xl bg-white hover:bg-cream-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
+            className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Tentang Web3min</span>
-            <span className="text-candy-600">→</span>
+            <span className="text-candy-600 font-bold">→</span>
           </Link>
           <Link
             to="/profile"
-            className="p-3.5 rounded-2xl bg-white hover:bg-cream-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
+            className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Profil Petualang</span>
-            <span className="text-candy-600">→</span>
+            <span className="text-candy-600 font-bold">→</span>
           </Link>
         </div>
 
         {/* Privacy Note */}
-        <div className="mt-6 p-4 rounded-2xl bg-cream border-2 border-choco-900/30 text-xs font-semibold text-choco-600 leading-relaxed">
-          🔒 Data progres tersimpan di perangkat ini (local storage) & disinkronkan ke Supabase. Tidak ada koneksi dompet riil. Web3min tidak pernah meminta seed phrase atau private key dompetmu.
+        <div className="mt-6 p-4 rounded-2xl bg-cream border-2 border-choco-900/30 text-xs font-semibold text-choco-600 leading-relaxed flex items-start gap-2.5">
+          <Lock className="size-4 text-choco-600 shrink-0 mt-0.5" />
+          <span>Data progres tersimpan di perangkat ini (local storage) & disinkronkan ke Supabase. Tidak ada koneksi dompet riil. Web3min tidak pernah meminta seed phrase atau private key dompetmu.</span>
         </div>
 
         {/* Reset Progress Action */}
@@ -256,9 +260,10 @@ function SettingsPage() {
           <button
             type="button"
             onClick={() => setConfirm(true)}
-            className="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-rose-50 text-rose-700 font-pixel font-bold text-xs border-2 border-rose-400 shadow-[0_2px_0_#E11D48] active:translate-y-0.5 cursor-pointer transition-all"
+            className="w-full py-3.5 px-5 rounded-full bg-white hover:bg-rose-50 text-rose-700 font-pixel font-bold text-xs border-2 border-rose-400 shadow-[0_3px_0_#E11D48] active:translate-y-0.5 cursor-pointer transition-all flex items-center justify-center gap-2"
           >
-            🗑️ Reset Seluruh Progres Belajar
+            <Trash2 className="size-4 text-rose-600" />
+            <span>Reset Seluruh Progres Belajar</span>
           </button>
         </div>
 
@@ -271,14 +276,14 @@ function SettingsPage() {
           <div className="mt-4 flex gap-2">
             <button
               type="button"
-              className="flex-1 py-2.5 px-4 rounded-xl bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+              className="flex-1 py-2.5 px-5 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
               onClick={() => setConfirm(false)}
             >
               Batal
             </button>
             <button
               type="button"
-              className="flex-1 py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+              className="flex-1 py-2.5 px-5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
               onClick={reset}
             >
               Ya, Reset

@@ -27,6 +27,7 @@ import {
   ArrowRight,
   Compass,
   Trophy,
+  Gamepad2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/bubble")({
@@ -50,7 +51,7 @@ function ArcadeCandyComponentsShowcase() {
         <header className="space-y-3 border-b-4 border-choco-900 pb-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-3xl animate-bounce">🍬</span>
+              <Sparkles className="size-8 text-candy-500 animate-bounce" />
               <h1 className="font-pixel text-2xl md:text-3xl uppercase tracking-wider text-choco-900">
                 ARCADE CANDY <span className="text-candy-500">: CHECKPOINT 1</span>
               </h1>
@@ -61,7 +62,7 @@ function ArcadeCandyComponentsShowcase() {
             </div>
           </div>
           <p className="text-choco-600 text-sm md:text-base font-bold">
-            Komponen Dasar (Step 2 Checkpoint): Gummy 3D Buttons, DNA CandyBox, Candy-Stripe ProgressBar, Lollipops & Badges, CoinToken ★, InvSlots, Section Titles & Toggles.
+            Komponen Dasar (Step 2 Checkpoint): Gummy 3D Buttons, DNA CandyBox, Candy-Stripe ProgressBar, Lollipops & Badges, CoinToken, InvSlots, Section Titles & Toggles.
           </p>
         </header>
 
@@ -82,7 +83,7 @@ function ArcadeCandyComponentsShowcase() {
                   onClick={() => setCoinCount((c) => c + 10)}
                   leftIcon={<Sparkles className="size-4" />}
                 >
-                  INSERT COIN ▶️ (+10 ★)
+                  INSERT COIN (+10)
                 </Button>
                 <Button variant="secondary" leftIcon={<Compass className="size-4" />}>
                   KEMBALI KE LOBBY
@@ -213,7 +214,7 @@ function ArcadeCandyComponentsShowcase() {
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs font-pixel uppercase tracking-wider text-choco-900">
                 <span>RANTAI TERVALIDASI (100% SELESAI)</span>
-                <span className="text-mint-deep font-bold">✓ PERFECT</span>
+                <span className="text-mint-deep font-bold">PERFECT</span>
               </div>
               <ProgressBar value={100} size="lg" showLabel />
             </div>
@@ -255,11 +256,11 @@ function ArcadeCandyComponentsShowcase() {
               <div className="flex flex-wrap items-center gap-3">
                 <Badge variant="brand">BRAND PINK</Badge>
                 <Badge variant="hash">#0x01 HASH</Badge>
-                <Badge variant="coin">★ +30 XP</Badge>
-                <Badge variant="streak">🔥 5 COMBO</Badge>
-                <Badge variant="mint">✓ DIPERBAIKI!</Badge>
-                <Badge variant="grape">⚡ GLITCH UNGU</Badge>
-                <Badge variant="danger">✗ RUSAK</Badge>
+                <Badge variant="coin">+30 XP</Badge>
+                <Badge variant="streak">5 COMBO</Badge>
+                <Badge variant="mint">DIPERBAIKI</Badge>
+                <Badge variant="grape">GLITCH UNGU</Badge>
+                <Badge variant="danger">RUSAK</Badge>
                 <Badge variant="level">LEVEL UP</Badge>
               </div>
             </div>
@@ -362,7 +363,7 @@ function ArcadeCandyComponentsShowcase() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xl select-none">{pixelMode ? "👾" : "✨"}</span>
+                  <span className="text-xl select-none">{pixelMode ? <Gamepad2 className="size-5 text-amber-500" /> : <Sparkles className="size-5 text-candy-500" />}</span>
                   <p className="font-display font-bold text-lg text-choco-900">
                     {pixelMode ? "Mode Aktif: Retro Pixel Arcade" : "Mode Aktif: Pristine Modern Editorial"}
                   </p>
@@ -378,7 +379,7 @@ function ArcadeCandyComponentsShowcase() {
                 onClick={() => setPixelMode(!pixelMode)}
                 className="shrink-0"
               >
-                {pixelMode ? "Ganti ke Pristine Modern ✨" : "Ganti ke Retro Pixel 👾"}
+                {pixelMode ? "Ganti ke Pristine Modern" : "Ganti ke Retro Pixel"}
               </Button>
             </div>
 

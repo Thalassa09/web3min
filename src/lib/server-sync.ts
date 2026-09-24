@@ -362,7 +362,12 @@ export async function rpcBuyTickets(count: number): Promise<boolean> {
   }
 }
 
-export async function rpcEnterRaffle(raffleId: string, tickets: number): Promise<boolean> {
+export async function rpcEnterRaffle(
+  raffleId: string,
+  tickets: number,
+  discord: string = "",
+  xHandle: string = ""
+): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
   const opKey = `raffle:${raffleId}`;
   if (!canExecuteOp(opKey, 1000)) return false;
@@ -374,12 +379,40 @@ export async function rpcEnterRaffle(raffleId: string, tickets: number): Promise
     const { error } = await supabase.rpc("enter_raffle", {
       p_raffle_id: raffleId,
       p_tickets: tickets,
+      p_discord: discord.trim(),
+      p_x_handle: xHandle.trim(),
     });
     return !error;
   } catch {
     return false;
   } finally {
     endOp(opKey);
+  }
+}
+
+export type DbRaffleEntryParticipant = {
+  user_id: string;
+  username: string;
+  tickets: number;
+  discord: string;
+  x_handle: string;
+  entered_at: string;
+};
+
+export async function rpcAdminGetRaffleEntries(
+  adminKey: string,
+  raffleId: string
+): Promise<DbRaffleEntryParticipant[]> {
+  if (!isSupabaseConfigured || !supabase) return [];
+  try {
+    const { data, error } = await supabase.rpc("admin_get_raffle_entries", {
+      p_key: adminKey,
+      p_raffle_id: raffleId,
+    });
+    if (error || !Array.isArray(data)) return [];
+    return data as DbRaffleEntryParticipant[];
+  } catch {
+    return [];
   }
 }
 

@@ -20,6 +20,7 @@ import {
   X,
   Share2,
   ChevronLeft,
+  Heart,
 } from "lucide-react";
 
 export function PulauRantaiProgres({
@@ -127,12 +128,12 @@ export function PulauRantaiProgres({
   }, [mode, selectedCol, weekDays, monthWeeks]);
 
   const copyRekapText = () => {
-    const text = `🏆 Rekap Penjelajah Web3min: @${username}
-🧱 Blok Selesai: ${completed.length} / 128 Blok (${Math.round((completed.length / 128) * 100)}%)
-⚡ Total XP: ${xp} XP · Minggu Ini: ${weeklyXp} XP
-🔥 Streak: ${streak} Hari Rantai
-⭐ Rute Tamat: ${unitsCompletedCount} / 20 Rute
-🎖️ Liga: ${league.name}
+    const text = `Rekap Penjelajah Web3min: @${username}
+Blok Selesai: ${completed.length} / 128 Blok (${Math.round((completed.length / 128) * 100)}%)
+Total XP: ${xp} XP · Minggu Ini: ${weeklyXp} XP
+Streak: ${streak} Hari Rantai
+Rute Tamat: ${unitsCompletedCount} / 20 Rute
+Liga: ${league.name}
 Belajar Web3 interaktif: https://web3min.vercel.app`;
 
     navigator.clipboard?.writeText(text).then(() => {
@@ -329,7 +330,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               </span>
             </div>
             <div className="text-[11px] font-bold text-choco-600 mt-auto pt-2 border-t border-choco-900/10 flex items-center justify-between">
-              <span>{streak > 0 ? "🔥 Rantai menyala!" : "Belum ada streak"}</span>
+              <span>{streak > 0 ? "Rantai menyala!" : "Belum ada streak"}</span>
               <span className="text-candy-600 font-extrabold">Pertahankan besok</span>
             </div>
           </div>
@@ -682,7 +683,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="font-bold text-sm text-choco-900">
-                    🌟 Seluruh Rute Pulau Rantai
+                    Seluruh Rute Pulau Rantai
                   </span>
                   <span className="text-xs font-sans font-bold tabular-nums text-candy-700 bg-candy-200 px-2.5 py-0.5 rounded-full border border-candy-300">
                     {completed.length}/128 Blok
@@ -734,7 +735,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
                             : "bg-gray-100 text-gray-600 border-gray-300"
                         }`}
                       >
-                        {isAllDone ? "Selesai ✓" : `${doneInUnit}/${nonChest.length} Blok`}
+                        {isAllDone ? "Selesai" : `${doneInUnit}/${nonChest.length} Blok`}
                       </span>
                     </div>
 
@@ -795,7 +796,10 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               </div>
               <div className="text-right">
                 <div className="text-xs font-bold text-choco-600">Nyawa</div>
-                <div className="text-sm font-bold text-choco-900 font-sans tabular-nums">{hearts}/5 ❤️</div>
+                <div className="text-sm font-bold text-choco-900 font-sans tabular-nums flex items-center justify-end gap-1">
+                  <span>{hearts}/5</span>
+                  <Heart className="size-3.5 text-danger fill-danger" />
+                </div>
               </div>
             </div>
 

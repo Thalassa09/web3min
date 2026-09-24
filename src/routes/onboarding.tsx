@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Clock, ShieldCheck, Gift, Check } from "lucide-react";
+import { ArrowRight, Clock, ShieldCheck, Gift, Check, Sparkles, AlertTriangle } from "lucide-react";
 import { TactileButton } from "@/components/ui/tactile-button";
 import { Box } from "@/components/ui/box";
 import { SectionMessage } from "@/components/ui/section-message";
@@ -192,9 +192,9 @@ function Onboarding() {
           <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-linear-to-b from-[#FFF0F5] to-[#FCE7F3] border-3 border-choco-900 shadow-[0_6px_0_#3B2218] rounded-3xl p-6 gap-4 relative overflow-hidden">
             {/* Decorative Arcade Top Badge */}
             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 hidden md:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-candy-500 border-2 border-choco-900 text-white font-pixel text-[9px] font-bold shadow-[0_2px_0_#3B2218]">
-              <span>✦</span>
+              <Sparkles className="size-2.5 text-white" />
               <span>BLOBI CO-PILOT</span>
-              <span>✦</span>
+              <Sparkles className="size-2.5 text-white" />
             </div>
 
             <div className="shrink-0 flex items-center justify-center size-24 md:size-40 md:mt-3">
@@ -215,12 +215,12 @@ function Onboarding() {
                 <p className="text-xs font-bold text-choco-800 leading-snug">
                   {isTypingPassword ? (
                     <span className="text-candy-600 font-bold">
-                      🙈 Tenang, aku tutup mata kok. Gak bakal ngintip!
+                      Tenang, aku tutup mata kok. Gak bakal ngintip!
                     </span>
                   ) : (
                     <>
-                      {step === 0 && "Teman belajarmu di dunia Web3! 🎒"}
-                      {step === 1 && (authMode === "register" ? "Ketik nama panggilan petualangmu di Web3min ✍️" : "Selamat datang kembali! Yuk masuk 🔑")}
+                      {step === 0 && "Teman belajarmu di dunia Web3!"}
+                      {step === 1 && (authMode === "register" ? "Ketik nama panggilan petualangmu di Web3min" : "Selamat datang kembali! Yuk masuk")}
                       {step === 2 && activeGoalConfig.quote}
                     </>
                   )}
@@ -236,7 +236,7 @@ function Onboarding() {
               <div className="space-y-6">
                 <div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lemon border-2 border-choco-900 text-choco-900 font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218] mb-2.5">
-                    🎮 ARCADE WEB3 SIMULATION
+                    ARCADE WEB3 SIMULATION
                   </span>
                   <h1 className="font-display font-black text-2xl sm:text-3xl lg:text-4xl text-choco-900 tracking-tight leading-tight">
                     Belajar Web3 dengan santai, 3 menit sehari.
@@ -248,15 +248,15 @@ function Onboarding() {
 
                 {/* 3 Core Highlights (Tactile 3D Retro Arcade Candy Pods) */}
                 <div className="space-y-3.5">
-                  <div className="flex items-center gap-4 rounded-2xl border-3 border-choco-900 bg-white hover:bg-amber-50/50 p-4 shadow-[0_5px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_7px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
-                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-amber-200 p-2 shadow-[0_3px_0_#3B2218] flex items-center justify-center">
+                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-amber-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-amber-200 p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
                       <img src="/props/book.png" alt="Modul Belajar" className="size-7 object-contain pixelated" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">20 Rute Pulau Rantai</span>
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-amber-300 text-choco-900 border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
-                          Santai ☕
+                          Santai
                         </span>
                       </div>
                       <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
@@ -265,15 +265,15 @@ function Onboarding() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 rounded-2xl border-3 border-choco-900 bg-white hover:bg-emerald-50/50 p-4 shadow-[0_5px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_7px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
-                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-emerald-200 p-2 shadow-[0_3px_0_#3B2218] flex items-center justify-center">
+                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-emerald-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-emerald-200 p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
                       <img src="/props/shield.png" alt="Simulasi Aman" className="size-7 object-contain pixelated" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">100% Simulasi Bebas Boncos</span>
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-emerald-400 text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
-                          Tanpa Modal 🛡️
+                          Tanpa Modal
                         </span>
                       </div>
                       <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
@@ -282,15 +282,15 @@ function Onboarding() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 rounded-2xl border-3 border-choco-900 bg-white hover:bg-pink-50/50 p-4 shadow-[0_5px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_7px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
-                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-candy-200 p-2 shadow-[0_3px_0_#3B2218] flex items-center justify-center">
+                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-pink-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-candy-200 p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
                       <img src="/props/star.png" alt="Hadiah & Bintang" className="size-7 object-contain pixelated" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">Bintang & Tiket Undian</span>
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-candy-500 text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
-                          Reward 🎁
+                          Reward
                         </span>
                       </div>
                       <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
@@ -304,7 +304,7 @@ function Onboarding() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="w-full py-4 px-6 rounded-2xl bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-sm sm:text-base border-3 border-choco-900 shadow-[0_6px_0_#3B2218] active:translate-y-1 active:shadow-[0_2px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
+                    className="w-full py-3.5 px-6 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
                   >
                     <span>Mulai Sekarang</span>
                     <ArrowRight className="size-5" />
@@ -440,8 +440,9 @@ function Onboarding() {
                   )}
 
                   {formError ? (
-                    <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48]">
-                      ⚠️ {formError}
+                    <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
+                      <AlertTriangle className="size-4 text-rose-600 shrink-0" />
+                      <span>{formError}</span>
                     </div>
                   ) : null}
 
@@ -488,14 +489,14 @@ function Onboarding() {
                           setStep(0);
                         }
                       }}
-                      className="py-3 px-5 rounded-2xl bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                      className="py-3 px-5 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
                     >
                       Kembali
                     </button>
                     <button
                       type="submit"
                       disabled={busy}
-                      className="flex-1 py-3 px-5 rounded-2xl bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-3 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
+                      className="flex-1 py-3 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
                     >
                       <span>
                         {busy
@@ -518,7 +519,7 @@ function Onboarding() {
               <div className="space-y-5">
                 <div>
                   <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-lemon border-2 border-choco-900 text-choco-900 font-pixel text-[9px] font-bold shadow-[0_1.5px_0_#3B2218] mb-1.5">
-                    🎯 KOMITMEN BELAJAR
+                    KOMITMEN BELAJAR
                   </span>
                   <h1 className="font-display font-black text-2xl sm:text-3xl text-choco-900 tracking-tight">
                     Tentukan Target Harianmu
@@ -536,15 +537,15 @@ function Onboarding() {
                         key={g.value}
                         type="button"
                         onClick={() => handleSelectGoal(g)}
-                        className={`p-4 rounded-2xl text-left border-3 transition-all cursor-pointer ${
+                        className={`p-4 rounded-3xl text-left border-2 transition-all cursor-pointer flex flex-col justify-between ${
                           isSelected
-                            ? "bg-candy-100 border-candy-600 shadow-[0_5px_0_#B01F62] scale-[1.02]"
-                            : "bg-white border-choco-900 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218]"
+                            ? "bg-candy-100 border-candy-600 shadow-[0_4px_0_#B01F62] scale-[1.02]"
+                            : "bg-white border-choco-900 shadow-[0_3px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_5px_0_#3B2218]"
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="size-8 rounded-xl bg-white border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_1.5px_0_#3B2218]">
+                            <span className="size-8 rounded-full bg-white border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_1.5px_0_#3B2218]">
                               <img
                                 src={`/mascot/${g.mood}.png`}
                                 alt=""
@@ -576,7 +577,7 @@ function Onboarding() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="py-3 px-5 rounded-2xl bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                    className="py-3 px-5 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
                   >
                     Kembali
                   </button>
@@ -584,9 +585,9 @@ function Onboarding() {
                     type="button"
                     onClick={() => void finish()}
                     disabled={busy}
-                    className="flex-1 py-3 px-5 rounded-2xl bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-3 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
+                    className="flex-1 py-3 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
                   >
-                    <span>{busy ? "Mendaftarkan…" : "Mulai Petualangan! 🚀"}</span>
+                    <span>{busy ? "Mendaftarkan…" : "Mulai Petualangan!"}</span>
                     <ArrowRight className="size-4" />
                   </button>
                 </div>

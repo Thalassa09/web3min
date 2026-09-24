@@ -24,6 +24,9 @@ import {
   Trash2,
   Lock,
   Shield,
+  MessageSquare,
+  AtSign,
+  X,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
@@ -131,6 +134,8 @@ export function RafflePage() {
     gems = 0,
     enterRaffle,
     buyRaffleTicketsWithGems,
+    twitter = "",
+    discord = "",
   } = useProgress();
 
   const [dbRaffles, setDbRaffles] = React.useState<DbRaffleItem[]>([]);
@@ -148,6 +153,8 @@ export function RafflePage() {
   const [buyAmount, setBuyAmount] = React.useState(1);
   const [enteringRaffle, setEnteringRaffle] = React.useState<UnifiedRaffle | null>(null);
   const [ticketToEnter, setTicketToEnter] = React.useState(1);
+  const [discordInput, setDiscordInput] = React.useState("");
+  const [xInput, setXInput] = React.useState("");
   const [showFaqModal, setShowFaqModal] = React.useState(false);
 
   // Admin Mode State
@@ -296,6 +303,8 @@ export function RafflePage() {
     }
     setEnteringRaffle(raffle);
     setTicketToEnter(1);
+    setDiscordInput(discord || "");
+    setXInput(twitter ? (twitter.startsWith("@") ? twitter : `@${twitter}`) : "");
   };
 
   const handleConfirmEnter = () => {
@@ -305,7 +314,7 @@ export function RafflePage() {
       showToast("Jumlah tiket kamu tidak mencukupi.");
       return;
     }
-    const ok = enterRaffle(enteringRaffle.id, ticketToEnter);
+    const ok = enterRaffle(enteringRaffle.id, ticketToEnter, discordInput, xInput);
     if (ok) {
       playClaim();
       showToast(
@@ -313,6 +322,7 @@ export function RafflePage() {
       );
       setEnteringRaffle(null);
       setTicketToEnter(1);
+      void refreshData();
     } else {
       playDeny();
       showToast("Gagal memasang tiket undian.");
@@ -529,10 +539,10 @@ export function RafflePage() {
 
         {/* Admin Control Banner (Mode Admin Aktif) */}
         {isAdmin && (
-          <div className="p-4 sm:p-5 rounded-3xl bg-amber-300 border-3 border-choco-900 shadow-[0_6px_0_#3B2218] text-choco-900 flex flex-col sm:flex-row items-center justify-between gap-3 animate-in fade-in duration-200">
+          <div className="p-4 sm:p-5 rounded-3xl bg-amber-300 border-2 border-choco-900 shadow-[0_6px_0_#3B2218] text-choco-900 flex flex-col sm:flex-row items-center justify-between gap-3 animate-in fade-in duration-200">
             <div className="flex items-center gap-3">
               <div className="size-11 rounded-2xl bg-choco-900 text-amber-300 flex items-center justify-center font-bold text-lg shadow-[0_2px_0_#3B2218]">
-                👑
+                <Crown className="size-5 text-amber-300" />
               </div>
               <div>
                 <span className="font-pixel text-[10px] uppercase font-bold text-choco-800 bg-amber-400/80 px-2 py-0.5 rounded-full border border-choco-900/30">
@@ -867,7 +877,7 @@ export function RafflePage() {
                   className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
                   aria-label="Tutup"
                 >
-                  ✕
+                  <X className="size-4" />
                 </button>
               </div>
 
@@ -1024,7 +1034,7 @@ export function RafflePage() {
                   className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
                   aria-label="Tutup"
                 >
-                  ✕
+                  <X className="size-4" />
                 </button>
               </div>
 
@@ -1139,6 +1149,55 @@ export function RafflePage() {
                     </div>
                   );
                 })()}
+
+                {/* Kolom Kontak Pemenang (Discord & X/Twitter - Opsional / Kosongkan bila tidak ada) */}
+                <div className="rounded-2xl border-2 border-choco-900/20 bg-white p-3.5 space-y-2.5 shadow-[0_2px_0_#3B2218]">
+                  <div className="flex items-center justify-between flex-wrap gap-1">
+                    <span className="font-pixel text-[11px] font-bold text-choco-900 uppercase flex items-center gap-1.5">
+                      <span>Kontak Pemenang</span>
+                      <span className="text-[9px] font-bold text-choco-600 bg-cream px-2 py-0.5 rounded-full border border-choco-900/30">
+                        Opsional
+                      </span>
+                    </span>
+                    <span className="text-[10px] text-choco-500 font-semibold italic">
+                      Kalau tidak ada, kosongkan
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div>
+                      <label className="block text-[10px] font-bold text-choco-800 uppercase font-pixel mb-1 flex items-center gap-1">
+                        <MessageSquare className="size-3 text-indigo-500" />
+                        <span>Nama Discord</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={discordInput}
+                        onChange={(e) => setDiscordInput(e.target.value)}
+                        placeholder="Contoh: blobi#1234 atau blobi"
+                        className="w-full px-3 py-2 rounded-xl bg-cream/30 border-2 border-choco-900/30 focus:border-choco-900 text-xs font-semibold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:ring-1 focus:ring-candy-500 transition-colors"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold text-choco-800 uppercase font-pixel mb-1 flex items-center gap-1">
+                        <AtSign className="size-3 text-sky-500" />
+                        <span>Akun X (Twitter)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={xInput}
+                        onChange={(e) => setXInput(e.target.value)}
+                        placeholder="Contoh: @blobi_web3"
+                        className="w-full px-3 py-2 rounded-xl bg-cream/30 border-2 border-choco-900/30 focus:border-choco-900 text-xs font-semibold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:ring-1 focus:ring-candy-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <p className="text-[10px] text-choco-500 font-medium leading-snug">
+                    Hubungi admin atau pemenang NFT lebih mudah. Jika akun belum ada, kolom ini boleh dikosongkan.
+                  </p>
+                </div>
               </div>
 
               <div className="flex items-center gap-3 pt-2">
@@ -1194,7 +1253,7 @@ export function RafflePage() {
                   className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
                   aria-label="Tutup"
                 >
-                  ✕
+                  <X className="size-4" />
                 </button>
               </div>
 
@@ -1270,7 +1329,7 @@ export function RafflePage() {
         onClose={() => setShowAdminLogin(false)}
         onSuccess={(key) => {
           setAdminKey(key);
-          showToast("Berhasil masuk sebagai Admin Undian! 👑");
+          showToast("Berhasil masuk sebagai Admin Undian!");
         }}
       />
 
@@ -1283,7 +1342,7 @@ export function RafflePage() {
             setEditingRaffle(null);
           }}
           onSaved={() => {
-            showToast("Katalog undian berhasil diperbarui! 🚀");
+            showToast("Katalog undian berhasil diperbarui!");
             void refreshData();
           }}
           initialData={editingRaffle}

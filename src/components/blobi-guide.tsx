@@ -20,24 +20,24 @@ interface BlobiGuideProps {
 }
 
 const BLOBO_IDLE_QUIPS = [
-  "Psst! Kok bengong aja? Yuk gas ke modul berikutnya! 🚀",
-  "Streak {streak} hari kamu nungguin nih! Jangan sampai padam ya! 🔥",
-  "Tau nggak? Kalo kelarin modul ini dapet +12 XP dan 2 Bintang! 🌟",
-  "Blobi laper nih... laper ilmu Web3! Ayo tambang blok baru! 😋",
-  "Tombol MULAI-nya udah kedip-kedip tuh, buruan diklik! 👉",
-  "Mau beli mahkota buat Blobi di Toko? Kumpulin bintang dulu di sini! 👑",
-  "Awas penipu! Di Web3 jangan pernah kasih seed phrase ke siapa pun ya! 🛡️",
-  "Ayo buruan mulai, peringkat kamu di Arena mingguan bisa disalip orang! 🏆",
-  "Tarik & geser aku ke mana aja! Blobi bisa jalan-jalan nemenin kamu! 🎈",
+  "Psst! Kok bengong aja? Yuk gas ke modul berikutnya!",
+  "Streak {streak} hari kamu nungguin nih! Jangan sampai padam ya!",
+  "Tau nggak? Kalo kelarin modul ini dapet +12 XP dan 2 Bintang!",
+  "Blobi laper nih... laper ilmu Web3! Ayo tambang blok baru!",
+  "Tombol MULAI-nya udah kedip-kedip tuh, buruan diklik!",
+  "Mau beli mahkota buat Blobi di Toko? Kumpulin bintang dulu di sini!",
+  "Awas penipu! Di Web3 jangan pernah kasih seed phrase ke siapa pun ya!",
+  "Ayo buruan mulai, peringkat kamu di Arena mingguan bisa disalip orang!",
+  "Tarik & geser aku ke mana aja! Blobi bisa jalan-jalan nemenin kamu!",
 ];
 
 const BLOBO_POKE_REACTIONS: { mood: MascotMood; text: string }[] = [
-  { mood: "wave", text: "Halo teman Web3! Siap belajar hal baru hari ini? 👋" },
-  { mood: "celebrate", text: "Yay! Semangat terus, perjalananmu di Pulau Rantai makin jauh! 🎉" },
-  { mood: "proud", text: "Blobi bangga sama kamu! Kamu udah makin ngerti blockchain! 😎" },
-  { mood: "think", text: "Hmm... tahu nggak bedanya Web2 sama Web3? Coba cek modulnya! 🤔" },
-  { mood: "angry", text: "Aduh geli! Jangan ditoel-toel mulu, mending kerjain kuisnya! 😤" },
-  { mood: "sleep", text: "Zzz... eh! Aku nggak tidur kok, lagi staking energi! 😴" },
+  { mood: "wave", text: "Halo teman Web3! Siap belajar hal baru hari ini?" },
+  { mood: "celebrate", text: "Yay! Semangat terus, perjalananmu di Pulau Rantai makin jauh!" },
+  { mood: "proud", text: "Blobi bangga sama kamu! Kamu udah makin ngerti blockchain!" },
+  { mood: "think", text: "Hmm... tahu nggak bedanya Web2 sama Web3? Coba cek modulnya!" },
+  { mood: "angry", text: "Aduh geli! Jangan ditoel-toel mulu, mending kerjain kuisnya!" },
+  { mood: "sleep", text: "Zzz... eh! Aku nggak tidur kok, lagi staking energi!" },
 ];
 
 export function BlobiFloatingCompanion({
@@ -329,7 +329,7 @@ export function BlobiFloatingCompanion({
               }}
               aria-label="Tutup pesan"
             >
-              ✕
+              <X className="size-3.5" />
             </button>
 
             <div className="flex items-center gap-1.5 text-[10px] font-pixel font-bold uppercase text-candy-600 mb-1">
@@ -391,7 +391,7 @@ export function BlobiFloatingCompanion({
 
                 {/* Drag indicator hint on hover */}
                 <span className="hidden group-hover:block absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded-md bg-choco-900 text-cream text-[9px] font-bold border border-choco-900 pointer-events-none shadow-xs">
-                  Geser aku! 👆
+                  Geser aku!
                 </span>
               </div>
 
@@ -418,21 +418,21 @@ export function BlobiFloatingCompanion({
               onClick={() => {
                 if (!hasMovedRef.current) {
                   setIsMinimized(false);
-                  showSpeech("Halo lagi! 👋", 3000);
+                  showSpeech("Halo lagi!", 3000);
                 }
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   setIsMinimized(false);
-                  showSpeech("Halo lagi! 👋", 3000);
+                  showSpeech("Halo lagi!", 3000);
                 }
               }}
               style={{ cursor: isDragging ? "grabbing" : "grab" }}
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] text-xs font-pixel font-bold text-candy-600 hover:scale-105 active:scale-95 transition-all cursor-pointer select-none touch-none"
               title="Klik untuk buka Blobi, atau geser posisi"
             >
-              <span className="text-base pointer-events-none">🐣</span>
+              <Sparkles className="size-3.5 text-candy-500 pointer-events-none" />
               <span className="pointer-events-none">Blobi</span>
             </div>
           )}
@@ -485,7 +485,7 @@ export function BlobiLockedModal({
               <span>Masih Digembok!</span>
             </div>
             <h4 className="font-pixel text-base font-bold text-choco-900 mt-1">
-              Eits, jangan curang! 😜
+              Eits, jangan curang!
             </h4>
           </div>
         </div>
@@ -493,7 +493,7 @@ export function BlobiLockedModal({
         {/* Message */}
         <p className="text-xs text-choco-800 font-semibold leading-relaxed mb-4 bg-white/80 p-3 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
           Modul <strong className="text-choco-900">"{warn.lesson.title}"</strong> di Rute {warn.unit.index} belum terbuka.
-          Kamu harus menyelesaikan modul bertanda bintang <strong className="text-candy-600">★ MULAI</strong> terlebih dahulu!
+          Kamu harus menyelesaikan modul bertanda <strong className="text-candy-600">MULAI</strong> terlebih dahulu!
         </p>
 
         {/* Action Buttons */}

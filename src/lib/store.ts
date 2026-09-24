@@ -46,6 +46,7 @@ export type ProgressState = {
   onboarded: boolean;
   username: string;
   twitter: string;
+  discord?: string;
   friends: string[];
   friendMeta: Record<string, FriendMeta>;
   bio: string;
@@ -81,7 +82,7 @@ export type ProgressState = {
   guideSeen: boolean;
   coachSeen: boolean;
   raffleTickets: number;
-  enteredRaffles: Record<string, { count: number; enteredAt: number }>;
+  enteredRaffles: Record<string, { count: number; enteredAt: number; discord?: string; xHandle?: string }>;
   lastClaimedLeaderboardWeek?: string;
 };
 
@@ -96,6 +97,7 @@ type Actions = {
   completeGuide: () => void;
   setUsername: (username: string) => void;
   setTwitter: (handle: string) => boolean;
+  setDiscord: (handle: string) => boolean;
   addFriend: (username: string, twitter?: string) => boolean;
   removeFriend: (username: string) => void;
   setBio: (bio: string) => void;
@@ -114,7 +116,7 @@ type Actions = {
   claimQuest: (id: string) => boolean;
   completeStory: (id: string) => { xp: number; gems: number } | null;
   completeCase: (id: string) => { xp: number; gems: number } | null;
-  enterRaffle: (raffleId: string, count: number) => boolean;
+  enterRaffle: (raffleId: string, count: number, discord?: string, xHandle?: string) => boolean;
   buyRaffleTicketsWithGems: (ticketAmount: number) => boolean;
   claimWeeklyLeaderboardReward: (weekKey: string, rank: number) => { success: boolean; coins: number };
   addRaffleTicket: (count?: number) => void;
@@ -128,6 +130,7 @@ const initial: ProgressState = {
   onboarded: false,
   username: "",
   twitter: "",
+  discord: "",
   friends: [],
   friendMeta: {},
   bio: "",
@@ -413,6 +416,11 @@ export const useProgress = create<ProgressState & Actions>()(
         set({ twitter: sanitizeTwitter(handle) });
         return true;
       },
+      setDiscord: (handle) => {
+        const clean = handle.trim().slice(0, 64);
+        set({ discord: clean });
+        return true;
+      },
       addFriend: (username, twitter) => {
         const s = get();
         const id = sanitizeUsername(username);
@@ -609,23 +617,30 @@ export const useProgress = create<ProgressState & Actions>()(
         });
         return awarded;
       },
-      enterRaffle: (raffleId, count) => {
+      enterRaffle: (raffleId, count, discord = "", xHandle = "") => {
         const s = get();
-        const raffle = INITIAL_RAFFLES.find((r) => r.id === raffleId);
-        if (!raffle) return false;
-        if (raffle.status !== "live" || raffle.endsAt <= Date.now()) return false;
         const qty = Math.trunc(count);
         if (!Number.isFinite(qty) || qty <= 0 || (s.raffleTickets ?? 0) < qty) return false;
-        const currentCount = s.enteredRaffles?.[raffleId]?.count ?? 0;
+        const currentEntry = s.enteredRaffles?.[raffleId];
+        const currentCount = currentEntry?.count ?? 0;
+        const cleanDiscord = discord.trim().slice(0, 64);
+        const cleanX = xHandle.trim().replace(/^@+/, "").slice(0, 64);
         set({
           raffleTickets: (s.raffleTickets ?? 0) - qty,
           enteredRaffles: {
             ...s.enteredRaffles,
-            [raffleId]: { count: currentCount + qty, enteredAt: Date.now() },
+            [raffleId]: {
+              count: currentCount + qty,
+              enteredAt: Date.now(),
+              discord: cleanDiscord || currentEntry?.discord || "",
+              xHandle: cleanX || currentEntry?.xHandle || "",
+            },
           },
+          ...(cleanDiscord ? { discord: cleanDiscord } : {}),
+          ...(cleanX ? { twitter: cleanX } : {}),
         });
         // Database sync in background
-        void rpcEnterRaffle(raffleId, qty);
+        void rpcEnterRaffle(raffleId, qty, cleanDiscord, cleanX);
         return true;
       },
       buyRaffleTicketsWithGems: (ticketAmount) => {

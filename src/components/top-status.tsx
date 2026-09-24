@@ -9,7 +9,7 @@ import { playTap, setAudioEnabled } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 const pillBase =
-  "relative flex h-8 sm:h-9 shrink-0 items-center gap-1 sm:gap-1.5 rounded-full border-2 border-choco-900 bg-cream px-2 sm:px-2.5 text-xs sm:text-sm font-black text-choco-900 shadow-[0_2px_0_#3B2218] transition-transform duration-100 ease-out active:scale-95 active:translate-y-0.5";
+  "relative flex h-8 sm:h-9 shrink-0 items-center gap-1 sm:gap-1.5 rounded-full border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] px-2 sm:px-2.5 text-xs sm:text-sm font-bold text-choco-900 shadow-[0_2.5px_0_#3B2218,0_4px_8px_rgba(59,34,24,0.06)] transition-all duration-100 ease-out active:scale-95 active:translate-y-0.5";
 
 function StatPill({
   value,

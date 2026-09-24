@@ -546,7 +546,7 @@ export function AdminRaffleModal({
         </div>
 
         {/* Modal Body (Scrollable, Unclipped) */}
-        <div className="flex-1 overflow-y-auto px-4 py-5 sm:p-6 space-y-5 overscroll-contain">
+        <div className="flex-1 overflow-y-auto px-4 py-5 sm:p-6 space-y-5 overscroll-contain tactile-scrollbar">
           {formError && (
             <div className="p-3.5 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-800 text-xs font-bold flex items-center gap-2 shadow-[0_2px_0_#991B1B]">
               <AlertTriangle className="size-4 shrink-0 text-rose-600" />

@@ -151,6 +151,24 @@ html {
   display: none;
 }
 
+.tactile-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 34, 24, 0.3) transparent;
+}
+.tactile-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.tactile-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tactile-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 34, 24, 0.25);
+  border-radius: 9999px;
+}
+.tactile-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 34, 24, 0.5);
+}
+
 .dark {
   --sidebar-ring: oklch(0.439 0 0);
 }

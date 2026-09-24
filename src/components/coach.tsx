@@ -223,14 +223,14 @@ export function CoachTour() {
         <div className="mt-4 flex items-center gap-2.5">
           <button
             type="button"
-            className="flex-1 py-3 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-display font-black text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer"
+            className="flex-1 py-3 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer"
             onClick={next}
           >
             {current.done}
           </button>
           <button
             type="button"
-            className="min-h-11 shrink-0 px-4 py-2.5 text-xs font-black text-choco-700 hover:text-choco-900 rounded-full border-2 border-choco-900 bg-white hover:bg-candy-50 shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer"
+            className="min-h-11 shrink-0 px-4 py-2.5 text-xs font-pixel font-bold text-choco-700 hover:text-choco-900 rounded-full border-2 border-choco-900 bg-white hover:bg-candy-50 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer"
             onClick={() => completeGuide()}
           >
             Lewati

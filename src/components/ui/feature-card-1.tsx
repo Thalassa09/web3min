@@ -94,9 +94,12 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
 
     const isEvidence =
       imageSrc.includes("/proof/") ||
+      imageSrc.includes("/cases/") ||
+      imageSrc.includes("/stories/") ||
       imageSrc.includes("/worlds/") ||
       imageSrc.endsWith(".jpg") ||
-      imageSrc.endsWith(".jpeg");
+      imageSrc.endsWith(".jpeg") ||
+      (imageSrc.endsWith(".png") && !imageSrc.includes("/props/"));
 
     return (
       <motion.div
@@ -141,19 +144,19 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
 
         {/* Central Asset / Proof Snapshot with Framer Motion Spring Zoom */}
         <motion.div
-          className="relative z-10 my-auto flex w-full items-center justify-center py-3"
+          className="relative z-10 my-auto flex w-full items-center justify-center py-2.5"
           variants={{
             initial: { scale: 1, y: 0 },
-            hover: { scale: 1.05, y: -6 },
+            hover: { scale: 1.05, y: -4 },
           }}
           transition={{ type: "spring", stiffness: 240, damping: 16 }}
         >
           {isEvidence ? (
-            <div className="relative w-full max-w-[270px] h-32 sm:h-36 overflow-hidden rounded-2xl border-2 border-choco-900 bg-white shadow-[0_4px_0_#3B2218] transition-transform duration-300">
+            <div className="relative w-full max-w-[270px] h-32 sm:h-36 overflow-hidden rounded-2xl border-2 border-choco-900 bg-choco-50 shadow-[0_4px_0_#3B2218] transition-transform duration-300">
               <img
                 src={imageSrc}
                 alt={imageAlt || tag}
-                className="w-full h-full object-cover object-top filter brightness-[0.98] group-hover:brightness-105 group-hover:scale-105 transition-all duration-300"
+                className="w-full h-full object-cover object-center filter brightness-[0.98] group-hover:brightness-105 group-hover:scale-105 transition-all duration-300"
                 loading="lazy"
                 onError={(e) => {
                   const target = e.currentTarget;

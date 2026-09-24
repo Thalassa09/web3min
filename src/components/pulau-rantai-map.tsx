@@ -181,10 +181,10 @@ export function PulauRantaiMap({
   }
 
   return (
-    <div className="relative w-full bg-ink-900 overflow-hidden min-h-[calc(100vh-4rem)]">
+    <div className="relative w-full bg-cream-50 overflow-hidden min-h-[calc(100vh-4rem)]">
       {/* Toast Notification */}
       <div
-        className={`toast fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-ink-900 text-white px-4 py-2.5 rounded-2xl text-xs font-bold transition-all duration-200 pointer-events-none border-2 border-white shadow-[3px_3px_0_#0D2340] max-w-[85%] text-center ${
+        className={`toast fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-choco-900 text-cream px-4 py-2.5 rounded-2xl text-xs font-bold transition-all duration-200 pointer-events-none border-2 border-choco-900 shadow-[0_4px_0_#3B2218] max-w-[85%] text-center ${
           toastMsg ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
@@ -192,26 +192,26 @@ export function PulauRantaiMap({
       </div>
 
       {/* Pulau Rantai Top Integrated Control Bar */}
-      <header className="sticky top-0 z-20 w-full bg-white/92 backdrop-blur-xl border-b-2 border-ink-900 px-4 py-2.5 shadow-[0_2px_0_#0D2340]">
+      <header className="sticky top-0 z-20 w-full bg-cream/95 backdrop-blur-xl border-b-3 border-choco-900 px-4 py-2.5 shadow-[0_3px_0_#3B2218]">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 sm:gap-3">
             <span className="text-xl sm:text-2xl">🏝️</span>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="font-display font-black text-sm sm:text-base text-ink-900 leading-tight">
+                <h2 className="font-pixel font-bold text-sm sm:text-base text-choco-900 leading-tight">
                   Pulau Rantai
                 </h2>
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-candy-soft text-[10px] font-bold text-candy-deep border border-candy-line">
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-candy-100 text-[10px] font-pixel font-bold text-candy-700 border border-choco-900">
                   20 Rute
                 </span>
               </div>
-              <p className="text-[10px] font-bold text-candy-deep">
+              <p className="text-[10px] font-bold text-candy-600 font-pixel">
                 Peta Petualangan On-Chain
               </p>
             </div>
             <button
               type="button"
-              className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-ink-900 border-2 border-ink-900 text-xs font-black transition-all active:scale-95 cursor-pointer shadow-xs"
+              className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-candy-50 text-choco-900 border-2 border-choco-900 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-[0_2px_0_#3B2218]"
               onClick={() => setShowProgresModal(true)}
               title="Lihat Rincian 20 Rute"
             >
@@ -223,7 +223,7 @@ export function PulauRantaiMap({
           <div className="flex items-center gap-2 lg:hidden">
             <button
               type="button"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-candy-soft hover:bg-candy/20 text-candy-deep border border-candy-line text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-candy-500 hover:bg-candy-600 text-white border-2 border-choco-900 text-xs font-pixel font-bold transition-all active:scale-95 cursor-pointer shadow-[0_2px_0_#3B2218]"
               onClick={() => setShowQuestsModal(true)}
               title="Buka Misi Harian"
             >
@@ -377,21 +377,21 @@ export function PulauRantaiMap({
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-candy-500 text-white font-mono font-black text-[10px] tracking-wide shadow-xs">
+                      <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-candy-500 text-white font-pixel font-bold text-[10px] tracking-wide border border-choco-900 shadow-[0_1.5px_0_#3B2218]">
                         <span>RUTE {unit.index}</span>
                         <span>·</span>
                         <span>{theme.kind.toUpperCase()}</span>
                       </span>
-                      <h3 className="text-xs sm:text-base font-black font-display text-ink-900 tracking-tight truncate">
+                      <h3 className="text-xs sm:text-base font-bold font-pixel text-choco-900 tracking-tight truncate">
                         {unit.title}
                       </h3>
                     </div>
-                    <span className="shrink-0 text-[10px] font-mono font-bold text-ink-500 bg-sand-100 px-2 py-0.5 rounded-full border border-ink-900/15">
+                    <span className="shrink-0 text-[10px] font-pixel font-bold text-choco-600 bg-cream-100 px-2 py-0.5 rounded-full border border-choco-900/30">
                       {unit.lessons.filter((l) => l.kind !== "chest").length} Blok
                     </span>
                   </div>
                   {/* Subtitle / Description - Subtle and hidden on mobile to avoid screen crowding */}
-                  <p className="hidden sm:block text-xs text-ink-600 font-medium leading-relaxed mt-1 line-clamp-1">
+                  <p className="hidden sm:block text-xs text-choco-700 font-semibold leading-relaxed mt-1 line-clamp-1">
                     {theme.look}
                   </p>
                 </div>
@@ -446,7 +446,7 @@ export function PulauRantaiMap({
                         >
                           <div className="relative flex flex-col items-center">
                             {/* Playful callout bubble */}
-                            <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-paper border-2 border-ink-900 shadow-xs text-[10px] font-black text-primary-hover whitespace-nowrap animate-bounce flex items-center gap-1">
+                            <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-candy-500 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-[10px] font-pixel font-bold text-white whitespace-nowrap animate-bounce flex items-center gap-1">
                               <span>Ayo tambang!</span>
                               <span className="text-[9px]">⛏️</span>
                             </div>
@@ -462,7 +462,7 @@ export function PulauRantaiMap({
                               }}
                               title="Klik Blobi untuk tambang blok ini!"
                             >
-                              <div className="size-14 sm:size-16 drop-shadow-[0_4px_0_rgba(43,22,34,0.25)]">
+                              <div className="size-14 sm:size-16 drop-shadow-[0_6px_0_rgba(59,34,24,0.35)]">
                                 <Mascot mood="wave" size={58} />
                               </div>
                             </button>
@@ -516,25 +516,41 @@ export function PulauRantaiMap({
             <span className="inline-block px-2.5 py-0.5 rounded-full bg-candy-100 border border-choco-900 font-pixel text-[10px] font-bold uppercase tracking-wider text-candy-700">
               Blok #0x{sheetLesson.blockNo.toString(16).toUpperCase().padStart(2, "0")} · Rute {sheetLesson.unit.index}
             </span>
-            <h3 className="font-pixel text-lg sm:text-xl font-bold text-choco-900 mt-2 leading-tight">
-              {sheetLesson.lesson.title}
-            </h3>
-            <p className="text-xs sm:text-sm font-semibold text-choco-600 mt-1 leading-relaxed">
-              {sheetLesson.lesson.exercises?.length || 3} soal kuis · +30 XP · 3 konfirmasi blok
-            </p>
 
-            <div className="mt-5">
-              <Button
-                variant="primary"
-                size="lg"
-                wide
-                icon={<PulauIcon name="star" size={20} fill />}
+            {/* Mascot Header for Block Lesson Details */}
+            <div className="flex items-center gap-3.5 mt-2 mb-3">
+              <div className="size-15 sm:size-16 shrink-0 drop-shadow-[0_4px_0_rgba(59,34,24,0.15)]">
+                <Mascot mood={sheetLesson.status === "done" ? "proud" : "wave"} size={60} interactive={false} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="font-pixel text-lg sm:text-xl font-bold text-choco-900 leading-tight">
+                  {sheetLesson.lesson.title}
+                </h3>
+                <p className="text-xs font-semibold text-candy-600 font-pixel mt-0.5">
+                  {sheetLesson.status === "done" ? "Blok Selesai Ditambang! 🎉" : "Siap Ditambang Bersama Blobi! ⛏️"}
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white/80 p-3 sm:p-3.5 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] mb-4">
+              <p className="text-xs sm:text-sm font-semibold text-choco-700 leading-relaxed">
+                {sheetLesson.lesson.exercises?.length || 3} soal kuis · +30 XP · 3 konfirmasi blok
+              </p>
+            </div>
+
+            <div className="mt-2">
+              <button
+                type="button"
+                className="w-full py-3.5 px-6 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
                 onClick={() => startLesson(sheetLesson.lesson.id)}
               >
-                {sheetLesson.status === "done"
-                  ? "Validasi Ulang (+15 XP)"
-                  : "Tambang Blok Ini (+30 XP)"}
-              </Button>
+                <PulauIcon name="star" size={20} fill />
+                <span>
+                  {sheetLesson.status === "done"
+                    ? "Validasi Ulang (+15 XP)"
+                    : "Tambang Blok Ini (+30 XP)"}
+                </span>
+              </button>
             </div>
           </div>
         </div>

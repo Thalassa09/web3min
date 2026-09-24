@@ -10,43 +10,43 @@ import { AnimatedFeatureCard, FeatureCardColor } from "@/components/ui/feature-c
 export const Route = createFileRoute("/kisah/")({ component: KisahHub });
 
 const STORY_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag: string }> = {
-  "s-peta": { image: "/proof/drop-arb-18k.png", color: "blue", tag: "Ekosistem L2" },
-  "s-defi": { image: "/proof/drop-uni-pair.jpg", color: "emerald", tag: "DeFi Pool" },
-  "s-kerja": { image: "/proof/drop-uni-gaji.jpg", color: "purple", tag: "Karir Web3" },
-  "s-eth": { image: "/worlds/u1-genesis.jpg", color: "blue", tag: "Ethereum" },
-  "s-liq": { image: "/proof/rugi-liqs.jpg", color: "orange", tag: "DeFi Risk" },
-  "s-flash": { image: "/proof/cuan-winter.jpg", color: "emerald", tag: "Flash Loan" },
-  "s-oracle": { image: "/proof/warn-approval.jpg", color: "purple", tag: "Oracle Exploit" },
-  "s-arb": { image: "/proof/cuan-indo-lev.jpg", color: "orange", tag: "MEV & Arb" },
-  "s-poison": { image: "/proof/warn-scam-arc.jpg", color: "rose", tag: "Address Poison" },
-  "s-permit": { image: "/proof/scam-drainer.jpg", color: "rose", tag: "Permit Drainer" },
-  "s-il": { image: "/proof/rugi-roundtrip.png", color: "emerald", tag: "Impermanent Loss" },
-  "s-dm": { image: "/proof/warn-never-dm.jpg", color: "rose", tag: "Social Scam" },
-  "s-seed": { image: "/proof/warn-sparkkitty.jpg", color: "rose", tag: "Malware Galeri" },
-  "s-airdrop": { image: "/proof/warn-airdrop-honey.jpg", color: "blue", tag: "Fake Airdrop" },
-  "s-drop-cuan": { image: "/proof/drop-uni-400.jpg", color: "emerald", tag: "Airdrop Claim" },
-  "s-copy": { image: "/proof/cuan-20m.jpg", color: "purple", tag: "Copy Trading" },
-  "s-honey": { image: "/proof/warn-honeypot.jpg", color: "rose", tag: "Honeypot Trap" },
-  "s-cs": { image: "/proof/warn-hl-phish.jpg", color: "rose", tag: "Domain Phish" },
-  "s-izin": { image: "/proof/warn-revoke.jpg", color: "rose", tag: "Revoke Izin" },
-  "s-cukup": { image: "/proof/fumble-193m.jpg", color: "purple", tag: "Psikologi Exit" },
+  "s-peta": { image: "/stories/s-peta.jpg", color: "blue", tag: "Ekosistem Web3" },
+  "s-defi": { image: "/stories/s-defi.jpg", color: "emerald", tag: "DeFi Lending" },
+  "s-kerja": { image: "/stories/s-kerja.jpg", color: "purple", tag: "Karir & DAO" },
+  "s-eth": { image: "/stories/s-eth.jpg", color: "blue", tag: "Roadmap ETH" },
+  "s-liq": { image: "/stories/s-liq.jpg", color: "orange", tag: "DeFi Liquidation" },
+  "s-flash": { image: "/stories/s-flash.jpg", color: "emerald", tag: "Flash Loan Tx" },
+  "s-oracle": { image: "/stories/s-oracle.jpg", color: "purple", tag: "Oracle Exploit" },
+  "s-arb": { image: "/stories/s-arb.jpg", color: "orange", tag: "MEV Sandwich" },
+  "s-poison": { image: "/stories/s-poison.jpg", color: "rose", tag: "Address Poison" },
+  "s-permit": { image: "/stories/s-permit.jpg", color: "rose", tag: "Permit Drainer" },
+  "s-il": { image: "/stories/s-il.jpg", color: "emerald", tag: "Impermanent Loss" },
+  "s-dm": { image: "/stories/s-dm.jpg", color: "rose", tag: "Fake Support DM" },
+  "s-seed": { image: "/stories/s-seed.jpg", color: "rose", tag: "Fisik Seed Phrase" },
+  "s-airdrop": { image: "/stories/s-airdrop.jpg", color: "blue", tag: "Fake Airdrop Web" },
+  "s-drop-cuan": { image: "/stories/s-drop-cuan.jpg", color: "emerald", tag: "Airdrop Claim On-Chain" },
+  "s-copy": { image: "/stories/s-copy.jpg", color: "purple", tag: "VIP Signal Flex" },
+  "s-honey": { image: "/stories/s-honey.jpg", color: "rose", tag: "Honeypot Trap 99%" },
+  "s-cs": { image: "/stories/s-cs.jpg", color: "rose", tag: "Typosquat Domain" },
+  "s-izin": { image: "/stories/s-izin.jpg", color: "rose", tag: "Eth_Sign Warning" },
+  "s-cukup": { image: "/stories/s-cukup.jpg", color: "purple", tag: "Roundtrip Greed" },
 };
 
 const CASE_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag: string }> = {
-  "b-seed": { image: "/proof/warn-seed.jpg", color: "rose", tag: "Kasus Seed" },
-  "b-dm": { image: "/proof/warn-never-dm.jpg", color: "purple", tag: "Fake CS" },
-  "b-phish": { image: "/proof/warn-phishing.jpg", color: "rose", tag: "Bursa Tutup" },
-  "b-honey": { image: "/proof/warn-honeypot.jpg", color: "orange", tag: "Honeypot +605%" },
-  "b-drain": { image: "/proof/scam-drainer.jpg", color: "rose", tag: "Drainer Kit $210" },
-  "b-sim": { image: "/proof/warn-redpill.jpg", color: "rose", tag: "Simulasi Bohong" },
-  "b-cuan": { image: "/proof/cuan-20m.jpg", color: "emerald", tag: "Cuan Rp20 M" },
-  "b-drop": { image: "/proof/drop-arb-18k.png", color: "blue", tag: "Arbitrum Drop" },
-  "b-rugi": { image: "/proof/rugi-33m.png", color: "rose", tag: "Short −$33M" },
-  "b-zach": { image: "/proof/warn-zach.jpg", color: "rose", tag: "Email Trezor $1,2M" },
-  "b-paper": { image: "/proof/rugi-paper.jpg", color: "orange", tag: "Profit Kertas" },
-  "b-revoke": { image: "/proof/warn-revoke.jpg", color: "purple", tag: "Revoke Izin" },
-  "b-coinex": { image: "/proof/warn-coinex.jpg", color: "rose", tag: "CoinEx $54,7M" },
-  "b-dict": { image: "/proof/warn-dict.jpg", color: "rose", tag: "Brute Force $3,5M" },
+  "b-seed": { image: "/cases/b-seed.jpg", color: "rose", tag: "MetaMask 12 Kata" },
+  "b-dm": { image: "/cases/b-dm.jpg", color: "purple", tag: "Discord Support Palsu" },
+  "b-phish": { image: "/cases/b-phish.jpg", color: "rose", tag: "Email Phish Bursa" },
+  "b-honey": { image: "/cases/b-honey.jpg", color: "orange", tag: "Honeypot.is Audit" },
+  "b-drain": { image: "/cases/b-drain.jpg", color: "rose", tag: "Phishing Kit $210" },
+  "b-sim": { image: "/cases/b-sim.jpg", color: "rose", tag: "Bypass Simulasi" },
+  "b-cuan": { image: "/cases/b-cuan.jpg", color: "emerald", tag: "Memecoin 100x PnL" },
+  "b-drop": { image: "/cases/b-drop.jpg", color: "blue", tag: "Arbitrum Claim Portal" },
+  "b-rugi": { image: "/cases/b-rugi.jpg", color: "rose", tag: "Likuidasi −$33M" },
+  "b-zach": { image: "/cases/b-zach.jpg", color: "rose", tag: "Email Trezor $1,2M" },
+  "b-paper": { image: "/cases/b-paper.jpg", color: "orange", tag: "Profit Kertas Roundtrip" },
+  "b-revoke": { image: "/cases/b-revoke.jpg", color: "purple", tag: "Revoke.cash Dashboard" },
+  "b-coinex": { image: "/cases/b-coinex.jpg", color: "rose", tag: "Aliran Hack CoinEx" },
+  "b-dict": { image: "/cases/b-dict.jpg", color: "rose", tag: "Milk Sad Libbitcoin" },
 };
 
 function KisahHub() {
@@ -118,54 +118,62 @@ function KisahHub() {
                 <Sparkles className="size-3.5 text-amber-800 fill-amber-500" />
                 <span>PILIHAN MINGGU INI · {featured.minutes} MENIT BACA</span>
               </div>
-              <h2 className="font-pixel font-bold text-xl sm:text-3xl text-choco-900 leading-tight">
+
+              <h2 className="font-display font-extrabold text-xl sm:text-3xl text-choco-900 tracking-tight leading-snug">
                 {featured.title}
               </h2>
-              <p className="font-sans font-medium text-xs sm:text-base text-choco-700 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm text-choco-700 line-clamp-2 leading-relaxed">
                 {featured.blurb}
               </p>
-            </div>
 
-            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-              <div className="hidden sm:block shrink-0 relative w-40 h-24 overflow-hidden rounded-2xl border-2 border-choco-900 bg-white shadow-[0_3px_0_#3B2218]">
-                <img
-                  src={STORY_ASSETS[featured.id]?.image || "/proof/drop-arb-18k.png"}
-                  alt={featured.title}
-                  className="w-full h-full object-cover object-top"
-                  loading="lazy"
-                />
-                <div className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded bg-choco-900/85 backdrop-blur-xs text-[8px] font-pixel font-bold text-white shadow-xs">
-                  ARSIP BUKTI
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <Link
+                  to="/kisah/$storyId"
+                  params={{ storyId: featured.id }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm shadow-[0_4px_0_#3B2218] active:translate-y-0.5 transition-all"
+                >
+                  <span>Mulai Sekarang</span>
+                  <ArrowRight className="size-4" />
+                </Link>
+                <div className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-choco-900/15 bg-white/70 font-pixel text-xs text-choco-800">
+                  +{featured.xp} XP
                 </div>
               </div>
+            </div>
 
-              <Link
-                to="/kisah/$storyId"
-                params={{ storyId: featured.id }}
-                className="w-full sm:w-auto"
-              >
-                <button
-                  type="button"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-pixel font-bold text-xs sm:text-sm px-6 py-3 rounded-full bg-candy-500 hover:bg-candy-600 text-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer transition-all whitespace-nowrap"
-                >
-                  <span>Mulai Investigasi</span>
-                  <ArrowRight className="size-4" />
-                </button>
-              </Link>
+            {/* Featured Evidence Graphic */}
+            <div className="relative shrink-0 w-full md:w-72 h-44 rounded-2xl border-3 border-choco-900 bg-white shadow-[0_6px_0_#3B2218] overflow-hidden flex items-center justify-center">
+              <img
+                src={STORY_ASSETS[featured.id]?.image || "/props/star.png"}
+                alt={featured.title}
+                className="w-full h-full object-cover object-center filter brightness-[0.98] transition-transform hover:scale-105 duration-300"
+              />
+              <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-choco-900/90 text-white font-pixel text-[10px] font-bold shadow-md">
+                BUKTI UTAMA
+              </div>
             </div>
           </div>
         )}
 
-        {/* Stories Tab */}
+        {/* Tab 1: Cerita Interaktif */}
         {tab === "cerita" && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-pixel font-bold text-lg sm:text-xl text-choco-900">
+                Semua Cerita Interaktif
+              </h2>
+              <span className="font-sans text-xs text-choco-600">
+                {openStories.length} tersedia · {doneStories.length} selesai
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {openStories.map((s, idx) => {
                 const isDone = doneStories.includes(s.id);
-                const assetConfig = STORY_ASSETS[s.id] ?? {
-                  image: "/proof/drop-top50.jpg",
-                  color: "blue" as FeatureCardColor,
-                  tag: "Kisah",
+                const asset = STORY_ASSETS[s.id] ?? {
+                  image: "/stories/s-peta.jpg",
+                  color: "orange" as FeatureCardColor,
+                  tag: "Cerita Web3",
                 };
                 const indexStr = String(idx + 1).padStart(3, "0");
 
@@ -174,42 +182,36 @@ function KisahHub() {
                     key={s.id}
                     to="/kisah/$storyId"
                     params={{ storyId: s.id }}
-                    className="block focus:outline-none focus-visible:ring-3 focus-visible:ring-candy-500 rounded-[28px]"
+                    className="block group cursor-pointer focus:outline-none"
                   >
                     <AnimatedFeatureCard
                       index={indexStr}
-                      tag={assetConfig.tag}
+                      tag={asset.tag}
                       title={s.title}
                       blurb={s.blurb}
-                      imageSrc={assetConfig.image}
-                      color={assetConfig.color}
+                      imageSrc={asset.image}
+                      imageAlt={s.title}
+                      color={asset.color}
                       badge={
                         isDone ? (
-                          <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-600 shadow-[0_1px_0_#15803D]">
-                            <Check className="size-3 text-emerald-700" /> Selesai
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-xs">
+                            <Check className="size-3 stroke-[3]" />
+                            <span>Selesai</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-candy-100 text-candy-700 border-2 border-choco-900 shadow-[0_1px_0_#3B2218]">
-                            Baru
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900 border-2 border-amber-600 font-pixel text-[10px] font-bold shadow-xs">
+                            <span>+{s.xp} XP</span>
                           </span>
                         )
                       }
                       footer={
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-pixel text-[10px] sm:text-xs font-bold text-choco-600 flex items-center gap-1.5">
-                            <span>{s.minutes}m</span>
-                            <span>•</span>
-                            <span className="text-amber-600">+{s.xp} XP</span>
+                        <div className="flex items-center justify-between">
+                          <span className="font-sans text-[11px] font-semibold text-choco-600">
+                            ⏱ {s.minutes} Menit Baca
                           </span>
-                          <span
-                            className={cn(
-                              "inline-flex items-center justify-center font-pixel font-bold text-[10px] sm:text-xs px-3 py-1 rounded-full border-2 border-choco-900 transition-all",
-                              isDone
-                                ? "bg-white text-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-cream"
-                                : "bg-candy-500 text-white shadow-[0_2px_0_#3B2218] hover:bg-candy-600"
-                            )}
-                          >
-                            {isDone ? "Baca lagi" : "Mulai"}
+                          <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-600 group-hover:translate-x-1 transition-transform">
+                            {isDone ? "Baca Ulang" : "Mulai"}
+                            <ArrowRight className="size-3.5" />
                           </span>
                         </div>
                       }
@@ -217,65 +219,68 @@ function KisahHub() {
                   </Link>
                 );
               })}
-            </div>
 
-            {/* Locked Stories Section */}
-            {lockedStories.length > 0 && (
-              <div className="pt-4 space-y-4">
-                <div className="flex items-center gap-2 text-choco-600">
-                  <Lock className="size-4 text-choco-700" />
-                  <span className="font-pixel text-xs sm:text-sm font-bold uppercase tracking-wider">
-                    Kisah Terkunci · Selesaikan Modul Belajar
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                  {lockedStories.map((s, idx) => {
-                    const assetConfig = STORY_ASSETS[s.id] ?? {
-                      image: "/proof/drop-top50.jpg",
-                      color: "blue" as FeatureCardColor,
-                      tag: "Kisah",
-                    };
-                    const indexStr = String(openStories.length + idx + 1).padStart(3, "0");
+              {/* Locked Stories */}
+              {lockedStories.map((s, idx) => {
+                const asset = STORY_ASSETS[s.id] ?? {
+                  image: "/stories/s-peta.jpg",
+                  color: "orange" as FeatureCardColor,
+                  tag: "Terkunci",
+                };
+                const indexStr = String(openStories.length + idx + 1).padStart(3, "0");
 
-                    return (
-                      <AnimatedFeatureCard
-                        key={s.id}
-                        index={indexStr}
-                        tag="Terkunci"
-                        title={s.title}
-                        blurb={s.blurb}
-                        imageSrc={assetConfig.image}
-                        color={assetConfig.color}
-                        isLocked={true}
-                        badge={
-                          <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-choco-100 text-choco-700 border-2 border-choco-900/30">
-                            <Lock className="size-3" /> Modul ke-{s.unlockAfter}
+                return (
+                  <div key={s.id} className="relative">
+                    <AnimatedFeatureCard
+                      index={indexStr}
+                      tag="Terkunci"
+                      title={s.title}
+                      blurb={s.blurb}
+                      imageSrc={asset.image}
+                      imageAlt={s.title}
+                      color="rose"
+                      isLocked
+                      badge={
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-choco-100 text-choco-800 border-2 border-choco-400 font-pixel text-[10px] font-bold">
+                          <Lock className="size-3 stroke-[2.5]" />
+                          <span>Kunci</span>
+                        </span>
+                      }
+                      footer={
+                        <div className="flex items-center justify-between">
+                          <span className="font-sans text-[11px] font-medium text-choco-500">
+                            Selesaikan modul sebelumnya
                           </span>
-                        }
-                        footer={
-                          <div className="flex items-center justify-between text-[11px] font-sans text-choco-600">
-                            <span>Selesaikan materi Pulau Rantai untuk membuka</span>
-                          </div>
-                        }
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
+                          <Lock className="size-3.5 text-choco-400" />
+                        </div>
+                      }
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </section>
         )}
 
-        {/* Cases Tab */}
+        {/* Tab 2: Kasus On-Chain */}
         {tab === "kasus" && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-pixel font-bold text-lg sm:text-xl text-choco-900">
+                Arsip Kasus & Eksploit On-Chain
+              </h2>
+              <span className="font-sans text-xs text-choco-600">
+                {openCases.length} kasus siap dibedah
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {openCases.map((c, idx) => {
                 const isDone = doneCases.includes(c.id);
-                const assetConfig = CASE_ASSETS[c.id] ?? {
-                  image: "/proof/warn-phishing.jpg",
+                const asset = CASE_ASSETS[c.id] ?? {
+                  image: "/cases/b-drop.jpg",
                   color: "rose" as FeatureCardColor,
-                  tag: "Audit On-Chain",
+                  tag: "Kasus On-Chain",
                 };
                 const indexStr = `C${String(idx + 1).padStart(2, "0")}`;
 
@@ -284,42 +289,36 @@ function KisahHub() {
                     key={c.id}
                     to="/bedah/$caseId"
                     params={{ caseId: c.id }}
-                    className="block focus:outline-none focus-visible:ring-3 focus-visible:ring-candy-500 rounded-[28px]"
+                    className="block group cursor-pointer focus:outline-none"
                   >
                     <AnimatedFeatureCard
                       index={indexStr}
-                      tag={assetConfig.tag}
+                      tag={asset.tag}
                       title={c.title}
                       blurb={c.blurb}
-                      imageSrc={assetConfig.image}
-                      color={assetConfig.color}
+                      imageSrc={asset.image}
+                      imageAlt={c.title}
+                      color={asset.color}
                       badge={
                         isDone ? (
-                          <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-600 shadow-[0_1px_0_#15803D]">
-                            <Check className="size-3 text-emerald-700" /> Selesai
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-xs">
+                            <Check className="size-3 stroke-[3]" />
+                            <span>Terbukti</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border-2 border-choco-900 shadow-[0_1px_0_#3B2218]">
-                            Kasus Nyata
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-rose-100 text-rose-800 border-2 border-rose-600 font-pixel text-[10px] font-bold shadow-xs">
+                            <span>Kasus Nyata</span>
                           </span>
                         )
                       }
                       footer={
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="font-pixel text-[10px] sm:text-xs font-bold text-choco-600 flex items-center gap-1.5">
-                            <span>{c.minutes}m</span>
-                            <span>•</span>
-                            <span className="text-amber-600">+{c.xp} XP</span>
+                        <div className="flex items-center justify-between">
+                          <span className="font-sans text-[11px] font-semibold text-choco-600">
+                            ⏱ {c.minutes} Menit Audit
                           </span>
-                          <span
-                            className={cn(
-                              "inline-flex items-center justify-center font-pixel font-bold text-[10px] sm:text-xs px-3 py-1 rounded-full border-2 border-choco-900 transition-all",
-                              isDone
-                                ? "bg-white text-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-cream"
-                                : "bg-candy-500 text-white shadow-[0_2px_0_#3B2218] hover:bg-candy-600"
-                            )}
-                          >
-                            {isDone ? "Tinjau" : "Bedah"}
+                          <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-600 group-hover:translate-x-1 transition-transform">
+                            <span>Bedah Bukti</span>
+                            <ArrowRight className="size-3.5" />
                           </span>
                         </div>
                       }
@@ -327,53 +326,47 @@ function KisahHub() {
                   </Link>
                 );
               })}
-            </div>
 
-            {/* Locked Cases Section */}
-            {lockedCases.length > 0 && (
-              <div className="pt-4 space-y-4">
-                <div className="flex items-center gap-2 text-choco-600">
-                  <Lock className="size-4 text-choco-700" />
-                  <span className="font-pixel text-xs sm:text-sm font-bold uppercase tracking-wider">
-                    Kasus Terkunci
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                  {lockedCases.map((c, idx) => {
-                    const assetConfig = CASE_ASSETS[c.id] ?? {
-                      image: "/proof/warn-phishing.jpg",
-                      color: "rose" as FeatureCardColor,
-                      tag: "Audit On-Chain",
-                    };
-                    const indexStr = `C${String(openCases.length + idx + 1).padStart(2, "0")}`;
+              {/* Locked Cases */}
+              {lockedCases.map((c, idx) => {
+                const asset = CASE_ASSETS[c.id] ?? {
+                  image: "/cases/b-drop.jpg",
+                  color: "rose" as FeatureCardColor,
+                  tag: "Kasus Terkunci",
+                };
+                const indexStr = `C${String(openCases.length + idx + 1).padStart(2, "0")}`;
 
-                    return (
-                      <AnimatedFeatureCard
-                        key={c.id}
-                        index={indexStr}
-                        tag="Terkunci"
-                        title={c.title}
-                        blurb={c.blurb}
-                        imageSrc={assetConfig.image}
-                        color={assetConfig.color}
-                        isLocked={true}
-                        badge={
-                          <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-choco-100 text-choco-700 border-2 border-choco-900/30">
-                            <Lock className="size-3" /> Modul ke-{c.unlockAfter}
+                return (
+                  <div key={c.id} className="relative">
+                    <AnimatedFeatureCard
+                      index={indexStr}
+                      tag="Terkunci"
+                      title={c.title}
+                      blurb={c.blurb}
+                      imageSrc={asset.image}
+                      imageAlt={c.title}
+                      color="rose"
+                      isLocked
+                      badge={
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-choco-100 text-choco-800 border-2 border-choco-400 font-pixel text-[10px] font-bold">
+                          <Lock className="size-3 stroke-[2.5]" />
+                          <span>Kunci</span>
+                        </span>
+                      }
+                      footer={
+                        <div className="flex items-center justify-between">
+                          <span className="font-sans text-[11px] font-medium text-choco-500">
+                            Selesaikan kasus sebelumnya
                           </span>
-                        }
-                        footer={
-                          <div className="flex items-center justify-between text-[11px] font-sans text-choco-600">
-                            <span>Selesaikan materi prasyarat untuk membuka kasus ini</span>
-                          </div>
-                        }
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
+                          <Lock className="size-3.5 text-choco-400" />
+                        </div>
+                      }
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </section>
         )}
       </main>
     </AppShell>

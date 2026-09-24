@@ -55,6 +55,7 @@ export function BlobiFloatingCompanion({
 
   const [mood, setMood] = useState<MascotMood>("idle");
   const [speech, setSpeech] = useState<string | null>(null);
+  const [showDialogModal, setShowDialogModal] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [pokeIndex, setPokeIndex] = useState(0);
 
@@ -175,7 +176,7 @@ export function BlobiFloatingCompanion({
     function resetIdleTimer() {
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       idleTimerRef.current = setTimeout(() => {
-        if (isDragging || isMinimized) return;
+        if (isDragging || isMinimized || showDialogModal) return;
         const randomQuip = BLOBO_IDLE_QUIPS[Math.floor(Math.random() * BLOBO_IDLE_QUIPS.length)]
           .replace("{streak}", String(streak));
         setMood("wave");
@@ -195,19 +196,20 @@ export function BlobiFloatingCompanion({
       window.removeEventListener("pointerdown", handleActivity);
       window.removeEventListener("keydown", handleActivity);
     };
-  }, [streak, sound, isDragging, isMinimized, showSpeech]);
+  }, [streak, sound, isDragging, isMinimized, showDialogModal, showSpeech]);
 
-  // Handle poking / clicking Blobi
+  // Handle poking / clicking Blobi -> opens tactile 3D Arcade overlay modal
   const handlePokeBlobi = useCallback(() => {
     const nextIdx = (pokeIndex + 1) % BLOBO_POKE_REACTIONS.length;
     setPokeIndex(nextIdx);
     const item = BLOBO_POKE_REACTIONS[nextIdx];
     setMood(item.mood);
-    showSpeech(item.text, 6000);
+    setSpeech(item.text);
+    setShowDialogModal(true);
     setIsSquishing(true);
     setTimeout(() => setIsSquishing(false), 500);
     if (sound) playMoodSfx(item.mood);
-  }, [pokeIndex, sound, showSpeech]);
+  }, [pokeIndex, sound]);
 
   // Drag Handlers with Window-level pointer listeners for infallible tracking
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -259,7 +261,7 @@ export function BlobiFloatingCompanion({
       setDragTilt(0);
 
       if (!hasMovedRef.current) {
-        // It was a tap / poke!
+        // It was a tap / poke! Open Blobi overlay modal!
         handlePokeBlobi();
       } else {
         // It was a drag: squish slightly on landing & persist position
@@ -294,169 +296,247 @@ export function BlobiFloatingCompanion({
   const isTopSide = currentY < 200;
 
   return (
-    <div
-      style={{
-        transform: `translate3d(${currentX}px, ${currentY}px, 0)`,
-        transition: isDragging ? "none" : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)",
-      }}
-      className="fixed top-0 left-0 z-40 select-none touch-none"
-    >
-      {/* Speech Bubble */}
-      {speech && !isMinimized && !isDragging && (
-        <div
-          className={`absolute max-w-[260px] p-3 rounded-2xl bg-cream border-2 border-choco-900 shadow-[0_4px_0_#3B2218] animate-in fade-in zoom-in-95 duration-200 pointer-events-auto text-choco-900 ${
-            isTopSide
-              ? "top-full mt-2"
-              : "bottom-full mb-3"
-          } ${
-            isRightSide
-              ? "right-0"
-              : "left-0"
-          }`}
-        >
-          <button
-            type="button"
-            className="absolute top-1.5 right-1.5 size-6 flex items-center justify-center rounded-full text-choco-500 hover:text-choco-900 hover:bg-candy-100 cursor-pointer text-xs font-bold"
-            onClick={() => setSpeech(null)}
-            aria-label="Tutup pesan"
-          >
-            ✕
-          </button>
-
-          <div className="flex items-center gap-1.5 text-[10px] font-pixel font-bold uppercase text-candy-600 mb-1">
-            <Sparkles className="size-3 text-candy-500" />
-            <span>Blobi Berbisik:</span>
-          </div>
-
-          <p className="text-xs font-bold text-choco-900 leading-snug pr-3">
-            {speech}
-          </p>
-
-          {activeLesson && (
-            <div className="mt-2.5 pt-2 border-t border-choco-900/15 flex items-center gap-2">
-              <button
-                type="button"
-                className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2.5 rounded-full bg-candy-500 hover:bg-candy-600 text-white text-[11px] font-bold border border-choco-900 shadow-[0_1.5px_0_#3B2218] cursor-pointer active:translate-y-0.5 transition-all"
-                onClick={() => {
-                  setSpeech(null);
-                  if (onStartActiveLesson) onStartActiveLesson();
-                }}
-              >
-                <Play className="size-3 fill-white" />
-                <span>Mulai Belajar</span>
-              </button>
-              {onScrollToActive && (
-                <button
-                  type="button"
-                  className="py-1.5 px-2.5 rounded-full bg-white hover:bg-candy-50 text-choco-900 text-[10px] font-bold border border-choco-900 shadow-[0_1.5px_0_#3B2218] cursor-pointer active:translate-y-0.5"
-                  onClick={() => {
-                    setSpeech(null);
-                    onScrollToActive();
-                  }}
-                  title="Arahkan ke node aktif"
-                >
-                  Lihat Node ❯
-                </button>
-              )}
-            </div>
-          )}
-
-          {/* Bubble Tail */}
+    <>
+      {/* Floating Draggable Blobi Avatar */}
+      <div
+        style={{
+          transform: `translate3d(${currentX}px, ${currentY}px, 0)`,
+          transition: isDragging ? "none" : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        }}
+        className="fixed top-0 left-0 z-40 select-none touch-none"
+      >
+        {/* Subtle Floating Idle Speech Bubble when not in modal */}
+        {speech && !showDialogModal && !isMinimized && !isDragging && (
           <div
-            className={`absolute size-3 rotate-45 bg-cream border-choco-900 ${
+            onClick={() => setShowDialogModal(true)}
+            className={`absolute max-w-[260px] p-3 rounded-2xl bg-cream border-2 border-choco-900 shadow-[0_4px_0_#3B2218] animate-in fade-in zoom-in-95 duration-200 pointer-events-auto text-choco-900 cursor-pointer hover:scale-102 transition-transform ${
               isTopSide
-                ? "-top-1.5 border-l-2 border-t-2"
-                : "-bottom-1.5 border-r-2 border-b-2"
-            } ${isRightSide ? "right-8" : "left-8"}`}
-          />
-        </div>
-      )}
-
-      {/* Mascot Drag Handle & Avatar */}
-      <div className="flex items-end gap-2">
-        {!isMinimized ? (
-          <div className="relative group">
-            {/* Draggable Blobi Body */}
-            <div
-              onPointerDown={handlePointerDown}
-              style={{
-                transform: `scaleX(${facing}) rotate(${dragTilt}deg) ${
-                  isDragging ? "scale(1.12, 0.9)" : ""
-                }`,
-                transformOrigin: "bottom center",
-                cursor: isDragging ? "grabbing" : "grab",
-              }}
-              className={`relative block transition-transform duration-150 ${
-                isSquishing
-                  ? "blobi-squishing"
-                  : isHopping
-                  ? "blobi-hopping"
-                  : !isDragging
-                  ? "blobi-anim-idle"
-                  : ""
-              }`}
-              title="Tarik & geser Blobi ke mana saja! Atau klik untuk toel!"
-            >
-              <div className="size-16 sm:size-20 drop-shadow-[0_8px_0_rgba(13,35,64,0.3)] filter transition-all pointer-events-none">
-                <Mascot mood={mood} size={76} interactive={false} />
-              </div>
-
-              {/* Tap badge ("Toel!") */}
-              <span
-                style={{ transform: `scaleX(${facing})` }}
-                className="absolute -top-1 -right-1 px-1.5 py-0.2 rounded-full bg-candy text-white text-[9px] font-black border border-ink-900 shadow-xs animate-bounce pointer-events-none"
-              >
-                Toel!
-              </span>
-
-              {/* Drag indicator hint on hover */}
-              <span className="hidden group-hover:block absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap px-1.5 py-0.5 rounded-md bg-ink-900/80 text-white text-[8px] font-bold pointer-events-none">
-                Geser aku! 👆
-              </span>
-            </div>
-
-            {/* Minimize toggle ("-") */}
+                ? "top-full mt-2"
+                : "bottom-full mb-3"
+            } ${
+              isRightSide
+                ? "right-0"
+                : "left-0"
+            }`}
+          >
             <button
               type="button"
-              className="absolute -bottom-1 -right-1 size-5 rounded-full bg-white border border-ink-900 shadow-xs flex items-center justify-center text-[10px] font-black text-ink-600 hover:text-ink-900 hover:bg-slate-50 cursor-pointer pointer-events-auto transition-transform active:scale-90"
+              className="absolute top-1.5 right-1.5 size-6 flex items-center justify-center rounded-full text-choco-500 hover:text-choco-900 hover:bg-candy-100 cursor-pointer text-xs font-bold"
               onClick={(e) => {
                 e.stopPropagation();
-                setIsMinimized(true);
+                setSpeech(null);
               }}
-              title="Kecilkan Blobi"
+              aria-label="Tutup pesan"
             >
-              -
+              ✕
             </button>
-          </div>
-        ) : (
-          /* Minimized pill: also draggable & tappable anywhere! */
-          <div
-            role="button"
-            tabIndex={0}
-            onPointerDown={handlePointerDown}
-            onClick={() => {
-              if (!hasMovedRef.current) {
-                setIsMinimized(false);
-                showSpeech("Aku balik lagi nemenin kamu belajar! 🌟", 5000);
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                setIsMinimized(false);
-                showSpeech("Aku balik lagi nemenin kamu belajar! 🌟", 5000);
-              }
-            }}
-            style={{ cursor: isDragging ? "grabbing" : "grab" }}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_3px_0_#3B2218,0_6px_12px_rgba(59,34,24,0.14)] text-xs font-black text-candy-600 hover:scale-105 active:scale-95 transition-all cursor-pointer select-none touch-none"
-            title="Klik untuk buka Blobi, atau geser posisi"
-          >
-            <span className="text-base pointer-events-none">🐣</span>
-            <span className="pointer-events-none">Blobi</span>
+
+            <div className="flex items-center gap-1.5 text-[10px] font-pixel font-bold uppercase text-candy-600 mb-1">
+              <Sparkles className="size-3 text-candy-500" />
+              <span>Blobi Berbisik:</span>
+            </div>
+
+            <p className="text-xs font-bold text-choco-900 leading-snug pr-3">
+              {speech}
+            </p>
+
+            {/* Bubble Tail */}
+            <div
+              className={`absolute size-3 rotate-45 bg-cream border-choco-900 ${
+                isTopSide
+                  ? "-top-1.5 border-l-2 border-t-2"
+                  : "-bottom-1.5 border-r-2 border-b-2"
+              } ${isRightSide ? "right-8" : "left-8"}`}
+            />
           </div>
         )}
+
+        {/* Mascot Drag Handle & Avatar */}
+        <div className="flex items-end gap-2">
+          {!isMinimized ? (
+            <div className="relative group">
+              {/* Draggable Blobi Body */}
+              <div
+                onPointerDown={handlePointerDown}
+                style={{
+                  transform: `scaleX(${facing}) rotate(${dragTilt}deg) ${
+                    isDragging ? "scale(1.12, 0.9)" : ""
+                  }`,
+                  transformOrigin: "bottom center",
+                  cursor: isDragging ? "grabbing" : "grab",
+                }}
+                className={`relative block transition-transform duration-150 ${
+                  isSquishing
+                    ? "blobi-squishing"
+                    : isHopping
+                    ? "blobi-hopping"
+                    : !isDragging
+                    ? "blobi-anim-idle"
+                    : ""
+                }`}
+                title="Tarik & geser Blobi ke mana saja! Atau klik untuk toel!"
+              >
+                <div className="size-16 sm:size-20 drop-shadow-[0_6px_0_rgba(59,34,24,0.3)] filter transition-all pointer-events-none">
+                  <Mascot mood={mood} size={76} interactive={false} />
+                </div>
+
+                {/* Tap badge ("Toel!") in Arcade 3D */}
+                <span
+                  style={{ transform: `scaleX(${facing})` }}
+                  className="absolute -top-1 -right-1 px-2 py-0.5 rounded-full bg-candy-500 text-white text-[10px] font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] animate-bounce pointer-events-none"
+                >
+                  Toel!
+                </span>
+
+                {/* Drag indicator hint on hover */}
+                <span className="hidden group-hover:block absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded-md bg-choco-900 text-cream text-[9px] font-bold border border-choco-900 pointer-events-none shadow-xs">
+                  Geser aku! 👆
+                </span>
+              </div>
+
+              {/* Minimize toggle ("-") */}
+              <button
+                type="button"
+                className="absolute -bottom-1 -right-1 size-5.5 rounded-full bg-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218] flex items-center justify-center text-[10px] font-pixel font-bold text-choco-900 hover:bg-candy-100 cursor-pointer pointer-events-auto transition-transform active:scale-90"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMinimized(true);
+                  setSpeech(null);
+                }}
+                title="Kecilkan Blobi"
+              >
+                -
+              </button>
+            </div>
+          ) : (
+            /* Minimized pill: also draggable & tappable anywhere! */
+            <div
+              role="button"
+              tabIndex={0}
+              onPointerDown={handlePointerDown}
+              onClick={() => {
+                if (!hasMovedRef.current) {
+                  setIsMinimized(false);
+                  setShowDialogModal(true);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setIsMinimized(false);
+                  setShowDialogModal(true);
+                }
+              }}
+              style={{ cursor: isDragging ? "grabbing" : "grab" }}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] text-xs font-pixel font-bold text-candy-600 hover:scale-105 active:scale-95 transition-all cursor-pointer select-none touch-none"
+              title="Klik untuk buka Blobi, atau geser posisi"
+            >
+              <span className="text-base pointer-events-none">🐣</span>
+              <span className="pointer-events-none">Blobi</span>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      {/* FULL TACTILE 3D ARCADE CANDY MODAL OVERLAY WHEN BLOBO IS PRESSED */}
+      {showDialogModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+          onClick={() => setShowDialogModal(false)}
+        >
+          <div
+            className="relative w-full max-w-sm sm:max-w-md p-5 sm:p-6 rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] animate-in zoom-in-95 duration-200 text-choco-900 select-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Tactile Circular Close Button */}
+            <button
+              type="button"
+              className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
+              onClick={() => setShowDialogModal(false)}
+              aria-label="Tutup"
+            >
+              <X className="size-4.5 stroke-[2.5]" />
+            </button>
+
+            {/* Header with Mascot & Pixel Badge */}
+            <div className="flex items-center gap-3.5 mb-3.5">
+              <div className="size-16 sm:size-18 shrink-0 drop-shadow-[0_4px_0_rgba(59,34,24,0.15)]">
+                <Mascot mood={mood} size={70} interactive={false} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-candy-100 text-candy-700 border border-choco-900 font-pixel text-[10px] uppercase tracking-wider font-bold">
+                  <Sparkles className="size-3 text-candy-600" />
+                  <span>Teman Belajar Blobi</span>
+                </div>
+                <h4 className="font-pixel text-base sm:text-lg font-bold text-choco-900 mt-1 leading-tight">
+                  Blobi Menyapa! 👋
+                </h4>
+              </div>
+            </div>
+
+            {/* Message Box */}
+            <div className="bg-white/90 p-4 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-xs sm:text-sm font-semibold text-choco-900 leading-relaxed mb-4">
+              <p>{speech || "Halo! Aku Blobi, teman setia petualangan Web3 kamu! Mau belajar apa hari ini?"}</p>
+            </div>
+
+            {/* Active lesson card preview if available */}
+            {activeLesson && (
+              <div className="bg-candy-50 border-2 border-choco-900/20 rounded-2xl p-3 mb-4 flex items-center justify-between gap-2">
+                <div className="min-w-0 flex-1 text-left">
+                  <span className="text-[10px] font-pixel text-candy-600 uppercase font-bold">Modul Aktif:</span>
+                  <p className="text-xs font-bold text-choco-900 truncate">{activeLesson.title}</p>
+                </div>
+                <span className="shrink-0 px-2 py-0.5 rounded-full bg-candy-500 text-white font-pixel text-[9px] font-bold shadow-xs">
+                  Siap Tambang
+                </span>
+              </div>
+            )}
+
+            {/* Action Buttons in Tactile 3D Arcade */}
+            <div className="flex flex-col gap-2.5">
+              {activeLesson && onStartActiveLesson && (
+                <button
+                  type="button"
+                  className="w-full py-3 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                  onClick={() => {
+                    setShowDialogModal(false);
+                    onStartActiveLesson();
+                  }}
+                >
+                  <Play className="size-4 fill-white text-white" />
+                  <span>Mulai Belajar Modul Aktif ❯</span>
+                </button>
+              )}
+
+              <div className="flex gap-2">
+                {onScrollToActive && (
+                  <button
+                    type="button"
+                    className="flex-1 py-2.5 px-3 rounded-full bg-white hover:bg-candy-50 text-choco-900 font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer truncate"
+                    onClick={() => {
+                      setShowDialogModal(false);
+                      onScrollToActive();
+                    }}
+                  >
+                    📍 Arahkan ke Blok
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="flex-1 py-2.5 px-3 rounded-full bg-cream-100 hover:bg-candy-100 text-choco-900 font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePokeBlobi();
+                  }}
+                >
+                  Toel Lagi! 😜
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -494,7 +574,7 @@ export function BlobiLockedModal({
 
         {/* Mascot Header */}
         <div className="flex items-center gap-3.5 mb-3">
-          <div className="size-16 shrink-0 -mt-2">
+          <div className="size-16 shrink-0 -mt-2 drop-shadow-[0_4px_0_rgba(59,34,24,0.15)]">
             <Mascot mood="angry" size={64} interactive={false} />
           </div>
           <div>
@@ -519,7 +599,7 @@ export function BlobiLockedModal({
           {onScrollToActive && (
             <button
               type="button"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
               onClick={() => {
                 onDismiss();
                 onScrollToActive();

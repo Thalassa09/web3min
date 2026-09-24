@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronRight, Ticket, X } from "lucide-react";
+import { ChevronRight, Ticket, X, Shield } from "lucide-react";
 import { Fire } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { Mascot } from "@/components/mascot";
@@ -23,9 +23,19 @@ export function SideNav() {
   const close = useNavStore((s) => s.close);
 
   const [mounted, setMounted] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    try {
+      const auth = localStorage.getItem("web3min_admin_auth");
+      setIsAdmin(Boolean(auth && JSON.parse(auth)?.key));
+    } catch {
+      setIsAdmin(false);
+    }
+  }, [isOpen, pathname]);
 
   // Close with Escape key on desktop
   useEffect(() => {
@@ -88,7 +98,7 @@ export function SideNav() {
       <nav
         aria-label="Menu Utama Web3min"
         className={cn(
-          "relative z-50 flex h-full w-[300px] max-w-[85vw] select-none flex-col overflow-y-auto border-r-2 border-choco-900/10 bg-[#FFFDF8] p-5 shadow-[6px_0_24px_-4px_rgba(59,34,24,0.18)] transition-transform duration-300 ease-out",
+          "relative z-50 flex h-full w-[280px] max-w-[85vw] select-none flex-col overflow-y-auto border-r-2 border-choco-900/10 bg-[#FFFDF9] p-5 shadow-[6px_0_24px_-4px_rgba(59,34,24,0.18)] transition-transform duration-300 ease-out",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -110,7 +120,7 @@ export function SideNav() {
         </div>
 
         {/* Navigation Item List — active = pink capsule, idle = round tactile buttons */}
-        <ul className="m-0 flex list-none flex-col gap-4 p-0">
+        <ul className="m-0 flex w-[240px] max-w-full list-none flex-col gap-6 p-0">
           {NAV_ITEMS.map((item) => {
             const active = navActive(pathname, item.to);
             const Icon = item.icon;
@@ -126,9 +136,7 @@ export function SideNav() {
                     if (sound) playTap();
                     close();
                   }}
-                  icon={
-                    <Icon className="size-5 shrink-0" weight={active ? "fill" : "regular"} />
-                  }
+                  icon={<Icon className="size-4.5 shrink-0" weight={active ? "fill" : "regular"} />}
                 />
               </li>
             );
@@ -145,9 +153,26 @@ export function SideNav() {
                 if (sound) playTap();
                 close();
               }}
-              icon={<Ticket className="size-5 shrink-0" />}
+              icon={<Ticket className="size-4.5 shrink-0 stroke-[2.2]" />}
             />
           </li>
+
+          {isAdmin && (
+            <li key="/admin">
+              <NavRow
+                to="/admin"
+                label="Admin Panel"
+                active={pathname === "/admin"}
+                badge="VIP"
+                badgeTone="pink"
+                onNavigate={() => {
+                  if (sound) playTap();
+                  close();
+                }}
+                icon={<Shield className="size-4.5 shrink-0 stroke-[2.2] text-amber-500" />}
+              />
+            </li>
+          )}
         </ul>
 
         {/* Bottom Profile & Collection Card in Tactile Beveled Style */}
@@ -191,7 +216,7 @@ function NavRow({
   onNavigate,
   icon,
 }: {
-  to: "/" | "/kisah" | "/leaderboard" | "/shop" | "/profile" | "/raffle";
+  to: "/" | "/kisah" | "/leaderboard" | "/shop" | "/profile" | "/raffle" | "/admin";
   label: string;
   active: boolean;
   badge?: string;
@@ -204,37 +229,55 @@ function NavRow({
       to={to}
       aria-current={active ? "page" : undefined}
       onClick={onNavigate}
-      className="group inline-flex w-max max-w-full items-center gap-3"
+      className="group flex w-full items-center"
     >
       {active ? (
-        <span className="inline-flex items-center gap-2 rounded-full border-b-[4px] border-[#C2185B] bg-gradient-to-b from-[#FF6FA3] to-[#E8437F] py-1.5 pl-1.5 pr-5 text-white shadow-[0_6px_14px_-6px_rgba(232,67,127,0.65)] transition-all active:translate-y-[3px] active:border-b-0 active:shadow-none">
-          <span className="grid size-8 place-items-center rounded-full bg-white text-[#E8437F]">
-            {icon}
+        <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full bg-gradient-to-b from-[#FF6BA6] via-[#FF3D88] to-[#E61F73] pl-2 pr-4 text-white shadow-[0_4px_0_#B01E5D] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01E5D]">
+          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20 p-0.5">
+            <span className="grid size-8 place-items-center rounded-full bg-white text-[#FF3D88] shadow-xs">
+              {icon}
+            </span>
           </span>
-          <span className="font-display text-[15px] font-extrabold tracking-[-0.02em]">{label}</span>
-        </span>
-      ) : (
-        <>
-          <span className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-choco-900 bg-gradient-to-b from-white to-[#F6EFE8] text-choco-900 shadow-[0_3px_0_#3B2218] transition-all group-hover:brightness-105 group-active:translate-y-[2px] group-active:shadow-[0_1px_0_#3B2218]">
-            {icon}
-          </span>
-          <span className="font-display text-[15px] font-bold tracking-[-0.02em] text-choco-900">
+          <span className="font-display text-[15.5px] font-extrabold tracking-[-0.01em] text-white">
             {label}
           </span>
-        </>
-      )}
-      {badge ? (
-        <span
-          className={cn(
-            "shrink-0 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-extrabold leading-none",
-            badgeTone === "amber"
-              ? "border-[#E0B84A] bg-[#FFF6D8] text-[#C48A00] shadow-[0_2px_0_#E0B84A]"
-              : "border-[#F3A8C4] bg-[#FFF0F6] text-[#E8437F] shadow-[0_2px_0_#F3A8C4]",
-          )}
-        >
-          {badge}
+          {badge ? <Badge tone={badgeTone} className="ml-auto" label={badge} /> : null}
         </span>
-      ) : null}
+      ) : (
+        <div className="flex h-[42px] w-full items-center">
+          <span className="grid size-[38px] shrink-0 place-items-center rounded-full border border-choco-900/15 bg-white text-choco-900 shadow-[0_2.5px_0_#3B2218] transition-all group-hover:brightness-105 group-hover:shadow-[0_3px_0_#3B2218] group-active:translate-y-px group-active:shadow-[0_1px_0_#3B2218]">
+            {icon}
+          </span>
+          <span className="ml-3.5 font-display text-[15px] font-bold tracking-[-0.01em] text-[#4A3E3D] transition-colors group-hover:text-choco-900">
+            {label}
+          </span>
+          {badge ? <Badge tone={badgeTone} className="ml-auto mr-1" label={badge} /> : null}
+        </div>
+      )}
     </Link>
+  );
+}
+
+function Badge({
+  label,
+  tone,
+  className,
+}: {
+  label: string;
+  tone: "pink" | "amber";
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        "shrink-0 rounded-full border px-2.5 py-0.5 text-[11px] font-extrabold leading-none tracking-tight",
+        tone === "amber"
+          ? "border-[#F0C96A] bg-[#FFF8E8] text-[#C48A00] shadow-[0_2px_0_#D4902C]"
+          : "border-[#F3B4CC] bg-[#FFF0F5] text-[#9E2356] shadow-[0_2px_0_#BD145F]",
+        className,
+      )}
+    >
+      {label}
+    </span>
   );
 }

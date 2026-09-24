@@ -10,43 +10,43 @@ import { AnimatedFeatureCard, FeatureCardColor } from "@/components/ui/feature-c
 export const Route = createFileRoute("/kisah/")({ component: KisahHub });
 
 const STORY_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag: string }> = {
-  "s-peta": { image: "/props/star.png", color: "blue", tag: "Ekosistem" },
-  "s-defi": { image: "/props/coins.png", color: "emerald", tag: "DeFi" },
-  "s-kerja": { image: "/props/bonsai.png", color: "purple", tag: "Karir Web3" },
-  "s-eth": { image: "/props/frame.png", color: "blue", tag: "Ethereum" },
-  "s-liq": { image: "/props/cone.png", color: "orange", tag: "DeFi Risk" },
-  "s-flash": { image: "/props/coins.png", color: "emerald", tag: "Flash Loan" },
-  "s-oracle": { image: "/props/lantern.png", color: "purple", tag: "Oracle" },
-  "s-arb": { image: "/props/crate.png", color: "orange", tag: "MEV & Bot" },
-  "s-poison": { image: "/props/mushroom.png", color: "rose", tag: "Keamanan" },
-  "s-permit": { image: "/props/key.png", color: "rose", tag: "Keamanan" },
-  "s-il": { image: "/props/flower.png", color: "emerald", tag: "DeFi LP" },
-  "s-dm": { image: "/props/lantern.png", color: "rose", tag: "Social Scam" },
-  "s-seed": { image: "/props/key.png", color: "rose", tag: "Seed Phrase" },
-  "s-airdrop": { image: "/props/parachute.png", color: "blue", tag: "Airdrop" },
-  "s-drop-cuan": { image: "/props/balloon.png", color: "emerald", tag: "Airdrop" },
-  "s-copy": { image: "/props/star.png", color: "purple", tag: "Psychology" },
-  "s-honey": { image: "/props/lily.png", color: "rose", tag: "Honeypot" },
-  "s-cs": { image: "/props/shield.png", color: "rose", tag: "Phishing" },
-  "s-izin": { image: "/props/key.png", color: "rose", tag: "Allowance" },
-  "s-cukup": { image: "/props/shield.png", color: "purple", tag: "Mindset" },
+  "s-peta": { image: "/proof/drop-arb-18k.png", color: "blue", tag: "Ekosistem L2" },
+  "s-defi": { image: "/proof/drop-uni-pair.jpg", color: "emerald", tag: "DeFi Pool" },
+  "s-kerja": { image: "/proof/drop-uni-gaji.jpg", color: "purple", tag: "Karir Web3" },
+  "s-eth": { image: "/worlds/u1-genesis.jpg", color: "blue", tag: "Ethereum" },
+  "s-liq": { image: "/proof/rugi-liqs.jpg", color: "orange", tag: "DeFi Risk" },
+  "s-flash": { image: "/proof/cuan-winter.jpg", color: "emerald", tag: "Flash Loan" },
+  "s-oracle": { image: "/proof/warn-approval.jpg", color: "purple", tag: "Oracle Exploit" },
+  "s-arb": { image: "/proof/cuan-indo-lev.jpg", color: "orange", tag: "MEV & Arb" },
+  "s-poison": { image: "/proof/warn-scam-arc.jpg", color: "rose", tag: "Address Poison" },
+  "s-permit": { image: "/proof/scam-drainer.jpg", color: "rose", tag: "Permit Drainer" },
+  "s-il": { image: "/proof/rugi-roundtrip.png", color: "emerald", tag: "Impermanent Loss" },
+  "s-dm": { image: "/proof/warn-never-dm.jpg", color: "rose", tag: "Social Scam" },
+  "s-seed": { image: "/proof/warn-sparkkitty.jpg", color: "rose", tag: "Malware Galeri" },
+  "s-airdrop": { image: "/proof/warn-airdrop-honey.jpg", color: "blue", tag: "Fake Airdrop" },
+  "s-drop-cuan": { image: "/proof/drop-uni-400.jpg", color: "emerald", tag: "Airdrop Claim" },
+  "s-copy": { image: "/proof/cuan-20m.jpg", color: "purple", tag: "Copy Trading" },
+  "s-honey": { image: "/proof/warn-honeypot.jpg", color: "rose", tag: "Honeypot Trap" },
+  "s-cs": { image: "/proof/warn-hl-phish.jpg", color: "rose", tag: "Domain Phish" },
+  "s-izin": { image: "/proof/warn-revoke.jpg", color: "rose", tag: "Revoke Izin" },
+  "s-cukup": { image: "/proof/fumble-193m.jpg", color: "purple", tag: "Psikologi Exit" },
 };
 
 const CASE_ASSETS: Record<string, { image: string; color: FeatureCardColor; tag: string }> = {
-  "b-seed": { image: "/props/key.png", color: "rose", tag: "Audit Seed" },
-  "b-dm": { image: "/props/shield.png", color: "purple", tag: "Fake CS" },
-  "b-phish": { image: "/props/lantern.png", color: "rose", tag: "Phishing" },
-  "b-honey": { image: "/props/lily.png", color: "orange", tag: "Honeypot" },
-  "b-drain": { image: "/props/mushroom.png", color: "rose", tag: "Drainer Kit" },
-  "b-sim": { image: "/props/cone.png", color: "rose", tag: "Fake Sim" },
-  "b-cuan": { image: "/props/coins.png", color: "emerald", tag: "Cuan Nyata" },
-  "b-drop": { image: "/props/parachute.png", color: "blue", tag: "Arbitrum Drop" },
-  "b-rugi": { image: "/props/balloon.png", color: "rose", tag: "Short Rekt" },
-  "b-zach": { image: "/props/shield.png", color: "rose", tag: "Hardware Phish" },
-  "b-paper": { image: "/props/book.png", color: "orange", tag: "Paper Gain" },
-  "b-revoke": { image: "/props/key.png", color: "purple", tag: "Revoke Izin" },
-  "b-coinex": { image: "/props/shield.png", color: "rose", tag: "CEX Breach" },
-  "b-dict": { image: "/props/crate.png", color: "rose", tag: "Brute Force" },
+  "b-seed": { image: "/proof/warn-seed.jpg", color: "rose", tag: "Kasus Seed" },
+  "b-dm": { image: "/proof/warn-never-dm.jpg", color: "purple", tag: "Fake CS" },
+  "b-phish": { image: "/proof/warn-phishing.jpg", color: "rose", tag: "Bursa Tutup" },
+  "b-honey": { image: "/proof/warn-honeypot.jpg", color: "orange", tag: "Honeypot +605%" },
+  "b-drain": { image: "/proof/scam-drainer.jpg", color: "rose", tag: "Drainer Kit $210" },
+  "b-sim": { image: "/proof/warn-redpill.jpg", color: "rose", tag: "Simulasi Bohong" },
+  "b-cuan": { image: "/proof/cuan-20m.jpg", color: "emerald", tag: "Cuan Rp20 M" },
+  "b-drop": { image: "/proof/drop-arb-18k.png", color: "blue", tag: "Arbitrum Drop" },
+  "b-rugi": { image: "/proof/rugi-33m.png", color: "rose", tag: "Short −$33M" },
+  "b-zach": { image: "/proof/warn-zach.jpg", color: "rose", tag: "Email Trezor $1,2M" },
+  "b-paper": { image: "/proof/rugi-paper.jpg", color: "orange", tag: "Profit Kertas" },
+  "b-revoke": { image: "/proof/warn-revoke.jpg", color: "purple", tag: "Revoke Izin" },
+  "b-coinex": { image: "/proof/warn-coinex.jpg", color: "rose", tag: "CoinEx $54,7M" },
+  "b-dict": { image: "/proof/warn-dict.jpg", color: "rose", tag: "Brute Force $3,5M" },
 };
 
 function KisahHub() {
@@ -77,7 +77,7 @@ function KisahHub() {
               Kisah Web3
             </h1>
             <p className="font-sans text-xs sm:text-sm text-choco-600 mt-1 max-w-xl">
-              Eksplorasi cerita interaktif, simulasi nyata, dan bedah audit forensik on-chain dengan kartu animasi 3D.
+              Eksplorasi cerita interaktif, simulasi nyata, dan bedah audit forensik on-chain dengan kartu animasi 3D & bukti otentik.
             </p>
           </div>
 
@@ -126,15 +126,27 @@ function KisahHub() {
               </p>
             </div>
 
-            <div className="relative z-10 flex flex-row md:flex-col items-center gap-3 w-full md:w-auto">
+            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+              <div className="hidden sm:block shrink-0 relative w-40 h-24 overflow-hidden rounded-2xl border-2 border-choco-900 bg-white shadow-[0_3px_0_#3B2218]">
+                <img
+                  src={STORY_ASSETS[featured.id]?.image || "/proof/drop-arb-18k.png"}
+                  alt={featured.title}
+                  className="w-full h-full object-cover object-top"
+                  loading="lazy"
+                />
+                <div className="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded bg-choco-900/85 backdrop-blur-xs text-[8px] font-pixel font-bold text-white shadow-xs">
+                  ARSIP BUKTI
+                </div>
+              </div>
+
               <Link
                 to="/kisah/$storyId"
                 params={{ storyId: featured.id }}
-                className="w-full md:w-auto"
+                className="w-full sm:w-auto"
               >
                 <button
                   type="button"
-                  className="w-full md:w-auto inline-flex items-center justify-center gap-2 font-pixel font-bold text-xs sm:text-sm px-6 py-3 rounded-full bg-candy-500 hover:bg-candy-600 text-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-pixel font-bold text-xs sm:text-sm px-6 py-3 rounded-full bg-candy-500 hover:bg-candy-600 text-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer transition-all whitespace-nowrap"
                 >
                   <span>Mulai Investigasi</span>
                   <ArrowRight className="size-4" />
@@ -151,7 +163,7 @@ function KisahHub() {
               {openStories.map((s, idx) => {
                 const isDone = doneStories.includes(s.id);
                 const assetConfig = STORY_ASSETS[s.id] ?? {
-                  image: "/props/star.png",
+                  image: "/proof/drop-top50.jpg",
                   color: "blue" as FeatureCardColor,
                   tag: "Kisah",
                 };
@@ -219,7 +231,7 @@ function KisahHub() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {lockedStories.map((s, idx) => {
                     const assetConfig = STORY_ASSETS[s.id] ?? {
-                      image: "/props/star.png",
+                      image: "/proof/drop-top50.jpg",
                       color: "blue" as FeatureCardColor,
                       tag: "Kisah",
                     };
@@ -261,7 +273,7 @@ function KisahHub() {
               {openCases.map((c, idx) => {
                 const isDone = doneCases.includes(c.id);
                 const assetConfig = CASE_ASSETS[c.id] ?? {
-                  image: "/props/shield.png",
+                  image: "/proof/warn-phishing.jpg",
                   color: "rose" as FeatureCardColor,
                   tag: "Audit On-Chain",
                 };
@@ -329,7 +341,7 @@ function KisahHub() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {lockedCases.map((c, idx) => {
                     const assetConfig = CASE_ASSETS[c.id] ?? {
-                      image: "/props/shield.png",
+                      image: "/proof/warn-phishing.jpg",
                       color: "rose" as FeatureCardColor,
                       tag: "Audit On-Chain",
                     };

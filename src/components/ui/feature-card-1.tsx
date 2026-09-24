@@ -5,8 +5,6 @@ import { cn } from "@/lib/utils";
 export type FeatureCardColor = "orange" | "purple" | "blue" | "emerald" | "rose" | "teal";
 
 export interface AnimatedFeatureCardProps extends Omit<HTMLMotionProps<"div">, "title" | "children"> {
-  /** Optional children elements */
-  children?: React.ReactNode;
   /** The numerical index to display, e.g., "001" */
   index: string;
   /** The tag or category label */
@@ -27,6 +25,8 @@ export interface AnimatedFeatureCardProps extends Omit<HTMLMotionProps<"div">, "
   imageAlt?: string;
   /** If the card represents locked content */
   isLocked?: boolean;
+  /** Optional children elements */
+  children?: React.ReactNode;
 }
 
 // Define HSL color values for each variant
@@ -92,12 +92,18 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
     const cardVars = colorVariants[color] ?? colorVariants.orange;
     const cardStyle = { ...cardVars, ...style } as React.CSSProperties;
 
+    const isEvidence =
+      imageSrc.includes("/proof/") ||
+      imageSrc.includes("/worlds/") ||
+      imageSrc.endsWith(".jpg") ||
+      imageSrc.endsWith(".jpeg");
+
     return (
       <motion.div
         ref={ref}
         style={cardStyle}
         className={cn(
-          "group relative flex min-h-[360px] sm:min-h-[390px] w-full flex-col justify-between overflow-hidden rounded-[26px] border-3 border-choco-900 bg-cream p-4 sm:p-5 shadow-[0_6px_0_#3B2218] transition-colors select-none",
+          "group relative flex min-h-[380px] sm:min-h-[410px] w-full flex-col justify-between overflow-hidden rounded-[26px] border-3 border-choco-900 bg-cream p-4 sm:p-5 shadow-[0_6px_0_#3B2218] transition-colors select-none",
           isLocked && "opacity-75 grayscale-[0.35]",
           className
         )}
@@ -127,37 +133,57 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
 
         {/* Top Header: Index & Badge */}
         <div className="relative z-10 flex items-center justify-between gap-2">
-          <span className="font-pixel text-xs sm:text-sm font-bold tracking-wider text-choco-900/70 bg-white/80 border-2 border-choco-900/15 px-2.5 py-1 rounded-xl shadow-[0_1.5px_0_#3B2218]">
+          <span className="font-pixel text-xs sm:text-sm font-bold tracking-wider text-choco-900/80 bg-white/90 border-2 border-choco-900/18 px-2.5 py-1 rounded-xl shadow-[0_1.5px_0_#3B2218]">
             {index}
           </span>
           {badge && <div className="flex items-center gap-1.5">{badge}</div>}
         </div>
 
-        {/* Floating Central 3D Asset with Framer Motion Spring Zoom */}
+        {/* Central Asset / Proof Snapshot with Framer Motion Spring Zoom */}
         <motion.div
-          className="relative z-10 my-auto flex items-center justify-center py-4"
+          className="relative z-10 my-auto flex w-full items-center justify-center py-3"
           variants={{
-            initial: { scale: 1, y: 0, rotate: 0 },
-            hover: { scale: 1.18, y: -12, rotate: [-1, 2, 0] },
+            initial: { scale: 1, y: 0 },
+            hover: { scale: 1.05, y: -6 },
           }}
-          transition={{ type: "spring", stiffness: 220, damping: 14 }}
+          transition={{ type: "spring", stiffness: 240, damping: 16 }}
         >
-          <img
-            src={imageSrc}
-            alt={imageAlt || tag}
-            className="h-28 w-28 sm:h-36 sm:w-36 object-contain filter drop-shadow-[0_12px_18px_rgba(59,34,24,0.22)] transition-all"
-            loading="lazy"
-            onError={(e) => {
-              const target = e.currentTarget;
-              if (!target.src.endsWith("/props/star.png")) {
-                target.src = "/props/star.png";
-              }
-            }}
-          />
+          {isEvidence ? (
+            <div className="relative w-full max-w-[270px] h-32 sm:h-36 overflow-hidden rounded-2xl border-2 border-choco-900 bg-white shadow-[0_4px_0_#3B2218] transition-transform duration-300">
+              <img
+                src={imageSrc}
+                alt={imageAlt || tag}
+                className="w-full h-full object-cover object-top filter brightness-[0.98] group-hover:brightness-105 group-hover:scale-105 transition-all duration-300"
+                loading="lazy"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.endsWith("/props/star.png")) {
+                    target.src = "/props/star.png";
+                  }
+                }}
+              />
+              <div className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-choco-900/85 backdrop-blur-xs text-[9px] font-pixel font-bold text-white shadow-xs">
+                ARSIP BUKTI
+              </div>
+            </div>
+          ) : (
+            <img
+              src={imageSrc}
+              alt={imageAlt || tag}
+              className="h-28 w-28 sm:h-36 sm:w-36 object-contain filter drop-shadow-[0_12px_18px_rgba(59,34,24,0.22)] transition-all"
+              loading="lazy"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.endsWith("/props/star.png")) {
+                  target.src = "/props/star.png";
+                }
+              }}
+            />
+          )}
         </motion.div>
 
         {/* Bottom Frosted Tactile Content Box */}
-        <div className="relative z-20 flex flex-col gap-2 rounded-2xl border-2 border-choco-900/18 bg-white/90 p-3.5 sm:p-4 backdrop-blur-md shadow-[0_3px_0_rgba(59,34,24,0.08)]">
+        <div className="relative z-20 flex flex-col gap-2 rounded-2xl border-2 border-choco-900/18 bg-white/92 p-3.5 sm:p-4 backdrop-blur-md shadow-[0_3px_0_rgba(59,34,24,0.08)]">
           {/* Tag Pill */}
           <div className="flex items-center justify-between gap-2">
             <span

@@ -258,6 +258,51 @@ async function runSecurityAudit() {
     }
   }
 
+  // 17. Admin Key Verification Security Check
+  try {
+    const { data: vWrong } = await supabase.rpc("admin_verify_key", { p_key: "invalid-key-attempt" });
+    assert(
+      "admin_verify_key rejects unauthorized keys",
+      vWrong === false,
+      "Expected false"
+    );
+  } catch (e) {
+    assert("admin_verify_key rejects unauthorized keys", false, e.message);
+  }
+
+  // 18. Admin Upsert Raffle rejects unauthenticated caller
+  try {
+    const { error: errUpsert } = await supabase.rpc("admin_upsert_raffle", {
+      p_key: "attacker-key",
+      p_id: "fake-raffle",
+      p_title: "Hacked Raffle",
+      p_prize: "1000 BTC",
+      p_prize_detail: "Exploit attempt"
+    });
+    assert(
+      "admin_upsert_raffle rejects unauthorized key with 42501",
+      Boolean(errUpsert) && (errUpsert.code === "42501" || errUpsert.message.includes("Unauthorized")),
+      errUpsert?.message
+    );
+  } catch (e) {
+    assert("admin_upsert_raffle rejects unauthorized key", false, e.message);
+  }
+
+  // 19. Admin Delete Raffle rejects unauthenticated caller
+  try {
+    const { error: errDel } = await supabase.rpc("admin_delete_raffle", {
+      p_key: "attacker-key",
+      p_raffle_id: "raf-genesis-blobi"
+    });
+    assert(
+      "admin_delete_raffle rejects unauthorized key with 42501",
+      Boolean(errDel) && (errDel.code === "42501" || errDel.message.includes("Unauthorized")),
+      errDel?.message
+    );
+  } catch (e) {
+    assert("admin_delete_raffle rejects unauthorized key", false, e.message);
+  }
+
   console.log(`\nAudit Results: ${passedChecks}/${totalChecks} checks passed.`);
   if (passedChecks === totalChecks) {
     console.log("ALL BACKEND & CYBER SECURITY CHECKS PASSED PERFECTLY!");

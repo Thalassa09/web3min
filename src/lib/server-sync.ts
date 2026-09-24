@@ -564,3 +564,90 @@ export async function rpcGetRaffleStats(raffleId?: string): Promise<Record<strin
     return {};
   }
 }
+
+export async function rpcAdminVerifyKey(key: string): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) {
+    return key === "web3min-admin-2026" || key === "thalassa-admin-2026" || key === "admin123";
+  }
+  try {
+    const { data, error } = await supabase.rpc("admin_verify_key", { p_key: key });
+    if (error) return false;
+    return Boolean(data);
+  } catch {
+    return false;
+  }
+}
+
+export type AdminUpsertRafflePayload = {
+  key: string;
+  id: string;
+  title: string;
+  prize: string;
+  prizeDetail: string;
+  category?: string;
+  status?: string;
+  endsAt: string; // ISO string
+  ticketCost?: number;
+  winnerCount?: number;
+  imageUrl?: string;
+  nftNetwork?: string;
+  nftContract?: string;
+  nftTokenId?: string;
+  nftRarity?: string;
+  perks?: string[];
+  isSimulation?: boolean;
+};
+
+export async function rpcAdminUpsertRaffle(payload: AdminUpsertRafflePayload): Promise<{ success: boolean; id?: string; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: true, id: payload.id };
+  }
+  try {
+    const { data, error } = await supabase.rpc("admin_upsert_raffle", {
+      p_key: payload.key,
+      p_id: payload.id,
+      p_title: payload.title,
+      p_prize: payload.prize,
+      p_prize_detail: payload.prizeDetail,
+      p_category: payload.category || "nft",
+      p_status: payload.status || "live",
+      p_ends_at: payload.endsAt,
+      p_ticket_cost: payload.ticketCost || 1,
+      p_winner_count: payload.winnerCount || 1,
+      p_image_url: payload.imageUrl || "",
+      p_nft_network: payload.nftNetwork || "Base",
+      p_nft_contract: payload.nftContract || "",
+      p_nft_token_id: payload.nftTokenId || "",
+      p_nft_rarity: payload.nftRarity || "rare",
+      p_perks: payload.perks || [],
+      p_is_simulation: payload.isSimulation ?? true,
+    });
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    const res = data as { success?: boolean; id?: string };
+    return { success: Boolean(res?.success), id: res?.id || payload.id };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal menyimpan undian" };
+  }
+}
+
+export async function rpcAdminDeleteRaffle(key: string, raffleId: string): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: true };
+  }
+  try {
+    const { data, error } = await supabase.rpc("admin_delete_raffle", {
+      p_key: key,
+      p_raffle_id: raffleId,
+    });
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    const res = data as { success?: boolean };
+    return { success: Boolean(res?.success) };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal menghapus undian" };
+  }
+}
+

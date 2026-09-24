@@ -183,48 +183,21 @@ export function PulauRantaiMap({
         {toastMsg}
       </div>
 
-      {/* Pulau Rantai Top Integrated Control Bar */}
-      <header className="sticky top-0 z-20 w-full bg-cream/95 backdrop-blur-xl border-b-3 border-choco-900 px-4 py-2.5 shadow-[0_3px_0_#3B2218]">
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <span className="text-xl sm:text-2xl">🏝️</span>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="font-pixel font-bold text-sm sm:text-base text-choco-900 leading-tight">
-                  Pulau Rantai
-                </h2>
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-candy-100 text-[10px] font-pixel font-bold text-candy-700 border border-choco-900">
-                  20 Rute
-                </span>
-              </div>
-              <p className="text-[10px] font-bold text-candy-600 font-pixel">
-                Peta Petualangan On-Chain
-              </p>
-            </div>
-            <button
-              type="button"
-              className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-candy-50 text-choco-900 border-2 border-choco-900 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-[0_2px_0_#3B2218]"
-              onClick={() => setShowProgresModal(true)}
-              title="Lihat Rincian 20 Rute"
-            >
-              <PulauIcon name="book" size={14} />
-              <span>Progres Rute</span>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 lg:hidden">
-            <button
-              type="button"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-candy-500 hover:bg-candy-600 text-white border-2 border-choco-900 text-xs font-pixel font-bold transition-all active:scale-95 cursor-pointer shadow-[0_2px_0_#3B2218]"
-              onClick={() => setShowQuestsModal(true)}
-              title="Buka Misi Harian"
-            >
-              <PulauIcon name="star" size={14} fill />
-              <span>Misi</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Floating Overlay: Progres 20 Rute (Tanpa header bar kaku) */}
+      <div className="fixed top-16 sm:top-20 right-4 sm:right-6 z-25 pointer-events-none">
+        <button
+          type="button"
+          className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-cream/95 hover:bg-white backdrop-blur-md text-choco-900 border-2 border-choco-900 text-xs font-pixel font-bold transition-all active:scale-95 cursor-pointer shadow-[0_3px_0_#3B2218] hover:shadow-[0_4px_0_#3B2218]"
+          onClick={() => setShowProgresModal(true)}
+          title="Buka Progres 20 Rute"
+        >
+          <PulauIcon name="book" size={14} />
+          <span>Progres Rute</span>
+          <span className="px-1.5 py-0.5 rounded-full bg-candy-100 text-[10px] text-candy-700 border border-choco-900 font-pixel font-bold">
+            20
+          </span>
+        </button>
+      </div>
 
       {/* Main Adventure Scrolling Stage */}
       <div

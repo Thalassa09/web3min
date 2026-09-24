@@ -12,6 +12,12 @@ function applyMotion(on: boolean) {
   document.documentElement.dataset.motion = isReduced ? "reduced" : "full";
 }
 
+function applyPixelMode(on: boolean) {
+  if (typeof document === "undefined") return;
+  document.documentElement.classList.toggle("pixel-mode", on);
+  document.documentElement.dataset.pixelMode = on ? "true" : "false";
+}
+
 export function HydrationGate({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
@@ -22,8 +28,10 @@ export function HydrationGate({ children }: { children: ReactNode }) {
       if (!mounted || hydrated) return;
       hydrated = true;
       try {
-        useProgress.getState().tick();
-        applyMotion(useProgress.getState().reduceMotion);
+        const s = useProgress.getState();
+        s.tick();
+        applyMotion(s.reduceMotion);
+        applyPixelMode(s.pixelMode);
       } catch {}
       setReady(true);
     };
@@ -61,6 +69,7 @@ export function HydrationGate({ children }: { children: ReactNode }) {
     const id = window.setInterval(() => useProgress.getState().tick(), 30000);
     const unsub = useProgress.subscribe((s, prev) => {
       if (s.reduceMotion !== prev.reduceMotion) applyMotion(s.reduceMotion);
+      if (s.pixelMode !== prev.pixelMode) applyPixelMode(s.pixelMode);
     });
     return () => {
       window.clearInterval(id);

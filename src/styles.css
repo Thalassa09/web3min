@@ -1,19 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@600;700&family=Nunito:wght@600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@600;700&display=swap");
 @import "tailwindcss";
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   MASTER DESIGN SYSTEM — web3min: "Arcade Candy"
-   Conforming Specs: Nunito + Pixelify Sans, Candy Scale (#F26A99/#E8437F),
-   Warm Choco (#3B2218), Cream (#FFF6EE), Lemon (#FFD84D), Mint (#6FE3C1),
-   Grape (#9B6BFF), Streak (#FF8A3D), Gummy 3D Buttons & CandyBox DNA
+   MASTER DESIGN SYSTEM — web3min: "Tactile Spatial Arcade"
+   Bespoke Typographic Triad: Bricolage Grotesque (Display), Plus Jakarta Sans (Body),
+   JetBrains Mono (Tech), Silkscreen / Pixelify Sans (Optional Retro Pixel Craft).
+   Mechanical Doppelrand Elevation, Specular Enamel Highlight & Organic Porcelain.
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Fonts — Strict 2-font system (Nunito + Pixelify Sans) */
-  --font-sans: "Nunito", ui-rounded, system-ui, sans-serif;
-  --font-pixel: "Pixelify Sans", monospace;
-  --font-display: "Pixelify Sans", monospace;
-  --font-mono: "Pixelify Sans", monospace;
+  /* High-Character Typography Triad — Anti-Pasaran */
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-pixel: "Silkscreen", "Pixelify Sans", monospace;
 
   /* Border Radii (sm 10px, md 14px, lg 22px, xl 28px, 2xl 32px, pill 9999px) */
   --radius-sm: 10px;
@@ -207,35 +207,59 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   DNA BOX (MANDATORY FOR ALL BOXES) & GUMMY 3D CONTROLS
+   DYNAMIC TYPOGRAPHY & TACTILE SPATIAL ARCADE ELEVATION
+   Default (Pristine Modern): Bricolage Grotesque, Plus Jakarta Sans, Doppelrand Bezel
+   Pixel Mode ON: Silkscreen / Pixelify Sans + Retro 8-Bit Arcade Box Shadow
    ══════════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --active-heading-font: var(--font-display);
+  --box-border-width: 1.5px;
+  --box-border-color: rgba(59, 34, 24, 0.16);
+  --box-shadow-main: 0 4px 0 #3B2218, 0 10px 24px -4px rgba(59, 34, 24, 0.10);
+  --box-shadow-hover: 0 6px 0 #3B2218, 0 14px 28px -4px rgba(59, 34, 24, 0.14);
+  --box-bg-surface: #FFFFFF;
+}
+
+html[data-pixel-mode="true"],
+.pixel-mode {
+  --active-heading-font: var(--font-pixel);
+  --box-border-width: 2.5px;
+  --box-border-color: var(--color-choco-900);
+  --box-shadow-main: 0 5px 0 var(--color-choco-900);
+  --box-shadow-hover: 0 8px 0 var(--color-choco-900);
+  --box-bg-surface: var(--color-cream);
+}
 
 .candy-box {
   position: relative;
-  background: var(--color-cream);
-  border: 3px solid var(--color-choco-900);
-  border-radius: 22px;
-  box-shadow: 0 6px 0 var(--color-choco-900);
+  background: var(--box-bg-surface);
+  border: var(--box-border-width) solid var(--box-border-color);
+  border-radius: 20px;
+  box-shadow: var(--box-shadow-main), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: transform 0.14s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.14s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .candy-box--hover {
-  transition: transform 0.12s steps(2), box-shadow 0.12s steps(2);
+  transition: transform 0.14s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.14s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .candy-box--hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 9px 0 var(--color-choco-900);
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-hover), inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 .candy-box--pink {
   background: var(--color-candy-400);
+  border-color: rgba(59, 34, 24, 0.25);
   color: #fff;
 }
 .candy-box--dark {
-  background: var(--color-choco-900);
+  background: #251610;
+  border-color: rgba(255, 216, 77, 0.3);
   color: var(--color-lemon);
 }
 .candy-box--glitch {
   background: #F3ECFF;
   border-color: var(--color-grape-deep);
-  box-shadow: 0 6px 0 var(--color-grape-deep);
+  box-shadow: 0 4px 0 var(--color-grape-deep), 0 10px 20px -4px rgba(91, 47, 184, 0.15);
 }
 
 .btn-gummy {
@@ -247,34 +271,34 @@ body {
   padding: 10px 18px;
   color: #fff;
   background: var(--color-candy-500);
-  border: 3px solid var(--color-choco-900);
+  border: var(--box-border-width) solid var(--box-border-color);
   border-radius: 14px;
-  box-shadow: 0 4px 0 var(--color-choco-900), inset 0 -4px 0 var(--color-candy-700);
-  font-family: var(--font-pixel);
+  box-shadow: 0 3.5px 0 var(--color-choco-900), inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -3px 0 var(--color-candy-700);
+  font-family: var(--active-heading-font);
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
-  transition: transform 0.06s, box-shadow 0.06s;
+  transition: transform 0.08s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.08s cubic-bezier(0.23, 1, 0.32, 1);
   cursor: pointer;
   user-select: none;
 }
 .btn-gummy::after {
   content: "";
   position: absolute;
-  top: 4px;
+  top: 3px;
   left: 8px;
   right: 40%;
-  height: 5px;
+  height: 4px;
   border-radius: 99px;
   background: rgb(255 255 255 / 0.45);
   pointer-events: none;
 }
 .btn-gummy:hover:not(:disabled) {
-  filter: brightness(1.04);
+  filter: brightness(1.03);
 }
 .btn-gummy:active:not(:disabled) {
-  transform: translateY(4px);
-  box-shadow: 0 0 0 var(--color-choco-900);
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--color-choco-900), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .btn-gummy:disabled {
   background: #E9DCD4;
@@ -437,12 +461,29 @@ img.sprite, img.pixelated {
 .seg i.on, .seg span.on { background: var(--color-ok); }
 .seg i.now, .seg span.now { background: var(--color-primary); }
 
-/* Headings default */
-h1, h2, h3, h4, .font-display {
-  font-family: var(--font-sans);
+/* Headings default — High-Character Typographic Triad */
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--active-heading-font);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1.15;
+}
+
+/* In Modern Pristine Mode, .font-pixel gracefully elevates to Bricolage Grotesque */
+.font-pixel {
+  font-family: var(--active-heading-font);
+  letter-spacing: -0.015em;
+}
+
+/* When Pixel Mode is enabled, switch headings & pixel elements to 8-bit arcade font */
+html[data-pixel-mode="true"] h1,
+html[data-pixel-mode="true"] h2,
+html[data-pixel-mode="true"] h3,
+html[data-pixel-mode="true"] h4,
+html[data-pixel-mode="true"] .font-pixel,
+.pixel-mode .font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.04em;
 }
 
 .font-mono, code, pre {

@@ -14,6 +14,8 @@ function SettingsPage() {
   const setSound = useProgress((s) => s.setSound);
   const reduceMotion = useProgress((s) => s.reduceMotion);
   const setReduceMotion = useProgress((s) => s.setReduceMotion);
+  const pixelMode = useProgress((s) => s.pixelMode);
+  const setPixelMode = useProgress((s) => s.setPixelMode);
   const twitter = useProgress((s) => s.twitter);
   const setTwitter = useProgress((s) => s.setTwitter);
   const reset = useProgress((s) => s.reset);
@@ -88,6 +90,25 @@ function SettingsPage() {
           </div>
           <DuoButton variant={reduceMotion ? "primary" : "ghost"} onClick={() => setReduceMotion(!reduceMotion)}>
             {reduceMotion ? "Aktif" : "Nonaktif"}
+          </DuoButton>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-paper px-4 py-3 border border-choco-900/10 shadow-[0_2px_0_rgba(59,34,24,0.06)]">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-base select-none">{pixelMode ? "👾" : "✨"}</span>
+              <p className="font-bold">Mode Retro Pixel</p>
+            </div>
+            <p className="text-sm leading-5 text-muted mt-0.5">
+              Aktifkan tipografi 8-bit retro arcade, atau matikan untuk tampilan modern editorial Bricolage & Plus Jakarta Sans yang bersih, elegan, dan non-pasaran.
+            </p>
+          </div>
+          <DuoButton
+            variant={pixelMode ? "secondary" : "primary"}
+            onClick={() => setPixelMode(!pixelMode)}
+            className="shrink-0"
+          >
+            {pixelMode ? "🕹️ Pixel ON" : "✨ Modern"}
           </DuoButton>
         </div>
 

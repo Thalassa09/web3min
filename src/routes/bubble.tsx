@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useProgress } from "@/lib/store";
 import {
   Button,
   CandyBox,
@@ -31,6 +32,8 @@ export const Route = createFileRoute("/bubble")({
 });
 
 function ArcadeCandyComponentsShowcase() {
+  const pixelMode = useProgress((s) => s.pixelMode);
+  const setPixelMode = useProgress((s) => s.setPixelMode);
   const [soundOn, setSoundOn] = useState(true);
   const [hapticOn, setHapticOn] = useState(true);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -332,6 +335,38 @@ function ArcadeCandyComponentsShowcase() {
               label="KURANGI ANIMASI (REDUCED MOTION)"
               description="Matikan animasi candy-stripe, glitch, bounce, dan goyangan."
             />
+          </CandyBox>
+        </section>
+
+        {/* 7. ESTETIKA & PIXEL CRAFT ENGINE */}
+        <section className="space-y-4">
+          <SectionTitle
+            title="7. ESTETIKA & PIXEL CRAFT ENGINE (ANTI-PASARAN)"
+            subtitle="Peralihan instan antara Pristine Modern (Bricolage Grotesque & Plus Jakarta Sans) dan Retro 8-bit Arcade."
+          />
+          <CandyBox className="p-6 md:p-8 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xl select-none">{pixelMode ? "👾" : "✨"}</span>
+                  <p className="font-display font-bold text-lg text-choco-900">
+                    {pixelMode ? "Mode Aktif: Retro Pixel Arcade" : "Mode Aktif: Pristine Modern Editorial"}
+                  </p>
+                </div>
+                <p className="text-sm font-sans text-choco-600 mt-1">
+                  {pixelMode
+                    ? "Font 8-bit Silkscreen & Pixelify aktif pada judul dan badge. Tekan untuk beralih ke mode modern yang bersih."
+                    : "Font Bricolage Grotesque & Plus Jakarta Sans aktif. Tampilan bersih, elegan, dan non-pasaran tanpa neo-brutalism murahan."}
+                </p>
+              </div>
+              <Button
+                variant={pixelMode ? "secondary" : "primary"}
+                onClick={() => setPixelMode(!pixelMode)}
+                className="shrink-0"
+              >
+                {pixelMode ? "Ganti ke Pristine Modern ✨" : "Ganti ke Retro Pixel 👾"}
+              </Button>
+            </div>
           </CandyBox>
         </section>
 

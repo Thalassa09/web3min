@@ -70,6 +70,7 @@ export type ProgressState = {
   worn: Worn;
   sound: boolean;
   reduceMotion: boolean;
+  pixelMode: boolean;
   introSeen: boolean;
   lessonsToday: number;
   perfectToday: number;
@@ -120,6 +121,7 @@ type Actions = {
   reset: () => void;
   setSound: (on: boolean) => void;
   setReduceMotion: (on: boolean) => void;
+  setPixelMode: (on: boolean) => void;
 };
 
 const initial: ProgressState = {
@@ -150,6 +152,7 @@ const initial: ProgressState = {
   worn: {},
   sound: true,
   reduceMotion: false,
+  pixelMode: false,
   introSeen: false,
   guideSeen: false,
   coachSeen: false,
@@ -292,6 +295,7 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
     worn,
     sound: raw.sound !== false,
     reduceMotion: Boolean(raw.reduceMotion),
+    pixelMode: Boolean(raw.pixelMode),
     lessonsToday: clamp(raw.lessonsToday, 0, 50, 0),
     perfectToday: clamp(raw.perfectToday, 0, 50, 0),
     storiesToday: clamp(raw.storiesToday, 0, 50, 0),
@@ -662,6 +666,7 @@ export const useProgress = create<ProgressState & Actions>()(
       reset: () => set({ ...initial, heartsUpdatedAt: Date.now() }),
       setSound: (on) => set({ sound: Boolean(on) }),
       setReduceMotion: (on) => set({ reduceMotion: Boolean(on) }),
+      setPixelMode: (on) => set({ pixelMode: Boolean(on) }),
     }),
     {
       name: "web3min-v2",

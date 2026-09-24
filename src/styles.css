@@ -1760,14 +1760,6 @@ button.jb:active, .fab:active .jb {
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-}
-
-.world video.art,
-.world#unit-u1 > .art {
   image-rendering: auto;
 }
 .road {

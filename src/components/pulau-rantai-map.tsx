@@ -265,28 +265,15 @@ export function PulauRantaiMap({
                 } as React.CSSProperties
               }
             >
-              {/* World Cover Video (Lane 1 animated background) or High Definition Cover Image */}
-              {unit.id === "u1" ? (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  poster={`/worlds/${unit.id}.jpg?v=2`}
-                  className="art object-cover w-full h-full absolute inset-0 pointer-events-none"
-                >
-                  <source src={`/worlds/${unit.id}.mp4?v=2`} type="video/mp4" />
-                </video>
-              ) : (
-                <img
-                  className="art"
-                  src={`/worlds/${unit.id}.jpg`}
-                  alt=""
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
-              )}
+              <img
+                className="art"
+                src={`/worlds/${unit.id}.jpg?v=hd1`}
+                alt=""
+                decoding="async"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
 
               {/* HD Atmospheric Lighting Overlay for rich depth & contrast */}
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/10 via-transparent to-ink-950/20 z-1" />

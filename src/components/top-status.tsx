@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, Sparkles, Volume2, VolumeX } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
-import { BlockStamp } from "@/components/motif";
+import { BlockStamp, CoinIcon } from "@/components/motif";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
 import { useNavStore } from "@/lib/nav-store";
 import { playTap, setAudioEnabled } from "@/lib/audio";
@@ -157,8 +157,8 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
         <StatPill
           value={gems}
           display={formatGems(gems)}
-          title={`${gems} Bintang`}
-          icon={<BlockStamp size={16} lit={false} />}
+          title={`${gems} Koin`}
+          icon={<CoinIcon size={18} />}
           floatColor="var(--color-lemon-deep)"
         />
 

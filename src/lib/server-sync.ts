@@ -651,3 +651,53 @@ export async function rpcAdminDeleteRaffle(key: string, raffleId: string): Promi
   }
 }
 
+export type DbPingResult = {
+  ok: boolean;
+  latencyMs: number;
+  status: "active" | "waking" | "error";
+  message: string;
+};
+
+export async function pingAndWakeDatabase(): Promise<DbPingResult> {
+  const t0 = Date.now();
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      ok: false,
+      latencyMs: 0,
+      status: "error",
+      message: "Supabase client tidak dikonfigurasi.",
+    };
+  }
+
+  try {
+    const { error } = await supabase
+      .from("raffles")
+      .select("id")
+      .limit(1);
+
+    const elapsed = Date.now() - t0;
+    if (error) {
+      return {
+        ok: false,
+        latencyMs: elapsed,
+        status: "error",
+        message: error.message,
+      };
+    }
+    return {
+      ok: true,
+      latencyMs: elapsed,
+      status: "active",
+      message: "Database aktif dan merespons normal.",
+    };
+  } catch (err: unknown) {
+    return {
+      ok: false,
+      latencyMs: Date.now() - t0,
+      status: "error",
+      message: (err as Error)?.message || "Koneksi ke database gagal.",
+    };
+  }
+}
+
+

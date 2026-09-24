@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { Dialog } from "@/components/dialog";
 import { DuoButton } from "@/components/duo-button";
 import { sanitizeTwitter } from "@/lib/people";
-import { saveTwitterToServer } from "@/lib/server-sync";
+import { saveTwitterToServer, pingAndWakeDatabase, type DbPingResult } from "@/lib/server-sync";
 import { useProgress } from "@/lib/store";
+import { Database, Zap, RefreshCw, CheckCircle, AlertTriangle, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/settings")({ component: SettingsPage });
 
@@ -25,10 +26,85 @@ function SettingsPage() {
   const [reported, setReported] = useState(false);
   const dirty = twDraft !== twitter;
 
+  const [dbPingLoading, setDbPingLoading] = useState(false);
+  const [dbPingResult, setDbPingResult] = useState<DbPingResult | null>(null);
+
+  const checkDb = async () => {
+    setDbPingLoading(true);
+    const res = await pingAndWakeDatabase();
+    setDbPingResult(res);
+    setDbPingLoading(false);
+  };
+
+  useEffect(() => {
+    void checkDb();
+  }, []);
+
   return (
     <AppShell>
-      <main className="px-4 py-5">
-        <h1 className="text-[28px] font-extrabold leading-[34px]">Pengaturan</h1>
+      <main className="px-4 py-5 max-w-2xl mx-auto">
+        <h1 className="text-[28px] font-extrabold leading-[34px] font-display text-choco-900">Pengaturan</h1>
+
+        {/* Database Connection & Keep-Alive Status Card */}
+        <section className="mt-5 p-4 sm:p-5 rounded-3xl bg-cream border-3 border-choco-900 shadow-[0_4px_0_#3B2218] text-choco-900">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-2xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center shadow-[0_2px_0_#3B2218]">
+                <Database className="size-5 text-choco-900" />
+              </div>
+              <div>
+                <span className="font-pixel text-[9px] uppercase font-bold text-choco-700 bg-amber-100 border border-choco-900 px-2 py-0.5 rounded-full">
+                  Postgres Supabase
+                </span>
+                <h3 className="font-pixel text-base font-bold text-choco-900 mt-0.5">
+                  Status Database On-Chain
+                </h3>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {dbPingResult ? (
+                dbPingResult.ok ? (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 border-2 border-emerald-500 text-emerald-800 font-pixel text-[10px] font-bold shadow-xs">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                    </span>
+                    AKTIF ({dbPingResult.latencyMs}ms)
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-100 border-2 border-rose-500 text-rose-800 font-pixel text-[10px] font-bold">
+                    <AlertTriangle className="size-3 text-rose-600" />
+                    Tidur / Non-Aktif
+                  </span>
+                )
+              ) : (
+                <span className="font-pixel text-[10px] text-choco-500 animate-pulse">
+                  Mengecek...
+                </span>
+              )}
+            </div>
+          </div>
+
+          <p className="text-xs font-semibold text-choco-700 mt-2.5 leading-relaxed">
+            Database tersambung ke Supabase Singapore (<code>ap-southeast-1</code>). Sistem otomatis menjalankan keep-alive heartbeat setiap 4 jam agar database tidak pernah auto-pause/tidur.
+          </p>
+
+          <div className="mt-3.5 flex items-center gap-2.5 flex-wrap">
+            <button
+              type="button"
+              onClick={checkDb}
+              disabled={dbPingLoading}
+              className="py-2 px-4 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 active:shadow-none cursor-pointer flex items-center gap-1.5 transition-all"
+            >
+              <Zap className={`size-3.5 ${dbPingLoading ? "animate-spin" : ""}`} />
+              <span>{dbPingLoading ? "Membangunkan Database..." : "⚡ Bangunkan & Ping Database"}</span>
+            </button>
+            <span className="text-[11px] font-mono text-choco-600">
+              Host: oopfefvptezqonilpfkk
+            </span>
+          </div>
+        </section>
 
         <section className="mt-5">
           <label className="block text-sm font-medium text-muted" htmlFor="tw">

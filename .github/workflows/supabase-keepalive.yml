@@ -1,0 +1,31 @@
+name: Supabase 24/7 Keep-Alive Heartbeat
+
+on:
+  schedule:
+    # Run every 4 hours to prevent Supabase Free Tier auto-pause
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API Directly
+        run: |
+          echo "Pinging Supabase Postgres instance..."
+          HTTP_CODE=$(curl -s -o /tmp/sb_res.json -w "%{http_code}" \
+            -H "apikey: sb_publishable_2awGzyUxgewcA_Y1UWrPBA_Sd-ob5_8" \
+            -H "Authorization: Bearer sb_publishable_2awGzyUxgewcA_Y1UWrPBA_Sd-ob5_8" \
+            "https://oopfefvptezqonilpfkk.supabase.co/rest/v1/raffles?select=id&limit=1")
+          echo "Supabase HTTP Response: $HTTP_CODE"
+          cat /tmp/sb_res.json
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            echo "Supabase is ACTIVE and HEALTHY!"
+          else
+            echo "Warning: Received non-200 code $HTTP_CODE"
+          fi
+
+      - name: Ping Web3min Gateway Keep-Alive Route
+        run: |
+          echo "Pinging Web3min Vercel gateway keep-alive..."
+          curl -fsSL "https://web3min.vercel.app/api/keep-alive" || true

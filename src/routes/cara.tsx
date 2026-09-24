@@ -44,7 +44,7 @@ const STEPS = [
     desc: "Buka menu Kisah untuk membaca studi kasus hack kripto, peretasan smart contract, dan trik membedakan proyek asli vs bodong.",
     icon: BookOpen,
     badge: "Analisis",
-    badgeColor: "bg-sky-100 text-sky-800",
+    badgeColor: "bg-candy-100 text-candy-800",
   },
   {
     num: "06",
@@ -64,7 +64,7 @@ function CaraPage() {
         <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-[#FFF5F8] to-[#FED7E2] border-4 border-choco-900 shadow-[0_8px_0_#3B2218] flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 text-center sm:text-left">
           <div className="flex-1">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-candy-500 border-2 border-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218] mb-2.5">
-              🎮 BUKU PANDUAN ARCADE
+              BUKU PANDUAN
             </span>
             <h1 className="font-display font-black text-2xl sm:text-3xl text-choco-900 tracking-tight leading-tight">
               Cara Main & Belajar di Web3min

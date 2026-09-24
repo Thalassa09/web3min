@@ -390,11 +390,11 @@ function LeaderboardPage() {
                 }}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top50"
-                    ? "bg-blue-500 text-white"
-                    : "bg-white text-ink-900 hover:bg-blue-100"
+                    ? "bg-lemon text-choco-900"
+                    : "bg-white text-ink-900 hover:bg-lemon/40"
                 }`}
               >
-                <Star className="size-3.5 text-blue-500 shrink-0" />
+                <Star className="size-3.5 text-amber-600 shrink-0" />
                 <span>Top 50</span>
                 <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
                   (100 <CoinIcon size={12} className="inline-block" />)
@@ -594,7 +594,7 @@ function LeaderboardPage() {
                             : p.rank <= 10
                             ? "bg-candy-300 text-ink-900"
                             : p.rank <= 50
-                            ? "bg-blue-100 text-blue-900"
+                            ? "bg-lemon text-choco-900"
                             : p.rank <= 100
                             ? "bg-emerald-100 text-emerald-900"
                             : "bg-amber-50 text-amber-900"

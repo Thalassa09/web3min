@@ -57,7 +57,7 @@ export function StoryPlayer({ story }: { story: Story }) {
 
   if (done) {
     return (
-      <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col items-center justify-center bg-bg px-5 text-center lg:max-w-2xl">
+      <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col items-center justify-center bg-cream px-5 text-center lg:max-w-2xl">
         <Mascot mood="celebrate" size={180} float />
         <h1 className="mt-2 text-3xl font-black">Kisah selesai</h1>
         <p className="font-medium text-muted">{story.title}</p>
@@ -79,7 +79,7 @@ export function StoryPlayer({ story }: { story: Story }) {
   const mood: MascotMood = beat.type === "talk" && beat.mood ? beat.mood : beat.type === "end" ? "proud" : "think";
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col bg-bg lg:max-w-2xl">
+    <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col bg-cream lg:max-w-2xl">
       <div className="flex items-center gap-3 px-3 pt-3">
         <button
           type="button"
@@ -154,7 +154,7 @@ export function StoryPlayer({ story }: { story: Story }) {
         </div>
       </div>
 
-      <div className="border-t border-line px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <div className="border-t-3 border-choco-900 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-white">
         <DuoButton wide disabled={beat.type === "fork" && pick === null} onClick={advance}>
           {last ? "Kelar" : "Lanjut"}
         </DuoButton>

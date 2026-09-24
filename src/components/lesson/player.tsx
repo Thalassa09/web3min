@@ -201,12 +201,12 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         : null;
 
   return (
-    <div className={cn("quiz-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden bg-[#F8FAFC] lg:max-w-none", world.skin)}>
-      <div className="shrink-0 flex items-center gap-3 px-3 py-2.5 bg-white border-b-2 border-line-strong shadow-sm lg:px-8">
+    <div className={cn("quiz-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden bg-[#FFF6EE] lg:max-w-none", world.skin)}>
+      <div className="shrink-0 flex items-center gap-3 px-3 py-2.5 bg-white border-b-3 border-choco-900 shadow-[0_3px_0_#3B2218] lg:px-8">
         <button
           type="button"
           aria-label="Keluar"
-          className="grid size-10 place-items-center rounded-xl text-ink-500 hover:text-ink-900 hover:bg-[#EAF2FB] transition-colors cursor-pointer"
+          className="grid size-10 place-items-center rounded-xl text-choco-700 hover:text-choco-900 hover:bg-candy-50 transition-colors cursor-pointer"
           onClick={() => {
             if (phase === "done" || phase === "dead" || (index === 0 && mistakes === 0 && solved === 0)) {
               void navigate({ to: "/" });
@@ -318,9 +318,9 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       </div>
 
       {phase === "ask" && exercise ? (
-        <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-xs lg:px-8">
+        <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t-3 border-choco-900 px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-3px_0_#3B2218] lg:px-8">
           <div className="mx-auto w-full max-w-3xl flex items-center justify-between gap-4">
-            <p className="text-xs font-semibold text-slate-500">
+            <p className="text-xs font-semibold text-choco-600">
               {exercise.type === "tip"
                 ? "Pahami konsep intinya sebelum lanjut ke kuis"
                 : exercise.type === "match"

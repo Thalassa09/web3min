@@ -90,7 +90,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
   const hasStudi = Boolean(exercise.example || exercise.remember);
 
   return (
-    <article className="max-w-prose mx-auto rounded-[20px] bg-white border border-slate-200 shadow-sm p-5 sm:p-7 mb-8">
+    <article className="max-w-prose mx-auto rounded-[24px] bg-white border-3 border-choco-900 shadow-[0_6px_0_#3B2218] p-5 sm:p-7 mb-8">
       {hasStudi ? (
         <div className="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
           <button
@@ -99,8 +99,8 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
             className={cn(
               "px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
               tab === "materi"
-                ? "bg-slate-900 text-white shadow-xs"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                ? "bg-choco-900 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                : "text-choco-700 hover:text-choco-900 hover:bg-candy-50"
             )}
           >
             1. Inti & Arsitektur
@@ -111,8 +111,8 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
             className={cn(
               "px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
               tab === "studi"
-                ? "bg-slate-900 text-white shadow-xs"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                ? "bg-choco-900 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                : "text-choco-700 hover:text-choco-900 hover:bg-candy-50"
             )}
           >
             2. Contoh Kasus & Kunci
@@ -133,7 +133,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
             </div>
           </div>
 
-          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-slate-900">{exercise.title}</h3>
+          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-choco-900">{exercise.title}</h3>
           <p className="mt-2.5 text-[15px] font-normal leading-[24px] text-slate-700">
             {exercise.body.replaceAll(" — ", ", ").replaceAll("—", ", ")}
           </p>
@@ -198,7 +198,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
             </span>
           </div>
 
-          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-slate-900">
+          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-choco-900">
             Contoh Nyata & Kunci Ingatan
           </h3>
 
@@ -238,7 +238,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
             <button
               type="button"
               onClick={() => setTab("materi")}
-              className="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1 cursor-pointer"
+              className="text-xs font-bold text-slate-600 hover:text-choco-900 flex items-center gap-1 cursor-pointer"
             >
               <span>← Kembali ke Materi Inti</span>
             </button>

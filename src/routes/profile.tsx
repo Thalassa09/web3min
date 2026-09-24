@@ -523,9 +523,9 @@ function ProfilePage() {
               return (
                 <div
                   key={skill.name}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-[#F7FAFC] border border-line text-[#8FA5BD] text-[11px] font-bold select-none opacity-70"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px] bg-cream border-2 border-dashed border-choco-600 text-choco-600 text-[11px] font-bold select-none opacity-80"
                 >
-                  <Lock className="size-2.5 text-[#8FA5BD]" />
+                  <Lock className="size-2.5 text-choco-600" />
                   <span>{skill.name}</span>
                 </div>
               );

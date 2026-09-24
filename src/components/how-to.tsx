@@ -51,7 +51,7 @@ export function HowToList({ extra = false }: { extra?: boolean }) {
     <ol className="flex flex-col gap-4">
       {items.map((item, i) => (
         <li key={item.title} className="flex gap-3">
-          <span className="mt-0.5 grid size-10 shrink-0 place-items-center rounded-xl bg-paper text-primary">
+          <span className="mt-0.5 grid size-10 shrink-0 place-items-center rounded-xl bg-candy-100 border-2 border-choco-900 text-candy-600 shadow-[0_2px_0_#3B2218]">
             <item.Icon className="size-5" weight="fill" />
           </span>
           <div className="min-w-0">

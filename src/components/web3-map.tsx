@@ -48,7 +48,7 @@ export function Web3Map({ className, compact }: { className?: string; compact?: 
               <Link
                 to="/"
                 hash={`unit-${p.unitId}`}
-                className="flex min-h-12 items-center gap-2 rounded-2xl bg-paper px-3 py-2"
+                className="flex min-h-12 items-center gap-2 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] px-3 py-2"
               >
                 <Icon className="size-5 shrink-0 text-primary" weight="bold" />
                 <span className="min-w-0">

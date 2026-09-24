@@ -48,7 +48,7 @@ export function CaseClinic({ study }: { study: CaseStudy }) {
 
   if (done) {
     return (
-      <div className="mx-auto flex min-h-dvh max-w-lg flex-col items-center justify-center bg-bg px-5 text-center">
+      <div className="mx-auto flex min-h-dvh max-w-lg flex-col items-center justify-center bg-cream px-5 text-center">
         <Mascot mood="proud" size={180} float />
         <h1 className="mt-2 text-3xl font-black">Bedah kelar</h1>
         <p className="font-bold text-muted">{study.title}</p>
@@ -76,7 +76,7 @@ export function CaseClinic({ study }: { study: CaseStudy }) {
   const tone = proof ? TONE_UI[proof.tone] : TONE_UI.warn;
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col bg-bg lg:max-w-5xl">
+    <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col bg-cream lg:max-w-5xl">
       <div className="flex items-center gap-3 px-3 pt-3">
         <button
           type="button"
@@ -124,7 +124,7 @@ export function CaseClinic({ study }: { study: CaseStudy }) {
         </div>
       </div>
 
-      <div className="border-t border-line px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <div className="border-t-3 border-choco-900 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-white">
         <DuoButton wide onClick={advance}>
           {last ? "Ingat ini" : "Lanjut liat"}
         </DuoButton>

@@ -1,6 +1,13 @@
 import type { Unit } from "@/lib/curriculum";
 import { c, tf, blank, match, order, tip, L } from "@/lib/curriculum";
 
+const j = c;
+const M = tf;
+const N = blank;
+const F = order;
+const P = match;
+const I = tip;
+
 export const MORE_UNITS: Unit[] = [
   {
     id: "u7",
@@ -10,20 +17,20 @@ export const MORE_UNITS: Unit[] = [
     color: "gold",
     lessons: [
       L("u7", "u7-l1", "lesson", "Dua sisi PnL", "Bisa segini. Bisa ilang segini.", "coins", [
-        tip("u7l1t", "Screenshot hijau bukan jaminan hidup.", "Di X orang pamer PnL hijau. Yang hangus? Jarang dipost. Dua-duanya nyata, kok. Aku kumpulin cuplikannya biar kamu nggak cuma dikasih mimpi.", {
+        tip("u7l1t", "Screenshot hijau bukan jaminan hidup.", "Di X orang pamer PnL (untung-rugi) hijau. Yang hangus? Jarang dipost. Dua-duanya nyata, kok. Aku kumpulin cuplikannya biar kamu nggak cuma dikasih mimpi.", {
           points: [
-            "PnL kertas (unrealized) bisa nyusut sebelum sempat kamu cairin.",
+            "PnL kertas (unrealized) bisa nyusut sebelum sempat kamu cairin, bahkan bisa roundtrip (untung yang balik jadi nol).",
             "Paus bisa plus puluhan juta, trus minus puluhan juta, di minggu yang sama.",
-            "Rp 20 miliar dalam 4 bulan memecoin itu ada. −$33 juta satu short juga ada.",
+            "Rp 20 miliar dalam 4 bulan memecoin itu ada. −US$33 juta satu short juga ada.",
           ],
-          example: "Ada orang Indo pamer kalender PnL hijau. Ada whale Hyperliquid hangus $33 juta. Dua screenshot, satu timeline.",
+          example: "Ada orang Indo pamer kalender PnL hijau. Ada whale Hyperliquid hangus US$33 juta. Dua screenshot, satu timeline.",
           remember: "Liat dua sisi dulu, baru gas.",
           proofs: ["cuan-20m", "rugi-33m", "cuan-argus", "rugi-machi"],
         }),
-        c("u7l1q1", "PnL hijau di X artinya apa?", ["Bisa nyata, tapi bukan jaminan kamu bisa copy", "Kamu otomatis kaya kalo follow", "Pasti udah dicairin", "Nggak mungkin hangus"], 0, "Pameran doang. Bukan saran."),
-        tf("u7l1q2", "Unrealized profit udah di tangan.", false, "Belum. Harga bisa balik sebelum sempat jual."),
-        c("u7l1q3", "Kenapa aku nunjukin yang hangus juga?", ["Biar dua sisinya kelihatan", "Biar kamu takut total", "Biar iklan broker", "Biar skip unit 1"], 0, "Mimpi tanpa mayat itu umpan."),
-        blank("u7l1q4", "Profit yang belum dijual disebut ___ profit.", ["unrealized", "realized", "airdrop", "gas"], 0, "Unrealized itu masih kertas."),
+        j("u7l1q1","PnL hijau yang dipamerkan di X artinya apa?",["Bisa nyata, tapi bukan jaminan kamu bisa meniru","Kamu pasti kaya kalau ikut","Untungnya pasti udah dicairkan","Posisinya nggak mungkin rugi"],0,"Screenshot cuma nunjukin hasil orang lain. Modal, waktu masuk, dan risikonya beda sama kamu."),
+        M("u7l1q2","Unrealized profit artinya untungnya udah di tangan.",false,"Salah. Selama belum dijual, untung itu masih angka di layar dan bisa hilang kalau harga berbalik."),
+        j("u7l1q3","Kenapa web3min nunjukin cerita rugi juga, bukan cuma yang cuan?",["Biar kamu lihat dua sisinya sebelum ambil keputusan","Biar kamu takut dan berhenti belajar","Biar kamu pindah ke broker tertentu","Biar kamu cepat lompat ke rute terakhir"],0,"Kalau cuma lihat yang cuan, kamu gampang kena umpan. Cerita rugi nunjukin risikonya nyata."),
+        N("u7l1q4","Untung yang belum dijual disebut ___ profit.",["unrealized","realized","airdrop","gas"],0,"Unrealized = untung di atas kertas. Masih bisa berubah kapan aja."),
       ]),
       L("u7", "u7-l2", "lesson", "Realized vs kertas", "Yang di rekening, yang di layar.", "bank", [
         tip("u7l2t", "Kertas vs uang.", "Realized = udah jual, udah jadi saldo. Unrealized = angka yang masih nempel di posisi. Sebenarnya banyak klaim untung di medsos yang baru sebatas angka di atas kertas. Baca captionnya, ya.", {
@@ -36,9 +43,9 @@ export const MORE_UNITS: Unit[] = [
           remember: "Belum jual = belum punya.",
           proofs: ["cuan-300k", "cuan-whale", "rugi-paper", "cuan-421k"],
         }),
-        tf("u7l2q1", "Realized artinya udah dikunci jadi saldo.", true, "Udah jual."),
-        c("u7l2q2", "Semua holder memecoin bisa keluar di ATH?", ["Nggak. Likuiditas terbatas", "Ya, otomatis", "Ya kalo retweet", "Ya kalo pake VPN"], 0, "Yang terakhir biasanya dapet sisa."),
-        c("u7l2q3", "Angka hijau gede di dashboard futures itu…", ["Bisa ilang sebelum ditarik", "Udah di rekening bank", "Bebas pajak otomatis", "Nggak bisa dilikuidasi"], 0, "Masih posisi, belum ditarik."),
+        M("u7l2q1","Realized artinya untungnya udah dikunci jadi saldo.",true,"Benar. Asetnya udah dijual dan hasilnya udah jadi saldo."),
+        j("u7l2q2","Apakah semua pemegang memecoin bisa jual di harga puncak (ATH)?",["Nggak. Pembeli di harga puncak jumlahnya terbatas","Ya, bursa wajib menampung semua","Ya, asal jualnya bareng-bareng","Ya, kalau pakai aplikasi resmi"],0,"Uang pembeli yang tersedia terbatas. Kalau banyak yang jual bareng, harga langsung turun."),
+        j("u7l2q3","Angka hijau besar di dashboard futures itu apa?",["Bisa hilang sebelum ditarik","Udah otomatis masuk rekening bank","Udah pasti aman dari likuidasi","Udah dipotong pajak, tinggal cair"],0,"Selama posisi masih terbuka, angka itu bisa berubah atau hilang kalau harga berbalik."),
       ]),
       L("u7", "u7-l3", "lesson", "Jual terlalu cepat", "Takut vs serakah.", "siren", [
         tip("u7l3t", "Dua cara hangus tanpa kena hack.", "Ada yang jual 2 menit, dapet $286, tokennya nanti $193 juta. Ada juga yang memaksakan hold padahal posisi beli awalnya buruk. Manajemen posisi dan disiplin rencana jauh lebih penting.", {
@@ -47,17 +54,17 @@ export const MORE_UNITS: Unit[] = [
             "Harga naik nggak otomatis bikin kamu plus, kalo rata beli jelek.",
             "FOMO ngejar yang udah 10x? Sering jadi umpan exit buat yang awal.",
           ],
-          example: "PNUT deployer jual 2 menit: $286. ATH-nya kemudian $193 juta. Pelajarannya bukan harus hold buta, melainkan soal ukuran posisi dan rencana yang terukur.",
+          example: "PNUT deployer jual 2 menit: $286. ATH (harga tertinggi sepanjang masa)-nya kemudian $193 juta. Pelajarannya bukan harus hold buta, melainkan soal ukuran posisi dan rencana yang terukur.",
           remember: "Rencana keluar dulu, baru masuk.",
           proofs: ["fumble-193m", "rugi-entry", "cuan-zec-120k", "rugi-cut2"],
         }),
-        c("u7l3q1", "Jual 2 menit, tokennya meledak. Artinya?", ["Rencana keluar penting, nasib juga nyata", "Wajib hold selamanya", "Kamu bodoh kalo take profit", "ATH dijamin ulang"], 0, "Bukan mantra hold, ya."),
-        tf("u7l3q2", "Kalo harga naik dari entry kamu, kamu pasti plus.", false, "Bisa minus kalo nambah di atas trus panik jual."),
-        order("u7l3q3", "Urutin yang waras.", ["Rencana", "ukuran", "masuk", "keluar"], "Masuk tanpa rencana itu judi."),
+        j("u7l3q1","Kamu jual, lalu 2 menit kemudian harganya meledak. Pelajarannya apa?",["Rencana keluar tetap penting, dan faktor untung-untungan juga nyata","Harusnya nggak pernah jual sama sekali","Ambil untung itu keputusan bodoh","Harga puncak pasti bakal terulang"],0,"Nggak ada yang bisa nebak puncak. Jual sesuai rencana tetap keputusan yang sah."),
+        M("u7l3q2","Kalau harga naik dari harga belimu, kamu pasti untung.",false,"Salah. Kalau kamu nambah beli di harga tinggi, harga rata-ratamu ikut naik, jadi kamu bisa tetap rugi."),
+        F("u7l3q3","Susun urutan yang benar sebelum trading:",["Bikin rencana","tentukan ukuran","baru masuk","dan tahu kapan keluar"],"Masuk tanpa rencana itu judi. Tentukan ukuran dan titik keluar sebelum beli."),
       ]),
-      L("u7", "u7-chest", "chest", "Peti unit 7", "Nih, buat yang udah liat dua sisi.", "gift", [], { xp: 0, gems: 22 }),
+      L("u7", "u7-chest", "chest", "Peti rute 7", "Nih, buat yang udah liat dua sisi.", "gift", [], { xp: 0, gems: 22 }),
       L("u7", "u7-l4", "lesson", "Jangan copy buta", "PnL orang bukan strategi kamu.", "userx", [
-        tip("u7l4t", "Copytrade tanpa otak.", "Top 900 Hyperliquid dari HP itu ada, kok. Tapi kamu nggak liat modalnya, leverage-nya, malam insomnianya, atau yang hangus kemarin. Copy ukuran paus pake modal Rp 500 ribu? Bunuh diri.", {
+        tip("u7l4t", "Copytrade tanpa otak.", "Top 900 Hyperliquid dari HP itu ada, kok. Tapi kamu nggak liat modalnya, leverage-nya, malam insomnianya, atau yang hangus kemarin. Copy ukuran paus pake modal Rp 500 ribu? Itu resep hangus.", {
           points: [
             "Ukuran posisi paus bukan ukuran kamu.",
             "Yang kelihatan: yang hidup, yang posting. Survivor bias.",
@@ -69,17 +76,17 @@ export const MORE_UNITS: Unit[] = [
         }),
         c("u7l4q1", "Paus buka posisi raksasa. Kamu ngapain?", ["Abaikan ukurannya, cek dulu kamu paham risikonya nggak", "All-in ikutan", "Pinjam uang", "Share seed biar 'di-copy'"], 0, "Ukuran paus bukan ukuran kamu."),
         tf("u7l4q2", "Yang posting PnL hijau pasti konsisten tiap bulan.", false, "Survivor bias. Yang merah jarang posting."),
-        c("u7l4q3", "Sinyal berbayar? Anggap aja…", ["Hiburan, bukan jaminan", "Gaji tetap", "Asuransi", "Wajib pajak"], 0, "Banyak yang jualan harapan, sih."),
+        c("u7l4q3", "Bagaimana cara paling rasional menyikapi grup sinyal trading berbayar?", ["Hiburan, bukan jaminan", "Gaji tetap", "Asuransi", "Wajib pajak"], 0, "Banyak yang jualan harapan, sih."),
       ]),
-      L("u7", "u7-cp", "checkpoint", "Ujian unit 7", "Hijau sama merah, dua-duanya ujian.", "flag", [
+      L("u7", "u7-cp", "checkpoint", "Ujian rute 7", "Hijau sama merah, dua-duanya ujian.", "flag", [
         tip("u7cpt", "Ulangan: cuan vs hangus", "Kalo lulus, kamu nggak gampang kena umpan screenshot.", {
           points: ["Unrealized ≠ gaji.", "Likuiditas terbatas.", "Copy ukuran paus = bahaya."],
           remember: "Dua sisi dulu, baru gas.",
         }),
-        tf("u7cp1", "Unrealized udah di rekening.", false, "Belum jual."),
-        c("u7cp2", "PnL di X paling waras dibaca sebagai apa?", ["Contoh, bukan janji", "Sinyal wajib", "Bukti kamu bakal kaya", "Asuransi"], 0, "Contoh doang."),
-        blank("u7cp3", "Profit yang udah dijual disebut ___.", ["realized", "gas", "floor", "airdrop"], 0, "Realized."),
-        c("u7cp4", "Token meledak abis kamu jual. Terus?", ["Bisa kejadian. Rencana kamu tetep sah", "Kamu gagal total", "Wajib buy back all-in", "Hapus app"], 0, "Rencana di atas rasa."),
+        M("u7cp1","Unrealized profit udah ada di rekening.",false,"Salah. Unrealized belum dijual, jadi belum jadi uang di rekening."),
+        j("u7cp2","Screenshot PnL di X paling tepat dibaca sebagai apa?",["Contoh, bukan janji","Sinyal yang wajib diikuti","Bukti kamu juga bakal kaya","Jaminan strategi pasti jalan"],0,"Itu cuma contoh satu hasil orang lain. Kondisimu berbeda."),
+        N("u7cp3","Untung yang udah dijual disebut ___.",["realized","unrealized","floor","airdrop"],0,"Realized = untung yang udah dikunci karena asetnya sudah dijual."),
+        j("u7cp4","Token meledak setelah kamu jual. Terus gimana?",["Bisa terjadi. Rencanamu tetap sah","Kamu gagal total","Harus beli lagi pakai semua modal","Berhenti belajar kripto"],0,"Wajar kalau kesel, tapi keputusan sesuai rencana tetap benar. Jangan kejar harga pakai emosi."),
       ]),
     ],
   },
@@ -91,7 +98,7 @@ export const MORE_UNITS: Unit[] = [
     color: "blue",
     lessons: [
       L("u8", "u8-l1", "lesson", "Spot vs leverage", "Punya vs nyewa nyali.", "swap", [
-        tip("u8l1t", "Spot itu beli. Leverage itu utang.", "Spot: kamu punya aset. Turun 50%, aset masih ada. Leverage / futures: kamu pinjam daya. Turun sedikit saja posisimu bisa terlikuidasi dan saldo langsung habis. Banyak pemula mengira trading di aplikasi selalu aman, padahal yang dibuka adalah kontrak futures.", {
+        tip("u8l1t", "Spot itu beli. Leverage itu utang.", "Spot: kamu punya aset. Turun 50%, aset masih ada. Leverage / futures: kamu pinjam daya. Turun sedikit saja posisimu bisa terlikuidasi dan saldo langsung habis. Banyak pemula ngira trading di aplikasi itu otomatis aman, padahal tanpa sadar yang dibuka kontrak futures berisiko tinggi.", {
           points: [
             "Spot = modal kamu yang jadi batas rugi.",
             "Leverage 10x: gerak 10% lawan arah bisa hapus posisi.",
@@ -100,10 +107,10 @@ export const MORE_UNITS: Unit[] = [
           example: "Beli 0.01 BTC di Binance spot: punya. Buka long 10x di futures: pinjaman. Jangan ketuker cuma karena UI-nya mirip.",
           remember: "Belum lancar spot? Jangan pegang futures.",
         }),
-        c("u8l1q1", "Bedanya spot sama leverage?", ["Spot punya aset. Leverage bisa dilikuidasi", "Sama aja", "Leverage lebih aman", "Spot selalu 100x"], 0, "Punya vs pinjam."),
-        tf("u8l1q2", "Likuidasi artinya nunggu harga balik.", false, "Posisi udah dipaksa tutup."),
-        blank("u8l1q3", "Pinjam daya di futures disebut ___.", ["leverage", "staking", "airdrop", "gas"], 0, "Leverage."),
-        c("u8l1q4", "Pemula paling waras mulai dari mana?", ["Spot ukuran kecil", "Futures 50x", "Pinjam temen", "Copy paus"], 0, "Spot. Kecil aja, deh."),
+        j("u8l1q1","Apa beda spot dan leverage?",["Spot: asetnya milikmu. Leverage: pakai pinjaman, bisa dilikuidasi","Sama aja, cuma beda menu","Leverage lebih aman buat pemula","Spot selalu pakai pinjaman 100x"],0,"Di spot kamu pegang asetnya. Di leverage sebagian modal adalah pinjaman, jadi posisi bisa ditutup paksa."),
+        M("u8l1q2","Likuidasi artinya tinggal nunggu harga balik.",false,"Salah. Likuidasi artinya posisimu udah ditutup paksa. Harga balik pun, uangnya nggak kembali."),
+        N("u8l1q3","Pakai dana pinjaman untuk memperbesar posisi disebut ___.",["leverage","staking","airdrop","spot"],0,"Leverage memperbesar untung dan rugi sekaligus."),
+        j("u8l1q4","Pemula paling aman mulai dari mana?",["Spot dengan jumlah kecil","Futures 50x biar cepat","Pinjam uang teman","Ikuti posisi paus"],0,"Kalau salah di spot kecil, ruginya terbatas dan kamu tetap bisa belajar."),
       ]),
       L("u8", "u8-l2", "lesson", "Likuidasi", "Bukan 'nanti naik lagi'.", "siren", [
         tip("u8l2t", "Mesin yang nggak peduli perasaanmu.", "Exchange tutup posisi kamu saat margin habis. Funding, fee, slippage ikut makan. Whale bisa tahan drawdown. Kamu sering nggak.", {
@@ -116,9 +123,9 @@ export const MORE_UNITS: Unit[] = [
           remember: "Rem dulu, baru gas.",
           proofs: ["rugi-33m", "rugi-personal", "rugi-liqs", "rugi-sp500"],
         }),
-        tf("u8l2q1", "Stop loss itu buat pengecut.", false, "Rem. Yang profesional pake rem."),
-        c("u8l2q2", "Cross margin artinya apa?", ["Saldo lain bisa tersedot", "Lebih aman dari isolated", "Nggak ada likuidasi", "Gratis fee"], 0, "Bisa nyebar luka."),
-        c("u8l2q3", "Kapan paling gampang kena likuidasi?", ["Berita mendadak + leverage gede", "Hold spot 4 tahun", "Transfer on-chain", "Isi nama profil"], 0, "Volatilitas kali utang."),
+        M("u8l2q1","Stop loss itu cuma buat trader penakut.",false,"Salah. Stop loss itu rem yang membatasi rugi. Trader profesional justru selalu pakai."),
+        j("u8l2q2","Cross margin artinya apa?",["Seluruh saldo akun jadi jaminan, jadi bisa ikut tersedot","Lebih aman daripada isolated","Posisinya nggak bisa dilikuidasi","Biaya trading jadi gratis"],0,"Di cross margin, satu posisi yang rugi bisa menyedot saldo lain di akunmu."),
+        j("u8l2q3","Kapan posisi paling gampang kena likuidasi?",["Saat ada berita mendadak dan leverage-nya besar","Saat simpan spot jangka panjang","Saat kirim token ke wallet sendiri","Saat ganti foto profil akun"],0,"Harga yang loncat mendadak ditambah leverage besar bikin batas likuidasimu cepat tersentuh."),
       ]),
       L("u8", "u8-l3", "lesson", "Ukuran posisi", "Satu peluru per trade.", "flag", [
         tip("u8l3t", "Jangan all-in.", "Tentukan batas rugi maksimal per transaksi, misalnya 1-2% dari total modal. Kalau analisa meleset, kamu tetap bertahan. Memaksakan all-in hanya akan menghabiskan modalmu dalam sekejap.", {
@@ -131,11 +138,11 @@ export const MORE_UNITS: Unit[] = [
           remember: "Hidup dulu, cuan belakangan.",
           proofs: ["rugi-personal", "cuan-indo-lev", "rugi-roundtrip"],
         }),
-        c("u8l3q1", "All-in satu koin itu…", ["Satu peluru. Kalo salah, habis", "Strategi paus", "Wajib memecoin", "Ngurangin risiko"], 0, "Satu peluru."),
-        tf("u8l3q2", "Revenge trade abis kalah biasanya waras.", false, "Emosi. Jeda dulu."),
-        blank("u8l3q3", "Batas rugi per ide disebut risiko ___.", ["posisi", "gas", "floor", "airdrop"], 0, "Posisi."),
+        j("u8l3q1","All-in di satu koin itu artinya apa?",["Satu taruhan. Kalau salah, modal habis","Strategi paling aman","Cara wajib main memecoin","Cara menurunkan risiko"],0,"Semua modal ada di satu taruhan. Sekali salah, nggak ada sisa buat coba lagi."),
+        M("u8l3q2","Revenge trade (trading balas dendam) setelah kalah biasanya keputusan yang tenang.",false,"Salah. Revenge trade diambil saat emosi, jadi ukurannya sering kebesaran. Jeda dulu."),
+        N("u8l3q3","Batas rugi maksimal, misalnya 1-2% modal, disebut risiko per ___.",["transaksi","gas","floor","airdrop"],0,"Dengan batas ini, beberapa kali salah pun modalmu masih bertahan."),
       ]),
-      L("u8", "u8-chest", "chest", "Peti unit 8", "Remmu dihargai.", "gift", [], { xp: 0, gems: 22 }),
+      L("u8", "u8-chest", "chest", "Peti rute 8", "Remmu dihargai.", "gift", [], { xp: 0, gems: 22 }),
       L("u8", "u8-l4", "lesson", "Order & slippage", "Harga di layar bukan harga dapet.", "layers", [
         tip("u8l4t", "Slippage itu pajak diam-diam.", "Market order makan likuiditas. Di koin sepi, kamu beli lebih mahal / jual lebih murah dari yang kelihatan. Limit order nunggu; market order buru-buru.", {
           points: [
@@ -146,18 +153,18 @@ export const MORE_UNITS: Unit[] = [
           example: "Klik beli 'Rp 100' di koin sepi, keisi Rp 108. Itu slippage, bukan bug aplikasi.",
           remember: "Layar ≠ isi.",
         }),
-        tf("u8l4q1", "Harga candle selalu sama dengan harga isianmu.", false, "Slippage."),
-        c("u8l4q2", "Market order cocok kapan?", ["Butuh isi cepet dan pasar dalam", "Koin sepi 2 orang", "Semua memecoin", "Isi seed"], 0, "Pasar dalam."),
-        c("u8l4q3", "Spread lebar isyarat apa?", ["Likuiditas tipis atau kacau", "Proyek bagus", "Airdrop", "Gas murah"], 0, "Sepi / kacau."),
+        M("u8l4q1","Harga di grafik selalu sama dengan harga yang kamu dapat.",false,"Salah. Harga yang kamu dapat bisa beda, apalagi di koin sepi. Selisih itu namanya slippage."),
+        j("u8l4q2","Market order cocok dipakai kapan?",["Saat butuh terisi cepat dan pasarnya ramai","Di koin yang pembelinya cuma sedikit","Untuk semua memecoin baru","Kapan aja tanpa cek pasar"],0,"Market order langsung ambil harga yang ada. Di pasar ramai selisihnya kecil, di pasar sepi bisa mahal."),
+        j("u8l4q3","Spread (selisih harga beli dan jual) yang lebar tandanya apa?",["Pembelinya sedikit atau pasar lagi panik","Proyeknya bagus","Bakal ada airdrop","Biaya transaksi lagi murah"],0,"Spread lebar artinya pasar tipis. Kamu bisa beli lebih mahal atau jual lebih murah."),
       ]),
-      L("u8", "u8-cp", "checkpoint", "Ujian unit 8", "Spot, rem, ukuran.", "flag", [
+      L("u8", "u8-cp", "checkpoint", "Ujian rute 8", "Spot, rem, ukuran.", "flag", [
         tip("u8cpt", "Ulangan trading dasar", "Kalo masih campur spot sama futures, ulangi dulu.", {
           points: ["Spot punya. Leverage pinjam.", "Likuidasi final.", "Ukuran hidupin kamu."],
         }),
-        tf("u8cp1", "Leverage 10x aman kalo 'yakin'.", false, "Yakin nggak nahan likuidasi."),
-        c("u8cp2", "Stop loss itu…", ["Rem", "Sial", "Pajak", "NFT"], 0, "Rem."),
-        blank("u8cp3", "Beli aset langsung tanpa pinjam disebut ___.", ["spot", "short", "perp", "airdrop"], 0, "Spot."),
-        c("u8cp4", "All-in itu…", ["Satu peluru", "Wajib", "Asuransi", "DYOR"], 0, "Satu peluru."),
+        M("u8cp1","Leverage 10x aman asal kamu yakin.",false,"Salah. Rasa yakin nggak mengubah matematika. Harga turun 10% aja posisi 10x bisa habis."),
+        j("u8cp2","Apa fungsi stop loss?",["Rem otomatis yang membatasi rugi","Tanda trader penakut","Biaya wajib dari bursa","Jaminan pasti untung"],0,"Stop loss menutup posisi di harga yang kamu tentukan supaya rugi nggak membesar."),
+        N("u8cp3","Beli aset langsung tanpa pinjaman disebut ___.",["spot","short","perp","margin"],0,"Spot: kamu bayar penuh dan asetnya jadi milikmu."),
+        j("u8cp4","Modal Rp 2 juta, risiko 2% per transaksi. Maksimal rugi per transaksi berapa?",["Rp 40 ribu","Rp 200 ribu","Rp 1 juta","Rp 2 juta"],0,"2% dari Rp 2 juta = Rp 40 ribu. Salah 5 kali pun modalmu masih sekitar 90%."),
       ]),
     ],
   },
@@ -169,49 +176,49 @@ export const MORE_UNITS: Unit[] = [
     color: "purple",
     lessons: [
       L("u9", "u9-l1", "lesson", "Kenapa memecoin liar", "Bukan saham mini.", "image", [
-        tip("u9l1t", "Meme = cerita + likuiditas tipis.", "Harga memecoin sering dikendaliin segelintir wallet. Volume bisa palsu. 'Community' bisa 3 bot sama 1 admin. Boleh main kecil. Jangan pake uang sewa, deh.", {
+        tip("u9l1t", "Meme = cerita + likuiditas tipis.", "Harga memecoin sering dikendaliin segelintir wallet dan degen (spekulan nekat). Volume bisa palsu. 'Community' bisa 3 bot sama 1 admin. Boleh main kecil. Jangan pake uang sewa, deh.", {
           points: [
             "Supply di developer / bundler = mereka bisa dump.",
             "Market cap di layar ≠ uang yang bisa ditarik.",
             "Yang masuk terakhir sering jadi exit buat yang awal.",
           ],
-          example: "MC $10 juta, likuiditas $40 ribu. Kalo 10 orang jual, harga bolong.",
+          example: "MC (market cap) $10 juta, likuiditas $40 ribu. Kalo 10 orang jual, harga bolong.",
           remember: "Main kecil, anggap hangus.",
           proofs: ["cuan-pnut17", "cuan-argus", "rugi-nuked", "rugi-roundtrip"],
         }),
-        c("u9l1q1", "Market cap gede di meme artinya apa?", ["Bukan jaminan bisa cair", "Semua bisa keluar ATH", "Aman kayak BTC", "Udah diaudit"], 0, "MC ≠ kas."),
-        tf("u9l1q2", "Volume 24 jam selalu organik.", false, "Bisa wash trading."),
-        c("u9l1q3", "Uang sewa buat memecoin?", ["Jangan", "Wajib", "Makin gede makin aman", "Disubsidi exchange"], 0, "Jangan, deh."),
+        j("u9l1q1","Market cap (MC) memecoin besar artinya apa?",["Bukan jaminan kamu bisa menjual di harga itu","Semua pemegang pasti bisa jual di puncak","Aman seperti Bitcoin","Udah pasti diaudit"],0,"MC cuma harga dikali jumlah token. Uang yang benar-benar bisa ditarik jauh lebih kecil."),
+        M("u9l1q2","Volume 24 jam memecoin selalu berasal dari pembeli asli.",false,"Salah. Volume bisa dipalsu pakai wallet yang jual-beli ke dirinya sendiri (wash trading)."),
+        j("u9l1q3","Uang sewa dipakai buat beli memecoin, boleh nggak?",["Jangan","Boleh kalau yakin","Makin besar makin aman","Aman, ada jaminan exchange"],0,"Memecoin bisa turun 90% dalam sejam. Uang kebutuhan hidup jangan dipakai buat taruhan."),
       ]),
       L("u9", "u9-l2", "lesson", "Honeypot & pajak aneh", "Bisa beli, nggak bisa jual.", "lock", [
         tip("u9l2t", "Perangkap klasik.", "Honeypot: kontrak izinin beli, blokir jual. Pajak jual 99%. Blacklist wallet. Cek simulator jual (token sniffer, honeypot.is, rugcheck) sebelum gas.", {
           points: [
             "Kalau token hanya bisa dibeli tapi tidak bisa dijual, itu bukan peluang melainkan jebakan honeypot.",
-            "Renounced bukan jaminan. Bisa udah dipasang jebakan sebelumnya.",
-            "CA dari DM / komentar = curiga.",
+            "Renounced (pemilik melepas kendali kontrak) bukan jaminan. Bisa udah dipasang jebakan sebelumnya.",
+            "CA (alamat kontrak) dari DM / komentar = curiga.",
           ],
           example: "Klik beli di Telegram, chart hijau, jual gagal 'transfer from failed'. Honeypot.",
           remember: "Simulasi jual dulu.",
         }),
-        blank("u9l2q1", "Bisa beli tapi nggak bisa jual disebut ___.", ["honeypot", "airdrop", "staking", "L2"], 0, "Honeypot."),
-        tf("u9l2q2", "Renounced = 100% aman.", false, "Jebakan bisa dipasang sebelum renounce."),
-        c("u9l2q3", "CA dari komentar random. Gimana?", ["Curiga, cek dulu", "Langsung beli", "Share seed", "Trust"], 0, "Curiga."),
+        N("u9l2q1","Token yang bisa dibeli tapi nggak bisa dijual disebut ___.",["honeypot","rugpull","airdrop","staking"],0,"Honeypot = kontraknya mengizinkan beli tapi memblokir jual."),
+        M("u9l2q2","Kontrak yang sudah renounced (pemiliknya lepas kendali) pasti 100% aman.",false,"Salah. Jebakan bisa dipasang sebelum kontraknya di-renounce."),
+        j("u9l2q3","Kamu dapat CA (alamat kontrak) dari komentar orang asing. Harus gimana?",["Curiga, cek dulu di sumber resmi","Langsung beli","Kasih seed ke pengirimnya","Percaya aja, banyak yang like"],0,"CA di komentar gampang dipalsu. Ambil dari situs atau akun resmi proyeknya."),
       ]),
       L("u9", "u9-l3", "lesson", "LP & rug", "Kunci likuiditas, atau kabur.", "fuel", [
-        tip("u9l3t", "Likuiditas itu pintu keluar.", "Kalo LP nggak dikunci / bisa ditarik owner, mereka cabut kolam, harga ke nol. Ini rugpull versi meme. Cek lock, cek owner.", {
+        tip("u9l3t", "Likuiditas itu pintu keluar.", "Kalo LP nggak dikunci / bisa ditarik owner, mereka cabut kolam, harga ke nol. Ini rugpull versi meme. Sebelum ape (buru-buru beli), cek lock dan cek owner.", {
           points: [
             "LP unlocked + owner aktif = risiko cabut.",
             "Mint function hidup = supply bisa digelontor.",
             "Bundle launch (banyak wallet tim) sering dump terkoordinasi.",
           ],
-          example: "Chart 100x dalam 11 menit, LP dicabut menit ke-12. Sisa kamu: NFT kenangan.",
+          example: "Chart 100x dalam 11 menit, LP dicabut menit ke-12. Yang tersisa cuma token yang nggak bisa dijual.",
           remember: "Pintu keluar dulu, cerita belakangan.",
         }),
-        tf("u9l3q1", "LP unlocked itu biasa aman.", false, "Bisa dicabut."),
-        c("u9l3q2", "Mint function masih hidup artinya?", ["Supply bisa nambah", "Udah audited", "Nggak bisa rug", "Gas gratis"], 0, "Bisa dilutif."),
-        c("u9l3q3", "Sebelum ape, cek apa dulu?", ["LP, owner, pajak, simulasi jual", "PFP admin", "Jumlah emoji", "Musik di space"], 0, "Mekanik, bukan vibe."),
+        M("u9l3q1","LP (dana likuiditas) yang nggak dikunci biasanya aman.",false,"Salah. LP yang nggak dikunci bisa ditarik pemiliknya kapan aja, dan harga langsung jatuh ke nol."),
+        j("u9l3q2","Fungsi mint di kontrak masih aktif. Artinya apa?",["Jumlah token bisa ditambah kapan aja","Kontraknya udah diaudit","Proyeknya nggak bisa rugpull","Biaya gas jadi gratis"],0,"Kalau token bisa dicetak terus, nilai token yang kamu pegang bisa turun drastis."),
+        j("u9l3q3","Sebelum beli koin baru, apa yang dicek dulu?",["LP, pemilik kontrak, pajak jual, dan simulasi jual","Foto profil admin","Jumlah emoji di grup","Musik di voice chat"],0,"Yang menentukan aman atau nggak itu mekanisme kontraknya, bukan suasana grupnya."),
       ]),
-      L("u9", "u9-chest", "chest", "Peti unit 9", "Buat yang cek CA.", "gift", [], { xp: 0, gems: 22 }),
+      L("u9", "u9-chest", "chest", "Peti rute 9", "Buat yang cek CA.", "gift", [], { xp: 0, gems: 22 }),
       L("u9", "u9-l4", "lesson", "Inner circle", "Kamu bukan di dalamnya.", "userx", [
         tip("u9l4t", "Call group bukan alfa.", "Banyak 'circle' dapet alokasi awal, kamu dapet sisa. Kalo call datang abis 5x, kamu sering jadi likuiditas. Boleh hiburan. Jangan gaji.", {
           points: [
@@ -222,16 +229,16 @@ export const MORE_UNITS: Unit[] = [
           example: "Grup 'free gem' minta 1 SOL 'whitelist'. Itu penjualan harapan.",
           remember: "Kamu hampir nggak pernah first.",
         }),
-        c("u9l4q1", "Call abis 5x itu…", ["Sering jadi umpan exit", "Paling aman", "Wajib all-in", "Sama kayak listing BTC"], 0, "Kamu likuiditas."),
-        tf("u9l4q2", "Grup berbayar njamin cuan.", false, "Sering jualan harapan."),
-        c("u9l4q3", "Admin larang nanya CA. Gimana?", ["Red flag", "Profesional", "Syarat bursa", "L2"], 0, "Red flag."),
+        j("u9l4q1","Grup ngasih 'call' (rekomendasi beli) koin yang harganya udah naik 5x. Artinya apa?",["Kamu sering jadi pembeli buat mereka yang mau jual","Waktu paling aman buat masuk","Wajib beli pakai semua modal","Sama amannya dengan beli Bitcoin"],0,"Yang masuk duluan butuh pembeli baru biar bisa jual. Yang datang telat sering jadi pembeli itu."),
+        M("u9l4q2","Grup sinyal berbayar menjamin untung.",false,"Salah. Admin sering dapat uang dari biaya langganan, bukan dari hasil sinyalnya."),
+        j("u9l4q3","Admin grup melarang anggota tanya CA. Tandanya apa?",["Tanda bahaya (red flag)","Grupnya profesional","Aturan resmi bursa","Biar grupnya nggak spam"],0,"Proyek jujur nggak takut dicek. Larangan bertanya itu tanda ada yang disembunyikan."),
       ]),
-      L("u9", "u9-cp", "checkpoint", "Ujian unit 9", "Meme, jebakan, pintu.", "flag", [
+      L("u9", "u9-cp", "checkpoint", "Ujian rute 9", "Meme, jebakan, pintu.", "flag", [
         tip("u9cpt", "Ulangan memecoin", "Simulasi jual. Cek LP. Main kecil.", { points: ["Honeypot.", "LP unlock.", "Kamu bukan inner circle."] }),
-        blank("u9cp1", "Beli bisa, jual nggak: ___.", ["honeypot", "spot", "NFT", "gas"], 0, "Honeypot."),
-        tf("u9cp2", "MC = uang yang bisa ditarik semua orang.", false, "Likuiditas jauh lebih kecil."),
-        c("u9cp3", "LP bisa dicabut owner…", ["Risiko rug", "Fitur staking", "Asuransi", "Airdrop"], 0, "Rug."),
-        c("u9cp4", "Call group itu…", ["Hiburan, bukan gaji", "Bank", "L2", "Pajak"], 0, "Hiburan."),
+        N("u9cp1","Bisa beli tapi nggak bisa jual disebut ___.",["honeypot","spot","rugpull","slippage"],0,"Selalu simulasi jual dulu sebelum beli token baru."),
+        M("u9cp2","Market cap sama dengan uang yang bisa ditarik semua pemegang.",false,"Salah. Likuiditasnya jauh lebih kecil dari market cap."),
+        j("u9cp3","Pemilik token bisa menarik LP kapan aja. Itu tanda apa?",["Risiko rugpull","Fitur staking","Bukti proyek aman","Bonus buat pemegang"],0,"Kalau LP ditarik, token nggak bisa dijual dan harganya jatuh ke nol."),
+        j("u9cp4","Grup 'call' paling tepat dianggap apa?",["Hiburan, bukan sumber gaji","Penghasilan tetap","Riset profesional","Jaminan untung"],0,"Kalau mau ikut, pakai uang kecil yang siap hilang."),
       ]),
     ],
   },
@@ -252,9 +259,9 @@ export const MORE_UNITS: Unit[] = [
           example: "Nama 'USDT' palsu di jaringan salah. Explorer nunjukin creator 2 jam lalu. Asli nggak gitu.",
           remember: "Alamat > nama.",
         }),
-        c("u10l1q1", "Nama token di wallet…", ["Bisa ditiru. Cek kontrak", "Selalu unik", "Udah diaudit", "Nggak bisa palsu"], 0, "Nama murah."),
-        tf("u10l1q2", "Chart di situs random sama validnya dengan explorer.", false, "Bisa dipalsu."),
-        c("u10l1q3", "Top holder 80% di 3 wallet. Artinya?", ["Risiko dump gede", "Sehat", "Wajib buy", "Sama kayak BTC"], 0, "Konsentrasi."),
+        j("u10l1q1","Nama token yang muncul di wallet bisa dipercaya nggak?",["Bisa ditiru. Cek alamat kontraknya","Selalu unik","Pasti udah diaudit","Nggak mungkin dipalsu"],0,"Siapa pun bisa bikin token bernama 'USDT'. Yang unik cuma alamat kontraknya."),
+        M("u10l1q2","Grafik di situs sembarangan sama validnya dengan data di explorer.",false,"Salah. Situs sembarangan bisa menampilkan data palsu. Explorer membaca langsung dari blockchain."),
+        j("u10l1q3","80% token dipegang 3 wallet. Artinya apa?",["Risiko harga ambruk kalau mereka jual","Kepemilikannya sehat","Sinyal wajib beli","Sama amannya dengan Bitcoin"],0,"Cukup 3 wallet itu yang jual, harga langsung jatuh."),
       ]),
       L("u10", "u10-l2", "lesson", "Kontrak", "Yang kamu izinin, itu senjata.", "key", [
         tip("u10l2t", "Approve itu surat kuasa.", "Kamu bisa kasih izin token tak terbatas ke kontrak. Kalo kontrak jahat, saldo disedot nanti. Unlimited approve = pintu kebuka. Revoke sesekali.", {
@@ -266,9 +273,9 @@ export const MORE_UNITS: Unit[] = [
           example: "Situs mint NFT minta 'approve USDT unlimited'. Mint nggak butuh itu. Tolak.",
           remember: "Izin itu senjata, jangan kasih selamanya.",
         }),
-        tf("u10l2q1", "Approve unlimited itu nyaman dan selalu aman.", false, "Pintu kebuka."),
-        c("u10l2q2", "Abis coba dapp random, kamu ngapain?", ["Revoke izin yang nggak perlu", "Biarkan selamanya", "Share seed", "Naikin leverage"], 0, "Revoke."),
-        blank("u10l2q3", "Kasih izin token ke kontrak disebut ___.", ["approve", "airdrop", "stake", "bridge"], 0, "Approve."),
+        M("u10l2q1","Approve unlimited itu praktis dan selalu aman.",false,"Salah. Kalau kontraknya jahat atau di-hack, semua token yang diizinkan bisa ditarik kapan aja."),
+        j("u10l2q2","Setelah mencoba dapp baru, sebaiknya kamu ngapain?",["Cabut (revoke) izin yang nggak perlu","Biarkan izinnya selamanya","Bagikan seed ke tim dapp","Naikkan leverage"],0,"Izin lama tetap aktif sampai dicabut. Cabut lewat revoke.cash atau explorer."),
+        N("u10l2q3","Memberi izin kontrak untuk memakai tokenmu disebut ___.",["approve","airdrop","stake","bridge"],0,"Approve itu seperti surat kuasa. Kasih secukupnya, bukan tanpa batas."),
       ]),
       L("u10", "u10-l3", "lesson", "Sinyal on-chain", "Bukan ramalan.", "layers", [
         tip("u10l3t", "Data, bukan dukun.", "Cek: likuiditas, holder, pajak, mint, LP lock, age, audit (yang bisa palsu), sosial yang bisa dibeli. Nggak ada satu centang yang nyelametin kamu.", {
@@ -280,11 +287,11 @@ export const MORE_UNITS: Unit[] = [
           example: "Logo 'Certik' di banner Telegram. Laporan aslinya kontrak lain. Palsu.",
           remember: "Tumpuk sinyal, jangan satu centang.",
         }),
-        c("u10l3q1", "Satu audit PDF itu…", ["Bukan tiket aman", "Jaminan 100%", "Wajib all-in", "Ngapus honeypot"], 0, "Bisa palsu / sempit."),
-        tf("u10l3q2", "1 juta followers = proyek serius.", false, "Bisa dibeli."),
-        c("u10l3q3", "Mint hidup + LP unlock…", ["Numpuk risiko", "Sinyal beli", "Standar ERC-20", "L2"], 0, "Numpuk."),
+        j("u10l3q1","Proyek punya satu PDF audit. Artinya apa?",["Belum tentu aman","Dijamin 100% aman","Sinyal beli semua modal","Pasti bebas honeypot"],0,"Laporan audit bisa palsu atau cuma ngecek sebagian kode. Cocokkan alamat kontraknya."),
+        M("u10l3q2","Proyek dengan 1 juta followers pasti serius.",false,"Salah. Followers dan interaksi bisa dibeli atau diisi bot."),
+        j("u10l3q3","Fungsi mint masih aktif dan LP nggak dikunci. Artinya apa?",["Risikonya bertumpuk","Sinyal beli","Normal buat token baru","Tanda proyek serius"],0,"Token bisa dicetak terus dan likuiditas bisa ditarik. Dua risiko besar sekaligus."),
       ]),
-      L("u10", "u10-chest", "chest", "Peti unit 10", "Kacamata skeptis.", "gift", [], { xp: 0, gems: 22 }),
+      L("u10", "u10-chest", "chest", "Peti rute 10", "Kacamata skeptis.", "gift", [], { xp: 0, gems: 22 }),
       L("u10", "u10-l4", "lesson", "Sumber resmi", "Jangan dari reply.", "shield", [
         tip("u10l4t", "Link dari mana?", "Bookmark situs resmi. Cek handle terverifikasi. Domain 1 huruf beda = phishing. Jangan klik 'support' yang DM duluan.", {
           points: [
@@ -295,16 +302,16 @@ export const MORE_UNITS: Unit[] = [
           example: "GoPay palsu di iklan: 'go-pay-cs.help'. Asli nggak gitu.",
           remember: "Ketik sendiri, jangan klik asing.",
         }),
-        tf("u10l4q1", "CS yang DM duluan minta kode = resmi.", false, "Penipu."),
-        c("u10l4q2", "Cara buka exchange paling aman?", ["Ketik URL / app resmi yang kamu bookmark", "Klik iklan paling atas", "Dari komentar", "Dari QR di warung random"], 0, "Bookmark."),
-        c("u10l4q3", "1 huruf beda di domain. Itu apa?", ["Phishing klasik", "CDN", "L2", "Gas"], 0, "Phishing."),
+        M("u10l4q1","CS yang DM duluan dan minta kode verifikasi itu resmi.",false,"Salah. CS resmi nggak pernah DM duluan, apalagi minta kode atau seed."),
+        j("u10l4q2","Cara paling aman membuka situs exchange?",["Lewat bookmark atau aplikasi resmi","Klik iklan paling atas","Dari link di komentar","Scan QR yang ditempel di tempat umum"],0,"Iklan dan link di komentar sering mengarah ke situs tiruan."),
+        j("u10l4q3","Alamat situs beda satu huruf dari aslinya. Itu apa?",["Phishing","Server cadangan resmi","Versi beta situs","Situs mirror yang aman"],0,"Penipu sengaja pakai alamat mirip supaya kamu nggak sadar sedang di situs palsu."),
       ]),
-      L("u10", "u10-cp", "checkpoint", "Ujian unit 10", "CCTV, izin, sumber.", "flag", [
+      L("u10", "u10-cp", "checkpoint", "Ujian rute 10", "CCTV, izin, sumber.", "flag", [
         tip("u10cpt", "Ulangan DYOR", "Alamat > nama. Izin = senjata. Ketik sendiri.", { points: ["Explorer.", "Approve.", "Sumber resmi."] }),
-        tf("u10cp1", "Nama token unik di semua rantai.", false, "Bisa ditiru."),
-        blank("u10cp2", "Izin token ke kontrak: ___.", ["approve", "mint", "bridge", "gas"], 0, "Approve."),
-        c("u10cp3", "CS DM minta seed. Siapa itu?", ["Penipu", "Prosedur", "Pajak", "L2"], 0, "Penipu."),
-        c("u10cp4", "Tumpuk sinyal artinya apa?", ["Jangan andalin 1 centang", "Beli semua", "Matikan DYOR", "All-in"], 0, "Tumpuk."),
+        M("u10cp1","Nama token pasti unik di semua jaringan.",false,"Salah. Nama bisa ditiru siapa pun. Yang harus dicek alamat kontraknya."),
+        N("u10cp2","Memberi izin token ke kontrak disebut ___.",["approve","mint","bridge","swap"],0,"Setelah selesai pakai, cabut izinnya dengan revoke."),
+        j("u10cp3","Ada 'CS' yang DM dan minta seed. Dia siapa?",["Penipu","Prosedur verifikasi resmi","Tim keamanan exchange","Bot bantuan otomatis"],0,"Nggak ada pihak resmi yang minta seed phrase. Langsung blokir."),
+        j("u10cp4","DYOR yang benar itu seperti apa?",["Cek beberapa hal sekaligus, jangan andalkan satu tanda","Beli semua yang lagi ramai","Cukup lihat jumlah followers","Percaya satu PDF audit"],0,"Cek kontrak, likuiditas, pemegang, dan tim. Satu tanda 'aman' nggak cukup."),
       ]),
     ],
   },
@@ -325,9 +332,9 @@ export const MORE_UNITS: Unit[] = [
           example: "Beli USDT di CEX lokal, tarik ke wallet, swap di DEX. Tiap langkah bisa salah jaringan.",
           remember: "Titip sebentar, simpen sendiri yang jangka panjang.",
         }),
-        c("u11l1q1", "Not your keys artinya apa?", ["Kalo titip, itu bukan sepenuhnya kamu", "Seed boleh dishare", "CEX nggak pernah rugi", "DEX ilegal"], 0, "Kunci = kuasa."),
-        tf("u11l1q2", "DEX punya CS 24 jam kayak bank.", false, "Nggak."),
-        c("u11l1q3", "On-ramp rupiah buat pemula biasanya lewat mana?", ["CEX / P2P berizin", "DM Telegram random", "Kirim ke 'admin'", "Honeypot"], 0, "Jalur resmi."),
+        j("u11l1q1","Apa arti 'not your keys, not your coins'?",["Kalau asetmu dititip di exchange, kendali penuhnya bukan di kamu","Seed boleh dibagikan","Exchange nggak mungkin bangkrut","DEX itu ilegal"],0,"Yang pegang kunci yang punya kuasa. Di CEX, kuncinya dipegang exchange."),
+        M("u11l1q2","DEX punya CS 24 jam seperti bank.",false,"Salah. DEX cuma kode di blockchain. Salah kirim, nggak ada yang bisa dihubungi."),
+        j("u11l1q3","Pemula paling aman beli kripto pakai rupiah lewat mana?",["Exchange (CEX) atau P2P yang berizin","DM Telegram dari orang asing","Transfer ke 'admin' grup","Link dari komentar"],0,"Jalur berizin punya aturan dan perlindungan. Jalur acak rawan penipuan."),
       ]),
       L("u11", "u11-l2", "lesson", "P2P", "Orang ke orang, jebakan ke jebakan.", "swap", [
         tip("u11l2t", "P2P itu warung, bukan ATM.", "Kamu ketemu orang. Ada yang bayar pake rekening hasil penipuan, trus lapor polisi. Ada yang minta transfer di luar escrow. Pake escrow platform. Jangan lepas chat ke WA pribadi.", {
@@ -339,9 +346,9 @@ export const MORE_UNITS: Unit[] = [
           example: "USDT murah banget, minta transfer BCA ke nama orang lain 'kakak saya'. Klasik.",
           remember: "Escrow, nama cocok, jangan buru-buru.",
         }),
-        tf("u11l2q1", "Pindah chat ke WA pribadi itu aman.", false, "Sering lepas perlindungan escrow."),
-        c("u11l2q2", "Harga USDT jauh di bawah pasar. Kenapa?", ["Curiga rekening kotor / umpan", "Wajib gas", "Airdrop", "L2"], 0, "Curiga."),
-        c("u11l2q3", "Escrow itu…", ["Tahan dana sampe selesai", "Pajak", "Seed", "NFT"], 0, "Tahan."),
+        M("u11l2q1","Pindah chat P2P ke WhatsApp pribadi itu aman.",false,"Salah. Di luar platform, kamu kehilangan perlindungan escrow."),
+        j("u11l2q2","Ada yang jual USDT jauh di bawah harga pasar. Kenapa?",["Curiga uangnya dari rekening hasil penipuan atau umpan","Penjualnya lagi baik hati","Promo resmi bursa","Harga normal di P2P"],0,"Harga terlalu murah sering dipakai buat mencuci uang hasil penipuan. Rekeningmu bisa ikut diblokir."),
+        j("u11l2q3","Apa fungsi escrow di P2P?",["Menahan aset sampai pembayaran selesai","Biaya admin platform","Potongan pajak","Asuransi kalau rugi"],0,"Escrow memastikan penjual nggak bisa kabur dan pembeli nggak bisa curang."),
       ]),
       L("u11", "u11-l3", "lesson", "Pajak & jejak", "Negara juga baca rantai.", "book", [
         tip("u11l3t", "Bukan nasihat pajak. Sadar jejak.", "Di Indonesia, aset kripto dan transaksi bisa kena aturan yang berubah. Simpen riwayat. Jangan kira 'on-chain = ga kelihatan'. CEX lokal punya datamu. Edukasi ini bertujuan agar kamu selalu tertib administrasi.", {
@@ -354,30 +361,30 @@ export const MORE_UNITS: Unit[] = [
           remember: "Jejak ada, catat.",
         }),
         tf("u11l3q1", "On-chain artinya negara mustahil liat.", false, "Bisa dilacak, plus data CEX."),
-        c("u11l3q2", "Nasihat pajak paling waras dari siapa?", ["Profesional, bukan admin Telegram", "Call group", "Komentar meme", "AI random tanpa cek"], 0, "Profesional."),
-        c("u11l3q3", "Catatan transaksi itu…", ["Temenmu saat kaget", "Buang-buang waktu", "Wajib seed", "Honeypot"], 0, "Catat."),
+        c("u11l3q2", "Nasihat pajak paling waras dari siapa?", ["Profesional, bukan admin Telegram", "Call group", "Komentar meme", "AI random tanpa cek"], 0, "Konsultan pajak profesional memahami undang-undang keuangan yang berlaku dan dapat memberikan panduan kepatuhan resmi."),
+        j("u11l3q3","Kenapa catatan transaksi kripto penting?",["Buat laporan pajak dan bukti asal dana","Nggak penting kalau transaksinya on-chain","Cuma perlu buat trader besar","Bikin wallet lebih aman dari hacker"],0,"Catatan membantu saat lapor pajak atau saat bank menanyakan asal dana."),
       ]),
-      L("u11", "u11-chest", "chest", "Peti unit 11", "On-ramp yang waras.", "gift", [], { xp: 0, gems: 22 }),
+      L("u11", "u11-chest", "chest", "Peti rute 11", "On-ramp yang waras.", "gift", [], { xp: 0, gems: 22 }),
       L("u11", "u11-l4", "lesson", "Off-ramp", "Jadi rupiah lagi.", "bank", [
         tip("u11l4t", "Keluar lebih susah daripada masuk.", "Bank bisa nanya sumber dana. Rekening kena hold. Pecah transaksi, nama jelas, platform berizin. Jangan cuci lewat orang random yang 'bisa cairin'.", {
           points: [
-            "Off-ramp resmi lebih lambat, lebih hidup.",
+            "Off-ramp resmi memang lebih lambat, tapi lebih aman.",
             "Orang random 'cairin 10 menit' = risiko rekening kamu dipake.",
             "Stablecoin bukan 'uang tunai di bawah bantal'. Masih ada jembatan.",
           ],
           example: "Temen 'bisa cairin USDT ke DANA 5 menit, fee 2%'. Datanya masuk rekening gelap. Kamu yang ditanya.",
           remember: "Keluar lewat pintu, bukan jendela.",
         }),
-        c("u11l4q1", "Cairin lewat orang random 5 menit. Aman?", ["Risiko rekening / dana kotor", "Paling profesional", "Standar L2", "Airdrop"], 0, "Jendela, bukan pintu."),
-        tf("u11l4q2", "Stablecoin otomatis sama dengan cash di ATM.", false, "Masih perlu jembatan."),
-        c("u11l4q3", "Bank nanya sumber dana. Gimana?", ["Wajar. Punya catatan", "Langgar HAM", "Ignore", "Hapus app"], 0, "Catatan."),
+        c("u11l4q1", "Cairin lewat orang random 5 menit. Aman?", ["Risiko rekening / dana kotor", "Paling profesional", "Standar L2", "Airdrop"], 0, "Mencairkan dana lewat perantara tidak resmi berisiko menyeret rekeningmu ke dalam investigasi pencucian uang atau penipuan."),
+        tf("u11l4q2", "Stablecoin otomatis sama dengan cash di ATM.", false, "Stablecoin tetaplah token di atas jaringan blockchain yang membutuhkan proses penarikan on-ramp dan off-ramp untuk menjadi uang tunai rupiah."),
+        c("u11l4q3","Bank nanya sumber dana pas kamu cairin kripto. Gimana?",["Wajar, siapkan bukti transaksi dan catatan penarikan","Bank nggak berhak nanya","Hapus aplikasi bank","Abaikan saja"],0,"Bank wajib mematuhi aturan anti-pencucian uang, jadi catatan transaksimu sangat berguna."),
       ]),
-      L("u11", "u11-cp", "checkpoint", "Ujian unit 11", "Masuk, keluar, jejak.", "flag", [
+      L("u11", "u11-cp", "checkpoint", "Ujian rute 11", "Masuk, keluar, jejak.", "flag", [
         tip("u11cpt", "Ulangan CEX & Indo", "Titip sebentar. Escrow. Catat.", { points: ["Keys.", "P2P.", "Jejak."] }),
-        tf("u11cp1", "Simpen semua aset jangka panjang di CEX itu ideal.", false, "Not your keys."),
-        c("u11cp2", "P2P trus pindah ke WA…", ["Red flag", "Wajib", "Lebih escrow", "Gas"], 0, "Red flag."),
-        blank("u11cp3", "Beli di bursa titipan disebut ___.", ["CEX", "DEX", "LP", "NFT"], 0, "CEX."),
-        c("u11cp4", "Off-ramp yang waras itu…", ["Platform berizin, nama jelas", "Orang random 5 menit", "DM admin", "Honeypot"], 0, "Pintu."),
+        M("u11cp1","Menyimpan semua aset jangka panjang di CEX itu ideal.",false,"Salah. Kalau exchange bermasalah, asetmu ikut tertahan. Simpan jangka panjang di wallet sendiri."),
+        j("u11cp2","Transaksi P2P lalu diajak pindah ke WhatsApp. Tandanya apa?",["Tanda bahaya (red flag)","Prosedur wajib","Lebih cepat dan aman","Biar harga lebih murah"],0,"Di luar platform nggak ada escrow. Penipu sering pakai cara ini."),
+        N("u11cp3","Bursa yang menyimpan asetmu (titipan) disebut ___.",["CEX","DEX","LP","NFT"],0,"CEX = centralized exchange. Nyaman, tapi asetmu dititip."),
+        j("u11cp4","Cara aman mencairkan kripto ke rupiah (off-ramp)?",["Lewat platform berizin dengan nama rekening yang sama","Lewat orang asing yang menawarkan harga tinggi","Lewat DM admin grup","Lewat token yang nggak bisa dijual"],0,"Nama rekening yang cocok dan platform berizin mengurangi risiko rekening diblokir."),
       ]),
     ],
   },
@@ -398,23 +405,23 @@ export const MORE_UNITS: Unit[] = [
           example: "Validator ETH vs situs 'stake BTC 3% per hari'. Yang kedua hampir pasti skema.",
           remember: "Bunga waras jarang berteriak.",
         }),
-        c("u12l1q1", "APY 2000% di banner. Percaya?", ["Curiga. Dari mana duitnya?", "Wajib gas", "Standar BTC", "Asuransi"], 0, "Dari mana?"),
-        tf("u12l1q2", "Situs staking boleh minta 12 kata.", false, "Nggak pernah."),
-        blank("u12l1q3", "Kunci aset di protokol rantai disebut ___.", ["staking", "phishing", "rug", "gas"], 0, "Staking."),
+        j("u12l1q1","Ada banner APY 2000%. Percaya?",["Curiga. Tanya dulu uangnya dari mana","Langsung ikut","Normal buat Bitcoin","Dijamin pemerintah"],0,"Bunga wajar harus jelas sumbernya. APY 2000% biasanya dibayar pakai uang peserta baru."),
+        M("u12l1q2","Situs staking boleh minta 12 kata seed phrase.",false,"Salah. Staking asli cukup connect wallet dan tanda tangan. Yang minta seed pasti penipu."),
+        N("u12l1q3","Mengunci aset di jaringan untuk dapat imbalan disebut ___.",["staking","phishing","rugpull","bridge"],0,"Staking resmi biasanya punya masa tunggu penarikan dan risiko potongan (slashing)."),
       ]),
       L("u12", "u12-l2", "lesson", "Farm & vault", "Imbalan dari fee, atau dari angin.", "coins", [
         tip("u12l2t", "Yield farming bukan deposito.", "Kamu kasih likuiditas, dapet fee + token. Impermanent loss, smart contract risk, token reward dump. Vault yang 'auto compound 40% sehari' sering ponzi cantik.", {
           points: [
             "IL: harga aset di pool geser, kamu bisa kalah vs hold.",
             "Reward token bisa nol sebelum kamu jual.",
-            "TVL tiba-tiba = sering insentif, bukan cinta.",
+            "TVL (total dana terkunci) tiba-tiba = sering insentif, bukan cinta.",
           ],
           example: "Pool aneh APY 800%, TVL meledak seminggu, reward dump, sisa IL.",
           remember: "Fee nyata > bunga poster.",
         }),
-        tf("u12l2q1", "APY poster dijamin setahun.", false, "Bisa ambruk minggu ini."),
-        c("u12l2q2", "Impermanent loss itu…", ["Bisa kalah vs hold", "Asuransi", "Pajak", "NFT"], 0, "Geser harga."),
-        c("u12l2q3", "Vault 40% sehari. Mungkin?", ["Hampir pasti skema", "Standar USDT", "L2", "CEX"], 0, "Skema."),
+        M("u12l2q1","APY yang tertulis di poster dijamin berlaku setahun.",false,"Salah. APY bisa berubah kapan aja, bahkan ambruk dalam seminggu."),
+        j("u12l2q2","Impermanent loss (IL) itu apa?",["Kerugian karena harga aset di pool bergeser, bisa kalah dibanding simpan biasa","Asuransi dari protokol","Pajak transaksi","Biaya gas pool"],0,"Kalau harga dua token di pool berubah jauh, nilai bagianmu bisa lebih kecil dibanding kalau cuma disimpan."),
+        j("u12l2q3","Ada vault yang janji 40% per hari. Mungkin nggak?",["Hampir pasti skema penipuan","Bunga normal stablecoin","Hasil teknologi baru","Standar exchange besar"],0,"40% per hari berarti ribuan persen setahun. Nggak ada bisnis nyata yang bisa bayar segitu."),
       ]),
       L("u12", "u12-l3", "lesson", "Double & giveaway", "Yang minta deposit dulu.", "gift", [
         tip("u12l3t", "Ulangi mantra.", "Double ETH, giveaway 'kirim dulu', airdrop minta gas ke alamat admin. Modus gandakan saldo atau meminta fee di awal adalah penipuan. Jangan pernah mengirimkan asetmu ke pihak mana pun.", {
@@ -426,31 +433,31 @@ export const MORE_UNITS: Unit[] = [
           proofs: ["cuan-20m", "fumble-193m"],
           remember: "Terlalu indah = umpan.",
         }),
-        tf("u12l3q1", "Double ETH 10 menit itu produk DeFi standar.", false, "Umpan."),
-        c("u12l3q2", "Giveaway minta kirim 0.1 dulu. Itu apa?", ["Scam", "KYC", "Gas resmi", "Staking"], 0, "Scam."),
-        order("u12l3q3", "Hafalin mantranya.", ["Kalau", "terlalu", "indah", "itu", "umpan"], "Simpen."),
+        M("u12l3q1","Double ETH dalam 10 menit itu produk DeFi standar.",false,"Salah. Nggak ada protokol yang menggandakan saldo. 'Kirim 1, dapat 2' itu penipuan klasik."),
+        j("u12l3q2","Giveaway minta kamu kirim 0,1 ETH dulu. Itu apa?",["Penipuan","Verifikasi KYC","Biaya gas resmi","Syarat staking"],0,"Hadiah asli nggak pernah minta kamu transfer duluan."),
+        j("u12l3q3","Mana yang paling mungkin umpan?",["Akun 'resmi' bagi-bagi ETH asal kamu kirim dulu","Swap di DEX lewat bookmark","Beli di exchange berizin","Staking lewat situs resmi jaringan"],0,"Pola 'kirim dulu, nanti dapat lebih' selalu umpan."),
       ]),
-      L("u12", "u12-chest", "chest", "Peti unit 12", "Bunga yang nggak berteriak.", "gift", [], { xp: 0, gems: 22 }),
+      L("u12", "u12-chest", "chest", "Peti rute 12", "Bunga yang nggak berteriak.", "gift", [], { xp: 0, gems: 22 }),
       L("u12", "u12-l4", "lesson", "Imbalan dari mana", "Nggak ada makan siang gratis.", "layers", [
         tip("u12l4t", "Ikutin duitnya.", "Fee transaksi, inflasi token, duit deposan baru, atau dump ke kamu. Tulis di kertas. Kalo nggak bisa jelasin ke temen warung, jangan masuk.", {
           points: [
             "Inflasi: kamu dibayar token yang makin banyak, makin murah.",
             "Ponzi: bunga dari orang belakang.",
-            "Imbal hasil riil bersumber dari aktivitas pengguna seperti biaya swap, pinjaman, dan lelang.",
+            "Hasil nyata datang dari orang yang bayar biaya swap, bunga pinjaman, atau lelang asli.",
           ],
           example: "Protokol pinjam: peminjam bayar bunga, pemberi dapet bagian. Masuk akal. 'Tanpa peminjam, 5% per hari' nggak.",
           remember: "Bisa dijelasin = boleh ditimbang.",
         }),
-        c("u12l4q1", "Bunga tanpa sumber jelas. Masuk?", ["Jangan masuk", "All-in", "Pinjam bank", "Share seed"], 0, "Jangan."),
-        tf("u12l4q2", "Token reward selalu naik harganya.", false, "Sering dilutif."),
-        c("u12l4q3", "Sumber yield paling waras dari mana?", ["Fee pengguna nyata", "Orang belakang", "Banner 2000%", "DM admin"], 0, "Fee."),
+        j("u12l4q1","Ada tawaran bunga tanpa sumber yang jelas. Ikut?",["Jangan ikut","Ikut semua modal","Pinjam bank biar lebih besar","Kasih seed biar diproses cepat"],0,"Kalau kamu nggak bisa jelaskan uangnya dari mana, kemungkinan besar dari peserta baru."),
+        M("u12l4q2","Token hadiah (reward) selalu naik harganya.",false,"Salah. Token reward terus dicetak, jadi harganya sering turun."),
+        j("u12l4q3","Sumber imbal hasil (yield) paling masuk akal dari mana?",["Biaya dari pengguna nyata, misalnya bunga pinjaman atau fee swap","Uang dari peserta baru","Banner APY 2000%","Transfer dari admin"],0,"Yield yang sehat datang dari aktivitas nyata yang bisa kamu jelaskan."),
       ]),
-      L("u12", "u12-cp", "checkpoint", "Ujian unit 12", "Bunga, umpan, sumber.", "flag", [
+      L("u12", "u12-cp", "checkpoint", "Ujian rute 12", "Bunga, umpan, sumber.", "flag", [
         tip("u12cpt", "Ulangan yield", "Dari mana duitnya? Seed nggak buat staking web.", { points: ["Staking palsu.", "APY poster.", "Sumber fee."] }),
-        tf("u12cp1", "APY 2000% wajar buat BTC.", false, "Aneh."),
-        c("u12cp2", "Staking minta seed. Siapa?", ["Penipu", "Standar", "L2", "Pajak"], 0, "Penipu."),
-        blank("u12cp3", "Geser harga di pool bisa bikin ___ loss.", ["impermanent", "gas", "floor", "airdrop"], 0, "Impermanent."),
-        c("u12cp4", "Nggak bisa jelasin sumber bunganya…", ["Jangan masuk", "Gas", "Naikin APY", "All-in"], 0, "Jangan."),
+        M("u12cp1","APY 2000% itu wajar untuk BTC.",false,"Salah. BTC nggak punya bunga bawaan. Angka segitu pasti dari skema."),
+        j("u12cp2","Situs staking minta seed phrase. Siapa itu?",["Penipu","Prosedur staking normal","Validator resmi","Fitur keamanan wallet"],0,"Staking nggak pernah butuh seed. Tutup situsnya."),
+        N("u12cp3","Harga aset di pool bergeser bisa bikin ___ loss.",["impermanent","gas","floor","airdrop"],0,"Impermanent loss: kamu bisa kalah dibanding cuma menyimpan asetnya."),
+        j("u12cp4","Kamu nggak bisa jelasin sumber bunganya. Harus gimana?",["Jangan masuk","Masuk sedikit dulu tanpa cek","Minta APY lebih tinggi","Masukkan semua modal"],0,"Aturan sederhana: kalau nggak bisa dijelaskan, jangan ditaruh uang."),
       ]),
     ],
   },
@@ -468,16 +475,16 @@ export const MORE_UNITS: Unit[] = [
             "Kalo 'sekarang atau nggak pernah', itu script umpan.",
             "Kesempatan lain ada. Modal yang hangus nggak balik.",
           ],
-          example: "Grup teriak 'last candle'. Kamu ape. Mereka jual.",
+          example: "Grup teriak 'last candle'. Kamu buru-buru beli. Mereka jual ke kamu.",
           remember: "Jeda dulu, baru klik.",
           proofs: ["rugi-entry", "cuan-20m"],
         }),
-        tf("u13l1q1", "Kalo nggak ape sekarang, kesempatan hilang selamanya.", false, "Script umpan."),
-        c("u13l1q2", "FOMO? Jawabnya…", ["Jeda dan cek", "All-in", "Pinjam", "Tutup DYOR"], 0, "Jeda."),
-        c("u13l1q3", "Kereta udah 10x. Kamu?", ["Kamu mungkin likuiditas", "Paling aman", "Wajib 50x leverage", "Asuransi"], 0, "Likuiditas."),
+        M("u13l1q1","Kalau nggak beli sekarang, kesempatan hilang selamanya.",false,"Salah. Kalimat ini sengaja dipakai buat bikin kamu panik. Kesempatan lain selalu ada."),
+        j("u13l1q2","Kamu lagi FOMO (takut ketinggalan). Harus gimana?",["Jeda dulu dan cek","Langsung masukkan semua modal","Pinjam uang biar bisa ikut","Lewati riset"],0,"Jeda 10 menit cukup buat nurunin emosi dan cek ulang."),
+        j("u13l1q3","Koin udah naik 10x dan semua orang ngomongin. Kalau kamu beli sekarang, risikonya apa?",["Kamu bisa jadi pembeli buat mereka yang mau jual","Waktu paling aman","Wajib pakai leverage 50x","Ada asuransinya"],0,"Yang beli duluan butuh pembeli baru untuk mencairkan untung."),
       ]),
       L("u13", "u13-l2", "lesson", "Dendam", "Menebus luka dengan luka baru.", "userx", [
-        tip("u13l2t", "Revenge trade.", "Kalah, trus naikin ukuran biar 'balik cepet'. Itu cara klasik −$426 jadi −$4 juta. Tutup laptop. Jalan. Tulis journal. Besok.", {
+        tip("u13l2t", "Revenge trade.", "Kalah, trus naikin ukuran biar 'balik cepet'. Itu cara klasik rugi US$426 bisa membengkak jadi puluhan juta rupiah. Tutup laptop. Jalan. Tulis journal. Besok.", {
           points: [
             "Aturan: abis 2 kalah, stop hari itu.",
             "Naikin ukuran cuma saat tenang, bukan saat panas.",
@@ -487,9 +494,9 @@ export const MORE_UNITS: Unit[] = [
           remember: "Stop, jangan tebus.",
           proofs: ["rugi-personal"],
         }),
-        c("u13l2q1", "Abis kalah, naikin ukuran. Boleh?", ["Revenge. Bahaya", "Profesional", "Wajib", "DYOR"], 0, "Dendam."),
-        tf("u13l2q2", "Dua kalah beruntun = sinyal all-in.", false, "Sinyal jeda."),
-        blank("u13l2q3", "Trading balas dendam disebut ___ trade.", ["revenge", "spot", "airdrop", "gas"], 0, "Revenge."),
+        j("u13l2q1","Habis kalah, lalu ukuran posisi dinaikkan biar cepat balik modal. Boleh?",["Itu revenge trade dan berbahaya","Cara profesional","Wajib dilakukan","Bagian dari riset"],0,"Menaikkan ukuran saat emosi biasanya bikin rugi makin besar."),
+        M("u13l2q2","Kalah dua kali berturut-turut itu tanda buat all-in.",false,"Salah. Itu tanda buat berhenti dulu hari itu."),
+        N("u13l2q3","Trading untuk balas dendam setelah kalah disebut ___ trade.",["revenge","spot","swing","scalp"],0,"Revenge trade diambil pakai emosi, bukan rencana."),
       ]),
       L("u13", "u13-l3", "lesson", "Journal", "Otak di kertas.", "book", [
         tip("u13l3t", "Tulis, atau ulang kesalahan.", "Catat: kenapa masuk, ukuran, rencana keluar, emosi. Hijau tanpa catatan = keberuntungan. Merah tanpa catatan = bakal diulang.", {
@@ -501,36 +508,36 @@ export const MORE_UNITS: Unit[] = [
           example: "Bukan 'rugi PEPE'. Tapi 'masuk FOMO, tanpa stop, ukuran 20%'. Itu yang dibenerin.",
           remember: "Koin berganti, kebiasaan tetep.",
         }),
-        tf("u13l3q1", "Screenshot hijau = journal cukup.", false, "Nggak ada rencana di situ."),
-        c("u13l3q2", "Yang harus dibenerin itu…", ["Kebiasaan, bukan 'koin sial'", "Hapus app tiap rugi", "Ganti seed", "All-in"], 0, "Kebiasaan."),
-        c("u13l3q3", "Isi journal minimal apa aja?", ["Ide, ukuran, keluar, emosi", "Cuma PnL", "Cuma CA", "Cuma PFP"], 0, "Proses."),
+        M("u13l3q1","Screenshot PnL hijau sudah cukup jadi jurnal trading.",false,"Salah. Jurnal mencatat alasan masuk, ukuran, rencana keluar, dan emosi. Screenshot nggak mencatat itu."),
+        j("u13l3q2","Kalau terus rugi, yang harus diperbaiki itu apa?",["Kebiasaan tradingmu, bukan 'koin yang sial'","Hapus aplikasi tiap rugi","Ganti seed phrase","Masukkan semua modal"],0,"Koin bisa berganti, tapi kebiasaan buruk ikut terus."),
+        j("u13l3q3","Jurnal trading minimal berisi apa?",["Alasan masuk, ukuran, rencana keluar, dan emosi","Cuma angka untung-rugi","Cuma alamat kontrak","Cuma foto profil"],0,"Dari catatan itu kamu bisa lihat pola kesalahan yang berulang."),
       ]),
-      L("u13", "u13-chest", "chest", "Peti unit 13", "Kepala masih di pundak.", "gift", [], { xp: 0, gems: 25 }),
+      L("u13", "u13-chest", "chest", "Peti rute 13", "Kepala masih di pundak.", "gift", [], { xp: 0, gems: 25 }),
       L("u13", "u13-l4", "lesson", "Bertahan", "Cuan butuh kamu masih hidup.", "flag", [
-        tip("u13l4t", "Tujuan bukan jadi paus minggu ini.", "Tujuan: masih di meja tahun depan. Modal utuh, kunci aman, ukuran waras, umpan ditolak. Aku peta, bukan dukun. Kamu yang nyetir.", {
+        tip("u13l4t", "Tujuan bukan jadi paus minggu ini.", "Tujuan: masih di meja tahun depan. Modal utuh, kunci aman, ukuran waras, umpan ditolak. web3min cuma peta, bukan dukun. Kamu yang nyetir.", {
           points: [
             "Hidup > FOMO.",
             "Seed tetep rahasia. Izin tetep dicek.",
-            "Dua sisi PnL: Rp 20 M ada, −$33 jt ada. Kamu pilih ukuran.",
+            "Dua sisi PnL: Rp 20 miliar ada, −US$33 juta ada. Kamu pilih ukuran.",
           ],
           remember: "Hidup dulu, cuan belakangan.",
           proofs: ["cuan-20m", "rugi-33m", "rugi-roundtrip", "cuan-argus"],
         }),
-        c("u13l4q1", "Tujuan utama pemula itu apa?", ["Masih di meja tahun depan", "Jadi paus minggu ini", "Copy semua call", "50x tiap malam"], 0, "Hidup."),
-        tf("u13l4q2", "web3min njamin cuan.", false, "Peta, bukan dukun."),
-        order("u13l4q3", "Urutin dulu.", ["Hidup", "kunci", "ukuran", "cuan"], "Selamat."),
-        c("u13l4q4", "Kalo terlalu indah…", ["Itu umpan", "Wajib", "Airdrop resmi", "Pajak"], 0, "Umpan."),
+        c("u13l4q1","Tujuan utama pemula di pasar kripto itu apa?",["Masih bertahan tahun depan dengan modal dan kunci yang aman","Jadi paus dalam seminggu","Meniru semua panggilan grup","Pakai leverage 50x tiap malam"],0,"Fokus utama pemula adalah menjaga modal tetap utuh agar punya kesempatan belajar jangka panjang."),
+        tf("u13l4q2","web3min menjamin kamu pasti cuan setelah belajar.",false,"web3min cuma peta dan panduan belajar, semua keputusan dan risiko tetap ada di tanganmu."),
+        order("u13l4q3","Susun dari yang paling penting:",["Hidup","kunci","ukuran","cuan"],"Kebutuhan hidup dan keamanan kunci harus selalu didahulukan sebelum memikirkan keuntungan."),
+        c("u13l4q4","Tawaran investasi yang kelihatan terlalu indah biasanya apa?",["Umpan berbahaya dari penipu","Kesempatan langka yang wajib diambil","Program resmi pemerintah","Strategi rahasia para paus"],0,"Keuntungan luar biasa tanpa risiko nyata hampir selalu skema penipuan."),
       ]),
-      L("u13", "u13-cp", "checkpoint", "Ujian unit 13", "Kepala dingin dulu. Peta masih panjang.", "flag", [
+      L("u13", "u13-cp", "checkpoint", "Ujian rute 13", "Kepala dingin dulu. Peta masih panjang.", "flag", [
         tip("u13cpt", "Ulangan kepala dingin", "Jeda. Jangan dendam. Tulis. Hidup.", {
           points: ["FOMO script.", "Revenge stop.", "Journal kebiasaan.", "Masih di meja."],
           remember: "Kamu yang nyetir.",
         }),
-        tf("u13cp1", "Last candle = alasan cukup buat all-in.", false, "Script."),
-        c("u13cp2", "Kalah dua kali. Ngapain?", ["Stop hari itu", "All-in", "Pinjam", "Share seed"], 0, "Stop."),
-        blank("u13cp3", "Catatan proses disebut ___.", ["journal", "gas", "floor", "airdrop"], 0, "Journal."),
-        c("u13cp4", "web3min itu apa?", ["Peta", "Dukun", "Admin grup", "Paus"], 0, "Peta."),
-        c("u13cp5", "Kalo terlalu indah…", ["Umpan", "Gaji", "L2", "Pajak"], 0, "Umpan."),
+        tf("u13cp1","Teriakan 'last candle' di grup adalah alasan cukup buat all-in.",false,"Teriakan di grup seringkali sengaja dibuat untuk memicu FOMO agar orang lain membeli koin mereka."),
+        c("u13cp2","Kalah trading dua kali berturut-turut. Langkah paling bijak?",["Berhenti dulu hari itu dan tenangkan pikiran","Langsung all-in untuk balas dendam","Pinjam uang teman untuk modal","Ganti semua pengaturan akun"],0,"Jeda sejenak mencegah emosi memicu transaksi balas dendam yang merusak sisa modal."),
+        blank("u13cp3","Catatan alasan masuk, ukuran posisi, dan emosi disebut ___.",["journal","grafik","bursa","token"],0,"Jurnal trading membantu mengevaluasi kesalahan dan membangun disiplin yang konsisten."),
+        c("u13cp4","web3min dalam perjalanan belajarmu berperan sebagai apa?",["Peta pemandu","Dukun penentu harga","Admin grup sinyal","Paus penggerak pasar"],0,"Peta memberikan arah dan peringatan bahaya, namun kamu sendiri yang memegang kemudi."),
+        c("u13cp5","Mana yang paling mungkin umpan?",["Airdrop minta kirim ETH dulu","Swap di DEX lewat bookmark","Beli di exchange berizin","Staking di situs resmi jaringan"],0,"Pola 'kirim dulu nanti dapat lebih' selalu penipuan klasik."),
       ]),
     ],
   },

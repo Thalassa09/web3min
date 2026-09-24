@@ -180,6 +180,13 @@ export function order(
   return { type: "order", id, prompt, pieces, answer: [...pieces], explanation, blobi };
 }
 
+export const j = c;
+export const M = tf;
+export const N = blank;
+export const F = order;
+export const P = match;
+export const I = tip;
+
 export function tip(
   id: string,
   title: string,
@@ -287,7 +294,7 @@ export const CORE_UNITS: Unit[] = [
             "Trading: chart, kadang leverage. Bisa cuan, bisa hangus. Satu gang doang.",
             "DeFi: tukar, pinjam, kasih likuiditas. Nggak lewat bank. Tetap ada risiko kontrak.",
             "NFT: bukan cuma gambar monyet. Tiket, identitas, karya. Floor bukan ATM.",
-            "Airdrop: hadiah karena pake produk. Modal gas, kadang nol. Ada yang 400 UNI, ada yang $18 ribu ARB.",
+            "Airdrop: Ada yang dapat airdrop karena rajin pakai produk, tapi banyak juga yang nggak dapat apa-apa.",
             "Yang paling penting: kunci & aman. Salah di sini, yang lain nggak ada artinya.",
           ],
           example: "Teman cuma jembatan ke Arbitrum biar gas murah. Taunya eligible airdrop. Yang lain pinjam di DeFi. Yang lain mint tiket konser. Bukan semua orang nge-chart.",
@@ -336,7 +343,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u1l2q2",
-          "Kalau akun Instagram hilang, biasanya kamu…",
+          "Kalau akun Instagram kamu hilang, biasanya apa yang kamu lakukan?",
           [
             "Bisa minta bantuan lewat email / CS",
             "Otomatis kehilangan semua foto selamanya tanpa celah",
@@ -366,7 +373,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         order(
           "u1l2q5",
-          "Susun kalimat intinya.",
+          "Susun prinsip utama kepemilikan kunci di Web3:",
           ["Kamu", "pegang", "kunci", "asetmu", "sendiri"],
           "Itu kalimat yang harus nempel di kepala.",
         ),
@@ -381,18 +388,7 @@ export const CORE_UNITS: Unit[] = [
           example: "Kalau satu warung kopi rusak komputernya, buku kas rantai tetap ada di warung lain. Jaringan nggak mati cuma karena satu mesin.",
           remember: "Banyak salinan + rantai yang ngunci = susah dipalsuin diam-diam.",
         }),
-        c(
-          "u1l3q1",
-          "Blockchain itu apaan?",
-          [
-            "Rantai blok data yang tersambung dan disalin banyak komputer",
-            "Kabel internet bawah laut",
-            "Nama bank crypto",
-            "Aplikasi miner's only",
-          ],
-          0,
-          "Block + chain. Tiap blok ngunci data blok sebelumnya.",
-        ),
+        c("u1l3q1","DApp itu singkatan dari apa?",["Decentralized application, aplikasi yang backend-nya smart contract","Aplikasi khusus buat penambang","Aplikasi perbankan biasa","Dokumen aplikasi"],0,"Decentralized application. Bedanya di backend: kontrak di rantai, bukan server kantor."),
         tf(
           "u1l3q2",
           "Ngedit riwayat transaksi di blockchain publik itu gampang kayak ngedit Excel.",
@@ -421,7 +417,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u1l3q5",
-          "Kalau satu komputer yang nyimpen salinan blockchain rusak, jaringannya…",
+          "Kalau satu komputer yang menyimpan salinan blockchain rusak, bagaimana kondisi jaringannya?",
           [
             "Tetap jalan, karena banyak salinan lain",
             "Langsung hilang semua uang",
@@ -432,7 +428,7 @@ export const CORE_UNITS: Unit[] = [
           "Itu poin 'terdistribusi'. Nggak ada satu server keramat.",
         ),
       ]),
-      L("u1", "u1-chest", "chest", "Peti unit 1", "Hadiah kecil biar semangat.", "gift", [], { xp: 0, gems: 20 }),
+      L("u1", "u1-chest", "chest", "Peti rute 1", "Hadiah kecil biar semangat.", "gift", [], { xp: 0, gems: 20 }),
       L("u1", "u1-l4", "lesson", "Kripto vs uang bank", "Sama-sama digital, beda aturan main.", "bank", [
         tip("u1l4t", "Digital, tapi aturannya beda", "Saldo BCA dan saldo Bitcoin sama-sama angka di layar. Bedanya: rekening bank dijamin aturan negara (plus LPS sampai batas tertentu) dan bisa di-refund kalau salah transfer. Kripto on-chain biasanya final.", {
           points: [
@@ -445,7 +441,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u1l4q1",
-          "Saldo rekening BCA kamu dijamin oleh…",
+          "Saldo di rekening bank konvensional di Indonesia dijamin oleh lembaga apa?",
           [
             "Bank dan aturan negara (plus LPS sampai batas tertentu)",
             "Validator Ethereum",
@@ -475,7 +471,7 @@ export const CORE_UNITS: Unit[] = [
         blank(
           "u1l4q4",
           "Kripto yang harganya ngikutin dolar disebut ___.",
-          ["stablecoin", "meme coin", "NFT", "gas"],
+          ["stablecoin", "meme coin", "Token permainan", "gas"],
           0,
           "USDT, USDC, dan sejenisnya didesain ngikutin USD. Bukan jaminan 100% bebas risiko.",
         ),
@@ -529,7 +525,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u1l5q3",
-          "Kerja di web3 itu…",
+          "Bagaimana sebenarnya cara orang mencari penghasilan di dunia Web3?",
           [
             "Ada. Community, dev, desain, BD, konten. Kadang remote, kadang bounty",
             "Mustahil tanpa modal 1 miliar",
@@ -558,7 +554,7 @@ export const CORE_UNITS: Unit[] = [
           "All-in chart itu pilihan. Bukan definisi web3.",
         ),
       ]),
-      L("u1", "u1-cp", "checkpoint", "Ujian unit 1", "Cek dulu, udah nempel belum.", "flag", [
+      L("u1", "u1-cp", "checkpoint", "Ujian rute 1", "Cek dulu, udah nempel belum.", "flag", [
         tip("u1cpt", "Ulangan unit 1", "Nggak ada materi baru. Cek dulu, ide ini udah nempel belum, sebelum masuk ke wallet.", {
           points: [
             "Web3 ngebedain diri soalnya kendali aset ada di yang pegang kunci, bukan di satu perusahaan.",
@@ -570,7 +566,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u1cp1",
-          "Web3 ngebedain diri soalnya…",
+          "Apa perbedaan paling mendasar antara Web3 dan Web2?",
           [
             "Kendali aset ada di pemegang kunci, bukan di satu perusahaan",
             "Internetnya lebih pink",
@@ -580,10 +576,10 @@ export const CORE_UNITS: Unit[] = [
           0,
           "Kendali + tanggung jawab datang bareng.",
         ),
-        tf("u1cp2", "Blockchain publik nyatet transaksi di buku kas yang disalin banyak pihak.", true, "Iya. Itu kerjaannya."),
+        tf("u1cp2", "Blockchain publik nyatet transaksi di buku kas yang disalin banyak pihak.", true, "Buku kas publik didistribusikan ke ribuan node komputer agar tidak ada satu pihak pun yang bisa mengubah catatan secara sepihak."),
         c(
           "u1cp3",
-          "Kalau seed phrase wallet hilang, yang paling mungkin…",
+          "Kalau seed phrase dompetmu hilang atau dicuri orang, apa yang paling mungkin terjadi?",
           [
             "Aset di rantai itu sulit atau mustahil dikembalikan",
             "Bank mengirim ulang semuanya",
@@ -593,7 +589,7 @@ export const CORE_UNITS: Unit[] = [
           0,
           "Nanti kita dalemin di unit wallet. Spoiler: seed itu nyawa.",
         ),
-        blank("u1cp4", "Catatan bersama di Web3 disebut ___.", ["blockchain", "screenshot", "PDF", "status WA"], 0, "Nah, gitu."),
+        blank("u1cp4", "Catatan bersama di Web3 disebut ___.", ["blockchain", "screenshot", "PDF", "status WA"], 0, "Blockchain adalah buku kas bersama yang tidak bisa diedit diam-diam oleh perantara."),
         c(
           "u1cp5",
           "Mana yang Web2?",
@@ -604,7 +600,7 @@ export const CORE_UNITS: Unit[] = [
         tf("u1cp6", "Salah kirim kripto on-chain biasanya bisa di-refund kayak transfer bank salah.", false, "Jarang. Anggap kirim itu final."),
         c(
           "u1cp7",
-          "Selain trading, orang di web3 juga…",
+          "Selain trading grafik harga, apa saja aktivitas nyata pengguna di Web3?",
           [
             "Pake DeFi, kerja, ikut DAO, pegang NFT, bikin app",
             "Cuma nunggu sinyal",
@@ -636,7 +632,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u2l1q1",
-          "Wallet Web3 utamanya nyimpen…",
+          "Apa fungsi utama dari dompet (wallet) Web3?",
           ["Kunci (private key / seed)", "Koin fisik di dalam HP", "Uang tunai", "Akun Instagram"],
           0,
           "Saldo yang kamu liat itu bacaan dari blockchain, bukan 'file koin' di aplikasi.",
@@ -667,18 +663,7 @@ export const CORE_UNITS: Unit[] = [
           0,
           "Makanya kadang 'sync' dulu baru angkanya muncul.",
         ),
-        c(
-          "u2l1q5",
-          "Mana yang BUKAN tugas wallet?",
-          [
-            "Menjamin harga koin naik",
-            "Menandatangani transaksi dengan kunci kamu",
-            "Menampilkan saldo",
-            "Menyimpan seed / key",
-          ],
-          0,
-          "Wallet bukan investasi advisor. Dia alat.",
-        ),
+        tf("u2l1q5","Wallet bisa mengatur atau menaikkan harga pasar koinmu.",false,"Wallet cuma alat buat nyimpen kunci dan tanda tangan transaksi. Dia nggak bisa ngatur harga."),
       ]),
       L("u2", "u2-l2", "lesson", "Seed phrase", "12 atau 24 kata yang setara nyawa.", "key", [
         tip("u2l2t", "Seed phrase = nyawa wallet", "Pas buat wallet, kamu dapet 12 atau 24 kata berurutan. Itu master backup. Siapa pun yang punya seed, bisa buka wallet yang sama di HP mana pun, lalu menguras isinya.", {
@@ -730,7 +715,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         order(
           "u2l2q5",
-          "Prinsip emas web3min.",
+          "Susun aturan emas keamanan seed phrase:",
           ["Jangan", "pernah", "share", "seed", "phrase"],
           "Tempel di dinding otak.",
         ),
@@ -758,7 +743,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u2l3q2",
-          "Teman mau transferin kamu USDT. Kamu kasih…",
+          "Teman ingin mentransfer sejumlah token kepadamu. Informasi apa yang kamu berikan?",
           ["Alamat wallet / QR", "Seed phrase", "Private key", "Foto KTP + PIN"],
           0,
           "Alamat itu nomor rekening. Seed itu seluruh brankas.",
@@ -771,7 +756,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u2l3q4",
-          "PIN / Face ID di aplikasi wallet itu…",
+          "Fitur PIN atau Face ID di aplikasi dompet sebenarnya berfungsi untuk apa?",
           [
             "Kunci lokal supaya orang yang pegang HP susah buka app, bukan pengganti seed",
             "Sama kuatnya dengan seed, jadi seed boleh dibuang",
@@ -786,12 +771,12 @@ export const CORE_UNITS: Unit[] = [
           "Yang boleh kamu paste di group biar orang kirim koin itu ___.",
           ["alamat wallet", "seed phrase", "private key", "kata sandi iCloud"],
           0,
-          "Double-check karakter pertama dan terakhir. Scam suka nyulap clipboard.",
+          "Periksa 6 karakter awal dan 6 karakter akhir setelah paste. Malware atau scammer sering memalsukan alamat di clipboard.",
         ),
       ]),
-      L("u2", "u2-chest", "chest", "Peti unit 2", "Hadiah buat yang jaga rahasia.", "gift", [], { xp: 0, gems: 20 }),
+      L("u2", "u2-chest", "chest", "Peti rute 2", "Hadiah buat yang jaga rahasia.", "gift", [], { xp: 0, gems: 20 }),
       L("u2", "u2-l4", "lesson", "Alamat & jaringan", "Salah jaringan = drama.", "map", [
-        tip("u2l4t", "Alamat mirip, jaringan bisa beda dunia", "Alamat wallet biasanya deretan huruf-angka. Di Ethereum sering mulai 0x. Jangan hafal semuanya, cukup cek 4 karakter awal dan akhir setelah paste.", {
+        tip("u2l4t", "Alamat mirip, jaringan bisa beda dunia", "Alamat wallet biasanya deretan huruf-angka. Di Ethereum sering mulai 0x. Jangan hafal semuanya, cukup cek 6 karakter awal dan 6 karakter akhir setelah paste.", {
           points: [
             "Jaringan (network) beda: Ethereum, BNB Chain, Solana, dan L2 itu dunia terpisah.",
             "Kirim ETH di Ethereum ke 'alamat yang sama' di jaringan lain bisa nyangkut atau hilang.",
@@ -811,7 +796,7 @@ export const CORE_UNITS: Unit[] = [
             "Username TikTok",
           ],
           0,
-          "Contoh: 0xABC… (jangan hafal semuanya, cek 4 karakter awal dan akhirnya).",
+          "Contoh: 0xABC… (jangan hafal semuanya, cek 6 karakter awal dan 6 karakter akhirnya).",
         ),
         tf(
           "u2l4q2",
@@ -835,13 +820,13 @@ export const CORE_UNITS: Unit[] = [
         blank(
           "u2l4q4",
           "Nama lain yang sering dipakai buat alamat penerima itu ___.",
-          ["address", "seed", "gas", "NFT"],
+          ["address", "seed", "gas", "Nomor rekening bank"],
           0,
           "Address = tujuan. Seed = kunci.",
         ),
         c(
           "u2l4q5",
-          "Clipboard HP kamu…",
+          "Mengapa papan klip (clipboard) perangkat perlu diwaspadai saat menyalin alamat dompet?",
           [
             "Bisa ditukar malware jadi alamat penipu. Cek lagi setelah paste",
             "Nggak pernah salah",
@@ -849,10 +834,10 @@ export const CORE_UNITS: Unit[] = [
             "Sama dengan seed",
           ],
           0,
-          "Clipboard hijack itu nyata. Liat 4 karakter awal dan akhir.",
+          "Clipboard hijack itu nyata. Liat 6 karakter awal dan 6 karakter akhir.",
         ),
       ]),
-      L("u2", "u2-cp", "checkpoint", "Ujian unit 2", "Kunci, seed, dan alamat, jangan sampai tertukar.", "flag", [
+      L("u2", "u2-cp", "checkpoint", "Ujian rute 2", "Kunci, seed, dan alamat, jangan sampai tertukar.", "flag", [
         tip("u2cpt", "Ulangan unit 2", "Ini ujian. Kalau masih campur seed dan alamat, ulangi pelajarannya karena unit ini yang paling mahal kalau salah.", {
           points: [
             "Wallet nyimpen kunci, bukan file koin.",
@@ -863,28 +848,28 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u2cp1",
-          "Wallet Web3 utamanya nyimpen…",
+          "Apa benda paling berharga yang sebenarnya disimpan di dalam dompet Web3?",
           ["Kunci (seed / private key)", "Koin kertas", "Rupiah tunai", "Followers"],
           0,
-          "Kunci.",
+          "Wallet Web3 bertindak sebagai penyimpan kunci kriptografis dan alat penandatangan transaksi, bukan brankas tempat koin disimpan secara fisik.",
         ),
         tf("u2cp2", "Seed phrase boleh di-chat ke CS yang ramah.", false, "CS resmi nggak minta seed."),
         c(
           "u2cp3",
-          "Yang aman dibagikan…",
+          "Dari komponen dompet berikut, manakah yang aman dibagikan secara terbuka?",
           ["Alamat wallet", "Seed 12 kata", "Private key", "Foto seed"],
           0,
-          "Alamat aja.",
+          "Alamat publik (public address) memang dirancang untuk dibagikan secara aman kepada orang lain agar mereka bisa mengirimkan aset kepadamu.",
         ),
-        blank("u2cp4", "Backup master wallet disebut ___ phrase.", ["seed", "gas", "swap", "mint"], 0, "Seed."),
+        blank("u2cp4", "Backup master wallet disebut ___ phrase.", ["seed", "gas", "swap", "mint"], 0, "Seed phrase adalah rangkaian kata kunci cadangan yang dapat memulihkan seluruh akun dan saldo dompetmu."),
         c(
           "u2cp5",
-          "Salah jaringan saat transfer…",
+          "Apa akibatnya jika kamu salah memilih jaringan saat mentransfer aset kripto?",
           ["Bisa bikin aset nyangkut atau hilang", "Selalu di-refund 5 menit", "Menaikkan harga koin", "Ngapus gas fee"],
           0,
           "Cek network, lalu test send.",
         ),
-        tf("u2cp6", "Ngapus app wallet tanpa backup seed berisiko kehilangan akses aset.", true, "App-nya cuma jendela."),
+        tf("u2cp6", "Ngapus app wallet tanpa backup seed berisiko kehilangan akses aset.", true, "Aplikasi hanyalah antarmuka pembaca; saldo sebenarnya ada di blockchain, namun aksesnya hilang selamanya jika kamu tidak menyimpan seed phrase."),
       ]),
     ],
   },
@@ -940,7 +925,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u3l1q5",
-          "Kalau harga BTC anjlok 20% dalam sehari…",
+          "Kalau harga pasar Bitcoin turun 20% dalam sehari, bagaimana sikap yang bijak?",
           [
             "Itu mungkin di pasar kripto. Jangan pakai uang sewa rumah",
             "Mustahil secara hukum",
@@ -964,7 +949,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u3l2q1",
-          "Ethereum dikenal karena…",
+          "Apa inovasi utama yang membuat jaringan Ethereum begitu terkenal di dunia kripto?",
           [
             "Smart contract: program yang jalan di blockchain",
             "Cuma niru logo Bitcoin",
@@ -1015,7 +1000,7 @@ export const CORE_UNITS: Unit[] = [
             "2016 The DAO di-hack puluhan juta dolar. Komunitas belah: mayoritas rollback (Ethereum yang kamu kenal), yang nolak jadi Ethereum Classic (ETC).",
             "2017 ICO mania. Token ERC-20 meledak. Banyak yang jadi, lebih banyak yang hangus.",
             "2020 DeFi summer. 2021 NFT rame. London (EIP-1559) bakar sebagian gas.",
-            "15 September 2022 The Merge: ganti tambang ke staking (PoS). Listriknya anjlok. ETH tetep ETH, mesinya yang ganti.",
+            "15 September 2022 The Merge: ganti tambang ke staking (PoS). Listriknya anjlok. ETH tetep ETH, mesinnya yang ganti.",
           ],
           example: "Teman kira ETH 'koin baru kemarin'. Padahal udah lebih dari 10 tahun, sempat belah karena hack, trus ganti mesin dari tambang ke staking. Itu sejarah, bukan sinyal beli.",
           remember: "ETH = komputer yang umurnya panjang. Harganya bergoyang. Ceritanya jangan dipotong.",
@@ -1040,7 +1025,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u3l5q3",
-          "The DAO di-hack 2016. Komunitas Ethereum…",
+          "Saat peristiwa peretasan The DAO tahun 2016 terjadi, apa keputusan komunitas Ethereum?",
           [
             "Belah. Mayoritas rollback (ETH). Yang nolak jadi Ethereum Classic",
             "Langsung tutup proyek selamanya",
@@ -1099,7 +1084,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u3l3q1",
-          "Stablecoin didesain biar…",
+          "Apa tujuan utama stablecoin dirancang dalam ekosistem aset digital?",
           [
             "Nilainya ngikutin aset lain, biasanya USD",
             "Selalu naik 10x sebulan",
@@ -1150,7 +1135,7 @@ export const CORE_UNITS: Unit[] = [
           "Kalau janji mustahil, itu marketing. Bukan ilmu.",
         ),
       ]),
-      L("u3", "u3-chest", "chest", "Peti unit 3", "Sedikit kilau.", "gift", [], { xp: 0, gems: 20 }),
+      L("u3", "u3-chest", "chest", "Peti rute 3", "Sedikit kilau.", "gift", [], { xp: 0, gems: 20 }),
       L("u3", "u3-l4", "lesson", "Coin vs token", "Punya rantai sendiri, atau numpang.", "badge", [
         tip("u3l4t", "Punya rumah sendiri, atau numpang", "Kasarnya: coin punya blockchain sendiri (BTC, ETH, SOL). Token numpang di rantai yang udah ada. Di Ethereum, token biasa ngikutin standar ERC-20. NFT ngikutin ERC-721.", {
           points: [
@@ -1163,7 +1148,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u3l4q1",
-          "Kasarnya, 'coin' punya…",
+          "Secara teknis, apa perbedaan mendasar antara 'koin' dan 'token'?",
           [
             "Blockchain sendiri (BTC, ETH, SOL)",
             "Cuma stiker Telegram",
@@ -1188,7 +1173,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u3l4q4",
-          "Kalau seseorang 'launch token' dalam 2 menit…",
+          "Kalau seseorang bisa meluncurkan token baru dalam 2 menit, apa yang harus kamu waspadai?",
           [
             "Itu mungkin. Berarti kamu harus lebih curiga, bukan lebih FOMO",
             "Pasti lulus audit Bank Indonesia",
@@ -1200,12 +1185,12 @@ export const CORE_UNITS: Unit[] = [
         ),
         order(
           "u3l4q5",
-          "Urutan pikir yang waras.",
+          "Susun urutan berpikir yang rasional sebelum membeli:",
           ["Pahami", "asetnya", "baru", "putuskan", "beli"],
           "Bukan kebalik: beli dulu, pahami nanti.",
         ),
       ]),
-      L("u3", "u3-cp", "checkpoint", "Ujian unit 3", "BTC, ETH, stable, token.", "flag", [
+      L("u3", "u3-cp", "checkpoint", "Ujian rute 3", "BTC, ETH, stable, token.", "flag", [
         tip("u3cpt", "Ulangan unit 3", "Cek peta koin di kepala kamu. Nggak ada materi baru.", {
           points: [
             "Bitcoin ~2009, langka, sering dianggap emas digital.",
@@ -1215,32 +1200,14 @@ export const CORE_UNITS: Unit[] = [
           ],
           remember: "Nama keren di timeline bukan kurikulum.",
         }),
-        c("u3cp1", "Bitcoin lahir sekitar…", ["2009", "1999", "2024", "1985"], 0, "2009."),
-        tf("u3cp2", "ETH dipakai antara lain buat bayar gas di ekosistem Ethereum.", true, "Iya."),
-        c(
-          "u3cp3",
-          "Stablecoin biasanya ngikutin…",
-          ["Mata uang fiat kayak USD", "Harga cabai", "Cuaca", "Jumlah followers"],
-          0,
-          "Ngikutin, bukan njanjiin kaya.",
-        ),
-        blank("u3cp4", "Program otomatis di Ethereum disebut smart ___.", ["contract", "phone", "TV", "seed"], 0, "Contract."),
-        c(
-          "u3cp5",
-          "Token ERC-20 hidup di…",
-          ["Rantai Ethereum (atau yang kompatibel)", "Kertas koran", "Kartu flazz", "iCloud aja"],
-          0,
-          "Numpang rantai.",
-        ),
-        tf("u3cp6", "Meme coin itu investasi yang dijamin negara.", false, "Sama sekali nggak."),
-        c(
-          "u3cp7",
-          "The Merge 2022 ganti Ethereum dari…",
-          ["Ditambang (PoW) ke staking (PoS)", "ETH ke BTC", "L2 ke WiFi", "Token ke kertas"],
-          0,
-          "Mesin jaga jaringan yang ganti. Koinnnya tetep ETH.",
-        ),
-        tf("u3cp8", "The DAO 2016 bikin komunitas Ethereum belah, lahir Ethereum Classic.", true, "Fork. ETH yang rollback, ETC yang nolak."),
+        j("u3cp1","Bitcoin mulai jalan tahun berapa?",["2009","1999","2015","2021"],0,"Jaringan Bitcoin hidup Januari 2009, dimulai dengan blok pertama (genesis) dari Satoshi Nakamoto."),
+        M("u3cp2","ETH dipakai antara lain buat bayar gas di ekosistem Ethereum.",true,"Benar. Setiap transaksi di Ethereum dibayar pakai ETH sebagai ongkos jaringan."),
+        j("u3cp3","Stablecoin biasanya ngikutin nilai apa?",["Mata uang fiat seperti dolar AS","Harga Bitcoin","Harga emas selalu","Jumlah pengguna"],0,"Stablecoin dirancang supaya nilainya tetap dekat 1 dolar, tapi tetap bisa lepas (depeg)."),
+        N("u3cp4","Program otomatis yang jalan di Ethereum disebut smart ___.",["contract","wallet","token","block"],0,"Smart contract = kode yang jalan sendiri saat syaratnya terpenuhi, tanpa perantara."),
+        j("u3cp5","Token ERC-20 hidup di mana?",["Di Ethereum atau jaringan yang kompatibel","Di jaringan Bitcoin","Di server exchange","Di aplikasi wallet"],0,"ERC-20 itu standar token di Ethereum. Tokennya numpang di rantai itu, bukan punya rantai sendiri."),
+        M("u3cp6","Meme coin itu investasi yang dijamin negara.",false,"Salah. Nggak ada jaminan negara atau LPS untuk kripto. Meme coin termasuk yang paling berisiko."),
+        j("u3cp7","The Merge 2022 mengubah Ethereum dari apa ke apa?",["Dari ditambang (PoW) ke staking (PoS)","Dari ETH jadi koin baru","Dari L2 ke L1","Dari publik ke privat"],0,"Yang berubah cuma cara jaringan dijaga. Koinnya tetap ETH."),
+        M("u3cp8","The DAO 2016 bikin komunitas Ethereum pecah, lalu lahir Ethereum Classic.",true,"Benar. Mayoritas memilih membatalkan dampak hack (ETH), yang menolak lanjut sebagai Ethereum Classic (ETC)."),
       ]),
     ],
   },
@@ -1264,7 +1231,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u4l1q1",
-          "Token bisa jadi…",
+          "Dalam ekonomi digital Web3, token dapat merepresentasikan apa saja?",
           [
             "Poin, tiket, kepemilikan, atau mata uang aplikasi, tergantung desainnya",
             "Cuma foto profil",
@@ -1296,7 +1263,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u4l1q5",
-          "Pajak, regulasi, dan risiko hukum token di Indonesia…",
+          "Bagaimana status regulasi dan pengawasan perdagangan aset kripto di Indonesia saat ini?",
           [
             "Perlu kamu ikuti perkembangannya. Ini bukan zona tanpa aturan",
             "Nggak ada sama sekali selamanya",
@@ -1320,7 +1287,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u4l2q1",
-          "NFT nandain…",
+          "Secara teknis, apa yang sebenarnya ditandai oleh sebuah NFT di blockchain?",
           [
             "Kepemilikan unik di blockchain atas suatu aset (sering metadata / karya)",
             "Setiap JPEG di internet",
@@ -1345,9 +1312,9 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u4l2q4",
-          "NFT bisa dipakai buat…",
+          "Selain untuk foto profil, apa saja kegunaan nyata teknologi NFT?",
           [
-            "Tiket, identitas on-chain, item game, atau sertifikat, bukan cuma PFP",
+            "Tiket, identitas on-chain, item game, atau sertifikat, bukan cuma PFP (foto profil)",
             "Mengganti listrik rumah",
             "Mencetak uang kertas",
             "Ngapus internet",
@@ -1357,7 +1324,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u4l2q5",
-          "Harga NFT yang sempat miliaran lalu jatuh ngajarin…",
+          "Fenomena harga NFT yang sempat melambung lalu anjlok memberikan pelajaran apa?",
           [
             "Likuiditas dan hype bisa hilang. Jangan beli karena gengsi",
             "Semua NFT wajib naik",
@@ -1422,7 +1389,7 @@ export const CORE_UNITS: Unit[] = [
           "Mint = cetak. Burn = bakar / hancurkan token.",
         ),
       ]),
-      L("u4", "u4-chest", "chest", "Peti unit 4", "Sedikit warna.", "gift", [], { xp: 0, gems: 20 }),
+      L("u4", "u4-chest", "chest", "Peti rute 4", "Sedikit warna.", "gift", [], { xp: 0, gems: 20 }),
       L("u4", "u4-l4", "lesson", "Hype vs nilai", "Jangan beli karena timeline ramai.", "siren", [
         tip("u4l4t", "FOMO itu fitur marketing", "Timeline ramai bukan kurikulum. Banyak drop yang didesain supaya kamu buru-buru, bukan supaya kamu paham.", {
           points: [
@@ -1454,16 +1421,16 @@ export const CORE_UNITS: Unit[] = [
             "Beli yang kamu paham dan rela pegang, bukan yang kamu takut ketinggalan",
             "All-in setiap drop",
             "Pinjam uang mertua",
-            "Ikut semua raflle Twitter",
+            "Ikut semua raffle Twitter",
           ],
           0,
           "FOMO itu fitur marketing. Bukan strategi.",
         ),
         order(
           "u4l4q4",
-          "Urutan waras sebelum mint.",
+          "Susun langkah yang aman sebelum melakukan mint NFT:",
           ["Cek", "situs", "resmi", "lalu", "kontrak"],
-          "Baru pikirin estetika.",
+          "Memverifikasi keaslian situs dan alamat kontrak cerdas adalah prioritas utama sebelum mempertimbangkan aspek seni atau keuntungan.",
         ),
         c(
           "u4l4q5",
@@ -1478,7 +1445,7 @@ export const CORE_UNITS: Unit[] = [
           "Argumen 'right click' kelewat apa yang dicatat di rantai: token id-mu.",
         ),
       ]),
-      L("u4", "u4-cp", "checkpoint", "Ujian unit 4", "Token, NFT, hype.", "flag", [
+      L("u4", "u4-cp", "checkpoint", "Ujian rute 4", "Token, NFT, hype.", "flag", [
         tip("u4cpt", "Ulangan unit 4", "Cek dulu, NFT dan token udah nggak campur aduk belum.", {
           points: [
             "NFT = non-fungible. ERC-20 token biasa, ERC-721 NFT.",
@@ -1487,30 +1454,12 @@ export const CORE_UNITS: Unit[] = [
           ],
           remember: "Hype bukan nilai.",
         }),
-        c(
-          "u4cp1",
-          "NFT kepanjangan kasarnya…",
-          ["Non-fungible token", "New finance tax", "Netflix for tokens", "No fee transfer"],
-          0,
-          "Nggak tertukar 1:1.",
-        ),
-        tf("u4cp2", "Beli NFT selalu termasuk hak cipta penuh.", false, "Cek lisensi."),
-        blank("u4cp3", "Harga listing terendah koleksi disebut ___ price.", ["floor", "gas", "seed", "minty"], 0, "Floor."),
-        c(
-          "u4cp4",
-          "ERC-20 vs ERC-721…",
-          ["20 token biasa, 721 NFT", "Keduanya gas fee", "Keduanya Bitcoin", "Nggak ada bedanya"],
-          0,
-          "Fungible vs unik.",
-        ),
-        tf("u4cp5", "Wash trading bisa bikin volume kelihatan palsu.", true, "Jangan tertipu angka doang."),
-        c(
-          "u4cp6",
-          "Mint di situs tiruan berisiko…",
-          ["Kunci / aset terkuras", "Dapat airdrop resmi", "Naik level streak", "Gratis gas selamanya"],
-          0,
-          "Phishing.",
-        ),
+        j("u4cp1","NFT itu singkatan dari apa?",["Non-fungible token","New finance token","Network fee transfer","No fee token"],0,"Non-fungible artinya unik, nggak bisa ditukar 1:1 dengan yang lain."),
+        M("u4cp2","Beli NFT selalu termasuk hak cipta penuh atas karyanya.",false,"Salah. Yang kamu beli itu tokennya. Hak pakai gambar tergantung lisensi koleksi itu."),
+        N("u4cp3","Harga listing terendah di satu koleksi NFT disebut ___ price.",["floor","gas","mint","royalty"],0,"Floor price = harga jual termurah saat ini. Bukan jaminan kamu bisa jual di harga itu."),
+        j("u4cp4","Apa beda ERC-20 dan ERC-721?",["ERC-20 token biasa, ERC-721 NFT unik","Dua-duanya NFT","Dua-duanya standar Bitcoin","ERC-721 lebih murah gas-nya"],0,"ERC-20 bisa dibagi dan ditukar 1:1. ERC-721 unik satu per satu."),
+        M("u4cp5","Wash trading bisa bikin volume kelihatan ramai padahal palsu.",true,"Benar. Pelaku jual-beli ke dirinya sendiri supaya koleksi kelihatan laris."),
+        j("u4cp6","Apa risiko mint di situs tiruan?",["Aset di wallet bisa terkuras","Dapat NFT versi premium","Gas jadi lebih murah","Masuk whitelist resmi"],0,"Situs tiruan biasanya minta izin atau tanda tangan yang bisa nguras isi wallet."),
       ]),
     ],
   },
@@ -1548,7 +1497,7 @@ export const CORE_UNITS: Unit[] = [
         tf("u5l1q2", "Protokol DeFi nggak bisa rusak atau di-hack.", false, "Kode bisa cacat. Audit ngebantu, bukan ramuan kebal."),
         c(
           "u5l1q3",
-          "CEX vs DEX…",
+          "Apa perbedaan utama antara bursa CEX dan platform DEX?",
           [
             "CEX = bursa berperantara (Pintu, Binance). DEX = tukar langsung lewat kontrak",
             "Sama aja total",
@@ -1567,7 +1516,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l1q5",
-          "APY yang ditulis 4.000% di banner…",
+          "Bagaimana cara menyikapi banner protokol yang menjanjikan APY hingga 4.000%?",
           [
             "Harus dicurigai. Imbal hasil gila sering dari token yang bisa jatuh",
             "Dijamin LPS",
@@ -1583,7 +1532,7 @@ export const CORE_UNITS: Unit[] = [
           points: [
             "Lend: kamu taruh USDC di protokol. Peminjam bayar bunga. Kamu dapet bagian. Bukan deposito bank.",
             "Borrow: kamu kunci agunan (misalnya ETH), trus minjem stable. Kalau harga agunan jatuh, bisa dilikuidasi.",
-            "Pool / LP: kamu taruh dua token, orang lain swap lewat situ, kamu dapet fee. Harga geser = bisa kalah vs hold (impermanent loss).",
+            "Pool / LP (dana likuiditas): kamu taruh dua token, orang lain swap lewat situ, kamu dapet fee. Harga geser = bisa kalah vs hold, ini yang disebut IL (impermanent loss).",
             "Nggak ada CS. Salah jaringan, salah kontrak, salah izin: di kamu.",
           ],
           example: "Teman taruh USDC di Aave, bunga dari peminjam. Bukan 4.000% banner. Teman lain minjem USDC pakai agunan ETH, pas kurs ETH anjlok, agunannya dilikuidasi.",
@@ -1591,7 +1540,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         match(
           "u5l6q1",
-          "Pasangin mesinya.",
+          "Pasangkan mesinnya.",
           [
             { left: "Lend", right: "Kasih pinjaman, dapet bunga" },
             { left: "Borrow", right: "Minjem, kunci agunan" },
@@ -1601,7 +1550,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l6q2",
-          "Lend di DeFi itu…",
+          "Bagaimana mekanisme dasar aktivitas lending (pemberian pinjaman) di DeFi?",
           [
             "Kamu kasih likuiditas ke protokol, peminjam bayar bunga. Bukan deposito LPS",
             "Tabungan BCA yang dijamin negara",
@@ -1615,7 +1564,7 @@ export const CORE_UNITS: Unit[] = [
           "u5l6q3",
           "Kalau kamu minjem di DeFi dan harga agunan jatuh, protokol bisa nyita agunanmu.",
           true,
-          "Namanya likuidasi. Nggak ada CS yang nahan. Itu mesinya.",
+          "Namanya likuidasi. Nggak ada CS yang nahan. Itu mesinnya.",
         ),
         c(
           "u5l6q4",
@@ -1631,7 +1580,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l6q5",
-          "DeFi beda sama bank soalnya…",
+          "Apa perbedaan mendasar antara protokol pinjaman DeFi dan bank konvensional?",
           [
             "Nggak ada teller, nggak ada LPS, salah klik di kamu",
             "Lebih aman dari bank sentral",
@@ -1643,9 +1592,9 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u5", "u5-l7", "lesson", "Likuidasi DeFi", "Agunan disikat bot. Bukan CS bank.", "siren", [
-        tip("u5l7t", "Mesin likuidasi, pelan-pelan", "Kamu minjem di DeFi harus overcollateral: agunan lebih besar dari utang. Protokol ngecek health factor. Kalau harga agunan jatuh dan HF tembus di bawah 1, siapa pun (biasanya bot) boleh bayar utangmu, lalu menyita agunan plus bonus. Nggak ada CS yang nahan. Nggak ada 'tunggu gajian'.", {
+        tip("u5l7t", "Mesin likuidasi, pelan-pelan", "Kamu minjem di DeFi harus overcollateral: agunan lebih besar dari utang. Protokol ngecek health factor (HF). Kalau harga agunan jatuh dan HF tembus di bawah 1, siapa pun (biasanya bot) boleh bayar utangmu, lalu menyita agunan plus bonus. Nggak ada CS yang nahan. Nggak ada 'tunggu gajian'.", {
           points: [
-            "Contoh kasar: agunan ETH $100, minjem USDC $70. LTV 70%. Masih ada bantal.",
+            "Contoh kasar: agunan ETH $100, minjem USDC $70. LTV (rasio utang terhadap jaminan) 70%. Masih ada bantal.",
             "Health factor ≈ (nilai agunan × ambang likuidasi) ÷ utang. Di atas 1 = aman. Mendekati 1 = bahaya. Di bawah 1 = boleh disikat.",
             "Harga dari oracle. Weekend, tipis, flash crash: oracle bisa ngejer harga jelek. HF anjlok tanpa kamu sempat nambah.",
             "Liquidator bayar sebagian utang (sering ~50%), ambil agunan + bonus (sekitar 5-15% tergantung protokol). Bonus itu dari kamu. Itu denda.",
@@ -1705,7 +1654,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l7q6",
-          "Likuidasi beruntun (cascade) itu…",
+          "Apa yang dimaksud dengan fenomena likuidasi beruntun (cascade liquidation) di pasar kripto?",
           [
             "Harga jatuh → banyak yang disikat → agunan dijual → harga jatuh lagi",
             "Promo bunga bank",
@@ -1804,7 +1753,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l8q6",
-          "Flash loan jadi senjata serangan kalo…",
+          "Kapan pinjaman kilat (flash loan) dapat disalahgunakan menjadi sarana eksploitasi?",
           [
             "Protokol percaya harga spot DEX yang bisa digeser sebentar",
             "Kamu pakai 2FA",
@@ -1835,7 +1784,7 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u5", "u5-l9", "lesson", "Oracle manipulation", "Tipu harga, sikat protokol, balikin.", "search", [
-        tip("u5l9t", "Oracle itu mulut yang ngomong harga", "Protokol pinjam, synthetics, vault, sampai game on-chain, semuanya butuh data harga: 'ETH berapa sekarang?'. Yang ngasih angka itu oracle. Kalau mulutnya gampang dibeli, isi brankasnya ikut kebuka. Serangan oracle manipulation = bikin protokol percaya harga palsu, trus ambil duit pake aturan protokol sendiri.", {
+        tip("u5l9t", "Oracle itu mulut yang ngomong harga", "Protokol pinjam, synthetics, vault, sampai game on-chain, semuanya butuh data harga: 'ETH berapa sekarang?'. Yang ngasih angka itu oracle. Kalau mulutnya gampang dibeli, isi brankasnya ikut kebuka. Serangan manipulasi oracle itu intinya bikin protokol percaya harga palsu, terus narik dana pakai aturan protokol itu sendiri.", {
           points: [
             "Spot AMM: harga = cadangan pool saat ini (x·y=k). Pool tipis + swap gede = harga loncat. Paling gampang ditipu.",
             "TWAP: rata-rata beberapa blok. Lebih susah, tapi bisa kalo penyerang tahan harga palsu cukup lama (mahal).",
@@ -1924,7 +1873,7 @@ export const CORE_UNITS: Unit[] = [
         blank(
           "u5l9q7",
           "Harga rata-rata beberapa blok disebut ___.",
-          ["TWAP", "seed", "gas", "NFT"],
+          ["TWAP", "seed", "gas", "Floor price"],
           0,
           "Time-weighted average price. Lebih susah, bukan kebal.",
         ),
@@ -1944,7 +1893,7 @@ export const CORE_UNITS: Unit[] = [
         tip("u5l10t2", "Arb, sandwich, dan oracle: jangan tertukar", "Tiga bot, tiga niat. Keliatannya semua 'jual-beli cepet'. Isinya beda.", {
           points: [
             "Arbitrase: dua tempat atau lebih, harga udah beda. Bot nyamain. Nggak nyenggol tx kamu secara pribadi. Malah bikin harga pool waras.",
-            "Sandwich (MEV): bot liat tx kamu di antrian, beli dulu di pool yang sama, kamu keisi mahal, mereka jual. Pajak tersembunyi buat kamu.",
+            "Sandwich: serangan dari MEV (bot yang menyerobot antrean transaksi), beli dulu di pool yang sama, kamu keisi mahal, mereka jual. Pajak tersembunyi buat kamu.",
             "Oracle attack: bikin harga palsu sedetik biar protokol lain salah hitung, trus dikuras. Korban = deposan protokol.",
             "Backrun: bot jalan setelah tx kamu, nyerok sisa arb yang kamu ciptain. Kamu swap gede → harga copot → bot rapihin. Itu arb, bukan sandwich.",
             "Harga diri pemula: pecah order gede, slippage ketat, jauhi pool sepi. Jangan kira 'saya kalah chart'. Kadang kalah rumus + antrian.",
@@ -2006,7 +1955,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l10q6",
-          "Arbitrase CEX ke DEX lebih menantang karena…",
+          "Mengapa melakukan arbitrase dari bursa CEX ke DEX memiliki tantangan tersendiri?",
           [
             "Nggak atomic: harga bursa bisa geser sebelum tx rantai kelar",
             "Flash loan di Binance 24 jam",
@@ -2056,7 +2005,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l2q3",
-          "Sebelum swap token no-name…",
+          "Sebelum melakukan swap token baru yang belum dikenal di DEX, apa langkah wajibmu?",
           [
             "Cek alamat kontrak resmi, pajak tersembunyi, dan apakah bisa dijual kembali",
             "Langsung max buy",
@@ -2097,7 +2046,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u5l3q1",
-          "Gas fee dibayar buat…",
+          "Mengapa pengguna wajib membayar gas fee saat bertransaksi di jaringan blockchain?",
           [
             "Mengganti jasa validator / miner yang memproses transaksimu",
             "Iklan Instagram",
@@ -2129,7 +2078,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l3q5",
-          "Transaksi 'pending' lama biasanya…",
+          "Transaksi di dompet berstatus 'pending' dalam waktu lama biasanya disebabkan oleh apa?",
           [
             "Gas terlalu rendah atau jaringan padat, bukan karena HP rusak",
             "Karena nama kamu salah",
@@ -2140,7 +2089,7 @@ export const CORE_UNITS: Unit[] = [
           "Bisa ditunggu, diganti (replace), atau di-speed up. Jangan spam 10x.",
         ),
       ]),
-      L("u5", "u5-chest", "chest", "Peti unit 5", "Ongkirnya kami yang traktir.", "gift", [], { xp: 0, gems: 20 }),
+      L("u5", "u5-chest", "chest", "Peti rute 5", "Ongkirnya kami yang traktir.", "gift", [], { xp: 0, gems: 20 }),
       L("u5", "u5-l4", "lesson", "L1 vs L2", "Jalan tol di atas kota yang macet.", "network", [
         tip("u5l4t", "Kota dan jalan tolnya", "Layer 1 (L1) = blockchain utamanya: Bitcoin, Ethereum. Layer 2 (L2) = jalan tol di atas L1: lebih murah dan cepat, tetap merapat ke keamanan L1.", {
           points: [
@@ -2172,7 +2121,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5l4q3",
-          "Alasan orang pakai L2…",
+          "Apa keuntungan utama yang membuat banyak pengguna beralih menggunakan jaringan Layer 2 (L2)?",
           [
             "Transaksi lebih murah dan cepat, sambil tetap merapat ke keamanan L1",
             "Supaya seed nggak perlu disimpan",
@@ -2191,12 +2140,12 @@ export const CORE_UNITS: Unit[] = [
         ),
         order(
           "u5l4q5",
-          "Sebelum bridge.",
+          "Susun langkah aman sebelum memindahkan aset antarjaringan:",
           ["Cek", "jaringan", "tujuan", "lalu", "nominal", "kecil"],
           "Test send juga berlaku di sini.",
         ),
       ]),
-      L("u5", "u5-cp", "checkpoint", "Ujian unit 5", "DeFi, gas, L2.", "flag", [
+      L("u5", "u5-cp", "checkpoint", "Ujian rute 5", "DeFi, gas, L2.", "flag", [
         tip("u5cpt", "Ulangan unit 5", "Cek dulu, DeFi, izin, gas, likuidasi, dan bridge udah jelas belum.", {
           points: [
             "DeFi jalan lewat smart contract. DEX = bursa terdesentralisasi.",
@@ -2211,21 +2160,21 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u5cp1",
-          "DeFi berjalan utamanya lewat…",
+          "Aplikasi keuangan terdesentralisasi (DeFi) dijalankan secara otomatis melalui apa?",
           ["Smart contract", "Teller bank", "POS minimarket", "SMS banking"],
           0,
-          "Kode.",
+          "Protokol keuangan terdesentralisasi beroperasi sepenuhnya melalui kode smart contract yang mengeksekusi aturan secara otomatis.",
         ),
-        tf("u5cp2", "Approve unlimited selalu wajib dan nggak berbahaya.", false, "Izin = kekuasaan."),
-        blank("u5cp3", "Ongkos transaksi Ethereum disebut ___ fee.", ["gas", "floor", "mint", "tip"], 0, "Gas."),
-        c("u5cp4", "DEX itu apaan?", ["Bursa terdesentralisasi", "Bank sentral", "Game NFT", "Nama seed"], 0, "Decentralized exchange."),
-        tf("u5cp5", "Bridge tanpa cek jaringan itu ide bagus.", false, "Drama klasik."),
+        tf("u5cp2", "Approve unlimited selalu wajib dan nggak berbahaya.", false, "Memberikan izin penarikan tanpa batas (unlimited) sangat berisiko jika kontrak tersebut memiliki celah keamanan atau dieksploitasi peretas."),
+        blank("u5cp3", "Ongkos transaksi Ethereum disebut ___ fee.", ["gas", "floor", "mint", "tip"], 0, "Gas fee adalah upah komputasi yang wajib dibayarkan kepada para validator untuk memproses transaksimu di jaringan."),
+        c("u5cp4", "DEX itu apaan?", ["Bursa terdesentralisasi", "Bank sentral", "Game NFT", "Nama seed"], 0, "DEX adalah tempat pertukaran kripto terdesentralisasi di mana pengguna menukar aset langsung dari dompet pribadi."),
+        tf("u5cp5", "Bridge tanpa cek jaringan itu ide bagus.", false, "Mengirim token ke jembatan tanpa memeriksa kecocokan jaringan dapat menyebabkan asetmu terkunci atau hilang di rute yang salah."),
         c(
           "u5cp6",
-          "Honeypot…",
+          "Apa bahaya utama dari token yang dirancang sebagai honeypot?",
           ["Bisa beli, sulit dijual", "Koin resmi BI", "Jenis L2", "Nama explorer"],
           0,
-          "Jauhi.",
+          "Honeypot adalah jebakan smart contract yang mengizinkan pembelian tetapi sengaja memblokir fungsi penjualan token.",
         ),
         c(
           "u5cp7",
@@ -2238,8 +2187,8 @@ export const CORE_UNITS: Unit[] = [
         blank("u5cp9", "Angka aman utang vs agunan: health ___.", ["factor", "seed", "gas", "floor"], 0, "Di bawah 1, bot boleh masuk."),
         c(
           "u5cp10",
-          "Likuidasi DeFi dijalanin sama…",
-          ["Bot/liquidator yang kejar bonus", "Teller BCA", "PBB", "Admin grup"],
+          "Proses eksekusi likuidasi di protokol DeFi dijalankan secara otomatis oleh siapa?",
+          ["Bot/liquidator yang kejar bonus", "Teller BCA", "Pemerintah daerah", "Admin grup"],
           0,
           "Terbuka 24 jam. Bonus dari agunanmu.",
         ),
@@ -2258,7 +2207,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u5cp13",
-          "Oracle manipulation itu…",
+          "Bagaimana peretas menjalankan serangan manipulasi oracle?",
           [
             "Bikin protokol percaya harga palsu, trus sikat brankasnya",
             "Update Chrome",
@@ -2271,7 +2220,7 @@ export const CORE_UNITS: Unit[] = [
         tf("u5cp14", "Arbitrase DEX sama dengan sandwich.", false, "Arb nyamain dua tempat. Sandwich pajak di tx kamu."),
         c(
           "u5cp15",
-          "Harga spot pool tipis buat agunan…",
+          "Mengapa menggunakan harga spot dari kolam likuiditas tipis sebagai patokan agunan sangat berbahaya?",
           ["Undangan serangan", "Standar paling aman", "Sama dengan Chainlink", "Wajib LTV 90%"],
           0,
           "Kolam dangkal, ombak flash loan cukup.",
@@ -2297,19 +2246,7 @@ export const CORE_UNITS: Unit[] = [
           example: "Kamu klik banner 'Claim airdrop MetaMask' di X, domainnya metamask-login.help, form minta 12 kata. Itu bukan MetaMask. Pergi.",
           remember: "Kalau keburu-buru, penipu yang menang.",
         }),
-        c(
-          "u6l1q1",
-          "Phishing di Web3 paling sering kayak apa?",
-          [
-            "Situs / DM yang niru yang resmi, supaya kamu connect wallet atau isi seed",
-            "Hujan meteor",
-            "Tagihan listrik",
-            "Update iOS",
-          ],
-          0,
-          "Bookmark situs resmi. Jangan klik banner random di Twitter/X.",
-          "Kalau keburu-buru, penipu yang menang.",
-        ),
+        c("u6l1q1","Mana yang paling mungkin pesan phishing?",["DM Telegram: 'Akunmu kena hack, klik link ini buat verifikasi seed'","Email promo dari toko online","Notifikasi update aplikasi resmi","Struk transaksi dari kasir"],0,"Penipu suka pura-pura jadi tim support atau bikin panik biar kamu buru-buru klik.", "Kalau keburu-buru, penipu yang menang."),
         tf(
           "u6l1q2",
           "Domain yang hampir sama (metamask-login.help) bisa jadi jebakan.",
@@ -2318,7 +2255,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u6l1q3",
-          "Pop-up wallet minta tanda tangan 'permit' atau 'set approval for all' tiba-tiba…",
+          "Tiba-tiba muncul pop-up izin 'permit' atau 'setApprovalForAll' yang tidak kamu minta. Sikapmu?",
           [
             "Baca. Kalau nggak kamu inisiasi, tolak",
             "Selalu tekan sign biar keren",
@@ -2337,7 +2274,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u6l1q5",
-          "DM 'support' yang ngawalin chat duluan…",
+          "Ada akun mengaku 'support resmi' yang mengirimkan pesan DM duluan kepadamu. Siapa dia?",
           [
             "Bukan support. Support resmi nggak nyapa di DM minta seed",
             "Pasti resmi karena logonya sama",
@@ -2360,7 +2297,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u6l2q1",
-          "Seseorang ngaku admin, minta 'validasi wallet' lewat 12 kata…",
+          "Seseorang mengaku admin dan meminta 12 kata kunci untuk 'validasi dompet'. Bagaimana tindakanmu?",
           [
             "Penipu. Blokir. Jangan dikasih",
             "Prosedur resmi semua wallet",
@@ -2372,13 +2309,7 @@ export const CORE_UNITS: Unit[] = [
           "Aku serius. Ini hal yang bikin banyak orang nangis.",
         ),
         tf("u6l2q2", "Wallet resmi nggak akan minta seed phrase lewat form web biasa.", true, "Kalau form minta 12 kata, pergi."),
-        c(
-          "u6l2q3",
-          "'Seed phrase buat sinkronisasi airdrop' itu…",
-          ["Omong kosong", "Standar ERC", "Fitur Ethereum 2026", "Syarat pajak"],
-          0,
-          "Airdrop nggak butuh seed. Cukup alamat.",
-        ),
+        j("u6l2q3","'Seed phrase buat sinkronisasi airdrop' itu apa?",["Omong kosong, itu penipuan","Standar token baru","Fitur keamanan wallet","Syarat klaim resmi"],0,"Airdrop nggak butuh seed. Cukup alamat wallet."),
         match(
           "u6l2q4",
           "Pasangin reaksi yang bener.",
@@ -2391,7 +2322,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         order(
           "u6l2q5",
-          "Kalau udah terlanjur share seed.",
+          "Susun langkah darurat jika kunci rahasia terlanjur bocor:",
           ["Pindahkan", "sisa", "aset", "ke", "wallet", "baru"],
           "Buat wallet baru dari seed baru. Yang bocor anggap rusak.",
         ),
@@ -2422,7 +2353,7 @@ export const CORE_UNITS: Unit[] = [
         tf("u6l3q2", "Likuiditas yang dikunci dan tim yang transparan ngurangin (bukan ngapus) risiko rugpull.", true, "Ngurangin. Bukan ramuan kebal."),
         c(
           "u6l3q3",
-          "Janji 'masuk sekarang, 100x malam ini, grup VIP'…",
+          "Ajakan di grup: 'Masuk sekarang, dijamin naik 100x malam ini'. Apa arti sebenarnya?",
           [
             "Pola klasik pump-and-dump / rug",
             "Sinyal resmi bursa",
@@ -2452,7 +2383,7 @@ export const CORE_UNITS: Unit[] = [
           "Kebanyakan koin baru nggak layak waktu otakmu, apalagi uangmu.",
         ),
       ]),
-      L("u6", "u6-chest", "chest", "Peti unit 6", "Hadiah buat yang waspada.", "gift", [], { xp: 0, gems: 25 }),
+      L("u6", "u6-chest", "chest", "Peti rute 6", "Hadiah buat yang waspada.", "gift", [], { xp: 0, gems: 25 }),
       L("u6", "u6-l4", "lesson", "Airdrop & 'double'", "Hadiah gratis yang tagihannya seed.", "gift", [
         tip("u6l4t", "Hadiah gratis yang tagihannya brankas", "Airdrop resmi mendarat ke alamat. Nggak pernah minta seed, nggak minta kamu transfer 1 ETH dulu buat 'syarat', nggak lewat DM admin.", {
           points: [
@@ -2465,7 +2396,7 @@ export const CORE_UNITS: Unit[] = [
         }),
         c(
           "u6l4q1",
-          "Airdrop resmi biasanya…",
+          "Bagaimana prosedur distribusi airdrop resmi yang sebenarnya?",
           [
             "Mendarat ke alamat, nggak pernah minta seed",
             "Minta 12 kata buat 'klaim'",
@@ -2483,36 +2414,25 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u6l4q3",
-          "Koneksi wallet ke situs klaim yang nggak kamu kenal…",
+          "Menghubungkan dompet ke situs klaim hadiah yang tidak jelas asal-usulnya dapat berakibat apa?",
           [
             "Bisa nandatanganin izin berbahaya. Riset dulu atau jangan",
             "Selalu aman karena 'view only'",
             "Wajib buat semua airdrop",
-            "Menambah nyawa web3min",
+            "Menambah nyawa Blobi",
           ],
           0,
           "Connect ≠ always harmless. Izin bisa dalam.",
         ),
-        c(
-          "u6l4q4",
-          "Kalau terlalu indah…",
-          [
-            "Itu biasanya umpan",
-            "Itu wajib diambil",
-            "Itu program pemerintah",
-            "Itu bug yang sah dipanen",
-          ],
-          0,
-          "Gratis yang maksa kamu buru-buru hampir selalu berbayar mahal.",
-        ),
+        c("u6l4q4", "Seseorang menjanjikan keuntungan 10% per hari tanpa risiko sama sekali di grup chat. Sikapmu?", ["Curiga, itu pola penipuan klasik yang tidak realistis", "Langsung transfer semua tabungan", "Pinjam uang bank untuk modal", "Bantu sebarkan ke keluarga"], 0, "Keuntungan luar biasa tanpa risiko nyata hampir selalu merupakan skema penipuan piramida."),
         order(
           "u6l4q5",
-          "Mantra penutup web3min.",
+          "Susun mantra pengingat bahaya di Web3:",
           ["Kalau", "terlalu", "indah", "itu", "umpan"],
-          "Simpan. Pakai. Selamat.",
+          "Mantra ini mengingatkan bahwa setiap penawaran yang tampak terlalu mudah dan menguntungkan hampir selalu merupakan jebakan.",
         ),
       ]),
-      L("u6", "u6-cp", "checkpoint", "Ujian unit 6", "Kalau lulus sini, web3min tenang.", "flag", [
+      L("u6", "u6-cp", "checkpoint", "Ujian rute 6", "Kalau lulus sini, Blobi tenang.", "flag", [
         tip("u6cpt", "Ulangan unit 6", "Kalau lulus sini, web3min agak tenang. Cek refleksmu.", {
           points: [
             "Admin minta seed = penipu. Phishing niru merek. Cek URL.",
@@ -2521,30 +2441,12 @@ export const CORE_UNITS: Unit[] = [
           ],
           remember: "Napas. Cek. Baru klik.",
         }),
-        c(
-          "u6cp1",
-          "Admin minta seed…",
-          ["Penipu", "Prosedur resmi", "Syarat pajak", "Fitur L2"],
-          0,
-          "Blokir.",
-        ),
-        tf("u6cp2", "Phishing niru merek supaya kamu salah klik.", true, "Cek URL."),
-        blank("u6cp3", "Tim bawa kabur likuiditas disebut ___pull.", ["rug", "tug", "bug", "hug"], 0, "Rugpull."),
-        c(
-          "u6cp4",
-          "Double ETH dalam 10 menit…",
-          ["Scam", "Produk bank", "Standar ERC-20", "L2"],
-          0,
-          "Jangan kirim.",
-        ),
-        tf("u6cp5", "Airdrop resmi butuh seed phrase.", false, "Nggak pernah."),
-        c(
-          "u6cp6",
-          "Pop-up tanda tangan yang nggak kamu minta…",
-          ["Tolak", "Sign biar cepat", "Isi seed", "Share ke grup"],
-          0,
-          "Tolak. Napas. Cek.",
-        ),
+        j("u6cp1","Ada 'admin' yang minta seed phrase kamu. Dia siapa?",["Penipu","Tim support resmi","Petugas verifikasi airdrop","Moderator yang lagi bantu"],0,"Nggak ada pihak resmi yang pernah minta seed phrase. Langsung blokir."),
+        M("u6cp2","Phishing meniru merek resmi supaya kamu salah klik.",true,"Benar. Selalu cek alamat situs (URL) sebelum connect wallet."),
+        N("u6cp3","Tim yang kabur bawa dana likuiditas disebut ___pull.",["rug","tug","bug","hug"],0,"Rugpull: likuiditas ditarik, harga token jatuh, pembeli nggak bisa keluar."),
+        j("u6cp4","Tawaran 'kirim 1 ETH, dapat 2 ETH dalam 10 menit' itu apa?",["Penipuan","Promo resmi exchange","Fitur staking","Bonus airdrop"],0,"Nggak ada yang menggandakan saldo. Yang kamu kirim nggak akan kembali."),
+        M("u6cp5","Airdrop resmi butuh seed phrase untuk klaim.",false,"Salah. Airdrop cukup pakai alamat wallet. Yang minta seed pasti penipu."),
+        j("u6cp6","Muncul pop-up tanda tangan yang nggak kamu minta. Harus gimana?",["Tolak","Tanda tangan biar cepat","Isi seed phrase","Tanya di grup sambil tanda tangan"],0,"Tanda tangan bisa berisi izin menarik token. Kalau kamu nggak memulainya, tolak."),
       ]),
     ],
   },

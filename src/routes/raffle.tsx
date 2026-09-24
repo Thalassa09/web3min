@@ -543,11 +543,18 @@ export function RafflePage() {
                 </h4>
               </div>
             </div>
-            <div className="flex items-center gap-2.5 w-full sm:w-auto">
+            <div className="flex items-center gap-2.5 w-full sm:w-auto flex-wrap justify-end">
+              <Link
+                to="/admin"
+                className="py-2.5 px-4 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+              >
+                <Shield className="size-3.5 text-candy-600" />
+                <span>Panel Admin Lengkap</span>
+              </Link>
               <button
                 type="button"
                 onClick={handleOpenCreateModal}
-                className="flex-1 sm:flex-initial py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
+                className="py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
               >
                 <Plus className="size-4" />
                 <span>+ Buat Undian Baru</span>
@@ -555,7 +562,7 @@ export function RafflePage() {
               <button
                 type="button"
                 onClick={handleAdminLogout}
-                className="py-2.5 px-4 rounded-full bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                className="py-2.5 px-4 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-800 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
               >
                 Keluar Admin
               </button>
@@ -1246,10 +1253,13 @@ export function RafflePage() {
               <span>Akses Login Admin Undian</span>
             </button>
           ) : (
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-200 border-2 border-choco-900 font-pixel text-xs font-bold text-choco-900 shadow-[0_2px_0_#3B2218]">
-              <Shield className="size-3.5 text-choco-900" />
-              <span>Sesi Admin Aktif</span>
-            </div>
+            <Link
+              to="/admin"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-300 hover:bg-amber-400 border-2 border-choco-900 font-pixel text-xs font-bold text-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+            >
+              <Shield className="size-4 text-choco-900" />
+              <span>Buka Dashboard Admin Otoritas →</span>
+            </Link>
           )}
         </div>
       </div>

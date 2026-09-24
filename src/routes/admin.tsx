@@ -16,31 +16,100 @@ import {
   RefreshCw,
   LogOut,
   Image as ImageIcon,
+  Search,
+  Filter,
+  Sparkles,
+  Eye,
+  EyeOff,
+  Coins,
+  Palette,
+  Layers,
+  ArrowRight,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import {
   AdminRaffleModal,
   AdminDeleteModal,
+  RAFFLE_IMAGE_PRESETS,
   type AdminRaffleData,
 } from "@/components/admin-raffle-modal";
 import {
   rpcGetRaffles,
   rpcGetRaffleStats,
   rpcAdminVerifyKey,
+  rpcAdminUpsertRaffle,
   rpcAdminDeleteRaffle,
   type DbRaffleItem,
   type DbRaffleStats,
 } from "@/lib/server-sync";
-import { INITIAL_RAFFLES, type RaffleItem } from "@/lib/raffles";
+import { INITIAL_RAFFLES } from "@/lib/raffles";
 import { CandyLoader } from "@/components/ui/progress-bar";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
+function formatIndoDate(dateStr: string): string {
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return new Intl.DateTimeFormat("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(d) + " WIB";
+  } catch {
+    return dateStr;
+  }
+}
+
+function getRemainingTimeLabel(dateStr: string): { text: string; isEnded: boolean } {
+  try {
+    const target = new Date(dateStr).getTime();
+    const now = Date.now();
+    const diff = target - now;
+    if (diff <= 0) return { text: "Telah Berakhir", isEnded: true };
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    if (days > 0) return { text: `${days} hari lagi`, isEnded: false };
+    if (hours > 0) return { text: `${hours} jam lagi`, isEnded: false };
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return { text: `${mins} menit lagi`, isEnded: false };
+  } catch {
+    return { text: "-", isEnded: false };
+  }
+}
+
+function getNetworkBadgeStyle(network?: string): { bg: string; text: string; border: string } {
+  const net = (network || "Base").toLowerCase();
+  if (net.includes("base")) {
+    return { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300" };
+  }
+  if (net.includes("eth")) {
+    return { bg: "bg-indigo-100", text: "text-indigo-800", border: "border-indigo-300" };
+  }
+  if (net.includes("arbitrum")) {
+    return { bg: "bg-sky-100", text: "text-sky-800", border: "border-sky-300" };
+  }
+  if (net.includes("optimism")) {
+    return { bg: "bg-red-100", text: "text-red-800", border: "border-red-300" };
+  }
+  if (net.includes("polygon")) {
+    return { bg: "bg-purple-100", text: "text-purple-800", border: "border-purple-300" };
+  }
+  if (net.includes("solana")) {
+    return { bg: "bg-violet-100", text: "text-violet-800", border: "border-violet-300" };
+  }
+  return { bg: "bg-stone-100", text: "text-stone-800", border: "border-stone-300" };
+}
+
 export function AdminPage() {
   const [adminKey, setAdminKey] = React.useState<string | null>(null);
   const [passwordInput, setPasswordInput] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
   const [loginLoading, setLoginLoading] = React.useState(false);
   const [loginError, setLoginError] = React.useState<string | null>(null);
 
@@ -48,10 +117,16 @@ export function AdminPage() {
   const [statsMap, setStatsMap] = React.useState<Record<string, DbRaffleStats>>({});
   const [isLoading, setIsLoading] = React.useState(true);
 
+  // Search & Filter State
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [statusFilter, setStatusFilter] = React.useState<"all" | "live" | "upcoming" | "ended">("all");
+  const [categoryFilter, setCategoryFilter] = React.useState<string>("all");
+
   const [showRaffleModal, setShowRaffleModal] = React.useState(false);
   const [editingRaffle, setEditingRaffle] = React.useState<AdminRaffleData | null>(null);
   const [deletingRaffle, setDeletingRaffle] = React.useState<DbRaffleItem | null>(null);
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [isSeedingArtwork, setIsSeedingArtwork] = React.useState(false);
   const [toastMsg, setToastMsg] = React.useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -178,42 +253,133 @@ export function AdminPage() {
     }
   };
 
+  // One-click utility: populate empty artwork for initial raffles using curated presets
+  const handleSeedDefaultArtwork = async () => {
+    if (!adminKey) return;
+    setIsSeedingArtwork(true);
+    let updatedCount = 0;
+    try {
+      for (const r of displayRaffles) {
+        if (!r.image_url || r.image_url.trim() === "") {
+          const matchPreset = RAFFLE_IMAGE_PRESETS.find(
+            (p) =>
+              p.category === r.category ||
+              r.title.toLowerCase().includes(p.name.toLowerCase().split(" ")[0])
+          ) || RAFFLE_IMAGE_PRESETS[0];
+
+          await rpcAdminUpsertRaffle({
+            key: adminKey,
+            id: r.id,
+            title: r.title,
+            prize: r.prize,
+            prizeDetail: r.prize_detail || "",
+            category: r.category,
+            status: r.status,
+            endsAt: r.ends_at,
+            ticketCost: r.ticket_cost || 1,
+            winnerCount: r.winner_count || 1,
+            imageUrl: matchPreset.url,
+            nftNetwork: r.nft_network || "Base",
+            nftContract: r.nft_contract || "",
+            nftTokenId: r.nft_token_id || "",
+            nftRarity: r.nft_rarity || "rare",
+            perks: Array.isArray(r.perks) ? r.perks : [],
+            isSimulation: true,
+          });
+          updatedCount++;
+        }
+      }
+      showToast(`Berhasil menerapkan artwork ke ${updatedCount} undian! 🎨`);
+      void refreshData();
+    } catch {
+      showToast("Gagal memperbarui beberapa artwork.");
+    } finally {
+      setIsSeedingArtwork(false);
+    }
+  };
+
   // Combine DB raffles or INITIAL_RAFFLES
-  const displayRaffles = dbRaffles.length > 0 ? dbRaffles : INITIAL_RAFFLES.map((r) => ({
-    id: r.id,
-    title: r.title,
-    prize: r.prize,
-    prize_detail: r.prizeDetail,
-    category: r.category,
-    status: r.status,
-    starts_at: new Date(r.startsAt || Date.now()).toISOString(),
-    ends_at: new Date(r.endsAt).toISOString(),
-    ticket_cost: r.ticketCost,
-    winner_count: r.winnerCount,
-    perks: Array.isArray(r.requirements) ? r.requirements : [],
-    image_url: r.imageUrl || "",
-    nft_network: "Base",
-    nft_contract: "",
-    nft_token_id: "",
-    nft_rarity: "rare",
-    is_simulation: true,
-  } as DbRaffleItem));
+  const displayRaffles = React.useMemo(() => {
+    return dbRaffles.length > 0
+      ? dbRaffles
+      : INITIAL_RAFFLES.map(
+          (r) =>
+            ({
+              id: r.id,
+              title: r.title,
+              prize: r.prize,
+              prize_detail: r.prizeDetail,
+              category: r.category,
+              status: r.status,
+              starts_at: new Date(r.startsAt || Date.now()).toISOString(),
+              ends_at: new Date(r.endsAt).toISOString(),
+              ticket_cost: r.ticketCost,
+              winner_count: r.winnerCount,
+              perks: Array.isArray(r.requirements) ? r.requirements : [],
+              image_url: r.imageUrl || "",
+              nft_network: r.nftNetwork || "Base",
+              nft_contract: r.nftContract || "",
+              nft_token_id: r.nftTokenId || "",
+              nft_rarity: r.nftRarity || "rare",
+              is_simulation: true,
+            } as DbRaffleItem)
+        );
+  }, [dbRaffles]);
+
+  // Filtered list
+  const filteredRaffles = React.useMemo(() => {
+    return displayRaffles.filter((r) => {
+      // 1. Search Query
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchTitle = r.title.toLowerCase().includes(q);
+        const matchPrize = r.prize.toLowerCase().includes(q);
+        const matchId = r.id.toLowerCase().includes(q);
+        const matchNet = (r.nft_network || "").toLowerCase().includes(q);
+        if (!matchTitle && !matchPrize && !matchId && !matchNet) return false;
+      }
+      // 2. Status Filter
+      if (statusFilter !== "all") {
+        if (statusFilter === "ended") {
+          if (r.status !== "ended" && r.status !== "drawn") return false;
+        } else if (r.status !== statusFilter) {
+          return false;
+        }
+      }
+      // 3. Category Filter
+      if (categoryFilter !== "all" && r.category !== categoryFilter) {
+        return false;
+      }
+      return true;
+    });
+  }, [displayRaffles, searchQuery, statusFilter, categoryFilter]);
+
+  // Accurate KPI stats (Zero fake hardcoded fallbacks)
+  const totalRaffles = displayRaffles.length;
+  const liveCount = displayRaffles.filter((r) => r.status === "live").length;
+  const upcomingCount = displayRaffles.filter((r) => r.status === "upcoming").length;
+  const endedCount = displayRaffles.filter((r) => r.status === "ended" || r.status === "drawn").length;
+  const totalTicketsPlaced = Object.values(statsMap).reduce(
+    (acc, s) => acc + (s.total_tickets || 0),
+    0
+  );
 
   return (
     <AppShell>
-      {/* Toast Notification */}
+      {/* Top Floating Toast Notification */}
       <div
-        className={`fixed left-1/2 -translate-x-1/2 bottom-20 z-50 bg-choco-900 text-cream px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-200 pointer-events-none border-2 border-choco-900 shadow-[0_4px_0_#3B2218] max-w-[90%] text-center ${
-          toastMsg ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        className={`fixed top-5 right-5 z-50 bg-choco-900 text-cream px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-pixel font-bold transition-all duration-200 pointer-events-none border-2 border-choco-900 shadow-[0_4px_0_#3B2218] flex items-center gap-2 max-w-sm ${
+          toastMsg ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
         }`}
       >
-        {toastMsg}
+        <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+        <span>{toastMsg}</span>
       </div>
 
       <div className="mx-auto max-w-5xl px-4 py-6 md:py-8 space-y-6">
         {/* If not logged in as Admin, show login card */}
         {!adminKey ? (
-          <div className="max-w-md mx-auto my-8 p-6 sm:p-8 rounded-[32px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900">
+          <div className="max-w-md mx-auto my-8 p-6 sm:p-8 rounded-[32px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200">
             <div className="flex items-center gap-3 mb-4">
               <div className="size-12 rounded-2xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center shadow-[0_3px_0_#3B2218]">
                 <Shield className="size-6 text-choco-900" />
@@ -229,11 +395,11 @@ export function AdminPage() {
             </div>
 
             <p className="text-xs sm:text-sm font-semibold text-choco-700 leading-relaxed mb-6">
-              Masuk untuk mengelola undian NFT, menambah artefak baru, mengunggah aset gambar project, dan menghapus event undian.
+              Masuk untuk mengelola undian NFT, menambah artefak baru, mengunggah artwork project, dan menghapus event undian.
             </p>
 
             {loginError && (
-              <div className="mb-4 p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-800 text-xs font-bold flex items-center gap-2">
+              <div className="mb-4 p-3.5 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-800 text-xs font-bold flex items-center gap-2 shadow-[0_2px_0_#991B1B]">
                 <AlertTriangle className="size-4 shrink-0 text-rose-600" />
                 <span>{loginError}</span>
               </div>
@@ -244,14 +410,24 @@ export function AdminPage() {
                 <label className="block text-xs font-bold text-choco-800 uppercase font-pixel mb-1.5">
                   Kunci Rahasia Admin
                 </label>
-                <input
-                  type="password"
-                  value={passwordInput}
-                  onChange={(e) => setPasswordInput(e.target.value)}
-                  placeholder="Masukkan password admin..."
-                  autoFocus
-                  className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-choco-900 text-choco-900 font-mono text-sm placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-500"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={passwordInput}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    placeholder="Masukkan password admin..."
+                    autoFocus
+                    className="w-full px-4 py-3 pr-11 rounded-2xl bg-white border-2 border-choco-900 text-choco-900 font-mono text-sm placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-choco-500 hover:text-choco-900 p-1 cursor-pointer"
+                    title={showPassword ? "Sembunyikan password" : "Lihat password"}
+                  >
+                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  </button>
+                </div>
               </div>
 
               <button
@@ -270,13 +446,14 @@ export function AdminPage() {
               </button>
             </form>
 
-            <div className="mt-6 pt-4 border-t-2 border-choco-900/10 text-center">
+            <div className="mt-6 pt-4 border-t-2 border-choco-900/10 flex items-center justify-between text-xs font-pixel">
               <Link
                 to="/raffle"
-                className="font-pixel text-xs text-candy-600 hover:text-candy-700 font-bold underline"
+                className="text-candy-600 hover:text-candy-700 font-bold underline"
               >
-                ← Kembali ke Katalog Undian
+                ← Kembali ke Katalog
               </Link>
+              <span className="text-choco-500">v2.4 Otoritas</span>
             </div>
           </div>
         ) : (
@@ -289,12 +466,12 @@ export function AdminPage() {
                   👑
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-pixel text-[10px] uppercase font-bold text-choco-900 bg-amber-400 px-2 py-0.5 rounded-full border border-choco-900/40">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-pixel text-[10px] uppercase font-bold text-choco-900 bg-amber-400 px-2 py-0.5 rounded-full border border-choco-900/40 shadow-[0_1px_0_#3B2218]">
                       Panel Admin Web3min
                     </span>
                     <span className="font-pixel text-[10px] uppercase font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-400">
-                      Tersambung Supabase
+                      ● Supabase Terhubung
                     </span>
                   </div>
                   <h1 className="font-pixel text-xl sm:text-2xl font-bold text-choco-900 leading-tight mt-1">
@@ -306,7 +483,7 @@ export function AdminPage() {
               <div className="flex items-center gap-2.5 flex-wrap">
                 <Link
                   to="/raffle"
-                  className="py-2.5 px-4 rounded-full bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                  className="py-2.5 px-4 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
                 >
                   <ExternalLink className="size-3.5" />
                   <span>Lihat Undian Live</span>
@@ -330,65 +507,186 @@ export function AdminPage() {
               </div>
             </div>
 
-            {/* Quick Stats Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-              <div className="p-4 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
+            {/* Quick Stats Grid (5 Accurate KPI Cards) */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
                 <div className="text-[10px] font-pixel font-bold uppercase text-choco-500">Total Undian</div>
                 <div className="font-pixel text-2xl font-bold text-choco-900 mt-1">
-                  {displayRaffles.length}
+                  {totalRaffles}
                 </div>
               </div>
-              <div className="p-4 rounded-2xl bg-emerald-50 border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-emerald-50 border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
                 <div className="text-[10px] font-pixel font-bold uppercase text-emerald-700">Undian Live</div>
                 <div className="font-pixel text-2xl font-bold text-emerald-800 mt-1">
-                  {displayRaffles.filter((r) => r.status === "live").length}
+                  {liveCount}
                 </div>
               </div>
-              <div className="p-4 rounded-2xl bg-amber-50 border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-50 border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
                 <div className="text-[10px] font-pixel font-bold uppercase text-amber-700">Akan Datang</div>
                 <div className="font-pixel text-2xl font-bold text-amber-800 mt-1">
-                  {displayRaffles.filter((r) => r.status === "upcoming").length}
+                  {upcomingCount}
                 </div>
               </div>
-              <div className="p-4 rounded-2xl bg-candy-50 border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-stone-100 border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
+                <div className="text-[10px] font-pixel font-bold uppercase text-stone-600">Selesai / Riwayat</div>
+                <div className="font-pixel text-2xl font-bold text-stone-800 mt-1">
+                  {endedCount}
+                </div>
+              </div>
+              <div className="col-span-2 sm:col-span-1 p-3.5 sm:p-4 rounded-2xl bg-candy-50 border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
                 <div className="text-[10px] font-pixel font-bold uppercase text-candy-700">Tiket Terpasang</div>
                 <div className="font-pixel text-2xl font-bold text-candy-800 mt-1">
-                  {Object.values(statsMap).reduce((acc, s) => acc + (s.total_tickets || 0), 0) || 72}
+                  {totalTicketsPlaced}
                 </div>
+              </div>
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div className="p-4 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex flex-col md:flex-row items-center justify-between gap-3">
+              <div className="relative w-full md:w-80">
+                <Search className="size-4 text-choco-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Cari judul, hadiah, jaringan..."
+                  className="w-full pl-9 pr-4 py-2 rounded-xl bg-cream/50 border border-choco-900 text-xs font-semibold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:ring-2 focus:ring-candy-500 shadow-[0_1px_0_#3B2218]"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                {/* Status Pills */}
+                <div className="flex items-center gap-1 p-1 bg-cream rounded-xl border border-choco-900/30">
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter("all")}
+                    className={`px-2.5 py-1 rounded-lg font-pixel text-[10px] font-bold transition-all cursor-pointer ${
+                      statusFilter === "all"
+                        ? "bg-choco-900 text-cream shadow-[0_1px_0_#3B2218]"
+                        : "text-choco-700 hover:text-choco-900"
+                    }`}
+                  >
+                    Semua ({totalRaffles})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter("live")}
+                    className={`px-2.5 py-1 rounded-lg font-pixel text-[10px] font-bold transition-all cursor-pointer ${
+                      statusFilter === "live"
+                        ? "bg-emerald-600 text-white shadow-[0_1px_0_#15803D]"
+                        : "text-emerald-800 hover:text-emerald-950"
+                    }`}
+                  >
+                    Live ({liveCount})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter("upcoming")}
+                    className={`px-2.5 py-1 rounded-lg font-pixel text-[10px] font-bold transition-all cursor-pointer ${
+                      statusFilter === "upcoming"
+                        ? "bg-amber-500 text-choco-900 shadow-[0_1px_0_#B45309]"
+                        : "text-amber-800 hover:text-amber-950"
+                    }`}
+                  >
+                    Akan Datang ({upcomingCount})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStatusFilter("ended")}
+                    className={`px-2.5 py-1 rounded-lg font-pixel text-[10px] font-bold transition-all cursor-pointer ${
+                      statusFilter === "ended"
+                        ? "bg-stone-600 text-white shadow-[0_1px_0_#44403C]"
+                        : "text-stone-700 hover:text-stone-900"
+                    }`}
+                  >
+                    Selesai ({endedCount})
+                  </button>
+                </div>
+
+                {/* Category Dropdown */}
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="px-2.5 py-1.5 rounded-xl bg-white border border-choco-900 text-xs font-bold text-choco-900 shadow-[0_1px_0_#3B2218] cursor-pointer"
+                >
+                  <option value="all">Semua Kategori</option>
+                  <option value="nft">NFT Artifact</option>
+                  <option value="gems">Koin/Gems</option>
+                  <option value="outfit">Outfit Blobi</option>
+                  <option value="badge">Badge</option>
+                  <option value="tickets">Tiket</option>
+                </select>
               </div>
             </div>
 
             {/* Raffles Management List */}
             <div className="p-5 sm:p-6 rounded-[32px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
                   <h3 className="font-pixel text-lg font-bold text-choco-900">
-                    Daftar Undian Aktif & Riwayat
+                    Daftar Undian Aktif & Riwayat ({filteredRaffles.length})
                   </h3>
                   <p className="text-xs font-semibold text-choco-600">
-                    Klik Edit untuk mengganti detail, upload foto NFT/Project, atau ganti status.
+                    Kelola event undian, unggah artwork NFT, ubah status, atau hapus undian.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => refreshData()}
-                  className="p-2 rounded-xl bg-white hover:bg-candy-50 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-choco-700 active:translate-y-0.5 cursor-pointer"
-                  title="Segarkan data"
-                >
-                  <RefreshCw className="size-4" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleSeedDefaultArtwork}
+                    disabled={isSeedingArtwork}
+                    className="py-1.5 px-3 rounded-xl bg-amber-200 hover:bg-amber-300 border border-choco-900 shadow-[0_1.5px_0_#3B2218] text-choco-900 font-pixel text-[10px] font-bold active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                    title="Pasang gambar default untuk undian yang belum memiliki artwork"
+                  >
+                    <Palette className="size-3.5 text-amber-700" />
+                    <span>{isSeedingArtwork ? "Menerapkan..." : "Auto-Artwork Kosong"}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => refreshData()}
+                    className="p-2 rounded-xl bg-white hover:bg-candy-50 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-choco-700 active:translate-y-0.5 cursor-pointer"
+                    title="Segarkan data dari Supabase"
+                  >
+                    <RefreshCw className="size-4" />
+                  </button>
+                </div>
               </div>
 
               {isLoading ? (
                 <div className="p-10 flex flex-col items-center justify-center">
                   <CandyLoader size="md" label="MEMUAT DATA UNDIAN..." />
                 </div>
+              ) : filteredRaffles.length === 0 ? (
+                <div className="p-8 rounded-2xl bg-white border-2 border-choco-900/30 text-center space-y-3">
+                  <div className="size-14 mx-auto rounded-2xl bg-amber-100 border-2 border-choco-900 flex items-center justify-center text-2xl shadow-[0_2px_0_#3B2218]">
+                    🔍
+                  </div>
+                  <h4 className="font-pixel text-base font-bold text-choco-900">
+                    Tidak ada undian yang cocok
+                  </h4>
+                  <p className="text-xs text-choco-600 max-w-sm mx-auto">
+                    Coba ubah kata kunci pencarian atau reset filter untuk melihat daftar lengkap undian.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery("");
+                      setStatusFilter("all");
+                      setCategoryFilter("all");
+                    }}
+                    className="py-2 px-4 rounded-full bg-candy-500 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] cursor-pointer"
+                  >
+                    Reset Filter
+                  </button>
+                </div>
               ) : (
                 <div className="space-y-3.5">
-                  {displayRaffles.map((raffle) => {
+                  {filteredRaffles.map((raffle) => {
                     const stats = statsMap[raffle.id];
                     const ticketsCount = stats?.total_tickets ?? 0;
                     const participantsCount = stats?.total_participants ?? 0;
+                    const netStyle = getNetworkBadgeStyle(raffle.nft_network);
+                    const remaining = getRemainingTimeLabel(raffle.ends_at);
 
                     return (
                       <div
@@ -396,7 +694,7 @@ export function AdminPage() {
                         className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all hover:border-candy-500"
                       >
                         <div className="flex items-start gap-3.5 min-w-0">
-                          {/* Image Thumbnail Preview */}
+                          {/* Image Thumbnail Preview with Generative Fallback */}
                           {raffle.image_url ? (
                             <div className="size-16 sm:size-20 shrink-0 rounded-xl border-2 border-choco-900 overflow-hidden bg-choco-50 shadow-[0_2px_0_#3B2218]">
                               <img
@@ -406,9 +704,17 @@ export function AdminPage() {
                               />
                             </div>
                           ) : (
-                            <div className="size-16 sm:size-20 shrink-0 rounded-xl border-2 border-dashed border-choco-400 bg-stone-50 flex flex-col items-center justify-center text-choco-400">
-                              <ImageIcon className="size-6 mb-0.5" />
-                              <span className="text-[9px] font-pixel">No Image</span>
+                            <div className="size-16 sm:size-20 shrink-0 rounded-xl border-2 border-choco-900 bg-gradient-to-br from-amber-200 via-candy-100 to-purple-200 flex flex-col items-center justify-center text-choco-900 shadow-[0_2px_0_#3B2218] p-1 text-center">
+                              {raffle.category === "nft" ? (
+                                <Crown className="size-6 text-amber-600 mb-0.5" />
+                              ) : raffle.category === "gems" ? (
+                                <Coins className="size-6 text-amber-700 mb-0.5" />
+                              ) : (
+                                <Sparkles className="size-6 text-candy-600 mb-0.5" />
+                              )}
+                              <span className="text-[8px] font-pixel font-bold uppercase truncate max-w-full px-1">
+                                {raffle.category}
+                              </span>
                             </div>
                           )}
 
@@ -423,14 +729,25 @@ export function AdminPage() {
                                     : "bg-stone-100 text-stone-700"
                                 }`}
                               >
-                                {raffle.status === "live" ? "🟢 LIVE" : raffle.status}
+                                {raffle.status === "live"
+                                  ? "🟢 LIVE"
+                                  : raffle.status === "upcoming"
+                                  ? "🟡 AKAN DATANG"
+                                  : "⚪ SELESAI"}
                               </span>
                               <span className="px-2 py-0.5 rounded-full bg-candy-100 text-candy-800 font-pixel text-[9px] font-bold border border-choco-900">
                                 {raffle.category.toUpperCase()}
                               </span>
                               {raffle.nft_network && (
-                                <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-pixel text-[9px] font-bold border border-choco-900">
+                                <span
+                                  className={`px-2 py-0.5 rounded-full font-pixel text-[9px] font-bold border border-choco-900 ${netStyle.bg} ${netStyle.text}`}
+                                >
                                   {raffle.nft_network}
+                                </span>
+                              )}
+                              {raffle.nft_rarity && (
+                                <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-pixel text-[9px] font-bold border border-choco-900 uppercase">
+                                  {raffle.nft_rarity}
                                 </span>
                               )}
                             </div>
@@ -444,28 +761,37 @@ export function AdminPage() {
                             </div>
 
                             <div className="flex items-center gap-3 text-[11px] font-semibold text-choco-600 mt-2 flex-wrap">
-                              <span className="flex items-center gap-1">
+                              <span className="flex items-center gap-1 font-mono">
                                 <Ticket className="size-3 text-amber-600" />
                                 <strong>{ticketsCount}</strong> Tiket ({participantsCount} Peserta)
                               </span>
-                              <span className="flex items-center gap-1">
+                              <span className="flex items-center gap-1 font-mono">
                                 <Crown className="size-3 text-yellow-600" />
                                 <strong>{raffle.winner_count}</strong> Pemenang
                               </span>
                               <span className="flex items-center gap-1">
                                 <Clock className="size-3 text-purple-600" />
-                                Ends: {new Date(raffle.ends_at).toLocaleDateString("id-ID")}
+                                <span>Batas: {formatIndoDate(raffle.ends_at)}</span>
+                                <span
+                                  className={`ml-1 text-[10px] font-pixel font-bold px-1.5 py-0.2 rounded ${
+                                    remaining.isEnded
+                                      ? "bg-stone-200 text-stone-700"
+                                      : "bg-emerald-100 text-emerald-800"
+                                  }`}
+                                >
+                                  {remaining.text}
+                                </span>
                               </span>
                             </div>
                           </div>
                         </div>
 
-                        {/* Actions */}
-                        <div className="flex items-center gap-2 pt-2 md:pt-0 border-t border-choco-900/10 md:border-0 justify-end">
+                        {/* Actions (Tactile Edit & Safe Delete) */}
+                        <div className="flex items-center gap-2 pt-2 md:pt-0 border-t border-choco-900/10 md:border-0 justify-end shrink-0">
                           <button
                             type="button"
                             onClick={() => handleOpenEdit(raffle)}
-                            className="py-2 px-3.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                            className="py-2 px-4 rounded-xl bg-amber-400 hover:bg-amber-500 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
                           >
                             <Edit3 className="size-3.5" />
                             <span>Edit</span>
@@ -473,9 +799,10 @@ export function AdminPage() {
                           <button
                             type="button"
                             onClick={() => setDeletingRaffle(raffle)}
-                            className="py-2 px-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                            className="py-2 px-3 rounded-xl bg-white hover:bg-rose-50 text-rose-700 hover:text-rose-800 font-pixel font-bold text-xs border-2 border-rose-300 hover:border-rose-500 shadow-[0_2px_0_#991B1B] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                            title="Hapus undian ini"
                           >
-                            <Trash2 className="size-3.5" />
+                            <Trash2 className="size-3.5 text-rose-600" />
                             <span>Hapus</span>
                           </button>
                         </div>

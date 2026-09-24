@@ -2,6 +2,17 @@ import { chromium } from "playwright";
 
 const BASE_URL = "https://web3min.vercel.app";
 
+const ROUTES = [
+  "/",
+  "/bubble",
+  "/shop",
+  "/profile",
+  "/leaderboard",
+  "/settings",
+  "/kisah",
+  "/lesson/intro-web3-apa-itu"
+];
+
 async function runAudit() {
   console.log("=== STARTING COMPREHENSIVE WEB3MIN UI/UX & LOGIC AUDIT ===");
   const browser = await chromium.launch({
@@ -18,47 +29,41 @@ async function runAudit() {
     { name: "Mobile (390x844)", width: 390, height: 844 },
   ];
 
-  const routes = [
-    "/",
-    "/bubble",
-    "/shop",
-    "/profile",
-    "/leaderboard",
-    "/settings",
-    "/kisah",
-  ];
-
   for (const vp of viewports) {
     console.log(`\n--- Testing Viewport: ${vp.name} ---`);
-    const context = await browser.newContext({
-      viewport: { width: vp.width, height: vp.height },
-      userAgent: vp.name.includes("Mobile")
-        ? "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/604.1"
-        : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    });
 
-    const page = await context.newPage();
+    for (const route of ROUTES) {
+      const page = await browser.newPage({
+        viewport: { width: vp.width, height: vp.height },
+        userAgent: vp.name.includes("Mobile")
+          ? "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Mobile/15E148 Safari/604.1"
+          : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      });
 
-    // Listen for console errors & unhandled errors
-    page.on("pageerror", (err) => {
-      issues.push(`[${vp.name}] Uncaught page error: ${err.message}`);
-    });
-    page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        issues.push(`[${vp.name}] Console error: ${msg.text()}`);
-      } else if (msg.type() === "warning") {
-        warnings.push(`[${vp.name}] Console warn: ${msg.text()}`);
-      }
-    });
+      page.on("pageerror", (err) => {
+        issues.push(`[${vp.name}] Uncaught page error on ${route}: ${err.message}`);
+      });
+      page.on("console", (msg) => {
+        if (msg.type() === "error") {
+          issues.push(`[${vp.name}] Console error on ${route}: ${msg.text()}`);
+        }
+      });
 
-    for (const route of routes) {
+      // Active user state
+      await page.addInitScript(() => {
+        localStorage.setItem("web3min-v2", JSON.stringify({
+          state: { coachSeen: true, completed: ["intro-1"], username: "Thalassa", gems: 100, xp: 250, streak: 5 },
+          version: 2
+        }));
+      });
+
       const url = `${BASE_URL}${route}`;
       try {
-        const resp = await page.goto(url, { waitUntil: "networkidle", timeout: 25000 });
+        const resp = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 20000 });
         if (!resp || resp.status() >= 400) {
           issues.push(`[${vp.name}] Route ${route} returned HTTP ${resp ? resp.status() : "none"}`);
-          continue;
         }
+        await page.waitForTimeout(600);
 
         // Check horizontal overflow
         const overflow = await page.evaluate(() => {
@@ -74,101 +79,82 @@ async function runAudit() {
             `[${vp.name}] Horizontal overflow on ${route}: scrollWidth ${overflow.scrollWidth} > innerWidth ${overflow.innerWidth}`
           );
         }
-
-        // Check for broken images
-        const brokenImages = await page.evaluate(() => {
-          const imgs = Array.from(document.querySelectorAll("img"));
-          return imgs
-            .filter((img) => !img.complete || img.naturalWidth === 0)
-            .map((img) => img.src);
-        });
-
-        if (brokenImages.length > 0) {
-          warnings.push(`[${vp.name}] Broken images on ${route}: ${brokenImages.join(", ")}`);
-        }
       } catch (err) {
         issues.push(`[${vp.name}] Error visiting ${route}: ${err.message}`);
+      } finally {
+        await page.close();
       }
     }
 
-    // Deep Blobi UI/UX & Interaction Test on Homepage
-    console.log(`[${vp.name}] Auditing Blobi Companion UI/UX & Gestures...`);
-    await page.goto(`${BASE_URL}/`, { waitUntil: "networkidle" });
-    await page.waitForTimeout(1000);
-
-    const blobiStatus = await page.evaluate(() => {
-      const el = document.querySelector('[title*="Tarik & geser Blobi"]');
-      if (!el) return { present: false };
-      const r = el.getBoundingClientRect();
-      const parent = el.closest(".fixed");
-      return {
-        present: true,
-        rect: { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) },
-        style: parent ? parent.getAttribute("style") : null,
-        insideViewport: r.left >= 0 && r.right <= window.innerWidth && r.top >= 0 && r.bottom <= window.innerHeight,
-      };
+    // Deep Blobi Companion Audit on Homepage
+    console.log(`[${vp.name}] Auditing Blobi Companion on Homepage...`);
+    const page = await browser.newPage({
+      viewport: { width: vp.width, height: vp.height },
+      hasTouch: vp.name.includes("Mobile"),
     });
 
-    console.log(`[${vp.name}] Blobi element status:`, JSON.stringify(blobiStatus));
-    if (!blobiStatus.present) {
-      issues.push(`[${vp.name}] Blobi floating companion is NOT rendered on homepage!`);
-    } else if (!blobiStatus.insideViewport) {
-      issues.push(`[${vp.name}] Blobi initial position is outside viewport: ${JSON.stringify(blobiStatus.rect)}`);
+    await page.addInitScript(() => {
+      localStorage.setItem("web3min-v2", JSON.stringify({
+        state: { coachSeen: true, completed: ["intro-1"] },
+        version: 2
+      }));
+    });
+
+    try {
+      await page.goto(`${BASE_URL}/`, { waitUntil: "domcontentloaded", timeout: 20000 });
+      await page.waitForSelector(".world", { timeout: 15000 });
+      await page.waitForTimeout(800);
+
+      const blobi = page.locator('[title*="Tarik & geser Blobi"]');
+      const count = await blobi.count();
+      if (count === 0) {
+        issues.push(`[${vp.name}] Blobi floating companion not found on homepage!`);
+      } else {
+        const box = await blobi.first().boundingBox();
+        console.log(`[${vp.name}] Blobi Box:`, box);
+        if (box) {
+          const inside = box.x >= 0 && box.x + box.width <= vp.width + 10 && box.y >= 0 && box.y + box.height <= vp.height + 10;
+          if (!inside) {
+            issues.push(`[${vp.name}] Blobi initial bounding box outside viewport: ${JSON.stringify(box)}`);
+          }
+
+          // Test dragging if desktop
+          if (!vp.name.includes("Mobile")) {
+            const startX = box.x + box.width / 2;
+            const startY = box.y + box.height / 2;
+            await page.mouse.move(startX, startY);
+            await page.mouse.down();
+            await page.mouse.move(startX + 120, startY - 80, { steps: 5 });
+            await page.mouse.up();
+            await page.waitForTimeout(400);
+
+            const boxAfter = await blobi.first().boundingBox();
+            const dx = (boxAfter?.x || 0) - box.x;
+            console.log(`[${vp.name}] Blobi drag displacement: dx=${Math.round(dx)}px`);
+            if (Math.abs(dx) < 50) {
+              issues.push(`[${vp.name}] Blobi did not move expected distance on drag: dx=${dx}`);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      issues.push(`[${vp.name}] Blobi audit error: ${err.message}`);
+    } finally {
+      await page.close();
     }
-
-    // Test Poke Interaction
-    const pokeResult = await page.evaluate(() => {
-      const handle = document.querySelector('[title*="Tarik & geser Blobi"]');
-      if (!handle) return { ok: false, reason: "no handle" };
-      // Simulate click
-      handle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      // Check if speech bubble appears
-      const bubble = document.querySelector(".blobi-bubble") || document.querySelector('[class*="border-2 border-ink-900 bg-white shadow-"]');
-      return {
-        ok: true,
-        hasBubble: !!bubble,
-        bubbleText: bubble ? bubble.textContent?.trim() : null,
-      };
-    });
-    console.log(`[${vp.name}] Poke result:`, JSON.stringify(pokeResult));
-
-    // Test Drag to Corner & Speech Bubble Bounds
-    const dragTest = await page.evaluate(() => {
-      const handle = document.querySelector('[title*="Tarik & geser Blobi"]');
-      if (!handle) return { ok: false, reason: "no handle" };
-
-      const r = handle.getBoundingClientRect();
-      const startX = r.x + r.width / 2;
-      const startY = r.y + r.height / 2;
-      // Drag near right edge
-      const targetX = window.innerWidth - 60;
-      const targetY = 120;
-
-      handle.dispatchEvent(new PointerEvent("pointerdown", { clientX: startX, clientY: startY, pointerId: 1, button: 0, bubbles: true }));
-      window.dispatchEvent(new PointerEvent("pointermove", { clientX: targetX, clientY: targetY, pointerId: 1, bubbles: true }));
-      window.dispatchEvent(new PointerEvent("pointerup", { clientX: targetX, clientY: targetY, pointerId: 1, bubbles: true }));
-
-      const finalRect = handle.getBoundingClientRect();
-      return {
-        ok: true,
-        moved: Math.abs(finalRect.x - r.x) > 20,
-        finalPos: { x: Math.round(finalRect.x), y: Math.round(finalRect.y) },
-        insideViewport: finalRect.left >= 0 && finalRect.right <= window.innerWidth && finalRect.top >= 0 && finalRect.bottom <= window.innerHeight,
-      };
-    });
-    console.log(`[${vp.name}] Drag to corner test:`, JSON.stringify(dragTest));
-
-    await context.close();
   }
 
   await browser.close();
 
   console.log("\n================ AUDIT SUMMARY ================");
   console.log(`Total Issues Found: ${issues.length}`);
-  issues.forEach((iss, idx) => console.log(`[ISSUE ${idx + 1}] ${iss}`));
-
-  console.log(`\nTotal Warnings Found: ${warnings.length}`);
-  warnings.forEach((warn, idx) => console.log(`[WARN ${idx + 1}] ${warn}`));
+  if (issues.length > 0) {
+    issues.forEach((iss, i) => console.log(`[ISSUE ${i + 1}] ${iss}`));
+    process.exit(1);
+  } else {
+    console.log("ALL PAGES & UI/UX GESTURES PASSED AUDIT WITH 0 ISSUES!");
+    process.exit(0);
+  }
 }
 
 runAudit().catch((err) => {

@@ -494,27 +494,32 @@ export function PulauRantaiMap({
         />
       )}
 
-      {/* Bottom Sheet Modal for Block Details */}
-      <div className={`sheet ${sheetLesson ? "on" : ""}`}>
-        {sheetLesson && (
-          <div>
+      {/* Modal / Sheet for Block Details */}
+      {sheetLesson && (
+        <div
+          className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150"
+          onClick={() => setSheetLesson(null)}
+        >
+          <div
+            className="w-full max-w-md bg-cream border-3 border-choco-900 rounded-[28px] shadow-[0_8px_0_#3B2218] p-5 sm:p-6 relative text-choco-900 animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
-              className="xclose"
+              className="absolute top-4 right-4 flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
               onClick={() => setSheetLesson(null)}
               aria-label="Tutup"
             >
-              <PulauIcon name="x" size={20} />
+              <PulauIcon name="x" size={18} />
             </button>
 
-            <p className="t-label text-primary">
-              Blok #0x{sheetLesson.blockNo.toString(16).toUpperCase().padStart(2, "0")} · Rute {sheetLesson.unit.index}{" "}
-              {sheetLesson.unit.title}
-            </p>
-            <h3 className="t-heading text-ink-900 mt-1">
+            <span className="inline-block px-2.5 py-0.5 rounded-full bg-candy-100 border border-choco-900 font-pixel text-[10px] font-bold uppercase tracking-wider text-candy-700">
+              Blok #0x{sheetLesson.blockNo.toString(16).toUpperCase().padStart(2, "0")} · Rute {sheetLesson.unit.index}
+            </span>
+            <h3 className="font-pixel text-lg sm:text-xl font-bold text-choco-900 mt-2 leading-tight">
               {sheetLesson.lesson.title}
             </h3>
-            <p className="t-caption text-ink-500 mt-1">
+            <p className="text-xs sm:text-sm font-semibold text-choco-600 mt-1 leading-relaxed">
               {sheetLesson.lesson.exercises?.length || 3} soal kuis · +30 XP · 3 konfirmasi blok
             </p>
 
@@ -532,13 +537,19 @@ export function PulauRantaiMap({
               </Button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Progres Analytics Modal */}
       {showProgresModal && (
-        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-          <div className="bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] p-4 sm:p-5 relative">
+        <div
+          className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150"
+          onClick={() => setShowProgresModal(false)}
+        >
+          <div
+            className="bg-cream border-3 border-choco-900 rounded-[28px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_8px_0_#3B2218] p-4 sm:p-5 relative animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
             <PulauRantaiProgres onClose={() => setShowProgresModal(false)} />
           </div>
         </div>
@@ -546,14 +557,21 @@ export function PulauRantaiMap({
 
       {/* Quests Modal Dialog */}
       {showQuestsModal && (
-        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 rounded-3xl w-full max-w-md p-5 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] relative">
+        <div
+          className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150"
+          onClick={() => setShowQuestsModal(false)}
+        >
+          <div
+            className="w-full max-w-md bg-cream border-3 border-choco-900 rounded-[28px] p-5 sm:p-6 shadow-[0_8px_0_#3B2218] relative text-choco-900 animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
-              className="absolute top-4 right-4 p-2 text-choco-400 hover:text-choco-900 font-bold cursor-pointer"
+              className="absolute top-4 right-4 flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
               onClick={() => setShowQuestsModal(false)}
+              aria-label="Tutup"
             >
-              <PulauIcon name="x" size={20} />
+              <PulauIcon name="x" size={18} />
             </button>
             <DailyQuests />
           </div>

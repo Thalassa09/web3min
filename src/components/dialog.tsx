@@ -66,29 +66,32 @@ export function Dialog({
   if (!open || typeof document === "undefined") return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 grid place-items-end bg-black/55 p-4 sm:place-items-center" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+      onClick={onClose}
+    >
       <div
         ref={panel}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={description ? descId : undefined}
-        className="relative w-full max-w-sm rounded-3xl bg-paper p-5 shadow-none"
+        className="relative w-full max-w-md rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Tutup"
-          className="absolute right-3 top-3 grid size-11 place-items-center rounded-full text-muted"
+          className="absolute right-4 top-4 flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
         >
-          <X className="size-5" weight="bold" />
+          <X className="size-4.5 stroke-[2.5]" />
         </button>
-        <h2 id={titleId} className="pr-12 text-xl font-bold leading-[26px]">
+        <h2 id={titleId} className="pr-12 font-pixel text-lg sm:text-xl font-bold leading-tight text-choco-900 tracking-tight">
           {title}
         </h2>
         {description ? (
-          <p id={descId} className="mt-2 text-sm leading-5 text-muted">
+          <p id={descId} className="mt-2 text-xs sm:text-sm font-semibold leading-relaxed text-choco-700">
             {description}
           </p>
         ) : null}

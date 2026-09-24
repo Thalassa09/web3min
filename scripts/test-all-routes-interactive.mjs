@@ -42,7 +42,8 @@ async function testAllRoutes() {
     const pageErrors = [];
     page.on("pageerror", (err) => pageErrors.push(err.message));
 
-    const response = await page.goto(`https://web3min.vercel.app${route}`, { waitUntil: "networkidle" });
+    const response = await page.goto(`https://web3min.vercel.app${route}`, { waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(500);
     const status = response ? response.status() : 0;
     await page.waitForTimeout(600);
 

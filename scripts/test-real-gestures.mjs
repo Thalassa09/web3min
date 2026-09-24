@@ -9,7 +9,14 @@ async function testRealGestures() {
   });
 
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-  await page.goto("https://web3min.vercel.app/", { waitUntil: "networkidle" });
+  await page.addInitScript(() => {
+    localStorage.setItem("web3min-v2", JSON.stringify({
+      state: { coachSeen: true, completed: ["intro-1"] },
+      version: 2
+    }));
+  });
+  await page.goto("https://web3min.vercel.app/", { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".world", { timeout: 15000 });
   await page.waitForTimeout(1000);
 
   // If Coach Tour is present, test that clicking backdrop dismisses it
@@ -82,7 +89,8 @@ async function testRealGestures() {
     }));
   });
 
-  await mobilePage.goto("https://web3min.vercel.app/", { waitUntil: "networkidle" });
+  await mobilePage.goto("https://web3min.vercel.app/", { waitUntil: "domcontentloaded" });
+  await mobilePage.waitForSelector(".world", { timeout: 15000 });
   await mobilePage.waitForTimeout(1000);
 
   const mobileBlobi = mobilePage.locator('[title*="Tarik & geser Blobi"]');

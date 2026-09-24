@@ -640,18 +640,25 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
 
       {/* ROUTE SELECTOR MODAL / SHEET */}
       {showRouteSelector && (
-        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in">
-          <div className="w-full max-w-lg bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 rounded-t-3xl sm:rounded-3xl shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] max-h-[85vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom-4">
+        <div
+          className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in"
+          onClick={() => setShowRouteSelector(false)}
+        >
+          <div
+            className="w-full max-w-lg bg-cream border-3 border-choco-900 rounded-t-[28px] sm:rounded-[28px] shadow-[0_8px_0_#3B2218] max-h-[85vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom-4"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Header */}
-            <div className="p-4 border-b-2 border-choco-900/15 flex items-center justify-between bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] shrink-0">
+            <div className="p-4 border-b-2 border-choco-900/15 flex items-center justify-between bg-candy-100 shrink-0">
               <div className="flex items-center gap-2">
                 <Layers className="size-5 text-candy-600 stroke-[2.5]" />
-                <h3 className="font-display text-lg font-bold text-choco-900">Pilih Rute Belajar</h3>
+                <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">Pilih Rute Belajar</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowRouteSelector(false)}
-                className="p-1.5 hover:bg-white rounded-full border-2 border-choco-900/20 bg-white/80 text-choco-900 shadow-[0_1.5px_0_#3B2218] cursor-pointer"
+                className="flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
+                aria-label="Tutup"
               >
                 <X className="size-4.5 stroke-[2.5]" />
               </button>
@@ -751,18 +758,25 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
 
       {/* REKAP PENJELAJAH MODAL */}
       {showRekapModal && (
-        <div className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-          <div className="w-full max-w-md bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 rounded-3xl p-5 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-4 animate-in zoom-in-95">
+        <div
+          className="fixed inset-0 z-50 bg-choco-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in"
+          onClick={() => setShowRekapModal(false)}
+        >
+          <div
+            className="w-full max-w-md bg-cream border-3 border-choco-900 rounded-[28px] p-5 shadow-[0_8px_0_#3B2218] space-y-4 animate-in zoom-in-95 text-choco-900"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header */}
             <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-3">
               <div className="flex items-center gap-2">
                 <BookOpen className="size-5 text-candy-600 stroke-[2.5]" />
-                <h3 className="font-display text-xl font-bold text-choco-900">Rekap Penjelajah</h3>
+                <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">Rekap Penjelajah</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowRekapModal(false)}
-                className="p-1.5 hover:bg-white rounded-full border-2 border-choco-900/20 bg-white/80 text-choco-900 shadow-[0_1.5px_0_#3B2218] cursor-pointer"
+                className="flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
+                aria-label="Tutup"
               >
                 <X className="size-4.5 stroke-[2.5]" />
               </button>

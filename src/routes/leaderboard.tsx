@@ -503,16 +503,24 @@ function LeaderboardPage() {
 
       {/* Prize Breakdown Modal */}
       {showPrizeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/60 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-lg rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-4 max-h-[90vh] overflow-y-auto">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+          onClick={() => setShowPrizeModal(false)}
+        >
+          <div
+            className="relative w-full max-w-lg rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-4 max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200 text-choco-900"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-3">
               <div className="flex items-center gap-2">
                 <Trophy className="h-6 w-6 text-amber-500 fill-amber-400" />
-                <h3 className="text-xl font-display font-bold text-choco-900">Skema Hadiah Koin (1 s.d. 1.000)</h3>
+                <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">Skema Hadiah Koin (1 s.d. 1.000)</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setShowPrizeModal(false)}
-                className="h-8 w-8 rounded-full border-2 border-choco-900/20 bg-white hover:bg-candy-100 flex items-center justify-center font-bold text-choco-900 shadow-[0_2px_0_#3B2218]"
+                className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
+                aria-label="Tutup"
               >
                 ✕
               </button>
@@ -546,8 +554,9 @@ function LeaderboardPage() {
             </div>
 
             <button
+              type="button"
               onClick={() => setShowPrizeModal(false)}
-              className="w-full rounded-2xl border-2 border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] py-3 font-bold text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+              className="w-full rounded-full border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 py-3 font-bold text-white shadow-[0_3px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer"
             >
               Tutup Rincian
             </button>

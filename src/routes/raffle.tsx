@@ -680,24 +680,35 @@ export function RafflePage() {
 
         {/* Modal: Beli Tiket */}
         {showBuyModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-choco-900/60 p-4 backdrop-blur-sm animate-fade-in">
-            <div className="relative w-full max-w-md rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-5 animate-scale-in">
-              <div className="flex items-center justify-between border-b-2 border-choco-900/10 pb-4">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+            onClick={() => {
+              playTap();
+              setShowBuyModal(false);
+            }}
+          >
+            <div
+              className="relative w-full max-w-md rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-5 animate-in zoom-in-95 duration-200 text-choco-900"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_2px_0_#D97706]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-choco-900 bg-amber-200 text-choco-900 shadow-[0_2px_0_#3B2218]">
                     <Ticket className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-display font-bold text-choco-900">Beli Tiket Undian</h3>
-                    <p className="text-xs font-semibold text-choco-500">1 Tiket = {RAFFLE_TICKET_PRICE} Koin</p>
+                    <h3 className="text-base sm:text-lg font-pixel font-bold text-choco-900">Beli Tiket Undian</h3>
+                    <p className="text-xs font-semibold text-choco-600">1 Tiket = {RAFFLE_TICKET_PRICE} Koin</p>
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => {
                     playTap();
                     setShowBuyModal(false);
                   }}
-                  className="rounded-xl border-2 border-choco-900/20 bg-white p-1.5 text-xs font-bold text-choco-800 hover:bg-candy-50 shadow-[0_1.5px_0_#3B2218]"
+                  className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
+                  aria-label="Tutup"
                 >
                   ✕
                 </button>
@@ -826,24 +837,35 @@ export function RafflePage() {
 
         {/* Modal: Pasang Tiket ke Undian */}
         {enteringRaffle && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-choco-900/60 p-4 backdrop-blur-sm animate-fade-in">
-            <div className="relative w-full max-w-md rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] space-y-5 animate-scale-in">
-              <div className="flex items-center justify-between border-b-2 border-choco-900/10 pb-4">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+            onClick={() => {
+              playTap();
+              setEnteringRaffle(null);
+            }}
+          >
+            <div
+              className="relative w-full max-w-md rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-5 animate-in zoom-in-95 duration-200 text-choco-900"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-purple-500/50 bg-gradient-to-b from-[#FAF5FF] via-[#F3E8FF] to-[#E9D5FF] text-purple-700 shadow-[0_2px_0_#7E22CE]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-choco-900 bg-purple-200 text-purple-900 shadow-[0_2px_0_#3B2218]">
                     <Ticket className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-display font-bold text-choco-900">Pasang Tiket Undian</h3>
-                    <p className="text-xs font-semibold text-choco-500">{enteringRaffle.title}</p>
+                    <h3 className="text-base sm:text-lg font-pixel font-bold text-choco-900">Pasang Tiket Undian</h3>
+                    <p className="text-xs font-semibold text-choco-600">{enteringRaffle.title}</p>
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => {
                     playTap();
                     setEnteringRaffle(null);
                   }}
-                  className="rounded-xl border-2 border-choco-900/20 bg-white p-1.5 text-xs font-bold text-choco-800 hover:bg-candy-50 shadow-[0_1.5px_0_#3B2218]"
+                  className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
+                  aria-label="Tutup"
                 >
                   ✕
                 </button>

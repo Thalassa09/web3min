@@ -304,7 +304,7 @@ export function BlobiFloatingCompanion({
       {/* Speech Bubble */}
       {speech && !isMinimized && !isDragging && (
         <div
-          className={`absolute max-w-[260px] p-3 rounded-2xl bg-white/95 backdrop-blur-xl border-2 border-ink-900 shadow-[4px_4px_0_#0D2340] animate-in fade-in zoom-in-95 duration-200 pointer-events-auto ${
+          className={`absolute max-w-[260px] p-3 rounded-2xl bg-cream border-2 border-choco-900 shadow-[0_4px_0_#3B2218] animate-in fade-in zoom-in-95 duration-200 pointer-events-auto text-choco-900 ${
             isTopSide
               ? "top-full mt-2"
               : "bottom-full mb-3"
@@ -316,27 +316,27 @@ export function BlobiFloatingCompanion({
         >
           <button
             type="button"
-            className="absolute top-1.5 right-1.5 size-6 flex items-center justify-center rounded-full text-ink-400 hover:text-ink-900 hover:bg-ink-100 cursor-pointer text-xs font-bold"
+            className="absolute top-1.5 right-1.5 size-6 flex items-center justify-center rounded-full text-choco-500 hover:text-choco-900 hover:bg-candy-100 cursor-pointer text-xs font-bold"
             onClick={() => setSpeech(null)}
             aria-label="Tutup pesan"
           >
             ✕
           </button>
 
-          <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-candy-deep mb-1">
-            <Sparkles className="size-3 text-candy" />
+          <div className="flex items-center gap-1.5 text-[10px] font-pixel font-bold uppercase text-candy-600 mb-1">
+            <Sparkles className="size-3 text-candy-500" />
             <span>Blobi Berbisik:</span>
           </div>
 
-          <p className="text-xs font-bold text-ink-900 leading-snug pr-3">
+          <p className="text-xs font-bold text-choco-900 leading-snug pr-3">
             {speech}
           </p>
 
           {activeLesson && (
-            <div className="mt-2.5 pt-2 border-t border-ink-900/10 flex items-center gap-2">
+            <div className="mt-2.5 pt-2 border-t border-choco-900/15 flex items-center gap-2">
               <button
                 type="button"
-                className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2.5 rounded-full bg-candy hover:bg-candy-deep text-white text-[11px] font-black border border-ink-900/15 shadow-xs cursor-pointer active:scale-95 transition-all"
+                className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2.5 rounded-full bg-candy-500 hover:bg-candy-600 text-white text-[11px] font-bold border border-choco-900 shadow-[0_1.5px_0_#3B2218] cursor-pointer active:translate-y-0.5 transition-all"
                 onClick={() => {
                   setSpeech(null);
                   if (onStartActiveLesson) onStartActiveLesson();
@@ -348,7 +348,7 @@ export function BlobiFloatingCompanion({
               {onScrollToActive && (
                 <button
                   type="button"
-                  className="py-1.5 px-2 rounded-full bg-slate-100 hover:bg-slate-200 text-ink-700 text-[10px] font-bold border border-ink-900/10 cursor-pointer"
+                  className="py-1.5 px-2.5 rounded-full bg-white hover:bg-candy-50 text-choco-900 text-[10px] font-bold border border-choco-900 shadow-[0_1.5px_0_#3B2218] cursor-pointer active:translate-y-0.5"
                   onClick={() => {
                     setSpeech(null);
                     onScrollToActive();
@@ -363,7 +363,7 @@ export function BlobiFloatingCompanion({
 
           {/* Bubble Tail */}
           <div
-            className={`absolute size-3 rotate-45 bg-white border-ink-900 ${
+            className={`absolute size-3 rotate-45 bg-cream border-choco-900 ${
               isTopSide
                 ? "-top-1.5 border-l-2 border-t-2"
                 : "-bottom-1.5 border-r-2 border-b-2"
@@ -475,15 +475,21 @@ export function BlobiLockedModal({
   onScrollToActive?: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-sm p-5 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_10px_30px_-4px_rgba(59,34,24,0.35)] animate-in zoom-in-95 duration-200">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+      onClick={onDismiss}
+    >
+      <div
+        className="relative w-full max-w-sm p-5 sm:p-6 rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] animate-in zoom-in-95 duration-200 text-choco-900"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           type="button"
-          className="absolute top-3 right-3 p-1.5 rounded-full text-choco-400 hover:text-choco-900 hover:bg-white/80 cursor-pointer"
+          className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
           onClick={onDismiss}
           aria-label="Tutup"
         >
-          <X className="size-4" />
+          <X className="size-4.5 stroke-[2.5]" />
         </button>
 
         {/* Mascot Header */}
@@ -492,20 +498,20 @@ export function BlobiLockedModal({
             <Mascot mood="angry" size={64} interactive={false} />
           </div>
           <div>
-            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-ruby-soft text-ruby font-black text-[10px] uppercase">
+            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-candy-100 text-candy-700 border border-choco-900 font-pixel text-[9px] uppercase tracking-wider font-bold">
               <Lock className="size-3" />
               <span>Masih Digembok!</span>
             </div>
-            <h4 className="font-display font-black text-base text-ink-900 mt-1">
+            <h4 className="font-pixel text-base font-bold text-choco-900 mt-1">
               Eits, jangan curang! 😜
             </h4>
           </div>
         </div>
 
         {/* Message */}
-        <p className="text-xs text-ink-600 font-semibold leading-relaxed mb-4 bg-slate-50 p-3 rounded-xl border border-ink-900/10">
-          Modul <strong className="text-ink-900">"{warn.lesson.title}"</strong> di Rute {warn.unit.index} belum terbuka.
-          Kamu harus menyelesaikan modul bertanda bintang <strong className="text-candy-deep">★ MULAI</strong> terlebih dahulu!
+        <p className="text-xs text-choco-800 font-semibold leading-relaxed mb-4 bg-white/80 p-3 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
+          Modul <strong className="text-choco-900">"{warn.lesson.title}"</strong> di Rute {warn.unit.index} belum terbuka.
+          Kamu harus menyelesaikan modul bertanda bintang <strong className="text-candy-600">★ MULAI</strong> terlebih dahulu!
         </p>
 
         {/* Action Buttons */}
@@ -513,7 +519,7 @@ export function BlobiLockedModal({
           {onScrollToActive && (
             <button
               type="button"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-candy hover:bg-candy-deep text-white font-display text-xs font-black border-2 border-ink-900 shadow-[0_3px_0_#A51D5B] active:translate-y-0.5 cursor-pointer transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
               onClick={() => {
                 onDismiss();
                 onScrollToActive();
@@ -525,7 +531,7 @@ export function BlobiLockedModal({
           )}
           <button
             type="button"
-            className="py-2.5 px-4 rounded-full bg-slate-100 hover:bg-slate-200 text-ink-700 font-bold text-xs border border-ink-900/15 cursor-pointer"
+            className="py-2.5 px-4 rounded-full bg-white hover:bg-candy-50 text-choco-900 font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
             onClick={onDismiss}
           >
             Mengerti

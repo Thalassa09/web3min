@@ -1,4 +1,4 @@
-export type RaffleStatus = "live" | "ended" | "upcoming" | "drawn";
+export type RaffleStatus = "live" | "verifying" | "ended" | "upcoming" | "drawn";
 
 export type RaffleCategory = "nft" | "gems" | "outfit" | "badge" | "tickets";
 
@@ -14,7 +14,7 @@ export type RaffleItem = {
   prizeDetail: string;
   status: RaffleStatus;
   startsAt?: number;
-  endsAt: number; // fixed absolute timestamp
+  endsAt: number | null; // fixed absolute timestamp
   ticketCost: number; // in tickets
   starsCost: number; // alternative in coins/gems
   winnerCount: number;
@@ -30,6 +30,14 @@ export type RaffleItem = {
   imageUrl?: string;
   isSimulation?: boolean;
   accentColor?: string;
+  slotType?: "GTD" | "WL" | "GROUP" | "ITEM" | null;
+  partnerName?: string | null;
+  requirementXHandle?: string | null;
+  officialMintDomain?: string | null;
+  mintPrice?: string | null;
+  mintSchedule?: string | null;
+  announcementDate?: string | null;
+  itemId?: string | null;
   winner?: {
     username: string;
     ticketId: string;
@@ -48,160 +56,103 @@ export type ActivityEntry = {
 
 export const RAFFLE_TICKET_PRICE = 10; // 10 koin = 1 tiket
 
-export function formatRaffleCountdown(endsAt: number): string {
+export function formatRaffleCountdown(endsAt?: number | null): string {
+  if (!endsAt) return "Belum dijadwalkan";
   const diff = endsAt - Date.now();
   if (diff <= 0) return "Selesai";
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  if (days > 0) return `${days}h ${hours}j lagi`;
-  if (hours > 0) return `${hours}j ${minutes}m lagi`;
-  return `${minutes}m lagi`;
+  if (days > 0) return `${days} Hari ${hours} Jam`;
+  if (hours > 0) return `${hours} Jam ${minutes} Menit`;
+  return `${minutes} Menit`;
 }
 
 export const INITIAL_RAFFLES: RaffleItem[] = [
   {
-    id: "raf-genesis-blobi",
-    title: "Genesis Blobi #001 (Koleksi In-App)",
-    host: "Web3min Genesis Vault",
-    badge: "ARTEFAK IN-APP",
+    id: "raf-nft-mufpjxfk",
+    title: "RoboHood — 5 Slot GTD",
+    host: "RoboHood NFT",
+    badge: "SLOT MINT",
     category: "nft",
-    prize: "Genesis Blobi #001 (Skin Eksklusif)",
-    prizeDetail: "Hadiah dalam aplikasi, bukan aset kripto sungguhan. Skin avatar Blobi 1/1 eksklusif dengan efek visual berkilau di aplikasi.",
+    prize: "5 Slot GTD",
+    prizeDetail: "Hak mint guaranteed (GTD) allowlist resmi untuk koleksi RoboHood NFT.",
     status: "live",
     startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
     endsAt: new Date("2026-10-01T12:00:00Z").getTime(),
     ticketCost: 1,
     starsCost: 10,
-    winnerCount: 1,
-    nftRarity: "mythic",
+    winnerCount: 5,
+    nftRarity: "legendary",
+    nftNetwork: "Robinhood Chain",
+    imageUrl: "/raffles/robohood-gtd.png",
+    isSimulation: false,
+    slotType: "GTD",
+    partnerName: "RoboHood NFT",
+    officialMintDomain: "robonft.xyz",
+    requirementXHandle: "@RoboHoodNFT",
+    mintPrice: "TBA",
+    mintSchedule: "TBA",
+    announcementDate: "1 Oktober 2026",
     perks: [
-      "Skin avatar Blobi eksklusif 1-of-1",
-      "Efek visual profil emas berkilau",
-      "Hadiah dalam aplikasi, bukan aset kripto sungguhan",
+      "Jenis slot: GTD",
+      "Harga mint: TBA",
+      "Jadwal mint: TBA",
+      "Situs mint resmi: robonft.xyz",
+      "Syarat: follow @RoboHoodNFT di X",
+      "Pengumuman: 1 Oktober 2026",
     ],
     accentColor: "#f59e0b",
   },
   {
-    id: "raf-cyber-pass",
-    title: "Cyber Pass Alpha (Lencana In-App)",
-    host: "Web3min Komunitas",
-    badge: "LENCANA ALPHA",
-    category: "nft",
-    prize: "Lencana Cyber Pass Alpha",
-    prizeDetail: "Hadiah dalam aplikasi, bukan aset kripto sungguhan. Lencana digital kehormatan untuk profil petualangmu.",
-    status: "live",
-    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
-    endsAt: new Date("2026-10-03T12:00:00Z").getTime(),
-    ticketCost: 1,
-    starsCost: 10,
-    winnerCount: 3,
-    nftRarity: "legendary",
-    perks: [
-      "Lencana digital kehormatan di profil",
-      "Akses preview modul rute eksperimental",
-      "Hadiah dalam aplikasi, bukan aset kripto sungguhan",
-    ],
-    accentColor: "#8b5cf6",
-  },
-  {
-    id: "raf-defi-sorcerer",
-    title: "DeFi Sorcerer (Outfit In-App)",
-    host: "Koleksi Penjelajah",
-    badge: "OUTFIT LANGKA",
-    category: "outfit",
-    prize: "Kostum DeFi Sorcerer Blobi",
-    prizeDetail: "Hadiah dalam aplikasi, bukan aset kripto sungguhan. Jubah pesulap DeFi untuk karakter Blobi di Ruang Ganti.",
-    status: "live",
-    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
-    endsAt: new Date("2026-10-05T12:00:00Z").getTime(),
-    ticketCost: 2,
-    starsCost: 20,
-    winnerCount: 5,
-    nftRarity: "rare",
-    perks: [
-      "Kostum jubah pesulap eksklusif Blobi",
-      "Dapat dipakai langsung di Ruang Ganti",
-      "Hadiah dalam aplikasi, bukan aset kripto sungguhan",
-    ],
-    accentColor: "#3b82f6",
-  },
-  {
-    id: "raf-gas-mask",
-    title: "Golden Gas Mask (Aksesori In-App)",
-    host: "Koleksi Penjelajah",
-    badge: "AKSESORI",
-    category: "outfit",
-    prize: "Aksesori Topeng Gas Emas",
-    prizeDetail: "Hadiah dalam aplikasi, bukan aset kripto sungguhan. Aksesori kepala topeng emas untuk avatar Blobi di Ruang Ganti.",
-    status: "live",
-    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
-    endsAt: new Date("2026-10-08T12:00:00Z").getTime(),
-    ticketCost: 1,
-    starsCost: 10,
-    winnerCount: 10,
-    nftRarity: "utility",
-    perks: [
-      "Aksesori kepala topeng emas untuk Blobi",
-      "Aura nama berkilau di tabel Klasemen",
-      "Hadiah dalam aplikasi, bukan aset kripto sungguhan",
-    ],
-    accentColor: "#10b981",
-  },
-  {
-    id: "raf-gems-500",
-    title: "Paket 500 Koin Belajar",
-    host: "Blobi Treasure Vault",
-    badge: "500 KOIN",
-    category: "gems",
-    prize: "500 Koin Toko Blobi",
-    prizeDetail: "Hadiah dalam aplikasi, bukan aset kripto sungguhan. Tambahan saldo koin belajar untuk outfit dan booster di Toko.",
-    status: "live",
-    endsAt: new Date("2026-10-01T12:00:00Z").getTime(),
-    ticketCost: 1,
-    starsCost: 10,
-    winnerCount: 3,
-    perks: [
-      "500 Koin langsung ke saldo Toko Blobi",
-      "Hadiah dalam aplikasi, bukan aset kripto sungguhan",
-    ],
-    accentColor: "#fbbf24",
-  },
-  {
     id: "raf-crown",
-    title: "Mahkota Emas Blobi",
+    title: "Mahkota Emas Blobi Eksklusif",
     host: "Ruang Ganti Blobi",
-    badge: "OUTFIT EKSKLUSIF",
+    badge: "ITEM LIMITED",
     category: "outfit",
-    prize: "Aksesori Mahkota Emas Blobi",
-    prizeDetail: "Hadiah dalam aplikasi, bukan aset kripto sungguhan. Aksesori kepala mahkota emas berkilau untuk karakter Blobi.",
+    prize: "Item Busana Mahkota Emas",
+    prizeDetail: "Aksesori kepala mahkota emas edisi terbatas untuk karakter Blobi.",
     status: "live",
+    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
     endsAt: new Date("2026-10-03T12:00:00Z").getTime(),
     ticketCost: 1,
     starsCost: 10,
     winnerCount: 5,
+    nftRarity: "mythic",
+    imageUrl: "/mascot/acc/crown.png",
+    isSimulation: false,
+    slotType: "ITEM",
+    itemId: "crown",
     perks: [
-      "Mahkota Emas eksklusif untuk avatar Blobi",
-      "Hadiah dalam aplikasi, bukan aset kripto sungguhan",
+      "Item eksklusif avatar Blobi",
+      "Nomor edisi terbatas unik",
+      "Langsung masuk ke Ruang Ganti pemenang",
     ],
     accentColor: "#a855f7",
   },
   {
     id: "raf-badge-pioneer",
-    title: "Lencana Kehormatan Pioneer Web3",
+    title: "Lencana Kehormatan 'Pioneer Web3'",
     host: "Dewan Kehormatan Web3min",
     badge: "LENCANA PROFIL",
     category: "badge",
-    prize: "Gelar Khusus 'Pioneer Web3' & Lencana Profil",
-    prizeDetail: "Hadiah dalam aplikasi, bukan aset kripto sungguhan. Lencana kehormatan yang disematkan di kartu profil petualangmu.",
+    prize: "Badge Profil Genesis",
+    prizeDetail: "Lencana kehormatan edisi terbatas yang disematkan di kartu profil petualangmu.",
     status: "live",
+    startsAt: new Date("2026-09-24T00:00:00Z").getTime(),
     endsAt: new Date("2026-10-05T12:00:00Z").getTime(),
-    ticketCost: 2,
-    starsCost: 20,
-    winnerCount: 1,
+    ticketCost: 1,
+    starsCost: 10,
+    winnerCount: 10,
+    nftRarity: "mythic",
+    imageUrl: "/props/shield.png",
+    isSimulation: false,
+    slotType: "ITEM",
+    itemId: "badge-pioneer",
     perks: [
-      "Lencana kehormatan di kartu profil",
-      "Hadiah dalam aplikasi, bukan aset kripto sungguhan",
+      "Lencana kehormatan digital di profil",
+      "Nomor edisi terbatas unik",
+      "Langsung terpasang di profil pemenang",
     ],
     accentColor: "#38bdf8",
   },

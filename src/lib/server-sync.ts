@@ -911,20 +911,27 @@ export async function rpcAdminAnnounceWinners(
 
 export type RafflePublicResults = {
   success: boolean;
-  raffle_id: string;
+  raffle_id?: string;
   status: string;
+  slot_type?: "GTD" | "WL" | "GROUP" | "ITEM" | null;
   seed_hash?: string;
   draw_seed?: string;
+  total_winners?: number;
   winners: Array<{
-    masked_wallet: string;
+    display_name?: string;
+    masked_wallet?: string;
     announced_at: string;
   }>;
   is_user_winner: boolean;
   user_win_info?: {
+    raffle_id?: string;
     prize: string;
-    wallet_address: string;
-    official_mint_domain: string;
+    slot_type?: string;
+    partner_name?: string;
+    official_mint_domain?: string;
+    edition_number?: number;
     discord_group_link?: string;
+    announced_at?: string;
   };
 };
 

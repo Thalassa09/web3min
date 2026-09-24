@@ -5,48 +5,42 @@ import {
   Ticket,
   Sparkles,
   Coins,
-  ShieldCheck,
   Crown,
-  Flame,
   Clock,
-  ArrowRight,
   CheckCircle2,
   HelpCircle,
   Plus,
   Minus,
-  ExternalLink,
-  Zap,
-  Gem,
   Award,
-  Layers,
-  Filter,
-  Edit3,
-  Trash2,
-  Lock,
-  Shield,
-  MessageSquare,
+  AlertTriangle,
   AtSign,
   X,
+  Wallet,
+  Check,
+  Flame,
+  ShieldCheck,
+  Tag,
+  Users,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { Mascot } from "@/components/mascot";
 import { useProgress } from "@/lib/store";
 import {
   rpcGetRaffles,
   rpcGetRaffleStats,
-  rpcAdminDeleteRaffle,
+  rpcGetRafflePublicResults,
   type DbRaffleItem,
   type DbRaffleStats,
+  type RafflePublicResults,
 } from "@/lib/server-sync";
-import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE, type RaffleItem } from "@/lib/raffles";
+import {
+  INITIAL_RAFFLES,
+  RAFFLE_TICKET_PRICE,
+  formatRaffleCountdown,
+  type RaffleItem,
+} from "@/lib/raffles";
 import { playBuy, playClaim, playDeny, playTap } from "@/lib/audio";
 import { CandyLoader } from "@/components/ui/progress-bar";
-import {
-  AdminLoginModal,
-  AdminRaffleModal,
-  AdminDeleteModal,
-  type AdminRaffleData,
-} from "@/components/admin-raffle-modal";
+import { isValidEvmAddress, maskWalletAddress, isValidXHandle, formatXHandle } from "@/lib/wallet";
 
 export const Route = createFileRoute("/raffle")({
   component: RafflePage,
@@ -58,73 +52,74 @@ type UnifiedRaffle = {
   prize: string;
   prizeDetail: string;
   category: "nft" | "gems" | "outfit" | "badge" | "tickets";
-  nftNetwork?: string;
-  nftContract?: string;
-  nftTokenId?: string;
-  nftRarity?: "mythic" | "legendary" | "rare" | "utility";
-  status: "live" | "ended" | "upcoming" | "drawn";
-  endsAt: number;
+  status: "live" | "verifying" | "ended" | "upcoming" | "drawn";
+  endsAt: number | null;
   ticketCost: number;
   winnerCount: number;
   perks: string[];
   imageUrl?: string;
   isSimulation?: boolean;
+  slotType?: "GTD" | "WL" | "GROUP" | "ITEM" | null;
+  partnerName?: string | null;
+  requirementXHandle?: string | null;
+  officialMintDomain?: string | null;
+  mintPrice?: string | null;
+  mintSchedule?: string | null;
+  announcementDate?: string | null;
+  itemId?: string | null;
+  seedHash?: string | null;
+  drawSeed?: string | null;
+  discordGroupLink?: string | null;
 };
 
-function formatCountdown(targetMs: number): string {
-  const diff = targetMs - Date.now();
-  if (diff <= 0) return "Selesai";
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  if (days > 0) return `${days} Hari ${hours} Jam`;
-  if (hours > 0) return `${hours} Jam ${minutes} Mnt`;
-  return `${minutes} Menit`;
-}
+type ToastState = {
+  message: string;
+  type: "success" | "error";
+} | null;
 
-function getRarityStyle(rarity?: string) {
-  switch (rarity) {
-    case "mythic":
-      return {
-        badgeBg: "bg-candy-500 text-white font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
-        label: "Mythic 1-of-1",
-        borderColor: "border-choco-900",
-        shadowColor: "#3B2218",
-        icon: Crown,
-      };
-    case "legendary":
-      return {
-        badgeBg: "bg-lemon text-choco-900 font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
-        label: "Legendary",
-        borderColor: "border-choco-900",
-        shadowColor: "#3B2218",
-        icon: Crown,
-      };
-    case "rare":
-      return {
-        badgeBg: "bg-purple-600 text-white font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
-        label: "Rare Artefak",
-        borderColor: "border-choco-900",
-        shadowColor: "#3B2218",
-        icon: Flame,
-      };
-    case "utility":
-      return {
-        badgeBg: "bg-mint text-white font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
-        label: "Utility Pass",
-        borderColor: "border-choco-900",
-        shadowColor: "#3B2218",
-        icon: ShieldCheck,
-      };
-    default:
-      return {
-        badgeBg: "bg-cream text-choco-900 font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
-        label: "Koleksi Khusus",
-        borderColor: "border-choco-900",
-        shadowColor: "#3B2218",
-        icon: Award,
-      };
+const ITEM_PREVIEWS: Record<string, { name: string; src: string; total: number }> = {
+  crown: { name: "Mahkota Emas Blobi", src: "/mascot/acc/crown.png", total: 5 },
+  "badge-pioneer": { name: "Lencana Kehormatan Pioneer", src: "/props/shield.png", total: 10 },
+  star: { name: "Bintang Genggam Blobi", src: "/mascot/acc/star.png", total: 10 },
+  batik: { name: "Selendang Batik Blobi", src: "/mascot/acc/batik.png", total: 15 },
+  visor: { name: "Visor Blobi", src: "/mascot/acc/visor.png", total: 10 },
+  medal: { name: "Medali Laga Blobi", src: "/mascot/acc/medal.png", total: 20 },
+};
+
+function getSlotBadge(slotType?: string | null, category?: string) {
+  if (slotType === "GTD") {
+    return {
+      badgeBg: "bg-lemon text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
+      label: "Slot GTD",
+      icon: Crown,
+    };
   }
+  if (slotType === "WL") {
+    return {
+      badgeBg: "bg-purple-600 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
+      label: "Slot WL",
+      icon: Flame,
+    };
+  }
+  if (slotType === "GROUP") {
+    return {
+      badgeBg: "bg-mint text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
+      label: "Slot Grup",
+      icon: ShieldCheck,
+    };
+  }
+  if (slotType === "ITEM" || category === "outfit" || category === "badge") {
+    return {
+      badgeBg: "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
+      label: "Item Limited",
+      icon: Tag,
+    };
+  }
+  return {
+    badgeBg: "bg-cream text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
+    label: "Hadiah",
+    icon: Award,
+  };
 }
 
 export function RafflePage() {
@@ -132,362 +127,454 @@ export function RafflePage() {
     raffleTickets = 3,
     enteredRaffles = {},
     gems = 0,
+    outfits = [],
+    badges = [],
+    lastWalletAddress,
+    twitter,
     enterRaffle,
+    updateRaffleWallet,
     buyRaffleTicketsWithGems,
-    twitter = "",
-    discord = "",
   } = useProgress();
 
   const [dbRaffles, setDbRaffles] = React.useState<DbRaffleItem[]>([]);
   const [statsMap, setStatsMap] = React.useState<Record<string, DbRaffleStats>>({});
+  const [resultsMap, setResultsMap] = React.useState<Record<string, RafflePublicResults>>({});
   const [isDbLoading, setIsDbLoading] = React.useState(true);
-  const [isDbConnected, setIsDbConnected] = React.useState(false);
 
-  // Filters
+  // Modal states
+  const [showBuyModal, setShowBuyModal] = React.useState(false);
+  const [showGuideModal, setShowGuideModal] = React.useState(false);
+  const [enteringRaffle, setEnteringRaffle] = React.useState<UnifiedRaffle | null>(null);
+  const [isEditWalletMode, setIsEditWalletMode] = React.useState(false);
+  const [previewImage, setPreviewImage] = React.useState<{ url: string; title: string } | null>(null);
+  const [previewFairness, setPreviewFairness] = React.useState<UnifiedRaffle | null>(null);
+
+  // Form states
+  const [buyAmount, setBuyAmount] = React.useState(1);
+  const [inputWallet, setInputWallet] = React.useState("");
+  const [inputX, setInputX] = React.useState("");
+  const [walletError, setWalletError] = React.useState<string | null>(null);
+  const [xError, setXError] = React.useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  // Filter states
   const [activeCategory, setActiveCategory] = React.useState<string>("all");
   const [activeStatus, setActiveStatus] = React.useState<"live" | "all">("live");
 
-  // Modals & Notices
-  const [toastMessage, setToastMessage] = React.useState<string | null>(null);
-  const [showBuyModal, setShowBuyModal] = React.useState(false);
-  const [buyAmount, setBuyAmount] = React.useState(1);
-  const [enteringRaffle, setEnteringRaffle] = React.useState<UnifiedRaffle | null>(null);
-  const [ticketToEnter, setTicketToEnter] = React.useState(1);
-  const [discordInput, setDiscordInput] = React.useState("");
-  const [xInput, setXInput] = React.useState("");
-  const [showFaqModal, setShowFaqModal] = React.useState(false);
+  // Toast notification state
+  const [toast, setToast] = React.useState<ToastState>(null);
+  const [hasNotifiedWinner, setHasNotifiedWinner] = React.useState(false);
 
-  // Admin Mode State
-  const [adminKey, setAdminKey] = React.useState<string | null>(null);
-  const [showAdminLogin, setShowAdminLogin] = React.useState(false);
-  const [showAdminRaffleModal, setShowAdminRaffleModal] = React.useState(false);
-  const [editingRaffle, setEditingRaffle] = React.useState<AdminRaffleData | null>(null);
-  const [deletingRaffle, setDeletingRaffle] = React.useState<UnifiedRaffle | null>(null);
-  const [isDeleting, setIsDeleting] = React.useState(false);
+  const showSuccessToast = (msg: string) => {
+    setToast({ message: msg, type: "success" });
+    setTimeout(() => setToast(null), 4500);
+  };
 
-  const isAdmin = Boolean(adminKey);
+  const showErrorToast = (msg: string) => {
+    setToast({ message: msg, type: "error" });
+    setTimeout(() => setToast(null), 4500);
+  };
 
-  // Load from Supabase DB on mount & reload trigger
-  const refreshData = React.useCallback(async () => {
-    setIsDbLoading(true);
+  // Fetch live raffles & stats
+  const fetchRaffleData = React.useCallback(async () => {
     try {
       const [raffles, stats] = await Promise.all([
         rpcGetRaffles(),
         rpcGetRaffleStats(),
       ]);
+
       if (Array.isArray(raffles) && raffles.length > 0) {
         setDbRaffles(raffles);
-        setIsDbConnected(true);
+
+        // Fetch public results for ended raffles
+        const endedRaffles = raffles.filter((r) => r.status === "ended" || r.status === "drawn");
+        if (endedRaffles.length > 0) {
+          const resPairs = await Promise.all(
+            endedRaffles.map(async (r) => {
+              const res = await rpcGetRafflePublicResults(r.id);
+              return [r.id, res] as const;
+            })
+          );
+          const rMap: Record<string, RafflePublicResults> = {};
+          for (const [id, res] of resPairs) {
+            if (res) rMap[id] = res;
+          }
+          setResultsMap(rMap);
+        }
       }
-      if (stats && Object.keys(stats).length > 0) {
-        setStatsMap(stats);
-      }
+      if (stats) setStatsMap(stats);
     } catch (err) {
-      console.warn("[raffle] Failed to fetch data from DB:", err);
+      console.warn("[raffle] Failed to fetch data from Supabase:", err);
     } finally {
       setIsDbLoading(false);
     }
   }, []);
 
   React.useEffect(() => {
-    void refreshData();
-    try {
-      const savedAuth = localStorage.getItem("web3min_admin_auth");
-      if (savedAuth) {
-        const parsed = JSON.parse(savedAuth);
-        if (parsed?.key) {
-          setAdminKey(parsed.key);
-        }
-      }
-    } catch {}
-  }, [refreshData]);
+    void fetchRaffleData();
+  }, [fetchRaffleData]);
 
-  // Merge DB raffles with local fallback
+  // Combine DB raffles with fallback data
   const allRaffles: UnifiedRaffle[] = React.useMemo(() => {
     if (dbRaffles.length > 0) {
-      return dbRaffles.map((r) => {
-        let parsedPerks: string[] = [];
-        if (Array.isArray(r.perks)) {
-          parsedPerks = r.perks;
-        } else if (typeof r.perks === "string") {
+      return dbRaffles.map((r): UnifiedRaffle => {
+        let pList: string[] = [];
+        if (Array.isArray(r.perks)) pList = r.perks;
+        else if (typeof r.perks === "string") {
           try {
-            parsedPerks = JSON.parse(r.perks);
-          } catch {
-            parsedPerks = [];
-          }
+            pList = JSON.parse(r.perks);
+          } catch {}
         }
+
+        const ends = r.ends_at ? new Date(r.ends_at).getTime() : null;
+
         return {
           id: r.id,
           title: r.title,
           prize: r.prize,
           prizeDetail: r.prize_detail || "",
-          category: (r.category as UnifiedRaffle["category"]) || "nft",
-          nftNetwork: r.nft_network,
-          nftContract: r.nft_contract,
-          nftTokenId: r.nft_token_id,
-          nftRarity: r.nft_rarity,
+          category: r.category || "nft",
           status: (r.status as UnifiedRaffle["status"]) || "live",
-          endsAt: r.ends_at ? new Date(r.ends_at).getTime() : Date.now() + 7 * 86400000,
+          endsAt: ends,
           ticketCost: r.ticket_cost || 1,
           winnerCount: r.winner_count || 1,
-          perks: parsedPerks.length > 0 ? parsedPerks : ["Akses eksklusif artefak Web3min"],
+          perks: pList,
           imageUrl: r.image_url || undefined,
-          isSimulation: r.is_simulation ?? true,
+          isSimulation: r.is_simulation ?? false,
+          slotType: r.slot_type || null,
+          partnerName: r.partner_name || null,
+          requirementXHandle: r.requirement_x_handle || null,
+          officialMintDomain: r.official_mint_domain || null,
+          mintPrice: r.mint_price || null,
+          mintSchedule: r.mint_schedule || null,
+          announcementDate: r.announcement_date || null,
+          itemId: r.item_id || null,
+          seedHash: r.seed_hash || null,
+          drawSeed: r.draw_seed || null,
+          discordGroupLink: r.discord_group_link || null,
         };
       });
     }
 
-    // Fallback to INITIAL_RAFFLES
     return INITIAL_RAFFLES.map((r: RaffleItem): UnifiedRaffle => ({
       id: r.id,
       title: r.title,
       prize: r.prize,
       prizeDetail: r.prizeDetail,
-      category: (r.category === "gems" || r.category === "outfit" || r.category === "badge" || r.category === "tickets"
-        ? r.category
-        : "gems") as UnifiedRaffle["category"],
-      nftNetwork: r.category === ("nft" as string) ? "Ethereum" : undefined,
-      nftRarity: (r.category === ("nft" as string) ? "rare" : "utility") as UnifiedRaffle["nftRarity"],
+      category: r.category as UnifiedRaffle["category"],
       status: r.status as UnifiedRaffle["status"],
-      endsAt: r.endsAt,
+      endsAt: r.endsAt || null,
       ticketCost: r.ticketCost,
       winnerCount: r.winnerCount,
-      perks: Array.isArray(r.requirements) ? r.requirements : [],
+      perks: Array.isArray(r.perks) && r.perks.length > 0 ? r.perks : (Array.isArray(r.requirements) ? r.requirements : []),
       imageUrl: r.imageUrl || undefined,
-      isSimulation: r.isSimulation ?? true,
+      isSimulation: r.isSimulation ?? false,
+      slotType: r.id === "raf-nft-mufpjxfk" ? "GTD" : (r.id === "raf-crown" ? "ITEM" : null),
+      partnerName: r.id === "raf-nft-mufpjxfk" ? "RoboHood NFT" : null,
+      officialMintDomain: r.id === "raf-nft-mufpjxfk" ? "robonft.xyz" : null,
+      requirementXHandle: r.id === "raf-nft-mufpjxfk" ? "@RoboHoodNFT" : null,
+      announcementDate: r.id === "raf-nft-mufpjxfk" ? "1 Oktober 2026" : null,
+      itemId: r.id === "raf-crown" ? "crown" : null,
     }));
   }, [dbRaffles]);
 
-  // Filtered raffles
+  // Check winner toast once when results load
+  React.useEffect(() => {
+    if (hasNotifiedWinner) return;
+    for (const [_, res] of Object.entries(resultsMap)) {
+      if (res?.is_user_winner && res.user_win_info) {
+        const info = res.user_win_info;
+        if (info.slot_type === "ITEM") {
+          showSuccessToast(
+            `Selamat! ${info.prize} Edisi #${info.edition_number || 1} sudah masuk ke Ruang Ganti kamu.`
+          );
+        } else {
+          showSuccessToast(
+            `Selamat! Kamu dapat ${info.prize}. Cek jadwal mint di situs resmi ${info.partner_name || "mitra"}: ${info.official_mint_domain || "domain resmi"}.`
+          );
+        }
+        setHasNotifiedWinner(true);
+        break;
+      }
+    }
+  }, [resultsMap, hasNotifiedWinner]);
+
+  // Filtered raffles (Categories: Semua, Slot Mint, Item Blobi, Grup)
   const filteredRaffles = React.useMemo(() => {
     return allRaffles.filter((item) => {
       if (activeStatus === "live" && item.status !== "live") return false;
-      if (activeCategory === "nft") return item.category === "nft";
-      if (activeCategory === "gems") return item.category === "gems";
-      if (activeCategory === "outfit") return item.category === "outfit";
-      if (activeCategory === "badge") return item.category === "badge";
-      if (activeCategory === "tickets") return item.category === "tickets";
+      if (activeCategory === "mint") {
+        return item.slotType === "GTD" || item.slotType === "WL" || item.category === "nft";
+      }
+      if (activeCategory === "item") {
+        return item.slotType === "ITEM" || item.category === "outfit" || item.category === "badge";
+      }
+      if (activeCategory === "group") {
+        return item.slotType === "GROUP";
+      }
       return true;
     });
   }, [allRaffles, activeCategory, activeStatus]);
-
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 4000);
-  };
 
   const handleBuyTickets = () => {
     const cost = buyAmount * RAFFLE_TICKET_PRICE;
     if (gems < cost) {
       playDeny();
-      showToast(`Saldo Koin tidak mencukupi! Butuh ${cost} Koin.`);
+      showErrorToast(`Saldo Koin tidak mencukupi! Butuh ${cost} Koin.`);
       return;
     }
     const ok = buyRaffleTicketsWithGems(buyAmount);
     if (ok) {
       playBuy();
-      showToast(`Sukses membeli ${buyAmount} Tiket Undian! (+${buyAmount} Tiket)`);
+      showSuccessToast(`Sukses membeli ${buyAmount} Tiket Undian! (+${buyAmount} Tiket)`);
       setShowBuyModal(false);
       setBuyAmount(1);
     } else {
       playDeny();
-      showToast("Gagal memproses pembelian tiket.");
+      showErrorToast("Gagal memproses pembelian tiket.");
     }
   };
 
-  const handleOpenEnterModal = (raffle: UnifiedRaffle) => {
+  const handleOpenEnterModal = (raffle: UnifiedRaffle, isEditWallet = false) => {
     playTap();
-    if (raffleTickets <= 0) {
+    if (!isEditWallet && raffleTickets <= 0) {
       setShowBuyModal(true);
       return;
     }
+
+    // Check if user already owns the ITEM
+    if (raffle.slotType === "ITEM" && raffle.itemId) {
+      if (outfits.includes(raffle.itemId) || badges.includes(raffle.itemId)) {
+        playDeny();
+        showErrorToast("Kamu sudah memiliki item ini di koleksimu!");
+        return;
+      }
+    }
+
+    const existingEntry = enteredRaffles[raffle.id];
+    const initialWallet = existingEntry?.walletAddress || lastWalletAddress || "";
+    const initialX = existingEntry?.xHandle || twitter || "";
+
     setEnteringRaffle(raffle);
-    setTicketToEnter(1);
-    setDiscordInput(discord || "");
-    setXInput(twitter ? (twitter.startsWith("@") ? twitter : `@${twitter}`) : "");
+    setIsEditWalletMode(isEditWallet);
+    setInputWallet(initialWallet);
+    setInputX(initialX);
+    setWalletError(null);
+    setXError(null);
   };
 
-  const handleConfirmEnter = () => {
+  const handleConfirmEntry = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!enteringRaffle) return;
-    if (raffleTickets < ticketToEnter) {
-      playDeny();
-      showToast("Jumlah tiket kamu tidak mencukupi.");
-      return;
+
+    const isMintSlot = enteringRaffle.slotType === "GTD" || enteringRaffle.slotType === "WL" || (!enteringRaffle.slotType && enteringRaffle.category === "nft");
+    const requiresX = Boolean(enteringRaffle.requirementXHandle && enteringRaffle.requirementXHandle.trim());
+
+    // 1. Validate EVM wallet for GTD/WL
+    let cleanWallet: string | undefined = undefined;
+    if (isMintSlot) {
+      const trimmed = inputWallet.trim();
+      if (!trimmed) {
+        setWalletError("Alamat wallet EVM wajib diisi untuk undian slot mint.");
+        playDeny();
+        return;
+      }
+      if (!isValidEvmAddress(trimmed)) {
+        setWalletError("Alamat wallet EVM tidak valid! Format harus 0x diikuti 40 karakter hex (EIP-55).");
+        playDeny();
+        return;
+      }
+      cleanWallet = trimmed.toLowerCase();
+    } else if (inputWallet.trim()) {
+      if (!isValidEvmAddress(inputWallet.trim())) {
+        setWalletError("Alamat wallet EVM tidak valid.");
+        playDeny();
+        return;
+      }
+      cleanWallet = inputWallet.trim().toLowerCase();
     }
-    const ok = enterRaffle(enteringRaffle.id, ticketToEnter, discordInput, xInput);
-    if (ok) {
-      playClaim();
-      showToast(
-        `Sukses memasang ${ticketToEnter} Tiket untuk "${enteringRaffle.title}"! Semoga beruntung!`
-      );
-      setEnteringRaffle(null);
-      setTicketToEnter(1);
-      void refreshData();
-    } else {
-      playDeny();
-      showToast("Gagal memasang tiket undian.");
+
+    // 2. Validate X Handle
+    let cleanX: string | undefined = undefined;
+    if (requiresX) {
+      const trimmedX = inputX.trim();
+      if (!trimmedX) {
+        setXError("Akun X (Twitter) wajib diisi untuk verifikasi follow.");
+        playDeny();
+        return;
+      }
+      if (!isValidXHandle(trimmedX)) {
+        setXError("Format akun X tidak valid! Gunakan 1-15 karakter (contoh: @BlobiUser).");
+        playDeny();
+        return;
+      }
+      cleanX = formatXHandle(trimmedX);
+    } else if (inputX.trim()) {
+      if (!isValidXHandle(inputX.trim())) {
+        setXError("Format akun X tidak valid.");
+        playDeny();
+        return;
+      }
+      cleanX = formatXHandle(inputX.trim());
     }
-  };
 
-  const handleAdminLogout = () => {
-    localStorage.removeItem("web3min_admin_auth");
-    setAdminKey(null);
-    showToast("Berhasil keluar dari mode admin.");
-  };
+    setIsSubmitting(true);
 
-  const handleOpenCreateModal = () => {
-    setEditingRaffle(null);
-    setShowAdminRaffleModal(true);
-  };
-
-  const handleOpenEditModal = (r: UnifiedRaffle) => {
-    setEditingRaffle({
-      id: r.id,
-      title: r.title,
-      prize: r.prize,
-      prizeDetail: r.prizeDetail,
-      category: r.category,
-      status: r.status,
-      endsAt: new Date(r.endsAt).toISOString(),
-      ticketCost: r.ticketCost,
-      winnerCount: r.winnerCount,
-      imageUrl: r.imageUrl,
-      nftNetwork: r.nftNetwork,
-      nftContract: r.nftContract,
-      nftTokenId: r.nftTokenId,
-      nftRarity: r.nftRarity,
-      perks: r.perks,
-    });
-    setShowAdminRaffleModal(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (!deletingRaffle || !adminKey) return;
-    setIsDeleting(true);
-    const res = await rpcAdminDeleteRaffle(adminKey, deletingRaffle.id);
-    setIsDeleting(false);
-    if (res.success) {
-      showToast(`Undian "${deletingRaffle.title}" berhasil dihapus.`);
-      setDeletingRaffle(null);
-      void refreshData();
-    } else {
-      showToast(res.error || "Gagal menghapus undian.");
+    try {
+      if (isEditWalletMode) {
+        const ok = await updateRaffleWallet(enteringRaffle.id, cleanWallet || "", cleanX);
+        if (ok) {
+          playClaim();
+          showSuccessToast("Data peserta undian berhasil diperbarui!");
+          setEnteringRaffle(null);
+        } else {
+          playDeny();
+          showErrorToast("Gagal memperbarui data peserta. Batas waktu undian mungkin sudah lewat.");
+        }
+      } else {
+        const res = await enterRaffle(enteringRaffle.id, 1, cleanWallet, cleanX);
+        if (res.success) {
+          playClaim();
+          showSuccessToast("1 Tiket Undian berhasil dipasang!");
+          setEnteringRaffle(null);
+          void fetchRaffleData();
+        } else {
+          playDeny();
+          showErrorToast(res.error || "Gagal memasang tiket.");
+        }
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <AppShell>
-      <div className="mx-auto max-w-4xl px-4 py-6 md:py-8 space-y-6">
-        {/* Arena Sub-Navigation Tabs */}
-        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)] max-w-md mx-auto">
-          <Link
-            to="/leaderboard"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
-          >
-            <Trophy className="h-4 w-4 shrink-0 text-choco-700" />
-            <span>Klasemen Mingguan</span>
-          </Link>
-          <Link
-            to="/raffle"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-purple-600/50 bg-gradient-to-b from-[#A855F7] via-[#9333EA] to-[#7E22CE] text-xs md:text-sm font-bold text-white shadow-[0_3px_0_#581C87] transition-transform"
-          >
-            <Ticket className="h-4 w-4 shrink-0 text-yellow-300" />
-            <span>Undian Raffle NFT</span>
-          </Link>
-        </div>
-
-        {/* Hero Banner Card (Solid Arcade Candy Neo-Brutalism) */}
-        <div className="relative overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#D97706,0_12px_28px_-4px_rgba(217,119,6,0.22)]">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
-                <Trophy className="h-3.5 w-3.5 text-amber-500" />
-                Arena Undian On-Chain • Siklus Aktif
-              </div>
-              <h1 className="text-2xl md:text-3xl font-display font-bold tracking-tight text-choco-900">
-                Undian Hadiah & NFT Artefak
-              </h1>
-              <p className="text-xs md:text-sm font-semibold text-choco-700 max-w-xl leading-relaxed">
-                Tukarkan Koin hasil belajar & klasemenmu jadi Tiket Undian. Menangkan artefak ERC-721 langka, status VIP, dan bundel koin mingguan!
-              </p>
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-6xl mx-auto space-y-6">
+        {/* Sub-nav / Breadcrumb */}
+        <div className="flex items-center justify-between gap-2 border-b-2 border-choco-900/10 pb-3">
+          <div className="flex items-center gap-1.5 p-1 bg-cream/80 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
+            <Link
+              to="/leaderboard"
+              className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold text-choco-700 hover:text-choco-900 transition-all"
+            >
+              <Trophy className="h-4 w-4" />
+              <span>Klasemen Liga</span>
+            </Link>
+            <div className="inline-flex items-center gap-2 py-2 px-4 rounded-xl bg-candy-500 text-white font-pixel text-xs font-bold shadow-[0_1.5px_0_#3B2218]">
+              <Ticket className="h-4 w-4" />
+              <span>Undian Hadiah</span>
             </div>
+          </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                onClick={() => {
-                  playTap();
-                  setShowFaqModal(true);
-                }}
-                className="inline-flex items-center justify-center gap-1.5 rounded-2xl border-2 border-choco-900/20 bg-white px-3.5 py-2 text-xs font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
-              >
-                <HelpCircle className="h-3.5 w-3.5 text-choco-900" />
-                <span>Cara Kerja</span>
-              </button>
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                playTap();
+                setShowGuideModal(true);
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border-2 border-choco-900 text-choco-900 font-pixel text-xs font-bold shadow-[0_2px_0_#3B2218] hover:bg-cream active:translate-y-0.5 cursor-pointer"
+            >
+              <HelpCircle className="h-3.5 w-3.5 text-candy-600" />
+              <span className="hidden sm:inline">Panduan</span>
+            </button>
           </div>
         </div>
 
-        {/* User Balance Wallet Card (Compact) */}
-        <div className="rounded-3xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-4 md:p-5 text-choco-900 shadow-[0_6px_0_#B01F62,0_12px_28px_-4px_rgba(232,67,127,0.22)]">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_3px_0_#D97706] shrink-0">
-                <Ticket className="h-6 w-6 stroke-[2.5]" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg md:text-xl font-display font-bold text-choco-900">
-                    {raffleTickets} Tiket Undian
-                  </span>
-                  <span className="rounded-lg border-2 border-candy-600/40 bg-white/90 px-2 py-0.5 text-[10px] font-bold text-candy-600 uppercase shadow-[0_1px_0_#B01F62]">
-                    Tersedia
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-choco-700 mt-0.5">
-                  <span className="flex items-center gap-1 text-amber-800 font-bold">
-                    <Coins className="h-3.5 w-3.5 fill-amber-500 text-amber-700" />
-                    Saldo: {gems} Koin
-                  </span>
-                  <span>•</span>
-                  <span>1 Tiket = {RAFFLE_TICKET_PRICE} Koin</span>
-                </div>
-              </div>
+        {/* Hero Card */}
+        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF5F8] via-[#FFE4ED] to-[#FFD5E5] p-5 sm:p-7 shadow-[0_6px_0_#3B2218]">
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+            <div className="space-y-2 max-w-xl">
+              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-white/90 px-3 py-1 text-xs font-bold text-candy-700 shadow-[0_2px_0_#3B2218]">
+                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                <span>Undian Berhadiah • Siklus Aktif</span>
+              </span>
+
+              <h1 className="text-2xl sm:text-3xl font-display font-bold text-choco-900 leading-tight">
+                Undian Hadiah Web3min
+              </h1>
+
+              <p className="text-xs sm:text-sm font-medium text-choco-700 leading-relaxed">
+                Tukarkan Koin hasil belajar jadi Tiket Undian. Menangkan item Blobi edisi
+                terbatas atau slot mint NFT dari proyek mitra Web3min.
+              </p>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            {/* Ticket & Coin Counter Pill */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+              <div className="flex items-center justify-between sm:justify-start gap-4 rounded-2xl border-2 border-choco-900 bg-white/95 p-3 px-4 shadow-[0_3px_0_#3B2218]">
+                <div className="flex items-center gap-2">
+                  <div className="size-9 rounded-xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                    <Ticket className="h-4.5 w-4.5 stroke-[2.5]" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-choco-500 block">
+                      Tiket Kamu
+                    </span>
+                    <span className="font-mono text-lg font-black text-choco-900">
+                      {raffleTickets} Tiket
+                    </span>
+                  </div>
+                </div>
+
+                <div className="h-8 w-[2px] bg-choco-900/10 hidden sm:block" />
+
+                <div className="flex items-center gap-2">
+                  <div className="size-9 rounded-xl bg-lemon border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                    <Coins className="h-4.5 w-4.5 stroke-[2.5]" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-choco-500 block">
+                      Saldo Koin
+                    </span>
+                    <span className="font-mono text-lg font-black text-choco-900">
+                      {gems}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               <button
                 onClick={() => {
                   playTap();
                   setShowBuyModal(true);
                 }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-2xl border-2 border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] px-4 py-2 text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-candy-500 px-5 py-3 font-pixel text-xs font-bold text-white shadow-[0_3px_0_#3B2218] hover:bg-candy-600 active:translate-y-1 active:shadow-none transition-all cursor-pointer"
               >
                 <Plus className="h-4 w-4 stroke-[3]" />
-                <span>Beli Tiket Tambahan</span>
+                <span>Beli Tiket</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Toast Banner */}
-        {toastMessage && (
-          <div className="flex items-center gap-3 rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] p-4 font-bold text-emerald-950 shadow-[0_4px_0_#15803D,0_10px_20px_-4px_rgba(21,128,61,0.22)] animate-bounce">
-            <CheckCircle2 className="h-6 w-6 text-emerald-700 shrink-0" />
-            <p className="text-sm">{toastMessage}</p>
+        {/* Clean Toast Notification */}
+        {toast && (
+          <div
+            className={`flex items-center gap-3 rounded-2xl border-2 border-choco-900 p-4 font-bold shadow-[0_4px_0_#3B2218] ${
+              toast.type === "error"
+                ? "bg-rose-100 text-rose-950"
+                : "bg-emerald-100 text-emerald-950"
+            }`}
+          >
+            {toast.type === "error" ? (
+              <AlertTriangle className="h-5 w-5 text-rose-600 shrink-0" />
+            ) : (
+              <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+            )}
+            <p className="text-xs sm:text-sm font-semibold">{toast.message}</p>
           </div>
         )}
 
         {/* Filter Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-          {/* Categories */}
+          {/* Categories: Semua, Slot Mint, Item Blobi, Grup */}
           <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
             {[
-              { id: "all", label: "Semua Koleksi" },
-              { id: "nft", label: "NFT Artefak" },
-              { id: "gems", label: "Koin & Bintang" },
-              { id: "outfit", label: "Outfit Karakter" },
-              { id: "badge", label: "Lencana Gelar" },
-              { id: "tickets", label: "Bundel Tiket" },
+              { id: "all", label: "Semua" },
+              { id: "mint", label: "Slot Mint" },
+              { id: "item", label: "Item Blobi" },
+              { id: "group", label: "Grup" },
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -495,10 +582,10 @@ export function RafflePage() {
                   playTap();
                   setActiveCategory(cat.id);
                 }}
-                className={`rounded-xl border-2 border-ink-900 px-3 py-1.5 text-xs font-black transition-all ${
+                className={`rounded-full border-2 border-choco-900 px-3.5 h-8 text-xs font-bold transition-all cursor-pointer ${
                   activeCategory === cat.id
-                    ? "bg-candy-500 text-white shadow-[2px_2px_0_#2B1622]"
-                    : "bg-white text-ink-700 hover:bg-candy-50 hover:text-ink-900"
+                    ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                    : "bg-white text-choco-700 hover:bg-cream"
                 }`}
               >
                 {cat.label}
@@ -507,16 +594,16 @@ export function RafflePage() {
           </div>
 
           {/* Status Toggle */}
-          <div className="flex items-center gap-1 rounded-xl border-2 border-ink-900 bg-white p-1 shrink-0 self-end sm:self-auto">
+          <div className="flex items-center gap-1 rounded-full border-2 border-choco-900 bg-white p-1 shrink-0 self-end sm:self-auto shadow-[0_2px_0_#3B2218]">
             <button
               onClick={() => {
                 playTap();
                 setActiveStatus("live");
               }}
-              className={`rounded-lg px-2.5 py-1 text-xs font-black transition-all ${
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                 activeStatus === "live"
-                  ? "bg-emerald-400 text-ink-900 shadow-[1px_1px_0_#2B1622]"
-                  : "text-ink-500 hover:text-ink-900"
+                  ? "bg-emerald-300 text-choco-900 shadow-[0_1px_0_#3B2218]"
+                  : "text-choco-600 hover:text-choco-900"
               }`}
             >
               Berlangsung ({allRaffles.filter((r) => r.status === "live").length})
@@ -526,10 +613,10 @@ export function RafflePage() {
                 playTap();
                 setActiveStatus("all");
               }}
-              className={`rounded-lg px-2.5 py-1 text-xs font-black transition-all ${
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                 activeStatus === "all"
-                  ? "bg-amber-300 text-ink-900 shadow-[1px_1px_0_#2B1622]"
-                  : "text-ink-500 hover:text-ink-900"
+                  ? "bg-choco-900 text-cream shadow-[0_1px_0_#3B2218]"
+                  : "text-choco-600 hover:text-choco-900"
               }`}
             >
               Semua ({allRaffles.length})
@@ -537,821 +624,836 @@ export function RafflePage() {
           </div>
         </div>
 
-        {/* Admin Control Banner (Mode Admin Aktif) */}
-        {isAdmin && (
-          <div className="p-4 sm:p-5 rounded-3xl bg-amber-300 border-2 border-choco-900 shadow-[0_6px_0_#3B2218] text-choco-900 flex flex-col sm:flex-row items-center justify-between gap-3 animate-in fade-in duration-200">
-            <div className="flex items-center gap-3">
-              <div className="size-11 rounded-2xl bg-choco-900 text-amber-300 flex items-center justify-center font-bold text-lg shadow-[0_2px_0_#3B2218]">
-                <Crown className="size-5 text-amber-300" />
-              </div>
-              <div>
-                <span className="font-pixel text-[10px] uppercase font-bold text-choco-800 bg-amber-400/80 px-2 py-0.5 rounded-full border border-choco-900/30">
-                  Akses Admin Web3min
-                </span>
-                <h4 className="font-pixel text-base sm:text-lg font-bold text-choco-900 leading-tight mt-0.5">
-                  Mode Pengelola Undian Aktif
-                </h4>
-              </div>
-            </div>
-            <div className="flex items-center gap-2.5 w-full sm:w-auto flex-wrap justify-end">
-              <Link
-                to="/admin"
-                className="py-2.5 px-4 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
-              >
-                <Shield className="size-3.5 text-candy-600" />
-                <span>Panel Admin Lengkap</span>
-              </Link>
-              <button
-                type="button"
-                onClick={handleOpenCreateModal}
-                className="py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
-              >
-                <Plus className="size-4" />
-                <span>+ Buat Undian Baru</span>
-              </button>
-              <button
-                type="button"
-                onClick={handleAdminLogout}
-                className="py-2.5 px-4 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-800 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
-              >
-                Keluar Admin
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Raffles Grid */}
         {allRaffles.length === 0 && isDbLoading ? (
           <div className="p-12 flex flex-col items-center justify-center space-y-4">
-            <CandyLoader size="lg" label="MENYINKRONKAN KATALOG UNDIAN NFT..." />
+            <CandyLoader size="lg" label="MEMUAT DAFTAR UNDIAN…" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            className={`grid gap-6 ${
+              filteredRaffles.length === 1 ? "grid-cols-1 max-w-md mx-auto" : "grid-cols-1 md:grid-cols-2"
+            }`}
+          >
             {filteredRaffles.map((raffle) => {
-            const rarityStyle = getRarityStyle(raffle.nftRarity);
-            const RarityIcon = rarityStyle.icon;
-            const stats = statsMap[raffle.id];
-            const liveTotalTickets = stats?.total_tickets;
-            const userEntered = enteredRaffles[raffle.id]?.count ?? 0;
-            const isLive = raffle.status === "live";
+              const badge = getSlotBadge(raffle.slotType, raffle.category);
+              const BadgeIcon = badge.icon;
+              const stats = statsMap[raffle.id];
+              const totalTickets = stats?.total_tickets ?? 0;
+              const userEntry = enteredRaffles[raffle.id];
+              const userTickets = userEntry?.count ?? 0;
+              const isLive = raffle.status === "live";
+              const isVerifying = raffle.status === "verifying";
+              const isEnded = raffle.status === "ended" || raffle.status === "drawn";
+              const publicResult = resultsMap[raffle.id];
+              const isWinner = publicResult?.is_user_winner ?? false;
+              const isExpired = raffle.endsAt ? Date.now() > raffle.endsAt : false;
 
-            return (
-              <div
-                key={raffle.id}
-                data-raffle-card
-                className="flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-4 md:p-5 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)] transition-transform hover:-translate-y-1"
-              >
-                <div className="space-y-3">
-                  {/* Top Badges */}
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+              // Small info text under title (2c)
+              const isMintSlot = raffle.slotType === "GTD" || raffle.slotType === "WL" || (!raffle.slotType && raffle.category === "nft");
+              const isItemSlot = raffle.slotType === "ITEM" || raffle.category === "outfit" || raffle.category === "badge";
+
+              let noteText: string | null = null;
+              if (isMintSlot) {
+                noteText = "Hak mint, bukan NFT gratis. Mint di situs resmi mitra.";
+              } else if (isItemSlot) {
+                noteText = "Item eksklusif Blobi, langsung masuk ke akun pemenang. Tidak dijual di Toko.";
+              } else if (raffle.isSimulation) {
+                noteText = "Simulasi, bukan hadiah sungguhan.";
+              }
+
+              // Default prize label formatting
+              const formattedPrize = raffle.prize || (
+                raffle.slotType === "GTD"
+                  ? `${raffle.winnerCount} Slot GTD`
+                  : raffle.slotType === "WL"
+                  ? `${raffle.winnerCount} Slot WL`
+                  : raffle.slotType === "GROUP"
+                  ? `${raffle.winnerCount} Slot Grup Komunitas`
+                  : `${raffle.winnerCount}x Item Limited`
+              );
+
+              // Artwork URL fallback
+              const itemMeta = raffle.itemId ? ITEM_PREVIEWS[raffle.itemId] : null;
+              const displayImage = raffle.imageUrl || itemMeta?.src || "/mascot/wave.png";
+              const isItemPixelated = Boolean(!raffle.imageUrl && itemMeta?.src);
+
+              return (
+                <div
+                  key={raffle.id}
+                  data-raffle-card
+                  className="flex flex-col h-full justify-between overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-4 md:p-5 shadow-[0_6px_0_#3B2218] transition-transform hover:-translate-y-0.5"
+                >
+                  <div className="space-y-3">
+                    {/* a. Baris badge: [badge rarity] [badge status] in 1 row, flex-nowrap, gap-2, status on the right (ml-auto) */}
+                    <div className="flex items-center flex-nowrap gap-2 w-full">
                       <span
-                        className={`inline-flex items-center gap-1 rounded-lg border-2 border-choco-900/20 px-2 py-0.5 text-[11px] font-bold shadow-[0_1.5px_0_#3B2218] ${rarityStyle.badgeBg}`}
+                        className={`inline-flex items-center gap-1 rounded-full border-2 border-choco-900 px-2.5 h-6 text-[11px] font-bold shrink-0 ${badge.badgeBg}`}
                       >
-                        <RarityIcon className="h-3 w-3" />
-                        {rarityStyle.label}
+                        <BadgeIcon className="h-3 w-3 shrink-0" />
+                        <span>{badge.label}</span>
                       </span>
 
-                      <span className="rounded-lg border border-choco-900/15 bg-cream/80 px-2 py-0.5 text-[10px] font-bold text-choco-600">
-                        Hadiah dalam aplikasi, bukan aset kripto sungguhan
-                      </span>
+                      <div className="ml-auto shrink-0">
+                        {isLive ? (
+                          isExpired ? (
+                            <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-100 text-amber-900 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span>Menunggu Pengundian</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-emerald-200 text-emerald-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-700"></span>
+                              </span>
+                              <span>BERLANGSUNG</span>
+                            </span>
+                          )
+                        ) : isVerifying ? (
+                          <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-200 text-amber-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                            <span>MENUNGGU VERIFIKASI</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-stone-200 text-stone-800 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                            <span>SELESAI</span>
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
-                      {isLive ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] to-[#DCFCE7] px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 shadow-[0_1.5px_0_#15803D]">
-                          <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
-                          </span>
-                          LIVE
-                        </span>
-                      ) : (
-                        <span className="rounded-full border border-choco-900/20 bg-stone-100 px-2.5 py-0.5 text-[10px] font-bold text-choco-600">
-                          SELESAI
-                        </span>
+                    {/* b. Judul + baris hadiah */}
+                    <div>
+                      <h2 className="text-xl font-display font-bold text-choco-900 leading-tight">
+                        {raffle.title}
+                      </h2>
+                      <div className="text-sm font-bold text-candy-600 mt-1 flex items-center gap-1.5">
+                        <Award className="h-4 w-4 shrink-0" />
+                        <span>{formattedPrize}</span>
+                      </div>
+
+                      {/* c. Baris keterangan kecil di bawah judul */}
+                      {noteText && (
+                        <p className="text-[11px] text-choco-600 font-semibold mt-1">
+                          {noteText}
+                        </p>
                       )}
                     </div>
-                  </div>
 
-                  {/* Title & Prize */}
-                  <div>
-                    <h2 className="text-xl font-display font-bold text-choco-900 leading-tight">
-                      {raffle.title}
-                    </h2>
-                    <div className="text-xs font-bold text-candy-600 mt-1 flex items-center gap-1">
-                      <Award className="h-3.5 w-3.5 shrink-0" />
-                      {raffle.prize}
-                    </div>
-                  </div>
-
-                  {/* Artwork / Image Space for NFT or Project */}
-                  {raffle.imageUrl && (
-                    <div className="relative w-full h-44 sm:h-52 overflow-hidden rounded-2xl border-2 border-choco-900 bg-choco-900/5 shadow-[0_3px_0_#3B2218] my-2.5">
+                    {/* d. Gambar NFT / Item */}
+                    <div
+                      className="aspect-square w-full rounded-2xl border-2 border-choco-900 bg-cream overflow-hidden relative shadow-[0_3px_0_#3B2218] my-2 cursor-pointer group p-2"
+                      onClick={() => {
+                        setPreviewImage({ url: displayImage, title: raffle.title });
+                      }}
+                      title="Klik untuk melihat gambar ukuran penuh"
+                    >
                       <img
-                        src={raffle.imageUrl}
+                        src={displayImage}
                         alt={raffle.title}
-                        className="w-full h-full object-cover object-center"
+                        className={`w-full h-full object-contain transition-transform duration-200 group-hover:scale-105 ${
+                          isItemPixelated ? "pixelated" : ""
+                        }`}
                         loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/mascot/wave.png";
+                        }}
                       />
-                      <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-choco-900/85 text-white font-pixel text-[9px] font-bold shadow-xs">
-                        NFT ARTIFACT
+                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-choco-900/90 text-white font-pixel text-[10px] font-bold shadow-xs">
+                        {isItemSlot ? "ITEM LIMITED" : "SLOT MINT"}
                       </div>
                     </div>
-                  )}
 
-                  {/* Prize Details & Perks */}
-                  <p className="text-xs font-semibold text-choco-700 leading-relaxed">
-                    {raffle.prizeDetail}
-                  </p>
+                    {/* e. Daftar Info Vertikal */}
+                    <div className="rounded-2xl border border-choco-900/15 bg-white/70 p-3 space-y-1.5 text-xs text-choco-800">
+                      <div className="font-pixel text-[10px] font-bold uppercase text-choco-500 mb-1">
+                        {isItemSlot ? "Info Item:" : "Info Slot:"}
+                      </div>
 
-                  <div className="space-y-1.5 pt-1">
-                    <div className="text-[11px] font-bold uppercase text-choco-500 tracking-wider">
-                      Keistimewaan Artefak:
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {raffle.perks.map((perk, i) => (
-                        <span
-                          key={i}
-                          className="inline-flex items-center gap-1 rounded-md border border-choco-900/15 bg-white/90 px-2 py-0.5 text-[11px] font-semibold text-choco-800 shadow-[0_1px_0_rgba(59,34,24,0.1)]"
-                        >
-                          <CheckCircle2 className="h-3 w-3 text-emerald-600" />
-                          {perk}
-                        </span>
+                      {isMintSlot && (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <Check className="size-3 text-emerald-600 shrink-0" />
+                            <span>Jenis slot: <strong>{raffle.slotType || "GTD"}</strong></span>
+                          </div>
+                          {raffle.mintPrice && (
+                            <div className="flex items-center gap-2">
+                              <Check className="size-3 text-emerald-600 shrink-0" />
+                              <span>Harga mint: <strong>{raffle.mintPrice}</strong></span>
+                            </div>
+                          )}
+                          {raffle.mintSchedule && (
+                            <div className="flex items-center gap-2">
+                              <Check className="size-3 text-emerald-600 shrink-0" />
+                              <span>Jadwal mint: <strong>{raffle.mintSchedule}</strong></span>
+                            </div>
+                          )}
+                          {raffle.officialMintDomain && (
+                            <div className="flex items-center gap-2 font-mono text-[11px]">
+                              <Check className="size-3 text-emerald-600 shrink-0" />
+                              <span>Situs mint resmi: <strong>{raffle.officialMintDomain}</strong></span>
+                            </div>
+                          )}
+                        </>
+                      )}
+
+                      {isItemSlot && itemMeta && (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <Check className="size-3 text-emerald-600 shrink-0" />
+                            <span>Edisi terbatas: <strong>{itemMeta.total} buah</strong></span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Check className="size-3 text-emerald-600 shrink-0" />
+                            <span>Sisa edisi: <strong>{itemMeta.total - raffle.winnerCount} buah</strong></span>
+                          </div>
+                        </>
+                      )}
+
+                      {raffle.requirementXHandle && (
+                        <div className="flex items-center gap-2">
+                          <Check className="size-3 text-emerald-600 shrink-0" />
+                          <span>Syarat: follow <strong>{raffle.requirementXHandle}</strong> di X</span>
+                        </div>
+                      )}
+
+                      {raffle.announcementDate && (
+                        <div className="flex items-center gap-2">
+                          <Check className="size-3 text-emerald-600 shrink-0" />
+                          <span>Pengumuman: <strong>{raffle.announcementDate}</strong></span>
+                        </div>
+                      )}
+
+                      {raffle.perks.map((p, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <Check className="size-3 text-emerald-600 shrink-0" />
+                          <span>{p}</span>
+                        </div>
                       ))}
                     </div>
-                  </div>
 
-                  {/* Pool Telemetry */}
-                  <div className="grid grid-cols-2 gap-2 rounded-2xl border-2 border-candy-500/25 bg-gradient-to-b from-[#FFF5F8] to-[#FFEBF1] p-3 text-xs shadow-[0_2px_0_#B01F62]">
-                    <div>
-                      <div className="text-[10px] font-bold uppercase text-choco-500">Tiket Terkumpul</div>
-                      <div className="font-display font-bold text-choco-900 text-sm flex items-center gap-1 mt-0.5">
-                        <Ticket className="h-3.5 w-3.5 text-amber-600" />
-                        {liveTotalTickets ? `${liveTotalTickets} Tiket` : "—"}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-bold uppercase text-choco-500">Pemenang</div>
-                      <div className="font-display font-bold text-choco-900 text-sm flex items-center gap-1 mt-0.5">
-                        <Crown className="h-3.5 w-3.5 text-yellow-600" />
-                        {raffle.winnerCount} Pemenang
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-bold uppercase text-choco-500">Tiket Kamu</div>
-                      <div className="font-bold text-candy-600 text-sm mt-0.5 font-display">
-                        {userEntered > 0 ? `${userEntered} Tiket Dipasang` : "Belum Ikut"}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-bold uppercase text-choco-500">Sisa Waktu</div>
-                      <div className="font-display font-bold text-choco-900 text-sm flex items-center gap-1 mt-0.5">
-                        <Clock className="h-3.5 w-3.5 text-purple-600" />
-                        {formatCountdown(raffle.endsAt)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card CTA Bottom */}
-                <div className="pt-3.5 border-t-2 border-choco-900/10 mt-3.5 space-y-1.5">
-                  <button
-                    disabled={!isLive}
-                    onClick={() => handleOpenEnterModal(raffle)}
-                    className={`w-full inline-flex items-center justify-center gap-2 rounded-2xl border-2 py-2.5 text-xs md:text-sm font-bold transition-transform shadow-[0_3px_0_#B01F62] ${
-                      !isLive
-                        ? "bg-stone-200 border-stone-300 text-stone-500 cursor-not-allowed shadow-none"
-                        : raffleTickets > 0
-                        ? "border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] text-white hover:brightness-105 active:translate-y-[2px] active:shadow-none"
-                        : "border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 hover:brightness-105 active:translate-y-[2px] active:shadow-none"
-                    }`}
-                  >
-                    <Ticket className="h-4 w-4" />
-                    <span>
-                      {!isLive
-                        ? "Undian Telah Berakhir"
-                        : raffleTickets > 0
-                        ? `Pasang Tiket (${raffle.ticketCost} Tiket)`
-                        : "Beli Tiket Dulu"}
-                    </span>
-                  </button>
-
-                  {userEntered > 0 && (
-                    <div className="text-center text-[11px] font-bold text-emerald-800 bg-emerald-50 rounded-xl py-1 border-2 border-emerald-300 shadow-[0_1px_0_#15803D]">
-                      Kamu memiliki {userEntered} nomor entri aktif di undian ini!
-                    </div>
-                  )}
-
-                  {/* Admin Card Action Buttons */}
-                  {isAdmin && (
-                    <div className="pt-2 flex items-center gap-2 border-t-2 border-choco-900/10 mt-2">
-                      <button
-                        type="button"
-                        onClick={() => handleOpenEditModal(raffle)}
-                        className="flex-1 py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-500 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-1.5"
+                    {/* Provably Fair Seed Hash Pill */}
+                    {raffle.seedHash && (
+                      <div
+                        onClick={() => setPreviewFairness(raffle)}
+                        className="rounded-xl border border-choco-900/10 bg-cream/70 p-2 flex items-center justify-between text-[10px] text-choco-600 font-mono cursor-pointer hover:bg-cream"
+                        title="Klik untuk info keaslian pengundian (Commit-Reveal)"
                       >
-                        <Edit3 className="size-3.5" />
-                        <span>Edit Undian</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setDeletingRaffle(raffle)}
-                        className="py-2 px-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-1.5"
-                      >
-                        <Trash2 className="size-3.5" />
-                        <span>Hapus</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        )}
-
-        {/* Bottom Educational Banner in Tactile Beveled Style */}
-        <div className="rounded-3xl border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-6 md:p-8 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)] space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_2px_0_#D97706]">
-              <HelpCircle className="h-5 w-5" />
-            </div>
-            <div>
-              <h3 className="text-lg font-display font-bold text-choco-900">
-                Transparansi & Mekanisme Undian Web3min
-              </h3>
-              <p className="text-xs font-semibold text-choco-600">
-                Pemenang ditentukan secara adil berbasis hash kriptografis terdesentralisasi
-              </p>
-            </div>
-          </div>
-
-          {/* Asymmetrical Bento Step Flow */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-            {/* Step 1 & 2: Asymmetric Left Pods */}
-            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white to-[#FBE9DC] p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
-              <div className="flex items-center gap-2.5">
-                <div className="size-8 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] flex items-center justify-center shadow-[0_1.5px_0_#D97706] shrink-0">
-                  <img src="/props/coins.png" alt="Koin" className="size-5 object-contain pixelated" />
-                </div>
-                <div className="text-xs font-display font-bold text-choco-900">
-                  1. Belajar & Sikat Koin
-                </div>
-              </div>
-              <p className="text-[11px] font-semibold text-choco-700 leading-relaxed">
-                Tiap nyelesaiin modul rute & tembus Top 1.000 klasemen mingguan, koin otomatis ngalir ke dompet belajarmu.
-              </p>
-            </div>
-
-            <div className="flex flex-col justify-between rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white to-[#FBE9DC] p-4 space-y-2 shadow-[0_3px_0_#3B2218]">
-              <div className="flex items-center gap-2.5">
-                <div className="size-8 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] flex items-center justify-center shadow-[0_1.5px_0_#D97706] shrink-0">
-                  <Ticket className="size-4 text-choco-900" />
-                </div>
-                <div className="text-xs font-display font-bold text-choco-900">
-                  2. Tukar Tiket Undian
-                </div>
-              </div>
-              <p className="text-[11px] font-semibold text-choco-700 leading-relaxed">
-                Tukar 10 Koin buat 1 Tiket. Pasang tiket sebanyak-banyaknya di pool aktif biar peluang menangnya makin gede.
-              </p>
-            </div>
-
-            {/* Step 3: Hero Bento Card */}
-            <div className="flex flex-col justify-between rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-4 space-y-2 shadow-[0_4px_0_#D97706]">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <div className="size-8 rounded-xl border-2 border-choco-900/20 bg-white flex items-center justify-center shadow-[0_1.5px_0_#3B2218] shrink-0">
-                    <Crown className="size-4 text-choco-900" />
-                  </div>
-                  <div className="text-xs font-display font-bold text-choco-900">
-                    3. Klaim On-Chain!
-                  </div>
-                </div>
-                <img src="/mascot/celebrate.png" alt="Blobi Rayakan" className="size-8 object-contain pixelated" />
-              </div>
-              <p className="text-[11px] font-semibold text-choco-800 leading-relaxed">
-                Pemenang dikunci seed VRF transparan tanpa manipulasi. Sambungin wallet EVM, NFT langsung airdrop ke dompetmu!
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Modal: Beli Tiket */}
-        {showBuyModal && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
-            onClick={() => {
-              playTap();
-              setShowBuyModal(false);
-            }}
-          >
-            <div
-              className="relative w-full max-w-md rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-5 animate-in zoom-in-95 duration-200 text-choco-900"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-4">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-choco-900 bg-amber-200 text-choco-900 shadow-[0_2px_0_#3B2218]">
-                    <Ticket className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-pixel font-bold text-choco-900">Beli Tiket Undian</h3>
-                    <p className="text-xs font-semibold text-choco-600">1 Tiket = {RAFFLE_TICKET_PRICE} Koin</p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    playTap();
-                    setShowBuyModal(false);
-                  }}
-                  className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
-                  aria-label="Tutup"
-                >
-                  <X className="size-4" />
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-4 flex items-center justify-between shadow-[0_2px_0_#D97706]">
-                  <div className="text-xs font-bold text-choco-700">Saldo Koin Kamu</div>
-                  <div className="font-bold text-sm text-amber-900 flex items-center gap-1 font-pixel">
-                    <Coins className="h-4 w-4 fill-amber-500 text-amber-700" />
-                    {gems} Koin
-                  </div>
-                </div>
-
-                {/* Amount Selector */}
-                <div className="space-y-2">
-                  <div className="text-xs font-bold text-choco-700">Pilih Jumlah Tiket:</div>
-                  <div className="flex items-center justify-between rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF5F8] to-[#FFEBF1] p-3 shadow-[0_2px_0_#B01F62]">
-                    <button
-                      disabled={buyAmount <= 1}
-                      onClick={() => {
-                        playTap();
-                        setBuyAmount((p) => Math.max(1, p - 1));
-                      }}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 ${
-                        buyAmount <= 1
-                          ? "bg-stone-100 text-stone-400 cursor-not-allowed shadow-none"
-                          : "bg-white text-choco-900"
-                      }`}
-                    >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                    <div className="text-2xl font-display font-bold text-choco-900">
-                      {buyAmount} <span className="text-xs font-semibold text-choco-500">Tiket</span>
-                    </div>
-                    <button
-                      onClick={() => {
-                        playTap();
-                        setBuyAmount((p) => Math.min(100, p + 1));
-                      }}
-                      className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 bg-white font-bold text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  {/* Preset Buttons */}
-                  <div className="flex items-center gap-2">
-                    {[1, 5, 10, 20].map((num) => (
-                      <button
-                        key={num}
-                        onClick={() => {
-                          playTap();
-                          setBuyAmount(num);
-                        }}
-                        className={`flex-1 py-1.5 rounded-xl border-2 text-xs font-bold transition-all ${
-                          buyAmount === num
-                            ? "border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 shadow-[0_2px_0_#C8940C]"
-                            : "border-choco-900/20 bg-white text-choco-800 shadow-[0_1.5px_0_#3B2218]"
-                        }`}
-                      >
-                        +{num}
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => {
-                        playTap();
-                        const maxTickets = Math.max(1, Math.floor(gems / RAFFLE_TICKET_PRICE));
-                        setBuyAmount(maxTickets);
-                      }}
-                      className="px-3 py-1.5 rounded-xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] text-xs font-bold text-candy-800 shadow-[0_1.5px_0_#B01F62] hover:bg-candy-100"
-                    >
-                      Maks
-                    </button>
-                  </div>
-                </div>
-
-                {/* Summary */}
-                <div className="rounded-2xl border-2 border-choco-900/15 bg-white p-3 space-y-2 text-xs shadow-[0_1.5px_0_#3B2218]">
-                  <div className="flex justify-between font-semibold text-choco-700">
-                    <span>Total Biaya:</span>
-                    <span className="font-bold text-choco-900 font-pixel">
-                      {buyAmount * RAFFLE_TICKET_PRICE} Koin
-                    </span>
-                  </div>
-                  <div className="flex justify-between font-semibold text-choco-700">
-                    <span>Sisa Saldo Koin:</span>
-                    <span
-                      className={`font-bold font-pixel ${
-                        gems >= buyAmount * RAFFLE_TICKET_PRICE
-                          ? "text-emerald-700"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {gems - buyAmount * RAFFLE_TICKET_PRICE} Koin
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 pt-2">
-                <button
-                  onClick={() => {
-                    playTap();
-                    setShowBuyModal(false);
-                  }}
-                  className="flex-1 rounded-2xl border-2 border-choco-900/20 bg-white py-3 text-xs md:text-sm font-bold text-choco-800 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
-                >
-                  Batal
-                </button>
-                <button
-                  disabled={gems < buyAmount * RAFFLE_TICKET_PRICE}
-                  onClick={handleBuyTickets}
-                  className={`flex-1 rounded-2xl border-2 py-3 text-xs md:text-sm font-bold shadow-[0_3px_0_#C8940C] active:translate-y-0.5 ${
-                    gems >= buyAmount * RAFFLE_TICKET_PRICE
-                      ? "border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-choco-900 hover:brightness-105"
-                      : "bg-stone-200 border-stone-300 text-stone-400 cursor-not-allowed shadow-none"
-                  }`}
-                >
-                  Beli {buyAmount} Tiket
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Modal: Pasang Tiket ke Undian */}
-        {enteringRaffle && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
-            onClick={() => {
-              playTap();
-              setEnteringRaffle(null);
-            }}
-          >
-            <div
-              className="relative w-full max-w-md rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-5 animate-in zoom-in-95 duration-200 text-choco-900"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-4">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-choco-900 bg-purple-200 text-purple-900 shadow-[0_2px_0_#3B2218]">
-                    <Ticket className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-pixel font-bold text-choco-900">Pasang Tiket Undian</h3>
-                    <p className="text-xs font-semibold text-choco-600">{enteringRaffle.title}</p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    playTap();
-                    setEnteringRaffle(null);
-                  }}
-                  className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
-                  aria-label="Tutup"
-                >
-                  <X className="size-4" />
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                <div className="rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] p-4 space-y-1 shadow-[0_2px_0_#B01F62]">
-                  <div className="text-[11px] font-bold uppercase text-candy-600">Hadiah Utama</div>
-                  <div className="font-display font-bold text-sm text-choco-900">{enteringRaffle.prize}</div>
-                  <div className="text-xs font-semibold text-choco-600">{enteringRaffle.prizeDetail}</div>
-                </div>
-
-                <div className="flex items-center justify-between rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-3 shadow-[0_2px_0_#D97706]">
-                  <span className="text-xs font-bold text-choco-700">Tiket Undian Kamu:</span>
-                  <span className="font-bold text-amber-900 text-sm font-pixel">{raffleTickets} Tiket</span>
-                </div>
-
-                {/* Amount Selector */}
-                <div className="space-y-2">
-                  <div className="text-xs font-bold text-choco-700">Jumlah Tiket yang Dipasang:</div>
-                  <div className="flex items-center justify-between rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF5F8] to-[#FFEBF1] p-3 shadow-[0_2px_0_#B01F62]">
-                    <button
-                      disabled={ticketToEnter <= 1}
-                      onClick={() => {
-                        playTap();
-                        setTicketToEnter((p) => Math.max(1, p - 1));
-                      }}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 ${
-                        ticketToEnter <= 1
-                          ? "bg-stone-100 text-stone-400 cursor-not-allowed shadow-none"
-                          : "bg-white text-choco-900"
-                      }`}
-                    >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                    <div className="text-2xl font-display font-bold text-choco-900">
-                      {ticketToEnter} <span className="text-xs font-semibold text-choco-500">Tiket</span>
-                    </div>
-                    <button
-                      disabled={ticketToEnter >= raffleTickets}
-                      onClick={() => {
-                        playTap();
-                        setTicketToEnter((p) => Math.min(raffleTickets, p + 1));
-                      }}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-choco-900/20 font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 ${
-                        ticketToEnter >= raffleTickets
-                          ? "bg-stone-100 text-stone-400 cursor-not-allowed shadow-none"
-                          : "bg-white text-choco-900"
-                      }`}
-                    >
-                      <Plus className="h-4 w-4" />
-                    </button>
-                  </div>
-
-                  {/* Preset Steppers */}
-                  <div className="flex items-center gap-2">
-                    {[1, 3, 5].map((num) => (
-                      <button
-                        key={num}
-                        disabled={raffleTickets < num}
-                        onClick={() => {
-                          playTap();
-                          setTicketToEnter(num);
-                        }}
-                        className={`flex-1 py-1.5 rounded-xl border-2 text-xs font-bold transition-all ${
-                          ticketToEnter === num
-                            ? "border-purple-600/50 bg-gradient-to-b from-[#FAF5FF] via-[#F3E8FF] to-[#E9D5FF] text-purple-900 shadow-[0_2px_0_#7E22CE]"
-                            : "border-choco-900/20 bg-white text-choco-800 shadow-[0_1.5px_0_#3B2218]"
-                        }`}
-                      >
-                        {num} Tiket
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => {
-                        playTap();
-                        setTicketToEnter(raffleTickets);
-                      }}
-                      className="px-3 py-1.5 rounded-xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] text-xs font-bold text-candy-800 shadow-[0_1.5px_0_#B01F62] hover:bg-candy-100"
-                    >
-                      Semua ({raffleTickets})
-                    </button>
-                  </div>
-                </div>
-
-                {/* Odds Increase & Summary Box */}
-                {(() => {
-                  const alreadyEntered = enteredRaffles[enteringRaffle.id]?.count ?? 0;
-                  const poolTickets = statsMap[enteringRaffle.id]?.total_tickets ?? 0;
-                  const totalAfter = poolTickets + ticketToEnter;
-                  const myTotal = alreadyEntered + ticketToEnter;
-                  const oddsPercent = totalAfter > 0 ? ((myTotal / totalAfter) * 100).toFixed(1) : "100";
-
-                  return (
-                    <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-b from-[#FAF5FF] to-[#F3E8FF] p-3 space-y-1.5 text-xs shadow-[0_2px_0_#7E22CE]">
-                      <div className="flex justify-between items-center font-semibold text-choco-700">
-                        <span className="flex items-center gap-1">
-                          <Zap className="h-3.5 w-3.5 text-purple-600" />
-                          Tiket Kamu di Undian Ini:
+                        <span className="truncate max-w-[200px]">
+                          Seed Hash: {raffle.seedHash.slice(0, 12)}…
                         </span>
-                        <span className="font-bold text-purple-900 font-pixel">
-                          {alreadyEntered > 0 ? `${alreadyEntered} + ${ticketToEnter}` : ticketToEnter} Tiket
+                        <span className="text-candy-600 font-bold shrink-0">Verifikasi</span>
+                      </div>
+                    )}
+
+                    {/* f. Grid Statistik 2x2 */}
+                    <div className="grid grid-cols-2 gap-2 pt-1 font-semibold text-xs">
+                      {/* Tiket Terkumpul */}
+                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
+                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                          Tiket Terkumpul
+                        </span>
+                        <span className="font-mono text-sm font-bold text-choco-900">
+                          {totalTickets} Tiket
                         </span>
                       </div>
-                      <div className="flex justify-between items-center font-semibold text-choco-700">
-                        <span className="flex items-center gap-1">
-                          <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                          Estimasi Peluang Menang:
+
+                      {/* Kuota Pemenang */}
+                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
+                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                          Pemenang
                         </span>
-                        <span className="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-500/40 shadow-[0_1px_0_#15803D]">
-                          ~{oddsPercent}%
+                        <span className="font-mono text-sm font-bold text-choco-900">
+                          {isItemSlot ? `${raffle.winnerCount} Pemenang` : `${raffle.winnerCount} Slot`}
+                        </span>
+                      </div>
+
+                      {/* Tiket Kamu */}
+                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
+                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                          Tiket Kamu
+                        </span>
+                        <span className="font-mono text-sm font-bold text-choco-900">
+                          {isEnded
+                            ? isWinner
+                              ? "Kamu Menang!"
+                              : "Belum beruntung"
+                            : userTickets > 0
+                            ? `${userTickets} Tiket`
+                            : "Belum Ikut"}
+                        </span>
+                      </div>
+
+                      {/* Sisa Waktu */}
+                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
+                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                          Sisa Waktu
+                        </span>
+                        <span className="font-mono text-xs font-bold text-choco-900 truncate block">
+                          {raffle.endsAt ? formatRaffleCountdown(raffle.endsAt) : "Belum dijadwalkan"}
                         </span>
                       </div>
                     </div>
-                  );
-                })()}
 
-                {/* Kolom Kontak Pemenang (Discord & X/Twitter - Opsional / Kosongkan bila tidak ada) */}
-                <div className="rounded-2xl border-2 border-choco-900/20 bg-white p-3.5 space-y-2.5 shadow-[0_2px_0_#3B2218]">
-                  <div className="flex items-center justify-between flex-wrap gap-1">
-                    <span className="font-pixel text-[11px] font-bold text-choco-900 uppercase flex items-center gap-1.5">
-                      <span>Kontak Pemenang</span>
-                      <span className="text-[9px] font-bold text-choco-600 bg-cream px-2 py-0.5 rounded-full border border-choco-900/30">
-                        Opsional
+                    {/* Public Winners List (Only visible when ended) */}
+                    {isEnded && publicResult?.winners && publicResult.winners.length > 0 && (
+                      <div className="rounded-2xl border-2 border-emerald-600/40 bg-emerald-50/70 p-3 space-y-2 mt-2">
+                        <div className="text-[11px] font-bold font-pixel text-emerald-900 flex items-center justify-between">
+                          <span>Daftar Pemenang:</span>
+                          <span className="text-[10px] font-mono font-normal">
+                            {publicResult.total_winners ?? publicResult.winners.length} Total
+                          </span>
+                        </div>
+                        <div className="space-y-1 font-mono text-[11px] text-emerald-950">
+                          {publicResult.winners.map((w, idx) => (
+                            <div key={idx} className="flex items-center justify-between">
+                              <span>
+                                {idx + 1}. {w.masked_wallet || w.display_name}
+                              </span>
+                            </div>
+                          ))}
+                          {(publicResult.total_winners ?? publicResult.winners.length) > publicResult.winners.length && (
+                            <div className="text-[10px] text-emerald-700 italic pt-0.5">
+                              +{(publicResult.total_winners ?? publicResult.winners.length) - publicResult.winners.length} pemenang lainnya
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Exclusive Discord link for winner only */}
+                        {isWinner && publicResult.user_win_info?.discord_group_link && (
+                          <div className="pt-2 border-t border-emerald-600/20">
+                            <a
+                              href={publicResult.user_win_info.discord_group_link}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-pixel font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_2px_0_#15803D]"
+                            >
+                              <span>Masuk ke Grup Komunitas Eksklusif</span>
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* g. Tombol Utama & Wallet Terdaftar */}
+                  <div className="mt-4 pt-3 border-t border-choco-900/10 space-y-2">
+                    {userTickets > 0 && userEntry?.walletAddress && isMintSlot && (
+                      <div
+                        onClick={() => handleOpenEnterModal(raffle, true)}
+                        className="text-[11px] font-mono text-choco-700 text-center hover:text-candy-600 cursor-pointer underline decoration-dotted"
+                        title="Klik untuk mengubah alamat wallet sebelum undian berakhir"
+                      >
+                        Wallet terdaftar: {maskWalletAddress(userEntry.walletAddress)}
+                      </div>
+                    )}
+
+                    <button
+                      onClick={() => handleOpenEnterModal(raffle)}
+                      disabled={!isLive || isExpired || !raffle.endsAt}
+                      className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 disabled:opacity-40 disabled:hover:bg-candy-500 text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <Ticket className="size-4" />
+                      <span>
+                        {isEnded
+                          ? "Undian Selesai"
+                          : isExpired
+                          ? "Menunggu Pengundian"
+                          : !raffle.endsAt
+                          ? "Belum Dijadwalkan"
+                          : "Pasang Tiket"}
                       </span>
-                    </span>
-                    <span className="text-[10px] text-choco-500 font-semibold italic">
-                      Kalau tidak ada, kosongkan
-                    </span>
+                    </button>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div>
-                      <label className="block text-[10px] font-bold text-choco-800 uppercase font-pixel mb-1 flex items-center gap-1">
-                        <MessageSquare className="size-3 text-indigo-500" />
-                        <span>Nama Discord</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={discordInput}
-                        onChange={(e) => setDiscordInput(e.target.value)}
-                        placeholder="Contoh: blobi#1234 atau blobi"
-                        className="w-full px-3 py-2 rounded-xl bg-cream/30 border-2 border-choco-900/30 focus:border-choco-900 text-xs font-semibold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:ring-1 focus:ring-candy-500 transition-colors"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[10px] font-bold text-choco-800 uppercase font-pixel mb-1 flex items-center gap-1">
-                        <AtSign className="size-3 text-sky-500" />
-                        <span>Akun X (Twitter)</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={xInput}
-                        onChange={(e) => setXInput(e.target.value)}
-                        placeholder="Contoh: @blobi_web3"
-                        className="w-full px-3 py-2 rounded-xl bg-cream/30 border-2 border-choco-900/30 focus:border-choco-900 text-xs font-semibold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:ring-1 focus:ring-candy-500 transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <p className="text-[10px] text-choco-500 font-medium leading-snug">
-                    Hubungi admin atau pemenang NFT lebih mudah. Jika akun belum ada, kolom ini boleh dikosongkan.
-                  </p>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-3 pt-2">
-                <button
-                  onClick={() => {
-                    playTap();
-                    setEnteringRaffle(null);
-                  }}
-                  className="flex-1 rounded-2xl border-2 border-choco-900/20 bg-white py-3 text-xs md:text-sm font-bold text-choco-800 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
-                >
-                  Batal
-                </button>
-                <button
-                  onClick={handleConfirmEnter}
-                  className="flex-1 rounded-2xl border-2 border-candy-600/60 bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
-                >
-                  Konfirmasi Pasang
-                </button>
-              </div>
-            </div>
+              );
+            })}
           </div>
         )}
 
-        {/* Modal: FAQ & Cara Kerja */}
-        {showFaqModal && (
+        {/* Transparansi & Mekanisme Undian Web3min */}
+        <div className="rounded-3xl border-2 border-choco-900 bg-white p-5 sm:p-7 shadow-[0_6px_0_#3B2218] space-y-4">
+          <div>
+            <h3 className="text-lg font-pixel font-bold text-choco-900">
+              Transparansi & Mekanisme Undian Web3min
+            </h3>
+            <p className="text-xs text-choco-600 font-medium mt-1">
+              Pemenang dipilih acak oleh server. Hash seed diumumkan sebelum undian dibuka dan
+              seed dibuka setelah selesai, jadi hasilnya bisa dicek.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="p-4 rounded-2xl border-2 border-choco-900 bg-cream space-y-2">
+              <div className="size-8 rounded-full bg-lemon border-2 border-choco-900 flex items-center justify-center font-pixel font-bold text-choco-900 text-xs shadow-[0_1.5px_0_#3B2218]">
+                1
+              </div>
+              <h4 className="font-pixel text-xs font-bold text-choco-900">
+                1. Belajar & Kumpulkan Koin
+              </h4>
+              <p className="text-xs text-choco-700 font-medium leading-relaxed">
+                Setiap menyelesaikan modul, koin masuk ke saldomu.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl border-2 border-choco-900 bg-cream space-y-2">
+              <div className="size-8 rounded-full bg-candy-200 border-2 border-choco-900 flex items-center justify-center font-pixel font-bold text-choco-900 text-xs shadow-[0_1.5px_0_#3B2218]">
+                2
+              </div>
+              <h4 className="font-pixel text-xs font-bold text-choco-900">
+                2. Tukar & Pasang Tiket
+              </h4>
+              <p className="text-xs text-choco-700 font-medium leading-relaxed">
+                Tukar 10 Koin untuk 1 Tiket, lalu pasang di undian pilihanmu. Pastikan kamu
+                memenuhi syaratnya, misalnya follow akun X yang disebut.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl border-2 border-choco-900 bg-cream space-y-2">
+              <div className="size-8 rounded-full bg-mint/30 border-2 border-choco-900 flex items-center justify-center font-pixel font-bold text-choco-900 text-xs shadow-[0_1.5px_0_#3B2218]">
+                3
+              </div>
+              <h4 className="font-pixel text-xs font-bold text-choco-900">
+                3. Cek Pengumuman di Sini
+              </h4>
+              <p className="text-xs text-choco-700 font-medium leading-relaxed">
+                Pemenang diumumkan di kartu undian. Item langsung masuk ke akunmu, slot mint
+                dipakai di situs resmi mitra. Tim Web3min tidak akan pernah DM kamu.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* MODAL 1: BELI TIKET */}
+      {showBuyModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+          onClick={() => setShowBuyModal(false)}
+        >
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
-            onClick={() => {
-              playTap();
-              setShowFaqModal(false);
-            }}
+            className="relative w-full max-w-sm rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div
-              className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-5 animate-in zoom-in-95 duration-200 text-choco-900"
-              onClick={(e) => e.stopPropagation()}
+            <button
+              onClick={() => setShowBuyModal(false)}
+              className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
             >
-              <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-4">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-choco-900 bg-purple-200 text-purple-900 shadow-[0_2px_0_#3B2218]">
-                    <HelpCircle className="h-5 w-5" />
+              <X className="size-4.5 stroke-[2.5]" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="size-12 rounded-2xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center shadow-[0_3px_0_#3B2218]">
+                <Ticket className="size-6 text-choco-900" />
+              </div>
+              <div>
+                <h3 className="font-pixel text-lg font-bold text-choco-900">
+                  Tukar Koin Jadi Tiket
+                </h3>
+                <span className="text-xs text-choco-600 font-medium">
+                  1 Tiket = 10 Koin
+                </span>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] mb-4 flex items-center justify-between">
+              <span className="text-xs font-bold text-choco-700">Saldo Koin Kamu</span>
+              <span className="font-mono text-base font-black text-amber-700">{gems} Koin</span>
+            </div>
+
+            <div className="space-y-3 mb-5">
+              <div className="flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={() => setBuyAmount((prev) => Math.max(1, prev - 1))}
+                  className="size-11 rounded-full border-2 border-choco-900 bg-white hover:bg-cream flex items-center justify-center font-bold text-lg shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                >
+                  <Minus className="size-4.5" />
+                </button>
+                <div className="flex-1 text-center">
+                  <div className="font-mono text-2xl font-black text-choco-900">
+                    {buyAmount}
                   </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-pixel font-bold text-choco-900">Panduan Undian Raffle</h3>
-                    <p className="text-xs font-semibold text-choco-600">Mekanisme transparan & fair</p>
+                  <div className="text-[10px] font-bold text-choco-500 uppercase">
+                    Tiket Undian
                   </div>
                 </div>
                 <button
                   type="button"
-                  onClick={() => {
-                    playTap();
-                    setShowFaqModal(false);
-                  }}
-                  className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer transition-all"
-                  aria-label="Tutup"
+                  onClick={() => setBuyAmount((prev) => Math.min(100, prev + 1))}
+                  className="size-11 rounded-full border-2 border-choco-900 bg-white hover:bg-cream flex items-center justify-center font-bold text-lg shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
                 >
-                  <X className="size-4" />
+                  <Plus className="size-4.5" />
                 </button>
               </div>
 
-              <div className="space-y-4 text-xs font-semibold text-choco-800 leading-relaxed">
-                <div className="rounded-2xl border-2 border-candy-500/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] p-4 space-y-1 shadow-[0_2px_0_#B01F62]">
-                  <div className="font-display font-bold text-sm text-choco-900">Apa itu Undian Raffle Web3min?</div>
-                  <p>
-                    Raffle adalah arena undian berhadiah resmi Web3min di mana kamu dapat menukarkan koin kemenangan belajar untuk memenangkan artefak NFT langka, gelar profil, dan voucher in-game.
-                  </p>
+              {/* Quick Add Buttons (+N MENAMBAH) */}
+              <div className="flex items-center gap-1.5 pt-1">
+                {[
+                  { n: 1, label: "+1" },
+                  { n: 5, label: "+5" },
+                  { n: 10, label: "+10" },
+                ].map((btn) => (
+                  <button
+                    key={btn.n}
+                    type="button"
+                    onClick={() => setBuyAmount((prev) => Math.min(100, prev + btn.n))}
+                    className="flex-1 py-1.5 rounded-xl border border-choco-900 bg-white hover:bg-candy-50 font-pixel text-xs font-bold text-choco-900 shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setBuyAmount(Math.max(1, Math.min(100, Math.floor(gems / 10))))}
+                  className="flex-1 py-1.5 rounded-xl border border-choco-900 bg-lemon hover:bg-lemon/80 font-pixel text-xs font-bold text-choco-900 shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                >
+                  Maks
+                </button>
+              </div>
+            </div>
+
+            <div className="border-t-2 border-choco-900/15 pt-3 mb-4 flex items-center justify-between text-xs font-bold">
+              <span className="text-choco-600">Total Biaya:</span>
+              <span className="font-mono text-base font-black text-candy-600">
+                {buyAmount * RAFFLE_TICKET_PRICE} Koin
+              </span>
+            </div>
+
+            <button
+              onClick={handleBuyTickets}
+              disabled={gems < buyAmount * RAFFLE_TICKET_PRICE}
+              className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 disabled:opacity-40 text-white font-pixel text-xs font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer"
+            >
+              Konfirmasi Tukar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: PASANG TIKET (DATA PESERTA: WALLET EVM & X) */}
+      {enteringRaffle && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150 overflow-y-auto"
+          onClick={() => setEnteringRaffle(null)}
+        >
+          <div
+            className="relative w-full max-w-md rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setEnteringRaffle(null)}
+              className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
+            >
+              <X className="size-4.5 stroke-[2.5]" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="size-11 rounded-2xl bg-candy-500 border-2 border-choco-900 flex items-center justify-center text-white shadow-[0_2px_0_#3B2218]">
+                <Ticket className="size-6" />
+              </div>
+              <div>
+                <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">
+                  {isEditWalletMode ? "Ubah Data Peserta" : "Pasang Tiket Undian"}
+                </h3>
+                <span className="text-xs text-candy-600 font-bold truncate block max-w-[240px]">
+                  {enteringRaffle.title}
+                </span>
+              </div>
+            </div>
+
+            <form onSubmit={handleConfirmEntry} className="space-y-4">
+              {/* Kotak Data Peserta */}
+              <div className="p-4 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] space-y-3.5">
+                <div className="text-xs font-pixel font-bold uppercase text-choco-900 flex items-center gap-1.5">
+                  <Wallet className="size-4 text-candy-600" />
+                  <span>Data Peserta</span>
                 </div>
 
-                <div className="rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-4 space-y-1 shadow-[0_2px_0_#D97706]">
-                  <div className="font-display font-bold text-sm text-choco-900">Bagaimana Cara Mendapatkan Tiket?</div>
-                  <p>
-                    Tiket dapat dibeli seharga 10 Koin per tiket di halaman ini atau Toko Blobi. Kamu juga mendapatkan tiket gratis saat menyelesaikan rute checkpoint tertentu!
-                  </p>
+                {/* Input 1: Alamat Wallet EVM (Wajib untuk GTD/WL, disembunyikan untuk ITEM & GROUP) */}
+                {(enteringRaffle.slotType === "GTD" ||
+                  enteringRaffle.slotType === "WL" ||
+                  (!enteringRaffle.slotType && enteringRaffle.category === "nft")) && (
+                  <div>
+                    <label className="block text-[11px] font-bold text-choco-800 mb-1">
+                      Alamat Wallet EVM (Wajib)
+                    </label>
+                    <input
+                      type="text"
+                      value={inputWallet}
+                      onChange={(e) => {
+                        setInputWallet(e.target.value);
+                        setWalletError(null);
+                      }}
+                      placeholder="0x…"
+                      className="w-full px-3 py-2.5 rounded-xl bg-cream/40 border-2 border-choco-900 text-xs font-mono font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_1.5px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-500"
+                    />
+                    {walletError ? (
+                      <p className="text-[10px] font-bold text-rose-600 mt-1">{walletError}</p>
+                    ) : (
+                      <p className="text-[10px] text-choco-500 mt-1">
+                        Format 0x… 40 karakter hex (Ethereum, Base, Arbitrum).
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Input 2: Akun X (Wajib jika requirementXHandle terisi) */}
+                <div>
+                  <label className="block text-[11px] font-bold text-choco-800 mb-1">
+                    Akun X (Twitter) {enteringRaffle.requirementXHandle ? "(Wajib)" : "(Opsional)"}
+                  </label>
+                  <div className="relative">
+                    <AtSign className="size-4 text-choco-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={inputX}
+                      onChange={(e) => {
+                        setInputX(e.target.value);
+                        setXError(null);
+                      }}
+                      placeholder="username_x"
+                      className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-cream/40 border-2 border-choco-900 text-xs font-semibold text-choco-900 placeholder:text-choco-400 shadow-[0_1.5px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-500"
+                    />
+                  </div>
+                  {xError && (
+                    <p className="text-[10px] font-bold text-rose-600 mt-1">{xError}</p>
+                  )}
                 </div>
 
-                <div className="rounded-2xl border-2 border-emerald-500/40 bg-gradient-to-b from-[#F0FDF4] to-[#DCFCE7] p-4 space-y-1 shadow-[0_2px_0_#15803D]">
-                  <div className="font-display font-bold text-sm text-choco-900">Bagaimana Pengundian Pemenang Dilakukan?</div>
-                  <p>
-                    Ketika waktu mundur berakhir, database memicu fungsi draw dengan seed acak kriptografis (VRF pattern) yang memilih pemenang berdasarkan proporsi tiket yang dipasang. Semakin banyak tiket yang kamu pasang, semakin besar peluang menangmu!
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border-2 border-purple-500/30 bg-gradient-to-b from-[#FAF5FF] to-[#F3E8FF] p-4 space-y-1 shadow-[0_2px_0_#7E22CE]">
-                  <div className="font-display font-bold text-sm text-choco-900">Bagaimana Cara Menerima NFT yang Dimenangkan?</div>
-                  <p>
-                    Jika kamu memenangkan NFT, kamu dapat menghubungkan dompet Web3 kamu di menu profil untuk mengklaim transfer kepemilikan NFT ke jaringan yang sesuai (Ethereum, Base, Arbitrum, atau Optimism).
-                  </p>
-                </div>
+                {/* Teks Bantu Edukatif */}
+                <p className="text-[11px] text-choco-600 font-medium leading-relaxed pt-1 border-t border-choco-900/10">
+                  {enteringRaffle.slotType === "ITEM" || enteringRaffle.slotType === "GROUP"
+                    ? "Hadiah dikirim ke akunmu jika menang. Tim Web3min tidak akan pernah DM kamu."
+                    : "Wallet diteruskan ke proyek mitra jika kamu menang. Akun X dipakai untuk mengecek syarat follow. Mint dilakukan di situs resmi mitra. Tim Web3min tidak akan pernah DM kamu."}
+                </p>
               </div>
 
+              {/* Perkiraan Peluang */}
+              {!isEditWalletMode && (
+                <div className="p-3 rounded-xl bg-lemon/30 border border-choco-900/20 flex items-center justify-between text-xs">
+                  <span className="font-semibold text-choco-700">Perkiraan Peluang:</span>
+                  <span className="font-mono font-bold text-choco-900">
+                    {Math.min(
+                      100,
+                      ((((enteredRaffles[enteringRaffle.id]?.count ?? 0) + 1) /
+                        Math.max(1, (statsMap[enteringRaffle.id]?.total_tickets ?? 0) + 1)) *
+                        enteringRaffle.winnerCount *
+                        100)
+                    ).toFixed(1)}
+                    %
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2.5 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setEnteringRaffle(null)}
+                  className="py-2.5 px-4 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="py-2.5 px-6 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-40 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-1.5"
+                >
+                  <Check className="size-4" />
+                  <span>
+                    {isSubmitting
+                      ? "Menyimpan..."
+                      : isEditWalletMode
+                      ? "Simpan Perubahan"
+                      : "Konfirmasi Pasang"}
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 3: PANDUAN CARA KERJA UNDIAN */}
+      {showGuideModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150 overflow-y-auto"
+          onClick={() => setShowGuideModal(false)}
+        >
+          <div
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 space-y-4 tactile-scrollbar"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowGuideModal(false)}
+              className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
+            >
+              <X className="size-4.5 stroke-[2.5]" />
+            </button>
+
+            <div>
+              <span className="px-2.5 py-0.5 rounded-full bg-candy-100 text-candy-800 font-pixel text-[9px] font-bold border border-choco-900">
+                PANDUAN LENGKAP
+              </span>
+              <h3 className="font-pixel text-lg font-bold text-choco-900 mt-1">
+                Cara Kerja Undian Hadiah
+              </h3>
+            </div>
+
+            <div className="space-y-3.5 text-xs text-choco-800 leading-relaxed font-medium">
+              <div className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] space-y-1">
+                <div className="font-pixel font-bold text-choco-900 text-xs">
+                  1. Apa itu Undian?
+                </div>
+                <p>
+                  Ada dua jenis hadiah. Item Limited: item Blobi edisi terbatas yang hanya bisa
+                  didapat dari undian, punya nomor edisi, dan tidak dijual di Toko. Slot Mint:
+                  hak mint NFT dari proyek mitra. GTD = kamu dijamin bisa mint di fase allowlist.
+                  WL = kamu boleh ikut fase allowlist, tapi bisa kehabisan. Menang slot bukan
+                  berarti NFT gratis: kamu tetap membayar harga mint dan gas.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] space-y-1">
+                <div className="font-pixel font-bold text-choco-900 text-xs">
+                  2. Cara Mendapat Tiket
+                </div>
+                <p>
+                  1 tiket = 10 Koin, bisa dibeli di halaman ini. Tiket gratis juga didapat dari
+                  checkpoint rute tertentu.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] space-y-1">
+                <div className="font-pixel font-bold text-choco-900 text-xs">
+                  3. Cara Pengundian
+                </div>
+                <p>
+                  Sebelum undian dibuka, hash seed acak ditampilkan. Setelah waktu habis, server
+                  memilih pemenang secara acak dengan bobot jumlah tiket. Satu akun maksimal satu
+                  slot. Jika ada syarat follow, pemenang dicek manual sebelum diumumkan, dan yang
+                  tidak memenuhi syarat diganti pemenang cadangan. Setelah diumumkan, seed
+                  dipublikasikan.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] space-y-1">
+                <div className="font-pixel font-bold text-choco-900 text-xs">
+                  4. Bagaimana Kalau Aku Menang?
+                </div>
+                <p>
+                  Hadiah item langsung masuk ke Ruang Ganti atau profilmu setelah diumumkan. Untuk
+                  slot mint, wallet kamu diteruskan ke proyek mitra untuk masuk allowlist, lalu
+                  mint dilakukan di situs resmi mereka sesuai jadwal, bukan di Web3min. Cocokkan
+                  alamat situsnya dengan yang tertulis di kartu, jangan buka link dari DM, dan
+                  jangan pernah memberikan seed phrase atau private key. Web3min bukan penerbit
+                  NFT dan tidak memberi saran investasi, jadi pelajari proyeknya dulu (DYOR).
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-2 text-right">
               <button
-                onClick={() => {
-                  playTap();
-                  setShowFaqModal(false);
-                }}
-                className="w-full rounded-2xl border-2 border-amber-600/50 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] py-3 font-bold text-choco-900 shadow-[0_4px_0_#C8940C,0_8px_16px_-2px_rgba(255,216,77,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+                onClick={() => setShowGuideModal(false)}
+                className="py-2.5 px-6 rounded-full bg-choco-900 text-cream font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
               >
-                Saya Paham
+                Saya Mengerti
               </button>
             </div>
           </div>
-        )}
-
-        {/* Footer Admin Entry Point */}
-        <div className="flex justify-center pt-2 pb-6">
-          {!isAdmin ? (
-            <button
-              type="button"
-              onClick={() => setShowAdminLogin(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cream border-2 border-choco-900 text-choco-700 hover:text-choco-900 hover:bg-candy-100 font-pixel text-xs font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
-            >
-              <Lock className="size-3.5 text-candy-600" />
-              <span>Akses Login Admin Undian</span>
-            </button>
-          ) : (
-            <Link
-              to="/admin"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-300 hover:bg-amber-400 border-2 border-choco-900 font-pixel text-xs font-bold text-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
-            >
-              <Shield className="size-4 text-choco-900" />
-              <span>Buka Dashboard Admin Otoritas →</span>
-            </Link>
-          )}
         </div>
-      </div>
-
-      {/* Admin Login Modal */}
-      <AdminLoginModal
-        isOpen={showAdminLogin}
-        onClose={() => setShowAdminLogin(false)}
-        onSuccess={(key) => {
-          setAdminKey(key);
-          showToast("Berhasil masuk sebagai Admin Undian!");
-        }}
-      />
-
-      {/* Admin Add/Edit Raffle Modal with Image Space */}
-      {adminKey && (
-        <AdminRaffleModal
-          isOpen={showAdminRaffleModal}
-          onClose={() => {
-            setShowAdminRaffleModal(false);
-            setEditingRaffle(null);
-          }}
-          onSaved={() => {
-            showToast("Katalog undian berhasil diperbarui!");
-            void refreshData();
-          }}
-          initialData={editingRaffle}
-          adminKey={adminKey}
-        />
       )}
 
-      {/* Admin Delete Confirmation Modal */}
-      {deletingRaffle && (
-        <AdminDeleteModal
-          isOpen={Boolean(deletingRaffle)}
-          onClose={() => setDeletingRaffle(null)}
-          onConfirm={handleConfirmDelete}
-          title={deletingRaffle.title}
-          loading={isDeleting}
-        />
+      {/* MODAL 4: PREVIEW GAMBAR PENUH */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/80 backdrop-blur-xs animate-in fade-in duration-150"
+          onClick={() => setPreviewImage(null)}
+        >
+          <div
+            className="relative max-w-lg w-full rounded-3xl bg-cream border-3 border-choco-900 p-4 shadow-[0_8px_0_#3B2218] text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setPreviewImage(null)}
+              className="absolute top-3 right-3 flex size-8 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 cursor-pointer"
+            >
+              <X className="size-4" />
+            </button>
+            <h4 className="font-pixel text-sm font-bold text-choco-900 mb-3 px-8 truncate">
+              {previewImage.title}
+            </h4>
+            <div className="aspect-square w-full rounded-2xl border-2 border-choco-900 bg-white overflow-hidden p-2 flex items-center justify-center">
+              <img
+                src={previewImage.url}
+                alt={previewImage.title}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 5: VERIFIKASI COMMIT-REVEAL SEED HASH */}
+      {previewFairness && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150"
+          onClick={() => setPreviewFairness(null)}
+        >
+          <div
+            className="relative w-full max-w-md rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 space-y-3"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setPreviewFairness(null)}
+              className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 cursor-pointer"
+            >
+              <X className="size-4.5 stroke-[2.5]" />
+            </button>
+
+            <div className="flex items-center gap-2.5">
+              <ShieldCheck className="size-5 text-emerald-600" />
+              <h3 className="font-pixel text-base font-bold text-choco-900">
+                Transparansi Commit-Reveal
+              </h3>
+            </div>
+
+            <p className="text-xs text-choco-700 leading-relaxed font-medium">
+              Sebelum undian dimulai, server membuat nilai acak (seed) rahasia 32-byte dan
+              mengumumkan SHA-256 hash-nya di sini.
+            </p>
+
+            <div className="p-3 rounded-xl bg-white border border-choco-900/20 font-mono text-[11px] break-all">
+              <div className="text-[9px] font-bold uppercase text-choco-500 mb-1">
+                SHA-256 Seed Hash (Publik):
+              </div>
+              {previewFairness.seedHash || "-"}
+            </div>
+
+            {previewFairness.status === "ended" && previewFairness.drawSeed && (
+              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-500/30 font-mono text-[11px] break-all">
+                <div className="text-[9px] font-bold uppercase text-emerald-700 mb-1">
+                  Revealed Draw Seed (Setelah Selesai):
+                </div>
+                {previewFairness.drawSeed}
+              </div>
+            )}
+
+            <p className="text-[11px] text-choco-600 leading-relaxed">
+              Kamu bisa mencocokkan bahwa SHA-256 dari revealed seed di atas menghasilkan hash
+              yang sama persis seperti yang diumumkan sebelum undian dimulai.
+            </p>
+
+            <div className="pt-2 text-right">
+              <button
+                onClick={() => setPreviewFairness(null)}
+                className="py-2 px-5 rounded-full bg-choco-900 text-cream font-pixel font-bold text-xs cursor-pointer shadow-[0_2px_0_#3B2218]"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </AppShell>
   );

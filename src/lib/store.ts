@@ -68,6 +68,7 @@ export type ProgressState = {
   completed: string[];
   perfect: string[];
   outfits: string[];
+  badges?: string[];
   equipped: string | null;
   worn: Worn;
   sound: boolean;
@@ -120,7 +121,7 @@ type Actions = {
   claimQuest: (id: string) => boolean;
   completeStory: (id: string) => { xp: number; gems: number } | null;
   completeCase: (id: string) => { xp: number; gems: number } | null;
-  enterRaffle: (raffleId: string, count: number, walletAddress: string, xHandle?: string) => Promise<{ success: boolean; error?: string }>;
+  enterRaffle: (raffleId: string, count: number, walletAddress?: string, xHandle?: string) => Promise<{ success: boolean; error?: string }>;
   updateRaffleWallet: (raffleId: string, walletAddress: string, xHandle?: string) => Promise<{ success: boolean; error?: string }>;
   buyRaffleTicketsWithGems: (ticketAmount: number) => boolean;
   claimWeeklyLeaderboardReward: (weekKey: string, rank: number) => { success: boolean; coins: number };
@@ -156,6 +157,7 @@ const initial: ProgressState = {
   completed: [],
   perfect: [],
   outfits: [],
+  badges: [],
   equipped: null,
   worn: {},
   sound: true,
@@ -638,8 +640,8 @@ export const useProgress = create<ProgressState & Actions>()(
         if (!Number.isFinite(qty) || qty <= 0 || (s.raffleTickets ?? 0) < qty) {
           return { success: false, error: "Tiket tidak mencukupi" };
         }
-        const cleanWallet = walletAddress.trim().toLowerCase();
-        if (!isValidEvmAddress(cleanWallet)) {
+        const cleanWallet = walletAddress ? walletAddress.trim().toLowerCase() : "";
+        if (cleanWallet && !isValidEvmAddress(cleanWallet)) {
           return { success: false, error: "Alamat wallet EVM tidak valid" };
         }
         const currentEntry = s.enteredRaffles?.[raffleId];
@@ -648,13 +650,13 @@ export const useProgress = create<ProgressState & Actions>()(
 
         set({
           raffleTickets: (s.raffleTickets ?? 0) - qty,
-          lastWalletAddress: cleanWallet,
+          ...(cleanWallet ? { lastWalletAddress: cleanWallet } : {}),
           enteredRaffles: {
             ...s.enteredRaffles,
             [raffleId]: {
               count: currentCount + qty,
               enteredAt: Date.now(),
-              walletAddress: cleanWallet,
+              walletAddress: cleanWallet || currentEntry?.walletAddress || "",
               xHandle: cleanX || currentEntry?.xHandle || "",
             },
           },

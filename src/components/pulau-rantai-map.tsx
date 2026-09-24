@@ -232,7 +232,7 @@ export function PulauRantaiMap({
             >
               <img
                 className="art"
-                src={`/worlds/${unit.id}.jpg?v=hd1`}
+                src={`/worlds/${unit.id}.jpg?v=hd2`}
                 alt=""
                 decoding="async"
                 onError={(e) => {

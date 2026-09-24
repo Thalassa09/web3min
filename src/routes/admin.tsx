@@ -286,6 +286,15 @@ export function AdminPage() {
       nftTokenId: r.nft_token_id || "",
       nftRarity: (r.nft_rarity as AdminRaffleData["nftRarity"]) || "rare",
       perks: perksList,
+      slotType: r.slot_type || null,
+      partnerName: r.partner_name || null,
+      requirementXHandle: r.requirement_x_handle || null,
+      officialMintDomain: r.official_mint_domain || null,
+      mintPrice: r.mint_price || null,
+      mintSchedule: r.mint_schedule || null,
+      announcementDate: r.announcement_date || null,
+      itemId: r.item_id || null,
+      discordGroupLink: r.discord_group_link || null,
     });
     setShowRaffleModal(true);
   };
@@ -844,6 +853,13 @@ export function AdminPage() {
                               <span className="truncate">{raffle.prize}</span>
                             </div>
 
+                            {!raffle.slot_type && (
+                              <div className="mt-1.5 p-2 rounded-xl bg-amber-100 border border-amber-400 text-[11px] font-bold text-amber-900 flex items-center gap-1.5">
+                                <AlertTriangle className="size-3.5 text-amber-700 shrink-0" />
+                                <span>Raffle ini belum punya jenis hadiah. Pilih GTD / WL / GROUP / ITEM.</span>
+                              </div>
+                            )}
+
                             <div className="flex items-center gap-3 text-[11px] font-semibold text-choco-600 mt-2 flex-wrap">
                               <span className="flex items-center gap-1 font-mono">
                                 <Ticket className="size-3 text-amber-600" />
@@ -1078,7 +1094,7 @@ export function AdminPage() {
           isOpen={Boolean(deletingRaffle)}
           onClose={() => setDeletingRaffle(null)}
           onConfirm={handleConfirmDelete}
-          title={deletingRaffle.title}
+          raffleTitle={deletingRaffle.title}
           loading={isDeleting}
         />
       )}

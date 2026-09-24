@@ -660,11 +660,16 @@ export type DbRaffleItem = {
   perks: string[];
   image_url?: string;
   is_simulation?: boolean;
-  requirement_x_handle?: string;
-  official_mint_domain?: string;
-  announcement_date?: string;
-  seed_hash?: string;
-  draw_seed?: string;
+  slot_type?: "GTD" | "WL" | "GROUP" | "ITEM" | null;
+  partner_name?: string | null;
+  requirement_x_handle?: string | null;
+  official_mint_domain?: string | null;
+  mint_price?: string | null;
+  mint_schedule?: string | null;
+  announcement_date?: string | null;
+  item_id?: string | null;
+  seed_hash?: string | null;
+  draw_seed?: string | null;
   candidates?: {
     winners: Array<{
       user_id: string;
@@ -760,10 +765,15 @@ export type AdminUpsertRafflePayload = {
   nftRarity?: string;
   perks?: string[];
   isSimulation?: boolean;
-  requirementXHandle?: string;
-  officialMintDomain?: string;
-  announcementDate?: string;
-  discordGroupLink?: string;
+  slotType?: "GTD" | "WL" | "GROUP" | "ITEM" | null;
+  partnerName?: string | null;
+  requirementXHandle?: string | null;
+  officialMintDomain?: string | null;
+  mintPrice?: string | null;
+  mintSchedule?: string | null;
+  announcementDate?: string | null;
+  itemId?: string | null;
+  discordGroupLink?: string | null;
 };
 
 export async function rpcAdminUpsertRaffle(payload: AdminUpsertRafflePayload): Promise<{ success: boolean; id?: string; error?: string }> {
@@ -789,10 +799,15 @@ export async function rpcAdminUpsertRaffle(payload: AdminUpsertRafflePayload): P
       p_nft_rarity: payload.nftRarity || "rare",
       p_perks: payload.perks || [],
       p_is_simulation: payload.isSimulation ?? false,
-      p_requirement_x_handle: payload.requirementXHandle || "",
-      p_official_mint_domain: payload.officialMintDomain || "",
-      p_announcement_date: payload.announcementDate || "",
-      p_discord_group_link: payload.discordGroupLink || "",
+      p_slot_type: payload.slotType || null,
+      p_partner_name: payload.partnerName || null,
+      p_requirement_x_handle: payload.requirementXHandle || null,
+      p_official_mint_domain: payload.officialMintDomain || null,
+      p_mint_price: payload.mintPrice || null,
+      p_mint_schedule: payload.mintSchedule || null,
+      p_announcement_date: payload.announcementDate || null,
+      p_item_id: payload.itemId || null,
+      p_discord_group_link: payload.discordGroupLink || null,
     });
     if (error) {
       return { success: false, error: error.message };

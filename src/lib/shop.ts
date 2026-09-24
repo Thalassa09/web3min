@@ -12,6 +12,12 @@ export type ShopItem = {
 export const HEART_REFILL_COST = 80;
 export const FREEZE_COST = 50;
 
+export const LIMITED_ITEM_IDS = ["crown", "badge-pioneer"];
+
+export function isLimitedItem(id: string): boolean {
+  return LIMITED_ITEM_IDS.includes(id);
+}
+
 export const SHOP_ITEMS: ShopItem[] = [
   {
     id: "hearts",
@@ -27,7 +33,7 @@ export const SHOP_ITEMS: ShopItem[] = [
     cost: FREEZE_COST,
     kind: "freeze",
   },
-  ...ACCESSORIES.map((acc) => ({
+  ...ACCESSORIES.filter((acc) => !isLimitedItem(acc.id)).map((acc) => ({
     id: acc.id,
     name: acc.name,
     blurb: acc.blurb,

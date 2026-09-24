@@ -39,7 +39,7 @@ import {
   playFreeze,
   playUnequip,
 } from "@/lib/audio";
-import { FREEZE_COST, HEART_REFILL_COST } from "@/lib/shop";
+import { FREEZE_COST, HEART_REFILL_COST, isLimitedItem } from "@/lib/shop";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
 import { rpcBuyFreeze, rpcRefillHearts, rpcBuyTickets, syncProgressFromServer } from "@/lib/server-sync";
 import { SurfaceCard } from "@/components/ui/surface-card";
@@ -124,6 +124,10 @@ function ShopPage() {
   // Accessories shown in Ruang Ganti
   const wardrobeItems = useMemo(() => {
     return ACCESSORIES.filter((a) => {
+      // Item limited yang belum dimiliki tidak ditampilkan
+      if (isLimitedItem(a.id) && !outfits.includes(a.id)) {
+        return false;
+      }
       const matchesSlot = wardrobeSlot === "all" || a.slot === wardrobeSlot;
       if (!matchesSlot) return false;
       if (wardrobeScope === "owned") {
@@ -638,7 +642,7 @@ function ShopPage() {
                         onClick={() => setWardrobeScope("all")}
                         className="px-4 py-2 rounded-[14px] bg-candy-500 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-[1px]"
                       >
-                        Lihat Katalog Lengkap ({totalCount}) →
+                        Lihat Katalog Lengkap ({totalCount})
                       </button>
                     </div>
                   )}
@@ -680,6 +684,10 @@ function ShopPage() {
                                 <span className="text-[10px] font-pixel font-bold text-choco-600 bg-candy-100/70 px-2 py-0.5 rounded-full border border-choco-900/30">
                                   Belum Punya
                                 </span>
+                              ) : isLimitedItem(acc.id) ? (
+                                <span className="text-[10px] font-pixel font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-choco-900">
+                                  Limited
+                                </span>
                               ) : null}
                             </div>
 
@@ -700,6 +708,11 @@ function ShopPage() {
                               <div className="text-[10px] font-medium text-choco-600 line-clamp-2 leading-tight mt-0.5 font-sans">
                                 {acc.blurb}
                               </div>
+                              {isLimitedItem(acc.id) && (
+                                <div className="mt-1 text-[9px] font-pixel font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-300 inline-block">
+                                  Edisi Kolektor (Hanya dari Undian)
+                                </div>
+                              )}
                             </div>
                           </div>
 

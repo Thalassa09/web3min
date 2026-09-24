@@ -111,7 +111,7 @@ function Intro() {
               onClick={next}
               className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-candy-500 hover:bg-candy-600 py-4 px-6 font-pixel text-xs sm:text-sm font-bold text-white shadow-[0_5px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] transition-all cursor-pointer"
             >
-              {last ? "Gas Mulai Belajar! 🚀" : "Lanjut →"}
+              {last ? "Mulai Belajar Sekarang" : "Lanjut"}
             </button>
           </div>
         </div>

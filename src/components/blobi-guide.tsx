@@ -508,7 +508,7 @@ export function BlobiLockedModal({
               }}
             >
               <Sparkles className="size-3.5 text-white" />
-              <span>Arahkan ke Modul Aktif ❯</span>
+              <span>Arahkan ke Modul Aktif</span>
             </button>
           )}
           <button

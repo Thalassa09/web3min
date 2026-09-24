@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Sparkles } from "lucide-react";
 
 export interface InvSlotProps extends React.HTMLAttributes<HTMLDivElement> {
   count?: number | string;
@@ -43,7 +44,7 @@ export const InvSlot: React.FC<InvSlotProps> = ({
         {icon ? (
           <div className="flex items-center justify-center size-8">{icon}</div>
         ) : (
-          <span className="text-xl opacity-40">🍬</span>
+          <Sparkles className="size-5 text-choco-400 opacity-40" />
         )}
         <span className="text-xs font-pixel font-bold text-choco-600 mt-0.5">
           {typeof count === "number" ? `x${count}` : count}

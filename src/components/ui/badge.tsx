@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Sparkles } from "lucide-react";
 
 export type BadgeVariant = "brand" | "hash" | "coin" | "streak" | "mint" | "grape" | "danger" | "level";
 export type BadgeSize = "sm" | "md" | "lg";
@@ -69,7 +70,7 @@ export const Lollipop: React.FC<{ level: number | string; className?: string }> 
         className
       )}
     >
-      <span className="text-base leading-none">🍭</span>
+      <Sparkles className="size-4 text-candy-600 shrink-0" />
       <span>LV {level}</span>
     </div>
   );

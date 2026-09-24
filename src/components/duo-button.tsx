@@ -20,7 +20,7 @@ const variantClass: Record<DuoButtonVariant, string> = {
   // Danger: Correct/Wrong feedback only
   danger: "bg-danger text-white border-danger-shadow shadow-[0_4px_0_var(--color-danger-shadow)] hover:brightness-105",
 
-  // Coin: Exclusive for ★ and XP rewards
+  // Coin: Exclusive for XP rewards
   coin: "bg-coin text-ink-900 border-coin-shadow shadow-[0_4px_0_var(--color-coin-shadow)] hover:brightness-105",
 
   // Ghost: Subtle tertiary action

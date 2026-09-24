@@ -10,12 +10,17 @@ import {
   Search,
   CheckCircle2,
   ChevronRight,
+  ChevronLeft,
   Gift,
   HelpCircle,
   ArrowRight,
   Crown,
   Coins,
+  Star,
+  Zap,
+  Shield,
 } from "lucide-react";
+import { CoinIcon } from "@/components/motif";
 import { useProgress } from "@/lib/store";
 import { Mascot } from "@/components/mascot";
 import {
@@ -51,6 +56,41 @@ function LeaderboardPage() {
   const [dbUsers, setDbUsers] = React.useState<DbLeaderboardUser[]>([]);
   const [isDbLoading, setIsDbLoading] = React.useState(true);
   const [isDbConnected, setIsDbConnected] = React.useState(false);
+
+  // Desktop drag-to-scroll & mousewheel handlers for filter tabs
+  const tabsRef = React.useRef<HTMLDivElement>(null);
+  const isDown = React.useRef(false);
+  const startX = React.useRef(0);
+  const scrollLeftPos = React.useRef(0);
+  const hasDragged = React.useRef(false);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!tabsRef.current) return;
+    isDown.current = true;
+    startX.current = e.pageX - tabsRef.current.offsetLeft;
+    scrollLeftPos.current = tabsRef.current.scrollLeft;
+    hasDragged.current = false;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDown.current || !tabsRef.current) return;
+    const x = e.pageX - tabsRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.5;
+    if (Math.abs(walk) > 4) {
+      hasDragged.current = true;
+      tabsRef.current.scrollLeft = scrollLeftPos.current - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    isDown.current = false;
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.deltaY !== 0 && tabsRef.current) {
+      tabsRef.current.scrollLeft += e.deltaY;
+    }
+  };
 
   // Load live leaderboard from Supabase
   React.useEffect(() => {
@@ -287,67 +327,144 @@ function LeaderboardPage() {
       {/* Filter Tabs and Search Bar */}
       <div className="space-y-3">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          {/* Tier Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+          {/* Tier Filter Pills with Desktop Drag-to-Scroll & Navigation Arrows */}
+          <div className="relative flex items-center min-w-0 flex-1 gap-1.5">
+            {/* Desktop Left Scroll Arrow */}
             <button
-              onClick={() => setFilterTier(undefined)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 ${
-                filterTier === undefined
-                  ? "bg-ink-900 text-white"
-                  : "bg-white text-ink-900 hover:bg-yellow-100"
-              }`}
+              type="button"
+              onClick={() => tabsRef.current?.scrollBy({ left: -220, behavior: "smooth" })}
+              className="hidden sm:flex size-8 shrink-0 items-center justify-center rounded-xl border-2 border-ink-900 bg-white text-choco-900 shadow-[2px_2px_0_#2B1622] hover:bg-candy-100 active:translate-y-0.5 transition-all cursor-pointer"
+              title="Geser ke kiri"
+              aria-label="Geser ke kiri"
             >
-              Semua (Top 100)
+              <ChevronLeft className="size-4" />
             </button>
-            <button
-              onClick={() => setFilterTier("tier-top10")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 ${
-                filterTier === "tier-top10"
-                  ? "bg-candy-500 text-white"
-                  : "bg-white text-ink-900 hover:bg-candy-100"
-              }`}
+
+            {/* Draggable & Scrollable Tabs Container */}
+            <div
+              ref={tabsRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onWheel={handleWheel}
+              className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none cursor-grab active:cursor-grabbing select-none scroll-smooth min-w-0 flex-1"
             >
-              👑 Top 10 (200 🪙)
-            </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (hasDragged.current) return;
+                  setFilterTier(undefined);
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 cursor-pointer ${
+                  filterTier === undefined
+                    ? "bg-ink-900 text-white"
+                    : "bg-white text-ink-900 hover:bg-yellow-100"
+                }`}
+              >
+                Semua (Top 100)
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (hasDragged.current) return;
+                  setFilterTier("tier-top10");
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                  filterTier === "tier-top10"
+                    ? "bg-candy-500 text-white"
+                    : "bg-white text-ink-900 hover:bg-candy-100"
+                }`}
+              >
+                <Crown className="size-3.5 text-amber-500 shrink-0" />
+                <span>Top 10</span>
+                <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
+                  (200 <CoinIcon size={12} className="inline-block" />)
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (hasDragged.current) return;
+                  setFilterTier("tier-top50");
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                  filterTier === "tier-top50"
+                    ? "bg-blue-500 text-white"
+                    : "bg-white text-ink-900 hover:bg-blue-100"
+                }`}
+              >
+                <Star className="size-3.5 text-blue-500 shrink-0" />
+                <span>Top 50</span>
+                <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
+                  (100 <CoinIcon size={12} className="inline-block" />)
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (hasDragged.current) return;
+                  setFilterTier("tier-top100");
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                  filterTier === "tier-top100"
+                    ? "bg-emerald-500 text-white"
+                    : "bg-white text-ink-900 hover:bg-emerald-100"
+                }`}
+              >
+                <Flame className="size-3.5 text-emerald-500 shrink-0" />
+                <span>Top 100</span>
+                <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
+                  (60 <CoinIcon size={12} className="inline-block" />)
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (hasDragged.current) return;
+                  setFilterTier("tier-top500");
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                  filterTier === "tier-top500"
+                    ? "bg-amber-500 text-white"
+                    : "bg-white text-ink-900 hover:bg-amber-100"
+                }`}
+              >
+                <Zap className="size-3.5 text-amber-500 shrink-0" />
+                <span>251 s.d. 500</span>
+                <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
+                  (25 <CoinIcon size={12} className="inline-block" />)
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (hasDragged.current) return;
+                  setFilterTier("tier-top1000");
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                  filterTier === "tier-top1000"
+                    ? "bg-slate-700 text-white"
+                    : "bg-white text-ink-900 hover:bg-slate-200"
+                }`}
+              >
+                <Shield className="size-3.5 text-slate-500 shrink-0" />
+                <span>501 s.d. 1.000</span>
+                <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
+                  (15 <CoinIcon size={12} className="inline-block" />)
+                </span>
+              </button>
+            </div>
+
+            {/* Desktop Right Scroll Arrow */}
             <button
-              onClick={() => setFilterTier("tier-top50")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 ${
-                filterTier === "tier-top50"
-                  ? "bg-blue-500 text-white"
-                  : "bg-white text-ink-900 hover:bg-blue-100"
-              }`}
+              type="button"
+              onClick={() => tabsRef.current?.scrollBy({ left: 220, behavior: "smooth" })}
+              className="hidden sm:flex size-8 shrink-0 items-center justify-center rounded-xl border-2 border-ink-900 bg-white text-choco-900 shadow-[2px_2px_0_#2B1622] hover:bg-candy-100 active:translate-y-0.5 transition-all cursor-pointer"
+              title="Geser ke kanan"
+              aria-label="Geser ke kanan"
             >
-              ⭐ Top 50 (100 🪙)
-            </button>
-            <button
-              onClick={() => setFilterTier("tier-top100")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 ${
-                filterTier === "tier-top100"
-                  ? "bg-emerald-500 text-white"
-                  : "bg-white text-ink-900 hover:bg-emerald-100"
-              }`}
-            >
-              🔥 Top 100 (60 🪙)
-            </button>
-            <button
-              onClick={() => setFilterTier("tier-top500")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 ${
-                filterTier === "tier-top500"
-                  ? "bg-amber-500 text-white"
-                  : "bg-white text-ink-900 hover:bg-amber-100"
-              }`}
-            >
-              ⚡ 251 s.d. 500 (25 🪙)
-            </button>
-            <button
-              onClick={() => setFilterTier("tier-top1000")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-black border-2 border-ink-900 transition-all shadow-[2px_2px_0_#2B1622] shrink-0 ${
-                filterTier === "tier-top1000"
-                  ? "bg-slate-700 text-white"
-                  : "bg-white text-ink-900 hover:bg-slate-200"
-              }`}
-            >
-              🛡️ 501 s.d. 1.000 (15 🪙)
+              <ChevronRight className="size-4" />
             </button>
           </div>
 

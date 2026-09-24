@@ -167,28 +167,37 @@ function Onboarding() {
   };
 
   return (
-    <main className="min-h-dvh bg-canvas flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8 relative select-none overflow-x-hidden overflow-y-auto">
-      <div className="w-full max-w-3xl relative z-10 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] rounded-3xl border-2 border-choco-900/18 shadow-[0_8px_0_#3B2218,0_16px_32px_-4px_rgba(59,34,24,0.14)] p-6 sm:p-8">
+    <main className="min-h-dvh bg-[#FDFBF7] flex items-start sm:items-center justify-center px-3 py-6 sm:px-6 sm:py-10 relative select-none overflow-x-hidden overflow-y-auto">
+      <div className="w-full max-w-4xl relative z-10 bg-cream rounded-[32px] border-4 border-choco-900 shadow-[0_10px_0_#3B2218] p-6 sm:p-10">
         {/* Step Progress Bar (Shown on Step 1 & 2) */}
         {step > 0 && (
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <div className="flex-1 flex items-center gap-1.5" aria-hidden="true">
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <div className="flex-1 flex items-center gap-2" aria-hidden="true">
               {[1, 2].map((i) => (
                 <span
                   key={i}
-                  className={`h-2.5 flex-1 rounded-full border-2 border-choco-900/30 ${i <= step ? "bg-emerald-500 shadow-[0_1px_0_#15803D]" : "bg-white"}`}
+                  className={`h-3 flex-1 rounded-full border-2 border-choco-900 ${
+                    i <= step ? "bg-candy-500 shadow-[0_2px_0_#3B2218]" : "bg-white"
+                  }`}
                 />
               ))}
             </div>
-            <span className="text-xs font-sans font-bold text-choco-900 shrink-0">
+            <span className="font-pixel text-[11px] font-bold text-choco-900 shrink-0 bg-amber-100 border-2 border-choco-900 px-3 py-0.5 rounded-full shadow-[0_1.5px_0_#3B2218]">
               Langkah {step} dari 2
             </span>
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
-          {/* Mascot Side (5 Cols - Blobi on Tactile Pink Tile) */}
-          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 shadow-[0_5px_0_#B01F62,0_10px_20px_-4px_rgba(232,67,127,0.22)] rounded-3xl p-5 gap-3.5">
-            <div className="shrink-0 flex items-center justify-center size-20 md:size-36">
+          {/* Mascot Side (5 Cols - Blobi on Tactile 3D Arcade Tile) */}
+          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-linear-to-b from-[#FFF0F5] to-[#FCE7F3] border-3 border-choco-900 shadow-[0_6px_0_#3B2218] rounded-3xl p-6 gap-4 relative overflow-hidden">
+            {/* Decorative Arcade Top Badge */}
+            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 hidden md:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-candy-500 border-2 border-choco-900 text-white font-pixel text-[9px] font-bold shadow-[0_2px_0_#3B2218]">
+              <span>✦</span>
+              <span>BLOBI CO-PILOT</span>
+              <span>✦</span>
+            </div>
+
+            <div className="shrink-0 flex items-center justify-center size-24 md:size-40 md:mt-3">
               <Mascot
                 key={step === 2 ? `goal-${goal}` : `step-${step}-${authMode}`}
                 mood={currentMood}
@@ -198,168 +207,175 @@ function Onboarding() {
                 hideParticles={isTypingPassword}
               />
             </div>
-            <div>
-              <div className="font-display text-base sm:text-lg font-bold text-candy-600">Blobi</div>
-              <p className="text-xs font-semibold text-choco-600 mt-0.5 max-w-[200px] transition-[opacity,transform] duration-200">
-                {isTypingPassword ? (
-                  <span className="text-candy-600 font-bold">
-                    Tenang, aku tutup mata kok. Gak bakal ngintip!
-                  </span>
-                ) : (
-                  <>
-                    {step === 0 && "Teman belajarmu di dunia Web3"}
-                    {step === 1 && (authMode === "register" ? "Pilih nama panggilan petualangmu" : "Selamat datang kembali! Masuk untuk lanjut")}
-                    {step === 2 && activeGoalConfig.quote}
-                  </>
-                )}
-              </p>
+            <div className="w-full">
+              <div className="inline-block px-3.5 py-1 rounded-xl bg-candy-500 text-white font-pixel text-xs sm:text-sm font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
+                Blobi
+              </div>
+              <div className="mt-2.5 p-3 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
+                <p className="text-xs font-bold text-choco-800 leading-snug">
+                  {isTypingPassword ? (
+                    <span className="text-candy-600 font-bold">
+                      🙈 Tenang, aku tutup mata kok. Gak bakal ngintip!
+                    </span>
+                  ) : (
+                    <>
+                      {step === 0 && "Teman belajarmu di dunia Web3! 🎒"}
+                      {step === 1 && (authMode === "register" ? "Ketik nama panggilan petualangmu di Web3min ✍️" : "Selamat datang kembali! Yuk masuk 🔑")}
+                      {step === 2 && activeGoalConfig.quote}
+                    </>
+                  )}
+                </p>
+              </div>
             </div>
           </div>
 
-            {/* Step Content (7 Cols) */}
-            <div className="md:col-span-7 flex flex-col justify-between min-h-0">
-              {/* Step 0: Welcome */}
-              {step === 0 && (
-                <div className="space-y-5">
+          {/* Step Content (7 Cols) */}
+          <div className="md:col-span-7 flex flex-col justify-between min-h-0">
+            {/* Step 0: Welcome */}
+            {step === 0 && (
+              <div className="space-y-6">
+                <div>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lemon border-2 border-choco-900 text-choco-900 font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218] mb-2.5">
+                    🎮 ARCADE WEB3 SIMULATION
+                  </span>
+                  <h1 className="font-display font-black text-2xl sm:text-3xl lg:text-4xl text-choco-900 tracking-tight leading-tight">
+                    Belajar Web3 dengan santai, 3 menit sehari.
+                  </h1>
+                  <p className="text-xs sm:text-sm font-semibold text-choco-700 mt-2 leading-relaxed">
+                    Pahami wallet, smart contract, DeFi, dan keamanan on-chain lewat simulasi interaktif tanpa perlu modal dan tanpa risiko finansial.
+                  </p>
+                </div>
+
+                {/* 3 Core Highlights (Tactile 3D Retro Arcade Candy Pods) */}
+                <div className="space-y-3.5">
+                  <div className="flex items-center gap-4 rounded-2xl border-3 border-choco-900 bg-white hover:bg-amber-50/50 p-4 shadow-[0_5px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_7px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-amber-200 p-2 shadow-[0_3px_0_#3B2218] flex items-center justify-center">
+                      <img src="/props/book.png" alt="Modul Belajar" className="size-7 object-contain pixelated" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">20 Rute Pulau Rantai</span>
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-amber-300 text-choco-900 border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                          Santai ☕
+                        </span>
+                      </div>
+                      <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
+                        Mulai dari nol apa itu blockchain sampai simulasi smart contract. Bahasa manusia, bukan bahasa alien.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 rounded-2xl border-3 border-choco-900 bg-white hover:bg-emerald-50/50 p-4 shadow-[0_5px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_7px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-emerald-200 p-2 shadow-[0_3px_0_#3B2218] flex items-center justify-center">
+                      <img src="/props/shield.png" alt="Simulasi Aman" className="size-7 object-contain pixelated" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">100% Simulasi Bebas Boncos</span>
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-emerald-400 text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                          Tanpa Modal 🛡️
+                        </span>
+                      </div>
+                      <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
+                        Latihan kirim transaksi & kenali jebakan phising di sandbox aman. Gak bakal keluar duit sepeser pun.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 rounded-2xl border-3 border-choco-900 bg-white hover:bg-pink-50/50 p-4 shadow-[0_5px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_7px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-candy-200 p-2 shadow-[0_3px_0_#3B2218] flex items-center justify-center">
+                      <img src="/props/star.png" alt="Hadiah & Bintang" className="size-7 object-contain pixelated" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">Bintang & Tiket Undian</span>
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-candy-500 text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                          Reward 🎁
+                        </span>
+                      </div>
+                      <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
+                        Kumpulin XP, rawat streak harian, dan klaim tiket undian NFT artefak gratis setiap minggu.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="w-full py-4 px-6 rounded-2xl bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-sm sm:text-base border-3 border-choco-900 shadow-[0_6px_0_#3B2218] active:translate-y-1 active:shadow-[0_2px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
+                  >
+                    <span>Mulai Sekarang</span>
+                    <ArrowRight className="size-5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 1: Username & Password (Register or Login in-place) */}
+            {step === 1 && (
+              <div className="space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div>
-                    <h1 className="font-display font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight leading-snug">
-                      Belajar Web3 dengan santai, 3 menit sehari.
+                    <h1 className="font-display font-black text-xl sm:text-2xl text-choco-900 tracking-tight">
+                      {authMode === "register" ? "Buat Akun Petualang" : "Masuk ke Akun"}
                     </h1>
-                    <p className="text-xs sm:text-sm font-medium text-slate-600 mt-2 leading-relaxed">
-                      Pahami wallet, smart contract, DeFi, dan keamanan on-chain lewat simulasi interaktif tanpa perlu modal dan tanpa risiko finansial.
+                    <p className="text-xs sm:text-sm font-semibold text-choco-700 mt-1">
+                      {authMode === "register"
+                        ? "Username unik tersimpan di database. Tidak bisa dipakai orang lain."
+                        : "Gunakan username unik dan password akun Web3min milikmu."}
                     </p>
                   </div>
 
-                  {/* 3 Core Highlights (Arcade Candy Pods with Custom Pixel Props) */}
-                  <div className="space-y-3 pt-1">
-                    <div className="flex items-start gap-3.5 rounded-2xl border-2 border-choco-900 bg-cream p-3.5 shadow-[0_3px_0_#3B2218]">
-                      <div className="size-11 shrink-0 rounded-xl border-2 border-choco-900 bg-candy-100 p-1.5 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
-                        <img src="/props/book.png" alt="Modul Belajar" className="size-7 object-contain pixelated" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-pixel font-bold text-choco-900">20 Rute Pulau Rantai</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-lemon text-choco-900 border border-choco-900">
-                            Santai
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-semibold text-choco-700 mt-0.5 leading-snug">
-                          Mulai dari nol apa itu rantai blok sampai ngetes smart contract. Gak pakai bahasa alien.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3.5 rounded-2xl border-2 border-choco-900 bg-cream p-3.5 shadow-[0_3px_0_#3B2218]">
-                      <div className="size-11 shrink-0 rounded-xl border-2 border-choco-900 bg-mint/20 p-1.5 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
-                        <img src="/props/shield.png" alt="Simulasi Aman" className="size-7 object-contain pixelated" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-pixel font-bold text-choco-900">100% Simulasi Bebas Boncos</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint text-white border border-choco-900">
-                            Tanpa Modal
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-semibold text-choco-700 mt-0.5 leading-snug">
-                          Latihan kirim transaksi & kenali jebakan phising di sandbox aman. Gak bakal keluar duit sepeser pun.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3.5 rounded-2xl border-2 border-choco-900 bg-cream p-3.5 shadow-[0_3px_0_#3B2218]">
-                      <div className="size-11 shrink-0 rounded-xl border-2 border-choco-900 bg-amber-100 p-1.5 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
-                        <img src="/props/star.png" alt="Hadiah & Bintang" className="size-7 object-contain pixelated" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-pixel font-bold text-choco-900">Bintang & Tiket Undian</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-candy-500 text-white border border-choco-900">
-                            Reward
-                          </span>
-                        </div>
-                        <div className="text-[11px] font-semibold text-choco-700 mt-0.5 leading-snug">
-                          Kumpulin XP, jaga streak harian, dan sikat tiket undian NFT artefak gratis tiap minggu.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-2">
-                    <TactileButton
-                      variant="primary"
-                      size="lg"
-                      fullWidth
-                      iconAfter={<ArrowRight className="size-5" />}
-                      onClick={() => setStep(1)}
+                  {/* Quick Mode Toggle Pill */}
+                  <div className="inline-flex rounded-full bg-cream-100 border-2 border-choco-900 p-1 shadow-[0_2px_0_#3B2218] shrink-0 self-start sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAuthMode("register");
+                        setFormError(null);
+                      }}
+                      className={cn(
+                        "px-3.5 py-1 rounded-full text-xs font-pixel font-bold transition-all cursor-pointer",
+                        authMode === "register"
+                          ? "bg-candy-500 text-white border border-choco-900 shadow-[0_1.5px_0_#3B2218]"
+                          : "text-choco-700 hover:text-choco-900"
+                      )}
                     >
-                      Mulai Sekarang
-                    </TactileButton>
+                      Daftar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAuthMode("login");
+                        setFormError(null);
+                      }}
+                      className={cn(
+                        "px-3.5 py-1 rounded-full text-xs font-pixel font-bold transition-all cursor-pointer",
+                        authMode === "login"
+                          ? "bg-candy-500 text-white border border-choco-900 shadow-[0_1.5px_0_#3B2218]"
+                          : "text-choco-700 hover:text-choco-900"
+                      )}
+                    >
+                      Masuk
+                    </button>
                   </div>
                 </div>
-              )}
 
-              {/* Step 1: Username & Password (Register or Login in-place) */}
-              {step === 1 && (
-                <div className="space-y-5">
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                    <div>
-                      <h1 className="font-display font-bold text-xl sm:text-2xl text-ink-900 tracking-tight">
-                        {authMode === "register" ? "Buat Username & Password" : "Masuk ke Akun"}
-                      </h1>
-                      <p className="text-xs sm:text-sm font-medium text-ink-500 mt-1">
-                        {authMode === "register"
-                          ? "Username unik tersimpan di database. Tidak bisa dipakai orang lain."
-                          : "Gunakan username unik dan password akun Web3min milikmu."}
-                      </p>
-                    </div>
-
-                    {/* Quick Mode Toggle Pill */}
-                    <div className="inline-flex rounded-full bg-[#F0F6FF] border-2 border-line p-0.5 shrink-0 self-start sm:self-auto">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setAuthMode("register");
-                          setFormError(null);
-                        }}
-                        className={cn(
-                          "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
-                          authMode === "register"
-                            ? "bg-candy-500 text-white shadow-sm"
-                            : "text-ink-500 hover:text-ink-900"
-                        )}
-                      >
-                        Daftar
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setAuthMode("login");
-                          setFormError(null);
-                        }}
-                        className={cn(
-                          "px-3 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer",
-                          authMode === "login"
-                            ? "bg-candy-500 text-white shadow-sm"
-                            : "text-ink-500 hover:text-ink-900"
-                        )}
-                      >
-                        Masuk
-                      </button>
-                    </div>
-                  </div>
-
-                  <form
-                    className="space-y-2 pt-1"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (authMode === "register") {
-                        void goUsernameNext();
-                      } else {
-                        void handleLogin();
-                      }
-                    }}
-                  >
-                    <label className="text-xs font-extrabold text-ink-700 block" htmlFor="username">
+                <form
+                  className="space-y-3 pt-1"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (authMode === "register") {
+                      void goUsernameNext();
+                    } else {
+                      void handleLogin();
+                    }
+                  }}
+                >
+                  <div>
+                    <label className="text-xs font-pixel font-bold text-choco-900 block mb-1" htmlFor="username">
                       Username
                     </label>
                     <div className="relative">
@@ -371,16 +387,18 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         placeholder="contoh: satoshi atau blobi_fan"
-                        className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-candy-500 focus:bg-white transition-[border-color,background-color] shadow-inner"
+                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
                         autoFocus
                         autoComplete="username"
                       />
-                      <span className="absolute right-3.5 top-3.5 text-xs font-mono font-bold text-ink-500">
+                      <span className="absolute right-3.5 top-3.5 text-xs font-pixel font-bold text-choco-500">
                         {username.length}/16
                       </span>
                     </div>
+                  </div>
 
-                    <label className="text-xs font-extrabold text-ink-700 block pt-2" htmlFor="password">
+                  <div>
+                    <label className="text-xs font-pixel font-bold text-choco-900 block mb-1" htmlFor="password">
                       Password
                     </label>
                     <input
@@ -394,193 +412,189 @@ function Onboarding() {
                       onFocus={() => setIsTypingPassword(true)}
                       onBlur={() => setIsTypingPassword(false)}
                       autoComplete={authMode === "register" ? "new-password" : "current-password"}
-                      className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-candy-500 focus:bg-white transition-[border-color,background-color] shadow-inner"
-                      placeholder={authMode === "register" ? "Minimal 8 karakter" : "Masukkan password akun"}
+                      className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                      placeholder="Minimal 6 karakter"
                     />
+                  </div>
 
-                    {authMode === "register" && (
+                  {authMode === "register" && (
+                    <div>
+                      <label className="text-xs font-pixel font-bold text-choco-900 block mb-1" htmlFor="password2">
+                        Ulangi Password
+                      </label>
+                      <input
+                        id="password2"
+                        type="password"
+                        value={password2}
+                        onChange={(e) => {
+                          setPassword2(e.target.value);
+                          setFormError(null);
+                        }}
+                        onFocus={() => setIsTypingPassword(true)}
+                        onBlur={() => setIsTypingPassword(false)}
+                        autoComplete="new-password"
+                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                        placeholder="Ulangi password yang sama"
+                      />
+                    </div>
+                  )}
+
+                  {formError ? (
+                    <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48]">
+                      ⚠️ {formError}
+                    </div>
+                  ) : null}
+
+                  <div className="pt-1 text-xs font-bold text-choco-600">
+                    {authMode === "register" ? (
                       <>
-                        <label className="text-xs font-extrabold text-ink-700 block pt-2" htmlFor="password2">
-                          Ulangi password
-                        </label>
-                        <input
-                          id="password2"
-                          type="password"
-                          value={password2}
-                          onChange={(e) => {
-                            setPassword2(e.target.value);
+                        Sudah punya akun?{" "}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAuthMode("login");
                             setFormError(null);
                           }}
-                          onFocus={() => setIsTypingPassword(true)}
-                          onBlur={() => setIsTypingPassword(false)}
-                          autoComplete="new-password"
-                          className="w-full h-12 px-4 rounded-[14px] bg-[#F0F6FF] border-2 border-line-strong text-sm font-bold text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-candy-500 focus:bg-white transition-[border-color,background-color] shadow-inner"
-                          placeholder="Ulangi password yang sama"
-                        />
+                          className="text-candy-600 font-pixel font-bold hover:underline cursor-pointer ml-1"
+                        >
+                          Masuk di sini
+                        </button>
                       </>
-                    )}
-
-                    {formError ? (
-                      <div className="pt-2">
-                        <SectionMessage appearance="error">{formError}</SectionMessage>
-                      </div>
-                    ) : null}
-
-                    <div className="pt-2 text-[11px] font-semibold text-ink-500">
-                      {authMode === "register" ? (
-                        <>
-                          Sudah punya akun?{" "}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setAuthMode("login");
-                              setFormError(null);
-                            }}
-                            className="text-candy-600 font-extrabold hover:underline cursor-pointer"
-                          >
-                            Masuk di sini
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          Belum punya akun?{" "}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setAuthMode("register");
-                              setFormError(null);
-                            }}
-                            className="text-candy-600 font-extrabold hover:underline cursor-pointer"
-                          >
-                            Daftar akun baru
-                          </button>
-                        </>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
-                      <TactileButton
-                        variant="ghost"
-                        size="md"
-                        type="button"
-                        onClick={() => {
-                          if (authMode === "login") {
+                    ) : (
+                      <>
+                        Belum punya akun?{" "}
+                        <button
+                          type="button"
+                          onClick={() => {
                             setAuthMode("register");
                             setFormError(null);
-                          } else {
-                            setStep(0);
-                          }
-                        }}
-                      >
-                        Kembali
-                      </TactileButton>
-                      <TactileButton
-                        variant="primary"
-                        size="lg"
-                        type="submit"
-                        className="w-full sm:flex-1"
-                        iconAfter={<ArrowRight className="size-5" />}
-                        disabled={busy}
-                      >
-                        {busy
-                          ? authMode === "register"
-                            ? "Cek username…"
-                            : "Memeriksa…"
-                          : authMode === "register"
-                            ? "Lanjut"
-                            : "Masuk Sekarang"}
-                      </TactileButton>
-                    </div>
-                  </form>
-                </div>
-              )}
-
-              {/* Step 2: Daily Goal */}
-              {step === 2 && (
-                <div className="space-y-5">
-                  <div>
-                    <h1 className="font-display font-bold text-2xl text-ink-900 tracking-tight">
-                      Tentukan Target Harianmu
-                    </h1>
-                    <p className="text-xs sm:text-sm font-medium text-ink-500 mt-1.5">
-                      Belajar konsisten beberapa menit tiap hari untuk membangun streak dan menjaga nyawa.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3 pt-1">
-                    {GOALS.map((g) => {
-                      const isSelected = goal === g.value;
-                      return (
-                        <button
-                          key={g.value}
-                          type="button"
-                          onClick={() => handleSelectGoal(g)}
-                          className="text-left cursor-pointer transition-all active:translate-y-[2px]"
+                          }}
+                          className="text-candy-600 font-pixel font-bold hover:underline cursor-pointer ml-1"
                         >
-                          <Box
-                            elevation={isSelected ? "raised" : "default"}
-                            border={isSelected ? "brand-bold" : "subtle"}
-                            radius="lg"
-                            padding="sm"
-                            className={`flex flex-col justify-between h-full transition-all ${
-                              isSelected
-                                ? "bg-candy-100 border-2 border-choco-900 shadow-[0_4px_0_#3B2218]"
-                                : "bg-white hover:border-line-strong"
-                            }`}
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="size-7 rounded-xl bg-white/90 border border-line-strong flex items-center justify-center shrink-0 shadow-sm">
-                                  <img
-                                    src={`/mascot/${g.mood}.png`}
-                                    alt=""
-                                    className="size-5 pixelated object-contain"
-                                  />
-                                </span>
-                                <span className="text-xs font-extrabold text-ink-900">{g.label}</span>
-                              </div>
-                              {isSelected ? (
-                                <span className="size-5 rounded-full bg-candy-500 text-white flex items-center justify-center shadow-sm">
-                                  <Check className="size-3" strokeWidth={3} />
-                                </span>
-                              ) : (
-                                <Lozenge appearance="default">{g.value} XP</Lozenge>
-                              )}
-                            </div>
-                            <div className="mt-2.5">
-                              <div className="text-xs font-bold text-candy-600">{g.desc}</div>
-                              <div className="text-[11px] font-semibold text-ink-500 mt-0.5">{g.modules}</div>
-                            </div>
-                          </Box>
+                          Daftar akun baru
                         </button>
-                      );
-                    })}
+                      </>
+                    )}
                   </div>
 
-                  <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
-                    <TactileButton
-                      variant="ghost"
-                      size="md"
-                      onClick={() => setStep(1)}
+                  <div className="flex flex-col-reverse sm:flex-row gap-3 pt-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (authMode === "login") {
+                          setAuthMode("register");
+                          setFormError(null);
+                        } else {
+                          setStep(0);
+                        }
+                      }}
+                      className="py-3 px-5 rounded-2xl bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
                     >
                       Kembali
-                    </TactileButton>
-                    <TactileButton
-                      variant="primary"
-                      size="lg"
-                      className="w-full sm:flex-1"
-                      iconAfter={<ArrowRight className="size-5" />}
-                      onClick={() => void finish()}
+                    </button>
+                    <button
+                      type="submit"
                       disabled={busy}
+                      className="flex-1 py-3 px-5 rounded-2xl bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-3 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
                     >
-                      {busy ? "Mendaftarkan…" : "Mulai Petualangan!"}
-                    </TactileButton>
+                      <span>
+                        {busy
+                          ? authMode === "register"
+                            ? "Memeriksa..."
+                            : "Memproses..."
+                          : authMode === "register"
+                            ? "Lanjut ke Target"
+                            : "Masuk Sekarang"}
+                      </span>
+                      <ArrowRight className="size-4" />
+                    </button>
                   </div>
+                </form>
+              </div>
+            )}
+
+            {/* Step 2: Daily Goal */}
+            {step === 2 && (
+              <div className="space-y-5">
+                <div>
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-lemon border-2 border-choco-900 text-choco-900 font-pixel text-[9px] font-bold shadow-[0_1.5px_0_#3B2218] mb-1.5">
+                    🎯 KOMITMEN BELAJAR
+                  </span>
+                  <h1 className="font-display font-black text-2xl sm:text-3xl text-choco-900 tracking-tight">
+                    Tentukan Target Harianmu
+                  </h1>
+                  <p className="text-xs sm:text-sm font-semibold text-choco-700 mt-1">
+                    Belajar konsisten beberapa menit tiap hari untuk membangun streak dan menjaga nyawa.
+                  </p>
                 </div>
-              )}
-            </div>
+
+                <div className="grid grid-cols-2 gap-3.5 pt-1">
+                  {GOALS.map((g) => {
+                    const isSelected = goal === g.value;
+                    return (
+                      <button
+                        key={g.value}
+                        type="button"
+                        onClick={() => handleSelectGoal(g)}
+                        className={`p-4 rounded-2xl text-left border-3 transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-candy-100 border-candy-600 shadow-[0_5px_0_#B01F62] scale-[1.02]"
+                            : "bg-white border-choco-900 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218]"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="size-8 rounded-xl bg-white border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_1.5px_0_#3B2218]">
+                              <img
+                                src={`/mascot/${g.mood}.png`}
+                                alt=""
+                                className="size-5 pixelated object-contain"
+                              />
+                            </span>
+                            <span className="font-pixel text-xs font-bold text-choco-900">{g.label}</span>
+                          </div>
+                          {isSelected ? (
+                            <span className="size-5 rounded-full bg-candy-500 text-white flex items-center justify-center shadow-xs border border-choco-900">
+                              <Check className="size-3" strokeWidth={3} />
+                            </span>
+                          ) : (
+                            <span className="font-pixel text-[9px] font-bold px-2 py-0.5 rounded-full bg-cream border border-choco-900 text-choco-700">
+                              {g.value} XP
+                            </span>
+                          )}
+                        </div>
+                        <div className="mt-3">
+                          <div className="font-pixel text-xs font-bold text-candy-600">{g.desc}</div>
+                          <div className="text-[11px] font-bold text-choco-600 mt-0.5">{g.modules}</div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="flex flex-col-reverse sm:flex-row gap-3 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="py-3 px-5 rounded-2xl bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                  >
+                    Kembali
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void finish()}
+                    disabled={busy}
+                    className="flex-1 py-3 px-5 rounded-2xl bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-3 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
+                  >
+                    <span>{busy ? "Mendaftarkan…" : "Mulai Petualangan! 🚀"}</span>
+                    <ArrowRight className="size-4" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+      </div>
     </main>
   );
 }

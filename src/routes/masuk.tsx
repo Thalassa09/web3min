@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { TactileButton } from "@/components/ui/tactile-button";
+import { ArrowRight, Lock, KeyRound } from "lucide-react";
 import { Mascot } from "@/components/mascot";
 import { loginAccount, validateUsername } from "@/lib/account";
 import { sanitizeUsername } from "@/lib/people";
@@ -34,37 +33,40 @@ function MasukPage() {
   }
 
   return (
-    <main className="min-h-dvh bg-canvas flex items-center justify-center px-4 py-8 overflow-x-hidden select-none">
-      <div className="w-full max-w-md p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.14)]">
-        <div className="flex items-center gap-3.5 mb-5">
-          {/* Blobi on Tactile Pink Tile */}
-          <div className="size-16 rounded-2xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 shadow-[0_3px_0_#B01F62] flex items-center justify-center shrink-0">
+    <main className="min-h-dvh bg-[#FDFBF7] flex items-center justify-center px-4 py-8 select-none">
+      <div className="w-full max-w-md p-6 sm:p-8 rounded-[32px] bg-cream border-4 border-choco-900 shadow-[0_10px_0_#3B2218]">
+        {/* Mascot & Title */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="size-20 rounded-2xl bg-linear-to-b from-[#FFF0F5] to-[#FCE7F3] border-3 border-choco-900 shadow-[0_4px_0_#3B2218] flex items-center justify-center shrink-0">
             <Mascot
               mood={isTypingPassword ? "sleep" : "wave"}
-              size={52}
+              size={64}
               hideParticles={isTypingPassword}
             />
           </div>
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-choco-900">
-              Masuk
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-lemon border-2 border-choco-900 text-choco-900 font-pixel text-[9px] font-bold shadow-[0_1.5px_0_#3B2218]">
+              LOGIN PETUALANG
+            </span>
+            <h1 className="font-display font-black text-2xl sm:text-3xl text-choco-900 mt-1">
+              Masuk Akun
             </h1>
-            <p className="font-sans font-medium text-xs text-choco-600 mt-0.5">
+            <p className="text-xs font-bold text-choco-600 mt-0.5">
               {isTypingPassword ? (
                 <span className="text-candy-600 font-bold">
-                  Tenang, aku tutup mata... gak ngintip!
+                  🙈 Tenang, aku tutup mata... gak ngintip!
                 </span>
               ) : (
-                "Username unik + password akunmu."
+                "Masukkan username & password kamu."
               )}
             </p>
           </div>
         </div>
 
-        <form className="space-y-3.5" onSubmit={onSubmit}>
+        <form className="space-y-4" onSubmit={onSubmit}>
           <div>
             <label
-              className="block font-sans text-xs font-bold uppercase tracking-wider text-choco-500 mb-1"
+              className="block font-pixel text-xs font-bold text-choco-900 mb-1.5"
               htmlFor="login-user"
             >
               Username
@@ -72,16 +74,20 @@ function MasukPage() {
             <input
               id="login-user"
               value={username}
-              onChange={(e) => setUsername(sanitizeUsername(e.target.value))}
+              onChange={(e) => {
+                setUsername(sanitizeUsername(e.target.value));
+                setError(null);
+              }}
               autoComplete="username"
-              className="w-full h-12 px-4 rounded-xl bg-white/80 border-2 border-choco-900/20 text-sm font-bold text-choco-900 placeholder:text-choco-400 focus:outline-none focus:border-candy-500 focus:ring-2 focus:ring-candy-200 transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.03)]"
+              className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
               placeholder="contoh: satoshi atau blobi_fan"
+              autoFocus
             />
           </div>
 
           <div>
             <label
-              className="block font-sans text-xs font-bold uppercase tracking-wider text-choco-500 mb-1"
+              className="block font-pixel text-xs font-bold text-choco-900 mb-1.5"
               htmlFor="login-pass"
             >
               Password
@@ -90,39 +96,45 @@ function MasukPage() {
               id="login-pass"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError(null);
+              }}
               onFocus={() => setIsTypingPassword(true)}
               onBlur={() => setIsTypingPassword(false)}
               autoComplete="current-password"
-              className="w-full h-12 px-4 rounded-xl bg-white/80 border-2 border-choco-900/20 text-sm font-bold text-choco-900 focus:outline-none focus:border-candy-500 focus:ring-2 focus:ring-candy-200 transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.03)]"
+              className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+              placeholder="Masukkan password akun"
             />
           </div>
 
           {error && (
-            <p className="font-sans text-xs font-bold text-danger bg-red-50 p-2.5 rounded-xl border border-red-300">
-              {error}
-            </p>
+            <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48]">
+              ⚠️ {error}
+            </div>
           )}
 
-          <div className="pt-1">
-            <TactileButton
-              variant="primary"
-              size="lg"
-              fullWidth
+          <div className="pt-2">
+            <button
+              type="submit"
               disabled={busy}
-              icon={<ArrowRight className="size-5" />}
+              className="w-full py-4 px-6 rounded-2xl bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-sm sm:text-base border-3 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
             >
-              {busy ? "Memeriksa…" : "Masuk"}
-            </TactileButton>
+              <span>{busy ? "Memeriksa Akun..." : "Masuk Sekarang 🚀"}</span>
+              <ArrowRight className="size-5" />
+            </button>
           </div>
         </form>
 
-        <p className="mt-4 text-xs font-medium text-choco-500">
-          Belum punya akun?{" "}
-          <Link to="/onboarding" className="font-extrabold text-candy-600 hover:underline">
-            Daftar Sekarang
+        <div className="mt-6 pt-4 border-t-2 border-choco-900/10 flex items-center justify-between text-xs">
+          <span className="font-semibold text-choco-600">Belum punya akun?</span>
+          <Link
+            to="/onboarding"
+            className="font-pixel font-bold text-candy-600 hover:text-candy-700 hover:underline"
+          >
+            Daftar Petualang Baru →
           </Link>
-        </p>
+        </div>
       </div>
     </main>
   );

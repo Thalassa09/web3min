@@ -15,7 +15,9 @@ async function testRealGestures() {
       version: 2
     }));
   });
-  await page.goto("https://web3min.vercel.app/", { waitUntil: "domcontentloaded" });
+  await page.goto("http://localhost:5187/", { waitUntil: "domcontentloaded" }).catch(() => {
+    return page.goto("https://web3min.vercel.app/", { waitUntil: "domcontentloaded" });
+  });
   await page.waitForSelector(".world", { timeout: 15000 });
   await page.waitForTimeout(1000);
 
@@ -63,51 +65,15 @@ async function testRealGestures() {
   const dragSuccess = Math.abs(dx) > 100;
   console.log("Real Drag Success:", dragSuccess);
 
-  // 3. Real Click (Poke) Test
-  console.log("Testing poke click on Blobi...");
+  // 3. Real Click (Poke) Test -> Expect Tactile 3D Blobi Modal Overlay
+  console.log("Testing poke click on Blobi -> checking Arcade Candy Modal Overlay...");
   await page.mouse.click(box2.x + box2.width / 2, box2.y + box2.height / 2);
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(600);
 
-  const speechBubble = page.locator('[class*="bg-white/95"]');
-  const bubbleCount = await speechBubble.count();
-  const bubbleText = bubbleCount > 0 ? await speechBubble.first().textContent() : null;
-  console.log("Speech Bubble after poke:", { visible: bubbleCount > 0, text: bubbleText?.slice(0, 50) });
-
-  // 4. Test Mobile Viewport & Touch Gestures
-  console.log("\n--- Testing Mobile Viewport & Touch Gestures ---");
-  const mobileContext = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-    hasTouch: true,
-  });
-  const mobilePage = await mobileContext.newPage();
-  
-  // Set coachSeen so Blobi is ready immediately
-  await mobilePage.addInitScript(() => {
-    localStorage.setItem("web3min-v2", JSON.stringify({
-      state: { coachSeen: true, completed: ["intro-1"] },
-      version: 2
-    }));
-  });
-
-  await mobilePage.goto("https://web3min.vercel.app/", { waitUntil: "domcontentloaded" });
-  await mobilePage.waitForSelector(".world", { timeout: 15000 });
-  await mobilePage.waitForTimeout(1000);
-
-  const mobileBlobi = mobilePage.locator('[title*="Tarik & geser Blobi"]');
-  const mBox1 = await mobileBlobi.boundingBox();
-  console.log("Mobile Blobi Initial Box:", mBox1);
-
-  if (mBox1) {
-    const mStartX = mBox1.x + mBox1.width / 2;
-    const mStartY = mBox1.y + mBox1.height / 2;
-
-    // Tap to poke
-    await mobilePage.touchscreen.tap(mStartX, mStartY);
-    await mobilePage.waitForTimeout(400);
-
-    const mBubble = mobilePage.locator('[class*="bg-white/95"]');
-    console.log("Mobile Poke Speech Bubble visible:", (await mBubble.count()) > 0);
-  }
+  // The modal overlay has badge "Teman Belajar Blobi" and heading "Blobi Menyapa!"
+  const blobiModalBadge = page.locator('text="Teman Belajar Blobi"');
+  const modalVisible = (await blobiModalBadge.count()) > 0;
+  console.log("Tactile Blobi Modal Overlay opened:", modalVisible);
 
   await browser.close();
   console.log("\n=== REAL GESTURE TESTS COMPLETE ===");

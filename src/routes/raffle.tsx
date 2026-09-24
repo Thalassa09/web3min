@@ -20,6 +20,10 @@ import {
   Award,
   Layers,
   Filter,
+  Edit3,
+  Trash2,
+  Lock,
+  Shield,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
@@ -27,12 +31,19 @@ import { useProgress } from "@/lib/store";
 import {
   rpcGetRaffles,
   rpcGetRaffleStats,
+  rpcAdminDeleteRaffle,
   type DbRaffleItem,
   type DbRaffleStats,
 } from "@/lib/server-sync";
 import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE, type RaffleItem } from "@/lib/raffles";
 import { playBuy, playClaim, playDeny, playTap } from "@/lib/audio";
 import { CandyLoader } from "@/components/ui/progress-bar";
+import {
+  AdminLoginModal,
+  AdminRaffleModal,
+  AdminDeleteModal,
+  type AdminRaffleData,
+} from "@/components/admin-raffle-modal";
 
 export const Route = createFileRoute("/raffle")({
   component: RafflePage,
@@ -53,6 +64,8 @@ type UnifiedRaffle = {
   ticketCost: number;
   winnerCount: number;
   perks: string[];
+  imageUrl?: string;
+  isSimulation?: boolean;
 };
 
 function formatCountdown(targetMs: number): string {
@@ -137,36 +150,50 @@ export function RafflePage() {
   const [ticketToEnter, setTicketToEnter] = React.useState(1);
   const [showFaqModal, setShowFaqModal] = React.useState(false);
 
-  // Load from Supabase DB on mount
-  React.useEffect(() => {
-    let active = true;
-    async function loadData() {
-      setIsDbLoading(true);
-      try {
-        const [raffles, stats] = await Promise.all([
-          rpcGetRaffles(),
-          rpcGetRaffleStats(),
-        ]);
-        if (active) {
-          if (Array.isArray(raffles) && raffles.length > 0) {
-            setDbRaffles(raffles);
-            setIsDbConnected(true);
-          }
-          if (stats && Object.keys(stats).length > 0) {
-            setStatsMap(stats);
-          }
-        }
-      } catch (err) {
-        console.warn("[raffle] Failed to fetch data from DB:", err);
-      } finally {
-        if (active) setIsDbLoading(false);
+  // Admin Mode State
+  const [adminKey, setAdminKey] = React.useState<string | null>(null);
+  const [showAdminLogin, setShowAdminLogin] = React.useState(false);
+  const [showAdminRaffleModal, setShowAdminRaffleModal] = React.useState(false);
+  const [editingRaffle, setEditingRaffle] = React.useState<AdminRaffleData | null>(null);
+  const [deletingRaffle, setDeletingRaffle] = React.useState<UnifiedRaffle | null>(null);
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  const isAdmin = Boolean(adminKey);
+
+  // Load from Supabase DB on mount & reload trigger
+  const refreshData = React.useCallback(async () => {
+    setIsDbLoading(true);
+    try {
+      const [raffles, stats] = await Promise.all([
+        rpcGetRaffles(),
+        rpcGetRaffleStats(),
+      ]);
+      if (Array.isArray(raffles) && raffles.length > 0) {
+        setDbRaffles(raffles);
+        setIsDbConnected(true);
       }
+      if (stats && Object.keys(stats).length > 0) {
+        setStatsMap(stats);
+      }
+    } catch (err) {
+      console.warn("[raffle] Failed to fetch data from DB:", err);
+    } finally {
+      setIsDbLoading(false);
     }
-    void loadData();
-    return () => {
-      active = false;
-    };
   }, []);
+
+  React.useEffect(() => {
+    void refreshData();
+    try {
+      const savedAuth = localStorage.getItem("web3min_admin_auth");
+      if (savedAuth) {
+        const parsed = JSON.parse(savedAuth);
+        if (parsed?.key) {
+          setAdminKey(parsed.key);
+        }
+      }
+    } catch {}
+  }, [refreshData]);
 
   // Merge DB raffles with local fallback
   const allRaffles: UnifiedRaffle[] = React.useMemo(() => {
@@ -197,6 +224,8 @@ export function RafflePage() {
           ticketCost: r.ticket_cost || 1,
           winnerCount: r.winner_count || 1,
           perks: parsedPerks.length > 0 ? parsedPerks : ["Akses eksklusif artefak Web3min"],
+          imageUrl: r.image_url || undefined,
+          isSimulation: r.is_simulation ?? true,
         };
       });
     }
@@ -217,6 +246,8 @@ export function RafflePage() {
       ticketCost: r.ticketCost,
       winnerCount: r.winnerCount,
       perks: Array.isArray(r.requirements) ? r.requirements : [],
+      imageUrl: r.imageUrl || undefined,
+      isSimulation: r.isSimulation ?? true,
     }));
   }, [dbRaffles]);
 
@@ -285,6 +316,52 @@ export function RafflePage() {
     } else {
       playDeny();
       showToast("Gagal memasang tiket undian.");
+    }
+  };
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem("web3min_admin_auth");
+    setAdminKey(null);
+    showToast("Berhasil keluar dari mode admin.");
+  };
+
+  const handleOpenCreateModal = () => {
+    setEditingRaffle(null);
+    setShowAdminRaffleModal(true);
+  };
+
+  const handleOpenEditModal = (r: UnifiedRaffle) => {
+    setEditingRaffle({
+      id: r.id,
+      title: r.title,
+      prize: r.prize,
+      prizeDetail: r.prizeDetail,
+      category: r.category,
+      status: r.status,
+      endsAt: new Date(r.endsAt).toISOString(),
+      ticketCost: r.ticketCost,
+      winnerCount: r.winnerCount,
+      imageUrl: r.imageUrl,
+      nftNetwork: r.nftNetwork,
+      nftContract: r.nftContract,
+      nftTokenId: r.nftTokenId,
+      nftRarity: r.nftRarity,
+      perks: r.perks,
+    });
+    setShowAdminRaffleModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deletingRaffle || !adminKey) return;
+    setIsDeleting(true);
+    const res = await rpcAdminDeleteRaffle(adminKey, deletingRaffle.id);
+    setIsDeleting(false);
+    if (res.success) {
+      showToast(`Undian "${deletingRaffle.title}" berhasil dihapus.`);
+      setDeletingRaffle(null);
+      void refreshData();
+    } else {
+      showToast(res.error || "Gagal menghapus undian.");
     }
   };
 
@@ -450,6 +527,42 @@ export function RafflePage() {
           </div>
         </div>
 
+        {/* Admin Control Banner (Mode Admin Aktif) */}
+        {isAdmin && (
+          <div className="p-4 sm:p-5 rounded-3xl bg-amber-300 border-3 border-choco-900 shadow-[0_6px_0_#3B2218] text-choco-900 flex flex-col sm:flex-row items-center justify-between gap-3 animate-in fade-in duration-200">
+            <div className="flex items-center gap-3">
+              <div className="size-11 rounded-2xl bg-choco-900 text-amber-300 flex items-center justify-center font-bold text-lg shadow-[0_2px_0_#3B2218]">
+                👑
+              </div>
+              <div>
+                <span className="font-pixel text-[10px] uppercase font-bold text-choco-800 bg-amber-400/80 px-2 py-0.5 rounded-full border border-choco-900/30">
+                  Akses Admin Web3min
+                </span>
+                <h4 className="font-pixel text-base sm:text-lg font-bold text-choco-900 leading-tight mt-0.5">
+                  Mode Pengelola Undian Aktif
+                </h4>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={handleOpenCreateModal}
+                className="flex-1 sm:flex-initial py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Plus className="size-4" />
+                <span>+ Buat Undian Baru</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleAdminLogout}
+                className="py-2.5 px-4 rounded-full bg-white hover:bg-cream-100 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+              >
+                Keluar Admin
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Raffles Grid */}
         {allRaffles.length === 0 && isDbLoading ? (
           <div className="p-12 flex flex-col items-center justify-center space-y-4">
@@ -521,6 +634,21 @@ export function RafflePage() {
                       </div>
                     )}
                   </div>
+
+                  {/* Artwork / Image Space for NFT or Project */}
+                  {raffle.imageUrl && (
+                    <div className="relative w-full h-44 sm:h-52 overflow-hidden rounded-2xl border-2 border-choco-900 bg-choco-900/5 shadow-[0_3px_0_#3B2218] my-2.5">
+                      <img
+                        src={raffle.imageUrl}
+                        alt={raffle.title}
+                        className="w-full h-full object-cover object-center"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-choco-900/85 text-white font-pixel text-[9px] font-bold shadow-xs">
+                        NFT ARTIFACT
+                      </div>
+                    </div>
+                  )}
 
                   {/* Prize Details & Perks */}
                   <p className="text-xs font-semibold text-choco-700 leading-relaxed">
@@ -602,6 +730,28 @@ export function RafflePage() {
                   {userEntered > 0 && (
                     <div className="text-center text-[11px] font-bold text-emerald-800 bg-emerald-50 rounded-xl py-1 border-2 border-emerald-300 shadow-[0_1px_0_#15803D]">
                       Kamu memiliki {userEntered} nomor entri aktif di undian ini!
+                    </div>
+                  )}
+
+                  {/* Admin Card Action Buttons */}
+                  {isAdmin && (
+                    <div className="pt-2 flex items-center gap-2 border-t-2 border-choco-900/10 mt-2">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEditModal(raffle)}
+                        className="flex-1 py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-500 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-1.5"
+                      >
+                        <Edit3 className="size-3.5" />
+                        <span>Edit Undian</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeletingRaffle(raffle)}
+                        className="py-2 px-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-1.5"
+                      >
+                        <Trash2 className="size-3.5" />
+                        <span>Hapus</span>
+                      </button>
                     </div>
                   )}
                 </div>
@@ -1083,7 +1233,64 @@ export function RafflePage() {
             </div>
           </div>
         )}
+
+        {/* Footer Admin Entry Point */}
+        <div className="flex justify-center pt-2 pb-6">
+          {!isAdmin ? (
+            <button
+              type="button"
+              onClick={() => setShowAdminLogin(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cream border-2 border-choco-900 text-choco-700 hover:text-choco-900 hover:bg-candy-100 font-pixel text-xs font-bold shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+            >
+              <Lock className="size-3.5 text-candy-600" />
+              <span>Akses Login Admin Undian</span>
+            </button>
+          ) : (
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-200 border-2 border-choco-900 font-pixel text-xs font-bold text-choco-900 shadow-[0_2px_0_#3B2218]">
+              <Shield className="size-3.5 text-choco-900" />
+              <span>Sesi Admin Aktif</span>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Admin Login Modal */}
+      <AdminLoginModal
+        isOpen={showAdminLogin}
+        onClose={() => setShowAdminLogin(false)}
+        onSuccess={(key) => {
+          setAdminKey(key);
+          showToast("Berhasil masuk sebagai Admin Undian! 👑");
+        }}
+      />
+
+      {/* Admin Add/Edit Raffle Modal with Image Space */}
+      {adminKey && (
+        <AdminRaffleModal
+          isOpen={showAdminRaffleModal}
+          onClose={() => {
+            setShowAdminRaffleModal(false);
+            setEditingRaffle(null);
+          }}
+          onSaved={() => {
+            showToast("Katalog undian berhasil diperbarui! 🚀");
+            void refreshData();
+          }}
+          initialData={editingRaffle}
+          adminKey={adminKey}
+        />
+      )}
+
+      {/* Admin Delete Confirmation Modal */}
+      {deletingRaffle && (
+        <AdminDeleteModal
+          isOpen={Boolean(deletingRaffle)}
+          onClose={() => setDeletingRaffle(null)}
+          onConfirm={handleConfirmDelete}
+          title={deletingRaffle.title}
+          loading={isDeleting}
+        />
+      )}
     </AppShell>
   );
 }

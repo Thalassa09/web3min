@@ -37,7 +37,7 @@ export function DeskRail() {
         <Card variant="default" padding="md" className="space-y-3 bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
           <div className="flex items-center justify-between">
             <span className="font-pixel text-xs font-bold text-choco-900 flex items-center gap-1.5">
-              <span className="text-base">🏝️</span>
+              <BookOpen className="size-4 text-candy-600" />
               Progres 20 Rute
             </span>
             <span className="px-2 py-0.5 rounded-full bg-candy-100 text-[10px] font-pixel font-bold text-candy-700 border border-choco-900">

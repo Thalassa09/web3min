@@ -183,8 +183,8 @@ export function PulauRantaiMap({
         {toastMsg}
       </div>
 
-      {/* Floating Overlay: Progres 20 Rute (Tanpa header bar kaku) */}
-      <div className="fixed top-16 sm:top-20 right-4 sm:right-6 z-25 pointer-events-none">
+      {/* Desktop only. On mobile this fixed pill covers the route board. */}
+      <div className="hidden lg:block fixed top-20 right-6 z-25 pointer-events-none">
         <button
           type="button"
           className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-cream/95 hover:bg-white backdrop-blur-md text-choco-900 border-2 border-choco-900 text-xs font-pixel font-bold transition-all active:scale-95 cursor-pointer shadow-[0_3px_0_#3B2218] hover:shadow-[0_4px_0_#3B2218]"
@@ -341,6 +341,17 @@ export function PulauRantaiMap({
                     <span className="shrink-0 text-[10px] font-pixel font-bold text-choco-600 bg-cream-100 px-2 py-0.5 rounded-full border border-choco-900/30">
                       {unit.lessons.filter((l) => l.kind !== "chest").length} Blok
                     </span>
+                    {wi === 0 ? (
+                      <button
+                        type="button"
+                        className="lg:hidden shrink-0 inline-flex items-center gap-1 h-7 px-2 rounded-full bg-white border-2 border-choco-900 text-[10px] font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
+                        onClick={() => setShowProgresModal(true)}
+                        aria-label="Buka progres 20 rute"
+                      >
+                        <PulauIcon name="book" size={12} />
+                        <span>20</span>
+                      </button>
+                    ) : null}
                   </div>
                   {/* Subtitle / Description - Subtle and hidden on mobile to avoid screen crowding */}
                   <p className="hidden sm:block text-xs text-choco-700 font-semibold leading-relaxed mt-1 line-clamp-1">

@@ -127,9 +127,15 @@ export function Mascot({
         className,
       )}
       style={fill ? { width: "100%", height: "100%" } : { width: size, height: size }}
-      aria-label="web3min, maskot ikan blob"
-      role={interactive && !lite ? "button" : "img"}
-      tabIndex={interactive && !lite ? 0 : undefined}
+      {...(interactive && !lite
+        ? {
+            role: "button",
+            "aria-label": "Sentuh maskot Blobi",
+            tabIndex: 0,
+          }
+        : {
+            "aria-hidden": "true",
+          })}
       onClick={(e) => poke(e.clientX)}
       onPointerDown={(e) => {
         if (e.pointerType === "touch") {

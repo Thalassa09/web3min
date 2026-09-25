@@ -1794,6 +1794,7 @@ button.jb:active, .fab:active .jb {
   overflow: hidden;
   background: var(--wbg, #7FBF67);
 }
+.world > picture.art,
 .world > .art {
   position: absolute;
   inset: 0;
@@ -1802,6 +1803,12 @@ button.jb:active, .fab:active .jb {
   object-fit: cover;
   pointer-events: none;
   image-rendering: auto;
+}
+.world > picture.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 .road {
   position: absolute;

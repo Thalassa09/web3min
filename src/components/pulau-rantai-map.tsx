@@ -245,16 +245,19 @@ export function PulauRantaiMap({
                 } as React.CSSProperties
               }
             >
-              <img
-                className="art"
-                src={`/worlds/${unit.id}.jpg?v=hd2`}
-                alt=""
-                decoding="async"
-                loading={unit.id === "u1" ? "eager" : "lazy"}
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-              />
+              <picture className="art block w-full h-full pointer-events-none">
+                <source srcSet={`/worlds/${unit.id}.webp?v=hd3`} type="image/webp" />
+                <img
+                  className="art w-full h-full object-cover pointer-events-none"
+                  src={`/worlds/${unit.id}.jpg?v=hd3`}
+                  alt=""
+                  decoding="async"
+                  loading={unit.id === "u1" ? "eager" : "lazy"}
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              </picture>
 
               {/* HD Atmospheric Lighting Overlay for rich depth & contrast */}
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/10 via-transparent to-ink-950/20 z-1" />

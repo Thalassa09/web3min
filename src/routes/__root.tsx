@@ -59,6 +59,7 @@ export const Route = createRootRoute({
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "apple-touch-icon", href: "/icon-180.png" },
+      { rel: "preload", as: "image", href: "/worlds/u1.webp?v=hd3", type: "image/webp" },
       ...defaultSeo.links,
     ],
   }),

@@ -128,7 +128,7 @@ export function Mascot({
       )}
       style={fill ? { width: "100%", height: "100%" } : { width: size, height: size }}
       aria-label="web3min, maskot ikan blob"
-      role={interactive && !lite ? "button" : undefined}
+      role={interactive && !lite ? "button" : "img"}
       tabIndex={interactive && !lite ? 0 : undefined}
       onClick={(e) => poke(e.clientX)}
       onPointerDown={(e) => {

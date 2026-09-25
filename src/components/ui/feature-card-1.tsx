@@ -159,6 +159,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
               <img
                 src={imageSrc}
                 alt={imageAlt || tag}
+                loading="lazy"
                 className="w-full h-full object-cover object-center filter brightness-[0.98] group-hover:brightness-105 group-hover:scale-105 transition-all duration-300"
                 decoding="async"
                 onError={(e) => {
@@ -176,6 +177,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
             <img
               src={imageSrc}
               alt={imageAlt || tag}
+              loading="lazy"
               className="h-28 w-28 sm:h-36 sm:w-36 object-contain filter drop-shadow-[0_12px_18px_rgba(59,34,24,0.22)] transition-all"
               decoding="async"
               onError={(e) => {

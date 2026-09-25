@@ -516,6 +516,7 @@ export function AdminPage() {
                     onChange={(e) => setPasswordInput(e.target.value)}
                     placeholder="Masukkan password admin..."
                     autoFocus
+                    autoComplete="current-password"
                     className="w-full px-4 py-3 pr-11 rounded-2xl bg-white border-2 border-choco-900 text-choco-900 font-mono text-sm placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-500"
                   />
                   <button

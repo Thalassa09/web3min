@@ -386,9 +386,9 @@ export function AdminRaffleModal({
     }
 
     if (prize.trim()) {
-      const numMatch = prize.trim().match(/\b(\d+)\b/);
-      if (numMatch && Number(numMatch[1]) !== Number(winnerCount)) {
-        setFormError(`Angka pada teks hadiah (${numMatch[1]}) harus sama dengan Jumlah Pemenang (${winnerCount})!`);
+      const slotMatch = prize.trim().match(/\b(\d+)\s*(?:slot|tiket|pemenang|winner|kuota)\b/i);
+      if (slotMatch && Number(slotMatch[1]) !== Number(winnerCount)) {
+        setFormError(`Angka kuota pada teks hadiah (${slotMatch[1]} ${slotMatch[2] || "slot"}) harus sama dengan Jumlah Pemenang (${winnerCount})!`);
         return;
       }
     }

@@ -250,6 +250,7 @@ export function PulauRantaiMap({
                 src={`/worlds/${unit.id}.jpg?v=hd2`}
                 alt=""
                 decoding="async"
+                loading={unit.id === "u1" ? "eager" : "lazy"}
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}
@@ -326,6 +327,8 @@ export function PulauRantaiMap({
                     className="prop"
                     src={`/props/${p.name}.png`}
                     alt=""
+                    decoding="async"
+                    loading="lazy"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}

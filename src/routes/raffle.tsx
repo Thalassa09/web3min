@@ -157,6 +157,21 @@ export function RafflePage() {
   const [xError, setXError] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
+  // Keyboard shortcut to close any open modal
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowBuyModal(false);
+        setShowGuideModal(false);
+        setEnteringRaffle(null);
+        setPreviewImage(null);
+        setPreviewFairness(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   // Filter states
   const [activeCategory, setActiveCategory] = React.useState<string>("all");
   const [activeStatus, setActiveStatus] = React.useState<"live" | "all">("live");
@@ -1036,7 +1051,9 @@ export function RafflePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              type="button"
               onClick={() => setShowBuyModal(false)}
+              aria-label="Tutup"
               className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
             >
               <X className="size-4.5 stroke-[2.5]" />
@@ -1142,7 +1159,9 @@ export function RafflePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              type="button"
               onClick={() => setEnteringRaffle(null)}
+              aria-label="Tutup"
               className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
             >
               <X className="size-4.5 stroke-[2.5]" />
@@ -1285,7 +1304,9 @@ export function RafflePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              type="button"
               onClick={() => setShowGuideModal(false)}
+              aria-label="Tutup"
               className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
             >
               <X className="size-4.5 stroke-[2.5]" />
@@ -1375,7 +1396,9 @@ export function RafflePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              type="button"
               onClick={() => setPreviewImage(null)}
+              aria-label="Tutup"
               className="absolute top-3 right-3 flex size-8 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 cursor-pointer"
             >
               <X className="size-4" />
@@ -1405,7 +1428,9 @@ export function RafflePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              type="button"
               onClick={() => setPreviewFairness(null)}
+              aria-label="Tutup"
               className="absolute top-4 right-4 flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 cursor-pointer"
             >
               <X className="size-4.5 stroke-[2.5]" />

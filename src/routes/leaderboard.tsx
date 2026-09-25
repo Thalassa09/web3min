@@ -55,6 +55,17 @@ function LeaderboardPage() {
   const [search, setSearch] = React.useState("");
   const [showPrizeModal, setShowPrizeModal] = React.useState(false);
   const [claimedNotice, setClaimedNotice] = React.useState<string | null>(null);
+
+  // Keyboard shortcut to close modal
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowPrizeModal(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
   const [dbUsers, setDbUsers] = React.useState<DbLeaderboardUser[]>([]);
   const [dbTotalCount, setDbTotalCount] = React.useState(0);
   const [isDbLoading, setIsDbLoading] = React.useState(true);

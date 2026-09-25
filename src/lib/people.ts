@@ -132,7 +132,7 @@ export function sanitizeUsername(n: unknown) {
   return String(n ?? "")
     .toLowerCase()
     .replace(/[^a-z0-9_]/g, "")
-    .slice(0, 16);
+    .slice(0, 20);
 }
 
 export function sanitizeTwitter(n: unknown) {

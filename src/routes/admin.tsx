@@ -372,7 +372,7 @@ export function AdminPage() {
               category: r.category,
               status: r.status,
               starts_at: new Date(r.startsAt || Date.now()).toISOString(),
-              ends_at: new Date(r.endsAt).toISOString(),
+              ends_at: new Date(r.endsAt ?? Date.now()).toISOString(),
               ticket_cost: r.ticketCost,
               winner_count: r.winnerCount,
               perks: Array.isArray(r.requirements) ? r.requirements : [],

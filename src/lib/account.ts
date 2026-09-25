@@ -3,7 +3,30 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { useProgress } from "@/lib/store";
 import { syncProgressFromServer } from "@/lib/server-sync";
 
-const USERNAME_RE = /^[a-z0-9_]{3,16}$/;
+const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
+
+/** Blocklist ringan client (mirror server is_offensive; server tetap otoritas final). */
+const OFFENSIVE_RE =
+  /(memek|kontol|jembot|jembut|henceut|puki|pantek|itil|ngocok|ngentot|pepek|asu|bajingan|bangsat|babi|toket|tetek|boker|tahi|berak|lonte|bispak|colmek|coli|titit|fuck|shit|bitch|cunt|dick|pussy|cock|nigger|fag|whore|slut|penis|vagina)/;
+
+function normalizeLeet(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/3/g, "e")
+    .replace(/0/g, "o")
+    .replace(/1|!|\|/g, "i")
+    .replace(/4|@/g, "a")
+    .replace(/5|\$/g, "s")
+    .replace(/7|\+/g, "t")
+    .replace(/8/g, "b")
+    .replace(/2/g, "z")
+    .replace(/(.)\1+/g, "$1");
+}
+
+export function isOffensiveClient(raw: string): boolean {
+  const norm = normalizeLeet(raw);
+  return OFFENSIVE_RE.test(norm);
+}
 
 /** Deterministic login email so users only type username + password. */
 export function accountEmail(username: string) {
@@ -13,7 +36,8 @@ export function accountEmail(username: string) {
 
 export function validateUsername(raw: string): string | null {
   const id = sanitizeUsername(raw);
-  if (!USERNAME_RE.test(id)) return "Username 3-16 karakter: huruf kecil, angka, underscore.";
+  if (!USERNAME_RE.test(id)) return "Username 3-20 karakter: huruf kecil, angka, underscore.";
+  if (isOffensiveClient(id)) return "Username tidak sesuai pedoman komunitas. Pilih yang lain.";
   return null;
 }
 

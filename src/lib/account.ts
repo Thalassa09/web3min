@@ -81,7 +81,7 @@ export async function registerAccount(opts: {
     password: opts.password,
     options: {
       data: { username },
-      emailRedirectTo: "https://web3min.vercel.app/",
+      emailRedirectTo: "https://web3min.com/",
     },
   });
 

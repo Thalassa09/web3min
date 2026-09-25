@@ -1,7 +1,7 @@
 {
   "name": "web3min",
   "short_name": "web3min",
-  "description": "Platform edukasi dan simulasi Web3 interaktif.",
+  "description": "Belajar Web3 dari nol: 128 blok, 20 rute, bahasa santai. Dompet, DeFi, sampai cara ngenalin penipu.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFF6EE",

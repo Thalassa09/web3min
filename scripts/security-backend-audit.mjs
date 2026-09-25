@@ -26,9 +26,10 @@ async function runSecurityAudit() {
       p_limit: 999999,
       p_offset: 0,
     });
+    const usersBig = Array.isArray(lbBig) ? lbBig : lbBig?.users;
     assert(
       "Leaderboard clamps huge limit without crashing",
-      !errBig && Array.isArray(lbBig),
+      !errBig && Array.isArray(usersBig),
       errBig?.message
     );
   } catch (e) {
@@ -41,9 +42,10 @@ async function runSecurityAudit() {
       p_limit: -50,
       p_offset: -10,
     });
+    const usersNeg = Array.isArray(lbNeg) ? lbNeg : lbNeg?.users;
     assert(
       "Leaderboard handles negative bounds gracefully (clamps to valid ranges)",
-      !errNeg && Array.isArray(lbNeg),
+      !errNeg && Array.isArray(usersNeg),
       errNeg?.message
     );
   } catch (e) {

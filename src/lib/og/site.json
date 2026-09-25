@@ -3,7 +3,7 @@
   "description": "Platform edukasi dan simulasi Web3 interaktif.",
   "type": "website",
   "url": "https://web3min.vercel.app",
-  "image": "https://web3min.vercel.app/og-image.png",
-  "card": "/og-image.png",
+  "image": "https://web3min.vercel.app/og.jpg",
+  "card": "custom",
   "color": "1367E8"
 }

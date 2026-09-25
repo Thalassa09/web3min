@@ -253,6 +253,7 @@ export function PulauRantaiMap({
                   alt=""
                   decoding="async"
                   loading={unit.id === "u1" ? "eager" : "lazy"}
+                  fetchPriority={unit.id === "u1" ? "high" : "auto"}
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
                   }}

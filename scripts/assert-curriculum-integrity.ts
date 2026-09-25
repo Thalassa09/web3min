@@ -104,6 +104,16 @@ assert.equal(
   `Duplicate case IDs found! Total: ${caseIds.length}, Unique: ${uniqueCases.size}`,
 );
 
+// 4. Verify Unit Indices are 1..N contiguous
+const unitIndices = UNITS.map((u) => u.index);
+for (let i = 0; i < UNITS.length; i++) {
+  assert.equal(
+    unitIndices[i],
+    i + 1,
+    `Unit ${UNITS[i].id} index is ${unitIndices[i]}, expected ${i + 1}`,
+  );
+}
+
 console.log(
-  `[build:verify] ✓ Curriculum OK: ${lessonIds.length} lessons (${totalExercises} exercises verified for unique IDs & answer bounds), ${storyIds.length} stories, ${caseIds.length} cases — all unique.`,
+  `[build:verify] ✓ Curriculum OK: ${UNITS.length} units (contiguous indices 1..${UNITS.length}), ${lessonIds.length} lessons (${totalExercises} exercises verified for unique IDs & answer bounds), ${storyIds.length} stories, ${caseIds.length} cases — all unique.`,
 );

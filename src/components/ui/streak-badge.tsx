@@ -73,13 +73,12 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
     const streakLength = length ?? 0;
 
     const frequencyLabel = {
-      daily: "day",
-      weekly: "week",
-      monthly: "month",
+      daily: "hari",
+      weekly: "minggu",
+      monthly: "bulan",
     }[frequency];
 
-    const pluralLabel =
-      streakLength === 1 ? frequencyLabel : `${frequencyLabel}s`;
+    const pluralLabel = frequencyLabel;
 
     const iconSize = {
       sm: "h-8 w-8 sm:h-10 sm:w-10",
@@ -99,7 +98,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
       lg: "text-sm sm:text-base",
     }[size ?? "default"];
 
-    const subtitleText = subtitle ?? "streak";
+    const subtitleText = subtitle ?? "hari beruntun";
     const valueUnit = pluralLabel;
 
     // Build accessible label

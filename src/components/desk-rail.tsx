@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { Sparkles, Trophy, ArrowRight, BookOpen } from "lucide-react";
 import { useProgress } from "@/lib/store";
-import { UNITS, sequentialNodes } from "@/lib/curriculum";
+import { UNITS, sequentialNodes, firstPlayableId, getLesson, getUnit } from "@/lib/curriculum";
 import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
 import { Card } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ui/progress-bar";
@@ -30,9 +30,34 @@ export function DeskRail() {
     }).length;
   }, [completed]);
 
+  const nextPlayableId = useMemo(() => firstPlayableId(completed), [completed]);
+  const nextLesson = useMemo(() => (nextPlayableId ? getLesson(nextPlayableId) : null), [nextPlayableId]);
+  const nextUnit = useMemo(() => (nextLesson ? getUnit(nextLesson.unitId) : null), [nextLesson]);
+
   return (
     <>
       <div className="flex flex-col gap-4 p-4">
+        {/* Next Playable Lesson Quick-Action Card */}
+        {nextLesson && nextPlayableId && (
+          <div className="rounded-2xl border-2 border-choco-900 bg-white p-3.5 shadow-[0_3px_0_#3B2218] space-y-2">
+            <div className="flex items-center justify-between text-[11px] font-bold text-choco-600">
+              <span className="uppercase tracking-wider font-mono text-[10px]">Lanjut Belajar</span>
+              {nextUnit && <span className="text-candy-600 truncate max-w-[120px]">{nextUnit.title}</span>}
+            </div>
+            <div className="font-display font-bold text-sm text-choco-900 line-clamp-1">
+              {nextLesson.title}
+            </div>
+            <Link
+              to="/lesson/$lessonId"
+              params={{ lessonId: nextPlayableId }}
+              className="w-full py-2 px-3 rounded-xl bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] hover:brightness-105 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>Mulai Belajar</span>
+              <ArrowRight className="size-3.5 stroke-[2.5]" />
+            </Link>
+          </div>
+        )}
+
         {/* 0. Progres 20 Rute Pulau Rantai (Overlay HUD Card) */}
         <Card variant="default" padding="md" className="space-y-3 bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
           <div className="flex items-center justify-between">

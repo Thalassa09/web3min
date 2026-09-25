@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { Compass } from "lucide-react";
 import type { Unit, Lesson } from "@/lib/curriculum";
 import { useProgress } from "@/lib/store";
 import { PulauIcon } from "@/lib/pulau-icons";
@@ -197,6 +198,19 @@ export function PulauRantaiMap({
           <span className="px-1.5 py-0.5 rounded-full bg-candy-100 text-[10px] text-candy-700 border border-choco-900 font-pixel font-bold">
             20
           </span>
+        </button>
+      </div>
+
+      {/* Floating Target/Resume FAB to jump to current active lesson */}
+      <div className="fixed bottom-22 right-4 sm:right-6 z-25 pointer-events-none">
+        <button
+          type="button"
+          onClick={scrollToActive}
+          className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full bg-candy-500 hover:bg-candy-600 text-white border-2 border-choco-900 text-xs font-pixel font-bold transition-all shadow-[0_3px_0_#3B2218] active:translate-y-0.5 active:shadow-none cursor-pointer"
+          title="Lompat ke blok yang sedang aktif"
+        >
+          <Compass className="size-4 shrink-0 stroke-[2.5]" />
+          <span className="hidden sm:inline">Ke Blok Aktif</span>
         </button>
       </div>
 

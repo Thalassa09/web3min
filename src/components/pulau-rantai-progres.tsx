@@ -135,7 +135,7 @@ Total XP: ${xp} XP · Minggu Ini: ${weeklyXp} XP
 Streak: ${streak} Hari Rantai
 Rute Tamat: ${unitsCompletedCount} / 20 Rute
 Liga: ${league.name}
-Belajar Web3 interaktif: https://web3min.vercel.app`;
+Belajar Web3 interaktif: https://web3min.com`;
 
     navigator.clipboard?.writeText(text).then(() => {
       setCopiedRekap(true);

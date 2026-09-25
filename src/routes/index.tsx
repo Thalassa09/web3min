@@ -7,8 +7,16 @@ import { PathMap } from "@/components/path-map";
 import { BlobiFloatingCompanion } from "@/components/blobi-guide";
 import { UNITS, firstPlayableId, getLesson } from "@/lib/curriculum";
 import { useProgress } from "@/lib/store";
+import { buildMeta } from "@/lib/seo";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+  head: () =>
+    buildMeta({
+      title: "web3min — Belajar Web3 dari nol, bahasa santai",
+      path: "/",
+    }),
+  component: Home,
+});
 
 function Home() {
   const navigate = useNavigate();

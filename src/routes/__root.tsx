@@ -5,6 +5,7 @@ import { HydrationGate } from "@/components/hydration-gate";
 import { setAudioEnabled, primeAudio } from "@/lib/audio";
 import { useProgress } from "@/lib/store";
 import appCss from "../styles.css?url";
+import { buildMeta } from "@/lib/seo";
 
 const APP_NAME = "web3min";
 
@@ -37,26 +38,15 @@ function AudioEffectBridge() {
   return null;
 }
 
+const defaultSeo = buildMeta();
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "web3min" },
-      { name: "description", content: "Platform edukasi dan simulasi Web3 interaktif." },
       { name: "theme-color", content: "#E8437F" },
-      { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "web3min" },
-      { property: "og:title", content: "web3min" },
-      { property: "og:description", content: "Platform edukasi dan simulasi Web3 interaktif." },
-      { property: "og:url", content: "https://web3min.com" },
-      { property: "og:image", content: "https://web3min.com/og-image.png" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "web3min" },
-      { name: "twitter:description", content: "Platform edukasi dan simulasi Web3 interaktif." },
-      { name: "twitter:image", content: "https://web3min.com/og-image.png" },
+      ...defaultSeo.meta,
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
@@ -69,6 +59,7 @@ export const Route = createRootRoute({
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "apple-touch-icon", href: "/icon-180.png" },
+      ...defaultSeo.links,
     ],
   }),
   component: RootDocument,

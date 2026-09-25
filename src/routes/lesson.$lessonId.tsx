@@ -3,8 +3,21 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LessonPlayer } from "@/components/lesson/player";
 import { getLesson, isUnlocked } from "@/lib/curriculum";
 import { useProgress } from "@/lib/store";
+import { buildMeta } from "@/lib/seo";
 
-export const Route = createFileRoute("/lesson/$lessonId")({ component: LessonPage });
+export const Route = createFileRoute("/lesson/$lessonId")({
+  head: ({ params }) => {
+    const lesson = getLesson(params.lessonId);
+    const title = lesson ? `${lesson.title} — web3min` : "Pelajaran Web3 — web3min";
+    const description = lesson?.subtitle || "Belajar Web3 interaktif di Pulau Rantai.";
+    return buildMeta({
+      title,
+      description,
+      path: `/lesson/${params.lessonId}`,
+    });
+  },
+  component: LessonPage,
+});
 
 function LessonPage() {
   const { lessonId } = Route.useParams();

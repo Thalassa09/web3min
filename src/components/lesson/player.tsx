@@ -510,10 +510,15 @@ function CompleteCard({
       <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.xp}</p>
       <p className="mt-3 flex items-center justify-center gap-1 text-sm font-bold text-ink-500">
         <BlockStamp size={16} />
-        Bintang
+        Koin
       </p>
       <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.gems}</p>
-      {awarded.perfect ? <p className="mt-4 text-sm font-bold text-leaf-shadow">Sempurna tanpa ada kesalahan.</p> : null}
+      {awarded.perfect ? (
+        <div className="perfect-confetti mt-4 text-sm font-bold text-leaf-shadow" aria-hidden="true">
+          <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+          Sempurna tanpa ada kesalahan.
+        </div>
+      ) : null}
       {dailyHit ? <p className="mt-2 text-sm font-bold text-flame">Streak hari ini aman.</p> : null}
       <div className="mt-8 flex w-full flex-col gap-3">
         {nextLesson ? (

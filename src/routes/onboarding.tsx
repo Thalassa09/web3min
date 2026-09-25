@@ -284,11 +284,11 @@ function Onboarding() {
 
                   <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-pink-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
                     <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-candy-200 p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
-                      <img src="/props/star.png" alt="Hadiah & Bintang" className="size-7 object-contain pixelated" />
+                      <img src="/props/star.png" alt="Hadiah & Koin" className="size-7 object-contain pixelated" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">Bintang & Tiket Undian</span>
+                        <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">Koin & Tiket Undian</span>
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-candy-500 text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
                           Reward
                         </span>

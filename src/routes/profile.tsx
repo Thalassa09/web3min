@@ -452,12 +452,12 @@ function ProfilePage() {
 
           <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-amber-500/40 shadow-[0_4px_0_#D97706,0_10px_24px_-4px_rgba(217,119,6,0.22)] flex flex-col justify-between">
             <div className="flex items-center justify-between text-amber-800">
-              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Bintang</span>
+              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Koin</span>
               <Sparkles className="size-4 text-amber-600" />
             </div>
             <div className="mt-2">
               <div className="text-3xl font-bold font-sans text-amber-950">{formatGems(gems)}</div>
-              <div className="text-xs font-medium text-amber-800 mt-0.5">Koin hadiah</div>
+              <div className="text-xs font-medium text-amber-800 mt-0.5">Saldo hadiah</div>
             </div>
           </div>
 

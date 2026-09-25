@@ -63,7 +63,7 @@ export function StoryPlayer({ story }: { story: Story }) {
         <p className="font-medium text-muted">{story.title}</p>
         <p className="mt-5 text-sm font-medium text-muted">XP</p>
         <p className="text-2xl font-extrabold tabular-nums text-gold">+{done.xp}</p>
-        <p className="mt-3 text-sm font-medium text-muted">Bintang</p>
+        <p className="mt-3 text-sm font-medium text-muted">Koin</p>
         <p className="text-2xl font-extrabold tabular-nums text-gold">+{done.gems}</p>
         <p className="mt-4 max-w-xs text-sm leading-5 text-muted">Tidak memakai nyawa. Ini cerita, bukan ujian.</p>
         <DuoButton wide className="mt-8" onClick={() => void navigate({ to: "/kisah" })}>

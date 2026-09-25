@@ -61,7 +61,7 @@ export function CaseClinic({ study }: { study: CaseStudy }) {
             <p className="text-2xl font-black tabular-nums text-gold">+{done.xp}</p>
           </div>
           <div className="rounded-2xl border-2 border-line px-3 py-4">
-            <p className="text-xs font-extrabold uppercase tracking-label text-muted">Bintang</p>
+            <p className="text-xs font-extrabold uppercase tracking-label text-muted">Koin</p>
             <p className="text-2xl font-black tabular-nums text-gold">+{done.gems}</p>
           </div>
         </div>

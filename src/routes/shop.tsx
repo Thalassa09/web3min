@@ -208,7 +208,7 @@ function ShopPage() {
             <div className="hidden sm:flex items-center gap-2 justify-end">
               <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-amber-500/40 text-xs font-bold text-choco-900 shadow-[0_2px_0_#D97706]">
                 <Star size={14} className="text-amber-500" fill="currentColor" />
-                <span className="tabular-nums font-pixel">{formatGems(gems)} Bintang</span>
+                <span className="tabular-nums font-pixel">{formatGems(gems)} Koin</span>
               </div>
             </div>
           </div>
@@ -305,10 +305,10 @@ function ShopPage() {
                   <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-choco-900/15">
                     <div className="flex items-center gap-2">
                       <div className="size-8 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] flex items-center justify-center shadow-[0_2px_0_#D97706]">
-                        <img src="/props/star.png" alt="Bintang" className="size-5 object-contain pixelated" />
+                        <img src="/props/star.png" alt="Koin" className="size-5 object-contain pixelated" />
                       </div>
                       <span className="font-pixel text-lg font-bold text-choco-900">
-                        {HEART_REFILL_COST} Bintang
+                        {HEART_REFILL_COST} Koin
                       </span>
                     </div>
 
@@ -332,7 +332,7 @@ function ShopPage() {
                           : "bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
                       }`}
                     >
-                      {heartsFull ? "Nyawa Penuh" : gems < HEART_REFILL_COST ? "Bintang Kurang" : "Isi Ulang Sekarang"}
+                      {heartsFull ? "Nyawa Penuh" : gems < HEART_REFILL_COST ? "Koin Kurang" : "Isi Ulang Sekarang"}
                     </button>
                   </div>
                 </div>
@@ -365,7 +365,7 @@ function ShopPage() {
 
                   <div className="mt-5 flex items-center justify-between pt-4 border-t-2 border-orange-400/20">
                     <div className="flex items-center gap-1.5">
-                      <img src="/props/star.png" alt="Bintang" className="size-4 object-contain pixelated" />
+                      <img src="/props/star.png" alt="Koin" className="size-4 object-contain pixelated" />
                       <span className="font-pixel text-base font-bold text-choco-900">
                         {FREEZE_COST}
                       </span>
@@ -827,7 +827,7 @@ function ShopPage() {
                 <span className="text-xs font-pixel font-bold text-choco-900">Harga item:</span>
                 <span className="flex items-center gap-1.5 text-sm font-pixel font-bold text-choco-900">
                   <BlockStamp size={14} className="text-lemon" />
-                  {confirm.cost} Bintang
+                  {confirm.cost} Koin
                 </span>
               </div>
 
@@ -851,7 +851,7 @@ function ShopPage() {
                   disabled={gems < confirm.cost}
                   onClick={() => purchase(confirm)}
                 >
-                  {gems >= confirm.cost ? "Konfirmasi Pembelian" : "Bintang Kurang"}
+                  {gems >= confirm.cost ? "Konfirmasi Pembelian" : "Koin Kurang"}
                 </TactileButton>
               </div>
             </div>

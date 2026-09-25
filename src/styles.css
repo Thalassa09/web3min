@@ -1642,6 +1642,29 @@ input:focus-visible {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
+   CONFETTI SEMPURNA (CSS murni, hormat reduced-motion)
+   ══════════════════════════════════════════════════════════════════════════════ */
+.perfect-confetti { position: relative; }
+.perfect-confetti i {
+  position: absolute; top: -6px; width: 8px; height: 12px; border-radius: 2px;
+  opacity: 0; animation: confetti-fall 1.6s ease-in forwards;
+}
+.perfect-confetti i:nth-child(1)  { left: 4%;  background: #E8437F; animation-delay: 0s; }
+.perfect-confetti i:nth-child(2)  { left: 14%; background: #FFC61A; animation-delay: .08s; }
+.perfect-confetti i:nth-child(3)  { left: 24%; background: #34D399; animation-delay: .16s; }
+.perfect-confetti i:nth-child(4)  { left: 34%; background: #9B6BFF; animation-delay: .05s; }
+.perfect-confetti i:nth-child(5)  { left: 46%; background: #FF8A3D; animation-delay: .12s; }
+.perfect-confetti i:nth-child(6)  { left: 54%; background: #E8437F; animation-delay: .02s; }
+.perfect-confetti i:nth-child(7)  { left: 64%; background: #FFC61A; animation-delay: .18s; }
+.perfect-confetti i:nth-child(8)  { left: 74%; background: #34D399; animation-delay: .1s; }
+.perfect-confetti i:nth-child(9)  { left: 84%; background: #9B6BFF; animation-delay: .06s; }
+.perfect-confetti i:nth-child(10) { left: 94%; background: #FF8A3D; animation-delay: .14s; }
+@keyframes confetti-fall {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(120px) rotate(540deg); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
    PREFERS-REDUCED-MOTION
    ══════════════════════════════════════════════════════════════════════════════ */
 

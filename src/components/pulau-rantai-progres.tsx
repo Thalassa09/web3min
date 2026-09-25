@@ -47,6 +47,7 @@ export function PulauRantaiProgres({
   // Store data
   const completed = useProgress((s) => s.completed);
   const streak = useProgress((s) => s.streak);
+  const freeze = useProgress((s) => s.streakFreeze);
   const xp = useProgress((s) => s.xp);
   const xpToday = useProgress((s) => s.xpToday);
   const weeklyXp = useProgress((s) => s.weeklyXp);
@@ -331,7 +332,13 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
             </div>
             <div className="text-[11px] font-bold text-choco-600 mt-auto pt-2 border-t border-choco-900/10 flex items-center justify-between">
               <span>{streak > 0 ? "Rantai menyala!" : "Belum ada streak"}</span>
-              <span className="text-candy-600 font-extrabold">Pertahankan besok</span>
+              {freeze > 0 ? (
+                <span className="text-orange-600 font-extrabold">{freeze} Pelindung siaga</span>
+              ) : (
+                <Link to="/shop" className="text-candy-600 font-extrabold underline decoration-dotted">
+                  Amankan di Toko
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -835,7 +842,7 @@ Belajar Web3 interaktif: https://web3min.vercel.app`;
               </div>
 
               <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
-                <div className="text-[11px] font-bold text-choco-500">Koin & Bintang</div>
+                <div className="text-[11px] font-bold text-choco-500">Koin</div>
                 <div className="text-xl font-black font-sans text-emerald-600 tabular-nums">
                   {gems} ⌂
                 </div>

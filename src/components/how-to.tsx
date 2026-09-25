@@ -29,7 +29,7 @@ export const HOW_TO_CORE: HowToItem[] = [
 
 export const HOW_TO_MORE: HowToItem[] = [
   {
-    title: "Bintang",
+    title: "Koin",
     body: "Dari pelajaran, misi, dan kisah. Dipakai di Toko. Bukan uang, bukan investasi.",
     Icon: Hexagon,
   },

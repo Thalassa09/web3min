@@ -159,7 +159,7 @@ export function HomeDock() {
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-pixel font-bold px-3 py-1 rounded-full border-2 border-choco-900 bg-candy-100 text-choco-900 shadow-[0_2px_0_#3B2218]">
                 <img src="/props/star.png" alt="Star" className="size-3.5 object-contain pixelated" />
-                +{lesson.xp} XP · +{lesson.gems} Bintang
+                +{lesson.xp} XP · +{lesson.gems} Koin
               </span>
             </div>
 

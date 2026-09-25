@@ -22,7 +22,7 @@ interface BlobiGuideProps {
 const BLOBO_IDLE_QUIPS = [
   "Psst! Kok bengong aja? Yuk gas ke modul berikutnya!",
   "Streak {streak} hari kamu nungguin nih! Jangan sampai padam ya!",
-  "Tau nggak? Kalo kelarin modul ini dapet +12 XP dan 2 Bintang!",
+  "Tau nggak? Kalo kelarin modul ini dapet +12 XP dan 2 Koin!",
   "Blobi laper nih... laper ilmu Web3! Ayo tambang blok baru!",
   "Tombol MULAI-nya udah kedip-kedip tuh, buruan diklik!",
   "Mau beli mahkota buat Blobi di Toko? Kumpulin bintang dulu di sini!",

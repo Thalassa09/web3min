@@ -228,7 +228,7 @@ function ShopPage() {
                     <span>Toko</span>
                   </h1>
                   <p className="text-xs sm:text-sm font-semibold text-choco-600 mt-0.5 leading-relaxed font-sans">
-                    Tukarkan bintang dari hasil belajar untuk membeli penguat streak, isi ulang nyawa, dan aksesori eksklusif Blobi.
+                    Tukarkan koin dari hasil belajar untuk membeli penguat streak, isi ulang nyawa, dan aksesori eksklusif Blobi.
                   </p>
                 </div>
                 <button
@@ -248,7 +248,7 @@ function ShopPage() {
               <div className="flex items-center justify-between px-1">
                 <div>
                   <span className="block font-pixel text-[12px] font-bold uppercase tracking-wider text-choco-600">
-                    Tukar bintang hasil belajar
+                    Tukar koin hasil belajar
                   </span>
                   <h2 className="text-xl font-pixel font-bold text-choco-900 flex items-center gap-2">
                     <Store className="size-5 text-candy-500" />
@@ -298,7 +298,7 @@ function ShopPage() {
                       Isi Ulang 5 Nyawa Penuh
                     </h3>
                     <p className="mt-2 text-xs md:text-sm font-semibold leading-relaxed text-choco-700 max-w-xl">
-                      Salah nebak pas ngerjain kuis? Pulihin 5 nyawa penuh sekaligus biar kamu bisa langsung lanjut push rute pulau tanpa harus nunggu jeda istirahat.
+                      Salah menjawab saat kuis? Pulihkan 5 nyawa penuh sekaligus agar kamu bisa langsung melanjutkan rute tanpa menunggu waktu jeda.
                     </p>
                   </div>
 

@@ -52,39 +52,39 @@ import { getPulauTheme } from "@/lib/pulau-rantai";
 export const Route = createFileRoute("/profile")({ component: ProfilePage });
 
 const WEB3_SKILLS = [
-  { unitIndex: 1, name: "Dasar Web3 & Blockchain", icon: Compass },
-  { unitIndex: 2, name: "Manajemen Wallet & Seed", icon: Wallet },
-  { unitIndex: 3, name: "Ekonomi Token & Gas Fee", icon: Coins },
-  { unitIndex: 4, name: "Smart Contract & NFT", icon: Sparkles },
-  { unitIndex: 5, name: "Protokol DeFi & Likuiditas", icon: TrendingUp },
-  { unitIndex: 6, name: "Deteksi Phishing & Penipu", icon: ShieldAlert },
-  { unitIndex: 8, name: "Mekanisme Order Book", icon: BarChart3 },
-  { unitIndex: 10, name: "Riset On-Chain (DYOR)", icon: Search },
-  { unitIndex: 14, name: "Layer 2 & Jembatan", icon: Layers },
-  { unitIndex: 18, name: "Keamanan Keras On-Chain", icon: ShieldCheck },
+  { unitId: "u1", name: "Dasar Web3 & Blockchain", icon: Compass },
+  { unitId: "u2", name: "Manajemen Wallet & Seed", icon: Wallet },
+  { unitId: "u3", name: "Ekonomi Token & Gas Fee", icon: Coins },
+  { unitId: "u4", name: "Smart Contract & NFT", icon: Sparkles },
+  { unitId: "u5", name: "Protokol DeFi & Likuiditas", icon: TrendingUp },
+  { unitId: "u6", name: "Deteksi Phishing & Penipu", icon: ShieldAlert },
+  { unitId: "u8", name: "Mekanisme Order Book", icon: BarChart3 },
+  { unitId: "u10", name: "Riset On-Chain (DYOR)", icon: Search },
+  { unitId: "u14", name: "Layer 2 & Jembatan", icon: Layers },
+  { unitId: "u18", name: "Keamanan Keras On-Chain", icon: ShieldCheck },
 ];
 
-const UNIT_ICONS: Record<number, React.ComponentType<{ className?: string }>> = {
-  1: Compass,
-  2: Wallet,
-  3: Coins,
-  4: Sparkles,
-  5: TrendingUp,
-  6: ShieldAlert,
-  7: Flame,
-  8: BarChart3,
-  9: Rocket,
-  10: Search,
-  11: Landmark,
-  12: Percent,
-  13: Brain,
-  14: Layers,
-  15: Gift,
-  16: Scale,
-  17: Palette,
-  18: ShieldCheck,
-  19: Eye,
-  20: Award,
+const UNIT_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  u1: Compass,
+  u2: Wallet,
+  u3: Coins,
+  u4: Sparkles,
+  u5: TrendingUp,
+  u6: ShieldAlert,
+  u7: Flame,
+  u8: BarChart3,
+  u9: Rocket,
+  u10: Search,
+  u11: Landmark,
+  u12: Percent,
+  u13: Brain,
+  u14: Layers,
+  u15: Gift,
+  u16: Scale,
+  u17: Palette,
+  u18: ShieldCheck,
+  u19: Eye,
+  u20: Award,
 };
 
 function ProfilePage() {
@@ -484,7 +484,7 @@ function ProfilePage() {
             </div>
             <span className="text-xs font-pixel font-bold text-candy-600">
               {WEB3_SKILLS.filter(s => {
-                const u = unitStats.find(us => us.unit.index === s.unitIndex);
+                const u = unitStats.find(us => us.unit.id === s.unitId);
                 return u?.isCompleted;
               }).length}/{WEB3_SKILLS.length} TERSERTIFIKASI
             </span>
@@ -492,7 +492,7 @@ function ProfilePage() {
 
           <div className="flex flex-wrap gap-2 pt-1">
             {WEB3_SKILLS.map((skill) => {
-              const u = unitStats.find(us => us.unit.index === skill.unitIndex);
+              const u = unitStats.find(us => us.unit.id === skill.unitId);
               const isMastered = Boolean(u?.isCompleted);
               const isLearning = Boolean(u?.isStarted && !u.isCompleted);
               const SkillIcon = skill.icon;
@@ -602,7 +602,7 @@ function ProfilePage() {
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="size-9 rounded-full bg-candy-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                     {(() => {
-                      const ActiveIcon = UNIT_ICONS[currentActiveUnit.unit.index] ?? Compass;
+                      const ActiveIcon = UNIT_ICONS[currentActiveUnit.unit.id] ?? UNIT_ICONS[currentActiveUnit.unit.index] ?? Compass;
                       return <ActiveIcon className="size-4 text-candy-500" />;
                     })()}
                   </div>
@@ -633,7 +633,7 @@ function ProfilePage() {
             <div className="space-y-4 pt-1">
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
                 {unitStats.map(({ unit, doneCount, totalCount, isCompleted, isStarted }) => {
-                  const ThematicIcon = UNIT_ICONS[unit.index] ?? Award;
+                  const ThematicIcon = UNIT_ICONS[unit.id] ?? UNIT_ICONS[unit.index] ?? Award;
                   return (
                     <div
                       key={unit.id}
@@ -760,7 +760,7 @@ function ProfilePage() {
                 </h2>
               </div>
               <p className="text-xs font-medium text-ink-500 mt-1">
-                Terhubung sebagai <span className="font-bold text-ink-900">@{username || "pelajar"}</span>. Progres dan saldo bintangmu tersimpan di database Web3min.
+                Terhubung sebagai <span className="font-bold text-ink-900">@{username || "pelajar"}</span>. Progres dan saldo koinmu tersimpan di database Web3min.
               </p>
             </div>
 

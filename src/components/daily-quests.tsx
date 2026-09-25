@@ -55,7 +55,7 @@ export function DailyQuests({ compact = false, className }: { compact?: boolean;
                 )}
                 <p className="mt-1 flex items-center gap-1 text-sm font-medium text-muted">
                   <BlockStamp size={12} />
-                  +{q.gems} bintang
+                  +{q.gems} koin
                 </p>
               </div>
               {taken ? (

@@ -220,7 +220,7 @@ export const CORE_UNITS: Unit[] = [
     color: "green",
     lessons: [
       L("u1", "u1-l1", "lesson", "Internet versi baru", "Web3 itu apaan, tanpa jargon yang ngebingungin.", "globe", [
-        tip("u1l1t", "Web3 itu apa, sebenernya?", "Internet yang kamu pakai tiap hari, seperti Instagram, GoPay, dan mobile banking, itu Web2. Datanya hidup di server perusahaan. Mereka yang pegang. Mereka yang bisa kunci atau pulihin akunmu.", {
+        tip("u1l1t", "Web3 itu apa, sebenernya?", "Internet yang kamu pakai tiap hari, seperti Instagram, GoPay, dan mobile banking, itu Web2. Datanya hidup di server perusahaan. Mereka yang pegang. Mereka yang bisa mengunci atau memulihkan akunmu.", {
           points: [
             "Web3: aset digital dicatat di jaringan bersama, namanya blockchain. Bukan di satu kantor.",
             "Yang pegang kunci wallet = yang pegang aset. Nggak ada tombol 'lupa password' dari CS.",

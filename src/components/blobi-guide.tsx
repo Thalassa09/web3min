@@ -25,7 +25,7 @@ const BLOBO_IDLE_QUIPS = [
   "Tau nggak? Kalo kelarin modul ini dapet +12 XP dan 2 Koin!",
   "Blobi laper nih... laper ilmu Web3! Ayo tambang blok baru!",
   "Tombol MULAI-nya udah kedip-kedip tuh, buruan diklik!",
-  "Mau beli mahkota buat Blobi di Toko? Kumpulin bintang dulu di sini!",
+  "Mau beli mahkota buat Blobi di Toko? Kumpulkan koin dulu di sini!",
   "Awas penipu! Di Web3 jangan pernah kasih seed phrase ke siapa pun ya!",
   "Ayo buruan mulai, peringkat kamu di Arena mingguan bisa disalip orang!",
   "Tarik & geser aku ke mana aja! Blobi bisa jalan-jalan nemenin kamu!",

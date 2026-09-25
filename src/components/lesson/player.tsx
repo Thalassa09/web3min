@@ -474,7 +474,7 @@ function DeadState({
           Kembali ke peta
         </DuoButton>
         <DuoButton wide disabled={gems < HEART_REFILL_COST} onClick={onRefill}>
-          Pulihkan nyawa · {HEART_REFILL_COST} bintang
+          Pulihkan nyawa · {HEART_REFILL_COST} koin
         </DuoButton>
       </div>
     </div>

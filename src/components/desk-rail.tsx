@@ -165,7 +165,7 @@ export function DeskRail() {
             Kompetisi Belajar XP
           </h3>
           <p className="t-caption text-ink-500 mt-1 leading-relaxed">
-            Top 10 pengumpul XP berbagi pool bintang toko on-chain. Cukup validasi blok harianmu.
+            Top 10 pengumpul XP berbagi pool koin toko on-chain. Cukup validasi blok harianmu.
           </p>
         </div>
         <div className="pt-1">

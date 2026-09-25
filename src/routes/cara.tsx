@@ -33,7 +33,7 @@ const STEPS = [
   {
     num: "04",
     title: "Kumpulkan Koin & XP",
-    desc: "Dapatkan XP dan Koin dari setiap latihan, streak harian, dan peti tantangan. Gunakan Koin untuk outfit Blobi dan tiket undian hadiah!",
+    desc: "Dapatkan XP dan Koin dari setiap latihan, streak harian, dan peti tantangan. Gunakan Koin untuk outfit Blobi dan tiket undian hadiah! Bintang adalah saldo terpisah khusus belanja di Toko: isi ulang nyawa dan beli aksesori memakai Bintang, bukan Koin.",
     icon: Sparkles,
     badge: "Reward",
     badgeColor: "bg-candy-100 text-candy-800",

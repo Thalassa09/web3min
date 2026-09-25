@@ -1151,6 +1151,31 @@ function AdminParticipantsModal({
 
   const totalTickets = participants.reduce((acc, p) => acc + (p.tickets || 0), 0);
 
+  const exportCsv = () => {
+    const header = "username,tiket,wallet,akun_x,tanggal";
+    const esc = (v: string | number | null | undefined) => {
+      const s = String(v ?? "");
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const rows = participants.map((p) =>
+      [
+        esc(p.username || "pelajar"),
+        esc(p.tickets || 0),
+        esc(p.wallet_address || ""),
+        esc(p.x_handle || ""),
+        esc(p.entered_at || ""),
+      ].join(","),
+    );
+    const csv = [header, ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `peserta-${raffle.id}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150 overflow-y-auto"
@@ -1259,7 +1284,15 @@ function AdminParticipantsModal({
         </div>
 
         {/* Footer */}
-        <div className="shrink-0 p-3.5 border-t-2 border-choco-900/15 bg-cream-50 flex items-center justify-end">
+        <div className="shrink-0 p-3.5 border-t-2 border-choco-900/15 bg-cream-50 flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={exportCsv}
+            disabled={participants.length === 0}
+            className="py-2 px-5 rounded-full bg-white border-2 border-choco-900 text-choco-900 font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer disabled:opacity-50"
+          >
+            Ekspor CSV
+          </button>
           <button
             type="button"
             onClick={onClose}

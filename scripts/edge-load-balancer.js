@@ -7,7 +7,7 @@
  * - Transparent failover
  */
 
-const PRIMARY_ORIGIN = "https://web3min.vercel.app";
+const PRIMARY_ORIGIN = "https://web3min.com";
 
 export default {
   async fetch(request, env, ctx) {

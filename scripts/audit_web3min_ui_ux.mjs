@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-const BASE_URL = "https://web3min.vercel.app";
+const BASE_URL = "https://web3min.com";
 
 const ROUTES = [
   "/",

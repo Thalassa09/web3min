@@ -9,7 +9,7 @@ export const Route = createFileRoute("/lesson/$lessonId")({
   head: ({ params }) => {
     const lesson = getLesson(params.lessonId);
     const title = lesson ? `${lesson.title} — web3min` : "Pelajaran Web3 — web3min";
-    const description = lesson?.subtitle || "Belajar Web3 interaktif di Pulau Rantai.";
+    const description = lesson?.blurb || "Belajar Web3 interaktif di Pulau Rantai.";
     return buildMeta({
       title,
       description,

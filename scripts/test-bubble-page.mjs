@@ -16,7 +16,7 @@ async function testBubblePage() {
     if (msg.type() === "error") errors.push(msg.text());
   });
 
-  await page.goto("https://web3min.vercel.app/bubble", { waitUntil: "networkidle" });
+  await page.goto("https://web3min.com/bubble", { waitUntil: "networkidle" });
   await page.waitForTimeout(1000);
 
   // Check 8-bit game progress module

@@ -385,6 +385,14 @@ export function AdminRaffleModal({
       return;
     }
 
+    if (prize.trim()) {
+      const numMatch = prize.trim().match(/\b(\d+)\b/);
+      if (numMatch && Number(numMatch[1]) !== Number(winnerCount)) {
+        setFormError(`Angka pada teks hadiah (${numMatch[1]}) harus sama dengan Jumlah Pemenang (${winnerCount})!`);
+        return;
+      }
+    }
+
     if (imageUrl && imageUrl.trim().startsWith("data:")) {
       setFormError("Upload gambar ke storage lalu tempel URL-nya. Base64 data: URL dilarang.");
       return;

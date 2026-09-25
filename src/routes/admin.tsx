@@ -29,6 +29,14 @@ import {
   MessageSquare,
   AtSign,
   X,
+  Trophy,
+  Copy,
+  Check,
+  CheckSquare,
+  Square,
+  UserCheck,
+  Shuffle,
+  Download,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import {
@@ -46,6 +54,10 @@ import {
   rpcAdminGetRaffleEntries,
   rpcAdminGetUsers,
   rpcAdminSetUserCensorship,
+  rpcAdminTriggerDraw,
+  rpcAdminVerifyWinner,
+  rpcAdminSwapReserveWinner,
+  rpcAdminAnnounceWinners,
   type DbRaffleItem,
   type DbRaffleStats,
   type DbRaffleEntryParticipant,
@@ -143,6 +155,8 @@ export function AdminPage() {
   const [editingRaffle, setEditingRaffle] = React.useState<AdminRaffleData | null>(null);
   const [deletingRaffle, setDeletingRaffle] = React.useState<DbRaffleItem | null>(null);
   const [viewingParticipantsRaffle, setViewingParticipantsRaffle] = React.useState<DbRaffleItem | null>(null);
+  const [viewingVerificationRaffle, setViewingVerificationRaffle] = React.useState<DbRaffleItem | null>(null);
+  const [isDrawing, setIsDrawing] = React.useState<string | null>(null);
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isSeedingArtwork, setIsSeedingArtwork] = React.useState(false);
   const [toastMsg, setToastMsg] = React.useState<string | null>(null);
@@ -150,6 +164,31 @@ export function AdminPage() {
   const showToast = (msg: string) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(null), 3500);
+  };
+
+  const handleTriggerDraw = async (raffle: DbRaffleItem) => {
+    if (!adminKey) return;
+    if (
+      !window.confirm(
+        `Undi pemenang sekarang untuk "${raffle.title}"? Status akan beralih ke "MENUNGGU VERIFIKASI".`
+      )
+    ) {
+      return;
+    }
+    setIsDrawing(raffle.id);
+    const res = await rpcAdminTriggerDraw(adminKey, raffle.id);
+    setIsDrawing(null);
+    if (res.success) {
+      showToast("Undian berhasil diproses! Silakan verifikasi pemenang.");
+      await refreshData();
+      const updated = await rpcGetRaffles();
+      const found = updated.find((r) => r.id === raffle.id);
+      if (found) {
+        setViewingVerificationRaffle(found);
+      }
+    } else {
+      showToast(res.error || "Gagal melakukan pengundian.");
+    }
   };
 
   const refreshUsers = React.useCallback(async (key: string) => {
@@ -886,8 +925,41 @@ export function AdminPage() {
                           </div>
                         </div>
 
-                        {/* Actions (Tactile Edit, Peserta & Safe Delete) */}
+                        {/* Actions (Tactile Edit, Peserta, Verifikasi & Safe Delete) */}
                         <div className="flex items-center gap-2 pt-2 md:pt-0 border-t border-choco-900/10 md:border-0 justify-end shrink-0 flex-wrap">
+                          {raffle.status === "verifying" ? (
+                            <button
+                              type="button"
+                              onClick={() => setViewingVerificationRaffle(raffle)}
+                              className="py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-500 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                              title="Verifikasi syarat follow dan umumkan pemenang"
+                            >
+                              <UserCheck className="size-3.5 text-choco-900" />
+                              <span>Verifikasi Pemenang</span>
+                            </button>
+                          ) : raffle.status === "live" && remaining.isEnded ? (
+                            <button
+                              type="button"
+                              disabled={isDrawing === raffle.id}
+                              onClick={() => handleTriggerDraw(raffle)}
+                              className="py-2 px-3 rounded-xl bg-yellow-300 hover:bg-yellow-400 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                              title="Undi pemenang secara acak berbobot"
+                            >
+                              <Shuffle className="size-3.5 text-choco-900" />
+                              <span>{isDrawing === raffle.id ? "Mengundi..." : "Undi Pemenang"}</span>
+                            </button>
+                          ) : raffle.status === "ended" && raffle.candidates?.winners?.length ? (
+                            <button
+                              type="button"
+                              onClick={() => setViewingVerificationRaffle(raffle)}
+                              className="py-2 px-3 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                              title="Lihat pemenang dan ekspor CSV"
+                            >
+                              <Trophy className="size-3.5 text-emerald-700" />
+                              <span>Pemenang</span>
+                            </button>
+                          ) : null}
+
                           <button
                             type="button"
                             onClick={() => setViewingParticipantsRaffle(raffle)}
@@ -1108,6 +1180,24 @@ export function AdminPage() {
           adminKey={adminKey}
         />
       )}
+
+      {/* Admin Winner Verification & Announcement Modal */}
+      {viewingVerificationRaffle && adminKey && (
+        <RaffleVerificationModal
+          isOpen={Boolean(viewingVerificationRaffle)}
+          onClose={() => setViewingVerificationRaffle(null)}
+          raffle={viewingVerificationRaffle}
+          adminKey={adminKey}
+          onUpdated={async () => {
+            await refreshData();
+            if (viewingVerificationRaffle) {
+              const updated = await rpcGetRaffles();
+              const found = updated.find((r) => r.id === viewingVerificationRaffle.id);
+              setViewingVerificationRaffle(found || null);
+            }
+          }}
+        />
+      )}
     </AppShell>
   );
 }
@@ -1125,6 +1215,7 @@ function AdminParticipantsModal({
 }) {
   const [participants, setParticipants] = React.useState<DbRaffleEntryParticipant[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [copiedWallet, setCopiedWallet] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -1147,22 +1238,39 @@ function AdminParticipantsModal({
     });
   }, [isOpen, raffle, adminKey]);
 
+  const walletCounts = React.useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const p of participants) {
+      if (p.wallet_address) {
+        const w = p.wallet_address.trim().toLowerCase();
+        counts[w] = (counts[w] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [participants]);
+
+  const handleCopyWallet = (w: string) => {
+    if (!w) return;
+    navigator.clipboard.writeText(w);
+    setCopiedWallet(w);
+    setTimeout(() => setCopiedWallet(null), 2000);
+  };
+
   if (!isOpen) return null;
 
   const totalTickets = participants.reduce((acc, p) => acc + (p.tickets || 0), 0);
 
   const exportCsv = () => {
-    const header = "username,tiket,wallet,akun_x,tanggal";
+    const header = "wallet_address,x_handle,tickets,created_at";
     const esc = (v: string | number | null | undefined) => {
       const s = String(v ?? "");
       return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
     };
     const rows = participants.map((p) =>
       [
-        esc(p.username || "pelajar"),
-        esc(p.tickets || 0),
         esc(p.wallet_address || ""),
-        esc(p.x_handle || ""),
+        esc(p.x_handle ? (p.x_handle.startsWith("@") ? p.x_handle : `@${p.x_handle}`) : ""),
+        esc(p.tickets || 0),
         esc(p.entered_at || ""),
       ].join(","),
     );
@@ -1258,19 +1366,56 @@ function AdminParticipantsModal({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs flex-wrap pt-0.5">
-                      {/* Wallet EVM */}
+                    <div className="flex items-center gap-2 flex-wrap pt-1 text-xs">
+                      {/* Wallet EVM with copy button */}
                       {p.wallet_address ? (
-                        <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-900 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-300">
-                          <strong>Wallet:</strong> {p.wallet_address}
-                        </span>
+                        <div className="inline-flex items-center gap-1.5 font-mono text-[11px] text-choco-900 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-300">
+                          <strong>Wallet:</strong>
+                          <span className="select-all break-all">{p.wallet_address}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyWallet(p.wallet_address!)}
+                            className="p-0.5 hover:bg-amber-200 rounded text-choco-700 cursor-pointer active:scale-95"
+                            title="Salin alamat wallet"
+                          >
+                            {copiedWallet === p.wallet_address ? (
+                              <Check className="size-3 text-emerald-600" />
+                            ) : (
+                              <Copy className="size-3" />
+                            )}
+                          </button>
+                        </div>
                       ) : null}
 
+                      {/* Multi-account indicator badge */}
+                      {p.wallet_address && walletCounts[p.wallet_address.trim().toLowerCase()] > 1 && (
+                        <span
+                          className="px-2 py-0.5 rounded-full bg-amber-100 border border-amber-600 text-amber-900 font-pixel text-[9px] font-bold shadow-[0_1px_0_#D97706]"
+                          title="Alamat wallet ini digunakan oleh lebih dari 1 akun"
+                        >
+                          Multi-Akun ({walletCounts[p.wallet_address.trim().toLowerCase()]})
+                        </span>
+                      )}
+
                       {/* X (Twitter) */}
-                      <span className="inline-flex items-center gap-1 font-mono text-[11px] text-sky-700 bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">
-                        <AtSign className="size-3 text-sky-500" />
-                        <strong>X:</strong> {p.x_handle ? (p.x_handle.startsWith("@") ? p.x_handle : `@${p.x_handle}`) : "-"}
-                      </span>
+                      {p.x_handle ? (
+                        <a
+                          href={`https://x.com/${p.x_handle.replace(/^@/, "")}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 font-mono text-[11px] text-sky-700 hover:text-sky-900 bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200 hover:border-sky-400 transition-colors"
+                          title="Buka profil X di tab baru"
+                        >
+                          <AtSign className="size-3 text-sky-500" />
+                          <strong>X:</strong> @{p.x_handle.replace(/^@/, "")}
+                          <ExternalLink className="size-2.5 opacity-60" />
+                        </a>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-400 bg-stone-50 px-2 py-0.5 rounded-lg border border-stone-200">
+                          <AtSign className="size-3 text-choco-300" />
+                          <strong>X:</strong> -
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -1300,6 +1445,426 @@ function AdminParticipantsModal({
           >
             Tutup
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RaffleVerificationModal({
+  isOpen,
+  onClose,
+  raffle,
+  adminKey,
+  onUpdated,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  raffle: DbRaffleItem | null;
+  adminKey: string;
+  onUpdated: () => void;
+}) {
+  const [candidates, setCandidates] = React.useState<{
+    winners: Array<{
+      user_id: string;
+      username: string;
+      wallet_address: string;
+      x_handle: string;
+      tickets: number;
+      rank: number;
+      verified?: boolean;
+    }>;
+    reserves: Array<{
+      user_id: string;
+      username: string;
+      wallet_address: string;
+      x_handle: string;
+      tickets: number;
+      rank: number;
+    }>;
+  }>({ winners: [], reserves: [] });
+  const [copiedWallet, setCopiedWallet] = React.useState<string | null>(null);
+  const [loadingAction, setLoadingAction] = React.useState<string | null>(null);
+  const [isAnnouncing, setIsAnnouncing] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
+  }, [isOpen, onClose]);
+
+  React.useEffect(() => {
+    if (raffle?.candidates) {
+      setCandidates({
+        winners: raffle.candidates.winners || [],
+        reserves: raffle.candidates.reserves || [],
+      });
+    } else {
+      setCandidates({ winners: [], reserves: [] });
+    }
+  }, [raffle]);
+
+  if (!isOpen || !raffle) return null;
+
+  const isVerifying = raffle.status === "verifying";
+  const isEnded = raffle.status === "ended";
+
+  const allVerified =
+    candidates.winners.length > 0 &&
+    candidates.winners.every((w) => Boolean(w.verified));
+
+  const handleCopy = (w: string) => {
+    if (!w) return;
+    navigator.clipboard.writeText(w);
+    setCopiedWallet(w);
+    setTimeout(() => setCopiedWallet(null), 2000);
+  };
+
+  const handleToggleVerify = async (winnerUserId: string, currentVerified: boolean) => {
+    setLoadingAction(`verify-${winnerUserId}`);
+    const nextVal = !currentVerified;
+    const res = await rpcAdminVerifyWinner(adminKey, raffle.id, winnerUserId, nextVal);
+    setLoadingAction(null);
+    if (res.success) {
+      setCandidates((prev) => ({
+        ...prev,
+        winners: prev.winners.map((w) =>
+          w.user_id === winnerUserId ? { ...w, verified: nextVal } : w
+        ),
+      }));
+      onUpdated();
+    } else {
+      alert(res.error || "Gagal mengubah status verifikasi");
+    }
+  };
+
+  const handleSwapReserve = async (winnerUserId: string) => {
+    if (candidates.reserves.length === 0) {
+      alert("Tidak ada pemenang cadangan yang tersedia!");
+      return;
+    }
+    if (!window.confirm("Ganti pemenang ini dengan kandidat cadangan urutan teratas?")) {
+      return;
+    }
+    setLoadingAction(`swap-${winnerUserId}`);
+    const res = await rpcAdminSwapReserveWinner(adminKey, raffle.id, winnerUserId);
+    setLoadingAction(null);
+    if (res.success) {
+      onUpdated();
+    } else {
+      alert(res.error || "Gagal menukar dengan cadangan");
+    }
+  };
+
+  const handleAnnounce = async () => {
+    if (!allVerified) {
+      alert("Semua slot pemenang harus dicentang 'Follow terverifikasi' sebelum diumumkan!");
+      return;
+    }
+    if (
+      !window.confirm(
+        `Umumkan ${candidates.winners.length} pemenang resmi untuk undian "${raffle.title}"? Status akan beralih ke SELESAI.`
+      )
+    ) {
+      return;
+    }
+    setIsAnnouncing(true);
+    const res = await rpcAdminAnnounceWinners(adminKey, raffle.id);
+    setIsAnnouncing(false);
+    if (res.success) {
+      onUpdated();
+      onClose();
+    } else {
+      alert(res.error || "Gagal mengumumkan pemenang");
+    }
+  };
+
+  const exportWinnersCsv = () => {
+    const header = "wallet_address,x_handle,rank,prize,announced_at";
+    const esc = (v: string | number | null | undefined) => {
+      const s = String(v ?? "");
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const nowStr = new Date().toISOString();
+    const rows = candidates.winners.map((w, idx) =>
+      [
+        esc(w.wallet_address || ""),
+        esc(w.x_handle ? (w.x_handle.startsWith("@") ? w.x_handle : `@${w.x_handle}`) : ""),
+        esc(w.rank || idx + 1),
+        esc(raffle.prize || "Slot Mint"),
+        esc(nowStr),
+      ].join(","),
+    );
+    const csv = [header, ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `pemenang-final-${raffle.id}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150 overflow-y-auto"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="shrink-0 p-4 sm:p-5 border-b-2 border-choco-900/15 flex items-center justify-between bg-cream-50">
+          <div className="flex items-center gap-3">
+            <div className="size-10 rounded-2xl bg-amber-400 border-2 border-choco-900 text-choco-900 flex items-center justify-center shadow-[0_2px_0_#3B2218]">
+              <Trophy className="size-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`px-2 py-0.5 rounded-full border border-choco-900 font-pixel text-[9px] font-bold uppercase ${
+                    isEnded
+                      ? "bg-emerald-100 text-emerald-900"
+                      : "bg-amber-100 text-amber-900"
+                  }`}
+                >
+                  {isEnded ? "UNDIAN SELESAI" : "MENUNGGU VERIFIKASI"}
+                </span>
+                {raffle.requirement_x_handle && (
+                  <span className="text-[10px] font-mono text-sky-700 bg-sky-50 px-1.5 py-0.2 rounded border border-sky-200">
+                    Syarat Follow: {raffle.requirement_x_handle}
+                  </span>
+                )}
+              </div>
+              <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900 leading-tight truncate max-w-xs sm:max-w-md mt-0.5">
+                {raffle.title}
+              </h3>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex size-9 items-center justify-center rounded-full border-2 border-choco-900 bg-white text-choco-900 shadow-[0_1px_0_#3B2218] hover:bg-candy-100 active:translate-y-0.5 cursor-pointer"
+            aria-label="Tutup"
+          >
+            <X className="size-4.5 stroke-[2.5]" />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 tactile-scrollbar">
+          {/* Pemenang Utama */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <h4 className="font-pixel text-xs sm:text-sm font-bold text-choco-900 flex items-center gap-1.5">
+                <Crown className="size-4 text-amber-600" />
+                <span>
+                  Daftar Pemenang Utama ({candidates.winners.length}/{raffle.winner_count} Slot)
+                </span>
+              </h4>
+              {isVerifying && (
+                <span className="text-[11px] font-semibold text-choco-600">
+                  {candidates.winners.filter((w) => w.verified).length} dari {candidates.winners.length} terverifikasi
+                </span>
+              )}
+            </div>
+
+            {candidates.winners.length === 0 ? (
+              <div className="p-6 rounded-2xl bg-white border-2 border-choco-900/20 text-center text-xs text-choco-600 font-semibold">
+                Belum ada kandidat pemenang yang diundi.
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {candidates.winners.map((winner, idx) => (
+                  <div
+                    key={winner.user_id}
+                    className={`p-3.5 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors ${
+                      winner.verified ? "bg-emerald-50/70" : "bg-white"
+                    }`}
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="size-5 rounded-full bg-amber-400 border border-choco-900 text-choco-900 font-pixel text-[10px] flex items-center justify-center font-bold">
+                          #{winner.rank || idx + 1}
+                        </span>
+                        <span className="font-pixel text-xs font-bold text-choco-900">
+                          @{winner.username || "pelajar"}
+                        </span>
+                        <span className="px-2 py-0.2 rounded-full bg-amber-100 border border-choco-900 text-amber-900 font-pixel text-[9px] font-bold">
+                          {winner.tickets} Tiket
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2 flex-wrap pt-0.5 text-xs">
+                        {/* Wallet EVM with copy button */}
+                        {winner.wallet_address ? (
+                          <div className="inline-flex items-center gap-1.5 font-mono text-[11px] text-choco-900 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-300">
+                            <strong>Wallet:</strong>
+                            <span className="select-all break-all">{winner.wallet_address}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopy(winner.wallet_address)}
+                              className="p-0.5 hover:bg-amber-200 rounded text-choco-700 cursor-pointer active:scale-95"
+                              title="Salin alamat wallet"
+                            >
+                              {copiedWallet === winner.wallet_address ? (
+                                <Check className="size-3 text-emerald-600" />
+                              ) : (
+                                <Copy className="size-3" />
+                              )}
+                            </button>
+                          </div>
+                        ) : null}
+
+                        {/* X (Twitter) handle link */}
+                        {winner.x_handle ? (
+                          <a
+                            href={`https://x.com/${winner.x_handle.replace(/^@/, "")}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 font-mono text-[11px] text-sky-700 hover:text-sky-900 bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200 hover:border-sky-400 transition-colors"
+                            title="Buka profil X di tab baru"
+                          >
+                            <AtSign className="size-3 text-sky-500" />
+                            <strong>X:</strong> @{winner.x_handle.replace(/^@/, "")}
+                            <ExternalLink className="size-2.5 opacity-60" />
+                          </a>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-400 bg-stone-50 px-2 py-0.5 rounded-lg border border-stone-200">
+                            <AtSign className="size-3 text-choco-300" />
+                            <strong>X:</strong> -
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Actions per winner */}
+                    {isVerifying && (
+                      <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-0 border-choco-900/10">
+                        {/* Follow terverifikasi Checkbox */}
+                        <button
+                          type="button"
+                          disabled={loadingAction === `verify-${winner.user_id}`}
+                          onClick={() => handleToggleVerify(winner.user_id, Boolean(winner.verified))}
+                          className={`py-1.5 px-3 rounded-xl border-2 border-choco-900 font-pixel font-bold text-xs shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5 ${
+                            winner.verified
+                              ? "bg-emerald-500 text-white hover:bg-emerald-600"
+                              : "bg-white text-choco-900 hover:bg-stone-50"
+                          }`}
+                        >
+                          {winner.verified ? (
+                            <CheckSquare className="size-3.5" />
+                          ) : (
+                            <Square className="size-3.5" />
+                          )}
+                          <span>Follow Terverifikasi</span>
+                        </button>
+
+                        {/* Ganti dengan Cadangan */}
+                        <button
+                          type="button"
+                          disabled={
+                            loadingAction === `swap-${winner.user_id}` ||
+                            candidates.reserves.length === 0
+                          }
+                          onClick={() => handleSwapReserve(winner.user_id)}
+                          className="py-1.5 px-2.5 rounded-xl bg-white hover:bg-amber-100 text-amber-900 border-2 border-choco-900 font-pixel font-bold text-xs shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer disabled:opacity-40"
+                          title="Ganti pemenang ini dengan pemenang cadangan teratas"
+                        >
+                          <Shuffle className="size-3" />
+                          <span>Ganti Cadangan</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Daftar Cadangan (Reserves) */}
+          {candidates.reserves.length > 0 && (
+            <div className="space-y-2 pt-2 border-t border-choco-900/15">
+              <h4 className="font-pixel text-xs font-bold text-choco-700 flex items-center gap-1.5">
+                <span>Daftar Cadangan ({candidates.reserves.length})</span>
+              </h4>
+              <div className="space-y-1.5">
+                {candidates.reserves.slice(0, 5).map((reserve, idx) => (
+                  <div
+                    key={reserve.user_id}
+                    className="p-2.5 rounded-xl bg-white/70 border border-choco-900/20 flex items-center justify-between text-xs"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[10px] text-choco-500">
+                        Cadangan #{reserve.rank || idx + 1}
+                      </span>
+                      <span className="font-bold text-choco-900">@{reserve.username}</span>
+                      <span className="font-mono text-[11px] text-choco-600">
+                        {reserve.wallet_address ? `${reserve.wallet_address.slice(0, 6)}…${reserve.wallet_address.slice(-4)}` : ""}
+                      </span>
+                    </div>
+                    {reserve.x_handle && (
+                      <span className="font-mono text-[10px] text-sky-700">
+                        @{reserve.x_handle.replace(/^@/, "")}
+                      </span>
+                    )}
+                  </div>
+                ))}
+                {candidates.reserves.length > 5 && (
+                  <div className="text-[10px] text-choco-500 italic pl-1">
+                    +{candidates.reserves.length - 5} cadangan lainnya tersimpan di database.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="shrink-0 p-3.5 border-t-2 border-choco-900/15 bg-cream-50 flex items-center justify-between gap-2 flex-wrap">
+          <button
+            type="button"
+            onClick={exportWinnersCsv}
+            disabled={candidates.winners.length === 0}
+            className="py-2 px-4 rounded-full bg-white border-2 border-choco-900 text-choco-900 font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+          >
+            <Download className="size-3.5" />
+            <span>Ekspor CSV Pemenang Final</span>
+          </button>
+
+          <div className="flex items-center gap-2">
+            {isVerifying && (
+              <button
+                type="button"
+                disabled={!allVerified || isAnnouncing}
+                onClick={handleAnnounce}
+                className="py-2 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-40 text-white font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                title={
+                  !allVerified
+                    ? "Semua pemenang harus terverifikasi sebelum diumumkan"
+                    : "Publikasikan pemenang ke publik"
+                }
+              >
+                <Check className="size-3.5" />
+                <span>{isAnnouncing ? "Mengumumkan..." : "Umumkan Pemenang"}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="py-2 px-5 rounded-full bg-choco-900 hover:bg-choco-800 text-cream font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+            >
+              Tutup
+            </button>
+          </div>
         </div>
       </div>
     </div>

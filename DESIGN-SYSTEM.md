@@ -67,12 +67,25 @@ Perangkat yang **sudah** dipakai Web3min (terverifikasi dari `package.json`, buk
 
 ## Colors
 
-### Prinsip 60-30-10 (dipatuhi)
+### Prinsip 60-30-10 (dipatuhi — diverifikasi dengan hitungan pemakaian kode)
+
 | Porsi | Peran | Hex | Token Tailwind | Tempat pakai |
 |---|---|---|---|---|
 | **60%** | Latar dominan | `#FFF6EE` | `bg-cream` | Kanvas halaman, isi box |
 | **30%** | Tipografi & struktur | `#3B2218` | `text-choco-900` / `border-choco-900` | Semua teks, garis outline, hard shadow |
 | **10%** | Aksen | `#E8437F` | `bg-candy-500` | **Hanya** CTA utama & item aktif |
+
+**Terukur dari 2.689 kelas warna di 76 berkas:**
+
+| Keluarga | Pemakaian | Porsi | Peran dalam 60-30-10 |
+|---|---|---|---|
+| `choco-*` | 1.535 | **57,1%** | **30%** — teks, garis, slab (`choco-900` sendiri 1.174×) |
+| `candy-*` | 512 | **19,0%** | **10%** — aksen pink |
+| `cream-*` | 10 | 0,4% | **60%** — latar (diwakili `bg-cream`, bukan kelas `cream-*`) |
+| `amber`/`emerald` | 174/146 | 6,5%/5,4% | fungsional (chip status) — **palet bawaan Tailwind, bukan token Web3min** |
+| `rose`/`sky`/`purple`/`orange`/`slate` | 76/20/22/13/10 | ~5% | idem |
+
+> **Temuan**: 515 pemakaian (**16 kelas keluarga asing** — `amber`, `emerald`, `rose`, `stone`, `purple`, `sky`, `orange`, `slate`, `red`, `yellow`, `blue`, `gray`, `indigo`, `violet`, `neutral`, `pink`) memakai palet bawaan Tailwind, bukan token sendiri. Kontrasnya sebagian sudah dijaga guard, tapi **palet belum sepenuhnya terkunci** ke token Web3min. Kandidat konsolidasi, bukan bug.
 
 > Referensi gaya memakai krem → **hitam** → **biru** `#5B7CFF`. Itu **contoh palet generik**, bukan untuk Web3min. Mengganti aksen pink ke biru = membuang identitas brand, dan `AGENTS.md` melarang dark mode serta mewajibkan aksen pink.
 
@@ -124,6 +137,47 @@ shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218]
 - Pink brand `#E8437F` → **jangan** diganti biru/ungu/hijau.
 - Tema terang krem → **jangan** diganti dark mode.
 - Gradient CTA candy 3-stop → **jangan** diratakan jadi satu warna.
+
+### 7. Audit kontras WCAG AA — hasil pengukuran nyata
+
+Diukur di **browser** (bukan asumsi), latar dikomposit termasuk alpha & gradien, pada 11 rute × viewport 390px. Diverifikasi ulang di **produksi** `web3min.com`.
+
+**Hasil: 53 dari 56 pasangan token LULUS.** Yang gagal semuanya di luar kontrak body text.
+
+**3 kegagalan nyata (terkonfirmasi di produksi):**
+
+| Kelas | Rasio | Butuh | Ukuran | Tempat |
+|---|---|---|---|---|
+| `text-choco-400` | **3,64** | 4,5 | 16px | `/about` |
+| `text-candy-500` | **3,55** | 4,5 | 12px | `/profile` |
+| `text-orange-600` | **3,36** | 4,5 | 12px | `/leaderboard` |
+
+**42 pemakaian teks perlu diganti — semua penggantinya SUDAH ADA di `@theme`, nol warna baru:**
+
+| Kelas sekarang | → Ganti | Hex | Rasio baru |
+|---|---|---|---|
+| `text-choco-400` (7 teks) | `choco-500` | `#8A6552` | 4,84 ✅ |
+| `text-ink-300` (5 teks) | `choco-500` | `#8A6552` | 4,84 ✅ |
+| `text-candy-500` (3 teks) | `candy-700` | `#B01F62` | 6,11 ✅ |
+| `text-candy-600` (5 teks) | `candy-700` | `#B01F62` | 6,11 ✅ |
+| `text-orange-600` (6 teks) | `flame-500` | `#B54A12` | 4,98 ✅ |
+| `text-streak` (3 teks) | `flame-500` | `#B54A12` | 4,98 ✅ |
+| `text-rose-600` (4 teks) | `candy-700` | `#B01F62` | 6,11 ✅ |
+| `text-mint-deep` (3 teks) | `ok-ink` | `#17805F` | 4,59 ✅ |
+| `text-emerald-600` (1 teks) | `ok-ink` | `#17805F` | 4,59 ✅ |
+| `text-danger` (2 teks) | `err-ink` | `#B3272C` | 6,06 ✅ |
+| `text-amber-600` (1 teks) | `warn-ink` | `#8A6100` | 5,19 ✅ |
+| `text-amber-300` (2 teks) | `warn-ink` | `#8A6100` | 5,19 ✅ |
+
+**Yang SAH apa adanya (jangan "diperbaiki"):**
+- **19× `placeholder:text-choco-400`** — placeholder tidak wajib 4,5:1
+- **24× `text-candy-500` pada ikon** — ikon butuh 3:1, rasio 3,55 = lulus
+- **17× `text-emerald-600` pada ikon** — 3,53 ≥ 3,0 = lulus
+- **12× `text-rose-600` pada ikon** — 4,40 ≥ 3,0 = lulus
+
+**Gagal juga sebagai ikon (<3:1) — prioritas tinggi:** `text-streak` (2,20), `text-amber-600` (2,98), `text-amber-300` (1,35).
+
+**Pelajaran pengukuran:** Tailwind v4 mengeluarkan warna sebagai **`oklab()`**, bukan `rgb()`. Regex `rgb()` akan **dilewati** dan menghasilkan rasio palsu (chip cokelat gelap sempat terbaca 1,02 padahal 8,82). Selalu resolve warna lewat **canvas** (`fillStyle` + `getImageData`), dan **komposit** latar semi-transparan berlapis — jangan lewati alpha < 1.
 
 ---
 

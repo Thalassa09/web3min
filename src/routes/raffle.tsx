@@ -883,55 +883,9 @@ function RafflePage() {
                   }
                   front={
                   <>
-                  <div className="flex flex-col h-full justify-between">
-                    {/* a. Baris badge: [badge rarity] [badge status] in 1 row, flex-nowrap, gap-2, status on the right (ml-auto) */}
-                    <div className="flex items-center flex-nowrap gap-2 w-full">
-                      <span
-                        className={`inline-flex items-center gap-1 rounded-full border-2 border-choco-900 px-2.5 h-6 text-[11px] font-bold shrink-0 ${badge.badgeBg}`}
-                      >
-                        <BadgeIcon className="h-3 w-3 shrink-0" />
-                        <span>{badge.label}</span>
-                      </span>
-
-                      <div className="ml-auto flex items-center gap-1.5 shrink-0">
-                        <FlipToggle
-                          flipped={flippedCard === raffle.id}
-                          onClick={() =>
-                            setFlippedCard(flippedCard === raffle.id ? null : raffle.id)
-                          }
-                          label={`Lihat detail ${raffle.title}`}
-                        />
-                      </div>
-
-                      <div className="shrink-0">
-                        {isLive ? (
-                          isExpired ? (
-                            <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-100 text-amber-900 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
-                              <span>Menunggu Pengundian</span>
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-emerald-200 text-emerald-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
-                              <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-700"></span>
-                              </span>
-                              <span>BERLANGSUNG</span>
-                            </span>
-                          )
-                        ) : isVerifying ? (
-                          <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-200 text-amber-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
-                            <span>MENUNGGU VERIFIKASI</span>
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-stone-200 text-stone-800 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
-                            <span>SELESAI</span>
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* b. Judul + baris hadiah */}
-                    <div>
+                  <div className="flex flex-col h-full">
+                    {/* b. Judul + hadiah + catatan — DI BAWAH gambar, ber-padding */}
+                    <div className="px-4 pt-3 md:px-5">
                       <h2 className="text-xl md:text-2xl font-pixel font-bold text-choco-900 leading-tight capitalize tracking-tight">
                         {raffle.title}
                       </h2>
@@ -940,7 +894,6 @@ function RafflePage() {
                         <span>{formattedPrize}</span>
                       </div>
 
-                      {/* c. Baris keterangan kecil di bawah judul */}
                       {noteText && (
                         <p className="text-[11px] text-choco-600 font-semibold mt-1">
                           {noteText}
@@ -948,18 +901,64 @@ function RafflePage() {
                       )}
                     </div>
 
-                    {/* d. Gambar NFT / Item */}
+                    {/* c. Gambar NFT — edge-to-edge, badge rarity/status mengambang di atasnya */}
                     <div
-                      className="aspect-square w-full rounded-2xl border-2 border-choco-900 bg-white overflow-hidden relative shadow-[0_3px_0_#3B2218] my-2 cursor-pointer group p-2"
+                      className="relative aspect-square w-full overflow-hidden bg-choco-50 cursor-pointer group shrink-0"
                       onClick={() => {
                         setPreviewImage({ url: displayImage, title: raffle.title });
                       }}
                       title="Klik untuk melihat gambar ukuran penuh"
                     >
+                      {/* Baris badge mengambang — induk `relative` = div gambar ini */}
+                      <div className="absolute top-3 left-3 right-3 z-10 flex items-center flex-nowrap gap-2">
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-full border-2 border-choco-900 px-2.5 h-6 text-[11px] font-bold shrink-0 ${badge.badgeBg}`}
+                        >
+                          <BadgeIcon className="h-3 w-3 shrink-0" />
+                          <span>{badge.label}</span>
+                        </span>
+
+                        <div className="ml-auto flex items-center gap-1.5 shrink-0">
+                          <FlipToggle
+                            flipped={flippedCard === raffle.id}
+                            onClick={() =>
+                              setFlippedCard(flippedCard === raffle.id ? null : raffle.id)
+                            }
+                            label={`Lihat detail ${raffle.title}`}
+                          />
+                        </div>
+
+                        <div className="shrink-0">
+                          {isLive ? (
+                            isExpired ? (
+                              <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-100 text-amber-900 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                                <span>Menunggu Pengundian</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-emerald-200 text-emerald-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                                <span className="relative flex h-2 w-2">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-700"></span>
+                                </span>
+                                <span>BERLANGSUNG</span>
+                              </span>
+                            )
+                          ) : isVerifying ? (
+                            <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-200 text-amber-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span>MENUNGGU VERIFIKASI</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-stone-200 text-stone-800 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span>SELESAI</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
                       <img
                         src={displayImage}
                         alt={raffle.title}
-                        className={`w-full h-full object-contain transition-transform duration-200 group-hover:scale-105 ${
+                        className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${
                           isItemPixelated ? "pixelated" : ""
                         }`}
                         loading="lazy"
@@ -968,8 +967,15 @@ function RafflePage() {
                           (e.target as HTMLImageElement).src = "/mascot/wave.png";
                         }}
                       />
-                    </div>
 
+                      {/* Chip hadiah polos di atas gambar — tanpa border, mengikuti referensi */}
+                      <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-choco-900/70 px-3 py-1.5 backdrop-blur-sm">
+                        <Award className="size-3.5 shrink-0 text-lemon" />
+                        <span className="font-pixel text-[11px] font-bold text-white">
+                          {formattedPrize}
+                        </span>
+                      </div>
+                    </div>
                     {/* f. Grid Statistik 2x2 Bento Box */}
                     <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-choco-900/10 rounded-2xl border-2 border-choco-900 bg-white shadow-[0_3px_0_#3B2218] overflow-hidden text-center">
                       {/* Tiket Terkumpul */}

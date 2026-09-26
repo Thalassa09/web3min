@@ -62,7 +62,7 @@ export function FlipRaffleCard({
       >
         {/* ── Sisi depan: gambar + judul + hadiah + statistik + CTA ── */}
         <div
-          className="absolute inset-0 size-full rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-4 md:p-5 shadow-[0_6px_0_#3B2218] [transform-style:preserve-3d] [backface-visibility:hidden] overflow-hidden"
+          className="absolute inset-0 size-full rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_6px_0_#3B2218] [transform-style:preserve-3d] [backface-visibility:hidden] overflow-hidden"
           aria-hidden={flipped}
         >
           {front}

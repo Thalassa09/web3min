@@ -17,6 +17,8 @@ Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk dit
 
 ## 2. Master Design Tokens
 
+> **Peta alias warna** (84 deklarasi · 83 nama · 46 hex unik · 20 grup alias) ada di **`DESIGN-SYSTEM.md` §9**. Ringkasnya: `candy-500` = `primary` = `ring` = `blobi` = `#E8437F` · `choco-900` = `ink-900` = `border` = `#3B2218` · `choco-600` = `muted` = `#6B4A3A`. Alias **jangan dihapus** (ratusan call-site) dan **jangan dipecah** (dua nama yang sama warna jadi beda diam-diam). Dijaga `src/lib/color-alias.test.ts`.
+
 ### 2.1 Warna Fondasi (Surface & Neutrals)
 | Peran | Hex | Utility CSS / Class | Keterangan |
 |---|---|---|---|

@@ -258,6 +258,45 @@ Semua dokumen memakai **nama token Tailwind yang sama** tapi mendefinisikan **he
 
 ---
 
+### 9. Peta alias warna (84 deklarasi · 83 nama · 46 hex unik)
+
+`@theme` mendeklarasikan **84** `--color-*` (83 nama unik — `--color-flame` ditulis dua kali dengan nilai sama), tapi hanya **46 hex unik**. Artinya **20 hex dipakai beberapa nama sekaligus**. Ini **bukan duplikasi sia-sia**: nama lama (`ink-*`, `blobi-*`, `ruby-*`, `leaf-*`) dan token shadcn (`primary`, `card`, `border`, `ring`) masih dipakai ratusan call-site — menghapusnya = merusak kode yang jalan. Dijaga `src/lib/color-alias.test.ts`.
+
+**Aturan:** alias **jangan dihapus**, tapi juga **jangan dipecah**. Mengubah satu nama tanpa mengubah anggota grup lain membuat dua nama yang seharusnya sama warna jadi **diam-diam berbeda** — dan tidak ada test lain yang menangkapnya.
+
+#### 9.1 Dua puluh grup alias (terukur dari `@theme`)
+
+| Hex | Nama-nama (semua resolve ke hex ini) | Kelompok |
+|---|---|---|
+| `#3B2218` | `choco-900` · `ink-900` · `line` · `line-strong` · `card-foreground` · `foreground` · `border` · `primary-shadow` | teks & garis (**8 nama — grup terbesar**) |
+| `#FFE3EC` | `candy-100` · `candy-soft` · `primary-soft` · `ruby-soft` · `blobi-soft` | permukaan pink redup |
+| `#6B4A3A` | `choco-600` · `ink-500` · `ink-700` · `muted` · `muted-foreground` | teks sekunder |
+| `#E8437F` | `candy-500` · `primary` · `ring` · `blobi` | **pink brand** |
+| `#B01F62` | `candy-700` · `candy-deep` · `primary-deep` | pink gelap (teks 6,11:1) |
+| `#FFF6EE` | `cream` · `canvas` · `paper` | latar |
+| `#A02025` | `danger-shadow` · `ruby-shadow` · `blobi-shadow` | slab bahaya |
+| `#F26A99` | `candy-400` · `brand` | pink terang |
+| `#D62A78` | `candy-600` · `primary-hover` | pink hover |
+| `#9C7A68` | `choco-400` · `ink-300` | placeholder |
+| `#F2E4D8` | `choco-100` · `ink-100` | permukaan redup |
+| `#6FE3C1` | `mint` · `leaf` | mint |
+| `#1E9E78` | `mint-deep` · `leaf-deep` | mint gelap |
+| `#FFD84D` | `lemon` · `coin` | emas PETI |
+| `#D9A400` | `lemon-deep` · `coin-shadow` | emas gelap |
+| `#FF8A3D` | `streak` · `flame` | oranye streak |
+| `#E5484D` | `danger` · `ruby` | merah bahaya |
+| `#17805F` | `ok` · `ok-ink` | hijau sukses |
+| `#8A6100` | `warn-ink` · `coin-ink` | teks peringatan/koin |
+| `#0F6045` | `ok-shadow` · `leaf-shadow` | slab sukses |
+
+#### 9.2 Dua puluh enam hex bernama tunggal (tanpa alias)
+
+`candy-50` `#FFF4F8` · `candy-200` `#FFC7DA` · `candy-300` `#FFA3C2` · `candy-800` `#85174A` · `candy-900` `#6E1239` · `candy-950` `#4E0D2A` · `candy-line` `#F3BFD3` · `card` `#FFFFFF` · `choco-50` `#FBF4EF` · `choco-300` `#B79A87` · `choco-500` `#8A6552` · `choco-700` `#4E3125` · `choco-800` `#452A1E` · `cream-50` `#FFFBF7` · `cream-100` `#FDEEDF` · `err-ink` `#B3272C` · `err-soft` `#FFE9EA` · `flame-500` `#B54A12` · `flame-shadow` `#A8480F` · `grape` `#9B6BFF` · `grape-deep` `#5B2FB8` · `ink-600` `#5A3D31` · `ink-950` `#2A1710` · `mint-dark` `#14876A` · `ok-soft` `#E8FBF4` · `warn-soft` `#FFF8E1`
+
+> **Catatan pemetaan warna:** token shadcn (`primary`, `border`, `ring`, `card`) **sudah terisi warna Web3min**, bukan abu-abu default shadcn. Komponen shadcn yang di-port otomatis memakai identitas web3min tanpa penyesuaian.
+
+---
+
 ## Spacing
 
 Skala: **4 / 8 / 12 / 16 / 24 / 32 / 48**. Jarak **tidak boleh sama rata**:

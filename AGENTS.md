@@ -76,6 +76,19 @@ Platform belajar Web3 bahasa Indonesia, santai, bergamifikasi: 20 rute, 128 blok
 - CTA menjelaskan hasil ("Mulai Blok #0x01 →"). Bahasa manusiawi.
 - Tap target min 44px, uji layar 360 & 430px, pakai safe area, input tidak tertutup keyboard.
 
+## Keputusan Arsitektur
+
+### Autentikasi & Pemulihan Akun
+- Registrasi tetap zero-friction: `username` + `password` saja. Email internal sintetis `{username}@users.web3min.vercel.app` — user tidak pernah melihatnya.
+- Email pemulihan disimpan di `user_metadata.recovery_email` (bukan kolom tabel `profiles`), lewat `supabase.auth.updateUser`.
+- Reset password TIDAK memakai reset-link native Supabase (kena limit 3 email/jam free tier + butuh kredensial SMTP). Dipakai OTP 6-digit buatan server:
+  - `POST /api/auth/request-reset` → cari profile by username → baca `recovery_email` → gate domain → generate OTP acak → simpan `reset_otp` + `reset_otp_expires` (15 menit) → kirim HTML via Resend `POST https://api.resend.com/emails`.
+  - `POST /api/auth/confirm-reset` → cocokkan OTP + expiry → `supabase.auth.admin.updateUserById(id, { password })` → bersihkan OTP dari metadata.
+- Allowlist domain email pemulihan (server + client, sumber tunggal `ALLOWED_EMAIL_DOMAINS` di `src/lib/account.ts`): hanya penyedia publik Gmail/Googlemail, Yahoo (`.com`, `.co.id`, `.co.uk`, `.com.sg`, `ymail`, `rocketmail`), Outlook/Hotmail/Live/MSN, iCloud, Proton. Temp-mail dan domain bisnis/kustom ditolak agar delivery rate Resend tidak rusak oleh spam bot.
+- Secret server: `RESEND_API_KEY` + `SUPABASE_SERVICE_ROLE_KEY` hanya di env Vercel production & `.env.local`. Tidak pernah masuk bundle frontend.
+- API key Resend berstatus *sending-restricted* → endpoint `/domains` 401. Karena itu pengirim memakai `Web3min <onboarding@resend.dev>` sampai domain `web3min.com` diverifikasi DNS di dashboard Resend.
+- Catatan: `AGENTS.md` adalah protected file — perubahan di dalamnya butuh approval eksplisit dari user.
+
 ## Perintah
 - w3 plan [tugas]: rencana bernomor, tanpa coding.
 - w3 step [n]: kerjakan langkah n saja, lalu lapor: ringkasan, file berubah, cara tes manual, risiko.

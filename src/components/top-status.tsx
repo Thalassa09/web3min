@@ -83,7 +83,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const toggleNav = useNavStore((s) => s.toggle);
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 sm:h-16 select-none items-center gap-2 border-b-2 border-choco-900 bg-cream/95 px-3 backdrop-blur-xl shadow-[0_2px_0_rgba(59,34,24,0.06)] sm:px-5">
+    <header className="sticky top-0 z-30 flex min-h-14 sm:min-h-16 select-none items-center gap-2 border-b-2 border-choco-900 bg-cream/95 px-3 pt-[env(safe-area-inset-top)] pb-1 sm:pb-0 backdrop-blur-xl shadow-[0_2px_0_rgba(59,34,24,0.06)] sm:px-5">
       {brand && (
         <div className="flex items-center gap-2">
           {/* ─────────────────────────────────────────────────────────────

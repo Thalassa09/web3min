@@ -306,7 +306,7 @@ function Onboarding() {
                     onClick={() => setStep(1)}
                     className="w-full py-3.5 px-6 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
                   >
-                    <span>Mulai Sekarang</span>
+                    <span>Mulai Petualangan Web3</span>
                     <ArrowRight className="size-5" />
                   </button>
                 </div>
@@ -387,7 +387,7 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         placeholder="contoh: satoshi atau blobi_fan"
-                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
                         autoFocus
                         autoComplete="username"
                       />
@@ -412,7 +412,7 @@ function Onboarding() {
                       onFocus={() => setIsTypingPassword(true)}
                       onBlur={() => setIsTypingPassword(false)}
                       autoComplete={authMode === "register" ? "new-password" : "current-password"}
-                      className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                      className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
                       placeholder="Minimal 6 karakter"
                     />
                   </div>
@@ -433,7 +433,7 @@ function Onboarding() {
                         onFocus={() => setIsTypingPassword(true)}
                         onBlur={() => setIsTypingPassword(false)}
                         autoComplete="new-password"
-                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
                         placeholder="Ulangi password yang sama"
                       />
                     </div>
@@ -445,6 +445,16 @@ function Onboarding() {
                       <span>{formError}</span>
                     </div>
                   ) : null}
+
+                  {authMode === "register" && (
+                    <p className="pt-1 text-[11px] font-medium text-choco-600 leading-normal">
+                      Dengan mendaftar, kamu menyetujui{" "}
+                      <Link to="/privacy" className="text-candy-700 font-bold hover:underline">
+                        Kebijakan Privasi
+                      </Link>{" "}
+                      Web3min (Nol pelacakan & data terenkripsi).
+                    </p>
+                  )}
 
                   <div className="pt-1 text-xs font-bold text-choco-600">
                     {authMode === "register" ? (
@@ -504,7 +514,7 @@ function Onboarding() {
                             ? "Memeriksa..."
                             : "Memproses..."
                           : authMode === "register"
-                            ? "Lanjut ke Target"
+                            ? "Lanjut ke Target Harian"
                             : "Masuk Sekarang"}
                       </span>
                       <ArrowRight className="size-4" />

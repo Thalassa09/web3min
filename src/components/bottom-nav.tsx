@@ -65,7 +65,7 @@ export function BottomNav() {
             // 149..201 vs 195..238). Ikut lebar kolom, tetap bulat, dan tetap
             // >= 44px sehingga tap target tidak hilang.
             "mx-auto grid size-[min(52px,100%)] shrink-0 place-items-center rounded-full border-2 border-candy-600/60 text-white",
-            "transition-all duration-120 ease-out hover:brightness-110 active:translate-y-0.5 active:shadow-[0_1px_0_#B01F62]",
+            "transition-all duration-120 ease-out hover:brightness-110 active:scale-95 active:translate-y-0.5 active:shadow-[0_1px_0_#B01F62]",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-choco-900 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF9F5]",
             CANDY_ACTIVE,
           )}

@@ -113,8 +113,8 @@ function MasukPage() {
   }
 
   return (
-    <main className="min-h-dvh bg-[#FDFBF7] flex items-center justify-center px-4 py-8 select-none">
-      <div className="w-full max-w-md p-6 sm:p-8 rounded-[32px] bg-cream border-4 border-choco-900 shadow-[0_10px_0_#3B2218]">
+    <main className="min-h-dvh bg-[#FDFBF7] flex flex-col justify-start sm:justify-center items-center px-4 py-6 sm:py-8 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] overflow-y-auto">
+      <div className="w-full max-w-md p-6 sm:p-8 rounded-[32px] bg-cream border-4 border-choco-900 shadow-[0_10px_0_#3B2218] my-auto">
         {/* Mascot & Title */}
         <div className="flex items-center gap-4 mb-6">
           <div className="size-20 rounded-2xl bg-linear-to-b from-[#FFF0F5] to-[#FCE7F3] border-3 border-choco-900 shadow-[0_4px_0_#3B2218] flex items-center justify-center shrink-0">
@@ -159,7 +159,7 @@ function MasukPage() {
                 setError(null);
               }}
               autoComplete="username"
-              className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_3px_0_#3B2218] outline-none transition-all"
+              className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_3px_0_#3B2218] outline-none transition-all scroll-mb-16"
               placeholder="contoh: satoshi atau blobi_fan"
               autoFocus
             />
@@ -198,7 +198,7 @@ function MasukPage() {
               onFocus={() => setIsTypingPassword(true)}
               onBlur={() => setIsTypingPassword(false)}
               autoComplete="current-password"
-              className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_3px_0_#3B2218] outline-none transition-all"
+              className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_3px_0_#3B2218] outline-none transition-all scroll-mb-16"
               placeholder="Masukkan password akun"
             />
           </div>
@@ -216,8 +216,7 @@ function MasukPage() {
               disabled={busy}
               className="w-full py-4 px-6 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
             >
-              <span>{busy ? "Memeriksa Akun..." : "Masuk Sekarang"}</span>
-              <ArrowRight className="size-5" />
+              <span>{busy ? "Memeriksa Akun..." : "Masuk Sekarang →"}</span>
             </button>
           </div>
         </form>
@@ -306,7 +305,7 @@ function MasukPage() {
                     placeholder="contoh: satoshi"
                     autoComplete="username"
                     autoFocus
-                    className="w-full h-12 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
+                    className="w-full h-12 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
                   />
                   <p className="text-[11px] font-semibold text-choco-500 mt-1">
                     Kami akan mencari email pemulihan yang telah kamu tautkan di profil.
@@ -366,7 +365,7 @@ function MasukPage() {
                     }}
                     placeholder="Minimal 6 karakter"
                     autoComplete="new-password"
-                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
+                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
                   />
                 </div>
 
@@ -387,7 +386,7 @@ function MasukPage() {
                     }}
                     placeholder="Ketik ulang password baru"
                     autoComplete="new-password"
-                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
+                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
                   />
                 </div>
 

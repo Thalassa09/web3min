@@ -1,6 +1,6 @@
 import { Check, X } from "@/lib/kicon";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Lightbulb, BookOpen, ArrowRight } from "lucide-react";
+import { Lightbulb, BookOpen, ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import { Mascot } from "@/components/mascot";
 import type { Exercise, TipExercise } from "@/lib/curriculum";
 import { cn, shuffle } from "@/lib/utils";
@@ -81,170 +81,108 @@ export function ExerciseView({ exercise, disabled, reveal, onHandle, onAutoPass,
 }
 
 function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: CheckHandle) => void }) {
-  const [tab, setTab] = useState<"materi" | "studi">("materi");
+  const [openExample, setOpenExample] = useState(false);
+  const [openRemember, setOpenRemember] = useState(false);
 
   useEffect(() => {
     onHandle({ ready: true, isCorrect: () => true });
   }, [onHandle]);
 
-  const hasStudi = Boolean(exercise.example || exercise.remember);
-
   return (
     <article className="max-w-prose mx-auto rounded-[24px] bg-white border-3 border-choco-900 shadow-[0_6px_0_#3B2218] p-5 sm:p-7 mb-8">
-      {hasStudi ? (
-        <div className="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+      {/* Header Badge & Mascot Note */}
+      <div className="flex items-center justify-between gap-2 mb-3">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-ok-soft border-2 border-ok-ink/30 text-xs font-bold text-ok-ink">
+          <BookOpen className="size-3.5" />
+          <span>KONSEP KUNCI</span>
+        </span>
+        <div className="flex items-center gap-1.5 text-xs font-bold text-choco-600">
+          <span className="size-6 shrink-0"><Mascot fill mood="think" size={24} /></span>
+          <span>Catatan Blobi</span>
+        </div>
+      </div>
+
+      <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-choco-900 mb-2">
+        {exercise.title}
+      </h3>
+
+      {/* Scannable Body */}
+      <p className="text-[15px] font-normal leading-[24px] text-choco-700">
+        {exercise.body.replaceAll(" — ", ", ").replaceAll("—", ", ")}
+      </p>
+
+      {/* Scannable Key Points (if present) */}
+      {exercise.points && exercise.points.length > 0 ? (
+        <ul className="mt-3.5 flex flex-col gap-2 bg-[#FFFDF8] border-2 border-choco-900/10 rounded-2xl p-3.5">
+          {exercise.points.map((point) => (
+            <li key={point} className="flex items-start gap-2.5 text-[13.5px] font-medium leading-[20px] text-choco-800">
+              <span className="mt-1.5 size-2 shrink-0 rounded-full bg-candy-500 shadow-[0_1px_0_#B01F62]" />
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      {/* Accordion 1: Contoh Kasus Nyata (Less is More) */}
+      {exercise.example ? (
+        <div className="mt-3.5 rounded-2xl border-2 border-choco-900/15 bg-cream/50 overflow-hidden transition-all">
           <button
             type="button"
-            onClick={() => setTab("materi")}
-            className={cn(
-              "px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
-              tab === "materi"
-                ? "bg-choco-900 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
-                : "text-choco-700 hover:text-choco-900 hover:bg-candy-50"
-            )}
+            aria-expanded={openExample}
+            onClick={() => setOpenExample((prev) => !prev)}
+            className="w-full flex items-center justify-between p-3.5 text-left font-pixel text-xs sm:text-sm font-bold text-choco-900 hover:bg-cream active:bg-cream/80 transition-colors cursor-pointer select-none"
           >
-            1. Inti & Arsitektur
+            <span className="flex items-center gap-2">
+              <Sparkles className="size-4 text-candy-600 shrink-0" />
+              <span>Contoh Nyata di Lapangan</span>
+            </span>
+            <ChevronDown
+              className={cn("size-4 text-choco-600 transition-transform duration-200", openExample && "rotate-180")}
+            />
           </button>
-          <button
-            type="button"
-            onClick={() => setTab("studi")}
-            className={cn(
-              "px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
-              tab === "studi"
-                ? "bg-choco-900 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
-                : "text-choco-700 hover:text-choco-900 hover:bg-candy-50"
-            )}
-          >
-            2. Contoh Kasus & Kunci
-          </button>
+          {openExample && (
+            <div className="px-3.5 pb-3.5 pt-1 text-[13.5px] font-medium leading-[22px] text-choco-700 border-t border-choco-900/10 bg-white">
+              {exercise.example}
+            </div>
+          )}
         </div>
       ) : null}
 
-      {tab === "materi" ? (
-        <>
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-              <BookOpen className="size-3.5 text-emerald-600" />
-              <span>KONSEP KUNCI</span>
+      {/* Accordion 2: Kunci Ingatan & Jebakan (Less is More) */}
+      {exercise.remember ? (
+        <div className="mt-3 rounded-2xl border-2 border-amber-500/40 bg-amber-50/60 overflow-hidden transition-all">
+          <button
+            type="button"
+            aria-expanded={openRemember}
+            onClick={() => setOpenRemember((prev) => !prev)}
+            className="w-full flex items-center justify-between p-3.5 text-left font-pixel text-xs sm:text-sm font-bold text-amber-950 hover:bg-amber-100/50 transition-colors cursor-pointer select-none"
+          >
+            <span className="flex items-center gap-2">
+              <Lightbulb className="size-4 text-amber-600 shrink-0" />
+              <span>Kunci Ingatan & Jebakan</span>
             </span>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-              <span className="size-6 shrink-0"><Mascot fill mood="think" /></span>
-              <span>Catatan Blobi</span>
+            <ChevronDown
+              className={cn("size-4 text-amber-800 transition-transform duration-200", openRemember && "rotate-180")}
+            />
+          </button>
+          {openRemember && (
+            <div className="px-3.5 pb-3.5 pt-1 text-[13.5px] font-bold leading-[22px] text-amber-950 border-t border-amber-400/30 bg-amber-50/90">
+              {exercise.remember}
             </div>
-          </div>
+          )}
+        </div>
+      ) : null}
 
-          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-choco-900">{exercise.title}</h3>
-          <p className="mt-2.5 text-[15px] font-normal leading-[24px] text-slate-700">
-            {exercise.body.replaceAll(" — ", ", ").replaceAll("—", ", ")}
-          </p>
+      {/* Galeri Bukti On-Chain (if present) */}
+      {exercise.proofs && exercise.proofs.length > 0 ? (
+        <div className="mt-4">
+          <ProofGallery ids={exercise.proofs} />
+        </div>
+      ) : null}
 
-          {/* Visual Architectural Diagram: Web2 vs Web3 Network Topology */}
-          <div className="my-4 rounded-xl bg-slate-50 border border-slate-200 p-3.5 sm:p-4">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2.5">
-              Arsitektur Perbandingan
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {/* Web2 Centralized */}
-              <div className="rounded-lg bg-white border border-slate-200 p-2.5 flex flex-col items-center text-center">
-                <span className="text-[9px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
-                  Web2: Sentralistik
-                </span>
-                <div className="my-2 flex items-center justify-center gap-1.5 text-xs font-mono text-slate-600">
-                  <span className="p-1 rounded bg-slate-100 border border-slate-200 text-[11px]">User</span>
-                  <ArrowRight className="size-3 text-slate-400 shrink-0" />
-                  <span className="p-1 rounded bg-rose-50 border border-rose-200 font-bold text-rose-800 text-[11px]">Server Korporat</span>
-                </div>
-                <p className="text-[10.5px] text-slate-500 leading-snug">
-                  Data & saldo akunmu sepenuhnya dikendalikan satu server pusat.
-                </p>
-              </div>
-
-              {/* Web3 Decentralized */}
-              <div className="rounded-lg bg-emerald-50/50 border border-emerald-200 p-2.5 flex flex-col items-center text-center">
-                <span className="text-[9px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
-                  Web3: Kedaulatan On-Chain
-                </span>
-                <div className="my-2 flex items-center justify-center gap-1.5 text-xs font-mono text-slate-600">
-                  <span className="p-1 rounded bg-white border border-emerald-300 font-bold text-emerald-800 text-[11px]">Wallet</span>
-                  <ArrowRight className="size-3 text-emerald-500 shrink-0" />
-                  <span className="p-1 rounded bg-emerald-100 border border-emerald-300 font-bold text-emerald-900 text-[11px]">Smart Contract</span>
-                </div>
-                <p className="text-[10.5px] text-slate-600 leading-snug">
-                  Kepemilikan diverifikasi kriptografi publik tanpa perantara.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {hasStudi ? (
-            <div className="mt-3 pt-2.5 border-t border-slate-100 flex justify-end">
-              <button
-                type="button"
-                onClick={() => setTab("studi")}
-                className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 cursor-pointer"
-              >
-                <span>Lihat Contoh Kasus & Poin Kunci</span>
-                <ArrowRight className="size-3" />
-              </button>
-            </div>
-          ) : null}
-        </>
-      ) : (
-        <>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
-              <Lightbulb className="size-3.5 text-emerald-600" />
-              <span>CONTOH KASUS & KUNCI</span>
-            </span>
-          </div>
-
-          <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight text-choco-900">
-            Contoh Nyata & Kunci Ingatan
-          </h3>
-
-          {exercise.points && exercise.points.length > 0 ? (
-            <ul className="mt-3 flex flex-col gap-2 bg-slate-50 border border-slate-200 rounded-xl p-3.5">
-              {exercise.points.map((point) => (
-                <li key={point} className="flex items-start gap-2 text-[13.5px] font-medium leading-[20px] text-slate-700">
-                  <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-500" />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-
-          {exercise.example ? (
-            <div className="mt-3.5 rounded-xl bg-white border border-slate-200 p-4 shadow-xs">
-              <p className="text-xs font-bold uppercase tracking-wider text-emerald-700">Contoh Nyata</p>
-              <p className="mt-1.5 text-[14px] font-medium leading-[22px] text-slate-800">{exercise.example}</p>
-            </div>
-          ) : null}
-
-          {exercise.remember ? (
-            <div className="mt-3 rounded-xl bg-emerald-50/70 border border-emerald-200 p-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
-                <Lightbulb className="size-3.5 text-emerald-600" />
-                <span>Kunci Ingatan</span>
-              </p>
-              <p className="mt-1 text-[14.5px] font-bold leading-[22px] text-emerald-950">{exercise.remember}</p>
-            </div>
-          ) : null}
-
-          <p className="mt-3 text-[11px] leading-4 text-slate-400">
-            Sumber: dokumentasi publik dan kasus on-chain terverifikasi. Diperbarui September 2026. Materi edukasi, bukan rekomendasi investasi.
-          </p>
-
-          <div className="mt-4 pt-3 border-t border-slate-100 flex justify-start">
-            <button
-              type="button"
-              onClick={() => setTab("materi")}
-              className="text-xs font-bold text-slate-600 hover:text-choco-900 flex items-center gap-1 cursor-pointer"
-            >
-              <span>← Kembali ke Materi Inti</span>
-            </button>
-          </div>
-        </>
-      )}
+      <p className="mt-4 pt-3 border-t border-choco-900/10 text-[11px] leading-4 text-choco-500">
+        Sumber: dokumentasi publik dan kasus on-chain terverifikasi. Diperbarui September 2026. Materi edukasi, bukan rekomendasi investasi.
+      </p>
     </article>
   );
 }

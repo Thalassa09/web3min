@@ -855,7 +855,7 @@ function ProfilePage() {
                     onChange={(e) => setEmailDraft(e.target.value)}
                     placeholder="contoh: kamu@gmail.com"
                     autoComplete="email"
-                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-xs sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
+                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
                   />
                 </div>
                 <div className="flex items-center gap-2">

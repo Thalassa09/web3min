@@ -90,7 +90,7 @@ function SettingsPage() {
               value={twDraft}
               onChange={(e) => setTwDraft(sanitizeTwitter(e.target.value))}
               placeholder="username tanpa @"
-              className="w-full h-12 px-4 rounded-2xl bg-white border-2 border-choco-900 text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none"
+              className="w-full h-12 px-4 rounded-2xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none"
               maxLength={15}
               autoCapitalize="off"
               autoCorrect="off"

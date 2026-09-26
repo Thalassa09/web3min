@@ -73,7 +73,7 @@ export function DailyQuests({ compact = false, className }: { compact?: boolean;
                     }
                   }}
                 >
-                  Klaim
+                  Klaim +{q.gems} Koin →
                 </DuoButton>
               ) : null}
             </li>

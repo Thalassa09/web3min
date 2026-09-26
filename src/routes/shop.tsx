@@ -391,7 +391,7 @@ function ShopPage() {
                           : "border-orange-600/60 bg-gradient-to-b from-[#FB923C] via-[#F97316] to-[#EA580C] text-white shadow-[0_3px_0_#C2410C] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
                       }`}
                     >
-                      {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Kurang" : "Beli"}
+                      {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Koin Kurang" : "Beli Pelindung →"}
                     </button>
                   </div>
                 </div>
@@ -782,7 +782,7 @@ function ShopPage() {
                                   onClick={() => setConfirm(acc)}
                                   className="flex-1 py-1 rounded-[10px] bg-lemon text-choco-900 border-2 border-choco-900 text-[10px] font-pixel font-bold hover:bg-lemon-deep shadow-[0_2px_0_#3B2218] active:translate-y-[1px] cursor-pointer"
                                 >
-                                  Beli
+                                  Beli Item →
                                 </button>
                               </div>
                             )}
@@ -842,7 +842,7 @@ function ShopPage() {
                   fullWidth
                   onClick={() => setConfirm(null)}
                 >
-                  Batal
+                  Kembali
                 </TactileButton>
                 <TactileButton
                   variant="primary"
@@ -851,7 +851,7 @@ function ShopPage() {
                   disabled={gems < confirm.cost}
                   onClick={() => purchase(confirm)}
                 >
-                  {gems >= confirm.cost ? "Konfirmasi Pembelian" : "Koin Kurang"}
+                  {gems >= confirm.cost ? `Beli Sekarang (${confirm.cost} Koin) →` : "Koin Belum Cukup"}
                 </TactileButton>
               </div>
             </div>

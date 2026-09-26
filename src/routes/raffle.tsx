@@ -32,14 +32,9 @@ import {
   type DbRaffleStats,
   type RafflePublicResults,
 } from "@/lib/server-sync";
-import {
-  INITIAL_RAFFLES,
-  RAFFLE_TICKET_PRICE,
-  formatRaffleCountdown,
-  type RaffleItem,
-} from "@/lib/raffles";
+import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE, formatRaffleCountdown, type RaffleItem } from "@/lib/raffles";
 import { playBuy, playClaim, playDeny, playTap } from "@/lib/audio";
-import { CandyLoader } from "@/components/ui/progress-bar";
+import { SkeletonCards } from "@/components/ui/skeleton";
 import { isValidEvmAddress, maskWalletAddress, isValidXHandle, formatXHandle } from "@/lib/wallet";
 
 export const Route = createFileRoute("/raffle")({
@@ -641,8 +636,28 @@ export function RafflePage() {
 
         {/* Raffles Grid */}
         {allRaffles.length === 0 && isDbLoading ? (
-          <div className="p-12 flex flex-col items-center justify-center space-y-4">
-            <CandyLoader size="lg" label="MEMUAT DAFTAR UNDIAN…" />
+          <SkeletonCards count={4} />
+        ) : filteredRaffles.length === 0 ? (
+          <div className="py-16 text-center space-y-3 bg-white rounded-[28px] border-3 border-choco-900 shadow-[0_4px_0_#3B2218] p-6">
+            <div className="size-16 mx-auto rounded-full bg-lemon/30 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center text-choco-900">
+              <Ticket className="size-8 text-candy-600" />
+            </div>
+            <h3 className="font-pixel font-bold text-base text-choco-900">
+              Belum Ada Undian di Kategori Ini
+            </h3>
+            <p className="text-xs text-choco-600 max-w-sm mx-auto font-sans font-semibold">
+              Semua undian pada tab ini sudah selesai atau belum dimulai. Coba pilih tab Semua atau kumpulkan tiket lebih banyak!
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveCategory("all");
+                setActiveStatus("all");
+              }}
+              className="px-5 py-2.5 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5"
+            >
+              Lihat Semua Undian →
+            </button>
           </div>
         ) : (
           <div

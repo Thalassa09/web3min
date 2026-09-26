@@ -29,6 +29,8 @@ import {
   Eye,
   Award,
   Lock,
+  Mail,
+  CheckCircle2,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
@@ -36,7 +38,7 @@ import { BlockStamp } from "@/components/motif";
 import { UNITS, sequentialNodes } from "@/lib/curriculum";
 import { sanitizeBio } from "@/lib/people";
 import { saveBioToServer } from "@/lib/server-sync";
-import { logoutAccount } from "@/lib/account";
+import { logoutAccount, getRecoveryEmail, saveRecoveryEmail } from "@/lib/account";
 import { formatGems, useProgress } from "@/lib/store";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
@@ -144,6 +146,39 @@ function ProfilePage() {
   );
 
   const dirty = sanitizeBio(bioDraft) !== bio;
+
+  const [recoveryEmail, setRecoveryEmail] = useState<string | null>(null);
+  const [emailDraft, setEmailDraft] = useState("");
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isSavingEmail, setIsSavingEmail] = useState(false);
+  const [emailSaveSuccess, setEmailSaveSuccess] = useState<string | null>(null);
+  const [emailSaveError, setEmailSaveError] = useState<string | null>(null);
+
+  useEffect(() => {
+    void getRecoveryEmail().then((em) => {
+      if (em) {
+        setRecoveryEmail(em);
+        setEmailDraft(em);
+      }
+    });
+  }, []);
+
+  async function handleSaveEmail(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    setIsSavingEmail(true);
+    setEmailSaveError(null);
+    setEmailSaveSuccess(null);
+    const res = await saveRecoveryEmail(emailDraft);
+    setIsSavingEmail(false);
+    if (res.ok) {
+      setRecoveryEmail(emailDraft.trim().toLowerCase());
+      setIsEditingEmail(false);
+      setEmailSaveSuccess("Email pemulihan akun berhasil disimpan!");
+      setTimeout(() => setEmailSaveSuccess(null), 4000);
+    } else {
+      setEmailSaveError(res.message || "Gagal menyimpan email.");
+    }
+  }
 
   useEffect(() => {
     setBioDraft(bio);
@@ -747,6 +782,110 @@ function ProfilePage() {
               Buka Arena →
             </Link>
           </div>
+        </SurfaceCard>
+
+        {/* Email Pemulihan Akun (Reset Password) */}
+        <SurfaceCard variant="default" className="p-4 sm:p-5 space-y-3.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Mail className="size-4 text-candy-500 shrink-0" />
+                <h2 className="font-display font-bold text-sm sm:text-base text-choco-900">
+                  Email Pemulihan Kata Sandi
+                </h2>
+                {recoveryEmail && !isEditingEmail && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint/20 text-mint-deep border border-mint">
+                    Tersambung
+                  </span>
+                )}
+              </div>
+              <p className="text-xs font-semibold text-choco-600 max-w-xl leading-relaxed">
+                Tambahkan email aktif untuk menerima kode verifikasi 6-digit jika kamu lupa password akun Web3min.
+              </p>
+            </div>
+
+            {recoveryEmail && !isEditingEmail && (
+              <TactileButton
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  setEmailDraft(recoveryEmail);
+                  setIsEditingEmail(true);
+                }}
+                className="self-start sm:self-auto shrink-0 text-xs font-extrabold"
+                icon={<Pencil className="size-3.5 text-candy-600" />}
+              >
+                Ubah Email
+              </TactileButton>
+            )}
+          </div>
+
+          {emailSaveSuccess && (
+            <div className="p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-950 text-xs font-bold shadow-[0_2px_0_#10B981] flex items-center gap-2">
+              <CheckCircle2 className="size-4 text-emerald-600 shrink-0" />
+              <span>{emailSaveSuccess}</span>
+            </div>
+          )}
+
+          {emailSaveError && (
+            <div className="p-3 rounded-2xl bg-rose-50 border-2 border-rose-500 text-rose-950 text-xs font-bold shadow-[0_2px_0_#F43F5E] flex items-center gap-2">
+              <ShieldAlert className="size-4 text-rose-600 shrink-0" />
+              <span>{emailSaveError}</span>
+            </div>
+          )}
+
+          {!isEditingEmail && recoveryEmail ? (
+            <div className="p-3 rounded-2xl bg-cream border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-between gap-3 text-xs sm:text-sm">
+              <div className="flex items-center gap-2 font-mono font-bold text-choco-900">
+                <span className="text-choco-500">Email:</span>
+                <span>{recoveryEmail}</span>
+              </div>
+              <span className="text-[11px] font-bold text-choco-500 hidden sm:inline">
+                Siap menerima kode reset
+              </span>
+            </div>
+          ) : (
+            <form onSubmit={handleSaveEmail} className="space-y-3 pt-1">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                <div className="relative flex-1">
+                  <input
+                    type="email"
+                    value={emailDraft}
+                    onChange={(e) => setEmailDraft(e.target.value)}
+                    placeholder="contoh: kamu@gmail.com"
+                    autoComplete="email"
+                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-xs sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <TactileButton
+                    variant="primary"
+                    size="sm"
+                    type="submit"
+                    disabled={isSavingEmail || !emailDraft.trim()}
+                    className="text-xs font-extrabold"
+                  >
+                    {isSavingEmail ? "Menyimpan..." : "Simpan Email"}
+                  </TactileButton>
+                  {isEditingEmail && recoveryEmail && (
+                    <TactileButton
+                      variant="ghost"
+                      size="sm"
+                      type="button"
+                      onClick={() => {
+                        setEmailDraft(recoveryEmail);
+                        setIsEditingEmail(false);
+                        setEmailSaveError(null);
+                      }}
+                      className="text-xs font-bold"
+                    >
+                      Batal
+                    </TactileButton>
+                  )}
+                </div>
+              </div>
+            </form>
+          )}
         </SurfaceCard>
 
         {/* Sesi Akun & Keamanan (Logout) */}

@@ -137,3 +137,72 @@ export async function loginAccount(opts: {
 export async function logoutAccount(): Promise<void> {
   if (supabase) await supabase.auth.signOut();
 }
+
+export async function getRecoveryEmail(): Promise<string | null> {
+  if (!isSupabaseConfigured || !supabase) return null;
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    const email = user?.user_metadata?.recovery_email;
+    return typeof email === "string" ? email : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function saveRecoveryEmail(email: string): Promise<{ ok: boolean; message?: string }> {
+  const clean = email.trim().toLowerCase();
+  if (!clean || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
+    return { ok: false, message: "Format email tidak valid (contoh: kamu@gmail.com)." };
+  }
+  if (!isSupabaseConfigured || !supabase) {
+    return { ok: false, message: "Server belum terhubung." };
+  }
+  try {
+    const { error } = await supabase.auth.updateUser({
+      data: { recovery_email: clean },
+    });
+    if (error) {
+      return { ok: false, message: error.message || "Gagal menyimpan email pemulihan." };
+    }
+    return { ok: true };
+  } catch (err: unknown) {
+    return { ok: false, message: (err as Error)?.message || "Terjadi kesalahan sistem." };
+  }
+}
+
+export async function requestPasswordReset(username: string): Promise<{ ok: boolean; message?: string; maskedEmail?: string }> {
+  try {
+    const res = await fetch("/api/auth/request-reset", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      return { ok: false, message: data?.error || "Gagal memproses permintaan reset password." };
+    }
+    return { ok: true, message: data.message, maskedEmail: data.maskedEmail };
+  } catch (err: unknown) {
+    return { ok: false, message: (err as Error)?.message || "Koneksi ke server gagal." };
+  }
+}
+
+export async function confirmPasswordReset(
+  opts: { username: string; code: string; newPassword: string }
+): Promise<{ ok: boolean; message?: string }> {
+  try {
+    const res = await fetch("/api/auth/confirm-reset", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(opts),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      return { ok: false, message: data?.error || "Gagal mengganti password." };
+    }
+    return { ok: true, message: data.message };
+  } catch (err: unknown) {
+    return { ok: false, message: (err as Error)?.message || "Koneksi ke server gagal." };
+  }
+}
+

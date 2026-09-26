@@ -8,6 +8,7 @@ import {
   catmullRomRoad,
   getWindingPoints,
   getPulauTheme,
+  mixSeamColor,
   type RoadPoint,
 } from "@/lib/pulau-rantai";
 import { playTap, playClaim, playDeny, playMoodSfx } from "@/lib/audio";
@@ -280,14 +281,32 @@ export function PulauRantaiMap({
                 />
               </picture>
 
-              {/* Zone Seam Blend — menyatukan tepi atas pulau dengan warna pulau sebelumnya */}
+              {/* Zone Seam Blend — dua pita berbagi satu warna di titik sambung,
+                  jadi baris batas tidak lagi berlompatan. */}
               {wi > 0 && (
                 <div
-                  className="world-seam"
+                  className="world-seam world-seam-top"
                   aria-hidden="true"
                   style={
                     {
-                      "--seam-from": getPulauTheme(units[wi - 1].id, wi).bg,
+                      "--seam-color": mixSeamColor(
+                        getPulauTheme(units[wi - 1].id, wi).bg,
+                        theme.bg,
+                      ),
+                    } as React.CSSProperties
+                  }
+                />
+              )}
+              {wi < units.length - 1 && (
+                <div
+                  className="world-seam world-seam-bottom"
+                  aria-hidden="true"
+                  style={
+                    {
+                      "--seam-color": mixSeamColor(
+                        theme.bg,
+                        getPulauTheme(units[wi + 1].id, wi + 2).bg,
+                      ),
                     } as React.CSSProperties
                   }
                 />

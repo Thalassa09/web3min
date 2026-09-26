@@ -333,3 +333,23 @@ export function generateBlockHash(seedStr: string): string {
   const rand = Math.abs(hash ^ 0xabcdef).toString(16).padStart(8, "0");
   return `0x${hex.slice(0, 4)}…${rand.slice(-4)}`;
 }
+
+/**
+ * Titik sambung antar pulau memakai SATU warna bersama: rata-rata dari warna
+ * dasar pulau atas dan bawah. Dua pita fade (bawah pulau sebelumnya, atas
+ * pulau berikutnya) memakai warna ini, sehingga baris batas tidak berlompatan
+ * walau artwork-nya beda terang.
+ */
+export function mixSeamColor(fromHex: string, toHex: string): string {
+  const parse = (hex: string): [number, number, number] | null => {
+    const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+    if (!m) return null;
+    const n = parseInt(m[1], 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
+  const a = parse(fromHex);
+  const b = parse(toHex);
+  if (!a || !b) return fromHex;
+  const mix = a.map((v, i) => Math.round((v + b[i]) / 2));
+  return `#${mix.map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+}

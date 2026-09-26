@@ -89,6 +89,19 @@ Platform belajar Web3 bahasa Indonesia, santai, bergamifikasi: 20 rute, 128 blok
 - API key Resend berstatus *sending-restricted* → endpoint `/domains` 401. Karena itu pengirim memakai `Web3min <onboarding@resend.dev>` sampai domain `web3min.com` diverifikasi DNS di dashboard Resend.
 - Catatan: `AGENTS.md` adalah protected file — perubahan di dalamnya butuh approval eksplisit dari user.
 
+### Offline, Service Worker & State Layar
+- Banner offline global dipasang di `__root.tsx`, BUKAN di `AppShell`. Sebab: 11 rute tidak memakai `AppShell` (onboarding, masuk, lesson, kisah, dll) — justru itu yang paling sering dibuka dari HP, jadi banner di `AppShell` akan bocor di situ.
+- `navigator.onLine` saja tidak dipercaya: artinya "ada antarmuka jaringan", bukan "server bisa dihubungi". Karena itu copy banner tidak pernah berbunyi "tidak ada koneksi"; kegagalan permintaan sungguhan ditangani pesan error inline per rute.
+- Service worker `public/sw.js` ditulis sendiri tanpa Workbox. Tiga aturan: `/api/**` tidak pernah di-cache (balas `503 {ok:false, offline:true}` supaya pemanggil bisa memberi pesan sendiri), navigasi network-first lalu jatuh ke shell `/offline-shell`, aset statis cache-first.
+- **JANGAN pakai `location.reload()` sebagai tombol "Coba lagi".** Shell bisa tersaji saat koneksi sebenarnya hidup (user mengetik `/offline-shell`, atau SW menyajikan cache karena timeout); reload di kondisi itu = loop tak berujung. Reload hanya saat event `online` menyala setelah benar-benar offline; tombol memakai `location.replace("/")`.
+- **Vercel memakai clean URLs**: `/offline-shell.html` dijawab 404, `/offline-shell` dijawab 200. Semua path statis `.html` lain juga kena (`/index.html`, `/prototype/index.html`). Selalu acu berkas `.html` tanpa ekstensi.
+- `VERSION` di `sw.js` wajib di-bump setiap isi shell berubah, supaya cache lama (`w3m-vN-shell`) dibersihkan saat `activate`.
+- Yang sengaja TIDAK dilakukan: meng-cache dokumen HTML aplikasi. Build ini SSR murni (tidak ada `index.html` statis), dan cache dokumen berarti risiko halaman basi/user-specific bocor antar sesi. Konsekuensinya offline selalu menampilkan shell, bukan versi aplikasi — itu sesuai aturan Mobile #3 (pesan jelas, tombol Coba lagi, jangan layar kosong). Upgrade ke offline penuh butuh Workbox + precache eksplisit.
+
+### State Layar Wajib (bukan `CandyLoader` saja)
+- Klasemen memakai `SkeletonRows` saat memuat, bukan spinner — bentuk kartu dipertahankan supaya layout tidak melompat.
+- `rpcGetLeaderboard` mengembalikan `ok: boolean`. Tanpa ini UI tidak bisa membedakan "klasemen kosong" dari "server tak terhubung" — keduanya tampil sebagai daftar kosong. Sekarang error menampilkan kotak pesan + tombol "Coba lagi" yang benar-benar `refetch` (lewat dependency `reloadKey`).
+
 ## Perintah
 - w3 plan [tugas]: rencana bernomor, tanpa coding.
 - w3 step [n]: kerjakan langkah n saja, lalu lapor: ringkasan, file berubah, cara tes manual, risiko.

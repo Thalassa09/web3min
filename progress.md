@@ -1,8 +1,8 @@
 # web3min progress
 
 ## Status
-- [x] Langkah 1: Pengaturan — hapus Host ID, region, ping Supabase dari UI; label diubah jadi "Sinkronisasi progres" (commit `c4c0bb6`).
-- [ ] Langkah 2: Audit RLS Supabase semua tabel (Laporan siap).
+- [x] Langkah 1: Pengaturan — hapus Host ID, region, ping Supabase dari UI; label diubah jadi "Sinkronisasi progres" (commit `10f7f88`).
+- [x] Langkah 2: Audit RLS Supabase semua tabel (Selesai diaudit & dilaporkan — fail-closed, no service key in frontend).
 - [ ] Langkah 3: Akun sectest_* dan testuser99 di leaderboard (Laporan siap).
 - [ ] Langkah 4: Hapus akun yang menghapus data di Supabase (remote RPC + client reset).
 - [ ] Langkah 5: Robots.txt + sitemap.xml & HTML awal untuk /about, /cara, /kisah (SSR HydrationGate optimization).

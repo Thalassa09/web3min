@@ -55,7 +55,6 @@ export function BlobiFloatingCompanion({
 
   const [mood, setMood] = useState<MascotMood>("idle");
   const [speech, setSpeech] = useState<string | null>(null);
-  const [isMinimized, setIsMinimized] = useState(false);
   const [pokeIndex, setPokeIndex] = useState(0);
 
   // Position, Physics & Dragging State
@@ -133,7 +132,7 @@ export function BlobiFloatingCompanion({
 
   // Autonomous Roaming & Movement ("Gerak-gerak engga diem disini")
   useEffect(() => {
-    if (isMinimized || isDragging) return;
+    if (isDragging) return;
 
     // Periodically Blobi does a playful little hop and wanders around its home spot
     roamTimerRef.current = setInterval(() => {
@@ -168,14 +167,14 @@ export function BlobiFloatingCompanion({
     return () => {
       if (roamTimerRef.current) clearInterval(roamTimerRef.current);
     };
-  }, [isMinimized, isDragging]);
+  }, [isDragging]);
 
   // Periodic Idle Pestering Quips
   useEffect(() => {
     function resetIdleTimer() {
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       idleTimerRef.current = setTimeout(() => {
-        if (isDragging || isMinimized) return;
+        if (isDragging) return;
         const randomQuip = BLOBO_IDLE_QUIPS[Math.floor(Math.random() * BLOBO_IDLE_QUIPS.length)]
           .replace("{streak}", String(streak));
         setMood("wave");
@@ -195,7 +194,7 @@ export function BlobiFloatingCompanion({
       window.removeEventListener("pointerdown", handleActivity);
       window.removeEventListener("keydown", handleActivity);
     };
-  }, [streak, sound, isDragging, isMinimized, showSpeech]);
+  }, [streak, sound, isDragging, showSpeech]);
 
   // Handle poking / clicking Blobi -> cute hop & sound, NO overlay modal
   const handlePokeBlobi = useCallback(() => {
@@ -304,7 +303,7 @@ export function BlobiFloatingCompanion({
         className="fixed top-0 left-0 z-40 select-none touch-none"
       >
         {/* Subtle Floating Idle Speech Bubble when not in modal */}
-        {speech && !isMinimized && !isDragging && (
+        {speech && !isDragging && (
           <div
             onClick={(e) => {
               e.stopPropagation();
@@ -354,88 +353,46 @@ export function BlobiFloatingCompanion({
 
         {/* Mascot Drag Handle & Avatar */}
         <div className="flex items-end gap-2">
-          {!isMinimized ? (
-            <div className="relative group">
-              {/* Draggable Blobi Body */}
-              <div
-                onPointerDown={handlePointerDown}
-                style={{
-                  transform: `scaleX(${facing}) rotate(${dragTilt}deg) ${
-                    isDragging ? "scale(1.12, 0.9)" : ""
-                  }`,
-                  transformOrigin: "bottom center",
-                  cursor: isDragging ? "grabbing" : "grab",
-                }}
-                className={`relative block transition-transform duration-150 ${
-                  isSquishing
-                    ? "blobi-squishing"
-                    : isHopping
-                    ? "blobi-hopping"
-                    : !isDragging
-                    ? "blobi-anim-idle"
-                    : ""
-                }`}
-                title="Tarik & geser Blobi ke mana saja! Atau klik untuk toel!"
-              >
-                <div className="size-16 sm:size-20 drop-shadow-[0_6px_0_rgba(59,34,24,0.3)] filter transition-all pointer-events-none">
-                  <Mascot mood={mood} size={76} interactive={false} />
-                </div>
-
-                {/* Tap badge ("Toel!") in Arcade 3D */}
-                <span
-                  style={{ transform: `scaleX(${facing})` }}
-                  className="absolute -top-1 -right-1 px-2 py-0.5 rounded-full bg-candy-800 text-white text-[10px] font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] animate-bounce pointer-events-none"
-                >
-                  Toel!
-                </span>
-
-                {/* Drag indicator hint on hover */}
-                <span className="hidden group-hover:block absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded-md bg-choco-900 text-cream text-[9px] font-bold border border-choco-900 pointer-events-none shadow-xs">
-                  Geser aku!
-                </span>
+          <div className="relative group">
+            {/* Draggable Blobi Body */}
+            <div
+              onPointerDown={handlePointerDown}
+              style={{
+                transform: `scaleX(${facing}) rotate(${dragTilt}deg) ${
+                  isDragging ? "scale(1.12, 0.9)" : ""
+                }`,
+                transformOrigin: "bottom center",
+                cursor: isDragging ? "grabbing" : "grab",
+              }}
+              className={`relative block transition-transform duration-150 ${
+                isSquishing
+                  ? "blobi-squishing"
+                  : isHopping
+                  ? "blobi-hopping"
+                  : !isDragging
+                  ? "blobi-anim-idle"
+                  : ""
+              }`}
+              title="Tarik & geser Blobi ke mana saja! Atau klik untuk toel!"
+            >
+              <div className="size-16 sm:size-20 drop-shadow-[0_6px_0_rgba(59,34,24,0.3)] filter transition-all pointer-events-none">
+                <Mascot mood={mood} size={76} interactive={false} />
               </div>
 
-              {/* Minimize toggle ("-") */}
-              <button
-                type="button"
-                className="absolute -bottom-1 -right-1 size-5.5 rounded-full bg-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218] flex items-center justify-center text-[10px] font-pixel font-bold text-choco-900 hover:bg-candy-100 cursor-pointer pointer-events-auto transition-transform active:scale-90"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsMinimized(true);
-                  setSpeech(null);
-                }}
-                title="Kecilkan Blobi"
+              {/* Tap badge ("Toel!") in Arcade 3D */}
+              <span
+                style={{ transform: `scaleX(${facing})` }}
+                className="absolute -top-1 -right-1 px-2 py-0.5 rounded-full bg-candy-800 text-white text-[10px] font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] animate-bounce pointer-events-none"
               >
-                -
-              </button>
+                Toel!
+              </span>
+
+              {/* Drag indicator hint on hover */}
+              <span className="hidden group-hover:block absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded-md bg-choco-900 text-cream text-[9px] font-bold border border-choco-900 pointer-events-none shadow-xs">
+                Geser aku!
+              </span>
             </div>
-          ) : (
-            /* Minimized pill: also draggable & tappable anywhere! */
-            <div
-              role="button"
-              tabIndex={0}
-              onPointerDown={handlePointerDown}
-              onClick={() => {
-                if (!hasMovedRef.current) {
-                  setIsMinimized(false);
-                  showSpeech("Halo lagi!", 3000);
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setIsMinimized(false);
-                  showSpeech("Halo lagi!", 3000);
-                }
-              }}
-              style={{ cursor: isDragging ? "grabbing" : "grab" }}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] text-xs font-pixel font-bold text-candy-700 hover:scale-105 active:scale-95 transition-all cursor-pointer select-none touch-none"
-              title="Klik untuk buka Blobi, atau geser posisi"
-            >
-              <Sparkles className="size-3.5 text-candy-500 pointer-events-none" />
-              <span className="pointer-events-none">Blobi</span>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </>

@@ -52,7 +52,7 @@ test("buildMeta handles custom parameters correctly", () => {
     title: "Apa itu DeFi — web3min",
     description: "Layanan keuangan tanpa teller.",
     path: "/lesson/u5-l1",
-    image: "https://web3min.vercel.app/custom.png",
+    image: "https://web3min.com/custom.png",
   });
 
   const metaMap = new Map<string, string>();
@@ -67,9 +67,9 @@ test("buildMeta handles custom parameters correctly", () => {
   assert.equal(metaMap.get("property:og:title"), "Apa itu DeFi — web3min");
   assert.equal(metaMap.get("property:og:description"), "Layanan keuangan tanpa teller.");
   assert.equal(metaMap.get("property:og:url"), `${BASE_URL}/lesson/u5-l1`);
-  assert.equal(metaMap.get("property:og:image"), "https://web3min.vercel.app/custom.png");
+  assert.equal(metaMap.get("property:og:image"), "https://web3min.com/custom.png");
   assert.equal(metaMap.get("name:twitter:title"), "Apa itu DeFi — web3min");
-  assert.equal(metaMap.get("name:twitter:image"), "https://web3min.vercel.app/custom.png");
+  assert.equal(metaMap.get("name:twitter:image"), "https://web3min.com/custom.png");
 
   const canonical = custom.links.find((l) => l.rel === "canonical");
   assert.ok(canonical);

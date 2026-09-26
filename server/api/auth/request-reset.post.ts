@@ -10,6 +10,18 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_FROM = process.env.RESEND_FROM || "Web3min <onboarding@resend.dev>";
 
+// Hanya penyedia email publik tepercaya. Temp mail / domain bisnis ditolak.
+const ALLOWED_EMAIL_DOMAINS = new Set([
+  "gmail.com", "googlemail.com",
+  "yahoo.com", "yahoo.co.id", "yahoo.co.uk", "yahoo.com.sg", "ymail.com", "rocketmail.com",
+  "outlook.com", "outlook.co.id", "hotmail.com", "hotmail.co.id", "live.com", "msn.com",
+  "icloud.com",
+  "proton.me", "protonmail.com",
+]);
+
+const DOMAIN_REJECT_MSG =
+  "Email pemulihan harus dari penyedia publik: Gmail, Yahoo, Outlook/Hotmail, iCloud, atau Proton. Domain bisnis atau email sementara tidak diizinkan.";
+
 function maskEmail(email: string): string {
   const [user, domain] = email.split("@");
   if (!user || !domain) return "***@***";
@@ -56,6 +68,15 @@ export default defineEventHandler(async (event) => {
       return {
         ok: false,
         error: `Akun "@${profile.username}" belum mendaftarkan email pemulihan di halaman Profil. Silakan hubungi admin jika akun terkunci.`,
+      };
+    }
+
+    const emailDomain = recoveryEmail.trim().toLowerCase().split("@")[1] || "";
+    if (!ALLOWED_EMAIL_DOMAINS.has(emailDomain)) {
+      return {
+        ok: false,
+        error: `${DOMAIN_REJECT_MSG} Email terdaftar: ${maskEmail(recoveryEmail)}. Ubah di halaman Profil → Email Pemulihan Kata Sandi.`,
+        maskedEmail: maskEmail(recoveryEmail),
       };
     }
 

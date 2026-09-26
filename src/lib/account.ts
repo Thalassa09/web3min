@@ -138,6 +138,50 @@ export async function logoutAccount(): Promise<void> {
   if (supabase) await supabase.auth.signOut();
 }
 
+export const ALLOWED_EMAIL_DOMAINS = [
+  // Google
+  "gmail.com",
+  "googlemail.com",
+  // Yahoo
+  "yahoo.com",
+  "yahoo.co.id",
+  "yahoo.co.uk",
+  "yahoo.com.sg",
+  "ymail.com",
+  "rocketmail.com",
+  // Microsoft / Outlook / Hotmail
+  "outlook.com",
+  "outlook.co.id",
+  "hotmail.com",
+  "hotmail.co.id",
+  "live.com",
+  "msn.com",
+  // Apple
+  "icloud.com",
+  // Proton
+  "proton.me",
+  "protonmail.com",
+] as const;
+
+export function isValidRecoveryEmail(email: string): { valid: boolean; reason?: string } {
+  const clean = email.trim().toLowerCase();
+  if (!clean) return { valid: false, reason: "Email tidak boleh kosong." };
+  const parts = clean.split("@");
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    return { valid: false, reason: "Format email tidak valid (contoh: kamu@gmail.com)." };
+  }
+  const domain = parts[1];
+  const isAllowed = ALLOWED_EMAIL_DOMAINS.includes(domain as (typeof ALLOWED_EMAIL_DOMAINS)[number]);
+  if (!isAllowed) {
+    return {
+      valid: false,
+      reason:
+        "Hanya email Google (Gmail), Yahoo, Outlook/Hotmail, iCloud, atau Proton yang diperbolehkan. Domain gratisan sementara (temp mail) atau domain bisnis/perusahaan tidak diizinkan.",
+    };
+  }
+  return { valid: true };
+}
+
 export async function getRecoveryEmail(): Promise<string | null> {
   if (!isSupabaseConfigured || !supabase) return null;
   try {
@@ -151,8 +195,9 @@ export async function getRecoveryEmail(): Promise<string | null> {
 
 export async function saveRecoveryEmail(email: string): Promise<{ ok: boolean; message?: string }> {
   const clean = email.trim().toLowerCase();
-  if (!clean || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
-    return { ok: false, message: "Format email tidak valid (contoh: kamu@gmail.com)." };
+  const check = isValidRecoveryEmail(clean);
+  if (!check.valid) {
+    return { ok: false, message: check.reason };
   }
   if (!isSupabaseConfigured || !supabase) {
     return { ok: false, message: "Server belum terhubung." };

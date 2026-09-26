@@ -39,7 +39,7 @@ import { BlockStamp } from "@/components/motif";
 import { UNITS, sequentialNodes } from "@/lib/curriculum";
 import { sanitizeBio } from "@/lib/people";
 import { saveBioToServer } from "@/lib/server-sync";
-import { logoutAccount, getRecoveryEmail, saveRecoveryEmail } from "@/lib/account";
+import { logoutAccount, getRecoveryEmail, saveRecoveryEmail, ALLOWED_EMAIL_DOMAINS, isValidRecoveryEmail } from "@/lib/account";
 import { formatGems, useProgress } from "@/lib/store";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
@@ -863,7 +863,7 @@ function ProfilePage() {
                     variant="primary"
                     size="sm"
                     type="submit"
-                    disabled={isSavingEmail || !emailDraft.trim()}
+                    disabled={isSavingEmail || !emailDraft.trim() || !isValidRecoveryEmail(emailDraft).valid}
                     className="text-xs font-extrabold"
                   >
                     {isSavingEmail ? "Menyimpan..." : "Simpan Email"}
@@ -885,6 +885,20 @@ function ProfilePage() {
                   )}
                 </div>
               </div>
+
+              {emailDraft.trim() && !isValidRecoveryEmail(emailDraft).valid && (
+                <p className="text-[11px] font-bold text-rose-600 flex items-start gap-1.5">
+                  <ShieldAlert className="size-3.5 shrink-0 mt-px" />
+                  <span>{isValidRecoveryEmail(emailDraft).reason}</span>
+                </p>
+              )}
+
+              <p className="text-[11px] font-semibold text-choco-500 leading-relaxed">
+                Domain yang diterima:{" "}
+                <span className="font-mono font-bold text-choco-700">
+                  {ALLOWED_EMAIL_DOMAINS.join(", ")}
+                </span>
+              </p>
             </form>
           )}
         </SurfaceCard>

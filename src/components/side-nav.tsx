@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronRight, Ticket, X, Shield } from "lucide-react";
+import { ChevronRight, Ticket, X, Shield, LogIn } from "lucide-react";
 import { Fire } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { Mascot } from "@/components/mascot";
@@ -145,7 +145,7 @@ export function SideNav() {
           <li key="/raffle">
             <NavRow
               to="/raffle"
-              label="Raffle NFT"
+              label="Undian Hadiah"
               active={pathname === "/raffle"}
               badge="NFT"
               badgeTone="amber"
@@ -154,6 +154,19 @@ export function SideNav() {
                 close();
               }}
               icon={<Ticket className="size-4.5 shrink-0 stroke-[2.2]" />}
+            />
+          </li>
+
+          <li key="/masuk">
+            <NavRow
+              to="/masuk"
+              label="Masuk Akun"
+              active={pathname === "/masuk"}
+              onNavigate={() => {
+                if (sound) playTap();
+                close();
+              }}
+              icon={<LogIn className="size-4.5 shrink-0 stroke-[2.2] text-candy-600" />}
             />
           </li>
 
@@ -216,7 +229,7 @@ function NavRow({
   onNavigate,
   icon,
 }: {
-  to: "/" | "/kisah" | "/leaderboard" | "/shop" | "/profile" | "/raffle" | "/admin";
+  to: "/" | "/kisah" | "/leaderboard" | "/shop" | "/profile" | "/raffle" | "/admin" | "/masuk";
   label: string;
   active: boolean;
   badge?: string;

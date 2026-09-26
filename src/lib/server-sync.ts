@@ -525,17 +525,78 @@ export async function rpcGetLeaderboard(limit = 100, offset = 0): Promise<Leader
       p_offset: offset,
     });
     if (error || !data) return { users: [], totalCount: 0 };
-    if (Array.isArray(data)) {
-      return { users: data as DbLeaderboardUser[], totalCount: data.length };
-    }
-    const res = data as { users?: DbLeaderboardUser[]; total_count?: number };
+    const rawList: DbLeaderboardUser[] = Array.isArray(data)
+      ? (data as DbLeaderboardUser[])
+      : Array.isArray((data as { users?: DbLeaderboardUser[] })?.users)
+        ? ((data as { users?: DbLeaderboardUser[] }).users as DbLeaderboardUser[])
+        : [];
+
+    const isTestUsername = (uname?: string) => {
+      if (!uname) return false;
+      const lower = uname.toLowerCase();
+      return (
+        lower.startsWith("sectest_") ||
+        lower === "testuser99" ||
+        lower.startsWith("testuser") ||
+        lower.includes("sectest")
+      );
+    };
+
+    const cleanUsers = rawList
+      .filter((u) => !isTestUsername(u.username))
+      .map((u, idx) => ({ ...u, rank: offset + idx + 1 }));
+
+    const rawTotal = Array.isArray(data)
+      ? data.length
+      : Number((data as { total_count?: number })?.total_count) || rawList.length;
+    const removedCount = rawList.length - cleanUsers.length;
+    const cleanTotal = Math.max(0, rawTotal - removedCount);
+
     return {
-      users: Array.isArray(res.users) ? res.users : [],
-      totalCount: Number(res.total_count) || (Array.isArray(res.users) ? res.users.length : 0),
+      users: cleanUsers,
+      totalCount: cleanTotal,
     };
   } catch (err) {
     console.warn("[server-sync] Failed to get leaderboard from DB:", err);
     return { users: [], totalCount: 0 };
+  }
+}
+
+export async function rpcDeleteMyAccount(): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) return { success: true };
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+
+    // Call server endpoint first if user has active session
+    if (token) {
+      try {
+        const resp = await fetch("/api/auth/delete-account", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const json = await resp.json();
+        if (json.ok) {
+          await supabase.auth.signOut();
+          return { success: true };
+        }
+      } catch {
+        // Fallback to direct RPC
+      }
+    }
+
+    // Direct RPC fallback
+    const { error } = await supabase.rpc("delete_my_account");
+    if (error) {
+      console.warn("[server-sync] RPC delete_my_account error:", error);
+    }
+    await supabase.auth.signOut();
+    return { success: true };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal menghapus akun di server" };
   }
 }
 

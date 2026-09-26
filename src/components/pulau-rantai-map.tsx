@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Compass } from "lucide-react";
-import type { Unit, Lesson } from "@/lib/curriculum";
+import { Compass, Sparkles } from "lucide-react";
+import { type Unit, type Lesson, isUnlocked } from "@/lib/curriculum";
 import { useProgress } from "@/lib/store";
 import { PulauIcon } from "@/lib/pulau-icons";
 import {
@@ -124,7 +124,9 @@ export function PulauRantaiMap({
     const blockNo = blockNumberMap.get(lesson.id) || 1;
 
     if (isChest) {
-      if (status === "now") {
+      if (completed.includes(lesson.id)) {
+        showToast("Peti ini sudah pernah kamu buka.");
+      } else if (isUnlocked(lesson.id, completed)) {
         const ok = claimChest(lesson.id);
         if (ok) {
           playClaim();
@@ -133,8 +135,6 @@ export function PulauRantaiMap({
         } else {
           showToast("Peti ini sudah pernah dibuka.");
         }
-      } else if (status === "done") {
-        showToast("Peti ini sudah pernah kamu buka.");
       } else {
         triggerShake(lesson.id);
         if (sound) {
@@ -201,8 +201,21 @@ export function PulauRantaiMap({
         </button>
       </div>
 
-      {/* Floating Target/Resume FAB to jump to current active lesson */}
-      <div className="fixed bottom-22 right-4 sm:right-6 z-25 pointer-events-none">
+      {/* Floating Target/Resume FAB to jump to current active lesson and Daily Quests */}
+      <div className="fixed bottom-22 right-4 sm:right-6 z-25 pointer-events-none flex flex-col items-end gap-2">
+        <button
+          type="button"
+          onClick={() => {
+            if (sound) playTap();
+            setShowQuestsModal(true);
+          }}
+          className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full bg-lemon hover:bg-lemon/90 text-choco-900 border-2 border-choco-900 text-xs font-pixel font-bold transition-all shadow-[0_3px_0_#3B2218] active:translate-y-0.5 active:shadow-none cursor-pointer"
+          title="Buka Misi Harian"
+        >
+          <Sparkles className="size-4 shrink-0 text-amber-600 stroke-[2.5]" />
+          <span>Misi Harian</span>
+        </button>
+
         <button
           type="button"
           onClick={scrollToActive}

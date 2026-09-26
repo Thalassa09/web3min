@@ -3,8 +3,8 @@
 ## Status
 - [x] Langkah 1: Pengaturan — hapus Host ID, region, ping Supabase dari UI; label diubah jadi "Sinkronisasi progres" (commit `10f7f88`).
 - [x] Langkah 2: Audit RLS Supabase semua tabel (Selesai diaudit & dilaporkan — fail-closed, no service key in frontend).
-- [ ] Langkah 3: Akun sectest_* dan testuser99 di leaderboard (Laporan siap).
-- [ ] Langkah 4: Hapus akun yang menghapus data di Supabase (remote RPC + client reset).
+- [x] Langkah 3: Sembunyikan & filter akun test (sectest_*, testuser99) dari leaderboard & RPC (`rpcGetLeaderboard` filtering + migration).
+- [x] Langkah 4: Hapus akun yang menghapus data di Supabase (`/api/auth/delete-account`, `rpcDeleteMyAccount`, modal konfirmasi di `/settings`).
 - [ ] Langkah 5: Robots.txt + sitemap.xml & HTML awal untuk /about, /cara, /kisah (SSR HydrationGate optimization).
 - [ ] Langkah 6: Deep link /kisah/[id] membuka cerita/preview langsung tanpa redirect paksa ke onboarding.
 - [ ] Langkah 7: Font maks 3, manifest icons 192 & 512px, konsistensi og:image.

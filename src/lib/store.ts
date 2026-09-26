@@ -665,6 +665,19 @@ export const useProgress = create<ProgressState & Actions>()(
 
         // Server sync
         const res = await rpcEnterRaffle(raffleId, qty, cleanWallet, cleanX);
+        if (!res.success) {
+          // Rollback optimistic deduction if server RPC failed
+          const curr = get();
+          set({
+            raffleTickets: (curr.raffleTickets ?? 0) + qty,
+            enteredRaffles: {
+              ...curr.enteredRaffles,
+              ...(currentEntry
+                ? { [raffleId]: currentEntry }
+                : { [raffleId]: undefined as unknown as typeof currentEntry }),
+            },
+          });
+        }
         return res;
       },
       updateRaffleWallet: async (raffleId, walletAddress, xHandle = "") => {

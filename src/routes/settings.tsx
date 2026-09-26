@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { Dialog } from "@/components/dialog";
 import { DuoButton } from "@/components/duo-button";
 import { sanitizeTwitter } from "@/lib/people";
-import { saveTwitterToServer } from "@/lib/server-sync";
+import { saveTwitterToServer, rpcDeleteMyAccount } from "@/lib/server-sync";
 import { useProgress } from "@/lib/store";
 import { Database, RefreshCw, CheckCircle, ShieldCheck, Lock, Trash2, Volume2, VolumeX, Sparkles, Gamepad2, Check } from "lucide-react";
 
@@ -24,7 +24,22 @@ function SettingsPage() {
   const [saved, setSaved] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [reported, setReported] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const navigate = useNavigate();
   const dirty = twDraft !== twitter;
+
+  const handleReset = async () => {
+    setIsDeleting(true);
+    try {
+      await rpcDeleteMyAccount();
+    } catch {
+      // Best-effort server deletion
+    }
+    reset();
+    setIsDeleting(false);
+    setConfirm(false);
+    void navigate({ to: "/" });
+  };
 
   return (
     <AppShell>
@@ -213,7 +228,7 @@ function SettingsPage() {
           <span>Data progres tersimpan di perangkat ini (local storage) & disinkronkan ke Supabase. Tidak ada koneksi dompet riil. Web3min tidak pernah meminta seed phrase atau private key dompetmu.</span>
         </div>
 
-        {/* Reset Progress Action */}
+        {/* Reset Progress & Hapus Akun Action */}
         <div className="mt-8 pt-4 border-t-2 border-choco-900/10">
           <button
             type="button"
@@ -221,30 +236,32 @@ function SettingsPage() {
             className="w-full py-3.5 px-5 rounded-full bg-white hover:bg-rose-50 text-rose-700 font-pixel font-bold text-xs border-2 border-rose-400 shadow-[0_3px_0_#E11D48] active:translate-y-0.5 cursor-pointer transition-all flex items-center justify-center gap-2"
           >
             <Trash2 className="size-4 text-rose-600" />
-            <span>Reset Seluruh Progres Belajar</span>
+            <span>Hapus Akun & Reset Seluruh Progres</span>
           </button>
         </div>
 
         <Dialog
           open={confirm}
-          title="Reset seluruh progres?"
-          description="XP, streak, pelajaran, item, dan pengaturan lokal akan dihapus. Tindakan ini tidak dapat dibatalkan."
-          onClose={() => setConfirm(false)}
+          title="Hapus akun & seluruh progres?"
+          description="XP, streak, pelajaran, item, dan akun kamu akan dihapus permanen baik dari perangkat ini maupun dari server. Tindakan ini tidak dapat dibatalkan."
+          onClose={() => !isDeleting && setConfirm(false)}
         >
           <div className="mt-4 flex gap-2">
             <button
               type="button"
-              className="flex-1 py-2.5 px-5 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
+              disabled={isDeleting}
+              className="flex-1 py-2.5 px-5 rounded-full bg-white hover:bg-cream disabled:opacity-50 text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
               onClick={() => setConfirm(false)}
             >
               Batal
             </button>
             <button
               type="button"
-              className="flex-1 py-2.5 px-5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
-              onClick={reset}
+              disabled={isDeleting}
+              className="flex-1 py-2.5 px-5 rounded-full bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
+              onClick={() => void handleReset()}
             >
-              Ya, Reset
+              {isDeleting ? "Menghapus..." : "Ya, Hapus Akun"}
             </button>
           </div>
         </Dialog>

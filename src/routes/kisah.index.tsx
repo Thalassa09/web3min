@@ -69,7 +69,8 @@ function KisahHub() {
   const lockedStories = STORIES.filter((s) => !isOpen(s.unlockAfter, completed));
   const openCases = CASES.filter((c) => isOpen(c.unlockAfter, completed));
   const lockedCases = CASES.filter((c) => !isOpen(c.unlockAfter, completed));
-  const featured = openStories.find((s) => !doneStories.includes(s.id)) ?? openStories[0];
+  const featured = openStories.find((s) => !doneStories.includes(s.id)) ?? openStories[0] ?? STORIES[0];
+  const isFeaturedOpen = featured ? isOpen(featured.unlockAfter, completed) : false;
 
   return (
     <AppShell>
@@ -137,14 +138,21 @@ function KisahHub() {
               </p>
 
               <div className="flex flex-wrap items-center gap-2 pt-2">
-                <Link
-                  to="/kisah/$storyId"
-                  params={{ storyId: featured.id }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm shadow-[0_4px_0_#3B2218] active:translate-y-0.5 transition-all"
-                >
-                  <span>Mulai Sekarang</span>
-                  <ArrowRight className="size-4" />
-                </Link>
+                {isFeaturedOpen ? (
+                  <Link
+                    to="/kisah/$storyId"
+                    params={{ storyId: featured.id }}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm shadow-[0_4px_0_#3B2218] active:translate-y-0.5 transition-all"
+                  >
+                    <span>Mulai Sekarang</span>
+                    <ArrowRight className="size-4" />
+                  </Link>
+                ) : (
+                  <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border-2 border-choco-900/20 bg-choco-900/5 text-choco-600 font-pixel font-bold text-xs sm:text-sm cursor-not-allowed">
+                    <Lock className="size-4 text-choco-400" />
+                    <span>Terkunci (Selesaikan Unit {featured.unlockAfter ? featured.unlockAfter.replace("u", "") : "sebelumnya"})</span>
+                  </div>
+                )}
                 <div className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-choco-900/15 bg-white/70 font-pixel text-xs text-choco-800">
                   +{featured.xp} XP
                 </div>

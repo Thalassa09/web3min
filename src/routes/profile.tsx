@@ -31,6 +31,7 @@ import {
   Lock,
   Mail,
   CheckCircle2,
+  LogIn,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
@@ -904,15 +905,26 @@ function ProfilePage() {
             </div>
 
             {!confirmLogout ? (
-              <TactileButton
-                variant="secondary"
-                size="sm"
-                onClick={() => setConfirmLogout(true)}
-                className="self-start sm:self-auto shrink-0 text-ruby-shadow border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
-                icon={<LogOut className="size-3.5 text-ruby-shadow" />}
-              >
-                Keluar Akun
-              </TactileButton>
+              <div className="flex items-center gap-2 self-start sm:self-auto shrink-0 flex-wrap">
+                <TactileButton
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => void navigate({ to: "/masuk" })}
+                  className="text-xs font-bold"
+                  icon={<LogIn className="size-3.5 text-choco-700" />}
+                >
+                  Ganti Akun
+                </TactileButton>
+                <TactileButton
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setConfirmLogout(true)}
+                  className="text-ruby-shadow border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
+                  icon={<LogOut className="size-3.5 text-ruby-shadow" />}
+                >
+                  Keluar Akun
+                </TactileButton>
+              </div>
             ) : (
               <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
                 <span className="text-xs font-extrabold text-ruby-shadow">

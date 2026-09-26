@@ -13,13 +13,18 @@
  * pernah dibuka online) jatuh ke shell lalu ke layar offline, bukan error
  * browser. Upgrade ke Workbox + precache penuh kalau butuh offline penuh
  * buat semua 20 rute.
+ *
+ * CATATAN URL: Vercel mengaktifkan clean URLs — /offline-shell.html di-serve
+ * sebagai /offline-shell dan path ber-ekstensi .html dijawab 404. Selalu pakai
+ * SHELL_URL tanpa ekstensi, dan bump VERSION kalau isi shell berubah supaya
+ * cache lama tidak nyangkut.
  */
 
-const VERSION = "w3m-v1";
+const VERSION = "w3m-v3";
 const SHELL_CACHE = `${VERSION}-shell`;
 const ASSET_CACHE = `${VERSION}-assets`;
 
-const SHELL_URL = "/offline-shell.html";
+const SHELL_URL = "/offline-shell";
 
 // Hanya aset yang dibutuhkan buat mengecat shell offline. Jangan tambah
 // bundel utama — ukurannya beda tiap deploy dan cache-nya cepat basi.

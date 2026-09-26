@@ -103,19 +103,31 @@
 
     <script>
       const btn = document.getElementById("retry");
-      const label = btn.textContent;
 
-      function refresh() {
+      // Kenapa TIDAK ada auto-reload di sini: shell bisa tersaji saat koneksi
+      // sebenarnya hidup (user mengetik /offline-shell, atau SW menyajikan
+      // cache karena timeout). Auto-reload di kondisi itu = loop tak berujung.
+      // Jadi: hanya reload kalau koneksi BENAR-BENAR baru kembali — yaitu saat
+      // event `online` menyala, bukan saat halaman dimuat.
+      let wasOffline = !navigator.onLine;
+
+      function goHome() {
         btn.disabled = true;
         btn.textContent = "Menyambung…";
-        location.reload();
+        // Ke halaman utama, bukan reload shell ini — reload akan mengunci user
+        // di layar offline kalau server masih tidak bisa dihubungi.
+        window.location.replace("/");
       }
 
-      btn.addEventListener("click", refresh);
-      window.addEventListener("online", refresh);
+      btn.addEventListener("click", goHome);
 
-      // Kalau koneksi sudah kembali sementara layar ini terbuka, langsung muat ulang.
-      if (navigator.onLine) refresh();
+      window.addEventListener("offline", () => {
+        wasOffline = true;
+      });
+
+      window.addEventListener("online", () => {
+        if (wasOffline) goHome();
+      });
     </script>
   </body>
 </html>

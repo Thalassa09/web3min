@@ -68,7 +68,9 @@ export function OfflineBanner() {
         type="button"
         onClick={() => {
           setChecking(true);
-          window.location.reload();
+          // Ke beranda, bukan reload — reload saat masih offline hanya
+          // memutar ulang halaman yang sama dan user tidak melihat kemajuan.
+          window.location.assign("/");
         }}
         disabled={checking}
         className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border-2 border-choco-900 bg-white px-3 text-[11px] font-bold shadow-[0_2px_0_#3B2218] transition-transform active:translate-y-0.5 active:shadow-none disabled:opacity-60"

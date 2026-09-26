@@ -260,7 +260,7 @@ function ShopPage() {
                   <div>
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold text-danger shadow-[0_1.5px_0_#3B2218]">
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold text-ruby-shadow shadow-[0_1.5px_0_#3B2218]">
                           <Heart className="size-3.5 fill-current" /> Vitalitas Kuis
                         </span>
                         <span className="text-[11px] font-bold text-choco-600">
@@ -505,7 +505,7 @@ function ShopPage() {
                             playUnequip();
                             flash("Semua aksesori Blobi telah dilepas.");
                           }}
-                          className="text-[10px] font-bold text-danger hover:underline flex items-center gap-1 cursor-pointer"
+                          className="text-[10px] font-bold text-ruby-shadow hover:underline flex items-center gap-1 cursor-pointer"
                         >
                           <RotateCcw className="size-3" />
                           <span>Lepas Semua</span>
@@ -707,7 +707,7 @@ function ShopPage() {
                                     playUnequip();
                                     flash(`"${acc.name}" dilepas dari Blobi.`);
                                   }}
-                                  className="w-full py-1.5 rounded-[10px] bg-cream border-2 border-choco-900 text-[11px] font-pixel font-bold text-danger hover:bg-candy-50 shadow-[0_2px_0_#3B2218] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
+                                  className="w-full py-1.5 rounded-[10px] bg-cream border-2 border-choco-900 text-[11px] font-pixel font-bold text-ruby-shadow hover:bg-candy-50 shadow-[0_2px_0_#3B2218] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                                 >
                                   Lepas
                                 </button>
@@ -750,7 +750,7 @@ function ShopPage() {
                                   }}
                                   className={`flex-1 py-1 rounded-[10px] text-[10px] font-pixel font-bold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                                     isPreviewing
-                                      ? "bg-white border-2 border-danger text-danger hover:bg-candy-50 shadow-[0_1px_0_#3B2218]"
+                                      ? "bg-white border-2 border-danger text-ruby-shadow hover:bg-candy-50 shadow-[0_1px_0_#3B2218]"
                                       : "bg-candy-100 border-2 border-choco-900 text-candy-700 hover:bg-candy-200 shadow-[0_2px_0_#3B2218]"
                                   }`}
                                 >

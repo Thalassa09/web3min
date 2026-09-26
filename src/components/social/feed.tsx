@@ -103,7 +103,7 @@ function Composer({ onPost }: { onPost: (text: string) => boolean }) {
           </p>
         ) : null}
         {err ? (
-          <p id="composer-err" className="mt-2 text-sm font-medium text-danger" role="alert">
+          <p id="composer-err" className="mt-2 text-sm font-medium text-ruby-shadow" role="alert">
             {err}
           </p>
         ) : null}

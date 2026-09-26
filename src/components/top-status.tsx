@@ -164,12 +164,12 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           title={`Nyawa ${hearts}/${MAX_HEARTS}, ketuk untuk buka Toko`}
           className={cn(
             pillBase,
-            hearts <= 1 && "animate-pulse border-danger text-danger bg-danger/10",
+            hearts <= 1 && "animate-pulse border-danger text-ruby-shadow bg-danger/10",
           )}
         >
           <span className="grid size-4 shrink-0 place-items-center">
             <Heart
-              className={cn("size-3.5", hearts > 0 ? "text-danger" : "text-choco-900/40")}
+              className={cn("size-3.5", hearts > 0 ? "text-ruby-shadow" : "text-choco-900/40")}
               weight={hearts > 0 ? "fill" : "regular"}
             />
           </span>

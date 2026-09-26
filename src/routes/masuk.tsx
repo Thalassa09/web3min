@@ -404,7 +404,7 @@ function MasukPage() {
                   <button
                     type="submit"
                     disabled={resetBusy || resetCode.length !== 6 || !resetNewPass}
-                    className="flex-1 py-3 px-4 rounded-full bg-mint hover:bg-mint-dark disabled:opacity-50 text-choco-900 font-pixel font-black text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 cursor-pointer flex items-center justify-center gap-1.5 transition-all"
+                    className="flex-1 py-3 px-4 rounded-full bg-mint hover:brightness-95 disabled:opacity-50 text-choco-900 font-pixel font-black text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 cursor-pointer flex items-center justify-center gap-1.5 transition-all"
                   >
                     <span>{resetBusy ? "Menyimpan..." : "Simpan & Masuk"}</span>
                   </button>

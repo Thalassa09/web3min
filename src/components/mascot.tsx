@@ -31,8 +31,8 @@ const PARTICLES: Partial<Record<MascotMood, { ch: string; className: string; del
   ],
   sad: [{ ch: "•", className: "left-[24%] top-[38%] text-[0.8em] font-bold text-candy-400", delay: "0.3s" }],
   angry: [
-    { ch: "!", className: "right-[18%] top-[6%] text-[0.55em] font-black text-danger", delay: "0.2s" },
-    { ch: "!", className: "left-[18%] top-[6%] text-[0.55em] font-black text-danger", delay: "0.6s" },
+    { ch: "!", className: "right-[18%] top-[6%] text-[0.55em] font-black text-ruby-shadow", delay: "0.2s" },
+    { ch: "!", className: "left-[18%] top-[6%] text-[0.55em] font-black text-ruby-shadow", delay: "0.6s" },
   ],
   sleep: [
     { ch: "z", className: "right-[18%] top-[14%] text-[0.5em] font-black text-choco-600", delay: "0s" },

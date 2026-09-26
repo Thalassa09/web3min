@@ -482,7 +482,7 @@ export function RafflePage() {
         <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-xl">
-              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
+              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218] whitespace-nowrap">
                 <Sparkles className="h-3.5 w-3.5 text-candy-600 fill-candy-400" />
                 Undian Berhadiah • Siklus Aktif
               </div>
@@ -496,7 +496,7 @@ export function RafflePage() {
               </p>
             </div>
 
-            {/* Ticket & Coin Counter Pill */}
+            {/* Ticket & Coin Counter Pill + Actions */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
               <div className="flex items-center justify-between sm:justify-start gap-4 rounded-2xl border-2 border-choco-900 bg-white/95 p-3 px-4 shadow-[0_3px_0_#3B2218]">
                 <div className="flex items-center gap-2">
@@ -507,13 +507,13 @@ export function RafflePage() {
                     <span className="text-[10px] font-bold uppercase tracking-wider text-choco-500 block">
                       Tiket Kamu
                     </span>
-                    <span className="font-mono text-lg font-black text-choco-900">
+                    <span className="font-pixel font-bold text-base sm:text-lg text-choco-900 tabular-nums">
                       {raffleTickets} Tiket
                     </span>
                   </div>
                 </div>
 
-                <div className="h-8 w-[2px] bg-choco-900/10 hidden sm:block" />
+                <div className="h-8 w-[2px] bg-choco-900/15 hidden sm:block mx-0.5" />
 
                 <div className="flex items-center gap-2">
                   <div className="size-9 rounded-xl bg-lemon border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_1.5px_0_#3B2218]">
@@ -523,20 +523,20 @@ export function RafflePage() {
                     <span className="text-[10px] font-bold uppercase tracking-wider text-choco-500 block">
                       Saldo Koin
                     </span>
-                    <span className="font-mono text-lg font-black text-choco-900">
+                    <span className="font-pixel font-bold text-base sm:text-lg text-choco-900 tabular-nums">
                       {gems}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <button
                   onClick={() => {
                     playTap();
                     setShowBuyModal(true);
                   }}
-                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer"
+                  className="flex-1 sm:flex-initial h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] font-pixel font-bold text-xs sm:text-sm text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Plus className="h-4 w-4 stroke-[3]" />
                   <span>Beli Tiket</span>
@@ -546,11 +546,11 @@ export function RafflePage() {
                     playTap();
                     setShowGuideModal(true);
                   }}
-                  className="inline-flex items-center justify-center gap-1.5 px-3 py-3 rounded-full bg-white border-2 border-choco-900 text-choco-900 font-pixel text-xs font-bold shadow-[0_3px_0_#3B2218] hover:bg-cream active:translate-y-0.5 cursor-pointer"
+                  className="h-11 sm:h-12 px-4 rounded-full border-2 border-choco-900 bg-white hover:bg-cream font-pixel font-bold text-xs sm:text-sm text-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-1.5 cursor-pointer"
                   title="Panduan Undian"
                 >
-                  <HelpCircle className="h-4 w-4 text-candy-700" />
-                  <span className="hidden sm:inline">Panduan</span>
+                  <HelpCircle className="h-4 w-4 text-candy-600" />
+                  <span>Panduan</span>
                 </button>
               </div>
             </div>

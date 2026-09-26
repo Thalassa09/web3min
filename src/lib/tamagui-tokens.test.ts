@@ -113,3 +113,27 @@ test("Tamagui TIDAK memakai reanimated (app web, bukan native)", () => {
     "reanimated tidak boleh dipakai — app ini web-only",
   );
 });
+
+test("TamaguiProvider TIDAK boleh ada di __root.tsx (biaya +176 KB tiap halaman)", () => {
+  // Diukur A/B di Langkah 19: provider di root menambah +176 KB ke root chunk
+  // yang dimuat SETIAP halaman (565 KB vs 389 KB), padahal hanya 1 halaman
+  // yang memakai Tamagui. Provider harus dipasang di subtree pemakainya saja
+  // (lihat `src/components/ui/tamagui-root.tsx`).
+  const root = read("src/routes/__root.tsx");
+
+  assert.ok(
+    !root.includes("TamaguiProvider"),
+    "TamaguiProvider tidak boleh kembali ke __root.tsx — bungkus route yang memakai Tamagui dengan <TamaguiRoot> sebagai gantinya",
+  );
+  assert.ok(
+    !root.includes("tamagui.config"),
+    "tamagui.config tidak boleh diimpor dari __root.tsx — akan menyeret Tamagui ke bundle semua halaman",
+  );
+
+  // Wrapper harus tetap ada supaya komponen baru punya cara resmi memakai Tamagui.
+  const wrapper = read("src/components/ui/tamagui-root.tsx");
+  assert.ok(
+    wrapper.includes("TamaguiProvider"),
+    "src/components/ui/tamagui-root.tsx harus tetap menyediakan TamaguiProvider",
+  );
+});

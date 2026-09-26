@@ -346,9 +346,9 @@ Pola tetap: **animasi hanya saat hover/tap**, ikon boleh animasi ringan, tidak a
 | Versi | `tamagui` / `@tamagui/config` / `@tamagui/vite-plugin` `^2.7.7` |
 | Driver animasi | `@tamagui/config/v5-css` (CSS, **bukan** reanimated — app web) |
 | Config | `src/tamagui.config.ts` — token dicerminkan dari `@theme` Tailwind |
-| Provider | `TamaguiProvider` di `src/routes/__root.tsx` (`defaultTheme="light"`) |
+| Provider | `TamaguiRoot` di `src/components/ui/tamagui-root.tsx` — dipasang **hanya di route pemakainya** (`/tamagui-poc`). JANGAN di `__root.tsx` (terukur +176 KB ke semua halaman) |
 | Komponen bukti | `src/components/ui/tamagui-tactile-button.tsx` + halaman `/tamagui-poc` |
-| Guard | `src/lib/tamagui-tokens.test.ts` (5 test: sinkron token, pink brand, kontras, font, no-reanimated) |
+| Guard | `src/lib/tamagui-tokens.test.ts` (6 test: sinkron token, pink brand, kontras, font, no-reanimated, no-provider-di-root) |
 
 **Terbukti jalan di browser** (bukan cuma lolos `tsc`): bg `#B01F62`, border `2px #3B2218`, radius `14px`, slab `0 4px 0` **blur nol**, `minH 44px`, font **Space Grotesk**, label putih `rgb(255,255,255)`; press → slab `1px` + `translateY(2px)`. SSR aktif (markup ada di HTML server). Overflow **0** di 320/360/390/430px. Build produksi sukses.
 
@@ -357,7 +357,7 @@ Pola tetap: **animasi hanya saat hover/tap**, ikon boleh animasi ringan, tidak a
 2. `Button` Tamagui punya sub-theme sendiri (`light_Button`) yang menimpa border/warna dari theme root — border & warna teks wajib eksplisit.
 3. `fontFamily` hanya bekerja di `Text` (menghasilkan `.font_heading` → `--f-family`), **bukan** di `Button` (hanya menghasilkan `_ff-f-family` tanpa `--f-family`, font jatuh ke system).
 
-**Dampak bundle — DIUKUR A/B (bukan perkiraan):** memasang `TamaguiProvider` di `__root.tsx` menambah **+176 KB** pada root chunk yang dimuat **SETIAP halaman** (565 KB vs 389 KB), total assets +112 KB (1.665 vs 1.553 KB). Jadi provider **tidak gratis** meski UI belum memakai Tamagui — ini konsekuensi menaruh provider di root. Kalau biaya ini tidak diinginkan sebelum migrasi langkah 5, pindahkan `TamaguiProvider` dari `__root.tsx` ke route yang benar-benar memakai Tamagui (mis. bungkus `/tamagui-poc` saja) — UI produksi tidak terpengaruh karena belum ada yang memakainya.
+**Dampak bundle — DIUKUR A/B, sudah diperbaiki:** provider awalnya dipasang di `__root.tsx` dan terukur menambah **+176 KB** pada root chunk yang dimuat SETIAP halaman (565 KB vs 389 KB). Itu **tidak bisa dibenarkan** karena hanya 1 halaman yang memakai Tamagui. Sekarang provider dipindah ke wrapper `src/components/ui/tamagui-root.tsx` yang dipasang **di route pemakainya saja** (`/tamagui-poc`), dan root chunk kembali ke **389 KB**. Terverifikasi: root chunk `index-*.js` **nol** `createTamagui`/`TamaguiProvider` (5 kemunculan kata "tamagui" yang tersisa hanyalah **nama rute** `/tamagui-poc` di route manifest, wajib ada); kode Tamagui hanya di chunk `tamagui-poc-*.js` (189 KB, code-split). HTML beranda juga turun 943 KB → **436 KB**. **Aturan ke depan:** komponen/route baru yang memakai Tamagui WAJIB dibungkus `<TamaguiRoot>` di subtree-nya, JANGAN pasang provider di `__root.tsx` — dijaga `src/lib/tamagui-tokens.test.ts`.
 
 **Hydration error di `/` = PRA-EKSISTING, bukan dari Tamagui.** Diverifikasi Playwright: dari 5 rute (`/`, `/cara`, `/leaderboard`, `/raffle`, `/tamagui-poc`) hanya `/` yang memicu `Hydration failed`, dan sudah tercatat di `progress.md` sebagai temuan Langkah 9 lanjutan (terjadi juga di produksi sebelum Tamagui dipasang). Akar masalah ditemukan: `src/components/blobi-guide.tsx:292` menghitung `isRightSide` dari `window.innerWidth` **saat render** — di server `false`, di client bisa `true`, sehingga class berbeda. Perbaikannya: pindahkan ke `useEffect`/state, atau gate dengan flag hydrated.
 

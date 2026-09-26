@@ -12,6 +12,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { Text, View, XStack, YStack } from "tamagui";
+import { TamaguiRoot } from "@/components/ui/tamagui-root";
 import { TamaguiTactileButton } from "@/components/ui/tamagui-tactile-button";
 
 export const Route = createFileRoute("/tamagui-poc")({
@@ -19,6 +20,16 @@ export const Route = createFileRoute("/tamagui-poc")({
 });
 
 function TamaguiPoc() {
+  // Provider dipasang DI SINI, bukan di `__root.tsx` — terukur menghemat
+  // 176 KB pada root chunk yang dimuat setiap halaman (Langkah 19).
+  return (
+    <TamaguiRoot>
+      <TamaguiPocBody />
+    </TamaguiRoot>
+  );
+}
+
+function TamaguiPocBody() {
   return (
     <View
       flex={1}

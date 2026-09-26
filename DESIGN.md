@@ -7,7 +7,7 @@ Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk dit
 
 ## 1. Filosofi & Karakter Desain
 
-- **Gaya:** *Tactile Spatial Arcade / Playful Neo-Brutalism*.
+- **Gaya:** *Gamified UI  / Soft Neo-Brutalism*.
 - **Karakter:** Garis outline komik tebal yang tegas, bayangan jatuh kaku 3D tanpa blur (*hard offset shadow*), palet pastel bergradien lembut, dan sudut membulat ramah (*squircle / organic rounded*).
 - **Emosi:** Menyenangkan, bebas intimidasi Web3 yang dingin/kaku, terasa seperti main game arcade saku.
 

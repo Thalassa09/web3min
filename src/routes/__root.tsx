@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import { TamaguiProvider } from "tamagui";
+import tamaguiConfig from "@/tamagui.config";
 import { AuthProvider } from "@/lib/auth/provider";
 import { HydrationGate } from "@/components/hydration-gate";
 import { OfflineBanner } from "@/components/offline-banner";
@@ -76,12 +78,14 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body className="bg-canvas text-ink-900 font-sans">
-        <AuthProvider>
-          <HydrationGate>
-            <AudioEffectBridge />
-            <Outlet />
-          </HydrationGate>
-        </AuthProvider>
+        <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+          <AuthProvider>
+            <HydrationGate>
+              <AudioEffectBridge />
+              <Outlet />
+            </HydrationGate>
+          </AuthProvider>
+        </TamaguiProvider>
         <OfflineBanner />
         <Scripts />
       </body>

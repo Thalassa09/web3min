@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { tamaguiPlugin } from "@tamagui/vite-plugin";
 import { nitro } from "nitro/vite";
 // @ts-expect-error JS plugin alongside the TS vite config
 import { grokPwaPlugin } from "./scripts/grok-pwa-plugin.mjs";
@@ -165,6 +166,14 @@ export default defineConfig(({ command, isPreview }) => ({
     appEnvPlugin(),
     // PWA head + ?install=1 tutorial page; runs before Start/Nitro.
     grokPwaPlugin(),
+    // Tamagui: react-native-web alias + web extensions. Config dibaca dari
+    // `src/tamagui.config.ts` lewat `config` inline (bukan tamagui.build.ts,
+    // supaya tidak menambah satu berkas konfigurasi lagi di root).
+    tamaguiPlugin({
+      config: "src/tamagui.config.ts",
+      components: ["tamagui"],
+      disableExtraction: true,
+    }),
     tailwindcss(),
     tanstackStart(),
     ...(command === "build" || isPreview

@@ -45,13 +45,15 @@ Perangkat yang **sudah** dipakai Web3min (terverifikasi dari `package.json`, buk
 | Data | Supabase (`@supabase/supabase-js`) | `^2.116.0` | Progres juga di localStorage |
 | State | Zustand | `^5.0.0` | `src/lib/store.ts` |
 | Komponen | **shadcn resmi** (`components.json`) | — | 34 komponen ber-styling di `src/components/ui/` |
+| Komponen (opsional) | **Tamagui** | `^2.7.7` | Terpasang Langkah 19, driver `v5-css`. UI produksi **belum** memakai — lihat *Development Plan* |
 | Validasi | Zod + react-hook-form | `^4.4.0` / `^7.54.0` | |
 | Chart | Recharts | `^2.13.0` | |
 | Server | Nitro (via TanStack Start) | devDep | Build output ke `.vercel/output` |
 
 **NPM dependencies yang perlu diinstal untuk komponen baru:** tidak ada yang wajib — Lucide, Framer Motion, dan Tailwind sudah terpasang.
 
-> ⚠️ **Tamagui BELUM terpasang.** Diverifikasi Langkah 18: `tamagui` tidak ada di `package.json` (55 dependencies), tidak ada di `node_modules`, dan nol impor di `src/`. `https://tamagui.dev/` masih berupa **rencana** (langkah 4–5 di *Development Plan*), bukan bagian dari stack saat ini. Jangan tulis seolah sudah dipakai.
+> ⚠️ **Tamagui SUDAH terpasang** (Langkah 19) — `tamagui` / `@tamagui/config` / `@tamagui/vite-plugin` `^2.7.7`, config di `src/tamagui.config.ts`, `TamaguiProvider` di `__root.tsx`. Tapi **UI produksi belum memakai Tamagui** — baru 1 komponen bukti (`tamagui-tactile-button.tsx`) + halaman `/tamagui-poc`. Migrasi penuh = langkah 5 di *Development Plan* (risiko sangat tinggi). Jangan tulis seolah seluruh UI sudah Tamagui.
+> `react-native` dipasang sebagai **devDependency** (0.87.1) — hanya untuk typing; Tamagui v5 mengekspos source TS yang mengimpor `react-native`. `@types/react-native` versi lama **merusak** typing, jangan dipakai.
 
 ---
 
@@ -334,8 +336,28 @@ Pola tetap: **animasi hanya saat hover/tap**, ikon boleh animasi ringan, tidak a
 | 1 | Ganti font → Space Grotesk + Inter, perbarui `font-budget.test.ts` | ~4 | **Rendah** | ✅ **SELESAI** (Langkah 15, commit `23ca910`) — tepat 2 keluarga, tidak melanggar aturan |
 | 2 | Perluas skala tipografi di `@theme` jadi token bernama (`--text-*`) | 1 | Rendah | ⬜ Belum — token dulu, jangan hardcode ~1.190 kali |
 | 3 | Migrasi skala ukuran per-rute, satu rute per commit | 70 | **Tinggi** | ⬜ Belum — 1.190 pemakaian di 70 berkas (terukur ulang) |
-| 4 | Install Tamagui + `TamaguiProvider`, port 1 komponen sebagai bukti | 2 | Sedang | ⬜ **Belum dimulai** — `tamagui` **tidak ada** di `package.json`, `node_modules`, maupun `src/` (diverifikasi Langkah 18). Rencana saja, bukan fitur terpasang |
+| 4 | Install Tamagui + `TamaguiProvider`, port 1 komponen sebagai bukti | 2 | Sedang | ✅ **SELESAI** (Langkah 19) — lihat bagian *Tamagui* di bawah |
 | 5 | Migrasi 43 komponen ui ke Tamagui, dari daun ke akar | 43 | **Sangat tinggi** | ⬜ Belum — `button` (16 importer) paling akhir. Catatan: hanya **2 berkas** yang benar-benar mengimpor `ui/button.tsx` (`desk-rail`, `pulau-rantai-map`) |
+
+### Tamagui — sudah terpasang (Langkah 19)
+
+| Hal | Nilai |
+|---|---|
+| Versi | `tamagui` / `@tamagui/config` / `@tamagui/vite-plugin` `^2.7.7` |
+| Driver animasi | `@tamagui/config/v5-css` (CSS, **bukan** reanimated — app web) |
+| Config | `src/tamagui.config.ts` — token dicerminkan dari `@theme` Tailwind |
+| Provider | `TamaguiProvider` di `src/routes/__root.tsx` (`defaultTheme="light"`) |
+| Komponen bukti | `src/components/ui/tamagui-tactile-button.tsx` + halaman `/tamagui-poc` |
+| Guard | `src/lib/tamagui-tokens.test.ts` (5 test: sinkron token, pink brand, kontras, font, no-reanimated) |
+
+**Terbukti jalan di browser** (bukan cuma lolos `tsc`): bg `#B01F62`, border `2px #3B2218`, radius `14px`, slab `0 4px 0` **blur nol**, `minH 44px`, font **Space Grotesk**, label putih `rgb(255,255,255)`; press → slab `1px` + `translateY(2px)`. SSR aktif (markup ada di HTML server). Overflow **0** di 320/360/390/430px. Build produksi sukses.
+
+**⚠️ 3 jebakan yang sudah memakan korban (jangan diulang):**
+1. `defaultConfig` ada di `@tamagui/config/v5`, **bukan** `/v5-css` (yang hanya mengekspor `animations`). Warna **tidak** ada di `defaultConfig.tokens` — harus ditambah sendiri sebagai `tokens.color` supaya `$choco900` dikenali (`ColorTokenBase` membaca `Tokens['color']`).
+2. `Button` Tamagui punya sub-theme sendiri (`light_Button`) yang menimpa border/warna dari theme root — border & warna teks wajib eksplisit.
+3. `fontFamily` hanya bekerja di `Text` (menghasilkan `.font_heading` → `--f-family`), **bukan** di `Button` (hanya menghasilkan `_ff-f-family` tanpa `--f-family`, font jatuh ke system).
+
+**Dampak bundle:** server `@tamagui/button` ~207 kB (gzip 51,6 kB). UI produksi **belum** memakai Tamagui, jadi tidak ada dampak ke user sampai migrasi langkah 5 dijalankan.
 
 **Dampak terukur bila langkah 2–5 dijalankan: 84 berkas unik** dari 173 berkas `.tsx/.ts` di `src/` (irisan berkas pemakai utility ukuran + pemakai komponen ui).
 

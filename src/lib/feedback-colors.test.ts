@@ -98,6 +98,50 @@ test("feedback colours meet WCAG AA (4.5:1) on both their soft background and cr
   assert.ok(goldAsText < 4.5, "lemon-deep (#D9A400) is a fill colour; use coin-ink for coin text");
 });
 
+test("no white text or icon sits on a light leaf/ruby/candy fill", () => {
+  // A separate failure mode from the token check above: the fill token EXISTS and
+  // the text renders — it is just unreadable. White on --color-leaf (#6FE3C1) is
+  // 1.56:1; on --color-ruby (#E5484D) 3.91:1. Both were live in lozenge.tsx's
+  // `bold` variants. Rule: a light fill takes dark text, and white only ever goes
+  // on a fill that clears 4.5:1.
+  const files: string[] = [];
+  const walk = (dir: string) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.name.endsWith(".tsx")) files.push(p);
+    }
+  };
+  walk(join(ROOT, "src"));
+
+  const hex = (name: string) => {
+    const m = theme.match(new RegExp(`--color-${name}:\\s*(#[0-9A-Fa-f]{6})`));
+    assert.ok(m, `--color-${name} must be a plain hex`);
+    return m![1];
+  };
+  const FILLS = hex("leaf");
+  const RUBY = hex("ruby");
+
+  // `bg-leaf`/`bg-ruby` as a *fill* with white text in the same class string is
+  // the defect; `bg-*` used for a dot/border with no text is fine.
+  const offenders: string[] = [];
+  for (const f of files) {
+    const src = readFileSync(f, "utf8");
+    for (const m of src.matchAll(/["'`][^"'`]*\bbg-(leaf|ruby)\b(?![-\w])[^"'`]*["'`]/g)) {
+      const cls = m[0];
+      if (!/\btext-white\b/.test(cls)) continue;
+      const fill = m[1] === "leaf" ? FILLS : RUBY;
+      offenders.push(`${m[1]} fill + text-white (${contrast("#FFFFFF", fill).toFixed(2)}:1) in ${f.replace(ROOT + "/", "")}`);
+    }
+  }
+  assert.deepEqual([...new Set(offenders)].sort(), [], "white on a light fill: use the *-shadow fill or dark text");
+
+  // and prove the numbers that justify the rule
+  assert.ok(contrast("#FFFFFF", FILLS) < 4.5, "white on leaf must stay below AA — that is why the rule exists");
+  assert.ok(contrast("#FFFFFF", hex("leaf-shadow")) >= 4.5, "leaf-shadow must carry white text");
+  assert.ok(contrast("#FFFFFF", hex("ruby-shadow")) >= 4.5, "ruby-shadow must carry white text");
+});
+
 test("every declared shadow token is usable (no dangling --shadow-* reference)", () => {
   assert.ok(SHADOWS.has("candy"), "shadow-candy underpins every tactile button");
   assert.ok(SHADOWS.has("3d-primary"), "duo-button primary variant depends on shadow-3d-primary");

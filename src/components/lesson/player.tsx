@@ -220,7 +220,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <div className="mx-1 flex min-w-0 flex-1 items-center">
           <ProgressBar value={solved} max={Math.max(1, scored)} size="sm" />
         </div>
-        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-ruby">
+        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-ruby-shadow">
           <Heart className={cn("size-4 text-ruby", phase === "feedback" && !ok && "heart-break")} weight="fill" />
           {hearts}
         </span>
@@ -356,7 +356,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <div className={cn("shrink-0 quiz-fb", ok ? "quiz-fb-ok" : "quiz-fb-bad")} role="status" aria-live="polite">
           <div className="mx-auto flex w-full max-w-3xl flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="min-w-0 flex-1">
-              <p className={cn("font-display text-xl font-bold flex items-center gap-2", ok ? "text-leaf-shadow" : "text-ruby")}>
+              <p className={cn("font-display text-xl font-bold flex items-center gap-2", ok ? "text-leaf-shadow" : "text-ruby-shadow")}>
                 {ok ? (
                   <>
                     <Check className="size-6 text-leaf-shadow" weight="bold" />

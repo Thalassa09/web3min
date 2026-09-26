@@ -41,7 +41,7 @@ export function Lozenge({
     },
     success: {
       subtle: "bg-[#E8FBF0] text-leaf-shadow border-[#98E4B5]",
-      bold: "bg-leaf text-white border-leaf-shadow",
+      bold: "bg-leaf-shadow text-white border-leaf-shadow",
     },
     new: {
       subtle: "bg-[#F3ECFF] text-[#6A3FD1] border-[#C4A8FF]",
@@ -53,7 +53,7 @@ export function Lozenge({
     },
     removed: {
       subtle: "bg-[#FFECEC] text-ruby-shadow border-[#F4A4A0]",
-      bold: "bg-ruby text-white border-ruby-shadow",
+      bold: "bg-ruby-shadow text-white border-ruby-shadow",
     },
   };
 

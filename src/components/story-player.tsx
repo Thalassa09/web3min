@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, Link } from "@tanstack/react-router";
 import { X } from "@/lib/kicon";
 import type { Speaker, Story, StoryBeat } from "@/lib/stories";
 import { SPEAKER_LABEL } from "@/lib/stories";
@@ -22,6 +22,7 @@ const WHO_TONE: Record<Speaker, string> = {
 export function StoryPlayer({ story }: { story: Story }) {
   const navigate = useNavigate();
   const sound = useProgress((s) => s.sound);
+  const onboarded = useProgress((s) => s.onboarded);
   const completeStory = useProgress((s) => s.completeStory);
   const [i, setI] = useState(0);
   const [typed, setTyped] = useState(false);
@@ -66,9 +67,23 @@ export function StoryPlayer({ story }: { story: Story }) {
         <p className="mt-3 text-sm font-medium text-muted">Koin</p>
         <p className="text-2xl font-extrabold tabular-nums text-gold">+{done.gems}</p>
         <p className="mt-4 max-w-xs text-sm leading-5 text-muted">Tidak memakai nyawa. Ini cerita, bukan ujian.</p>
-        <DuoButton wide className="mt-8" onClick={() => void navigate({ to: "/kisah" })}>
-          Kisah lain
-        </DuoButton>
+        {!onboarded ? (
+          <div className="mt-8 flex flex-col gap-3 w-full">
+            <Link
+              to="/onboarding"
+              className="w-full py-3.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 transition-all flex items-center justify-center gap-2"
+            >
+              <span>Mulai Belajar di web3min →</span>
+            </Link>
+            <DuoButton wide onClick={() => void navigate({ to: "/kisah" })}>
+              Kisah Lain
+            </DuoButton>
+          </div>
+        ) : (
+          <DuoButton wide className="mt-8" onClick={() => void navigate({ to: "/kisah" })}>
+            Kisah lain
+          </DuoButton>
+        )}
       </div>
     );
   }

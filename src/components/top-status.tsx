@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, Sparkles, Volume2, VolumeX } from "lucide-react";
+import { Menu, Sparkles } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
 import { BlockStamp, CoinIcon } from "@/components/motif";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
 import { useNavStore } from "@/lib/nav-store";
-import { playTap, setAudioEnabled } from "@/lib/audio";
+import { playTap } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 
 const pillBase =
@@ -75,7 +75,6 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const xp = useProgress((s) => s.xp);
   const hearts = useProgress((s) => s.hearts);
   const sound = useProgress((s) => s.sound);
-  const setSound = useProgress((s) => s.setSound);
 
   const isNavOpen = useNavStore((s) => s.isOpen);
   const toggleNav = useNavStore((s) => s.toggle);
@@ -182,29 +181,9 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           )}
         </Link>
 
-        {/* Sound FX Toggle Pill */}
-        <button
-          type="button"
-          aria-label={sound ? "Matikan suara" : "Nyalakan suara"}
-          title={sound ? "Suara aktif (klik untuk matikan)" : "Suara senyap (klik untuk aktifkan)"}
-          onClick={() => {
-            const next = !sound;
-            setSound(next);
-            setAudioEnabled(next);
-            if (next) playTap();
-          }}
-          className={cn(
-            pillBase,
-            "px-2 sm:px-2.5",
-            !sound && "opacity-60 bg-cream/70 text-choco-900/50"
-          )}
-        >
-          {sound ? (
-            <Volume2 className="size-4 text-choco-900" />
-          ) : (
-            <VolumeX className="size-4 text-danger" />
-          )}
-        </button>
+        {/* Kontrol efek suara dihapus dari header: sekarang satu-satunya di
+            /settings ("Efek Suara" Aktif/Mute). Sinkronisasi mesin audio tetap
+            ditangani __root.tsx, jadi hapus di sini tidak memutus apa pun. */}
       </div>
     </header>
   );

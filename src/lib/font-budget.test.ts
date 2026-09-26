@@ -81,3 +81,22 @@ test("mode Retro Pixel dihapus — tidak ada sisa toggle atau atribut pixel-mode
   assert.ok(!topStatus.includes("MODERN"), "pill toggle PIXEL/MODERN harus hilang dari header");
   assert.ok(!topStatus.includes("PIXEL"), "pill toggle PIXEL/MODERN harus hilang dari header");
 });
+
+test("toggle suara hanya di /settings — header tidak boleh punya pill speaker lagi", () => {
+  const topStatus = read("src/components/top-status.tsx");
+  // Buang komentar dulu: menyebut nama ikon/simbol di komentar itu sah dan
+  // tidak boleh ikut memicu guard. Yang diperiksa hanya kode yang benar-benar jalan.
+  const code = topStatus.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+  assert.ok(
+    !code.includes("Volume2") && !code.includes("VolumeX"),
+    "pill speaker di header sudah dihapus atas permintaan user; satu-satunya kontrol efek suara ada di /settings",
+  );
+  assert.ok(
+    !code.includes("setAudioEnabled"),
+    "header tidak boleh menyetel mesin audio lagi — __root.tsx yang menyinkronkan setAudioEnabled(sound)",
+  );
+
+  // Kontrol di /settings wajib tetap ada, kalau tidak user kehilangan cara mematikan suara.
+  const settings = read("src/routes/settings.tsx");
+  assert.ok(settings.includes("setSound"), "/settings wajib tetap punya kontrol Efek Suara");
+});

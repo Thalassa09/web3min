@@ -42,6 +42,7 @@ export function PulauRantaiMap({
 
   // Mascot interaction state
   const containerRef = useRef<HTMLDivElement>(null);
+  const shakeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -163,7 +164,13 @@ export function PulauRantaiMap({
 
   function triggerShake(id: string) {
     setShakingId(id);
-    setTimeout(() => setShakingId(null), 320);
+    // Auto-clear if the previous timer never fired (rapid taps on locked nodes
+    // used to leave the node permanently shaking).
+    if (shakeTimer.current) clearTimeout(shakeTimer.current);
+    shakeTimer.current = setTimeout(() => {
+      shakeTimer.current = null;
+      setShakingId(null);
+    }, 320);
   }
 
   function startLesson(lessonId: string) {
@@ -503,7 +510,7 @@ export function PulauRantaiMap({
                 <h3 className="font-pixel text-lg sm:text-xl font-bold text-choco-900 leading-tight">
                   {sheetLesson.lesson.title}
                 </h3>
-                <p className="text-xs font-semibold text-candy-600 font-pixel mt-0.5">
+                <p className="text-xs font-semibold text-candy-700 font-pixel mt-0.5">
                   {sheetLesson.status === "done" ? "Blok Selesai Ditambang!" : "Siap Ditambang Bersama Blobi!"}
                 </p>
               </div>

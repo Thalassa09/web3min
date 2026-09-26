@@ -133,7 +133,7 @@ function MasukPage() {
             </h1>
             <p className="text-xs font-bold text-choco-600 mt-0.5">
               {isTypingPassword ? (
-                <span className="text-candy-600 font-bold">
+                <span className="text-candy-700 font-bold">
                   Tenang, aku tutup mata... gak ngintip!
                 </span>
               ) : (
@@ -182,7 +182,7 @@ function MasukPage() {
                   setResetStep("request");
                   setShowResetModal(true);
                 }}
-                className="text-[11px] font-bold text-candy-600 hover:text-candy-700 hover:underline cursor-pointer"
+                className="text-[11px] font-bold text-candy-700 hover:text-candy-700 hover:underline cursor-pointer"
               >
                 Lupa Password?
               </button>
@@ -226,7 +226,7 @@ function MasukPage() {
           <span className="font-semibold text-choco-600">Belum punya akun?</span>
           <Link
             to="/onboarding"
-            className="font-pixel font-bold text-candy-600 hover:text-candy-700 hover:underline"
+            className="font-pixel font-bold text-candy-700 hover:text-candy-700 hover:underline"
           >
             Daftar Petualang Baru →
           </Link>
@@ -245,7 +245,7 @@ function MasukPage() {
             {/* Header Modal */}
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-2.5">
-                <div className="size-10 rounded-xl bg-candy-100 border-2 border-choco-900 flex items-center justify-center text-candy-600 shrink-0">
+                <div className="size-10 rounded-xl bg-candy-100 border-2 border-choco-900 flex items-center justify-center text-candy-700 shrink-0">
                   <KeyRound className="size-5" />
                 </div>
                 <div>

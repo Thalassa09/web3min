@@ -60,7 +60,13 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
       ? "Blok tertambang (3/3 konfirmasi)"
       : status === "active"
       ? "Blok aktif siap ditambang"
+      : status === "chest"
+      ? "PETI hadiah — buka setelah blok terakhir rute"
       : "Blok terkunci";
+  const nodeLabel =
+    status === "chest"
+      ? `PETI hadiah rute${title ? `: ${title}` : ""}`
+      : `${hexHash}${title ? ` — ${title}` : ""}`;
 
   return (
     <div
@@ -100,7 +106,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
       <button
         type="button"
         onClick={onClick}
-        aria-label={`${hexHash}: ${title || "Blok Rantai"} — ${statusLabel}`}
+        aria-label={`${nodeLabel} — ${statusLabel}`}
         className={cn(
           "relative size-[64px] sm:size-[68px] rounded-full border-3 border-choco-900 cursor-pointer select-none transition-all duration-100",
           "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",

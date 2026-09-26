@@ -20,7 +20,7 @@ export function AppErrorComponent({ reset }: ErrorComponentProps) {
           </DuoButton>
           <Link
             to="/"
-            className="inline-flex min-h-10 items-center justify-center font-display text-xs font-bold text-choco-900 underline hover:text-candy-600"
+            className="inline-flex min-h-10 items-center justify-center font-display text-xs font-bold text-choco-900 underline hover:text-candy-700"
           >
             ← Kembali ke Peta Rantai
           </Link>

@@ -490,7 +490,7 @@ export function RafflePage() {
               }}
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border-2 border-choco-900 text-choco-900 font-pixel text-xs font-bold shadow-[0_2px_0_#3B2218] hover:bg-cream active:translate-y-0.5 cursor-pointer"
             >
-              <HelpCircle className="h-3.5 w-3.5 text-candy-600" />
+              <HelpCircle className="h-3.5 w-3.5 text-candy-700" />
               <span className="hidden sm:inline">Panduan</span>
             </button>
           </div>
@@ -741,7 +741,7 @@ export function RafflePage() {
                       <h2 className="text-xl font-display font-bold text-choco-900 leading-tight">
                         {raffle.title}
                       </h2>
-                      <div className="text-sm font-bold text-candy-600 mt-1 flex items-center gap-1.5">
+                      <div className="text-sm font-bold text-candy-700 mt-1 flex items-center gap-1.5">
                         <Award className="h-4 w-4 shrink-0" />
                         <span>{formattedPrize}</span>
                       </div>
@@ -857,7 +857,7 @@ export function RafflePage() {
                         <span className="truncate max-w-[200px]">
                           Seed Hash: {raffle.seedHash.slice(0, 12)}…
                         </span>
-                        <span className="text-candy-600 font-bold shrink-0">Verifikasi</span>
+                        <span className="text-candy-700 font-bold shrink-0">Verifikasi</span>
                       </div>
                     )}
 
@@ -956,7 +956,7 @@ export function RafflePage() {
                     {userTickets > 0 && userEntry?.walletAddress && isMintSlot && (
                       <div
                         onClick={() => handleOpenEnterModal(raffle, true)}
-                        className="text-[11px] font-mono text-choco-700 text-center hover:text-candy-600 cursor-pointer underline decoration-dotted"
+                        className="text-[11px] font-mono text-choco-700 text-center hover:text-candy-700 cursor-pointer underline decoration-dotted"
                         title="Klik untuk mengubah alamat wallet sebelum undian berakhir"
                       >
                         Wallet terdaftar: {maskWalletAddress(userEntry.walletAddress)}
@@ -1132,7 +1132,7 @@ export function RafflePage() {
 
             <div className="border-t-2 border-choco-900/15 pt-3 mb-4 flex items-center justify-between text-xs font-bold">
               <span className="text-choco-600">Total Biaya:</span>
-              <span className="font-mono text-base font-black text-candy-600">
+              <span className="font-mono text-base font-black text-candy-700">
                 {buyAmount * RAFFLE_TICKET_PRICE} Koin
               </span>
             </div>
@@ -1175,7 +1175,7 @@ export function RafflePage() {
                 <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">
                   {isEditWalletMode ? "Ubah Data Peserta" : "Pasang Tiket Undian"}
                 </h3>
-                <span className="text-xs text-candy-600 font-bold truncate block max-w-[240px]">
+                <span className="text-xs text-candy-700 font-bold truncate block max-w-[240px]">
                   {enteringRaffle.title}
                 </span>
               </div>
@@ -1185,7 +1185,7 @@ export function RafflePage() {
               {/* Kotak Data Peserta */}
               <div className="p-4 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] space-y-3.5">
                 <div className="text-xs font-pixel font-bold uppercase text-choco-900 flex items-center gap-1.5">
-                  <Wallet className="size-4 text-candy-600" />
+                  <Wallet className="size-4 text-candy-700" />
                   <span>Data Peserta</span>
                 </div>
 

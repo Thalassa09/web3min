@@ -23,7 +23,7 @@ export function SkillTag({
     <span
       className={`
         inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[12px]
-        bg-candy-100 border-2 border-choco-900 text-candy-600
+        bg-candy-100 border-2 border-choco-900 text-candy-700
         text-[11px] font-pixel font-bold shadow-[0_2px_0_#3B2218]
         select-none transition-all
         ${className}
@@ -33,7 +33,7 @@ export function SkillTag({
       {icon}
       <span>{name}</span>
       {level !== undefined && (
-        <span className="font-pixel text-[10px] px-1 py-0.2 rounded bg-white text-candy-600 border border-choco-900 font-bold">
+        <span className="font-pixel text-[10px] px-1 py-0.2 rounded bg-white text-candy-700 border border-choco-900 font-bold">
           {level}
         </span>
       )}

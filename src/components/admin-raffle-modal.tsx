@@ -612,7 +612,7 @@ export function AdminRaffleModal({
             {slotType !== "ITEM" && (
               <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] space-y-3.5">
                 <label className="text-xs font-pixel font-bold uppercase text-choco-900 flex items-center gap-1.5">
-                  <Globe className="size-4 text-candy-600" />
+                  <Globe className="size-4 text-candy-700" />
                   <span>Informasi Proyek Mitra & Minting</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -709,7 +709,7 @@ export function AdminRaffleModal({
             <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] space-y-3.5">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-pixel font-bold uppercase text-choco-900 flex items-center gap-1.5">
-                  <ImageIcon className="size-4 text-candy-600" />
+                  <ImageIcon className="size-4 text-candy-700" />
                   <span>URL Gambar / Artwork {slotType === "ITEM" && "(Opsional)"}</span>
                 </label>
                 {imageUrl && (

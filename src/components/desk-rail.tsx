@@ -42,7 +42,7 @@ export function DeskRail() {
           <div className="rounded-2xl border-2 border-choco-900 bg-white p-3.5 shadow-[0_3px_0_#3B2218] space-y-2">
             <div className="flex items-center justify-between text-[11px] font-bold text-choco-600">
               <span className="uppercase tracking-wider font-mono text-[10px]">Lanjut Belajar</span>
-              {nextUnit && <span className="text-candy-600 truncate max-w-[120px]">{nextUnit.title}</span>}
+              {nextUnit && <span className="text-candy-700 truncate max-w-[120px]">{nextUnit.title}</span>}
             </div>
             <div className="font-display font-bold text-sm text-choco-900 line-clamp-1">
               {nextLesson.title}
@@ -62,7 +62,7 @@ export function DeskRail() {
         <Card variant="default" padding="md" className="space-y-3 bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
           <div className="flex items-center justify-between">
             <span className="font-pixel text-xs font-bold text-choco-900 flex items-center gap-1.5">
-              <BookOpen className="size-4 text-candy-600" />
+              <BookOpen className="size-4 text-candy-700" />
               Progres 20 Rute
             </span>
             <span className="px-2 py-0.5 rounded-full bg-candy-100 text-[10px] font-pixel font-bold text-candy-700 border border-choco-900">
@@ -72,7 +72,7 @@ export function DeskRail() {
           <div>
             <div className="flex justify-between items-center text-xs font-semibold text-choco-700 mb-1.5">
               <span>Blok Selesai</span>
-              <span className="font-pixel text-candy-600 font-bold">{completedCount}/{totalCount} ({percent}%)</span>
+              <span className="font-pixel text-candy-700 font-bold">{completedCount}/{totalCount} ({percent}%)</span>
             </div>
             <ProgressBar value={completedCount} max={totalCount} size="sm" />
           </div>

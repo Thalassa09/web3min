@@ -34,40 +34,49 @@ export interface AnimatedFeatureCardProps extends Omit<HTMLMotionProps<"div">, "
 // Define HSL color values for each variant
 const colorVariants: Record<FeatureCardColor, Record<string, string>> = {
   orange: {
+    /* --feature-color is TEXT on --feature-color-dark (10-12px caps pill), so it
+       must clear 4.5:1. The vivid hues below were only 2.1–3.5:1; *-ink are the
+       darkened variants that pass. *-color stays for fills/icons. */
     "--feature-color": "hsl(35, 91%, 50%)",
     "--feature-color-light": "hsl(41, 100%, 88%)",
     "--feature-color-dark": "hsl(38, 92%, 94%)",
     "--feature-color-border": "hsl(35, 85%, 45%)",
+    "--feature-color-ink": "hsl(33, 90%, 33%)",
   },
   purple: {
     "--feature-color": "hsl(262, 85%, 58%)",
     "--feature-color-light": "hsl(261, 100%, 90%)",
     "--feature-color-dark": "hsl(264, 95%, 95%)",
     "--feature-color-border": "hsl(262, 75%, 48%)",
+    "--feature-color-ink": "hsl(262, 85%, 40%)",
   },
   blue: {
     "--feature-color": "hsl(211, 100%, 55%)",
     "--feature-color-light": "hsl(210, 100%, 88%)",
     "--feature-color-dark": "hsl(216, 95%, 95%)",
     "--feature-color-border": "hsl(211, 90%, 45%)",
+    "--feature-color-ink": "hsl(211, 90%, 40%)",
   },
   emerald: {
     "--feature-color": "hsl(158, 70%, 42%)",
     "--feature-color-light": "hsl(158, 80%, 88%)",
     "--feature-color-dark": "hsl(152, 85%, 94%)",
     "--feature-color-border": "hsl(158, 70%, 35%)",
+    "--feature-color-ink": "hsl(158, 75%, 29%)",
   },
   rose: {
     "--feature-color": "hsl(340, 82%, 55%)",
     "--feature-color-light": "hsl(340, 100%, 90%)",
     "--feature-color-dark": "hsl(340, 95%, 95%)",
     "--feature-color-border": "hsl(340, 80%, 45%)",
+    "--feature-color-ink": "hsl(340, 85%, 40%)",
   },
   teal: {
     "--feature-color": "hsl(173, 80%, 40%)",
     "--feature-color-light": "hsl(173, 85%, 88%)",
     "--feature-color-dark": "hsl(173, 90%, 94%)",
     "--feature-color-border": "hsl(173, 80%, 32%)",
+    "--feature-color-ink": "hsl(173, 85%, 27%)",
   },
 };
 
@@ -169,7 +178,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
                   }
                 }}
               />
-              <div className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-choco-900/85 backdrop-blur-xs text-[9px] font-pixel font-bold text-white shadow-xs">
+              <div className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-choco-900/85 backdrop-blur-xs text-[9px] font-pixel font-bold text-cream shadow-xs">
                 {badgeLabel || (imageSrc.includes("/cases/") ? "BUKTI" : "KISAH")}
               </div>
             </div>
@@ -198,7 +207,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
               className="inline-block rounded-lg border px-2.5 py-0.5 font-pixel text-[10px] sm:text-xs font-bold uppercase tracking-wider"
               style={{
                 backgroundColor: "var(--feature-color-dark)",
-                color: "var(--feature-color)",
+                color: "var(--feature-color-ink)",
                 borderColor: "var(--feature-color-border)",
               }}
             >

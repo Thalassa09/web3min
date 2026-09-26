@@ -295,7 +295,7 @@ function LeaderboardPage() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-lg md:text-xl font-display font-bold text-choco-900">@{currentUser.username}</span>
-                <span className="rounded-lg border-2 border-candy-600/40 bg-white/90 px-2 py-0.5 text-[10px] font-bold uppercase text-candy-600 shadow-[0_1px_0_#B01F62]">
+                <span className="rounded-lg border-2 border-candy-600/40 bg-white/90 px-2 py-0.5 text-[10px] font-bold uppercase text-candy-700 shadow-[0_1px_0_#B01F62]">
                   Kamu
                 </span>
               </div>

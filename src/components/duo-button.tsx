@@ -58,7 +58,7 @@ export function DuoButton({
         "transition-[transform,box-shadow,filter] duration-90 ease-out",
         "active:not-disabled:translate-y-[4px] active:not-disabled:shadow-none",
         "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",
-        "disabled:cursor-not-allowed disabled:border-transparent disabled:bg-line disabled:text-ink-300 disabled:shadow-none",
+        "disabled:cursor-not-allowed disabled:border-[#CFC0B4] disabled:bg-[#EDE4DC] disabled:text-choco-600 disabled:shadow-none",
         variantClass[variant],
         sizeClass[size],
         wide && "w-full",

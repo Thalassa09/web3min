@@ -33,7 +33,7 @@ export function LameAvatar({
     <div className={`inline-flex items-center gap-3 ${className}`}>
       <div className="relative">
         <div
-          className={`relative ${s.box} bg-candy-100 flex items-center justify-center font-pixel ${s.text} text-candy-600 overflow-hidden border-2 border-choco-900 shadow-[0_2px_0_#3B2218]`}
+          className={`relative ${s.box} bg-candy-100 flex items-center justify-center font-pixel ${s.text} text-candy-700 overflow-hidden border-2 border-choco-900 shadow-[0_2px_0_#3B2218]`}
         >
           {avatarUrl ? (
             <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />

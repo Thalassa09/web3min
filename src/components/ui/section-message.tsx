@@ -39,7 +39,7 @@ export function SectionMessage({
       bg: "bg-candy-100",
       border: "border-2 border-choco-900",
       shadow: "shadow-[0_3px_0_#3B2218]",
-      titleColor: "text-candy-600",
+      titleColor: "text-candy-700",
       defaultIcon: <Info className="size-4 text-candy-500" />,
     },
     warning: {

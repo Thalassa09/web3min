@@ -202,7 +202,7 @@ Belajar Web3 interaktif: https://web3min.com`;
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-candy-50 active:translate-y-0.5 border-2 border-choco-900 rounded-full shadow-[0_2px_0_#3B2218] text-xs font-bold text-choco-900 transition-all cursor-pointer"
             title="Buka Rekap Penjelajah"
           >
-            <BookOpen className="size-4 text-candy-600 stroke-[2.5]" />
+            <BookOpen className="size-4 text-candy-700 stroke-[2.5]" />
             <span>Rekap</span>
           </button>
         </div>
@@ -217,7 +217,7 @@ Belajar Web3 interaktif: https://web3min.com`;
           aria-label="Filter Rute Belajar"
         >
           <div className="flex items-center gap-2 truncate">
-            <Layers className="size-4 text-candy-600 stroke-[2.5] shrink-0" />
+            <Layers className="size-4 text-candy-700 stroke-[2.5] shrink-0" />
             <span className="font-bold text-xs sm:text-sm text-choco-900 truncate">
               {selectedUnit
                 ? `Rute ${selectedUnit.index}: ${selectedUnit.title}`
@@ -335,7 +335,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               {freeze > 0 ? (
                 <span className="text-orange-600 font-extrabold">{freeze} Pelindung siaga</span>
               ) : (
-                <Link to="/shop" className="text-candy-600 font-extrabold underline decoration-dotted">
+                <Link to="/shop" className="text-candy-700 font-extrabold underline decoration-dotted">
                   Amankan di Toko
                 </Link>
               )}
@@ -509,7 +509,7 @@ Belajar Web3 interaktif: https://web3min.com`;
             </div>
           </div>
 
-          <div className="flex items-center gap-1 text-xs font-bold text-candy-600 bg-candy-100 hover:bg-candy-200 px-2.5 py-1 rounded-full border border-candy-300 shrink-0 transition-colors shadow-[0_1px_0_#3B2218]">
+          <div className="flex items-center gap-1 text-xs font-bold text-candy-700 bg-candy-100 hover:bg-candy-200 px-2.5 py-1 rounded-full border border-candy-300 shrink-0 transition-colors shadow-[0_1px_0_#3B2218]">
             <span>Klasemen</span>
             <ArrowRight className="size-3.5 stroke-[2.5]" />
           </div>
@@ -621,7 +621,7 @@ Belajar Web3 interaktif: https://web3min.com`;
           </>
         ) : (
           <div className="py-4 text-center space-y-3">
-            <div className="size-12 mx-auto rounded-full bg-candy-100 border-2 border-choco-900 flex items-center justify-center text-candy-600 shadow-[0_2px_0_#3B2218]">
+            <div className="size-12 mx-auto rounded-full bg-candy-100 border-2 border-choco-900 flex items-center justify-center text-candy-700 shadow-[0_2px_0_#3B2218]">
               <BookOpen className="size-6 stroke-[2.5]" />
             </div>
             <div className="space-y-1">
@@ -659,7 +659,7 @@ Belajar Web3 interaktif: https://web3min.com`;
             {/* Modal Header */}
             <div className="p-4 border-b-2 border-choco-900/15 flex items-center justify-between bg-candy-100 shrink-0">
               <div className="flex items-center gap-2">
-                <Layers className="size-5 text-candy-600 stroke-[2.5]" />
+                <Layers className="size-5 text-candy-700 stroke-[2.5]" />
                 <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">Pilih Rute Belajar</h3>
               </div>
               <button
@@ -777,7 +777,7 @@ Belajar Web3 interaktif: https://web3min.com`;
             {/* Header */}
             <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-3">
               <div className="flex items-center gap-2">
-                <BookOpen className="size-5 text-candy-600 stroke-[2.5]" />
+                <BookOpen className="size-5 text-candy-700 stroke-[2.5]" />
                 <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">Rekap Penjelajah</h3>
               </div>
               <button
@@ -798,7 +798,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                 </div>
                 <div>
                   <div className="font-bold text-sm text-choco-900">@{username}</div>
-                  <div className="text-xs font-bold text-candy-600">{league.name}</div>
+                  <div className="text-xs font-bold text-candy-700">{league.name}</div>
                 </div>
               </div>
               <div className="text-right">
@@ -824,7 +824,7 @@ Belajar Web3 interaktif: https://web3min.com`;
 
               <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
                 <div className="text-[11px] font-bold text-choco-500">Total XP</div>
-                <div className="text-xl font-black font-sans text-candy-600 tabular-nums">
+                <div className="text-xl font-black font-sans text-candy-700 tabular-nums">
                   {xp}
                 </div>
                 <div className="text-[10px] text-choco-600 font-bold">

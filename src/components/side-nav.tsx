@@ -166,7 +166,7 @@ export function SideNav() {
                 if (sound) playTap();
                 close();
               }}
-              icon={<LogIn className="size-4.5 shrink-0 stroke-[2.2] text-candy-600" />}
+              icon={<LogIn className="size-4.5 shrink-0 stroke-[2.2] text-candy-700" />}
             />
           </li>
 

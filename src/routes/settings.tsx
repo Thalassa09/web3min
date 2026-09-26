@@ -197,28 +197,28 @@ function SettingsPage() {
             className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Cara Main</span>
-            <span className="text-candy-600 font-bold">→</span>
+            <span className="text-candy-700 font-bold">→</span>
           </Link>
           <Link
             to="/privacy"
             className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Privasi Data</span>
-            <span className="text-candy-600 font-bold">→</span>
+            <span className="text-candy-700 font-bold">→</span>
           </Link>
           <Link
             to="/about"
             className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Tentang Web3min</span>
-            <span className="text-candy-600 font-bold">→</span>
+            <span className="text-candy-700 font-bold">→</span>
           </Link>
           <Link
             to="/profile"
             className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >
             <span>Profil Petualang</span>
-            <span className="text-candy-600 font-bold">→</span>
+            <span className="text-candy-700 font-bold">→</span>
           </Link>
         </div>
 

@@ -32,13 +32,27 @@
   --color-candy-400: #F26A99; /* brand */
   --color-candy-500: #E8437F; /* tombol */
   --color-candy-600: #D62A78; /* link */
-  --color-candy-700: #B01F62; /* bayangan dalam */
+  --color-candy-700: #B01F62; /* bayangan dalam & teks pink di atas cream (6.11:1) */
   --color-candy-800: #85174A;
+  --color-candy-900: #6E1239;
+  --color-candy-950: #4E0D2A;
+  --color-candy-deep: #B01F62; /* alias teks pink — dipakai 9× tapi sebelumnya tidak ada */
+  --color-candy-soft: #FFE3EC; /* permukaan pink redup */
+  --color-candy-line: #F3BFD3; /* border pink redup */
 
   /* Choco & Cream neutrals */
   --color-choco-900: #3B2218; /* teks & garis & bayangan */
+  --color-choco-800: #452A1E; /* hover teks gelap */
+  --color-choco-700: #4E3125; /* teks utama di atas cream (10.99:1) */
   --color-choco-600: #6B4A3A; /* teks sekunder */
+  --color-choco-500: #8A6552; /* teks tersier (4.84:1 di atas cream) */
+  --color-choco-400: #9C7A68; /* placeholder / label redup (3.64:1 — non-teks saja) */
+  --color-choco-300: #B79A87; /* border & divider dekoratif (bukan teks) */
+  --color-choco-100: #F2E4D8; /* permukaan redup */
+  --color-choco-50: #FBF4EF;  /* permukaan paling terang */
   --color-cream: #FFF6EE;     /* latar & isi box */
+  --color-cream-100: #FDEEDF;
+  --color-cream-50: #FFFBF7;
 
   /* Functional Accents */
   --color-mint: #6FE3C1;
@@ -48,7 +62,31 @@
   --color-grape: #9B6BFF;
   --color-grape-deep: #5B2FB8;  /* glitch, bahaya, Zona Boss */
   --color-streak: #FF8A3D;      /* KHUSUS streak/combo */
+  --color-flame: #FF8A3D;
+  --color-flame-500: #B54A12;   /* versi terbaca dari streak di atas cream (4.98:1) */
+  --color-flame-shadow: #A8480F;
   --color-danger: #E5484D;      /* jawaban salah */
+  --color-muted: #6B4A3A;       /* alias --color-muted-foreground; dipakai 30× */
+  --color-primary-deep: #B01F62; /* teks pink di atas --color-primary-soft (5.42:1) */
+  --color-mint-dark: #14876A;   /* hover tombol mint; teks choco-900 tetap <=4.5:1 */
+  --color-ink-600: #5A3D31;
+  --color-ink-950: #2A1710;
+
+  /* ── Warna feedback (AGENTS.md: hijau sukses / merah error / kuning peringatan
+     / emas PETI, kontras ≥4.5:1). Hex di bawah sengaja dipilih agar lolos WCAG AA
+     di atas latarnya sendiri DAN di atas cream #FFF6EE. Jangan pakai nilai
+     "deep" sebagai teks — #1E9E78 (3.16), #D9A400 (2.12), dan #B27B00 (3.43)
+     semuanya GAGAL sebagai teks; itulah sebabnya ada varian *-ink terpisah.
+     Dijaga oleh src/lib/feedback-colors.test.ts. */
+  --color-ok-soft: #E8FBF4;
+  --color-ok-ink: #17805F;      /* 4.55 di atas soft, 4.59 di atas cream */
+  --color-warn-soft: #FFF8E1;
+  --color-warn-ink: #8A6100;    /* 5.21 / 5.19 */
+  --color-err-soft: #FFE9EA;
+  --color-err-ink: #B3272C;     /* 5.58 / 6.06 */
+  --color-coin-ink: #8A6100;    /* 5.19 — teks jumlah koin/XP/PETI */
+  --color-danger-shadow: #A02025; /* 3D shadow untuk duo-button/tactile-button varian danger;
+                                     sebelumnya dirujuk tapi tidak pernah didefinisikan */
 
   /* Backward Compatibility Aliases */
   --color-canvas: #FFF6EE;
@@ -79,7 +117,14 @@
   --color-ruby-soft: #FFE3EC;
   --color-leaf: #6FE3C1;
   --color-leaf-deep: #1E9E78;
+  --color-leaf-shadow: #0F6045; /* teks sukses di atas #E8FBF0 (7.08:1) */
+  --color-ruby-shadow: #A02025; /* teks error di atas #FFECEC (7.21:1) */
+  --color-ok: #17805F;          /* alias sukses — dipakai tactile-button */
+  --color-ok-shadow: #0F6045;
   --color-brand: #F26A99;
+  --color-blobi: #E8437F;       /* maskot & aksen brand */
+  --color-blobi-soft: #FFE3EC;
+  --color-blobi-shadow: #A02025;
 
   /* 3D Box Shadows */
   --shadow-candy: 0 6px 0 #3B2218;
@@ -88,6 +133,11 @@
   --shadow-ink: 0 6px 0 #3B2218;
   --shadow-ink-sm: 0 3px 0 #3B2218;
   --shadow-ink-xs: 0 2px 0 #3B2218;
+  --shadow-3d-primary: 0 5px 0 var(--color-primary-shadow, #3B2218);
+  --shadow-3d-secondary: 0 4px 0 var(--color-ink-900, #3B2218);
+  --shadow-primary-shadow: 0 5px 0 var(--color-primary-shadow, #3B2218);
+  --shadow-danger-shadow: 0 4px 0 var(--color-danger-shadow, #A02025);
+  --shadow-leaf-shadow: 0 3px 0 var(--color-leaf-shadow, #0F6045);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -639,16 +689,20 @@ input:focus-visible {
   box-shadow: 0 0 0 transparent !important;
 }
 
-/* Disabled tactile state */
+/* Disabled tactile state.
+   AGENTS.md: "disabled (abu-abu)". The old rule set background to --color-line,
+   which resolves to #3B2218 — near-black, so "disabled" looked like the most
+   prominent button on the page and its label (--color-ink-300) only reached
+   3.78:1. Neutral grey surface + choco-600 label clears 6.28:1. */
 .tactile-btn:disabled,
 .duo-btn:disabled {
-  opacity: 0.65 !important;
+  opacity: 1 !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
   transform: none !important;
-  background: var(--color-line, #F3E3EA) !important;
-  border-color: var(--color-line-strong, #E5CFD9) !important;
-  color: var(--color-ink-300, #AC8F9F) !important;
+  background: #EDE4DC !important;
+  border-color: #CFC0B4 !important;
+  color: #6B4A3A !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

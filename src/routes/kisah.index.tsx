@@ -79,7 +79,7 @@ function KisahHub() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
             <div className="flex items-center gap-2 text-choco-600">
-              <Compass className="size-4 text-candy-600" />
+              <Compass className="size-4 text-candy-700" />
               <span className="font-pixel text-[11px] sm:text-xs font-bold tracking-wider uppercase">
                 Arsip Investigasi & Pembelajaran
               </span>
@@ -227,7 +227,7 @@ function KisahHub() {
                           <span className="font-sans text-[11px] font-semibold text-choco-600">
                             3 menit baca
                           </span>
-                          <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-600 group-hover:translate-x-1 transition-transform">
+                          <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-700 group-hover:translate-x-1 transition-transform">
                             {isDone ? "Baca Ulang" : "Mulai"}
                             <ArrowRight className="size-3.5" />
                           </span>
@@ -334,7 +334,7 @@ function KisahHub() {
                           <span className="font-sans text-[11px] font-semibold text-choco-600">
                             3 menit audit
                           </span>
-                          <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-600 group-hover:translate-x-1 transition-transform">
+                          <span className="inline-flex items-center gap-1 font-pixel text-xs font-bold text-candy-700 group-hover:translate-x-1 transition-transform">
                             <span>Bedah Bukti</span>
                             <ArrowRight className="size-3.5" />
                           </span>

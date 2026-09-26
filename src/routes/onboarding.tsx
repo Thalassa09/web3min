@@ -214,7 +214,7 @@ function Onboarding() {
               <div className="mt-2.5 p-3 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
                 <p className="text-xs font-bold text-choco-800 leading-snug">
                   {isTypingPassword ? (
-                    <span className="text-candy-600 font-bold">
+                    <span className="text-candy-700 font-bold">
                       Tenang, Blobi tidak akan mengintip kata sandimu.
                     </span>
                   ) : (
@@ -456,7 +456,7 @@ function Onboarding() {
                             setAuthMode("login");
                             setFormError(null);
                           }}
-                          className="text-candy-600 font-pixel font-bold hover:underline cursor-pointer ml-1"
+                          className="text-candy-700 font-pixel font-bold hover:underline cursor-pointer ml-1"
                         >
                           Masuk di sini
                         </button>
@@ -470,7 +470,7 @@ function Onboarding() {
                             setAuthMode("register");
                             setFormError(null);
                           }}
-                          className="text-candy-600 font-pixel font-bold hover:underline cursor-pointer ml-1"
+                          className="text-candy-700 font-pixel font-bold hover:underline cursor-pointer ml-1"
                         >
                           Daftar akun baru
                         </button>
@@ -565,7 +565,7 @@ function Onboarding() {
                           )}
                         </div>
                         <div className="mt-3">
-                          <div className="font-pixel text-xs font-bold text-candy-600">{g.desc}</div>
+                          <div className="font-pixel text-xs font-bold text-candy-700">{g.desc}</div>
                           <div className="text-[11px] font-bold text-choco-600 mt-0.5">{g.modules}</div>
                         </div>
                       </button>

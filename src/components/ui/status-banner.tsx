@@ -122,7 +122,7 @@ export function StatusBanner({
             <span className="text-[10px] font-mono text-ink-300 uppercase tracking-wider font-bold">
               PROOF HASH
             </span>
-            <span className="text-xs font-pixel font-bold text-candy-600 truncate max-w-[120px]">
+            <span className="text-xs font-pixel font-bold text-candy-700 truncate max-w-[120px]">
               {proofHash}
             </span>
           </div>

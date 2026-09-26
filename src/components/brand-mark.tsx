@@ -7,7 +7,7 @@ export function BrandMark({ className }: { className?: string }) {
         <img src="/mascot/idle.png" alt="Blobi" className="size-8 pixelated object-contain -mt-0.5" />
       </span>
       <span className="font-display text-[26px] font-bold tracking-tight text-ink-900 leading-none">
-        web3<span className="text-blobi">min</span>
+        web3<span className="text-candy-700">min</span>
       </span>
     </span>
   );

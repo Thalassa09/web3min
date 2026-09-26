@@ -70,7 +70,7 @@ export const Lollipop: React.FC<{ level: number | string; className?: string }> 
         className
       )}
     >
-      <Sparkles className="size-4 text-candy-600 shrink-0" />
+      <Sparkles className="size-4 text-candy-700 shrink-0" />
       <span>LV {level}</span>
     </div>
   );

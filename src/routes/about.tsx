@@ -100,14 +100,14 @@ function AboutPage() {
           <div className="flex items-center gap-3">
             <Link
               to="/privacy"
-              className="font-pixel text-xs font-bold text-choco-700 underline hover:text-candy-600"
+              className="font-pixel text-xs font-bold text-choco-700 underline hover:text-candy-700"
             >
               Kebijakan Privasi
             </Link>
             <span className="text-choco-400">·</span>
             <Link
               to="/settings"
-              className="font-pixel text-xs font-bold text-choco-700 underline hover:text-candy-600"
+              className="font-pixel text-xs font-bold text-choco-700 underline hover:text-candy-700"
             >
               Pengaturan
             </Link>

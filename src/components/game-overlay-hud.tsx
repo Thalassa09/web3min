@@ -52,7 +52,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
               <div className="flex items-center justify-between px-4 py-2.5 bg-candy-100 text-choco-900 border-b-2 border-choco-900 shrink-0">
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] font-pixel font-bold uppercase tracking-wider text-candy-700 flex items-center gap-1.5">
-                    <Sparkles className="size-3.5 text-candy-600" />
+                    <Sparkles className="size-3.5 text-candy-700" />
                     Quest & Arena HUD
                   </span>
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white border border-choco-900 text-choco-900">
@@ -85,14 +85,14 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
             onClick={() => setIsDesktopOpen(true)}
             title="Klik untuk membuka Quest & Arena HUD"
           >
-            <ChevronLeft className="size-4 text-candy-600 transition-transform group-hover:-translate-x-0.5" />
+            <ChevronLeft className="size-4 text-candy-700 transition-transform group-hover:-translate-x-0.5" />
             <div className="flex items-center gap-1.5 text-candy-700">
-              <Flame className="size-4 fill-candy-500 text-candy-600" />
+              <Flame className="size-4 fill-candy-500 text-candy-700" />
               <span>{streak}</span>
             </div>
             <span className="w-1 h-1 rounded-full bg-choco-300" />
             <div className="flex items-center gap-1.5 text-choco-700">
-              <Sparkles className="size-3.5 text-candy-600" />
+              <Sparkles className="size-3.5 text-candy-700" />
               <span>{completedQuests}/3</span>
             </div>
             <span className="w-1 h-1 rounded-full bg-choco-300" />
@@ -115,12 +115,12 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
           title="Buka Misi & Arena"
         >
           <div className="flex items-center gap-1 text-candy-700">
-            <Flame className="size-3.5 fill-candy-500 text-candy-600" />
+            <Flame className="size-3.5 fill-candy-500 text-candy-700" />
             <span>{streak}</span>
           </div>
           <span className="w-1 h-1 rounded-full bg-choco-300" />
           <div className="flex items-center gap-1 text-choco-700">
-            <Sparkles className="size-3.5 text-candy-600" />
+            <Sparkles className="size-3.5 text-candy-700" />
             <span>{completedQuests}/3</span>
           </div>
         </button>
@@ -143,7 +143,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 bg-candy-100 text-choco-900 border-b-2 border-choco-900 shrink-0">
               <div className="flex items-center gap-2">
-                <Sparkles className="size-4 text-candy-600" />
+                <Sparkles className="size-4 text-candy-700" />
                 <span className="text-xs font-pixel font-bold uppercase tracking-wider text-choco-900">
                   Misi Harian & Arena
                 </span>

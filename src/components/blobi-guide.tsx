@@ -332,7 +332,7 @@ export function BlobiFloatingCompanion({
               <X className="size-3.5" />
             </button>
 
-            <div className="flex items-center gap-1.5 text-[10px] font-pixel font-bold uppercase text-candy-600 mb-1">
+            <div className="flex items-center gap-1.5 text-[10px] font-pixel font-bold uppercase text-candy-700 mb-1">
               <Sparkles className="size-3 text-candy-500" />
               <span>Blobi Berbisik:</span>
             </div>
@@ -429,7 +429,7 @@ export function BlobiFloatingCompanion({
                 }
               }}
               style={{ cursor: isDragging ? "grabbing" : "grab" }}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] text-xs font-pixel font-bold text-candy-600 hover:scale-105 active:scale-95 transition-all cursor-pointer select-none touch-none"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] text-xs font-pixel font-bold text-candy-700 hover:scale-105 active:scale-95 transition-all cursor-pointer select-none touch-none"
               title="Klik untuk buka Blobi, atau geser posisi"
             >
               <Sparkles className="size-3.5 text-candy-500 pointer-events-none" />
@@ -493,7 +493,7 @@ export function BlobiLockedModal({
         {/* Message */}
         <p className="text-xs text-choco-800 font-semibold leading-relaxed mb-4 bg-white/80 p-3 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
           Modul <strong className="text-choco-900">"{warn.lesson.title}"</strong> di Rute {warn.unit.index} belum terbuka.
-          Kamu harus menyelesaikan modul bertanda <strong className="text-candy-600">MULAI</strong> terlebih dahulu!
+          Kamu harus menyelesaikan modul bertanda <strong className="text-candy-700">MULAI</strong> terlebih dahulu!
         </p>
 
         {/* Action Buttons */}

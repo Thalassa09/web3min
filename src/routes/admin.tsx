@@ -549,7 +549,7 @@ export function AdminPage() {
             <div className="mt-6 pt-4 border-t-2 border-choco-900/10 flex items-center justify-between text-xs font-pixel">
               <Link
                 to="/raffle"
-                className="text-candy-600 hover:text-candy-700 font-bold underline"
+                className="text-candy-700 hover:text-candy-700 font-bold underline"
               >
                 ← Kembali ke Katalog
               </Link>
@@ -843,7 +843,7 @@ export function AdminPage() {
                               ) : raffle.category === "gems" ? (
                                 <Coins className="size-6 text-amber-700 mb-0.5" />
                               ) : (
-                                <Sparkles className="size-6 text-candy-600 mb-0.5" />
+                                <Sparkles className="size-6 text-candy-700 mb-0.5" />
                               )}
                               <span className="text-[8px] font-pixel font-bold uppercase truncate max-w-full px-1">
                                 {raffle.category}
@@ -888,7 +888,7 @@ export function AdminPage() {
                             <h4 className="font-pixel text-base font-bold text-choco-900 truncate">
                               {raffle.title}
                             </h4>
-                            <div className="text-xs font-bold text-candy-600 flex items-center gap-1 mt-0.5">
+                            <div className="text-xs font-bold text-candy-700 flex items-center gap-1 mt-0.5">
                               <Award className="size-3.5 shrink-0" />
                               <span className="truncate">{raffle.prize}</span>
                             </div>

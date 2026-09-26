@@ -443,7 +443,7 @@ function ShopPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="px-3 py-1 rounded-full bg-candy-100 border-2 border-choco-900 text-candy-600 text-xs font-pixel font-bold shadow-[0_2px_0_#3B2218]">
+                  <span className="px-3 py-1 rounded-full bg-candy-100 border-2 border-choco-900 text-candy-700 text-xs font-pixel font-bold shadow-[0_2px_0_#3B2218]">
                     {ownedCount}/{totalCount} Koleksi
                   </span>
                   <button
@@ -772,7 +772,7 @@ function ShopPage() {
                                   className={`flex-1 py-1 rounded-[10px] text-[10px] font-pixel font-bold cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                                     isPreviewing
                                       ? "bg-white border-2 border-danger text-danger hover:bg-candy-50 shadow-[0_1px_0_#3B2218]"
-                                      : "bg-candy-100 border-2 border-choco-900 text-candy-600 hover:bg-candy-200 shadow-[0_2px_0_#3B2218]"
+                                      : "bg-candy-100 border-2 border-choco-900 text-candy-700 hover:bg-candy-200 shadow-[0_2px_0_#3B2218]"
                                   }`}
                                 >
                                   {isPreviewing ? "Lepas" : "Coba"}

@@ -14,7 +14,7 @@ import { rpcCompleteStory, syncProgressFromServer } from "@/lib/server-sync";
 const WHO_TONE: Record<Speaker, string> = {
   web3min: "text-primary",
   penipu: "text-danger",
-  teman: "text-candy-600",
+  teman: "text-candy-700",
   cs: "text-streak",
   kamu: "text-fg",
 };

@@ -24,12 +24,12 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
   cyan: {
     border: "border-candy-300",
     bg: "bg-candy-100",
-    text: "text-candy-600",
+    text: "text-candy-700",
   },
   sky: {
     border: "border-candy-300",
     bg: "bg-candy-100",
-    text: "text-candy-600",
+    text: "text-candy-700",
   },
   violet: {
     border: "border-[#C4A8FF]",

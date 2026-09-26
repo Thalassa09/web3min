@@ -102,7 +102,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
             className={cn(
               pillBase,
               "hidden lg:flex gap-1.5 px-3 text-choco-900 hover:bg-candy-100 cursor-pointer active:translate-y-0.5",
-              isNavOpen && "bg-candy-100 border-candy-500 text-candy-600"
+              isNavOpen && "bg-candy-100 border-candy-500 text-candy-700"
             )}
           >
             <Menu className="size-4 text-candy-500" />
@@ -125,7 +125,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
               />
             </span>
             <span className="font-pixel text-base sm:text-lg font-bold text-choco-900 max-[379px]:hidden">
-              web3<span className="text-candy-500">min</span>
+              web3<span className="text-candy-700">min</span>
             </span>
           </Link>
         </div>
@@ -222,11 +222,11 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
             pillBase,
             "px-2 sm:px-2.5 gap-1.5 transition-colors cursor-pointer",
             pixelMode
-              ? "bg-candy-100 border-candy-500 text-candy-600 shadow-[0_2px_0_#E8437F]"
+              ? "bg-candy-100 border-candy-500 text-candy-700 shadow-[0_2px_0_#E8437F]"
               : "opacity-85 hover:opacity-100 text-choco-900"
           )}
         >
-          <span className="text-xs select-none flex items-center">{pixelMode ? <Gamepad2 className="size-3.5 text-candy-600" /> : <Sparkles className="size-3.5 text-candy-500" />}</span>
+          <span className="text-xs select-none flex items-center">{pixelMode ? <Gamepad2 className="size-3.5 text-candy-700" /> : <Sparkles className="size-3.5 text-candy-500" />}</span>
           <span className="hidden sm:inline font-mono text-[10px] font-bold tracking-tight">
             {pixelMode ? "PIXEL" : "MODERN"}
           </span>

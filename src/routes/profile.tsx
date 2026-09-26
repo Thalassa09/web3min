@@ -389,7 +389,7 @@ function ProfilePage() {
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-xs font-bold text-candy-600 hover:bg-candy-50 active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
+                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-xs font-bold text-candy-700 hover:bg-candy-50 active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
                     title="Ubah status belajarmu"
                   >
                     <Pencil className="size-3.5" />
@@ -500,7 +500,7 @@ function ProfilePage() {
           <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 shadow-[0_4px_0_#B01F62,0_10px_24px_-4px_rgba(232,67,127,0.22)] flex flex-col justify-between">
             <div className="flex items-center justify-between text-candy-800">
               <span className="font-pixel text-xs font-semibold uppercase tracking-wider">Modul</span>
-              <Compass className="size-4 text-candy-600" />
+              <Compass className="size-4 text-candy-700" />
             </div>
             <div className="mt-2">
               <div className="text-3xl font-bold font-pixel text-candy-950">{lessonsDone}</div>
@@ -518,7 +518,7 @@ function ProfilePage() {
                 Keahlian Web3 Terverifikasi
               </h2>
             </div>
-            <span className="text-xs font-pixel font-bold text-candy-600">
+            <span className="text-xs font-pixel font-bold text-candy-700">
               {WEB3_SKILLS.filter(s => {
                 const u = unitStats.find(us => us.unit.id === s.unitId);
                 return u?.isCompleted;
@@ -612,7 +612,7 @@ function ProfilePage() {
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-bold">
               <span className="text-choco-600 font-medium">Progres Belajar</span>
-              <span className="font-pixel text-candy-600">{pct}% SELESAI</span>
+              <span className="font-pixel text-candy-700">{pct}% SELESAI</span>
             </div>
             <ProgressBar value={pct} size="sm" />
           </div>
@@ -656,10 +656,10 @@ function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setBadgesOpen(true)}
-                className="text-xs font-pixel font-bold text-candy-600 hover:text-candy-500 self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1"
+                className="text-xs font-pixel font-bold text-candy-700 hover:text-candy-500 self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1"
               >
                 <span>Lihat 20 Lencana</span>
-                <ArrowRight className="size-3.5 text-candy-600" />
+                <ArrowRight className="size-3.5 text-candy-700" />
               </button>
             </div>
           )}
@@ -725,7 +725,7 @@ function ProfilePage() {
                           <span
                             className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                               isStarted
-                                ? "bg-white text-candy-600 border border-choco-900"
+                                ? "bg-white text-candy-700 border border-choco-900"
                                 : "bg-cream text-choco-600 border border-choco-900/30"
                             }`}
                           >
@@ -765,7 +765,7 @@ function ProfilePage() {
             </div>
             <Link
               to="/leaderboard"
-              className="text-xs font-bold text-candy-600 hover:text-candy-700 shrink-0"
+              className="text-xs font-bold text-candy-700 hover:text-candy-700 shrink-0"
             >
               Lihat Klasemen →
             </Link>
@@ -778,7 +778,7 @@ function ProfilePage() {
             </div>
             <Link
               to="/leaderboard"
-              className="font-bold text-candy-600 hover:underline shrink-0"
+              className="font-bold text-candy-700 hover:underline shrink-0"
             >
               Buka Arena →
             </Link>
@@ -814,7 +814,7 @@ function ProfilePage() {
                   setIsEditingEmail(true);
                 }}
                 className="self-start sm:self-auto shrink-0 text-xs font-extrabold"
-                icon={<Pencil className="size-3.5 text-candy-600" />}
+                icon={<Pencil className="size-3.5 text-candy-700" />}
               >
                 Ubah Email
               </TactileButton>

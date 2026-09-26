@@ -169,7 +169,7 @@ function ShopPage() {
               onClick={() => handleModeChange("shop")}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "shop"
-                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600/50 shadow-[0_3px_0_#6E1239]"
+                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
                   : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
               }`}
             >
@@ -182,7 +182,7 @@ function ShopPage() {
               onClick={() => handleModeChange("wardrobe")}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "wardrobe"
-                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600/50 shadow-[0_3px_0_#6E1239]"
+                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
                   : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
               }`}
             >
@@ -192,7 +192,7 @@ function ShopPage() {
                 <span
                   className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                     mode === "wardrobe"
-                      ? "bg-gradient-to-b from-[#FFE873] to-[#FFD84D] text-choco-900 border border-amber-600/40 shadow-[0_1px_0_#C8940C]"
+                      ? "bg-gradient-to-b from-[#FFE873] to-[#FFD84D] text-choco-900 border-2 border-amber-600 shadow-[0_2px_0_#C8940C]"
                       : "bg-candy-800 text-white"
                   }`}
                 >
@@ -410,7 +410,7 @@ function ShopPage() {
         {mode === "wardrobe" && (
           <div className="space-y-6">
             {/* Header Ruang Ganti */}
-            <div className="hidden sm:block p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_4.5px_0_#3B2218,0_10px_24px_-4px_rgba(59,34,24,0.12)] space-y-2">
+            <div className="hidden sm:block p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h1 className="font-pixel font-bold text-2xl sm:text-3xl text-choco-900 tracking-tight flex items-center gap-2">
@@ -474,8 +474,8 @@ function ShopPage() {
                           onClick={() => setBlobiMood(mood)}
                           className={`flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold select-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
                             blobiMood === mood
-                              ? "bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_2.5px_0_#B01F62] border-2 border-candy-600/50"
-                              : "bg-white text-choco-700 hover:bg-candy-50 border-2 border-choco-900/18 shadow-[0_2px_0_#3B2218]"
+                              ? "bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_3px_0_#B01F62] border-2 border-candy-600"
+                              : "bg-white text-choco-700 hover:bg-candy-50 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                           }`}
                         >
                           <Icon className="size-4 shrink-0" />
@@ -491,7 +491,7 @@ function ShopPage() {
                       <span className="flex items-center gap-1.5">
                         <span>Aksesori Aktif:</span>
                         {previewWorn && (
-                          <span className="px-1.5 py-0.5 rounded-full bg-lemon border border-amber-600/40 text-[9px] font-bold text-choco-900 shadow-[0_1px_0_#C8940C]">
+                          <span className="px-1.5 py-0.5 rounded-full bg-lemon border-2 border-amber-600 text-[9px] font-bold text-choco-900 shadow-[0_1px_0_#C8940C]">
                             Mode Coba
                           </span>
                         )}
@@ -523,9 +523,9 @@ function ShopPage() {
                             key={slot}
                             className={`p-2 rounded-xl border-2 transition-all ${
                               isPreview
-                                ? "bg-amber-50 border-amber-400/50 shadow-[0_1.5px_0_#D97706]"
+                                ? "bg-amber-50 border-amber-600 shadow-[0_2px_0_#D97706]"
                                 : acc
-                                ? "bg-candy-50 border-candy-400/40 shadow-[0_1.5px_0_#B01F62]"
+                                ? "bg-candy-50 border-candy-600 shadow-[0_2px_0_#B01F62]"
                                 : "bg-stone-50 border-stone-200"
                             }`}
                           >
@@ -662,7 +662,7 @@ function ShopPage() {
                                   Dicoba
                                 </span>
                               ) : !owned ? (
-                                <span className="text-[10px] font-pixel font-bold text-choco-600 bg-candy-100/70 px-2 py-0.5 rounded-full border border-choco-900/30">
+                                <span className="text-[10px] font-pixel font-bold text-choco-600 bg-candy-100 px-2.5 py-0.5 rounded-full border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
                                   Belum Punya
                                 </span>
                               ) : isLimitedItem(acc.id) ? (
@@ -673,7 +673,7 @@ function ShopPage() {
                             </div>
 
                             {/* Pixel Art Accessory Preview */}
-                            <div className="h-14 flex items-center justify-center p-1.5 rounded-[12px] bg-white border-2 border-choco-900/30">
+                            <div className="h-14 flex items-center justify-center p-1.5 rounded-xl bg-white border-2 border-choco-900">
                               <img
                                 src={acc.src}
                                 alt={acc.name}

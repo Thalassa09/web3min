@@ -378,7 +378,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                         className={`w-full max-w-[42px] h-28 sm:h-32 flex flex-col-reverse justify-start gap-1 p-1 rounded-2xl border-2 transition-all ${
                           isSelected
                             ? "bg-candy-100/80 border-candy-500 shadow-[0_2px_0_#E8437F]"
-                            : "bg-cream/60 border-choco-900/15 hover:bg-cream hover:border-choco-900/30"
+                            : "bg-cream/60 border-choco-900/15 hover:bg-cream hover:border-choco-900"
                         }`}
                       >
                         {brickCount === 0 ? (
@@ -441,7 +441,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                         className={`w-full max-w-[56px] h-28 sm:h-32 flex flex-col-reverse justify-start gap-1 p-1 rounded-2xl border-2 transition-all ${
                           isSelected
                             ? "bg-candy-100/80 border-candy-500 shadow-[0_2px_0_#E8437F]"
-                            : "bg-cream/60 border-choco-900/15 hover:bg-cream hover:border-choco-900/30"
+                            : "bg-cream/60 border-choco-900/15 hover:bg-cream hover:border-choco-900"
                         }`}
                       >
                         {brickCount === 0 ? (
@@ -748,7 +748,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                       </span>
                     </div>
 
-                    <div className="w-full bg-cream rounded-full h-2 border border-choco-900/30 overflow-hidden">
+                    <div className="w-full bg-cream rounded-full h-2 border-2 border-choco-900 overflow-hidden">
                       <div
                         className={`h-full rounded-full ${
                           isAllDone ? "bg-emerald-500" : "bg-candy-500"

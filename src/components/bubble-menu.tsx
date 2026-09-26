@@ -354,7 +354,7 @@ export function BubbleMenu({
       >
         {/* Header Title in Overlay */}
         <div className="mb-6 flex flex-col items-center text-center px-4">
-          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-white/35 bg-black/35 px-4 py-1 text-xs font-black uppercase tracking-wider text-white shadow-sm backdrop-blur-md">
+          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-choco-900/85 px-4 py-1 text-xs font-black uppercase tracking-wider text-white shadow-[0_2px_0_#000] backdrop-blur-md">
             <Sparkles className="size-3.5 text-coin" />
             Menu Navigasi Penjelajah
           </span>
@@ -386,7 +386,7 @@ export function BubbleMenu({
               ].join(" ")}
             >
               {/* Icon Wrap */}
-              <div className="flex size-12 sm:size-13 shrink-0 items-center justify-center rounded-xl border-2 border-ink-900 bg-soft shadow-xs group-hover:scale-105 transition-transform duration-150">
+              <div className="flex size-12 sm:size-13 shrink-0 items-center justify-center rounded-xl border-2 border-choco-900 bg-soft shadow-[0_2px_0_#3B2218] group-hover:scale-105 transition-transform duration-150">
                 {item.icon}
               </div>
 
@@ -397,7 +397,7 @@ export function BubbleMenu({
                     {item.label}
                   </span>
                   {item.badge && (
-                    <span className="rounded-full border border-ink-900 bg-coin px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-ink-900 shadow-xs">
+                    <span className="rounded-full border-2 border-choco-900 bg-coin px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
                       {item.badge}
                     </span>
                   )}
@@ -416,7 +416,7 @@ export function BubbleMenu({
         <button
           type="button"
           onClick={handleToggle}
-          className="mt-8 flex items-center gap-2 rounded-full border-2 border-white/30 bg-black/35 px-5 py-2 text-xs font-black text-white shadow-sm backdrop-blur-md transition-all hover:bg-black/55 active:translate-y-0.5 cursor-pointer"
+          className="mt-8 flex items-center gap-2 rounded-full border-2 border-choco-900 bg-choco-900/85 px-5 py-2 text-xs font-black text-white shadow-[0_2px_0_#000] backdrop-blur-md transition-all hover:bg-black/55 active:translate-y-0.5 cursor-pointer"
         >
           <X className="size-3.5" /> Tutup Menu (Esc)
         </button>

@@ -19,15 +19,15 @@ export const streakBadgeVariants = cva(
     variants: {
       variant: {
         colored:
-          "border-2 border-[#F97316]/50 bg-gradient-to-b from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA] text-choco-900 shadow-[0_4px_0_#EA580C,0_10px_24px_-4px_rgba(234,88,12,0.25)] hover:brightness-105",
+          "border-2 border-[#EA580C] bg-gradient-to-b from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA] text-choco-900 shadow-[0_4px_0_#EA580C] hover:brightness-105",
         flame:
-          "border-2 border-[#EA580C] bg-gradient-to-b from-[#FFEDD5] to-[#FDBA74] text-[#7C2D12] shadow-[0_5px_0_#C2410C,0_12px_28px_-4px_rgba(194,65,12,0.3)]",
+          "border-2 border-[#EA580C] bg-gradient-to-b from-[#FFEDD5] to-[#FDBA74] text-[#7C2D12] shadow-[0_5px_0_#C2410C]",
         glow:
           "border-2 border-[#FF8A3D] bg-[#23140C] text-[#FFF6EE] shadow-[0_0_24px_rgba(255,138,61,0.4),0_4px_0_#3B2218]",
         candy:
-          "border-2 border-choco-900 bg-white text-choco-900 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)]",
+          "border-2 border-choco-900 bg-white text-choco-900 shadow-[0_4px_0_#3B2218]",
         default:
-          "border border-border/60 bg-card text-card-foreground shadow-sm",
+          "border-2 border-choco-900 bg-white text-choco-900 shadow-[0_4px_0_#3B2218]",
       },
       size: {
         sm: "w-28 gap-1.5 p-3",

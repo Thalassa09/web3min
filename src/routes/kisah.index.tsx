@@ -110,7 +110,7 @@ function KisahHub() {
                   className={cn(
                     "px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border-2 font-pixel font-bold text-xs sm:text-sm transition-all cursor-pointer whitespace-nowrap",
                     active
-                      ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                      ? "border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
                       : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                   )}
                 >
@@ -166,7 +166,7 @@ function KisahHub() {
                 alt={featured.title}
                 className="w-full h-full object-cover object-center filter brightness-[0.98] transition-transform hover:scale-105 duration-300"
               />
-              <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-choco-900/90 text-white font-pixel text-[10px] font-bold shadow-md">
+              <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#000]">
                 BUKTI UTAMA
               </div>
             </div>

@@ -243,7 +243,7 @@ function ProfilePage() {
                 aria-pressed={active}
                 className={`px-3.5 py-1.5 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                   active
-                    ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                    ? "border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
                     : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                 }`}
               >
@@ -317,10 +317,10 @@ function ProfilePage() {
         {profileTab === "lisensi" && (
           <>
         {/* Profile Explorer License Card with Tactile Beveled Arcade Header */}
-        <div className="rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.14)] overflow-hidden max-w-3xl">
+        <div className="rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_6px_0_#3B2218] overflow-hidden max-w-3xl">
           {/* Blobi Pink Striped Banner */}
           <div
-            className="bg-gradient-to-r from-candy-500 via-candy-400 to-candy-500 border-b-2 border-candy-600/50 p-4 sm:p-5 flex items-center justify-between text-white"
+            className="bg-gradient-to-r from-candy-500 via-candy-400 to-candy-500 border-b-2 border-candy-600 p-4 sm:p-5 flex items-center justify-between text-white"
             style={{ backgroundImage: "repeating-linear-gradient(45deg, #ffffff18 0 10px, transparent 10px 20px)" }}
           >
             <span className="font-sans text-xs font-bold uppercase tracking-wider text-white">
@@ -336,7 +336,7 @@ function ProfilePage() {
             <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 mb-4">
               <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                 {/* Blobi Avatar */}
-                <div className="size-20 sm:size-24 rounded-2xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/50 shadow-[0_3px_0_#B01F62] flex items-center justify-center shrink-0">
+                <div className="size-20 sm:size-24 rounded-2xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-600 shadow-[0_3px_0_#B01F62] flex items-center justify-center shrink-0">
                   <Mascot mood="proud" size={68} />
                 </div>
 
@@ -456,7 +456,7 @@ function ProfilePage() {
 
         {/* 4 Chunky Stat Cards in Tactile Beveled Style */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl">
-          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] border-2 border-emerald-500/40 shadow-[0_4px_0_#15803D,0_10px_24px_-4px_rgba(21,128,61,0.22)] flex flex-col justify-between">
+          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] border-2 border-emerald-700 shadow-[0_4px_0_#15803D] flex flex-col justify-between">
             <div className="flex items-center justify-between text-emerald-800">
               <span className="font-sans text-xs font-semibold uppercase tracking-wider">Total XP</span>
               <Trophy className="size-4 text-emerald-700" />
@@ -477,7 +477,7 @@ function ProfilePage() {
             />
           </div>
 
-          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-amber-500/40 shadow-[0_4px_0_#D97706,0_10px_24px_-4px_rgba(217,119,6,0.22)] flex flex-col justify-between">
+          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-amber-600 shadow-[0_4px_0_#D97706] flex flex-col justify-between">
             <div className="flex items-center justify-between text-amber-800">
               <span className="font-sans text-xs font-semibold uppercase tracking-wider">Koin</span>
               <Sparkles className="size-4 text-amber-600" />
@@ -488,7 +488,7 @@ function ProfilePage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 shadow-[0_4px_0_#B01F62,0_10px_24px_-4px_rgba(232,67,127,0.22)] flex flex-col justify-between">
+          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-600 shadow-[0_4px_0_#B01F62] flex flex-col justify-between">
             <div className="flex items-center justify-between text-candy-800">
               <span className="font-pixel text-xs font-semibold uppercase tracking-wider">Modul</span>
               <Compass className="size-4 text-candy-700" />
@@ -717,7 +717,7 @@ function ProfilePage() {
                             className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                               isStarted
                                 ? "bg-white text-candy-700 border border-choco-900"
-                                : "bg-cream text-choco-600 border border-choco-900/30"
+                                : "bg-cream text-choco-600 border-2 border-choco-900"
                             }`}
                           >
                             {doneCount}/{totalCount}
@@ -762,7 +762,7 @@ function ProfilePage() {
             </Link>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-gradient-to-b from-white to-[#FFF9F5] border-2 border-choco-900/18 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-choco-600">
+          <div className="p-3.5 rounded-2xl bg-gradient-to-b from-white to-[#FFF9F5] border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-choco-600">
             <div>
               <div className="font-bold text-choco-900">Peringkat #7 di Liga Emas</div>
               <div className="text-[11px] text-choco-500 mt-0.5">Top 10 berbagi pool reward 500 Bintang mingguan.</div>

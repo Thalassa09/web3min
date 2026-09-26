@@ -196,9 +196,9 @@ export function SideNav() {
             if (sound) playTap();
             close();
           }}
-          className="group mt-auto flex items-center gap-3 rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-3.5 shadow-[0_4.5px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.14)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#3B2218,0_14px_24px_-4px_rgba(59,34,24,0.18)] active:translate-y-[2px] active:shadow-[0_1.5px_0_#3B2218]"
+          className="group mt-auto flex items-center gap-3 rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-3.5 shadow-[0_4px_0_#3B2218] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#3B2218] active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218]"
         >
-          <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-2xl border-2 border-candy-500/40 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] shadow-[0_2.5px_0_#B01F62]">
+          <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] shadow-[0_3px_0_#B01F62]">
             <Mascot mood="proud" size={36} lite fill={false} interactive={false} />
           </div>
           <div className="min-w-0 flex-1">
@@ -247,7 +247,7 @@ function NavRow({
       {active ? (
         <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] pl-2 pr-4 text-white shadow-[0_4px_0_#B01E5D] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01E5D]">
           <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20 p-0.5">
-            <span className="grid size-8 place-items-center rounded-full bg-white text-[#FF3D88] shadow-xs">
+            <span className="grid size-8 place-items-center rounded-full bg-white text-[#FF3D88] shadow-[0_2px_0_#3B2218]">
               {icon}
             </span>
           </span>

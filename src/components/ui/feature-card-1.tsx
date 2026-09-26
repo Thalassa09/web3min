@@ -200,7 +200,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
         </motion.div>
 
         {/* Bottom Frosted Tactile Content Box */}
-        <div className="relative z-20 flex flex-col gap-2 rounded-2xl border-2 border-choco-900/18 bg-white/92 p-3.5 sm:p-4 backdrop-blur-md shadow-[0_3px_0_rgba(59,34,24,0.08)]">
+        <div className="relative z-20 flex flex-col gap-2 rounded-2xl border-2 border-choco-900 bg-white p-3.5 sm:p-4 shadow-[0_3px_0_#3B2218]">
           {/* Tag Pill */}
           <div className="flex items-center justify-between gap-2">
             <span

@@ -471,7 +471,7 @@ export function RafflePage() {
             <span>Klasemen Mingguan</span>
           </Link>
           <div
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-xs md:text-sm font-pixel font-bold text-white shadow-[0_3px_0_#6E1239] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-xs md:text-sm font-pixel font-bold text-white shadow-[0_3px_0_#6E1239] transition-transform"
           >
             <Ticket className="h-4 w-4 shrink-0 text-white stroke-[2.5]" />
             <span>Undian Hadiah</span>
@@ -956,7 +956,7 @@ export function RafflePage() {
 
                     {/* Public Winners List (Only visible when ended) */}
                     {isEnded && publicResult?.winners && publicResult.winners.length > 0 && (
-                      <div className="rounded-2xl border-2 border-emerald-600/40 bg-emerald-50/70 p-3 space-y-2 mt-2">
+                      <div className="rounded-2xl border-2 border-emerald-700 bg-emerald-50 p-3 space-y-2 mt-2">
                         <div className="text-[11px] font-bold font-pixel text-emerald-900 flex items-center justify-between">
                           <span>Daftar Pemenang:</span>
                           <span className="text-[10px] font-mono font-normal">
@@ -1500,7 +1500,7 @@ export function RafflePage() {
             </div>
 
             {previewFairness.status === "ended" && previewFairness.drawSeed && (
-              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-500/30 font-mono text-[11px] break-all">
+              <div className="p-3 rounded-xl bg-emerald-50 border-2 border-emerald-700 font-mono text-[11px] break-all">
                 <div className="text-[9px] font-bold uppercase text-emerald-700 mb-1">
                   Revealed Draw Seed (Setelah Selesai):
                 </div>

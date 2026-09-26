@@ -196,7 +196,7 @@ function SettingsPage() {
         </div>
 
         {/* Privacy Note */}
-        <div className="mt-6 p-4 rounded-2xl bg-cream border-2 border-choco-900/30 text-xs font-semibold text-choco-600 leading-relaxed flex items-start gap-2.5">
+        <div className="mt-6 p-4 rounded-2xl bg-cream border-2 border-choco-900 text-xs font-semibold text-choco-600 leading-relaxed flex items-start gap-2.5">
           <Lock className="size-4 text-choco-600 shrink-0 mt-0.5" />
           <span>Data progres tersimpan di perangkat ini (local storage) & disinkronkan ke Supabase. Tidak ada koneksi dompet riil. Web3min tidak pernah meminta seed phrase atau private key dompetmu.</span>
         </div>

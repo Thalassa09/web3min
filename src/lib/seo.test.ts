@@ -1,6 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildMeta, DEFAULT_SITE_TITLE, DEFAULT_DESCRIPTION, BASE_URL } from "./seo.ts";
+import {
+  buildMeta,
+  DEFAULT_SITE_TITLE,
+  DEFAULT_DESCRIPTION,
+  DEFAULT_OG_IMAGE,
+  BASE_URL,
+} from "./seo.ts";
+
+test("default share card is og.jpg — the file brand-check and the OG card contract expect", () => {
+  // og-image.png was a second source of truth that disagreed with
+  // src/lib/og/site.json ("image": ".../og.jpg"). One card path now.
+  assert.equal(DEFAULT_OG_IMAGE, `${BASE_URL}/og.jpg`);
+});
 
 test("buildMeta generates all required meta and link tags with defaults", () => {
   const result = buildMeta();
@@ -22,13 +34,13 @@ test("buildMeta generates all required meta and link tags with defaults", () => 
   assert.equal(metaMap.get("property:og:title"), DEFAULT_SITE_TITLE);
   assert.equal(metaMap.get("property:og:description"), DEFAULT_DESCRIPTION);
   assert.equal(metaMap.get("property:og:url"), BASE_URL);
-  assert.equal(metaMap.get("property:og:image"), `${BASE_URL}/og-image.png`);
+  assert.equal(metaMap.get("property:og:image"), DEFAULT_OG_IMAGE);
   assert.equal(metaMap.get("property:og:image:width"), "1200");
   assert.equal(metaMap.get("property:og:image:height"), "630");
   assert.equal(metaMap.get("name:twitter:card"), "summary_large_image");
   assert.equal(metaMap.get("name:twitter:title"), DEFAULT_SITE_TITLE);
   assert.equal(metaMap.get("name:twitter:description"), DEFAULT_DESCRIPTION);
-  assert.equal(metaMap.get("name:twitter:image"), `${BASE_URL}/og-image.png`);
+  assert.equal(metaMap.get("name:twitter:image"), DEFAULT_OG_IMAGE);
 
   const canonical = result.links.find((l) => l.rel === "canonical");
   assert.ok(canonical, "canonical link must exist");

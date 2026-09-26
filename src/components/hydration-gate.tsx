@@ -18,6 +18,15 @@ function applyPixelMode(on: boolean) {
   document.documentElement.dataset.pixelMode = on ? "true" : "false";
 }
 
+/**
+ * Boots the persisted store WITHOUT hiding the page.
+ *
+ * The store uses `skipHydration`, so the first render (server + client) already
+ * agrees on defaults — no hydration mismatch. The old gate swapped the whole tree
+ * for <BootScreen /> until rehydration finished, which left crawlers with a
+ * 72-character body. Now real content ships in the initial HTML and the boot
+ * screen is just an overlay that lifts once storage is read.
+ */
 export function HydrationGate({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
@@ -77,7 +86,14 @@ export function HydrationGate({ children }: { children: ReactNode }) {
     };
   }, [ready]);
 
-  if (!ready) return <BootScreen />;
-
-  return children;
+  return (
+    <>
+      {children}
+      {!ready && (
+        <div className="fixed inset-0 z-[999]">
+          <BootScreen />
+        </div>
+      )}
+    </>
+  );
 }

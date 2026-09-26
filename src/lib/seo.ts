@@ -2,7 +2,7 @@ export const DEFAULT_SITE_TITLE = "web3min — Belajar Web3 dari nol, bahasa san
 export const DEFAULT_DESCRIPTION =
   "Belajar Web3 dari nol: 128 blok, 20 rute, bahasa santai. Dompet, DeFi, sampai cara ngenalin penipu.";
 export const BASE_URL = "https://web3min.com";
-export const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
+export const DEFAULT_OG_IMAGE = `${BASE_URL}/og.jpg`;
 
 export interface MetaOptions {
   title?: string;

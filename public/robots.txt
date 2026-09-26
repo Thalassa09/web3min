@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Area privat / perlu login — jangan diindeks
+Disallow: /admin
+Disallow: /settings
+Disallow: /profile
+Disallow: /masuk
+Disallow: /onboarding
+Disallow: /intro
+Disallow: /api/
+
+Sitemap: https://web3min.com/sitemap.xml

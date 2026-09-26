@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { FlipRaffleCard, FlipToggle } from "@/components/ui/flip-raffle-card";
 import {
   Trophy,
   Ticket,
@@ -117,7 +118,141 @@ function getSlotBadge(slotType?: string | null, category?: string) {
   };
 }
 
-export function RafflePage() {
+export /**
+ * Sisi belakang kartu undian — dipakai oleh `FlipRaffleCard`.
+ *
+ * Isinya sengaja berupa "detail teknis" yang dulu menumpuk vertikal di bawah
+ * gambar (Info Slot / harga mint / jadwal / syarat / perks / seed hash),
+ * sehingga sekarang sisi depan bisa fokus: gambar, judul, hadiah, statistik.
+ * Semua data dilewatkan lewat prop supaya komponen tetap murni.
+ */
+function RaffleCardBack({
+  raffle,
+  isItemSlot,
+  isMintSlot,
+  itemMeta,
+  onVerifyFairness,
+  onToggle,
+  flipped,
+}: {
+  raffle: UnifiedRaffle;
+  isItemSlot: boolean;
+  isMintSlot: boolean;
+  itemMeta: { total: number } | null;
+  onVerifyFairness: () => void;
+  onToggle: () => void;
+  flipped: boolean;
+}) {
+  return (
+    <div className="flex flex-col h-full">
+      {/* Kepala sisi belakang */}
+      <div className="flex items-center flex-nowrap gap-2 w-full shrink-0">
+        <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-choco-900 px-2.5 h-6 text-[10px] font-pixel font-bold text-white shrink-0">
+          RINCIAN
+        </span>
+        <div className="ml-auto shrink-0">
+          <FlipToggle flipped={flipped} onClick={onToggle} label="Balik ke tampilan depan" />
+        </div>
+      </div>
+
+      <h3 className="font-pixel font-bold text-base text-choco-900 leading-tight capitalize tracking-tight mt-3 shrink-0">
+        {raffle.title}
+      </h3>
+
+      {/* Daftar info — bisa digulir kalau perks panjang */}
+      <div className="mt-3 flex-1 min-h-0 overflow-y-auto no-scrollbar">
+        <div className="rounded-2xl border-2 border-choco-900 bg-white p-3 space-y-1.5 text-xs text-choco-800">
+          <div className="font-pixel text-[10px] font-bold uppercase tracking-wider text-choco-500 mb-1">
+            {isItemSlot ? "Info Item:" : "Info Slot:"}
+          </div>
+
+          {isMintSlot && (
+            <>
+              <div className="flex items-center gap-2">
+                <Check className="size-3 text-emerald-600 shrink-0" />
+                <span>Jenis slot: <strong>{raffle.slotType || "GTD"}</strong></span>
+              </div>
+              {raffle.mintPrice && (
+                <div className="flex items-center gap-2">
+                  <Check className="size-3 text-emerald-600 shrink-0" />
+                  <span>Harga mint: <strong>{raffle.mintPrice}</strong></span>
+                </div>
+              )}
+              {raffle.mintSchedule && (
+                <div className="flex items-center gap-2">
+                  <Check className="size-3 text-emerald-600 shrink-0" />
+                  <span>Jadwal mint: <strong>{raffle.mintSchedule}</strong></span>
+                </div>
+              )}
+              {raffle.officialMintDomain && (
+                <div className="flex items-center gap-2 font-mono text-[11px]">
+                  <Check className="size-3 text-emerald-600 shrink-0" />
+                  <span>Situs mint resmi: <strong>{raffle.officialMintDomain}</strong></span>
+                </div>
+              )}
+            </>
+          )}
+
+          {isItemSlot && itemMeta && (
+            <>
+              <div className="flex items-center gap-2">
+                <Check className="size-3 text-emerald-600 shrink-0" />
+                <span>Edisi terbatas: <strong>{itemMeta.total} buah</strong></span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="size-3 text-emerald-600 shrink-0" />
+                <span>Sisa edisi: <strong>{itemMeta.total - raffle.winnerCount} buah</strong></span>
+              </div>
+            </>
+          )}
+
+          {raffle.requirementXHandle && (
+            <div className="flex items-center gap-2">
+              <Check className="size-3 text-emerald-600 shrink-0" />
+              <span>Syarat: follow <strong>{raffle.requirementXHandle}</strong> di X</span>
+            </div>
+          )}
+
+          {raffle.announcementDate && (
+            <div className="flex items-center gap-2">
+              <Check className="size-3 text-emerald-600 shrink-0" />
+              <span>Pengumuman: <strong>{raffle.announcementDate}</strong></span>
+            </div>
+          )}
+
+          {raffle.perks.map((p, idx) => (
+            <div key={idx} className="flex items-center gap-2">
+              <Check className="size-3 text-emerald-600 shrink-0" />
+              <span>{p}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Pill provably-fair */}
+        {raffle.seedHash && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onVerifyFairness();
+            }}
+            className="mt-2 w-full rounded-xl border-2 border-choco-900/15 bg-white px-3 py-2 flex items-center justify-between text-[11px] text-choco-700 font-mono hover:bg-cream transition-colors cursor-pointer"
+            title="Lihat cara verifikasi keaslian pengundian (Commit-Reveal)"
+          >
+            <span className="truncate max-w-[190px] font-medium">
+              Seed: {raffle.seedHash.slice(0, 14)}…
+            </span>
+            <span className="text-candy-700 font-pixel font-bold text-xs shrink-0">
+              Verifikasi ↗
+            </span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function RafflePage() {
   const {
     raffleTickets = 3,
     enteredRaffles = {},
@@ -142,6 +277,7 @@ export function RafflePage() {
   const [enteringRaffle, setEnteringRaffle] = React.useState<UnifiedRaffle | null>(null);
   const [isEditWalletMode, setIsEditWalletMode] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState<{ url: string; title: string } | null>(null);
+  const [flippedCard, setFlippedCard] = React.useState<string | null>(null);
   const [previewFairness, setPreviewFairness] = React.useState<UnifiedRaffle | null>(null);
 
   // Form states
@@ -739,12 +875,15 @@ export function RafflePage() {
               const isItemPixelated = Boolean(!raffle.imageUrl && itemMeta?.src);
 
               return (
-                <div
+                <FlipRaffleCard
                   key={raffle.id}
-                  data-raffle-card
-                  className="flex flex-col h-full justify-between overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-4 md:p-5 shadow-[0_6px_0_#3B2218] transition-transform hover:-translate-y-0.5"
-                >
-                  <div className="space-y-3">
+                  flipped={flippedCard === raffle.id}
+                  onToggle={() =>
+                    setFlippedCard(flippedCard === raffle.id ? null : raffle.id)
+                  }
+                  front={
+                  <>
+                  <div className="flex flex-col h-full justify-between">
                     {/* a. Baris badge: [badge rarity] [badge status] in 1 row, flex-nowrap, gap-2, status on the right (ml-auto) */}
                     <div className="flex items-center flex-nowrap gap-2 w-full">
                       <span
@@ -754,7 +893,17 @@ export function RafflePage() {
                         <span>{badge.label}</span>
                       </span>
 
-                      <div className="ml-auto shrink-0">
+                      <div className="ml-auto flex items-center gap-1.5 shrink-0">
+                        <FlipToggle
+                          flipped={flippedCard === raffle.id}
+                          onClick={() =>
+                            setFlippedCard(flippedCard === raffle.id ? null : raffle.id)
+                          }
+                          label={`Lihat detail ${raffle.title}`}
+                        />
+                      </div>
+
+                      <div className="shrink-0">
                         {isLive ? (
                           isExpired ? (
                             <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-100 text-amber-900 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
@@ -820,90 +969,6 @@ export function RafflePage() {
                         }}
                       />
                     </div>
-
-                    {/* e. Daftar Info Vertikal */}
-                    <div className="rounded-2xl border-2 border-choco-900/15 bg-white/85 p-3 space-y-1.5 text-xs text-choco-800">
-                      <div className="font-pixel text-[10px] font-bold uppercase tracking-wider text-choco-500 mb-1">
-                        {isItemSlot ? "Info Item:" : "Info Slot:"}
-                      </div>
-
-                      {isMintSlot && (
-                        <>
-                          <div className="flex items-center gap-2">
-                            <Check className="size-3 text-emerald-600 shrink-0" />
-                            <span>Jenis slot: <strong>{raffle.slotType || "GTD"}</strong></span>
-                          </div>
-                          {raffle.mintPrice && (
-                            <div className="flex items-center gap-2">
-                              <Check className="size-3 text-emerald-600 shrink-0" />
-                              <span>Harga mint: <strong>{raffle.mintPrice}</strong></span>
-                            </div>
-                          )}
-                          {raffle.mintSchedule && (
-                            <div className="flex items-center gap-2">
-                              <Check className="size-3 text-emerald-600 shrink-0" />
-                              <span>Jadwal mint: <strong>{raffle.mintSchedule}</strong></span>
-                            </div>
-                          )}
-                          {raffle.officialMintDomain && (
-                            <div className="flex items-center gap-2 font-mono text-[11px]">
-                              <Check className="size-3 text-emerald-600 shrink-0" />
-                              <span>Situs mint resmi: <strong>{raffle.officialMintDomain}</strong></span>
-                            </div>
-                          )}
-                        </>
-                      )}
-
-                      {isItemSlot && itemMeta && (
-                        <>
-                          <div className="flex items-center gap-2">
-                            <Check className="size-3 text-emerald-600 shrink-0" />
-                            <span>Edisi terbatas: <strong>{itemMeta.total} buah</strong></span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Check className="size-3 text-emerald-600 shrink-0" />
-                            <span>Sisa edisi: <strong>{itemMeta.total - raffle.winnerCount} buah</strong></span>
-                          </div>
-                        </>
-                      )}
-
-                      {raffle.requirementXHandle && (
-                        <div className="flex items-center gap-2">
-                          <Check className="size-3 text-emerald-600 shrink-0" />
-                          <span>Syarat: follow <strong>{raffle.requirementXHandle}</strong> di X</span>
-                        </div>
-                      )}
-
-                      {raffle.announcementDate && (
-                        <div className="flex items-center gap-2">
-                          <Check className="size-3 text-emerald-600 shrink-0" />
-                          <span>Pengumuman: <strong>{raffle.announcementDate}</strong></span>
-                        </div>
-                      )}
-
-                      {raffle.perks.map((p, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <Check className="size-3 text-emerald-600 shrink-0" />
-                          <span>{p}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Provably Fair Seed Hash Pill */}
-                    {raffle.seedHash && (
-                      <div
-                        onClick={() => setPreviewFairness(raffle)}
-                        className="rounded-xl border-2 border-choco-900/15 bg-white/85 px-3 py-2 flex items-center justify-between text-[11px] text-choco-700 font-mono cursor-pointer hover:bg-cream transition-colors"
-                        title="Klik untuk info keaslian pengundian (Commit-Reveal)"
-                      >
-                        <span className="truncate max-w-[200px] font-medium">
-                          Seed: {raffle.seedHash.slice(0, 14)}…
-                        </span>
-                        <span className="text-candy-700 font-pixel font-bold text-xs shrink-0 flex items-center gap-1">
-                          Verifikasi ↗
-                        </span>
-                      </div>
-                    )}
 
                     {/* f. Grid Statistik 2x2 Bento Box */}
                     <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-choco-900/10 rounded-2xl border-2 border-choco-900 bg-white shadow-[0_3px_0_#3B2218] overflow-hidden text-center">
@@ -1024,7 +1089,20 @@ export function RafflePage() {
                       </span>
                     </button>
                   </div>
-                </div>
+                  </>
+                  }
+                  back={
+                    <RaffleCardBack
+                      raffle={raffle}
+                      isItemSlot={isItemSlot}
+                      isMintSlot={isMintSlot}
+                      itemMeta={itemMeta}
+                      onVerifyFairness={() => setPreviewFairness(raffle)}
+                      flipped={flippedCard === raffle.id}
+                      onToggle={() => setFlippedCard(null)}
+                    />
+                  }
+                />
               );
             })}
           </div>

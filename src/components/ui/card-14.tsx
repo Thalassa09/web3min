@@ -47,7 +47,7 @@ export function PerspectiveFlipCard({
   front,
   back,
   h = "h-[500px]",
-  w = "w-[360px]",
+  w = "w-full max-w-[360px]",
 }: PerspectiveFlipCardProps) {
   return (
     <div className={cn("group/p-card [perspective:2000px]", h, w, className)}>
@@ -173,7 +173,7 @@ const PerspectiveBack = () => (
 
 export default function Card14Demo() {
   return (
-    <div className="flex items-center justify-center min-h-[600px] p-12 bg-cream">
+    <div className="flex items-center justify-center min-h-[600px] p-4 sm:p-12 bg-cream">
       <PerspectiveFlipCard
         front={<PerspectiveFront />}
         back={<PerspectiveBack />}

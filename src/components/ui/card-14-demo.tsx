@@ -101,7 +101,7 @@ function BackFace() {
 
 export default function Card14DemoUsage() {
   return (
-    <div className="flex items-center justify-center min-h-screen w-full bg-cream">
+    <div className="flex items-center justify-center min-h-screen w-full bg-cream p-4 sm:p-12">
       <PerspectiveFlipCard front={<FrontFace />} back={<BackFace />} />
     </div>
   );

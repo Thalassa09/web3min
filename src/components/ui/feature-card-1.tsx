@@ -148,7 +148,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
 
         {/* Top Header: Index & Badge */}
         <div className="relative z-10 flex items-center justify-between gap-2">
-          <span className="font-pixel text-xs sm:text-sm font-bold tracking-wider text-choco-900/80 bg-white/90 border-2 border-choco-900/18 px-2.5 py-1 rounded-xl shadow-[0_1.5px_0_#3B2218]">
+          <span className="font-pixel text-xs sm:text-sm font-bold tracking-wider text-choco-900 bg-white border-2 border-choco-900 px-2.5 py-1 rounded-full shadow-[0_2px_0_#3B2218]">
             {index}
           </span>
           {badge && <div className="flex items-center gap-1.5">{badge}</div>}

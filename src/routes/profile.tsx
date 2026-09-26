@@ -355,10 +355,10 @@ function ProfilePage() {
                     @{username || "penjelajah"}
                   </h1>
                   <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap mt-2">
-                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-xl bg-gradient-to-b from-white to-[#FBE9DC] text-choco-900 border-2 border-choco-900/20 shadow-[0_2px_0_#3B2218]">
+                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-b from-white to-[#FBE9DC] text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
                       Level {Math.floor(xp / 100) + 1}
                     </span>
-                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-xl bg-gradient-to-b from-[#FFF0F5] to-[#FDC8D8] text-choco-900 border-2 border-candy-500/40 shadow-[0_2px_0_#B01F62]">
+                    <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-b from-[#FFF0F5] to-[#FDC8D8] text-choco-900 border-2 border-candy-600 shadow-[0_2px_0_#B01F62]">
                       Murid Blobi
                     </span>
                   </div>

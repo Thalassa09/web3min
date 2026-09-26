@@ -212,12 +212,12 @@ function KisahHub() {
                       color={asset.color}
                       badge={
                         isDone ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-xs">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-[0_2px_0_#15803D]">
                             <Check className="size-3 stroke-[3]" />
                             <span>Selesai</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900 border-2 border-amber-600 font-pixel text-[10px] font-bold shadow-xs">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border-2 border-amber-600 font-pixel text-[10px] font-bold shadow-[0_2px_0_#B27B00]">
                             <span>+{s.xp} XP</span>
                           </span>
                         )
@@ -259,7 +259,7 @@ function KisahHub() {
                       color="rose"
                       isLocked
                       badge={
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-choco-100 text-choco-800 border-2 border-choco-400 font-pixel text-[10px] font-bold">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-choco-100 text-choco-800 border-2 border-choco-400 font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218]">
                           <Lock className="size-3 stroke-[2.5]" />
                           <span>Kunci</span>
                         </span>
@@ -319,12 +319,12 @@ function KisahHub() {
                       color={asset.color}
                       badge={
                         isDone ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-xs">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-[0_2px_0_#15803D]">
                             <Check className="size-3 stroke-[3]" />
                             <span>Terbukti</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-rose-100 text-rose-800 border-2 border-rose-600 font-pixel text-[10px] font-bold shadow-xs">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border-2 border-rose-600 font-pixel text-[10px] font-bold shadow-[0_2px_0_#BE123C]">
                             <span>Kasus Nyata</span>
                           </span>
                         )
@@ -366,7 +366,7 @@ function KisahHub() {
                       color="rose"
                       isLocked
                       badge={
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-choco-100 text-choco-800 border-2 border-choco-400 font-pixel text-[10px] font-bold">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-choco-100 text-choco-800 border-2 border-choco-400 font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218]">
                           <Lock className="size-3 stroke-[2.5]" />
                           <span>Kunci</span>
                         </span>

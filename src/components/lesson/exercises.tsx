@@ -92,7 +92,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
     <article className="max-w-prose mx-auto rounded-[24px] bg-white border-3 border-choco-900 shadow-[0_6px_0_#3B2218] p-5 sm:p-7 mb-8">
       {/* Header Badge & Mascot Note */}
       <div className="flex items-center justify-between gap-2 mb-3">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-ok-soft border-2 border-ok-ink/30 text-xs font-bold text-ok-ink">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-ok-soft border-2 border-ok-ink text-xs font-bold text-ok-ink shadow-[0_2px_0_#0E7A46]">
           <BookOpen className="size-3.5" />
           <span>KONSEP KUNCI</span>
         </span>

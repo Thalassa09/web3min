@@ -81,3 +81,44 @@ Semua sub-halaman yang berpasangan (seperti Klasemen & Undian, atau Toko & Ruang
 - **Tap Target:** Setiap tombol interaktif memiliki tinggi minimal 44px (`min-h-[44px]` atau `py-2.5 px-4`).
 - **Kontras Teks:** Seluruh label teks putih di atas tombol pink wajib menggunakan ramp `candy-800` (`#85174A` / `#B01F62`) dengan rasio kontras `>= 4.5:1` (lulus uji `contrast-budget.test.ts`).
 - **Mobile Safe Area:** Seluruh fixed container mematuhi `env(safe-area-inset-top)` dan `env(safe-area-inset-bottom)`.
+
+---
+
+## 6. Kontrak Chip / Badge Status (WAJIB SERAGAM)
+
+Acuan visual: dua chip di `/profile` — `Level 2` (keluarga netral) dan `Murid Blobi` (keluarga pink). **Semua chip status, label level, penanda kategori, dan badge kecil di seluruh aplikasi wajib mengikuti resep ini.** Divergensi terukur saat kontrak ini ditetapkan: 62 titik di 18 berkas (51 radius bukan pill, 12 border transparan, 17 tanpa hard slab).
+
+### 6.1 Resep tunggal
+```tsx
+<span className="
+  inline-flex items-center gap-1.5 select-none whitespace-nowrap
+  rounded-full                      /* A. bentuk stadium, radius = 1/2 tinggi */
+  border-2 border-<family>          /* B. border SOLID, saturasi penuh */
+  px-2.5 py-0.5 text-xs font-bold font-pixel
+  shadow-[0_2px_0_<slab>]           /* C. slab keras, blur NOL */
+">
+```
+
+### 6.2 Empat aturan keras
+| # | Aturan | Dilarang | Alasan |
+|---|---|---|---|
+| **A** | Bentuk **stadium penuh** → `rounded-full` | `rounded-[8px]`…`rounded-[18px]`, `rounded-lg/xl/2xl` pada chip | Sudut kotak memecah bahasa visual; acuan memakai pill murni |
+| **B** | Border **solid** sefamili dengan isi → `border-candy-600`, `border-choco-900`, `border-emerald-700` | `border-choco-900/18`, `border-candy-500/40`, `border-*/20` pada chip | Border transparan membuat chip tampak "belum selesai"/redup, bukan taktil |
+| **C** | Wajib punya **hard slab shadow**, blur nol → `shadow-[0_2px_0_<slab>]` | `shadow-none`, `shadow-sm`, shadow ber-blur | Ekstrusi 3D adalah inti gaya *Tactile Arcade* |
+| **D** | Teks **tebal** dan **gelap di atas isi terang** (atau putih hanya di atas ramp gelap teruji) | teks tipis, teks putih di atas pink terang | Keterbacaan + bobot chip sekelas token |
+
+### 6.3 Matriks keluarga warna chip
+| Keluarga | Isi | Border (solid) | Slab | Contoh pemakaian |
+|---|---|---|---|---|
+| **Netral / Level** | `from-white to-[#FBE9DC]` | `border-choco-900` | `#3B2218` | `Level 2`, chip hitungan blok |
+| **Rose / Identitas** | `from-[#FFF0F5] to-[#FDC8D8]` | `border-candy-600` | `#B01F62` | `Murid Blobi`, penanda undian |
+| **Gold / Prestasi** | `from-[#FFFBEB] to-[#FDE68A]` | `border-choco-900` | `#C8940C` | peringkat, hadiah liga |
+| **Mint / Lulus** | `from-[#F0FDF4] to-[#BBF7D0]` | `border-emerald-700` | `#15803D` | status selesai, aman on-chain |
+| **Amber / Peringatan** | `from-[#FFF8E1] to-[#FFE08A]` | `border-amber-600` | `#B27B00` | menunggu verifikasi |
+| **Rose gelap / Bahaya** | `bg-candy-800` | `border-choco-900` | `#3B2218` | teks putih, aksi destruktif |
+
+### 6.4 Kapan BUKAN chip
+Kontrak ini **tidak** berlaku untuk: input form, kartu konten, tombol aksi penuh, atau pill dock navigasi (yang punya spec sendiri di §4). Yang diikat adalah elemen kecil penanda status: tinggi ≤ ~28px, teks ≤ `text-xs`.
+
+### 6.5 Guard
+`src/lib/chip-contract.test.ts` wajib gagal kalau ada chip (`border-2` + teks kecil) memakai border transparan atau radius bukan-pill di `src/**/*.tsx`.

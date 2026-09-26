@@ -460,53 +460,39 @@ export function RafflePage() {
 
   return (
     <AppShell>
-      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-6xl mx-auto space-y-6">
-        {/* Sub-nav / Breadcrumb */}
-        <div className="flex items-center justify-between gap-2 border-b-2 border-choco-900/10 pb-3">
-          <div className="flex items-center gap-1.5 p-1 bg-cream/80 rounded-2xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
-            <Link
-              to="/leaderboard"
-              className="inline-flex items-center gap-2 py-2 px-3.5 rounded-xl text-xs font-bold text-choco-700 hover:text-choco-900 transition-all"
-            >
-              <Trophy className="h-4 w-4" />
-              <span>Klasemen Liga</span>
-            </Link>
-            <div className="inline-flex items-center gap-2 py-2 px-4 rounded-xl bg-candy-800 text-white font-pixel text-xs font-bold shadow-[0_1.5px_0_#3B2218]">
-              <Ticket className="h-4 w-4" />
-              <span>Undian Hadiah</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => {
-                playTap();
-                setShowGuideModal(true);
-              }}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border-2 border-choco-900 text-choco-900 font-pixel text-xs font-bold shadow-[0_2px_0_#3B2218] hover:bg-cream active:translate-y-0.5 cursor-pointer"
-            >
-              <HelpCircle className="h-3.5 w-3.5 text-candy-700" />
-              <span className="hidden sm:inline">Panduan</span>
-            </button>
+      <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-4xl mx-auto space-y-6">
+        {/* Arena Sub-Navigation Tabs */}
+        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)] max-w-md mx-auto">
+          <Link
+            to="/leaderboard"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
+          >
+            <Trophy className="h-4 w-4 shrink-0 text-choco-700" />
+            <span>Klasemen Mingguan</span>
+          </Link>
+          <div
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-xs md:text-sm font-pixel font-bold text-white shadow-[0_3px_0_#6E1239] transition-transform"
+          >
+            <Ticket className="h-4 w-4 shrink-0 text-white stroke-[2.5]" />
+            <span>Undian Hadiah</span>
           </div>
         </div>
 
         {/* Hero Card */}
-        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF5F8] via-[#FFE4ED] to-[#FFD5E5] p-5 sm:p-7 shadow-[0_6px_0_#3B2218]">
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-xl">
-              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-white/90 px-3 py-1 text-xs font-bold text-candy-700 shadow-[0_2px_0_#3B2218]">
-                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                <span>Undian Berhadiah • Siklus Aktif</span>
-              </span>
+              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
+                <Sparkles className="h-3.5 w-3.5 text-candy-600 fill-candy-400" />
+                Undian Berhadiah • Siklus Aktif
+              </div>
 
-              <h1 className="text-2xl sm:text-3xl font-display font-bold text-choco-900 leading-tight">
+              <h1 className="text-3xl md:text-4xl font-pixel font-bold tracking-tight text-choco-900">
                 Undian Hadiah Web3min
               </h1>
 
-              <p className="text-xs sm:text-sm font-medium text-choco-700 leading-relaxed">
-                Tukarkan Koin hasil belajar jadi Tiket Undian. Menangkan item Blobi edisi
-                terbatas atau slot mint NFT dari proyek mitra Web3min.
+              <p className="text-sm md:text-base font-bold text-choco-700 leading-relaxed">
+                Tukarkan Koin hasil belajar jadi <strong className="text-choco-900 underline decoration-candy-500 underline-offset-2">Tiket Undian</strong>. Menangkan item Blobi edisi terbatas atau slot mint NFT dari proyek mitra!
               </p>
             </div>
 
@@ -544,17 +530,59 @@ export function RafflePage() {
                 </div>
               </div>
 
-              <button
-                onClick={() => {
-                  playTap();
-                  setShowBuyModal(true);
-                }}
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-candy-800 px-5 py-3 font-pixel text-xs font-bold text-white shadow-[0_3px_0_#3B2218] hover:bg-candy-950 active:translate-y-1 active:shadow-none transition-all cursor-pointer"
-              >
-                <Plus className="h-4 w-4 stroke-[3]" />
-                <span>Beli Tiket</span>
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    playTap();
+                    setShowBuyModal(true);
+                  }}
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer"
+                >
+                  <Plus className="h-4 w-4 stroke-[3]" />
+                  <span>Beli Tiket</span>
+                </button>
+                <button
+                  onClick={() => {
+                    playTap();
+                    setShowGuideModal(true);
+                  }}
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-3 rounded-full bg-white border-2 border-choco-900 text-choco-900 font-pixel text-xs font-bold shadow-[0_3px_0_#3B2218] hover:bg-cream active:translate-y-0.5 cursor-pointer"
+                  title="Panduan Undian"
+                >
+                  <HelpCircle className="h-4 w-4 text-candy-700" />
+                  <span className="hidden sm:inline">Panduan</span>
+                </button>
+              </div>
             </div>
+          </div>
+        </div>
+
+        {/* Reciprocal Promo Banner: Bridge to Leaderboard */}
+        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4 text-center sm:text-left">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-choco-900 bg-white/90 text-choco-900 shadow-[0_3px_0_#3B2218]">
+                <Trophy className="h-8 w-8 text-amber-500 fill-amber-400" />
+              </div>
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_1px_0_#3B2218]">
+                  Klasemen Mingguan Aktif
+                </div>
+                <h2 className="text-xl md:text-2xl font-pixel font-bold text-choco-900">
+                  Kumpulkan Koin dari Klasemen Liga!
+                </h2>
+                <p className="text-xs md:text-sm font-semibold text-choco-700 max-w-lg leading-relaxed">
+                  Peringkat 1 s/d 1.000 berhak berbagi hadiah mingguan hingga 30.150+ Koin. Pacu belajarmu sekarang!
+                </p>
+              </div>
+            </div>
+
+            <Link
+              to="/leaderboard"
+              className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-white px-5 py-3 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_4px_0_#3B2218] hover:bg-cream active:translate-y-[2px] active:shadow-none transition-all"
+            >
+              <span>Buka Klasemen Liga →</span>
+            </Link>
           </div>
         </div>
 

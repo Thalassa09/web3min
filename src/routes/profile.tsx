@@ -785,23 +785,23 @@ function ProfilePage() {
           </div>
         </SurfaceCard>
 
-        {/* Email Pemulihan Akun (Reset Password) */}
+        {/* Verifikasi Email Akun (Pemulihan & Keamanan) */}
         <SurfaceCard variant="default" className="p-4 sm:p-5 space-y-3.5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <Mail className="size-4 text-candy-500 shrink-0" />
                 <h2 className="font-display font-bold text-sm sm:text-base text-choco-900">
-                  Email Pemulihan Kata Sandi
+                  Verifikasi Email Akun
                 </h2>
                 {recoveryEmail && !isEditingEmail && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint/20 text-mint-deep border border-mint">
-                    Tersambung
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-emerald-100 text-emerald-800 border-2 border-emerald-500 shadow-[0_1.5px_0_#10B981]">
+                    Terverifikasi ✓
                   </span>
                 )}
               </div>
               <p className="text-xs font-semibold text-choco-600 max-w-xl leading-relaxed">
-                Tambahkan email aktif untuk menerima kode verifikasi 6-digit jika kamu lupa password akun Web3min.
+                Hubungkan email aktifmu untuk memverifikasi kepemilikan akun dan menerima kode pemulihan jika kamu lupa kata sandi.
               </p>
             </div>
 
@@ -841,8 +841,8 @@ function ProfilePage() {
                 <span className="text-choco-500">Email:</span>
                 <span>{recoveryEmail}</span>
               </div>
-              <span className="text-[11px] font-bold text-choco-500 hidden sm:inline">
-                Siap menerima kode reset
+              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-300 hidden sm:inline">
+                Siap menerima kode reset & verifikasi
               </span>
             </div>
           ) : (
@@ -866,7 +866,7 @@ function ProfilePage() {
                     disabled={isSavingEmail || !emailDraft.trim() || !isValidRecoveryEmail(emailDraft).valid}
                     className="text-xs font-extrabold"
                   >
-                    {isSavingEmail ? "Menyimpan..." : "Simpan Email"}
+                    {isSavingEmail ? "Memverifikasi..." : "Verifikasi & Simpan Email →"}
                   </TactileButton>
                   {isEditingEmail && recoveryEmail && (
                     <TactileButton
@@ -893,11 +893,8 @@ function ProfilePage() {
                 </p>
               )}
 
-              <p className="text-[11px] font-semibold text-choco-500 leading-relaxed">
-                Domain yang diterima:{" "}
-                <span className="font-mono font-bold text-choco-700">
-                  {ALLOWED_EMAIL_DOMAINS.join(", ")}
-                </span>
+              <p className="text-[11px] font-semibold text-choco-600 leading-relaxed">
+                Gunakan email utama (Gmail, Yahoo, Outlook, iCloud, Proton) untuk verifikasi akun.
               </p>
             </form>
           )}

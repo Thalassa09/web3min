@@ -1,4 +1,4 @@
-# DESIGN.md — Web3min "Tactile Spatial Arcade" Design System
+# DESIGN.md — Web3min "Gamified UI / Soft Neo-Brutalism" Design System
 
 Dokumen spesifikasi desain tunggal (Single Source of Truth) untuk seluruh antarmuka Web3min.  
 Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk diterapkan secara seragam di seluruh halaman.
@@ -34,22 +34,26 @@ Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk dit
 | **Pill Dock Glass** | `from-white via-[#FFF9F5] to-[#FDEEE4]` | `border-2 border-choco-900/20 shadow-[0_4px_0_#3B2218]` | Sub-navigation switcher, search filter bar |
 
 ### 2.3 Tombol Taktil 3D (Buttons & CTAs)
-1. **Primary Candy CTA (Pink Gelap - WCAG AA Teruji):**
-   - Latar: `bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A]`
-   - Border: `border-2 border-choco-900`
-   - Shadow: `shadow-[0_4px_0_#3B2218]`
-   - Teks: `text-white font-pixel font-bold` (atau panah `iconAfter`)
-   - Active state: `active:translate-y-1 active:shadow-[0_1px_0_#3B2218]`
-2. **Gold Action Button:**
+
+> **⚠️ PENTING — ada DUA ramp pink yang berbeda, jangan tertukar.**
+> `styles.css` **tidak berlapis** (`unlayered`), sedangkan utility Tailwind hidup di `@layer utilities`. Menurut aturan cascade, **unlayered menang** — jadi setiap elemen yang memakai kelas `.btn-gummy` **mengabaikan** utility `from-[#D62A78] …` di barisnya dan memakai ramp `.btn-gummy`. Dibuktikan empiris di Chromium dengan CSS build produksi (Langkah 18).
+
+1. **Primary Candy CTA — dua jalur, hasil sama-sama lolos AA:**
+   - **(a) Lewat `.btn-gummy`** (dipakai `ui/button.tsx`; utility di baris itu **kalah**): latar `linear-gradient(180deg, #B01F62 0%, #85174A 60%, #6E1239 100%)` · border `2px solid rgba(176,31,98,0.6)` · radius `16px` · slab `0 4px 0 #6E1239` · label `15px/700` putih. Kontras terukur: **6,53 / 9,46 / 11,61:1**; hover `brightness(1.03)` → terburuk **6,25:1** ✅
+   - **(b) Utility ramp langsung** (9 call-site yang **tidak** memakai `.btn-gummy`: `side-nav`, `desk-rail`, `raffle` ×2, `shop` ×4, `leaderboard`): `from-[#D62A78] via-[#B01F62] to-[#85174A]` + `border-2 border-choco-900` + `shadow-[0_3px_0_#3B2218]`. Kontras: **4,71 / 6,53 / 9,46:1**; dengan `hover:brightness-105` stop-0 turun ke **4,32:1** — di bawah 4,5 untuk teks kecil. **Jangan pakai ramp ini untuk label putih di bawah ~18px**; kalau perlu hover, pakai `brightness-103` (≥5:1) atau mulai dari `#B01F62`.
+   - Active state: `active:translate-y-1 active:shadow-none` (`.btn-gummy` memakai `translateY(2px)` + slab `0 1px 0`).
+2. **Gold Action Button** (`variant="coin"` / `--lemon`):
    - Latar: `bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35]`
-   - Border: `border-2 border-choco-900`
-   - Shadow: `shadow-[0_3px_0_#C8940C]`
+   - Border: `border-2 border-amber-600/50` (`.btn-gummy--coin` memakai `rgba(194,140,24,0.6)`)
+   - Shadow: `shadow-[0_4px_0_#C8940C]`
    - Teks: `text-choco-900 font-pixel font-bold`
 3. **Secondary / White Button:**
-   - Latar: `bg-white hover:bg-cream`
-   - Border: `border-2 border-choco-900`
-   - Shadow: `shadow-[0_3px_0_#3B2218]`
-   - Teks: `text-choco-900 font-pixel font-bold`
+   - Latar: `bg-white hover:bg-cream` (`.btn-gummy--secondary` = `linear-gradient(180deg,#FFFFFF,#FFF8F2 60%,#FDEEE4)`)
+   - Border: `border-2 border-choco-900/20`
+   - Shadow: `shadow-[0_4px_0_#3B2218]`
+   - Teks: `text-candy-600` di `.btn-gummy--secondary` → **4,41:1** di atas krem (di bawah 4,5 untuk teks kecil; aman untuk `font-bold ≥15px` atau ganti `candy-700` = 6,11:1)
+4. **Disabled:** `bg-[#EDE4DC] text-choco-600 border-2 border-choco-900/25` — **6,28:1** (`.tactile-btn`) / `#E9DCD4` + `choco-600` = **5,87:1** (`.btn-gummy`). Keduanya lulus.
+   - Komponen kanonik: **`TactileButton`** (`src/components/ui/tactile-button.tsx`, 12 call-site — paling banyak dipakai), `DuoButton`, dan `ui/button.tsx`.
 
 ---
 

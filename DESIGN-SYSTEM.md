@@ -1,12 +1,15 @@
 # DESIGN-SYSTEM.md — Web3min Design Blueprint
 
 > **Blueprint tunggal (Single Source of Truth) untuk seluruh antarmuka Web3min.**
-> Dokumen ini menggabungkan dan menggantikan `PRD.md` + `DESIGN.md` — nol isi lama dibuang,
-> hanya disusun ulang ke dalam kerangka blueprint 10 bagian.
+> Dokumen ini **menggabungkan** `PRD.md` + `DESIGN.md` ke kerangka blueprint 8 bagian —
+> nol isi lama dibuang, hanya disusun ulang.
 >
-> **Status:** Living Spec · **Diperbarui:** September 2026
+> **Status:** Living Spec · **Diperbarui:** September 2026 (sinkronisasi Langkah 18)
 > **Acuan identitas visual:** `https://web3min.com/leaderboard`
 > **Nama gaya:** **Gamified UI / Soft Neo-Brutalism**
+>
+> 📌 **Pembagian peran (jangan bingung):** dokumen ini = **blueprint** (stack, token, kontrak, rencana). `DESIGN.md` = **spesifikasi visual ringkas** (filosofi, palet, tombol, tipografi, kontrak chip) dan tetap dipakai aktif sebagai rujukan cepat — §3-nya sudah disinkronkan ke Space Grotesk + Inter. `PRD.md` = arsip produk.
+> 📌 **Setiap angka di dokumen ini terukur dari kode**, bukan asumsi. Kalau kode berubah, ukur ulang lalu perbarui — jangan biarkan dua dokumen berbeda.
 
 ## Gaya: Gamified UI / Soft Neo-Brutalism
 
@@ -46,20 +49,23 @@ Perangkat yang **sudah** dipakai Web3min (terverifikasi dari `package.json`, buk
 | Chart | Recharts | `^2.13.0` | |
 | Server | Nitro (via TanStack Start) | devDep | Build output ke `.vercel/output` |
 
-**NPM dependencies yang perlu diinstal untuk komponen baru:** tidak ada yang wajib — Lucide, Framer Motion, dan Tailwind sudah terpasang. Tamagui **belum** dipakai (lihat *Development Plan*).
+**NPM dependencies yang perlu diinstal untuk komponen baru:** tidak ada yang wajib — Lucide, Framer Motion, dan Tailwind sudah terpasang.
+
+> ⚠️ **Tamagui BELUM terpasang.** Diverifikasi Langkah 18: `tamagui` tidak ada di `package.json` (55 dependencies), tidak ada di `node_modules`, dan nol impor di `src/`. `https://tamagui.dev/` masih berupa **rencana** (langkah 4–5 di *Development Plan*), bukan bagian dari stack saat ini. Jangan tulis seolah sudah dipakai.
 
 ---
 
 ## Typography
 
 ### Keluarga font (maksimal 2 — dijaga `src/lib/font-budget.test.ts`)
-1. **`font-display`** → *Bricolage Grotesque*: splash display text, hero brand, dan alias `font-pixel`.
-2. **`font-sans`** → *Plus Jakarta Sans*: seluruh paragraf, body, catatan, input form.
-3. **`font-pixel`** → **alias** ke `var(--font-display)`. Dipakai **392×** di seluruh komponen. Mode Retro Pixel sudah dihapus; jangan "membersihkan" alias ini — diff-nya besar tanpa manfaat.
+1. **`font-display`** → **Space Grotesk**: splash display text, hero brand, seluruh Judul Kartu (H1–H3), label badge, pill navigation, dan tombol game — diakses lewat alias `font-pixel`.
+2. **`font-sans`** → **Inter**: seluruh paragraf, body, catatan, input form.
+3. **`font-pixel`** → **alias** ke `var(--font-display)`. Dipakai **415× di 43 berkas**. Mode Retro Pixel sudah dihapus; jangan "membersihkan" alias ini — diff-nya besar tanpa manfaat.
 4. **`font-mono`** → system mono: angka saldo/skor, seed hash, kode.
 
-> ⚠️ **Jangan tambah keluarga ke-3.** Suite gagal kalau `Pixelify` atau keluarga baru muncul di `<link>` atau token `--font-*`.
-> Referensi gaya dari user memakai *Space Grotesk + Inter* — itu **contoh**, bukan perintah ganti. Menggantinya mengubah identitas brand dan menyentuh 37 berkas.
+> ✅ **SUDAH DITERAPKAN** (Langkah 15, commit `23ca910`) — ini bukan lagi usulan. *Space Grotesk + Inter* sudah menggantikan *Bricolage Grotesque + Plus Jakarta Sans*. Tetap **tepat 2 keluarga**, jadi aturan `AGENTS.md` "font maksimal 2" **tidak dilanggar**; yang berubah hanya IDENTITAS keluarga (dan itu mengubah karakter visual: Bricolage = kartun arcade, Space Grotesk = netral/teknis).
+> ⚠️ **Jangan tambah keluarga ke-3.** Guard mengunci **jumlah (≤2) + identitas nama**: `Bricolage Grotesque`, `Plus Jakarta Sans`, `Pixelify Sans`, `JetBrains Mono`, `Silkscreen`, `Press Start 2P`, dan `Nunito` ada di daftar mati — muncul kembali = suite gagal.
+> 📌 **`DESIGN.md` §3 sudah disinkronkan** ke keadaan ini (Langkah 18). Dua dokumen tidak boleh berbeda lagi: `DESIGN-SYSTEM.md` = blueprint, `DESIGN.md` = spesifikasi visual.
 
 ### Hierarki pemakaian
 - **Headings (H1–H3) & label badge:** `font-pixel font-bold text-choco-900 tracking-tight`
@@ -77,7 +83,7 @@ Perangkat yang **sudah** dipakai Web3min (terverifikasi dari `package.json`, buk
 | `text-xl`–`text-2xl` | 20–24 | judul kartu | 75 |
 | `text-3xl`–`text-6xl` | 30–60 | hero & display | 32 |
 
-> Referensi gaya menyarankan BODY **18px**; Web3min memakai **16px** dan punya 1.235 pemakaian ukuran di 70 berkas. Perubahan skala global menyentuh 116 berkas unik → dilakukan bertahap, bukan sekaligus.
+> Referensi gaya menyarankan BODY **18px**; Web3min memakai **16px** (dipatok `font-budget.test.ts`) dan punya **1.190 pemakaian ukuran di 70 berkas**. Perubahan skala global menyentuh puluhan berkas → dilakukan bertahap, bukan sekaligus.
 
 ---
 
@@ -168,7 +174,7 @@ Diukur di **browser** (bukan asumsi), latar dikomposit termasuk alpha & gradien,
 | `text-candy-500` | **3,55** | 4,5 | 12px | `/profile` |
 | `text-orange-600` | **3,36** | 4,5 | 12px | `/leaderboard` |
 
-**42 pemakaian teks perlu diganti — semua penggantinya SUDAH ADA di `@theme`, nol warna baru:**
+**42 pemakaian teks SUDAH DIGANTI (Langkah 16, commit `1af34b3`, 19 berkas) — semua penggantinya SUDAH ADA di `@theme`, nol warna baru:**
 
 | Kelas sekarang | → Ganti | Hex | Rasio baru |
 |---|---|---|---|
@@ -228,7 +234,9 @@ Semua sub-halaman berpasangan (Klasemen & Undian, Toko & Ruang Ganti) **wajib** 
 ```
 Tab aktif: `border-2 border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239] font-pixel font-bold`
 Tab tidak aktif: `border-2 border-transparent text-choco-600 hover:border-choco-900/20 hover:bg-candy-50`
-Wajib `aria-pressed` untuk aksesibilitas state. **7 switcher** sudah memakai pola ini: `/leaderboard`, `/raffle`, `/shop`, `/profile`, `/kisah`, `pulau-rantai-progres`, `/admin`.
+Wajib `aria-pressed` untuk aksesibilitas state. **7 dock terverifikasi di 6 berkas** (terukur Langkah 18): `/raffle`, `/shop` (×2: mode toko + scope lemari), `/profile`, `/kisah`, `pulau-rantai-progres`, `/leaderboard`.
+> **Koreksi:** `/admin` **TIDAK** memakai pill dock — tab-nya baris underline (`border-b-2 border-choco-900/20`) dengan pill `rounded-xl`, jadi jangan dihitung sebagai dock.
+> **Tab aktif `/leaderboard` memakai ramp GOLD** (`from-[#FFE873] via-[#FFD84D] to-[#E6BF35]`), bukan candy — dock pertama dan kedua tidak selalu sewarna.
 
 ### 3. Kontrak Chip / Badge Status (§6 — WAJIB SERAGAM)
 Acuan: dua chip di `/profile` — `Level 2` (netral) & `Murid Blobi` (pink).
@@ -271,8 +279,10 @@ Acuan: dua chip di `/profile` — `Level 2` (netral) & `Murid Blobi` (pink).
 - Tinggi dipatok (`h-[620px] sm:h-[600px]`) karena kedua sisi `position:absolute`.
 - Tap target toggle 44px via pseudo-element `before:-inset-y-[10px]` (visual tetap 24px).
 
-### 5. Daftar komponen `src/components/ui/` (34 ber-styling, 115 call-site impor)
-Paling banyak dipakai: `button` (16×), `progress-bar` (10×), `card` (8×), `progress` (7×), `surface-card` (5×), `feature-card-1` (4×), `tactile-button` (4×), `lozenge` (4×), `badge` (4×), `streak-badge` (4×).
+### 5. Daftar komponen `src/components/ui/`
+**37 berkas `.tsx`** (34 ber-styling + 3 demo: `demo.tsx`, `feature-card-demo.tsx`, `card-14-demo.tsx`). Dipakai lewat **42 baris impor** dari 21 berkas, menghasilkan **75 JSX call-site** (terukur Langkah 18).
+Paling banyak dipakai: `TactileButton` (12×), `ProgressBar` (11×), `SurfaceCard` (6×), `Badge` (5×), `StreakBadge` (5×), `AnimatedFeatureCard` (5×), `CandyLoader` (4×), `Card` (4×).
+> Catatan: `ui/button.tsx` (variant `primary`/`secondary`/`coin`/`danger`/`ghost`) hanya diimpor **2 berkas** (`desk-rail`, `pulau-rantai-map`). Tombol utama aplikasi sebenarnya **`TactileButton`** + **`DuoButton`** — jangan menganggap `ui/button.tsx` sebagai satu-satunya sumber tombol.
 
 ---
 
@@ -319,19 +329,19 @@ Pola tetap: **animasi hanya saat hover/tap**, ikon boleh animasi ringan, tidak a
 7. **shadcn resmi** (`components.json`) + `card-14` di-port ke kontrak Web3min.
 
 ### Rencana berikutnya (berurutan, tiap langkah bisa dites & dibatalkan sendiri)
-| # | Langkah | Berkas | Risiko | Catatan |
+| # | Langkah | Berkas | Risiko | Status |
 |---|---|---|---|---|
-| 1 | Ganti font → Space Grotesk + Inter, perbarui `font-budget.test.ts` | ~4 | **Rendah** | Mengubah identitas visual; 2 keluarga jadi tetap 2 (tidak melanggar aturan) |
-| 2 | Perluas skala tipografi di `@theme` jadi token bernama (`--text-*`) | 1 | Rendah | Token dulu, jangan hardcode 1.235 kali |
-| 3 | Migrasi skala ukuran per-rute, satu rute per commit | ~70 | **Tinggi** | 1.235 pemakaian di 70 berkas; verifikasi tiap rute |
-| 4 | Install Tamagui + `TamaguiProvider`, port 1 komponen sebagai bukti | 2 | Sedang | Belum diuji bareng TanStack SSR |
-| 5 | Migrasi 43 komponen ui ke Tamagui, dari daun ke akar | 43 | **Sangat tinggi** | `button` (16 importer) paling akhir |
+| 1 | Ganti font → Space Grotesk + Inter, perbarui `font-budget.test.ts` | ~4 | **Rendah** | ✅ **SELESAI** (Langkah 15, commit `23ca910`) — tepat 2 keluarga, tidak melanggar aturan |
+| 2 | Perluas skala tipografi di `@theme` jadi token bernama (`--text-*`) | 1 | Rendah | ⬜ Belum — token dulu, jangan hardcode ~1.190 kali |
+| 3 | Migrasi skala ukuran per-rute, satu rute per commit | 70 | **Tinggi** | ⬜ Belum — 1.190 pemakaian di 70 berkas (terukur ulang) |
+| 4 | Install Tamagui + `TamaguiProvider`, port 1 komponen sebagai bukti | 2 | Sedang | ⬜ **Belum dimulai** — `tamagui` **tidak ada** di `package.json`, `node_modules`, maupun `src/` (diverifikasi Langkah 18). Rencana saja, bukan fitur terpasang |
+| 5 | Migrasi 43 komponen ui ke Tamagui, dari daun ke akar | 43 | **Sangat tinggi** | ⬜ Belum — `button` (16 importer) paling akhir. Catatan: hanya **2 berkas** yang benar-benar mengimpor `ui/button.tsx` (`desk-rail`, `pulau-rantai-map`) |
 
-**Total dampak bila semua dijalankan: 116 berkas unik** dari ~120 berkas di `src/`.
+**Dampak terukur bila langkah 2–5 dijalankan: 84 berkas unik** dari 173 berkas `.tsx/.ts` di `src/` (irisan berkas pemakai utility ukuran + pemakai komponen ui).
 
 ### Acceptance criteria
 1. **GIVEN** user membuka rute apa pun di 360px maupun 1280px, **THEN** sub-nav tampil sebagai pill dock identik dengan `/leaderboard` dan nol overflow horizontal.
-2. **GIVEN** seluruh perubahan diterapkan, **WHEN** `npm test` dijalankan, **THEN** seluruh suite lulus (`exit 0`), termasuk guard `font-budget`, `chip-contract`, `feedback-colors`, `contrast-budget`, `theme-colors`, `seam-blend`.
+2. **GIVEN** seluruh perubahan diterapkan, **WHEN** `npm test` dijalankan, **THEN** seluruh suite lulus (`exit 0`). Guard desain yang benar-benar ada: `font-budget`, `chip-contract`, `feedback-colors`, `contrast-budget`, `seam-blend` (+ `seo`, `app-data`, `readiness-schedule`, `gate-identity`, `sign-in-gate`).
 3. **GIVEN** `npm run build`, **THEN** `tsc --noEmit` bersih dan build Vite + Nitro sukses.
 
 ---

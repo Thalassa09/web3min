@@ -123,7 +123,7 @@ export function Mascot({
       className={cn(
         "relative inline-flex items-end justify-center blobi-stage",
         lite && "blobi-lite",
-        interactive && !lite && "cursor-pointer select-none touch-manipulation active:scale-95 transition-transform duration-75",
+        interactive && !lite && "cursor-pointer select-none touch-manipulation active:scale-95 transition-transform duration-75 min-w-11 min-h-11",
         className,
       )}
       style={fill ? { width: "100%", height: "100%" } : { width: size, height: size }}

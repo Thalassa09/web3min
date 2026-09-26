@@ -225,8 +225,11 @@ function ProfilePage() {
           </button>
         )}
 
-        {/* Tab Switcher — Arena pill dock (DESIGN.md §4) */}
-        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] max-w-fit">
+        {/* Tab Switcher — Arena pill dock (DESIGN.md §4).
+            Three tabs + nowrap overflowed the 320px viewport by 78px; scroll the
+            strip instead of pushing the whole page wider. `no-scrollbar` keeps
+            the dock visually clean while still swipeable. */}
+        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] max-w-full overflow-x-auto no-scrollbar overscroll-x-contain">
           {(
             [
               { id: "lisensi", label: "Lisensi & Wardrobe" },
@@ -647,7 +650,7 @@ function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setBadgesOpen(true)}
-                className="text-xs font-pixel font-bold text-candy-700 hover:text-candy-500 self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1"
+                className="text-xs font-pixel font-bold text-candy-700 hover:text-candy-500 self-start sm:self-auto hover:underline cursor-pointer flex items-center gap-1 py-2 -my-2 min-h-11"
               >
                 <span>Lihat 20 Lencana</span>
                 <ArrowRight className="size-3.5 text-candy-700" />
@@ -756,7 +759,7 @@ function ProfilePage() {
             </div>
             <Link
               to="/leaderboard"
-              className="text-xs font-bold text-candy-700 hover:text-candy-700 shrink-0"
+              className="text-xs font-bold text-candy-700 hover:text-candy-700 shrink-0 inline-flex items-center py-2 -my-2 min-h-11"
             >
               Lihat Klasemen →
             </Link>
@@ -769,7 +772,7 @@ function ProfilePage() {
             </div>
             <Link
               to="/leaderboard"
-              className="font-bold text-candy-700 hover:underline shrink-0"
+              className="font-bold text-candy-700 hover:underline shrink-0 inline-flex items-center py-2 -my-2 min-h-11"
             >
               Buka Arena →
             </Link>

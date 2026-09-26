@@ -112,7 +112,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           <Link
             to="/"
             aria-label="Beranda"
-            className="flex shrink-0 items-center gap-2"
+            className="flex shrink-0 items-center gap-2 min-h-11 py-1"
           >
             <span className="grid size-8 sm:size-9 place-items-center rounded-full border-2 border-choco-900 bg-candy-100 shadow-[0_2px_0_#3B2218]">
               <img

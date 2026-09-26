@@ -22,7 +22,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
  * - Inset 3D shadow + bottom drop shadow 0 4px 0 #3B2218
  * - Glossy white reflection strip on top
  * - Active: sinks 4px downward, shadow flattens to 0
- * - Font: Pixelify Sans (font-pixel)
+ * - Font: Bricolage Grotesque (--active-heading-font, via font-pixel alias)
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (

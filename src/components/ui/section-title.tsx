@@ -9,7 +9,7 @@ export interface SectionTitleProps extends React.HTMLAttributes<HTMLHeadingEleme
 
 /**
  * SectionTitle Component
- * - Pixel font (Pixelify Sans)
+ * - Font: Bricolage Grotesque (via font-pixel alias)
  * - Uppercase tracking
  * - Prefix "▶️" in pink candy
  */

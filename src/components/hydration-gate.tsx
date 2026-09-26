@@ -12,12 +12,6 @@ function applyMotion(on: boolean) {
   document.documentElement.dataset.motion = isReduced ? "reduced" : "full";
 }
 
-function applyPixelMode(on: boolean) {
-  if (typeof document === "undefined") return;
-  document.documentElement.classList.toggle("pixel-mode", on);
-  document.documentElement.dataset.pixelMode = on ? "true" : "false";
-}
-
 /**
  * Boots the persisted store WITHOUT hiding the page.
  *
@@ -40,7 +34,6 @@ export function HydrationGate({ children }: { children: ReactNode }) {
         const s = useProgress.getState();
         s.tick();
         applyMotion(s.reduceMotion);
-        applyPixelMode(s.pixelMode);
       } catch {}
       setReady(true);
     };
@@ -78,7 +71,6 @@ export function HydrationGate({ children }: { children: ReactNode }) {
     const id = window.setInterval(() => useProgress.getState().tick(), 30000);
     const unsub = useProgress.subscribe((s, prev) => {
       if (s.reduceMotion !== prev.reduceMotion) applyMotion(s.reduceMotion);
-      if (s.pixelMode !== prev.pixelMode) applyPixelMode(s.pixelMode);
     });
     return () => {
       window.clearInterval(id);

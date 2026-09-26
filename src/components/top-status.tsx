@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, Sparkles, Volume2, VolumeX, Gamepad2 } from "lucide-react";
+import { Menu, Sparkles, Volume2, VolumeX } from "lucide-react";
 import { Fire, Heart } from "@/lib/kicon";
 import { BlockStamp, CoinIcon } from "@/components/motif";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
@@ -76,8 +76,6 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
   const hearts = useProgress((s) => s.hearts);
   const sound = useProgress((s) => s.sound);
   const setSound = useProgress((s) => s.setSound);
-  const pixelMode = useProgress((s) => s.pixelMode);
-  const setPixelMode = useProgress((s) => s.setPixelMode);
 
   const isNavOpen = useNavStore((s) => s.isOpen);
   const toggleNav = useNavStore((s) => s.toggle);
@@ -206,30 +204,6 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
           ) : (
             <VolumeX className="size-4 text-danger" />
           )}
-        </button>
-
-        {/* Pixel Craft Toggle Pill */}
-        <button
-          type="button"
-          aria-label={pixelMode ? "Beralih ke mode Modern Editorial" : "Beralih ke mode Retro Pixel"}
-          title={pixelMode ? "Mode Retro Pixel aktif (klik untuk Modern Editorial)" : "Mode Modern Editorial aktif (klik untuk Retro Pixel)"}
-          onClick={() => {
-            const next = !pixelMode;
-            setPixelMode(next);
-            if (sound) playTap();
-          }}
-          className={cn(
-            pillBase,
-            "px-2 sm:px-2.5 gap-1.5 transition-colors cursor-pointer",
-            pixelMode
-              ? "bg-candy-100 border-candy-500 text-candy-700 shadow-[0_2px_0_#E8437F]"
-              : "opacity-85 hover:opacity-100 text-choco-900"
-          )}
-        >
-          <span className="text-xs select-none flex items-center">{pixelMode ? <Gamepad2 className="size-3.5 text-candy-700" /> : <Sparkles className="size-3.5 text-candy-500" />}</span>
-          <span className="hidden sm:inline font-mono text-[10px] font-bold tracking-tight">
-            {pixelMode ? "PIXEL" : "MODERN"}
-          </span>
         </button>
       </div>
     </header>

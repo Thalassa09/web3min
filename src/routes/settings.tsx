@@ -6,7 +6,7 @@ import { DuoButton } from "@/components/duo-button";
 import { sanitizeTwitter } from "@/lib/people";
 import { saveTwitterToServer, rpcDeleteMyAccount } from "@/lib/server-sync";
 import { useProgress } from "@/lib/store";
-import { Database, RefreshCw, CheckCircle, ShieldCheck, Lock, Trash2, Volume2, VolumeX, Sparkles, Gamepad2, Check } from "lucide-react";
+import { Database, RefreshCw, CheckCircle, ShieldCheck, Lock, Trash2, Volume2, VolumeX, Check } from "lucide-react";
 
 export const Route = createFileRoute("/settings")({ component: SettingsPage });
 
@@ -15,8 +15,6 @@ function SettingsPage() {
   const setSound = useProgress((s) => s.setSound);
   const reduceMotion = useProgress((s) => s.reduceMotion);
   const setReduceMotion = useProgress((s) => s.setReduceMotion);
-  const pixelMode = useProgress((s) => s.pixelMode);
-  const setPixelMode = useProgress((s) => s.setPixelMode);
   const twitter = useProgress((s) => s.twitter);
   const setTwitter = useProgress((s) => s.setTwitter);
   const reset = useProgress((s) => s.reset);
@@ -162,31 +160,6 @@ function SettingsPage() {
             }`}
           >
             {reduceMotion ? "Aktif" : "Nonaktif"}
-          </button>
-        </div>
-
-        {/* Retro Pixel Mode Setting */}
-        <div className="mt-3 flex items-center justify-between gap-3 rounded-3xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] p-4 sm:p-5">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-choco-900 select-none">{pixelMode ? <Gamepad2 className="size-4 text-amber-500" /> : <Sparkles className="size-4 text-candy-500" />}</span>
-              <p className="font-pixel text-xs font-bold text-choco-900">Mode Tipografi Retro Pixel</p>
-            </div>
-            <p className="text-xs font-semibold text-choco-600 mt-0.5">
-              Aktifkan tipografi 8-bit retro arcade, atau matikan untuk tampilan editorial modern Bricolage.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setPixelMode(!pixelMode)}
-            className={`py-2 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0 flex items-center gap-1.5 ${
-              pixelMode
-                ? "bg-amber-400 text-choco-900"
-                : "bg-candy-800 text-white"
-            }`}
-          >
-            {pixelMode ? <Gamepad2 className="size-3.5" /> : <Sparkles className="size-3.5" />}
-            <span>{pixelMode ? "Pixel ON" : "Modern"}</span>
           </button>
         </div>
 

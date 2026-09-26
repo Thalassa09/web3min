@@ -162,55 +162,44 @@ function ShopPage() {
         )}
 
         {/* PRIMARY MODE SELECTOR: Toko vs Ruang Ganti Blobi */}
-        <div className="p-3 sm:p-4 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_4.5px_0_#3B2218,0_10px_24px_-4px_rgba(59,34,24,0.12)]">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            {/* Mode Switcher Buttons */}
-            <div className="inline-flex p-1.5 rounded-2xl bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] border-2 border-candy-500/30 shadow-[0_2px_0_#B01F62] gap-1.5 w-full sm:w-auto">
-              <button
-                type="button"
-                onClick={() => handleModeChange("shop")}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
-                  mode === "shop"
-                    ? "bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white border-2 border-candy-600/50 shadow-[0_2.5px_0_#B01F62]"
-                    : "text-choco-600 hover:text-choco-900 hover:bg-white/60 border-2 border-transparent"
-                }`}
-              >
-                <Store className="size-4.5" />
-                <span>Toko</span>
-              </button>
+        <div className="flex items-center justify-center">
+          <div className="flex w-full max-w-md items-center gap-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218]">
+            <button
+              type="button"
+              onClick={() => handleModeChange("shop")}
+              className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
+                mode === "shop"
+                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600/50 shadow-[0_3px_0_#6E1239]"
+                  : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
+              }`}
+            >
+              <Store className="size-4" />
+              <span>Toko Blobi</span>
+            </button>
 
-              <button
-                type="button"
-                onClick={() => handleModeChange("wardrobe")}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-display font-bold text-sm select-none cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out active:translate-y-[1px] ${
-                  mode === "wardrobe"
-                    ? "bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white border-2 border-candy-600/50 shadow-[0_2.5px_0_#B01F62]"
-                    : "text-choco-600 hover:text-choco-900 hover:bg-white/60 border-2 border-transparent"
-                }`}
-              >
-                <Sparkles className="size-4.5" />
-                <span>Ruang Ganti Blobi</span>
-                {ownedCount > 0 && (
-                  <span
-                    className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
-                      mode === "wardrobe"
-                        ? "bg-gradient-to-b from-[#FFE873] to-[#FFD84D] text-choco-900 border border-amber-600/40 shadow-[0_1px_0_#C8940C]"
-                        : "bg-candy-800 text-white"
-                    }`}
-                  >
-                    {ownedCount}
-                  </span>
-                )}
-              </button>
-            </div>
-
-            {/* Currency & Inventory Badges */}
-            <div className="hidden sm:flex items-center gap-2 justify-end">
-              <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-amber-500/40 text-xs font-bold text-choco-900 shadow-[0_2px_0_#D97706]">
-                <Star size={14} className="text-amber-500" fill="currentColor" />
-                <span className="tabular-nums font-pixel">{formatGems(gems)} Koin</span>
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={() => handleModeChange("wardrobe")}
+              className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
+                mode === "wardrobe"
+                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600/50 shadow-[0_3px_0_#6E1239]"
+                  : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
+              }`}
+            >
+              <Sparkles className="size-4" />
+              <span>Ruang Ganti</span>
+              {ownedCount > 0 && (
+                <span
+                  className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
+                    mode === "wardrobe"
+                      ? "bg-gradient-to-b from-[#FFE873] to-[#FFD84D] text-choco-900 border border-amber-600/40 shadow-[0_1px_0_#C8940C]"
+                      : "bg-candy-800 text-white"
+                  }`}
+                >
+                  {ownedCount}
+                </span>
+              )}
+            </button>
           </div>
         </div>
 
@@ -220,25 +209,24 @@ function ShopPage() {
         {mode === "shop" && (
           <div className="space-y-6">
             {/* Header Toko */}
-            <div className="hidden sm:block p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_4.5px_0_#3B2218,0_10px_24px_-4px_rgba(59,34,24,0.12)] space-y-2">
+            <div className="hidden sm:block p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_6px_0_#3B2218] space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h1 className="font-display font-bold text-xl sm:text-3xl text-choco-900 tracking-tight flex items-center gap-2">
+                  <h1 className="font-pixel font-bold text-2xl sm:text-3xl text-choco-900 tracking-tight flex items-center gap-2">
                     <Store className="size-6 sm:size-7 text-candy-500" />
-                    <span>Toko</span>
+                    <span>Toko Web3min</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-semibold text-choco-600 mt-0.5 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm font-semibold text-choco-700 mt-1 leading-relaxed font-sans">
                     Tukarkan koin dari hasil belajar untuk membeli penguat streak, isi ulang nyawa, dan aksesori eksklusif Blobi.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleModeChange("wardrobe")}
-                  className="px-3.5 py-1.5 rounded-xl bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] border-2 border-candy-500/40 text-candy-700 text-xs font-bold hover:bg-candy-100 shadow-[0_2px_0_#B01F62] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1.5 shrink-0 cursor-pointer active:translate-y-[1px]"
+                  className="px-4 py-2 rounded-full border-2 border-choco-900 bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs shadow-[0_3px_0_#3B2218] active:translate-y-0.5 flex items-center gap-1.5 shrink-0 cursor-pointer transition-all"
                 >
-                  <Shirt className="size-3.5" />
-                  <span>Ruang Ganti ({ownedCount})</span>
-                  <ArrowRight className="size-3" />
+                  <Shirt className="size-3.5 text-candy-500" />
+                  <span>Ruang Ganti ({ownedCount}) →</span>
                 </button>
               </div>
             </div>
@@ -268,11 +256,11 @@ function ShopPage() {
               {/* Asymmetrical Bento Showcase for Items */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {/* 1. Hero Bento Card: Isi Ulang Nyawa (Spans 2 Cols) */}
-                <div className="md:col-span-2 flex flex-col justify-between rounded-3xl border-2 border-danger/40 bg-gradient-to-b from-[#FFF5F5] via-[#FFEBEB] to-[#FED7D7] p-5 md:p-6 shadow-[0_5px_0_#991B1B,0_12px_28px_-4px_rgba(220,38,38,0.20)]">
+                <div className="md:col-span-2 flex flex-col justify-between rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF5F5] via-[#FFEBEB] to-[#FED7D7] p-5 md:p-6 shadow-[0_6px_0_#3B2218]">
                   <div>
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-danger/50 bg-danger/15 px-2.5 py-0.5 text-[11px] font-bold text-danger">
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold text-danger shadow-[0_1.5px_0_#3B2218]">
                           <Heart className="size-3.5 fill-current" /> Vitalitas Kuis
                         </span>
                         <span className="text-[11px] font-bold text-choco-600">
@@ -294,7 +282,7 @@ function ShopPage() {
                       </div>
                     </div>
 
-                    <h3 className="text-xl font-display font-bold text-choco-900 tracking-tight">
+                    <h3 className="text-xl sm:text-2xl font-pixel font-bold text-choco-900 tracking-tight">
                       Isi Ulang 5 Nyawa Penuh
                     </h3>
                     <p className="mt-2 text-xs md:text-sm font-semibold leading-relaxed text-choco-700 max-w-xl">
@@ -304,7 +292,7 @@ function ShopPage() {
 
                   <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-choco-900/15">
                     <div className="flex items-center gap-2">
-                      <div className="size-8 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] flex items-center justify-center shadow-[0_2px_0_#D97706]">
+                      <div className="size-8 rounded-xl border-2 border-choco-900 bg-amber-400 flex items-center justify-center shadow-[0_1.5px_0_#3B2218]">
                         <img src="/props/star.png" alt="Koin" className="size-5 object-contain pixelated" />
                       </div>
                       <span className="font-pixel text-lg font-bold text-choco-900">
@@ -326,48 +314,44 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className={`inline-flex items-center justify-center rounded-2xl border-2 border-candy-600/60 px-5 py-2.5 text-xs md:text-sm font-bold transition-[transform,box-shadow] ${
-                        heartsFull || gems < HEART_REFILL_COST
-                          ? "cursor-not-allowed border-stone-300 bg-stone-100 text-stone-400 shadow-none"
-                          : "bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25)] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
-                      }`}
+                      className="inline-flex items-center justify-center rounded-full border-2 border-choco-900 px-5 py-2.5 text-xs md:text-sm font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-[#EDE4DC] disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
                     >
-                      {heartsFull ? "Nyawa Penuh" : gems < HEART_REFILL_COST ? "Koin Kurang" : "Isi Ulang Sekarang"}
+                      {heartsFull ? "Nyawa Penuh" : gems < HEART_REFILL_COST ? "Koin Kurang" : "Isi Ulang Sekarang →"}
                     </button>
                   </div>
                 </div>
 
                 {/* 2. Side Bento Card: Pelindung Streak (Spans 1 Col) */}
-                <div className="flex flex-col justify-between rounded-3xl border-2 border-[#F97316]/50 bg-gradient-to-b from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA] p-5 shadow-[0_5px_0_#EA580C,0_12px_28px_-4px_rgba(234,88,12,0.22)]">
+                <div className="flex flex-col justify-between rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA] p-5 shadow-[0_6px_0_#3B2218]">
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <div className="size-12 rounded-2xl border-2 border-orange-400/50 bg-white/70 flex items-center justify-center shadow-[0_2px_0_#EA580C]">
+                      <div className="size-12 rounded-2xl border-2 border-choco-900 bg-white flex items-center justify-center shadow-[0_2px_0_#3B2218]">
                         <img src="/props/shield.png" alt="Pelindung Streak" className="size-7 object-contain pixelated" />
                       </div>
-                      <span className={`px-2.5 py-0.5 rounded-full border-2 text-[10px] font-bold ${
-                        freeze > 0 ? "border-orange-500 bg-orange-500 text-white shadow-[0_1px_0_#C2410C]" : "border-orange-400/40 bg-white/70 text-orange-900"
+                      <span className={`px-2.5 py-0.5 rounded-full border-2 border-choco-900 text-[10px] font-pixel font-bold shadow-[0_1.5px_0_#3B2218] ${
+                        freeze > 0 ? "bg-amber-400 text-choco-900" : "bg-white text-choco-700"
                       }`}>
                         {freeze > 0 ? "Aktif Melindungi" : "Siaga"}
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-display font-bold text-choco-900">
+                    <h3 className="text-lg font-pixel font-bold text-choco-900">
                       Pelindung Streak
                     </h3>
                     <p className="mt-1.5 text-xs font-semibold leading-relaxed text-choco-700">
                       Lagi sibuk lembur atau nongkrong? Pasang pelindung biar streak rantai kamu gak putus kalau bolos sehari.
                     </p>
 
-                    <div className="mt-3 text-xs font-bold text-choco-900 bg-white/70 p-2 rounded-xl border border-orange-400/30 shadow-[0_1px_0_#EA580C]">
+                    <div className="mt-3 text-xs font-pixel font-bold text-choco-900 bg-white/80 p-2 rounded-xl border-2 border-choco-900/15 shadow-[0_1.5px_0_#3B2218]">
                       Dimiliki: <strong>{freeze} Pelindung</strong>
                     </div>
                   </div>
 
-                  <div className="mt-5 flex items-center justify-between pt-4 border-t-2 border-orange-400/20">
+                  <div className="mt-5 flex items-center justify-between pt-4 border-t-2 border-choco-900/15">
                     <div className="flex items-center gap-1.5">
                       <img src="/props/star.png" alt="Koin" className="size-4 object-contain pixelated" />
                       <span className="font-pixel text-base font-bold text-choco-900">
-                        {FREEZE_COST}
+                        {FREEZE_COST} Koin
                       </span>
                     </div>
 
@@ -385,11 +369,7 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className={`inline-flex items-center justify-center rounded-xl border-2 px-4 py-2 text-xs font-bold transition-[transform,box-shadow] ${
-                        freeze > 0 || gems < FREEZE_COST
-                          ? "cursor-not-allowed border-stone-300 bg-stone-100 text-stone-400 shadow-none"
-                          : "border-orange-600/60 bg-gradient-to-b from-[#FB923C] via-[#F97316] to-[#EA580C] text-white shadow-[0_3px_0_#C2410C] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
-                      }`}
+                      className="inline-flex items-center justify-center rounded-full border-2 border-choco-900 px-4 py-2 text-xs font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-[#EDE4DC] disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
                     >
                       {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Koin Kurang" : "Beli Pelindung →"}
                     </button>
@@ -399,16 +379,16 @@ function ShopPage() {
             </div>
 
             {/* Exclusive Wardrobe Banner */}
-            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-500/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_6px_0_#B01F62,0_12px_28px_-4px_rgba(232,67,127,0.22)]">
+            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] border-2 border-choco-900 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_6px_0_#3B2218]">
               <div className="flex items-center gap-4 text-center sm:text-left">
-                <div className="size-14 rounded-2xl bg-white border-2 border-candy-500/40 shadow-[0_2px_0_#B01F62] flex items-center justify-center shrink-0">
+                <div className="size-14 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center shrink-0">
                   <Sparkles className="size-7 text-candy-500" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base sm:text-lg text-choco-900">
+                  <h3 className="font-pixel font-bold text-base sm:text-lg text-choco-900">
                     Koleksi Pakaian & Aksesori Blobi
                   </h3>
-                  <p className="text-xs sm:text-sm text-choco-600 mt-0.5 leading-relaxed font-sans font-semibold">
+                  <p className="text-xs sm:text-sm text-choco-700 mt-0.5 leading-relaxed font-sans font-semibold">
                     Semua baju, topi, kacamata, dan aksesori Blobi kini tersedia eksklusif di <strong>Ruang Ganti Blobi</strong>. Coba atau pasang langsung pada karaktermu!
                   </p>
                 </div>
@@ -416,10 +396,9 @@ function ShopPage() {
               <button
                 type="button"
                 onClick={() => handleModeChange("wardrobe")}
-                className="shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white font-bold text-xs border-2 border-candy-600/50 shadow-[0_3px_0_#B01F62] flex items-center gap-1 cursor-pointer hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+                className="shrink-0 px-5 py-2.5 rounded-full bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex items-center gap-1.5 cursor-pointer hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
               >
-                <span>Buka Ruang Ganti Blobi</span>
-                <ArrowRight className="size-3.5 ml-1" />
+                <span>Buka Ruang Ganti Blobi →</span>
               </button>
             </div>
           </div>
@@ -434,11 +413,11 @@ function ShopPage() {
             <div className="hidden sm:block p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_4.5px_0_#3B2218,0_10px_24px_-4px_rgba(59,34,24,0.12)] space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h1 className="font-display font-bold text-xl sm:text-3xl text-choco-900 tracking-tight flex items-center gap-2">
+                  <h1 className="font-pixel font-bold text-2xl sm:text-3xl text-choco-900 tracking-tight flex items-center gap-2">
                     <Sparkles className="size-6 sm:size-7 text-candy-500" />
                     <span>Ruang Ganti Blobi</span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-semibold text-choco-600 mt-0.5 leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm font-semibold text-choco-700 mt-1 leading-relaxed font-sans">
                     Atur gaya dan padukan penampilan Blobi. Coba berbagai pakaian yang sudah kamu miliki, atau coba aksesori baru langsung pada karakter!
                   </p>
                 </div>
@@ -449,7 +428,7 @@ function ShopPage() {
                   <button
                     type="button"
                     onClick={() => handleModeChange("shop")}
-                    className="px-3 py-1.5 rounded-[12px] bg-lemon border-2 border-choco-900 text-choco-900 text-xs font-pixel font-bold hover:bg-lemon-deep shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow,background-color,border-color,color] flex items-center gap-1 cursor-pointer active:translate-y-[1px]"
+                    className="px-4 py-2 rounded-full bg-lemon border-2 border-choco-900 text-choco-900 text-xs font-pixel font-bold hover:bg-lemon-deep shadow-[0_3px_0_#3B2218] transition-all flex items-center gap-1 cursor-pointer active:translate-y-0.5"
                   >
                     <Store className="size-3.5" />
                     <span className="hidden sm:inline">Toko</span>
@@ -462,9 +441,9 @@ function ShopPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               {/* LEFT COLUMN: Panggung Busana Blobi (5 cols) */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="p-6 rounded-3xl flex flex-col items-center text-center bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)]">
+                <div className="p-6 rounded-3xl flex flex-col items-center text-center bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_6px_0_#3B2218]">
                   <div className="w-full flex items-center justify-between pb-3 border-b-2 border-choco-900/15">
-                    <span className="text-xs font-display font-bold text-choco-900">Panggung Busana</span>
+                    <span className="text-xs font-pixel font-bold text-choco-900">Panggung Busana</span>
                     <span className="text-[11px] font-semibold text-choco-600">
                       {isWearingSomething ? "Tampil Bergaya" : "Gaya Standar"}
                     </span>
@@ -472,7 +451,7 @@ function ShopPage() {
 
                   {/* Circular Blobi Pedestal */}
                   <div className="py-6 flex items-center justify-center relative">
-                    <div className="p-7 rounded-full bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] border-2 border-candy-500/40 shadow-[0_6px_0_#B01F62,0_10px_20px_-4px_rgba(232,67,127,0.25)] transition-transform hover:scale-105">
+                    <div className="p-7 rounded-full bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] transition-transform hover:scale-105">
                       <Mascot mood={blobiMood} size={160} worn={activeWorn} />
                     </div>
                   </div>
@@ -566,7 +545,7 @@ function ShopPage() {
 
               {/* RIGHT COLUMN: Lemari Pakaian & Koleksi (7 cols) */}
               <div className="lg:col-span-7 space-y-4">
-                <div className="p-5 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/18 shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.12)] space-y-4">
+                <div className="p-5 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_6px_0_#3B2218] space-y-4">
                   {/* Closet Controls: Scope Toggle + Slot Filter */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-choco-900/15">
                     {/* Scope: Koleksi Dimiliki vs Katalog Lengkap */}

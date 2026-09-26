@@ -4,17 +4,19 @@
 
 /* ══════════════════════════════════════════════════════════════════════════════
    MASTER DESIGN SYSTEM — web3min: "Tactile Spatial Arcade"
-   Typographic Triad (3 keluarga): Bricolage Grotesque (Display), Plus Jakarta Sans (Body),
-   Pixelify Sans (Pixel Craft). Sisanya system stack (mono) supaya tidak ada download font.
+   Typographic Diad (2 keluarga): Bricolage Grotesque (Display), Plus Jakarta Sans (Body).
+   Sisanya system stack (mono) supaya tidak ada download font.
    Mechanical Doppelrand Elevation, Specular Enamel Highlight & Organic Porcelain.
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Typographic Triad (maks 3 keluarga): Plus Jakarta Sans (body), Bricolage Grotesque (display), Pixelify Sans (retro pixel). */
+  /* Tipografi 2 keluarga (dulu 3): Plus Jakarta Sans (body), Bricolage Grotesque (display).
+     Keluarga font pixel dibuang bersama mode Retro Pixel — mode itu tidak dipakai lagi. */
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-pixel: "Pixelify Sans", monospace;
+  /* Alias diad: dulu font pixel arcade. Diarahkan ke display supaya nol rujukan yatim. */
+  --font-pixel: var(--font-display);
 
   /* Border Radii (sm 10px, md 14px, lg 22px, xl 28px, 2xl 32px, pill 9999px) */
   --radius-sm: 10px;
@@ -224,7 +226,7 @@ html {
 }
 
 .retro {
-  font-family: var(--font-pixel);
+  font-family: var(--font-display);
   line-height: 1.5;
   letter-spacing: 0.5px;
 }
@@ -307,7 +309,7 @@ body {
 /* ══════════════════════════════════════════════════════════════════════════════
    DYNAMIC TYPOGRAPHY & TACTILE SPATIAL ARCADE ELEVATION
    Default (Pristine Modern): Bricolage Grotesque, Plus Jakarta Sans, Doppelrand Bezel
-   Pixel Mode ON: Pixelify Sans + Retro 8-Bit Arcade Box Shadow
+   (Blok "Pixel Mode ON" dihapus bersama mode Retro Pixel — tidak ada font pixel lagi.)
    ══════════════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -319,15 +321,10 @@ body {
   --box-bg-surface: linear-gradient(180deg, #FFFFFF 0%, #FFF9F5 65%, #FDEEE4 100%);
 }
 
-html[data-pixel-mode="true"],
-.pixel-mode {
-  --active-heading-font: var(--font-pixel);
-  --box-border-width: 2px;
-  --box-border-color: var(--color-choco-900);
-  --box-shadow-main: 0 5px 0 var(--color-choco-900);
-  --box-shadow-hover: 0 7px 0 var(--color-choco-900);
-  --box-bg-surface: linear-gradient(180deg, #FFFDF8 0%, #FFF6EE 70%, #FBE9DC 100%);
-}
+/* Blok html[data-pixel-mode="true"], .pixel-mode DIHAPUS: satu-satunya yang
+   pernah menyalakannya adalah applyPixelMode() di hydration-gate, dan fungsi
+   itu ikut terbuang bersama mode Retro Pixel. Selector-nya jadi tidak pernah
+   cocok, dan --active-heading-font-nya pun sudah sama dengan default :root. */
 
 .candy-box {
   position: relative;
@@ -640,16 +637,10 @@ h1, h2, h3, h4, h5, h6, .font-display {
   letter-spacing: -0.015em;
 }
 
-/* When Pixel Mode is enabled, switch headings & pixel elements to 8-bit arcade font */
-html[data-pixel-mode="true"] h1,
-html[data-pixel-mode="true"] h2,
-html[data-pixel-mode="true"] h3,
-html[data-pixel-mode="true"] h4,
-html[data-pixel-mode="true"] .font-pixel,
-.pixel-mode .font-pixel {
-  font-family: var(--font-pixel);
-  letter-spacing: 0.04em;
-}
+/* Mode Retro Pixel dihapus. Blok ini dulu menimpa font judul ke 8-bit arcade;
+   sekarang h1..h4 & .font-pixel memang selalu memakai --active-heading-font
+   (= display), jadi aturan terpisahnya jadi mubazir. Dibiarkan hanya sebagai
+   penanda supaya diff hari ini terbaca. */
 
 .font-mono, code, pre {
   font-family: var(--font-mono);

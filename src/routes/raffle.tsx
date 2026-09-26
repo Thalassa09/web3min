@@ -479,14 +479,29 @@ export function RafflePage() {
         </div>
 
         {/* Hero Card */}
-        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2 max-w-xl">
-              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218] whitespace-nowrap">
-                <Sparkles className="h-3.5 w-3.5 text-candy-600 fill-candy-400" />
-                Undian Berhadiah • Siklus Aktif
-              </div>
+        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] p-5 sm:p-7 md:p-8 shadow-[0_6px_0_#3B2218]">
+          {/* Top Bar inside Card: Cycle Badge (Left) & Panduan Button (Right) */}
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218] whitespace-nowrap">
+              <Sparkles className="h-3.5 w-3.5 text-candy-600 fill-candy-400" />
+              Undian Berhadiah • Siklus Aktif
+            </div>
 
+            <button
+              onClick={() => {
+                playTap();
+                setShowGuideModal(true);
+              }}
+              className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full border-2 border-choco-900 bg-white hover:bg-cream font-pixel font-bold text-xs text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0"
+              title="Buka Panduan Undian"
+            >
+              <HelpCircle className="h-3.5 w-3.5 text-candy-600" />
+              <span>Panduan</span>
+            </button>
+          </div>
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="space-y-2 max-w-xl">
               <h1 className="text-3xl md:text-4xl font-pixel font-bold tracking-tight text-choco-900">
                 Undian Hadiah Web3min
               </h1>
@@ -496,10 +511,10 @@ export function RafflePage() {
               </p>
             </div>
 
-            {/* Ticket & Coin Counter Pill + Actions */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-              <div className="flex items-center justify-between sm:justify-start gap-4 rounded-2xl border-2 border-choco-900 bg-white/95 p-3 px-4 shadow-[0_3px_0_#3B2218]">
-                <div className="flex items-center gap-2">
+            {/* Ticket & Coin Counter + Action Stack */}
+            <div className="flex flex-col gap-2.5 shrink-0 w-full sm:w-auto min-w-[280px]">
+              <div className="flex items-center justify-around gap-4 rounded-2xl border-2 border-choco-900 bg-white/95 p-3 px-4 shadow-[0_3px_0_#3B2218]">
+                <div className="flex items-center gap-2.5">
                   <div className="size-9 rounded-xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_1.5px_0_#3B2218]">
                     <Ticket className="h-4.5 w-4.5 stroke-[2.5]" />
                   </div>
@@ -513,9 +528,9 @@ export function RafflePage() {
                   </div>
                 </div>
 
-                <div className="h-8 w-[2px] bg-choco-900/15 hidden sm:block mx-0.5" />
+                <div className="h-8 w-[2px] bg-choco-900/15" />
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <div className="size-9 rounded-xl bg-lemon border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_1.5px_0_#3B2218]">
                     <Coins className="h-4.5 w-4.5 stroke-[2.5]" />
                   </div>
@@ -530,29 +545,16 @@ export function RafflePage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <button
-                  onClick={() => {
-                    playTap();
-                    setShowBuyModal(true);
-                  }}
-                  className="flex-1 sm:flex-initial h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] font-pixel font-bold text-xs sm:text-sm text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <Plus className="h-4 w-4 stroke-[3]" />
-                  <span>Beli Tiket</span>
-                </button>
-                <button
-                  onClick={() => {
-                    playTap();
-                    setShowGuideModal(true);
-                  }}
-                  className="h-11 sm:h-12 px-4 rounded-full border-2 border-choco-900 bg-white hover:bg-cream font-pixel font-bold text-xs sm:text-sm text-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-1.5 cursor-pointer"
-                  title="Panduan Undian"
-                >
-                  <HelpCircle className="h-4 w-4 text-candy-600" />
-                  <span>Panduan</span>
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  playTap();
+                  setShowBuyModal(true);
+                }}
+                className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] font-pixel font-bold text-xs sm:text-sm text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Plus className="h-4 w-4 stroke-[3]" />
+                <span>Beli Tiket Sekarang →</span>
+              </button>
             </div>
           </div>
         </div>

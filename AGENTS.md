@@ -51,7 +51,7 @@ Pill mengambang di bawah ala Iconly: Home, Rute, Progres, Profil. Item aktif pak
 2. Data: sembunyikan & hapus akun test (sectest_*, testuser99) dari leaderboard. Reset/Hapus Akun juga menghapus data server.
 3. Bug: /kisah/s-dm malah redirect ke home.
 4. SEO/PWA: sitemap.xml & robots.txt valid, meta/prerender, ikon 192 & 512px, og-image.
-5. Performa: font maksimal 3, lazy-load per halaman (bundle ~440KB).
+5. Performa: font maksimal 2 (selesai — 2 keluarga, ada guard test), lazy-load per halaman (bundle ~440KB).
 6. UI: warna feedback, state lengkap, spasi, peta rute (selesai/peringatan/terkunci/PETI).
 7. Navbar pill + tombol Lanjut.
 8. Halaman blok: Pengantar → Contoh → Jebakan → Kuis (buka-tutup) + checklist "Lanjut kalau kamu sudah bisa…" sebelum PETI.
@@ -110,6 +110,18 @@ Platform belajar Web3 bahasa Indonesia, santai, bergamifikasi: 20 rute, 128 blok
 - Tombol sengaja **ikon saja (`ArrowRight`) tanpa teks**, dan `aria-label` wajib ada. Sebab: label putih di atas pink brand cuma 3.79:1 dan gagal WCAG AA untuk teks kecil, sedangkan ikon sebagai objek grafis hanya butuh 3:1. Ini menutup celah tanpa melanggar larangan mengganti pink brand.
 - Gradient elemen aktif & tombol memakai candy-700 (`#B01F62`), bukan candy-600. candy-600 lolos saat diam (4.71:1) tapi `hover:brightness-110` menurunkannya ke 4.0:1. Terukur: 6.53:1 diam, 5.62:1 hover.
 - Batas keras yang harus tetap lulus di 320/360/390/430px: tap target ≥44px, nol overlap antar-slot, nol overflow horizontal.
+
+### Kontrol Efek Suara
+- Satu-satunya kontrol suara ada di `/settings` (kartu "Efek Suara", tombol Aktif/Mute). Pill speaker di header (`TopStatus`) **sudah dihapus** — jangan dikembalikan.
+- Header dulu memanggil `setAudioEnabled` sendiri. Itu tidak perlu: `src/routes/__root.tsx` sudah menjalankan `setAudioEnabled(sound)` reaktif terhadap store. Menambah `setSound()` di sembarang komponen sudah cukup untuk mematikan suara; tidak ada yang perlu menyentuh `audio.ts` langsung.
+- `src/lib/audio.ts` menyimpan `enabled` sebagai variabel modul dan **tidak tahu store sama sekali**. Jadi menghapus satu-satunya pemanggil `setAudioEnabled` akan membuat suara tak bisa dimatikan tanpa error apa pun. Guard di `font-budget.test.ts` menjaga hal ini.
+
+### Mode Retro Pixel (DIHAPUS — jangan dihidupkan kembali)
+- Toggle tipografi 8-bit dibuang seluruhnya atas permintaan user: pill `PIXEL`/`MODERN` di header, kartu di `/settings`, state `pixelMode` di store, `applyPixelMode()` di hydration-gate, dan blok CSS `html[data-pixel-mode="true"]`.
+- `--font-pixel` **tetap ada** tapi diarahkan ke `var(--font-display)`. 392 pemakaian class `.font-pixel` di seluruh komponen tetap bekerja tanpa satu pun call site diubah — jangan "membersihkan" alias ini, diff-nya besar tanpa manfaat.
+- Font pixel (Pixelify Sans) dibuang dari `<link>` Google Fonts. Budget font jadi **2 keluarga**. `font-budget.test.ts` gagal kalau `Pixelify` muncul kembali di `<link>` atau di token `--font-*`.
+- `src/components/ui/8bit/styles/retro.css` sudah dihapus — dead file (nol importer) dan satu-satunya berkas yang masih benar-benar merujuk `font-family: "Pixelify Sans"`.
+- Sisa: `public/prototype/index.html` (mockup lama berdiri sendiri, nol rujukan dari app/sitemap) masih memuat Pixelify Sans sendiri. Belum disentuh.
 
 ## Perintah
 - w3 plan [tugas]: rencana bernomor, tanpa coding.

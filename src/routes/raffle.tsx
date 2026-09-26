@@ -783,11 +783,11 @@ export function RafflePage() {
 
                     {/* b. Judul + baris hadiah */}
                     <div>
-                      <h2 className="text-xl font-display font-bold text-choco-900 leading-tight">
+                      <h2 className="text-xl md:text-2xl font-pixel font-bold text-choco-900 leading-tight capitalize tracking-tight">
                         {raffle.title}
                       </h2>
-                      <div className="text-sm font-bold text-candy-700 mt-1 flex items-center gap-1.5">
-                        <Award className="h-4 w-4 shrink-0" />
+                      <div className="text-xs sm:text-sm font-pixel font-bold text-candy-700 mt-1 flex items-center gap-1.5">
+                        <Award className="h-4 w-4 shrink-0 text-candy-500" />
                         <span>{formattedPrize}</span>
                       </div>
 
@@ -801,7 +801,7 @@ export function RafflePage() {
 
                     {/* d. Gambar NFT / Item */}
                     <div
-                      className="aspect-square w-full rounded-2xl border-2 border-choco-900 bg-cream overflow-hidden relative shadow-[0_3px_0_#3B2218] my-2 cursor-pointer group p-2"
+                      className="aspect-square w-full rounded-2xl border-2 border-choco-900 bg-white overflow-hidden relative shadow-[0_3px_0_#3B2218] my-2 cursor-pointer group p-2"
                       onClick={() => {
                         setPreviewImage({ url: displayImage, title: raffle.title });
                       }}
@@ -819,14 +819,11 @@ export function RafflePage() {
                           (e.target as HTMLImageElement).src = "/mascot/wave.png";
                         }}
                       />
-                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-choco-900/90 text-white font-pixel text-[10px] font-bold shadow-xs">
-                        {isItemSlot ? "ITEM LIMITED" : "SLOT MINT"}
-                      </div>
                     </div>
 
                     {/* e. Daftar Info Vertikal */}
-                    <div className="rounded-2xl border border-choco-900/15 bg-white/70 p-3 space-y-1.5 text-xs text-choco-800">
-                      <div className="font-pixel text-[10px] font-bold uppercase text-choco-500 mb-1">
+                    <div className="rounded-2xl border-2 border-choco-900/15 bg-white/85 p-3 space-y-1.5 text-xs text-choco-800">
+                      <div className="font-pixel text-[10px] font-bold uppercase tracking-wider text-choco-500 mb-1">
                         {isItemSlot ? "Info Item:" : "Info Slot:"}
                       </div>
 
@@ -896,48 +893,50 @@ export function RafflePage() {
                     {raffle.seedHash && (
                       <div
                         onClick={() => setPreviewFairness(raffle)}
-                        className="rounded-xl border border-choco-900/10 bg-cream/70 p-2 flex items-center justify-between text-[10px] text-choco-600 font-mono cursor-pointer hover:bg-cream"
+                        className="rounded-xl border-2 border-choco-900/15 bg-white/85 px-3 py-2 flex items-center justify-between text-[11px] text-choco-700 font-mono cursor-pointer hover:bg-cream transition-colors"
                         title="Klik untuk info keaslian pengundian (Commit-Reveal)"
                       >
-                        <span className="truncate max-w-[200px]">
-                          Seed Hash: {raffle.seedHash.slice(0, 12)}…
+                        <span className="truncate max-w-[200px] font-medium">
+                          Seed: {raffle.seedHash.slice(0, 14)}…
                         </span>
-                        <span className="text-candy-700 font-bold shrink-0">Verifikasi</span>
+                        <span className="text-candy-700 font-pixel font-bold text-xs shrink-0 flex items-center gap-1">
+                          Verifikasi ↗
+                        </span>
                       </div>
                     )}
 
-                    {/* f. Grid Statistik 2x2 */}
-                    <div className="grid grid-cols-2 gap-2 pt-1 font-semibold text-xs">
+                    {/* f. Grid Statistik 2x2 Bento Box */}
+                    <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-choco-900/10 rounded-2xl border-2 border-choco-900 bg-white shadow-[0_3px_0_#3B2218] overflow-hidden text-center">
                       {/* Tiket Terkumpul */}
-                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
-                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                      <div className="p-2.5 bg-white">
+                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
                           Tiket Terkumpul
                         </span>
-                        <span className="font-mono text-sm font-bold text-choco-900">
+                        <span className="font-pixel font-bold text-sm sm:text-base text-choco-900 tabular-nums">
                           {totalTickets} Tiket
                         </span>
                       </div>
 
                       {/* Kuota Pemenang */}
-                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
-                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                      <div className="p-2.5 bg-white">
+                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
                           Pemenang
                         </span>
-                        <span className="font-mono text-sm font-bold text-choco-900">
+                        <span className="font-pixel font-bold text-sm sm:text-base text-choco-900 tabular-nums">
                           {isItemSlot ? `${raffle.winnerCount} Pemenang` : `${raffle.winnerCount} Slot`}
                         </span>
                       </div>
 
                       {/* Tiket Kamu */}
-                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
-                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                      <div className="p-2.5 bg-white border-t-2 border-choco-900/10">
+                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
                           Tiket Kamu
                         </span>
-                        <span className="font-mono text-sm font-bold text-choco-900">
+                        <span className="font-pixel font-bold text-sm sm:text-base text-choco-900 tabular-nums">
                           {isEnded
                             ? isWinner
-                              ? "Kamu Menang!"
-                              : "Belum beruntung"
+                              ? "Kamu Menang! 🎉"
+                              : "Belum Beruntung"
                             : userTickets > 0
                             ? `${userTickets} Tiket`
                             : "Belum Ikut"}
@@ -945,11 +944,11 @@ export function RafflePage() {
                       </div>
 
                       {/* Sisa Waktu */}
-                      <div className="rounded-xl border border-choco-900/15 bg-white p-2.5">
-                        <span className="text-[10px] uppercase font-bold text-choco-500 block">
+                      <div className="p-2.5 bg-white border-t-2 border-choco-900/10">
+                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
                           Sisa Waktu
                         </span>
-                        <span className="font-mono text-xs font-bold text-choco-900 truncate block">
+                        <span className="font-pixel font-bold text-xs sm:text-sm text-choco-900 truncate block tabular-nums">
                           {raffle.endsAt ? formatRaffleCountdown(raffle.endsAt) : "Belum dijadwalkan"}
                         </span>
                       </div>
@@ -1011,9 +1010,9 @@ export function RafflePage() {
                     <button
                       onClick={() => handleOpenEnterModal(raffle)}
                       disabled={!isLive || isExpired || !raffle.endsAt}
-                      className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-800 hover:bg-candy-950 disabled:opacity-40 disabled:hover:bg-candy-950 text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] disabled:bg-[#EDE4DC] disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
-                      <Ticket className="size-4" />
+                      <Ticket className="size-4 stroke-[2.5]" />
                       <span>
                         {isEnded
                           ? "Undian Selesai"
@@ -1021,7 +1020,7 @@ export function RafflePage() {
                           ? "Menunggu Pengundian"
                           : !raffle.endsAt
                           ? "Belum Dijadwalkan"
-                          : "Pasang Tiket"}
+                          : "Pasang Tiket Undian →"}
                       </span>
                     </button>
                   </div>

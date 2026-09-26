@@ -55,10 +55,13 @@ Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk dit
 
 ## 3. Tipografi & Hierarki
 
-Maksimal 3 keluarga font yang dimuat melalui root stylesheet:
-1. **Bricolage Grotesque (`font-display`):** Digunakan untuk splash display text dan hero brand.
-2. **Pixelify Sans (`font-pixel`):** Digunakan untuk seluruh Judul Kartu (H1, H2, H3), label badge, pill navigation, dan tombol game.
-3. **Plus Jakarta Sans (`font-sans`):** Digunakan untuk seluruh paragraf, teks body, catatan, dan input form.
+Maksimal **2 keluarga font** yang dimuat melalui root stylesheet (dijaga `src/lib/font-budget.test.ts`):
+1. **Space Grotesk (`font-display`):** splash display text, hero brand, dan seluruh Judul Kartu (H1, H2, H3), label badge, pill navigation, serta tombol game.
+2. **Inter (`font-sans`):** seluruh paragraf, teks body, catatan, dan input form.
+3. **`font-pixel` = ALIAS** ke `var(--font-display)`. Dipakai 415× di 43 berkas — **jangan "dibersihkan"**, diff-nya besar tanpa manfaat. Mode Retro Pixel sudah dihapus (Langkah 7c), jadi alias ini tidak lagi memuat font pixel.
+4. **`font-mono`:** system stack (angka saldo/skor, seed hash, kode) — tanpa download font.
+
+> **Jangan tambah keluarga ke-3.** Guard `font-budget.test.ts` mengunci **jumlah (≤2) + identitas** nama keluarga. `Bricolage Grotesque`, `Plus Jakarta Sans`, `Pixelify Sans`, `JetBrains Mono`, `Silkscreen`, `Press Start 2P`, dan `Nunito` ada di daftar mati — muncul kembali = suite gagal.
 
 ---
 

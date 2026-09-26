@@ -1,5 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
 import {
+  ArrowRight as ArrowRightS,
   Bitcoin as BitcoinS,
   BookOpen as BookOpenS,
   Briefcase as BriefcaseS,
@@ -40,6 +41,7 @@ import {
   Zap as ZapS,
 } from "@keyline-icons/react";
 import {
+  ArrowRight as ArrowRightF,
   Bitcoin as BitcoinF,
   BookOpen as BookOpenF,
   Briefcase as BriefcaseF,
@@ -173,3 +175,4 @@ export const Briefcase = wrap(BriefcaseS, BriefcaseF);
 export const Lightning = wrap(ZapS, ZapF);
 export const ArrowsClockwise = wrap(RefreshCwS, RefreshCwF);
 export const Wrench = wrap(WrenchS, WrenchF);
+export const ArrowRight = wrap(ArrowRightS, ArrowRightF);

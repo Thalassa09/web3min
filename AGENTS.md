@@ -14,7 +14,7 @@ Alur: masalah → rencana → build → tes → perbaiki → rilis.
 - Tema terang: krem #FFF6EE, aksen pink #E8437F, teks cokelat, maskot Blobi. Pakai warna yang sudah ada di kode.
 - 60-30-10: krem dominan, kartu/permukaan, pink hanya untuk CTA utama & item aktif.
 - Warna feedback: hijau = sukses/blok selesai, merah = error/bahaya (seed phrase, kontrak mencurigakan), kuning/oranye = peringatan & keputusan penting, emas = PETI. Kontras ≥4.5:1, selalu ada ikon + teks.
-- Font maksimal 3 (sekarang 5). Body 16px.
+- Font maksimal 2 (Bricolage Grotesque display, Plus Jakarta Sans body). Body 16px. Dijaga `src/lib/font-budget.test.ts` — suite gagal kalau keluarga ke-3 masuk kembali.
 - Spasi jangan sama rata: label→field 6-8px, antar field 16px, sebelum tombol 24px. Skala 4/8/12/16/24/32/48.
 
 ## State wajib

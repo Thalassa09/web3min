@@ -23,7 +23,7 @@ const BLOBO_IDLE_QUIPS = [
   "Psst! Kok bengong aja? Yuk gas ke modul berikutnya!",
   "Streak {streak} hari kamu nungguin nih! Jangan sampai padam ya!",
   "Tau nggak? Kalo kelarin modul ini dapet +12 XP dan 2 Koin!",
-  "Blobi laper nih... laper ilmu Web3! Ayo tambang blok baru!",
+  "Blobi laper nih... laper ilmu Web3! Ayo belajar blok baru!",
   "Tombol MULAI-nya udah kedip-kedip tuh, buruan diklik!",
   "Mau beli mahkota buat Blobi di Toko? Kumpulkan koin dulu di sini!",
   "Awas penipu! Di Web3 jangan pernah kasih seed phrase ke siapa pun ya!",

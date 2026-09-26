@@ -36,7 +36,7 @@ export function AppNotFound() {
       <div className="w-full max-w-sm rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-7 text-center shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.14)] flex flex-col items-center">
         <Mascot mood="think" size={120} interactive={false} />
         <h1 className="mt-4 font-display text-2xl font-bold text-choco-900 tracking-tight">
-          Blok Belum Ditambang!
+          Blok Belum Dipelajari!
         </h1>
         <p className="mt-2 text-xs md:text-sm font-semibold text-choco-700 leading-relaxed">
           Rute atau halaman ini gak ketemu di buku besar. Yuk balik ke jalur belajar utama.

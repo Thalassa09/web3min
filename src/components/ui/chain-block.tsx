@@ -57,9 +57,9 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
 
   const statusLabel =
     status === "done"
-      ? "Blok tertambang (3/3 konfirmasi)"
+      ? "Blok selesai dipelajari"
       : status === "active"
-      ? "Blok aktif siap ditambang"
+      ? "Blok aktif siap dipelajari"
       : status === "chest"
       ? "PETI hadiah — buka setelah blok terakhir rute"
       : "Blok terkunci";

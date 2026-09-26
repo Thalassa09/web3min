@@ -69,7 +69,7 @@ Platform belajar Web3 bahasa Indonesia, santai, bergamifikasi: 20 rute, 128 blok
 4. Ragu, tanya. Ikuti pola komponen yang ada. Jangan hapus data tanpa izin.
 
 ## Desain (pertahankan brand yang ada)
-- Tema terang krem #FFF6EE, aksen pink #E8437F, teks cokelat, font pixel. Jangan ganti ke dark mode.
+- Tema terang krem #FFF6EE, aksen pink #E8437F, teks cokelat. Jangan ganti ke dark mode.
 - Hijau=sukses, kuning=peringatan, merah=error, emas=PETI. Kontras min 4.5:1, selalu dengan ikon/label.
 - Tombol punya state default/hover/active/focus/disabled.
 - Spacing 4/8/12/16/24/32/48: rapat untuk yang berkaitan, lebar antar grup.

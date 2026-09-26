@@ -14,7 +14,7 @@ Alur: masalah → rencana → build → tes → perbaiki → rilis.
 - Tema terang: krem #FFF6EE, aksen pink #E8437F, teks cokelat, maskot Blobi. Pakai warna yang sudah ada di kode.
 - 60-30-10: krem dominan, kartu/permukaan, pink hanya untuk CTA utama & item aktif.
 - Warna feedback: hijau = sukses/blok selesai, merah = error/bahaya (seed phrase, kontrak mencurigakan), kuning/oranye = peringatan & keputusan penting, emas = PETI. Kontras ≥4.5:1, selalu ada ikon + teks.
-- Font maksimal 2 (Bricolage Grotesque display, Plus Jakarta Sans body). Body 16px. Dijaga `src/lib/font-budget.test.ts` — suite gagal kalau keluarga ke-3 masuk kembali.
+- Font maksimal 2 (Space Grotesk display, Inter body). Body 16px. Dijaga `src/lib/font-budget.test.ts` — suite gagal kalau keluarga ke-3 masuk kembali ATAU kalau nama keluarga tertukar.
 - Spasi jangan sama rata: label→field 6-8px, antar field 16px, sebelum tombol 24px. Skala 4/8/12/16/24/32/48.
 
 ## State wajib
@@ -122,6 +122,15 @@ Platform belajar Web3 bahasa Indonesia, santai, bergamifikasi: 20 rute, 128 blok
 - Font pixel (Pixelify Sans) dibuang dari `<link>` Google Fonts. Budget font jadi **2 keluarga**. `font-budget.test.ts` gagal kalau `Pixelify` muncul kembali di `<link>` atau di token `--font-*`.
 - `src/components/ui/8bit/styles/retro.css` sudah dihapus — dead file (nol importer) dan satu-satunya berkas yang masih benar-benar merujuk `font-family: "Pixelify Sans"`.
 - Sisa: `public/prototype/index.html` (mockup lama berdiri sendiri, nol rujukan dari app/sitemap) masih memuat Pixelify Sans sendiri. Belum disentuh.
+
+### Dokumen Desain & Pengukuran (SSOT)
+- **`DESIGN-SYSTEM.md` adalah blueprint tunggal** — melebur `PRD.md` + `DESIGN.md` ke kerangka 10 bagian (Stack, Typography, Colors, Spacing, Components, Animations, Responsive Rules, Development Plan). Jangan bikin dokumen desain ke-4. `PRD.md`/`DESIGN.md` dibiarkan utuh sebagai arsip, bukan acuan.
+- **Referensi gambar dari user = CONTOH GENERIK, bukan perintah.** Gambar palet (krem/hitam/biru `#5B7CFF`), tipografi (Space Grotesk/Inter, H1 64px), dan stack (Next.js) yang pernah dikirim semuanya contoh dari proyek lain. Ambil **prinsipnya**, jangan hex-nya. Selalu konfirmasi dulu.
+- **Chip di atas foto/artwork = pengecualian sah** kontrak chip: `bg-choco-900/70` transparan + teks putih + `backdrop-blur-sm`, TANPA border. Border solid di atas artwork mengotori gambar.
+- **Guard harus mengunci IDENTITAS, bukan hanya jumlah.** `font-budget.test.ts` dulu cuma cek `families.length <= 2` sehingga keluarga bisa tertukar diam-diam. Sekarang ia mem-pin nama `Space Grotesk` + `Inter` dan memasukkan keluarga lama ke daftar mati.
+- **Tailwind v4 mengeluarkan warna sebagai `oklab()`, bukan `rgb()`.** Regex `rgb()` MELEWATI lapisan itu dan menghasilkan rasio kontras PALSU (chip `bg-choco-900/85` terbaca 1,02 padahal 8,82). Saat mengukur kontras: resolve lewat canvas (`cx.fillStyle=s; cx.getImageData(0,0,1,1).data`), komposit latar semi-transparan berlapis, dan **bedakan TEKS (4,5:1) vs IKON (3:1)** — dari 140 pemakaian "lemah", hanya 42 yang benar-benar teks.
+- **Kelas pengganti kontras yang terverifikasi** (semua sudah ada di `@theme`, nol warna baru): `choco-400`/`ink-300`→`choco-500` · `candy-500/600`/`rose-600`→`candy-700` · `orange-600`/`streak`→`flame-500` · `mint-deep`→**`ok-shadow`** (di `bg-mint/20`, `ok-ink` cuma 4,21) · `emerald-600`→`ok-ink` · `danger`→`err-ink` · `amber-600/300`→`warn-ink`.
+- **Sisa temuan pra-eksisting**: `text-choco-500` di atas `bg-cream/70` = 4,29 (di bawah 4,5) pada `/leaderboard`. Belum diperbaiki — butuh token lebih gelap atau ubah latarnya.
 
 ## Perintah
 - w3 plan [tugas]: rencana bernomor, tanpa coding.

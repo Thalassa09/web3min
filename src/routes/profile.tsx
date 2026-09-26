@@ -225,41 +225,32 @@ function ProfilePage() {
           </button>
         )}
 
-        {/* Tab Switcher */}
-        <div className="flex items-center gap-1.5 p-1 bg-cream border-2 border-choco-900 rounded-full shadow-[2px_2px_0_#3B2218] max-w-fit">
-          <button
-            type="button"
-            onClick={() => setProfileTab("lisensi")}
-            className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
-              profileTab === "lisensi"
-                ? "bg-candy-800 text-white shadow-xs"
-                : "text-choco-600 hover:text-choco-900"
-            }`}
-          >
-            Lisensi & Wardrobe
-          </button>
-          <button
-            type="button"
-            onClick={() => setProfileTab("progres")}
-            className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
-              profileTab === "progres"
-                ? "bg-candy-800 text-white shadow-xs"
-                : "text-choco-600 hover:text-choco-900"
-            }`}
-          >
-            Analitik Progres
-          </button>
-          <button
-            type="button"
-            onClick={() => setProfileTab("rute")}
-            className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
-              profileTab === "rute"
-                ? "bg-candy-800 text-white shadow-xs"
-                : "text-choco-600 hover:text-choco-900"
-            }`}
-          >
-            Rute Belajar
-          </button>
+        {/* Tab Switcher — Arena pill dock (DESIGN.md §4) */}
+        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] max-w-fit">
+          {(
+            [
+              { id: "lisensi", label: "Lisensi & Wardrobe" },
+              { id: "progres", label: "Analitik Progres" },
+              { id: "rute", label: "Rute Belajar" },
+            ] as const
+          ).map((tab) => {
+            const active = profileTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setProfileTab(tab.id)}
+                aria-pressed={active}
+                className={`px-3.5 py-1.5 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                  active
+                    ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                    : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
         {profileTab === "progres" && (

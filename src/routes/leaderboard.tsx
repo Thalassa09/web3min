@@ -21,6 +21,8 @@ import {
   Shield,
   MapPin,
   X,
+  AlertTriangle,
+  RefreshCw,
 } from "lucide-react";
 import { CoinIcon } from "@/components/motif";
 import { useProgress } from "@/lib/store";
@@ -33,7 +35,7 @@ import {
 } from "@/lib/leaderboard-prizes";
 import { rpcGetLeaderboard, type DbLeaderboardUser } from "@/lib/server-sync";
 import { weekId } from "@/lib/time";
-import { CandyLoader } from "@/components/ui/progress-bar";
+import { SkeletonRows } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/leaderboard")({
   component: LeaderboardPage,
@@ -70,6 +72,11 @@ function LeaderboardPage() {
   const [dbTotalCount, setDbTotalCount] = React.useState(0);
   const [isDbLoading, setIsDbLoading] = React.useState(true);
   const [isDbConnected, setIsDbConnected] = React.useState(false);
+  const [dbError, setDbError] = React.useState<string | null>(null);
+  const [reloadKey, setReloadKey] = React.useState(0);
+
+  // Retry must actually re-run the fetch, so `reloadKey` is a dependency.
+  const retryDb = React.useCallback(() => setReloadKey((k) => k + 1), []);
 
   // Desktop drag-to-scroll & mousewheel handlers for filter tabs
   const tabsRef = React.useRef<HTMLDivElement>(null);
@@ -111,15 +118,25 @@ function LeaderboardPage() {
     let active = true;
     async function loadDb() {
       setIsDbLoading(true);
+      setDbError(null);
       try {
         const res = await rpcGetLeaderboard(100, 0);
-        if (active && res && Array.isArray(res.users)) {
+        if (!active) return;
+        if (res.ok) {
           setDbUsers(res.users);
           setDbTotalCount(res.totalCount);
           setIsDbConnected(true);
+        } else {
+          // Keep whatever is already on screen; local progress still counts.
+          setIsDbConnected(false);
+          setDbError("Klasemen server belum bisa dimuat.");
         }
       } catch (err) {
         console.warn("Could not fetch leaderboard from DB:", err);
+        if (active) {
+          setIsDbConnected(false);
+          setDbError("Klasemen server belum bisa dimuat.");
+        }
       } finally {
         if (active) setIsDbLoading(false);
       }
@@ -128,7 +145,7 @@ function LeaderboardPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [reloadKey]);
 
   const currentUser = React.useMemo(
     () => ({
@@ -519,12 +536,38 @@ function LeaderboardPage() {
 
         <div className="divide-y-2 divide-choco-900/10">
           {isDbLoading ? (
-            <div className="p-12 flex flex-col items-center justify-center space-y-4">
-              <CandyLoader size="lg" label="MENYELARASKAN DATA KLASEMEN..." />
+            <SkeletonRows count={6} />
+          ) : dbError ? (
+            <div className="flex flex-col items-center gap-4 p-10 text-center" role="alert">
+              <AlertTriangle aria-hidden="true" className="size-7 text-[#B27B00]" />
+              <div>
+                <p className="font-black text-choco-900">Klasemen server belum bisa dimuat</p>
+                <p className="mt-1 text-sm font-semibold text-choco-600">
+                  Progres kamu tetap aman. Coba lagi sebentar lagi ya.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={retryDb}
+                className="flex min-h-11 items-center gap-2 rounded-full border-2 border-choco-900 bg-candy-500 px-4 text-sm font-black text-white shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5"
+              >
+                <RefreshCw aria-hidden="true" className="size-4" />
+                Coba lagi
+              </button>
             </div>
           ) : participants.length === 0 ? (
-            <div className="p-8 text-center text-choco-600 font-bold">
-              Tidak ada petualang yang cocok dengan filter.
+            <div className="flex flex-col items-center gap-4 p-10 text-center">
+              <p className="font-black text-choco-900">Belum ada petualang di klasemen</p>
+              <p className="text-sm font-semibold text-choco-600">
+                Selesaikan satu blok untuk muncul di sini.
+              </p>
+              <Link
+                to="/"
+                className="flex min-h-11 items-center gap-2 rounded-full border-2 border-choco-900 bg-candy-500 px-4 text-sm font-black text-white shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5"
+              >
+                Mulai Belajar
+                <ArrowRight aria-hidden="true" className="size-4" />
+              </Link>
             </div>
           ) : (
             participants.map((p) => {

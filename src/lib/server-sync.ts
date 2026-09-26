@@ -515,16 +515,19 @@ export type DbLeaderboardUser = {
 export type LeaderboardResult = {
   users: DbLeaderboardUser[];
   totalCount: number;
+  /** false when the fetch failed or Supabase is not configured — lets the UI
+   *  tell "empty leaderboard" apart from "could not reach the server". */
+  ok: boolean;
 };
 
 export async function rpcGetLeaderboard(limit = 100, offset = 0): Promise<LeaderboardResult> {
-  if (!isSupabaseConfigured || !supabase) return { users: [], totalCount: 0 };
+  if (!isSupabaseConfigured || !supabase) return { users: [], totalCount: 0, ok: false };
   try {
     const { data, error } = await supabase.rpc("get_leaderboard", {
       p_limit: limit,
       p_offset: offset,
     });
-    if (error || !data) return { users: [], totalCount: 0 };
+    if (error || !data) return { users: [], totalCount: 0, ok: false };
     const rawList: DbLeaderboardUser[] = Array.isArray(data)
       ? (data as DbLeaderboardUser[])
       : Array.isArray((data as { users?: DbLeaderboardUser[] })?.users)
@@ -555,10 +558,11 @@ export async function rpcGetLeaderboard(limit = 100, offset = 0): Promise<Leader
     return {
       users: cleanUsers,
       totalCount: cleanTotal,
+      ok: true,
     };
   } catch (err) {
     console.warn("[server-sync] Failed to get leaderboard from DB:", err);
-    return { users: [], totalCount: 0 };
+    return { users: [], totalCount: 0, ok: false };
   }
 }
 

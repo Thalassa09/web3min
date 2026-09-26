@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { HydrationGate } from "@/components/hydration-gate";
+import { OfflineBanner } from "@/components/offline-banner";
 import { setAudioEnabled, primeAudio } from "@/lib/audio";
 import { useProgress } from "@/lib/store";
 import appCss from "../styles.css?url";
@@ -81,6 +82,7 @@ function RootDocument() {
             <Outlet />
           </HydrationGate>
         </AuthProvider>
+        <OfflineBanner />
         <Scripts />
       </body>
     </html>

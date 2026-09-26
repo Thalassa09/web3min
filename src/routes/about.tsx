@@ -104,7 +104,7 @@ function AboutPage() {
             >
               Kebijakan Privasi
             </Link>
-            <span className="text-choco-400">·</span>
+            <span className="text-choco-500">·</span>
             <Link
               to="/settings"
               className="font-pixel text-xs font-bold text-choco-700 underline hover:text-candy-700"

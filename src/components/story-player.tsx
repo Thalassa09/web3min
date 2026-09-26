@@ -15,7 +15,7 @@ const WHO_TONE: Record<Speaker, string> = {
   web3min: "text-primary",
   penipu: "text-ruby-shadow",
   teman: "text-candy-700",
-  cs: "text-streak",
+  cs: "text-flame-500",
   kamu: "text-fg",
 };
 

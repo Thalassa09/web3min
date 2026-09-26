@@ -204,7 +204,7 @@ export function SideNav() {
           <div className="min-w-0 flex-1">
             <div className="truncate font-display text-sm font-bold text-choco-900">@{username || "pelajar"}</div>
             <div className="mt-1 flex items-center gap-2 text-[11px] font-bold tabular-nums text-choco-600">
-              <span className={cn("inline-flex items-center gap-1", streak > 0 ? "text-orange-600 font-extrabold" : "text-choco-400 font-semibold")}>
+              <span className={cn("inline-flex items-center gap-1", streak > 0 ? "text-flame-500 font-extrabold" : "text-choco-500 font-semibold")}>
                 <Fire className="size-3" weight={streak > 0 ? "fill" : "regular"} />
                 {streak > 0 ? `${streak} hari` : "Mulai streak"}
               </span>

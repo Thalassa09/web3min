@@ -302,7 +302,7 @@ function LeaderboardPage() {
               <div className="flex items-center gap-3 text-xs md:text-sm font-semibold text-choco-700 mt-1">
                 <span>{currentUser.weeklyXp} XP Mingguan</span>
                 <span>•</span>
-                <span className="flex items-center gap-1 text-orange-600 font-bold">
+                <span className="flex items-center gap-1 text-flame-500 font-bold">
                   <Flame className="h-4 w-4 fill-orange-500" />
                   {currentUser.streak} Hari
                 </span>
@@ -636,7 +636,7 @@ function LeaderboardPage() {
 
                   {/* Right: Streak & XP & Reward */}
                   <div className="flex items-center gap-4 sm:gap-6 shrink-0">
-                    <div className="hidden sm:flex items-center gap-1 text-xs font-bold text-orange-600 w-12 justify-center">
+                    <div className="hidden sm:flex items-center gap-1 text-xs font-bold text-flame-500 w-12 justify-center">
                       <Flame className="h-3.5 w-3.5 fill-orange-500" />
                       {p.streak}
                     </div>

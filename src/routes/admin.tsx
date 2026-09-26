@@ -1417,7 +1417,7 @@ function AdminParticipantsModal({
                           <ExternalLink className="size-2.5 opacity-60" />
                         </a>
                       ) : (
-                        <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-400 bg-stone-50 px-2 py-0.5 rounded-lg border border-stone-200">
+                        <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-500 bg-stone-50 px-2 py-0.5 rounded-lg border border-stone-200">
                           <AtSign className="size-3 text-choco-300" />
                           <strong>X:</strong> -
                         </span>
@@ -1743,7 +1743,7 @@ function RaffleVerificationModal({
                             <ExternalLink className="size-2.5 opacity-60" />
                           </a>
                         ) : (
-                          <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-400 bg-stone-50 px-2 py-0.5 rounded-lg border border-stone-200">
+                          <span className="inline-flex items-center gap-1 font-mono text-[11px] text-choco-500 bg-stone-50 px-2 py-0.5 rounded-lg border border-stone-200">
                             <AtSign className="size-3 text-choco-300" />
                             <strong>X:</strong> -
                           </span>

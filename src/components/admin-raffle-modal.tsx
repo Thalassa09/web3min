@@ -716,7 +716,7 @@ export function AdminRaffleModal({
                   <button
                     type="button"
                     onClick={() => setImageUrl("")}
-                    className="text-[10px] font-pixel text-rose-600 hover:text-rose-700 font-bold underline cursor-pointer"
+                    className="text-[10px] font-pixel text-candy-700 hover:text-rose-700 font-bold underline cursor-pointer"
                   >
                     Hapus
                   </button>

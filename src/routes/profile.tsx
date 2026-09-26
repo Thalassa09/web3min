@@ -534,7 +534,7 @@ function ProfilePage() {
                     name={skill.name}
                     icon={<SkillIcon className="size-3 text-mint-deep" />}
                     level="LULUS"
-                    className="bg-mint/20 text-mint-deep border-mint shadow-[0_2px_0_#1E9E78]"
+                    className="bg-mint/20 text-ok-shadow border-mint shadow-[0_2px_0_#1E9E78]"
                   />
                 );
               }
@@ -581,7 +581,7 @@ function ProfilePage() {
                   </Lozenge>
                 </div>
                 <p className="text-xs font-bold text-choco-600 mt-0.5">
-                  <span className="text-candy-500 font-extrabold">{unitsDone}/20 Unit Selesai</span>
+                  <span className="text-candy-700 font-extrabold">{unitsDone}/20 Unit Selesai</span>
                   <span className="hidden sm:inline text-choco-600/70 font-normal"> • {lessonsDone}/{totalLessons} Modul</span>
                 </p>
               </div>
@@ -712,7 +712,7 @@ function ProfilePage() {
                       {/* Progress Badge */}
                       <div className="w-full pt-0.5">
                         {isCompleted ? (
-                          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint/20 text-mint-deep border border-mint">
+                          <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint/20 text-ok-shadow border border-mint">
                             Selesai
                           </span>
                         ) : (
@@ -881,7 +881,7 @@ function ProfilePage() {
               </div>
 
               {emailDraft.trim() && !isValidRecoveryEmail(emailDraft).valid && (
-                <p className="text-[11px] font-bold text-rose-600 flex items-start gap-1.5">
+                <p className="text-[11px] font-bold text-candy-700 flex items-start gap-1.5">
                   <ShieldAlert className="size-3.5 shrink-0 mt-px" />
                   <span>{isValidRecoveryEmail(emailDraft).reason}</span>
                 </p>

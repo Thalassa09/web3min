@@ -324,7 +324,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               Hari Rantai Aktif
             </div>
             <div className="my-1.5 flex items-center gap-2">
-              <span className="text-3xl font-black font-sans text-orange-600 tabular-nums flex items-center gap-1.5">
+              <span className="text-3xl font-black font-sans text-flame-500 tabular-nums flex items-center gap-1.5">
                 <Fire className="size-7 text-orange-500 fill-orange-500 shrink-0" weight="fill" />
                 {streak}
               </span>
@@ -335,7 +335,7 @@ Belajar Web3 interaktif: https://web3min.com`;
             <div className="text-[11px] font-bold text-choco-600 mt-auto pt-2 border-t border-choco-900/10 flex items-center justify-between">
               <span>{streak > 0 ? "Rantai menyala!" : "Belum ada streak"}</span>
               {freeze > 0 ? (
-                <span className="text-orange-600 font-extrabold">{freeze} Pelindung siaga</span>
+                <span className="text-flame-500 font-extrabold">{freeze} Pelindung siaga</span>
               ) : (
                 <Link to="/shop" className="text-candy-700 font-extrabold underline decoration-dotted">
                   Amankan di Toko
@@ -383,7 +383,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                       >
                         {brickCount === 0 ? (
                           // Clean single empty state baseline (No 3-tier dashed clutter!)
-                          <div className="h-5 sm:h-6 w-full rounded-lg border-2 border-dashed border-choco-900/20 flex items-center justify-center text-[10px] text-choco-400 font-sans font-bold tabular-nums">
+                          <div className="h-5 sm:h-6 w-full rounded-lg border-2 border-dashed border-choco-900/20 flex items-center justify-center text-[10px] text-choco-500 font-sans font-bold tabular-nums">
                             0
                           </div>
                         ) : (
@@ -445,7 +445,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                         }`}
                       >
                         {brickCount === 0 ? (
-                          <div className="h-6 w-full rounded-lg border-2 border-dashed border-choco-900/20 flex items-center justify-center text-[10px] text-choco-400 font-sans font-bold tabular-nums">
+                          <div className="h-6 w-full rounded-lg border-2 border-dashed border-choco-900/20 flex items-center justify-center text-[10px] text-choco-500 font-sans font-bold tabular-nums">
                             0
                           </div>
                         ) : (
@@ -836,7 +836,7 @@ Belajar Web3 interaktif: https://web3min.com`;
 
               <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
                 <div className="text-[11px] font-bold text-choco-500">Hari Rantai</div>
-                <div className="text-xl font-black font-sans text-orange-600 tabular-nums flex items-center gap-1">
+                <div className="text-xl font-black font-sans text-flame-500 tabular-nums flex items-center gap-1">
                   <Fire className="size-4.5 text-orange-500 fill-orange-500" weight="fill" />
                   {streak} <span className="text-xs text-choco-500 font-bold">Hari</span>
                 </div>
@@ -845,7 +845,7 @@ Belajar Web3 interaktif: https://web3min.com`;
 
               <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
                 <div className="text-[11px] font-bold text-choco-500">Koin</div>
-                <div className="text-xl font-black font-sans text-emerald-600 tabular-nums">
+                <div className="text-xl font-black font-sans text-ok-ink tabular-nums">
                   {gems} ⌂
                 </div>
                 <div className="text-[10px] text-choco-600 font-bold">Saldo dompet</div>

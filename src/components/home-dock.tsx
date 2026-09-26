@@ -106,9 +106,9 @@ export function HomeDock() {
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-candy-deep">
             <span>Unit {unitNum}</span>
-            <span className="text-ink-300">·</span>
+            <span className="text-choco-500">·</span>
             <span className="text-ink-500">{world.land}</span>
-            <span className="text-ink-300">·</span>
+            <span className="text-choco-500">·</span>
             <span className="text-ink-500">{lessonNo}/{scoredLessons.length}</span>
           </div>
           <div className="font-display font-black text-sm text-ink-900 truncate mt-0.5">

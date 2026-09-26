@@ -67,7 +67,7 @@ export const CandyToggle: React.FC<CandyToggleProps> = ({
           className={cn(
             "absolute top-0.5 size-5.5 rounded-full border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-transform duration-150 flex items-center justify-center",
             checked
-              ? "translate-x-6.5 bg-white text-mint-deep"
+              ? "translate-x-6.5 bg-white text-ok-shadow"
               : "translate-x-0.5 bg-white text-choco-600"
           )}
         >

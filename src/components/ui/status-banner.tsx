@@ -119,7 +119,7 @@ export function StatusBanner({
         {action}
         {proofHash && (
           <div className="hidden sm:flex flex-col items-end">
-            <span className="text-[10px] font-mono text-ink-300 uppercase tracking-wider font-bold">
+            <span className="text-[10px] font-mono text-choco-500 uppercase tracking-wider font-bold">
               PROOF HASH
             </span>
             <span className="text-xs font-pixel font-bold text-candy-700 truncate max-w-[120px]">

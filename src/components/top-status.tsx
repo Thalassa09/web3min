@@ -177,7 +177,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
             {hearts}
           </span>
           {hearts < MAX_HEARTS && (
-            <span className="text-candy-500 text-xs font-black leading-none">+</span>
+            <span className="text-candy-700 text-xs font-black leading-none">+</span>
           )}
         </Link>
 

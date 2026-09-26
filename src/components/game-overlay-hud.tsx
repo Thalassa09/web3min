@@ -96,7 +96,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
               <span>{completedQuests}/3</span>
             </div>
             <span className="w-1 h-1 rounded-full bg-choco-300" />
-            <div className="flex items-center gap-1 text-amber-600">
+            <div className="flex items-center gap-1 text-warn-ink">
               <Trophy className="size-3.5 text-amber-500" />
             </div>
           </button>

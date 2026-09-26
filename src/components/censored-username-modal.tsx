@@ -86,7 +86,7 @@ export function CensoredUsernameModal() {
               Pilih Username Baru (3-20 Karakter)
             </label>
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-choco-400 font-bold text-xs">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-choco-500 font-bold text-xs">
                 @
               </span>
               <input

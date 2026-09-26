@@ -11,9 +11,9 @@ export type Proof = {
 
 export const TONE_UI: Record<ProofTone, { label: string; border: string; text: string }> = {
   up: { label: "Cuan", border: "border-unit-teal", text: "text-unit-teal" },
-  down: { label: "Hangus", border: "border-danger", text: "text-danger" },
-  warn: { label: "Waspada", border: "border-streak", text: "text-streak" },
-  info: { label: "Fakta", border: "border-candy-300", text: "text-candy-600" },
+  down: { label: "Hangus", border: "border-danger", text: "text-err-ink" },
+  warn: { label: "Waspada", border: "border-streak", text: "text-flame-500" },
+  info: { label: "Fakta", border: "border-candy-300", text: "text-candy-700" },
   drop: { label: "Airdrop", border: "border-unit-purple", text: "text-unit-purple" },
 };
 

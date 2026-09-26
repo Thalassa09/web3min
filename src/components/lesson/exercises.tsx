@@ -500,7 +500,7 @@ function OrderBoard({
       <div className="mt-4 min-h-16 border-t-2 border-dashed border-line-strong pt-3">
         <div className="flex flex-wrap gap-2">
           {built.length === 0 ? (
-            <span className="text-sm font-bold text-ink-300">Susun di sini</span>
+            <span className="text-sm font-bold text-choco-500">Susun di sini</span>
           ) : (
             built.map((i, pos) => (
               <button

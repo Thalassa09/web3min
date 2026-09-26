@@ -1336,7 +1336,7 @@ function RafflePage() {
                       className="w-full px-3 py-2.5 rounded-xl bg-cream/40 border-2 border-choco-900 text-xs font-mono font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_1.5px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-500"
                     />
                     {walletError ? (
-                      <p className="text-[10px] font-bold text-rose-600 mt-1">{walletError}</p>
+                      <p className="text-[10px] font-bold text-candy-700 mt-1">{walletError}</p>
                     ) : (
                       <p className="text-[10px] text-choco-500 mt-1">
                         Format 0x… 40 karakter hex (Ethereum, Base, Arbitrum).
@@ -1364,7 +1364,7 @@ function RafflePage() {
                     />
                   </div>
                   {xError && (
-                    <p className="text-[10px] font-bold text-rose-600 mt-1">{xError}</p>
+                    <p className="text-[10px] font-bold text-candy-700 mt-1">{xError}</p>
                   )}
                 </div>
 

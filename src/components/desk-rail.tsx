@@ -104,7 +104,7 @@ export function DeskRail() {
             <Sparkles className="size-4 text-primary" />
             Misi Harian
           </span>
-          <span className="t-caption text-ink-300 font-mono text-[11px]">Reset 24j</span>
+          <span className="t-caption text-choco-500 font-mono text-[11px]">Reset 24j</span>
         </div>
 
         <div className="space-y-3.5">

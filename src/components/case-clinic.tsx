@@ -116,7 +116,7 @@ export function CaseClinic({ study }: { study: CaseStudy }) {
           </figure>
         ) : null}
 
-        <p className="mt-3 text-xs font-extrabold uppercase tracking-label text-streak">
+        <p className="mt-3 text-xs font-extrabold uppercase tracking-label text-flame-500">
           Langkah {i + 1} / {study.steps.length} · lihat
         </p>
         <p className="text-lg font-black leading-snug">{step.look}</p>

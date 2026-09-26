@@ -478,7 +478,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               <span className="size-2 rounded-full bg-candy-500 animate-pulse" />
               <span>
                 {mode === "w"
-                  ? `${(activeColData as any).fullLabel || "Hari"}: ${(activeColData as any).xp} XP ditambang`
+                  ? `${(activeColData as any).fullLabel || "Hari"}: ${(activeColData as any).xp} XP dikumpulkan`
                   : `${(activeColData as any).fullLabel}: ${(activeColData as any).xp} XP`}
               </span>
             </div>

@@ -543,7 +543,7 @@ export function PulauRantaiMap({
                   {sheetLesson.lesson.title}
                 </h3>
                 <p className="text-xs font-semibold text-candy-700 font-pixel mt-0.5">
-                  {sheetLesson.status === "done" ? "Blok Selesai Ditambang!" : "Siap Ditambang Bersama Blobi!"}
+                  {sheetLesson.status === "done" ? "Blok Selesai Dipelajari!" : "Siap Dipelajari Bersama Blobi!"}
                 </p>
               </div>
             </div>
@@ -564,7 +564,7 @@ export function PulauRantaiMap({
                 <span>
                   {sheetLesson.status === "done"
                     ? "Validasi Ulang (+15 XP)"
-                    : "Tambang Blok Ini (+30 XP)"}
+                    : "Pelajari Blok Ini (+30 XP)"}
                 </span>
               </button>
             </div>

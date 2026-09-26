@@ -11,7 +11,7 @@ function PrivacyPage() {
         {/* Header Hero Banner */}
         <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-[#FFF6EE] via-[#FFE3EC] to-[#FFD6E6] border-4 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900">
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-3 py-1 rounded-full bg-candy-500 border-2 border-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218]">
+            <span className="px-3 py-1 rounded-full bg-candy-800 border-2 border-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218]">
               PRIVASI & KEAMANAN DATA
             </span>
           </div>
@@ -169,7 +169,7 @@ function PrivacyPage() {
           </Link>
           <Link
             to="/about"
-            className="py-3.5 px-6 rounded-2xl bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs border-3 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer text-center"
+            className="py-3.5 px-6 rounded-2xl bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-3 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer text-center"
           >
             Tentang Web3min
           </Link>

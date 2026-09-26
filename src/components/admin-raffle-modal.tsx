@@ -208,7 +208,7 @@ export function AdminAuthModal({
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3 px-4 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               {loading ? (
                 <span>Memverifikasi...</span>
@@ -510,7 +510,7 @@ export function AdminRaffleModal({
         {/* Modal Header */}
         <div className="shrink-0 p-4 sm:p-5 border-b-2 border-choco-900/15 flex items-center justify-between bg-cream-50">
           <div className="flex items-center gap-3">
-            <div className="size-11 rounded-2xl bg-candy-500 border-2 border-choco-900 text-white flex items-center justify-center shadow-[0_2px_0_#3B2218]">
+            <div className="size-11 rounded-2xl bg-candy-800 border-2 border-choco-900 text-white flex items-center justify-center shadow-[0_2px_0_#3B2218]">
               {isEditing ? <Edit3 className="size-5" /> : <Plus className="size-5" />}
             </div>
             <div>
@@ -885,7 +885,7 @@ export function AdminRaffleModal({
               <button
                 type="submit"
                 disabled={submitting}
-                className="py-2.5 px-6 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-2"
+                className="py-2.5 px-6 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-2"
               >
                 {submitting ? (
                   <span>Menyimpan...</span>

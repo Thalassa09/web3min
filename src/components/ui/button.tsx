@@ -65,7 +65,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variantClasses = {
       primary: cn(
         "btn-gummy",
-        "bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] text-white border-2 border-candy-600/60",
+        "bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white border-2 border-candy-600/60",
         "shadow-[0_4px_0_#B01F62,0_8px_16px_-2px_rgba(232,67,127,0.25),inset_0_1px_0_rgba(255,255,255,0.55)]",
         "hover:brightness-105 active:translate-y-1 active:shadow-none",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-400"

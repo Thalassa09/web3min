@@ -112,7 +112,7 @@ export function CensoredUsernameModal() {
               disabled={loading || !isValidFormat}
               className={`w-full py-3 rounded-full font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5 cursor-pointer flex items-center justify-center gap-2 ${
                 isValidFormat && !loading
-                  ? "bg-candy-500 hover:bg-candy-600 text-white"
+                  ? "bg-candy-800 hover:bg-candy-950 text-white"
                   : "bg-stone-200 text-stone-400 cursor-not-allowed shadow-none"
               }`}
             >

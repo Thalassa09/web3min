@@ -214,7 +214,7 @@ function MasukPage() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full py-4 px-6 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
+              className="w-full py-4 px-6 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
             >
               <span>{busy ? "Memeriksa Akun..." : "Masuk Sekarang"}</span>
               <ArrowRight className="size-5" />
@@ -317,7 +317,7 @@ function MasukPage() {
                   <button
                     type="submit"
                     disabled={resetBusy || !resetUsername.trim()}
-                    className="w-full py-3 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 cursor-pointer flex items-center justify-center gap-2 transition-all"
+                    className="w-full py-3 px-5 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 cursor-pointer flex items-center justify-center gap-2 transition-all"
                   >
                     <Mail className="size-4" />
                     <span>{resetBusy ? "Mengecek Akun & Mengirim..." : "Kirim Kode Reset"}</span>

@@ -50,7 +50,7 @@ export function DeskRail() {
             <Link
               to="/lesson/$lessonId"
               params={{ lessonId: nextPlayableId }}
-              className="w-full py-2 px-3 rounded-xl bg-gradient-to-b from-[#FF6699] via-[#E8437F] to-[#D82668] hover:brightness-105 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full py-2 px-3 rounded-xl bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] hover:brightness-105 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>Mulai Belajar</span>
               <ArrowRight className="size-3.5 stroke-[2.5]" />
@@ -79,7 +79,7 @@ export function DeskRail() {
           <button
             type="button"
             onClick={() => setShowProgresModal(true)}
-            className="w-full py-2 px-3 rounded-xl bg-candy-500 hover:bg-candy-600 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+            className="w-full py-2 px-3 rounded-xl bg-candy-800 hover:bg-candy-950 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer flex items-center justify-center gap-1.5"
           >
             <BookOpen className="size-3.5" />
             <span>Lihat Peta 20 Rute</span>

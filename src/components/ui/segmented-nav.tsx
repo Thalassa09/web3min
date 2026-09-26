@@ -41,7 +41,7 @@ export function SegmentedNav({
               active:translate-y-[1px]
               ${
                 isActive
-                  ? "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                   : "text-choco-600 hover:text-choco-900 hover:bg-white/50 border-2 border-transparent"
               }
             `}

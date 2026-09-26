@@ -71,7 +71,7 @@ export function StoryPlayer({ story }: { story: Story }) {
           <div className="mt-8 flex flex-col gap-3 w-full">
             <Link
               to="/onboarding"
-              className="w-full py-3.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 transition-all flex items-center justify-center gap-2"
+              className="w-full py-3.5 px-5 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 transition-all flex items-center justify-center gap-2"
             >
               <span>Mulai Belajar di web3min →</span>
             </Link>

@@ -265,7 +265,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               type="button"
               className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 mode === "w"
-                  ? "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                   : "text-choco-600 hover:text-choco-900"
               }`}
               onClick={() => {
@@ -279,7 +279,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               type="button"
               className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 mode === "m"
-                  ? "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                   : "text-choco-600 hover:text-choco-900"
               }`}
               onClick={() => {
@@ -400,7 +400,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                         <span
                           className={`text-xs font-bold leading-none ${
                             col.isToday
-                              ? "text-white bg-candy-500 px-2 py-0.5 rounded-full border border-choco-900 shadow-[0_1px_0_#3B2218]"
+                              ? "text-white bg-candy-800 px-2 py-0.5 rounded-full border border-choco-900 shadow-[0_1px_0_#3B2218]"
                               : isSelected
                               ? "text-choco-900 font-extrabold underline decoration-candy-500 decoration-2 underline-offset-2"
                               : "text-choco-600"
@@ -459,7 +459,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                       <div
                         className={`mt-2 text-xs font-bold ${
                           col.isCurrentWeek
-                            ? "text-white bg-candy-500 px-2 py-0.5 rounded-full border border-choco-900 shadow-[0_1px_0_#3B2218]"
+                            ? "text-white bg-candy-800 px-2 py-0.5 rounded-full border border-choco-900 shadow-[0_1px_0_#3B2218]"
                             : isSelected
                             ? "text-choco-900 font-extrabold underline decoration-2 underline-offset-2"
                             : "text-choco-600"
@@ -612,7 +612,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               <Link
                 to="/lesson/$lessonId"
                 params={{ lessonId: lastCompletedLesson.lesson.id }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-bold text-xs rounded-xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-all cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-candy-800 hover:bg-candy-950 active:translate-y-0.5 text-white font-bold text-xs rounded-xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-all cursor-pointer"
               >
                 <span>Ulangi Blok Ini</span>
                 <ArrowRight className="size-3.5 stroke-[3]" />
@@ -636,7 +636,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               <Link
                 to="/lesson/$lessonId"
                 params={{ lessonId: firstLessonInScope.id }}
-                className="inline-flex items-center gap-2 py-2.5 px-5 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-bold text-xs rounded-full border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 py-2.5 px-5 bg-candy-800 hover:bg-candy-950 active:translate-y-0.5 text-white font-bold text-xs rounded-full border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-all cursor-pointer"
               >
                 <span>Mulai Belajar Sekarang</span>
                 <ArrowRight className="size-4 stroke-[3]" />
@@ -793,7 +793,7 @@ Belajar Web3 interaktif: https://web3min.com`;
             {/* Profile Bar */}
             <div className="flex items-center justify-between bg-candy-100 border-2 border-choco-900 rounded-2xl p-3 shadow-[0_2px_0_#3B2218]">
               <div className="flex items-center gap-2.5">
-                <div className="size-10 rounded-full bg-candy-500 border-2 border-choco-900 flex items-center justify-center font-bold text-white shadow-[0_1px_0_#3B2218]">
+                <div className="size-10 rounded-full bg-candy-800 border-2 border-choco-900 flex items-center justify-center font-bold text-white shadow-[0_1px_0_#3B2218]">
                   {username.slice(0, 2).toUpperCase()}
                 </div>
                 <div>
@@ -871,7 +871,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               <button
                 type="button"
                 onClick={copyRekapText}
-                className="flex-1 py-2.5 px-3 bg-candy-500 hover:bg-candy-600 active:translate-y-0.5 text-white font-bold text-xs rounded-xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                className="flex-1 py-2.5 px-3 bg-candy-800 hover:bg-candy-950 active:translate-y-0.5 text-white font-bold text-xs rounded-xl border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
               >
                 {copiedRekap ? (
                   <>

@@ -110,7 +110,7 @@ function getSlotBadge(slotType?: string | null, category?: string) {
   }
   if (slotType === "ITEM" || category === "outfit" || category === "badge") {
     return {
-      badgeBg: "bg-candy-500 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
+      badgeBg: "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
       label: "Item Limited",
       icon: Tag,
     };
@@ -476,7 +476,7 @@ export function RafflePage() {
               <Trophy className="h-4 w-4" />
               <span>Klasemen Liga</span>
             </Link>
-            <div className="inline-flex items-center gap-2 py-2 px-4 rounded-xl bg-candy-500 text-white font-pixel text-xs font-bold shadow-[0_1.5px_0_#3B2218]">
+            <div className="inline-flex items-center gap-2 py-2 px-4 rounded-xl bg-candy-800 text-white font-pixel text-xs font-bold shadow-[0_1.5px_0_#3B2218]">
               <Ticket className="h-4 w-4" />
               <span>Undian Hadiah</span>
             </div>
@@ -554,7 +554,7 @@ export function RafflePage() {
                   playTap();
                   setShowBuyModal(true);
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-candy-500 px-5 py-3 font-pixel text-xs font-bold text-white shadow-[0_3px_0_#3B2218] hover:bg-candy-600 active:translate-y-1 active:shadow-none transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-candy-800 px-5 py-3 font-pixel text-xs font-bold text-white shadow-[0_3px_0_#3B2218] hover:bg-candy-950 active:translate-y-1 active:shadow-none transition-all cursor-pointer"
               >
                 <Plus className="h-4 w-4 stroke-[3]" />
                 <span>Beli Tiket</span>
@@ -599,7 +599,7 @@ export function RafflePage() {
                 }}
                 className={`rounded-full border-2 border-choco-900 px-3.5 h-8 text-xs font-bold transition-all cursor-pointer ${
                   activeCategory === cat.id
-                    ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                    ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
                     : "bg-white text-choco-700 hover:bg-cream"
                 }`}
               >
@@ -966,7 +966,7 @@ export function RafflePage() {
                     <button
                       onClick={() => handleOpenEnterModal(raffle)}
                       disabled={!isLive || isExpired || !raffle.endsAt}
-                      className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 disabled:opacity-40 disabled:hover:bg-candy-500 text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-800 hover:bg-candy-950 disabled:opacity-40 disabled:hover:bg-candy-950 text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
                       <Ticket className="size-4" />
                       <span>
@@ -1140,7 +1140,7 @@ export function RafflePage() {
             <button
               onClick={handleBuyTickets}
               disabled={gems < buyAmount * RAFFLE_TICKET_PRICE}
-              className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-500 hover:bg-candy-600 disabled:opacity-40 text-white font-pixel text-xs font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer"
+              className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-800 hover:bg-candy-950 disabled:opacity-40 text-white font-pixel text-xs font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer"
             >
               Konfirmasi Tukar
             </button>
@@ -1168,7 +1168,7 @@ export function RafflePage() {
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <div className="size-11 rounded-2xl bg-candy-500 border-2 border-choco-900 flex items-center justify-center text-white shadow-[0_2px_0_#3B2218]">
+              <div className="size-11 rounded-2xl bg-candy-800 border-2 border-choco-900 flex items-center justify-center text-white shadow-[0_2px_0_#3B2218]">
                 <Ticket className="size-6" />
               </div>
               <div>
@@ -1276,7 +1276,7 @@ export function RafflePage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="py-2.5 px-6 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-40 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-1.5"
+                  className="py-2.5 px-6 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-40 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-1.5"
                 >
                   <Check className="size-4" />
                   <span>

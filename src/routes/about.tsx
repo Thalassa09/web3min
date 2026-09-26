@@ -115,7 +115,7 @@ function AboutPage() {
 
           <Link
             to="/"
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-candy-500 hover:bg-candy-600 px-5 py-3 font-pixel text-xs sm:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border-3 border-choco-900 bg-candy-800 hover:bg-candy-950 px-5 py-3 font-pixel text-xs sm:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] transition-all cursor-pointer"
           >
             <span>Kembali ke Peta Rantai</span>
             <ArrowRight className="size-4" />

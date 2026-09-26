@@ -407,10 +407,16 @@ html[data-pixel-mode="true"],
   gap: 8px;
   padding: 10px 20px;
   color: #fff;
-  background: linear-gradient(180deg, #FF6699 0%, #E8437F 60%, #D82668 100%);
+  /* White on the old stops (#FF6699 2.76:1, #E8437F 3.79:1, #D82668 4.37:1)
+     failed WCAG AA for the 15px/700 label below. The ramp is shifted one step
+     darker than the "obvious" fix because `hover:brightness-105` and
+     `active:brightness-105` lighten every stop: candy-700/800/950 keeps the
+     worst state (hover+active on a 15px label) at 5.60:1. Pink identity stays
+     on the border, the 3D shadow, and the focus ring — not under the text. */
+  background: linear-gradient(180deg, #B01F62 0%, #85174A 60%, #6E1239 100%);
   border: 2px solid rgba(176, 31, 98, 0.6);
   border-radius: 16px;
-  box-shadow: 0 4px 0 #B01F62, 0 8px 16px -2px rgba(232, 67, 127, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  box-shadow: 0 4px 0 #6E1239, 0 8px 16px -2px rgba(232, 67, 127, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.55);
   font-family: var(--active-heading-font);
   font-size: 15px;
   font-weight: 700;

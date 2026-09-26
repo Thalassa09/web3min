@@ -245,7 +245,7 @@ function NavRow({
       className="group flex w-full items-center"
     >
       {active ? (
-        <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full bg-gradient-to-b from-[#FF6BA6] via-[#FF3D88] to-[#E61F73] pl-2 pr-4 text-white shadow-[0_4px_0_#B01E5D] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01E5D]">
+        <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] pl-2 pr-4 text-white shadow-[0_4px_0_#B01E5D] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01E5D]">
           <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20 p-0.5">
             <span className="grid size-8 place-items-center rounded-full bg-white text-[#FF3D88] shadow-xs">
               {icon}

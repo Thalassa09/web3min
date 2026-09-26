@@ -110,7 +110,7 @@ function SettingsPage() {
               setSaved(true);
               window.setTimeout(() => setSaved(false), 4000);
             }}
-            className="mt-3 py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+            className="mt-3 py-2.5 px-5 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
           >
             Simpan Akun X
           </button>
@@ -135,7 +135,7 @@ function SettingsPage() {
             onClick={() => setSound(!sound)}
             className={`py-2 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all flex items-center gap-1.5 ${
               sound
-                ? "bg-candy-500 text-white"
+                ? "bg-candy-800 text-white"
                 : "bg-cream text-choco-700"
             }`}
           >
@@ -157,7 +157,7 @@ function SettingsPage() {
             onClick={() => setReduceMotion(!reduceMotion)}
             className={`py-2 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all ${
               reduceMotion
-                ? "bg-candy-500 text-white"
+                ? "bg-candy-800 text-white"
                 : "bg-cream text-choco-700"
             }`}
           >
@@ -182,7 +182,7 @@ function SettingsPage() {
             className={`py-2 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0 flex items-center gap-1.5 ${
               pixelMode
                 ? "bg-amber-400 text-choco-900"
-                : "bg-candy-500 text-white"
+                : "bg-candy-800 text-white"
             }`}
           >
             {pixelMode ? <Gamepad2 className="size-3.5" /> : <Sparkles className="size-3.5" />}

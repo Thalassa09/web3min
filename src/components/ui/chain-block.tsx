@@ -97,7 +97,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
 
       {/* 2. Floating MULAI bubble for active node */}
       {status === "active" && (
-        <span className="absolute -top-13 z-20 px-2.5 py-0.5 rounded-full bg-candy-500 text-white font-pixel font-bold text-[10px] border-2 border-choco-900 shadow-[0_2px_0_#3B2218] animate-bounce pointer-events-none flex items-center gap-1">
+        <span className="absolute -top-13 z-20 px-2.5 py-0.5 rounded-full bg-candy-800 text-white font-pixel font-bold text-[10px] border-2 border-choco-900 shadow-[0_2px_0_#3B2218] animate-bounce pointer-events-none flex items-center gap-1">
           <span>MULAI</span>
         </span>
       )}

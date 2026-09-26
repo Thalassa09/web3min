@@ -533,7 +533,7 @@ export function AdminPage() {
               <button
                 type="submit"
                 disabled={loginLoading}
-                className="w-full py-3.5 px-4 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-50 text-white font-pixel font-bold text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-4 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
               >
                 {loginLoading ? (
                   <span>Memverifikasi...</span>
@@ -591,7 +591,7 @@ export function AdminPage() {
                 <button
                   type="button"
                   onClick={handleOpenCreate}
-                  className="py-2.5 px-5 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-2"
+                  className="py-2.5 px-5 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-2"
                 >
                   <Plus className="size-4" />
                   <span>Buat Undian Baru</span>
@@ -614,7 +614,7 @@ export function AdminPage() {
                 onClick={() => setActiveAdminTab("raffles")}
                 className={`px-4 py-2 rounded-full font-pixel text-xs font-bold border-2 border-choco-900 transition-all cursor-pointer ${
                   activeAdminTab === "raffles"
-                    ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                    ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
                     : "bg-white text-choco-700 hover:bg-cream"
                 }`}
               >
@@ -628,7 +628,7 @@ export function AdminPage() {
                 }}
                 className={`px-4 py-2 rounded-full font-pixel text-xs font-bold border-2 border-choco-900 transition-all cursor-pointer flex items-center gap-1.5 ${
                   activeAdminTab === "users"
-                    ? "bg-candy-500 text-white shadow-[0_2px_0_#3B2218]"
+                    ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
                     : "bg-white text-choco-700 hover:bg-cream"
                 }`}
               >
@@ -807,7 +807,7 @@ export function AdminPage() {
                       setStatusFilter("all");
                       setCategoryFilter("all");
                     }}
-                    className="py-2 px-4 rounded-full bg-candy-500 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] cursor-pointer"
+                    className="py-2 px-4 rounded-full bg-candy-800 text-white font-pixel text-xs font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] cursor-pointer"
                   >
                     Reset Filter
                   </button>
@@ -1846,7 +1846,7 @@ function RaffleVerificationModal({
                 type="button"
                 disabled={!allVerified || isAnnouncing}
                 onClick={handleAnnounce}
-                className="py-2 px-5 rounded-full bg-candy-500 hover:bg-candy-600 disabled:opacity-40 text-white font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+                className="py-2 px-5 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-40 text-white font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
                 title={
                   !allVerified
                     ? "Semua pemenang harus terverifikasi sebelum diumumkan"

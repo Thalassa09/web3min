@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -58,10 +58,76 @@ test("white labels only sit on surfaces dark enough for white text", () => {
   }
 });
 
-test("KNOWN GAP: --color-candy-500 is too light for white text (3.79:1)", () => {
-  // Documented, not silently fixed: the pink CTA fill #E8437F is the brand and
-  // AGENTS.md says "jangan ganti". White-on-pink fails AA for small text, so
-  // labels on it must be >=18.66px bold (large-text threshold is 3:1).
+test("no white text sits on --color-candy-500 (3.79:1)", () => {
+  // The gap is closed by moving the LABEL's surface, not by changing the brand:
+  // every pink fill that carries white text moved to candy-700/800/950, and
+  // candy-500 is left doing border / ring / dot duty, which has no contrast
+  // requirement. This test is what keeps that true — reintroducing
+  // `bg-candy-500 ... text-white` on one line fails here.
+  const files: string[] = [];
+  const walk = (dir: string) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) {
+        if (e.name !== "8bit") walk(p);
+      } else if (e.name.endsWith(".tsx")) files.push(p);
+    }
+  };
+  walk(join(ROOT, "src"));
+
+  const offenders = files
+    .flatMap((f) =>
+      readFileSync(f, "utf8")
+        .split("\n")
+        .map((line, i) => ({ f, i: i + 1, line }))
+        .filter(({ line }) => /\bbg-candy-(?:400|500)\b/.test(line) && /\btext-white\b/.test(line))
+        .map(({ f, i }) => `${f.replace(ROOT + "/", "")}:${i}`),
+    )
+    .sort();
+
+  assert.deepEqual(
+    offenders,
+    [],
+    `white labels on candy-400/500 fail AA (3.79:1) — use candy-700/800: ${offenders.join(", ")}`,
+  );
+});
+
+test("active nav / Lanjut gradient stops clear 4.5:1, including hover", () => {
+  // bottom-nav.tsx holds the ramp as a Tailwind arbitrary-value string, so this
+  // parses the source instead of asking for a token. `hover:brightness-110` on
+  // the Lanjut button lifts every stop by 10%, and that branch is what makes
+  // candy-600 unacceptable as stop 0% (4.71 at rest -> 4.0 on hover).
+  const nav = readFileSync(join(ROOT, "src/components/bottom-nav.tsx"), "utf8");
+  // Scope to the CANDY_ACTIVE constant: the file also holds the pill's own
+  // light surface gradient (from-white via-[#FFF9F5] ...), which carries no
+  // white text and must not be scored.
+  const decl = nav.match(/const CANDY_ACTIVE\s*=\s*([\s\S]*?);\n/);
+  assert.ok(decl, "CANDY_ACTIVE declaration not found in bottom-nav.tsx");
+  const stops = [...decl![1].matchAll(/from-\[#([0-9A-Fa-f]{6})\]|via-\[#([0-9A-Fa-f]{6})\]|to-\[#([0-9A-Fa-f]{6})\]/g)].map(
+    (m) => "#" + (m[1] || m[2] || m[3]),
+  );
+  assert.ok(stops.length >= 3, `expected a 3-stop ramp in CANDY_ACTIVE, found ${stops.length}: ${stops.join(", ")}`);
+
+  const brighten = (hex: string, p: number) =>
+    "#" +
+    [0, 2, 4]
+      .map((i) => Math.min(255, Math.round(parseInt(hex.slice(1 + i, 3 + i), 16) * p)).toString(16).padStart(2, "0"))
+      .join("");
+
+  for (const s of stops) {
+    for (const [state, hex] of [
+      ["rest", s],
+      ["hover", brighten(s, 1.1)],
+    ] as const) {
+      const v = contrast("#FFFFFF", hex);
+      assert.ok(v >= 4.5, `nav ramp stop ${s} at ${state} (${hex}) = ${v.toFixed(2)}:1 — white label fails AA`);
+    }
+  }
+});
+
+test("KNOWN GAP: --color-candy-500 stays too light for white text (3.79:1)", () => {
+  // Kept as documentation of WHY the fills moved. candy-500 is still the brand
+  // pink and must not be darkened (AGENTS.md), so it must never carry a label.
   const v = contrast("#FFFFFF", token("candy-500"));
-  assert.ok(v < 4.5 && v > 3, `candy-500 vs white drifted to ${v.toFixed(2)}:1 — revisit the CTA label size rule`);
+  assert.ok(v < 4.5 && v > 3, `candy-500 vs white drifted to ${v.toFixed(2)}:1 — revisit the CTA fill rules`);
 });

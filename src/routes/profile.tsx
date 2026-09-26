@@ -232,7 +232,7 @@ function ProfilePage() {
             onClick={() => setProfileTab("lisensi")}
             className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
               profileTab === "lisensi"
-                ? "bg-candy-500 text-white shadow-xs"
+                ? "bg-candy-800 text-white shadow-xs"
                 : "text-choco-600 hover:text-choco-900"
             }`}
           >
@@ -243,7 +243,7 @@ function ProfilePage() {
             onClick={() => setProfileTab("progres")}
             className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
               profileTab === "progres"
-                ? "bg-candy-500 text-white shadow-xs"
+                ? "bg-candy-800 text-white shadow-xs"
                 : "text-choco-600 hover:text-choco-900"
             }`}
           >
@@ -254,7 +254,7 @@ function ProfilePage() {
             onClick={() => setProfileTab("rute")}
             className={`px-3.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer ${
               profileTab === "rute"
-                ? "bg-candy-500 text-white shadow-xs"
+                ? "bg-candy-800 text-white shadow-xs"
                 : "text-choco-600 hover:text-choco-900"
             }`}
           >

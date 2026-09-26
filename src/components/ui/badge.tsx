@@ -32,7 +32,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   const variantClasses = {
     level: "bg-lemon text-choco-900 border-2 border-choco-900 font-pixel font-bold shadow-[0_2px_0_#3B2218]",
-    brand: "bg-candy-400 text-white border-2 border-choco-900 font-pixel font-bold shadow-[0_2px_0_#3B2218]",
+    brand: "bg-candy-800 text-white border-2 border-choco-900 font-pixel font-bold shadow-[0_2px_0_#3B2218]",
     hash: "bg-cream text-choco-900 border-2 border-choco-900 font-pixel font-bold shadow-[0_2px_0_#3B2218]",
     coin: "bg-lemon text-choco-900 border-2 border-choco-900 font-pixel font-bold shadow-[0_2px_0_#3B2218]",
     streak: "bg-streak text-white border-2 border-choco-900 font-pixel font-bold shadow-[0_2px_0_#3B2218]",

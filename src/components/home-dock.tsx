@@ -62,7 +62,7 @@ export function HomeDock() {
           <Link to="/shop" className="sm:w-auto">
             <button
               type="button"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-full border-2 border-ink-900 bg-candy-500 text-white font-display font-black text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] hover:bg-candy-deep transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-full border-2 border-ink-900 bg-candy-800 text-white font-display font-black text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#85174A] hover:bg-candy-950 transition-all cursor-pointer"
             >
               <Sparkles className="size-4" />
               <span>Pulihkan di Toko</span>
@@ -86,7 +86,7 @@ export function HomeDock() {
           <Link to="/leaderboard">
             <button
               type="button"
-              className="inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-full bg-candy-500 text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B]"
+              className="inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-full bg-candy-800 text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#85174A]"
             >
               Buka Arena
             </button>
@@ -123,7 +123,7 @@ export function HomeDock() {
         >
           <button
             type="button"
-            className="inline-flex items-center justify-center gap-1 py-2 px-3.5 rounded-full bg-candy-500 hover:bg-candy-deep text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#A51D5B] active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-1 py-2 px-3.5 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-display font-black text-xs border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_2px_0_#85174A] active:scale-95 transition-all cursor-pointer"
           >
             <span>{started ? "Lanjut" : "Mulai"}</span>
             <ArrowRight className="size-3.5 stroke-[2.6]" />
@@ -182,7 +182,7 @@ export function HomeDock() {
             >
               <button
                 type="button"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-display font-black text-sm sm:text-base py-3 px-7 rounded-full bg-candy-500 hover:bg-candy-deep text-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_3px_0_#A51D5B] hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-display font-black text-sm sm:text-base py-3 px-7 rounded-full bg-candy-800 hover:bg-candy-950 text-white border-2 border-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_3px_0_#85174A] hover:brightness-105 active:scale-95 transition-all cursor-pointer"
               >
                 <span>{started ? "Lanjutkan Pelajaran" : "Mulai Belajar"}</span>
                 <ArrowRight className="size-4 sm:size-5 shrink-0 stroke-[2.6]" />

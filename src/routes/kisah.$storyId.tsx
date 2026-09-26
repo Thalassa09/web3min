@@ -47,7 +47,7 @@ function StoryPage() {
           </div>
           <Link
             to="/onboarding"
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-candy-500 hover:bg-candy-600 text-white font-pixel text-[11px] font-bold border border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel text-[11px] font-bold border border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 transition-all"
           >
             <span>Mulai Petualangan</span>
             <ArrowRight className="size-3" />

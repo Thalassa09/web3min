@@ -4,16 +4,16 @@
 
 /* ══════════════════════════════════════════════════════════════════════════════
    MASTER DESIGN SYSTEM — web3min: "Tactile Spatial Arcade"
-   Typographic Diad (2 keluarga): Bricolage Grotesque (Display), Plus Jakarta Sans (Body).
+   Typographic Diad (2 keluarga): Space Grotesk (Display), Inter (Body).
    Sisanya system stack (mono) supaya tidak ada download font.
    Mechanical Doppelrand Elevation, Specular Enamel Highlight & Organic Porcelain.
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Tipografi 2 keluarga (dulu 3): Plus Jakarta Sans (body), Bricolage Grotesque (display).
+  /* Tipografi 2 keluarga (dulu 3): Inter (body), Space Grotesk (display).
      Keluarga font pixel dibuang bersama mode Retro Pixel — mode itu tidak dipakai lagi. */
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   /* Alias diad: dulu font pixel arcade. Diarahkan ke display supaya nol rujukan yatim. */
   --font-pixel: var(--font-display);
@@ -308,7 +308,7 @@ body {
 
 /* ══════════════════════════════════════════════════════════════════════════════
    DYNAMIC TYPOGRAPHY & TACTILE SPATIAL ARCADE ELEVATION
-   Default (Pristine Modern): Bricolage Grotesque, Plus Jakarta Sans, Doppelrand Bezel
+   Default (Pristine Modern): Space Grotesk, Inter, Doppelrand Bezel
    (Blok "Pixel Mode ON" dihapus bersama mode Retro Pixel — tidak ada font pixel lagi.)
    ══════════════════════════════════════════════════════════════════════════════ */
 
@@ -631,7 +631,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   line-height: 1.15;
 }
 
-/* In Modern Pristine Mode, .font-pixel gracefully elevates to Bricolage Grotesque */
+/* In Modern Pristine Mode, .font-pixel gracefully elevates to Space Grotesk */
 .font-pixel {
   font-family: var(--active-heading-font);
   letter-spacing: -0.015em;

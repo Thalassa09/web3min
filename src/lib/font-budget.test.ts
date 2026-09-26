@@ -8,10 +8,10 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const read = (p: string) => readFileSync(join(ROOT, p), "utf8");
 
 /**
- * Font budget guard. The AGENTS.md rule is "font maksimal 3" and the site now
- * ships 2 (mode Retro Pixel dihapus). The families are requested in two places
- * (the root <link> and the CSS @theme triad); when they drift apart you silently
- * ship downloads nobody asked for. This pins both.
+ * Font budget guard. The AGENTS.md rule is "font maksimal 2" and the site ships
+ * exactly 2. The families are requested in two places (the root <link> and the
+ * CSS @theme triad); when they drift apart you silently ship downloads nobody
+ * asked for. This pins both — the COUNT and the IDENTITY.
  */
 test("at most 2 font families are requested and every declared family is used", () => {
   const root = read("src/routes/__root.tsx");
@@ -21,10 +21,26 @@ test("at most 2 font families are requested and every declared family is used", 
   const families = [...request.matchAll(/family=([^&:]+)/g)].map((m) => decodeURIComponent(m[1]).replace(/\+/g, " "));
   assert.ok(families.length <= 2, `font budget is 2, request declares ${families.length}: ${families.join(", ")}`);
 
+  // Keluarga yang dipakai harus tepat dua ini. Ganti nama font = keputusan
+  // sadar yang mengubah identitas visual, bukan efek samping suntingan CSS.
+  for (const wanted of ["Space Grotesk", "Inter"]) {
+    assert.ok(
+      families.includes(wanted),
+      `root <link> harus meminta "${wanted}" (tipografi = Space Grotesk display + Inter body)`,
+    );
+  }
+
   // Dropped families must not creep back anywhere above the @theme block.
   const css = read("src/styles.css");
-  for (const dead of ["JetBrains Mono", "Silkscreen", "Press Start 2P", "Nunito"]) {
-    assert.ok(!css.includes(dead), `${dead} was removed from the budget — delete it from styles.css too`);
+  for (const dead of [
+    "JetBrains Mono",
+    "Silkscreen",
+    "Press Start 2P",
+    "Nunito",
+    "Bricolage Grotesque",
+    "Plus Jakarta Sans",
+  ]) {
+    assert.ok(!css.includes(dead), `${dead} sudah keluar dari budget — hapus juga dari styles.css`);
   }
 
   // Pixelify Sans left with the Retro Pixel mode toggle. No token may request it.

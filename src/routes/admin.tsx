@@ -607,34 +607,39 @@ export function AdminPage() {
               </div>
             </div>
 
-            {/* Admin Section Tabs */}
+            {/* Admin Section Tabs — Arena pill dock (DESIGN.md §4) */}
             <div className="flex items-center gap-2 border-b-2 border-choco-900/20 pb-3 flex-wrap">
-              <button
-                type="button"
-                onClick={() => setActiveAdminTab("raffles")}
-                className={`px-4 py-2 rounded-full font-pixel text-xs font-bold border-2 border-choco-900 transition-all cursor-pointer ${
-                  activeAdminTab === "raffles"
-                    ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
-                    : "bg-white text-choco-700 hover:bg-cream"
-                }`}
-              >
-                Kelola Undian ({displayRaffles.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveAdminTab("users");
-                  if (adminKey) void refreshUsers(adminKey);
-                }}
-                className={`px-4 py-2 rounded-full font-pixel text-xs font-bold border-2 border-choco-900 transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeAdminTab === "users"
-                    ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
-                    : "bg-white text-choco-700 hover:bg-cream"
-                }`}
-              >
-                <Users className="size-3.5" />
-                <span>Manajemen Pengguna & Sensor ({adminUsers.length})</span>
-              </button>
+              {(
+                [
+                  { id: "raffles", label: `Kelola Undian (${displayRaffles.length})`, icon: null },
+                  {
+                    id: "users",
+                    label: `Manajemen Pengguna & Sensor (${adminUsers.length})`,
+                    icon: <Users className="size-3.5" />,
+                  },
+                ] as const
+              ).map((t) => {
+                const active = activeAdminTab === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => {
+                      setActiveAdminTab(t.id);
+                      if (t.id === "users" && adminKey) void refreshUsers(adminKey);
+                    }}
+                    className={`px-4 py-2 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                      active
+                        ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                        : "border-transparent bg-white text-choco-700 hover:bg-cream hover:border-choco-900/20"
+                    }`}
+                  >
+                    {t.icon}
+                    <span>{t.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
             {activeAdminTab === "raffles" ? (

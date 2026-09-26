@@ -92,32 +92,32 @@ function KisahHub() {
             </p>
           </div>
 
-          {/* Segmented Filter Navigation */}
-          <div className="inline-flex self-start sm:self-auto gap-1 p-1 rounded-2xl border-2 border-choco-900 bg-cream shadow-[0_3px_0_#3B2218]">
-            <button
-              type="button"
-              onClick={() => setTab("cerita")}
-              className={cn(
-                "px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl font-pixel font-bold text-xs sm:text-sm transition-all cursor-pointer",
-                tab === "cerita"
-                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
-                  : "text-choco-700 hover:text-choco-900 border-2 border-transparent"
-              )}
-            >
-              Cerita Interaktif · {openStories.length}
-            </button>
-            <button
-              type="button"
-              onClick={() => setTab("kasus")}
-              className={cn(
-                "px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl font-pixel font-bold text-xs sm:text-sm transition-all cursor-pointer",
-                tab === "kasus"
-                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
-                  : "text-choco-700 hover:text-choco-900 border-2 border-transparent"
-              )}
-            >
-              Kasus On-Chain · {openCases.length}
-            </button>
+          {/* Segment Filter — Arena pill dock (DESIGN.md §4) */}
+          <div className="inline-flex self-start sm:self-auto gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218]">
+            {(
+              [
+                { id: "cerita", label: `Cerita Interaktif · ${openStories.length}` },
+                { id: "kasus", label: `Kasus On-Chain · ${openCases.length}` },
+              ] as const
+            ).map((t) => {
+              const active = tab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setTab(t.id)}
+                  aria-pressed={active}
+                  className={cn(
+                    "px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border-2 font-pixel font-bold text-xs sm:text-sm transition-all cursor-pointer whitespace-nowrap",
+                    active
+                      ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                      : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
+                  )}
+                >
+                  {t.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 

@@ -548,15 +548,16 @@ function ShopPage() {
                 <div className="p-5 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_6px_0_#3B2218] space-y-4">
                   {/* Closet Controls: Scope Toggle + Slot Filter */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-choco-900/15">
-                    {/* Scope: Koleksi Dimiliki vs Katalog Lengkap */}
-                    <div className="w-full sm:w-auto inline-flex p-1 rounded-2xl bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] border-2 border-candy-500/30 shadow-[0_2px_0_#B01F62] gap-1 shrink-0">
+                    {/* Scope: Koleksi Dimiliki vs Katalog Lengkap — Arena pill dock */}
+                    <div className="w-full sm:w-auto inline-flex p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] gap-1.5 shrink-0">
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("owned")}
-                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-pixel font-bold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
+                        aria-pressed={wardrobeScope === "owned"}
+                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-xl border-2 text-xs font-pixel font-bold cursor-pointer text-center transition-all whitespace-nowrap ${
                           wardrobeScope === "owned"
-                            ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
-                            : "text-choco-600 hover:text-choco-900"
+                            ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                            : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                         }`}
                       >
                         Koleksi Dimiliki ({ownedCount})
@@ -564,10 +565,11 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("all")}
-                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-[10px] text-xs font-pixel font-bold cursor-pointer text-center transition-[transform,box-shadow,background-color,border-color,color] ${
+                        aria-pressed={wardrobeScope === "all"}
+                        className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-xl border-2 text-xs font-pixel font-bold cursor-pointer text-center transition-all whitespace-nowrap ${
                           wardrobeScope === "all"
-                            ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
-                            : "text-choco-600 hover:text-choco-900"
+                            ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                            : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                         }`}
                       >
                         Katalog Coba ({totalCount})

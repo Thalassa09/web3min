@@ -260,13 +260,14 @@ Belajar Web3 interaktif: https://web3min.com`;
             </div>
           </div>
 
-          <div className="self-start sm:self-auto flex items-center gap-1 bg-candy-50 border-2 border-choco-900 p-1 rounded-full shrink-0 shadow-[0_1px_0_#3B2218]">
+          <div className="self-start sm:self-auto flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shrink-0 shadow-[0_4px_0_#3B2218]">
             <button
               type="button"
-              className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              aria-pressed={mode === "w"}
+              className={`px-3 py-1.5 rounded-xl border-2 text-xs font-pixel font-bold transition-all cursor-pointer whitespace-nowrap ${
                 mode === "w"
-                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
-                  : "text-choco-600 hover:text-choco-900"
+                  ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                  : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
               }`}
               onClick={() => {
                 setMode("w");
@@ -277,10 +278,11 @@ Belajar Web3 interaktif: https://web3min.com`;
             </button>
             <button
               type="button"
-              className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              aria-pressed={mode === "m"}
+              className={`px-3 py-1.5 rounded-xl border-2 text-xs font-pixel font-bold transition-all cursor-pointer whitespace-nowrap ${
                 mode === "m"
-                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
-                  : "text-choco-600 hover:text-choco-900"
+                  ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                  : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
               }`}
               onClick={() => {
                 setMode("m");

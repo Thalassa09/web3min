@@ -8,8 +8,8 @@ Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk dit
 ## 1. Filosofi & Karakter Desain
 
 - **Gaya:** *Gamified UI  / Soft Neo-Brutalism*.
-- **Karakter:** Garis outline komik tebal yang tegas, bayangan jatuh kaku 3D tanpa blur (*hard offset shadow*), palet pastel bergradien lembut, dan sudut membulat ramah (*squircle / organic rounded*).
-- **Emosi:** Menyenangkan, bebas intimidasi Web3 yang dingin/kaku, terasa seperti main game arcade saku.
+- **Karakter: Garis outline tebal ala komik, hard offset shadow 3D tanpa blur, palet pastel dengan gradien lembut, dan sudut membulat yang ramah (squircle / organic rounded).
+- Emosi: Menyenangkan dan tidak mengintimidasi seperti banyak produk Web3 yang dingin dan kaku. Rasanya seperti main game arcade saku.
 
 ---
 

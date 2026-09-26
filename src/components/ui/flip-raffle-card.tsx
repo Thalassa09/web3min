@@ -6,7 +6,7 @@ import { RotateCcw } from "lucide-react";
 
 /**
  * Kartu undian yang bisa dibalik (flip) — turunan `card-14` yang diadaptasi ke
- * kontrak Tactile Spatial Arcade (DESIGN.md).
+ * kontrak Soft Neo-Brutalism (DESIGN-SYSTEM.md).
  *
  * Kenapa ada komponen ini, bukan pakai `PerspectiveFlipCard` langsung:
  * `PerspectiveFlipCard` bawaan `card-14` mengandalkan `group-hover/p-card`.

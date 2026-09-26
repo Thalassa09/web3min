@@ -6,6 +6,22 @@
 >
 > **Status:** Living Spec · **Diperbarui:** September 2026
 > **Acuan identitas visual:** `https://web3min.com/leaderboard`
+> **Nama gaya:** **Gamified UI / Soft Neo-Brutalism**
+
+## Gaya: Gamified UI / Soft Neo-Brutalism
+
+**Gamified UI / Soft Neo-Brutalism** = bahasa visual neo-brutalis yang dilembutkan supaya ramah, dibungkus rasa permainan (arcade), bukan menantang.
+
+| Unsur | Pilihan Web3min | Catatan |
+|---|---|---|
+| **Struktur** | Neo-brutalis: outline tebal solid, elevasi 3D nyata | `border-2 border-choco-900` + hard slab |
+| **Kelembutan** | Sudut membulat besar, palet pastel hangat, tanpa warna neon tajam | `rounded-3xl`, krem `#FFF6EE`, pink `#E8437F` |
+| **Bayangan** | **Hard slab, blur NOL** — bukan shadow lembut ber-blur | Ini yang membuat "taktil", bukan "mengapung" |
+| **Emosi** | Menyenangkan, bebas intimidasi Web3 yang dingin/kaku | Terasa seperti main game arcade saku |
+
+> ⚠️ **"Soft" di sini TIDAK berarti bayangan ber-blur.** Yang dilembutkan adalah bentuk (radius), warna (pastel), dan nada (ramah) — bukan elevasinya. Shadow ber-blur hanya sah untuk overlay/tooltip melayang. Inti taktil tetap: `shadow-[0_Npx_0_#3B2218]` dengan **blur nol**.
+>
+> Nama gaya sebelumnya: *Tactile Spatial Arcade / Playful Neo-Brutalism*. Diganti atas permintaan pemilik repo — **murni penamaan ulang, nol perubahan visual**. Semua kontrak di bawah tetap berlaku apa adanya. `DESIGN.md` memakai bentuk lengkap yang sama.
 
 **Susunan dokumen (mengikuti blueprint):**
 `## Stack` · `## Typography` · `## Colors` · `## Spacing` · `## Components` · `## Animations` · `## Responsive Rules` · `## Development Plan`
@@ -231,7 +247,7 @@ Acuan: dua chip di `/profile` — `Level 2` (netral) & `Murid Blobi` (pink).
 |---|---|---|---|
 | **A** | `rounded-full` | `rounded-lg/xl/2xl` pada chip | Sudut kotak memecah bahasa visual |
 | **B** | Border **solid** sefamili | `border-*/18`, `border-*/20`, `border-*/40` | Border transparan = chip tampak belum selesai |
-| **C** | Hard slab, blur nol | `shadow-none`, `shadow-sm`, shadow ber-blur | Ekstrusi 3D inti gaya Tactile Arcade |
+| **C** | Hard slab, blur nol | `shadow-none`, `shadow-sm`, shadow ber-blur | Ekstrusi 3D inti gaya Soft Neo-Brutalism |
 | **D** | Teks tebal gelap di atas isi terang | teks tipis; putih di atas pink terang | Keterbacaan + bobot chip |
 
 **Matriks keluarga warna:**

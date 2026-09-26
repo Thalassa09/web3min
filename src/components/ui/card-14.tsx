@@ -14,8 +14,8 @@ import {
 } from "lucide-react";
 
 /**
- * Card 14 — Perspective Flip Card, disesuaikan ke kontrak Tactile Spatial Arcade
- * (DESIGN.md). Efek flip 3D dipertahankan apa adanya; yang diubah hanya bahasa
+ * Card 14 — Perspective Flip Card, disesuaikan ke kontrak Soft Neo-Brutalism
+ * (DESIGN-SYSTEM.md). Efek flip 3D dipertahankan apa adanya; yang diubah hanya bahasa
  * visualnya supaya menyatu dengan sisa web3min:
  *   - border solid `border-2 border-choco-900` (bukan `border` tanpa ketebalan)
  *   - hard slab `shadow-[0_Npx_0_#3B2218]` (bukan shadow-lg/shadow-sm ber-blur)

@@ -124,7 +124,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
                 className="pixelated size-5 sm:size-6 object-contain"
               />
             </span>
-            <span className="font-pixel text-base sm:text-lg font-bold text-choco-900">
+            <span className="font-pixel text-base sm:text-lg font-bold text-choco-900 max-[379px]:hidden">
               web3<span className="text-candy-500">min</span>
             </span>
           </Link>
@@ -132,7 +132,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
       )}
 
       {/* Resource Stats Pills & Controls */}
-      <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+      <div className="ml-auto min-w-0 flex items-center gap-1 sm:gap-1.5 md:gap-2">
         <div className="hidden sm:block">
           <StatPill
             value={xp}

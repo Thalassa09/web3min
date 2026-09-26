@@ -20,7 +20,7 @@ export interface ChainBlockProps {
  * Distinctive signature element:
  * - Diamond-squircle (45° rotated rounded square, rounded-14px)
  * - Counter-rotated upright icon
- * - Hash formatting #0x01 in JetBrains Mono
+ * - Hash formatting #0x01 in the system mono stack
  * - 3 Confirmation dots (0/3 to 3/3 konfirmasi)
  * - 3D solid drop shadow, sinks on press
  */

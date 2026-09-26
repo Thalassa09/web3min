@@ -1,20 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@600;700&family=Press+Start+2P&display=swap");
+/* Font dimuat via <link> di src/routes/__root.tsx (sudah ada preconnect) — jangan @import di sini. */
 @import "tailwindcss";
 @import "tw-animate-css";
 
 /* ══════════════════════════════════════════════════════════════════════════════
    MASTER DESIGN SYSTEM — web3min: "Tactile Spatial Arcade"
-   Bespoke Typographic Triad: Bricolage Grotesque (Display), Plus Jakarta Sans (Body),
-   JetBrains Mono (Tech), Silkscreen / Pixelify Sans (Optional Retro Pixel Craft).
+   Typographic Triad (3 keluarga): Bricolage Grotesque (Display), Plus Jakarta Sans (Body),
+   Pixelify Sans (Pixel Craft). Sisanya system stack (mono) supaya tidak ada download font.
    Mechanical Doppelrand Elevation, Specular Enamel Highlight & Organic Porcelain.
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* High-Character Typography Triad — Anti-Pasaran */
+  /* Typographic Triad (maks 3 keluarga): Plus Jakarta Sans (body), Bricolage Grotesque (display), Pixelify Sans (retro pixel). */
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-pixel: "Silkscreen", "Pixelify Sans", monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-pixel: "Pixelify Sans", monospace;
 
   /* Border Radii (sm 10px, md 14px, lg 22px, xl 28px, 2xl 32px, pill 9999px) */
   --radius-sm: 10px;
@@ -174,7 +174,7 @@ html {
 }
 
 .retro {
-  font-family: "Press Start 2P", "Pixelify Sans", "Silkscreen", monospace, system-ui;
+  font-family: var(--font-pixel);
   line-height: 1.5;
   letter-spacing: 0.5px;
 }
@@ -229,11 +229,11 @@ html[data-motion="reduced"] *::after,
   --line: 2px solid #F3E3EA;
   --sh: 0 4px 0 #F3E3EA;
   --r: 20px;
-  --px: 'Nunito', system-ui, sans-serif;
-  --tx: 'Nunito', system-ui, sans-serif;
-  --fd: 'Nunito', system-ui, sans-serif;
-  --ft: 'Nunito', system-ui, sans-serif;
-  --fm: 'Pixelify Sans', monospace;
+  --px: var(--font-pixel);
+  --tx: var(--font-sans);
+  --fd: var(--font-display);
+  --ft: var(--font-sans);
+  --fm: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --candy: #F26A99;
   --deep: #E8437F;
   --edge: #B01F62;
@@ -257,7 +257,7 @@ body {
 /* ══════════════════════════════════════════════════════════════════════════════
    DYNAMIC TYPOGRAPHY & TACTILE SPATIAL ARCADE ELEVATION
    Default (Pristine Modern): Bricolage Grotesque, Plus Jakarta Sans, Doppelrand Bezel
-   Pixel Mode ON: Silkscreen / Pixelify Sans + Retro 8-Bit Arcade Box Shadow
+   Pixel Mode ON: Pixelify Sans + Retro 8-Bit Arcade Box Shadow
    ══════════════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -1709,10 +1709,10 @@ input:focus-visible {
   --rubysoft: #FFECEC;
   --flame: #F2841F;
   --leaftx: #1A7A40;
-  --fd: "Nunito", system-ui, sans-serif;
-  --ft: "Nunito", system-ui, sans-serif;
-  --fp: "Nunito", system-ui, sans-serif;
-  --fm: "Pixelify Sans", monospace;
+  --fd: var(--font-display);
+  --ft: var(--font-sans);
+  --fp: var(--font-pixel);
+  --fm: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --back: cubic-bezier(.34, 1.56, .64, 1);
   --gloss: inset 0 3px 0 rgb(255 255 255 / .45);
 }

@@ -3,6 +3,8 @@
 Dokumen spesifikasi desain tunggal (Single Source of Truth) untuk seluruh antarmuka Web3min.  
 Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk diterapkan secara seragam di seluruh halaman.
 
+> ⚠️ **SEBELUM menyalin resep token dari dokumen desain lain (termasuk draft "Tactile Arcade" v1.1):** nama token Tailwind bisa SAMA tapi hex-nya BEDA. Tiga jebakan terverifikasi (skala `candy-*` bergeser & pink brand hilang · `shadow-slab-*` yang gagal senyap · `choco-600` vs `choco-700` tertukar) didokumentasikan di **`DESIGN-SYSTEM.md` §8**. Aturannya: **cocokkan hex dulu dengan `@theme` di `src/styles.css` — kode yang menang, dokumen yang diperbaiki.** Dijaga `src/lib/token-scale.test.ts`.
+
 ---
 
 ## 1. Filosofi & Karakter Desain

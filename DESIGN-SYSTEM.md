@@ -205,6 +205,59 @@ Diukur di **browser** (bukan asumsi), latar dikomposit termasuk alpha & gradien,
 
 ---
 
+### 8. Jebakan penamaan token lintas-dokumen (WAJIB dibaca sebelum menyalin resep dari dokumen desain lain)
+
+Ada draft desain beredar ("Tactile Arcade" v1.1, dari `DESIGN.md` v1.0 lama) yang memakai **nama token Tailwind yang sama** tapi mendefinisikan **hex yang berbeda** dari `@theme` nyata. Menyalin resepnya ke komponen **tidak menghasilkan error** — hasilnya cuma salah warna/salah elevasi, diam-diam. Tiga jebakan di bawah sudah diverifikasi baris per baris terhadap `src/styles.css`.
+
+#### 8.1 Skala `candy-*` bergeser satu tingkat — dan pink brand HILANG dari draft
+
+| Token | Draft lama | `@theme` nyata | Akibat kalau tertukar |
+|---|---|---|---|
+| `candy-500` | `#D62A78` | **`#E8437F`** (pink brand) | Tombol jadi 1 tingkat lebih gelap |
+| `candy-600` | `#B01F62` | **`#D62A78`** | Link / secondary beda warna |
+| `candy-700` | — (tidak ada di draft) | **`#B01F62`** | Token yang dipakai **129×** justru tidak ada di draft |
+| `candy-800` | `#85174A` | `#85174A` ✅ | Satu-satunya yang cocok |
+
+**Yang paling berbahaya:** pink brand **`#E8437F` tidak ada sama sekali** di skala candy draft (candy-50…950). Padahal itu warna identitas yang dilindungi `AGENTS.md` ("jangan ganti pink brand"). Draft memakai `#D62A78` sebagai candy-500 — satu tingkat lebih gelap.
+
+**Terukur di kode:** `candy-500` **89× di 31 berkas** · `candy-600` **40× di 16 berkas** · `candy-700` **129× di 37 berkas**. Menukar nilai candy-500/600/700 = menggeser **258 pemakaian** sekaligus.
+
+**Aturan:** skala `candy-*` **jangan pernah direnomori**. Butuh pink lebih gelap? Tambah token baru — jangan geser skalanya.
+
+#### 8.2 `shadow-slab-*` tidak ada di kode — gagal SENYAP
+
+Draft mendefinisikan 5 token: `--shadow-slab-press/xs/sm/md/lg` (1/2/3/4/6 px). Di kode nyata: **nol** — tidak ada di `@theme`, nol pemakaian.
+
+| | Nilai |
+|---|---|
+| Token draft | `--shadow-slab-press/xs/sm/md/lg` |
+| Token nyata di `@theme` | `--shadow-ink-xs` (2px) · `--shadow-ink-sm` (3px) · `--shadow-ink` (6px) · `--shadow-candy` · `--shadow-gummy` · `--shadow-3d-primary` · `--shadow-3d-secondary` |
+| Yang benar-benar dipakai komponen | `shadow-[0_4px_0_#3B2218]` **70× di 24 berkas** · `shadow-[0_6px_0_#3B2218]` **30× di 15 berkas** |
+
+**Bahayanya:** Tailwind **tidak error** untuk class yang tidak dikenal. `shadow-slab-md` hanya menghasilkan **tidak ada bayangan sama sekali** — komponen kehilangan elevasi 3D tanpa peringatan apa pun.
+
+**Aturan:** pakai token nyata (`shadow-ink-sm` dst.) atau pola arbitrary yang sudah jadi (`shadow-[0_4px_0_#3B2218]`). **Jangan tulis `shadow-slab-*`.**
+
+#### 8.3 `choco-700` nilainya berbeda — dan `choco-600` tidak ada di draft
+
+| Token | Draft lama | `@theme` nyata | Peran nyata di kode |
+|---|---|---|---|
+| `choco-600` | — (tidak ada) | **`#6B4A3A`** | Teks sekunder — dipakai **138× di 34 berkas** |
+| `choco-700` | `#6B4A3A` | **`#4E3125`** | Teks utama di atas cream (10,99:1) — **91× di 27 berkas** |
+| `choco-900` | `#3B2218` | `#3B2218` ✅ | Outline & slab |
+
+**Bahayanya:** dokumen lama menulis "Teks Sekunder = `choco-700` = `#6B4A3A`". Di kode, `#6B4A3A` adalah **`choco-600`**, sedangkan `choco-700` justru **lebih gelap** (`#4E3125`). Menyalin resep itu menghasilkan teks lebih gelap dari yang dimaksud — tidak melanggar kontras, tapi hierarki visual berubah.
+
+**Aturan:** teks sekunder = **`choco-600`**; teks utama = **`choco-700`**. Jangan tertukar.
+
+#### 8.4 Kenapa ini bisa terjadi — dan cara mencegahnya
+
+Semua dokumen memakai **nama token Tailwind yang sama** tapi mendefinisikan **hex sendiri**. Tidak ada guard yang mengunci *skala* `candy-*`/`choco-*` secara utuh — `contrast-budget.test.ts` & `tamagui-tokens.test.ts` hanya mem-pin **sebagian** nilai yang dipakai untuk uji kontras.
+
+**Cara mencegah:** sebelum menyalin resep dari dokumen mana pun, **cocokkan hex-nya dulu** dengan `@theme` di `src/styles.css`. Nama token sama tapi hex beda → **kode yang menang, dokumen yang diperbaiki.** Prinsip yang sama dipakai saat sinkronisasi Langkah 18.
+
+---
+
 ## Spacing
 
 Skala: **4 / 8 / 12 / 16 / 24 / 32 / 48**. Jarak **tidak boleh sama rata**:

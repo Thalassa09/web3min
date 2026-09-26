@@ -102,6 +102,15 @@ Platform belajar Web3 bahasa Indonesia, santai, bergamifikasi: 20 rute, 128 blok
 - Klasemen memakai `SkeletonRows` saat memuat, bukan spinner — bentuk kartu dipertahankan supaya layout tidak melompat.
 - `rpcGetLeaderboard` mengembalikan `ok: boolean`. Tanpa ini UI tidak bisa membedakan "klasemen kosong" dari "server tak terhubung" — keduanya tampil sebagai daftar kosong. Sekarang error menampilkan kotak pesan + tombol "Coba lagi" yang benar-benar `refetch` (lewat dependency `reloadKey`).
 
+### Navbar Bawah & Tombol "Lanjut"
+- Navbar `src/components/bottom-nav.tsx` = pill mengambang, 5 menu nyata (`NAV_ITEMS` di `src/lib/nav.ts`: Belajar, Kisah, Arena, Toko, Profil) + 1 tombol bulat pink. Spesifikasi awal menyebut 4 menu (Home/Rute/Progres/Profil), tapi rute `/rute` & `/progres` tidak pernah ada (`/rantai` cuma `redirect({ to: "/" })`), sedangkan Kisah/Arena tidak punya pintu masuk lain dari HP. Jumlah menu dipertahankan 5 supaya nol fitur kehilangan akses mobile.
+- **Tombol "Lanjut" bukan rute baru.** Isinya `firstPlayableId(completed)` dari `src/lib/curriculum.ts`: buka blok berikutnya yang belum selesai; kalau semua tuntas, balik ke beranda. Jadi tombol tidak pernah jadi jalan buntu dan tidak pernah menuju blok yang tidak ada.
+- Grid **6 kolom sama lebar**. JANGAN kembali ke 7 kolom + spacer — dengan 7 kolom elemen ke-3 jatuh ke kolom spacer dan label "Arena" menciut jadi 12px (terbukti lewat pengukuran, bukan dugaan).
+- Tombol wajib `size-[min(52px,100%)]`, bukan `size-13`. Di lebar 320px kolom grid hanya ~44px, tombol 52px meluber keluar dan menimpa "Toko".
+- Tombol sengaja **ikon saja (`ArrowRight`) tanpa teks**, dan `aria-label` wajib ada. Sebab: label putih di atas pink brand cuma 3.79:1 dan gagal WCAG AA untuk teks kecil, sedangkan ikon sebagai objek grafis hanya butuh 3:1. Ini menutup celah tanpa melanggar larangan mengganti pink brand.
+- Gradient elemen aktif & tombol memakai candy-700 (`#B01F62`), bukan candy-600. candy-600 lolos saat diam (4.71:1) tapi `hover:brightness-110` menurunkannya ke 4.0:1. Terukur: 6.53:1 diam, 5.62:1 hover.
+- Batas keras yang harus tetap lulus di 320/360/390/430px: tap target ≥44px, nol overlap antar-slot, nol overflow horizontal.
+
 ## Perintah
 - w3 plan [tugas]: rencana bernomor, tanpa coding.
 - w3 step [n]: kerjakan langkah n saja, lalu lapor: ringkasan, file berubah, cara tes manual, risiko.

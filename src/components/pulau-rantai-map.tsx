@@ -280,6 +280,19 @@ export function PulauRantaiMap({
                 />
               </picture>
 
+              {/* Zone Seam Blend — menyatukan tepi atas pulau dengan warna pulau sebelumnya */}
+              {wi > 0 && (
+                <div
+                  className="world-seam"
+                  aria-hidden="true"
+                  style={
+                    {
+                      "--seam-from": getPulauTheme(units[wi - 1].id, wi).bg,
+                    } as React.CSSProperties
+                  }
+                />
+              )}
+
               {/* HD Atmospheric Lighting Overlay for rich depth & contrast */}
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/10 via-transparent to-ink-950/20 z-1" />
               <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_80px_rgba(13,35,64,0.18)] z-1" />
@@ -461,7 +474,7 @@ export function PulauRantaiMap({
                             aria-label={`Mulai kuis: ${lesson.title}`}
                           >
                             <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-candy-800 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-[10px] font-pixel font-bold text-white whitespace-nowrap animate-bounce">
-                              Ayo tambang!
+                              Ayo belajar
                             </div>
                             <div className="size-14 sm:size-16 drop-shadow-[0_6px_0_rgba(59,34,24,0.35)] pointer-events-none">
                               <Mascot mood="wave" size={58} interactive={false} />

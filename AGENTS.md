@@ -11,7 +11,7 @@ Sebelum ngoding pikirkan: data, arsitektur, keamanan, kasus gagal, alur user.
 Alur: masalah → rencana → build → tes → perbaiki → rilis.
 
 ## Visual (pertahankan identitas)
-- Tema terang: krem #FFF6EE, aksen pink #E8437F, teks cokelat, font pixel, maskot Blobi. Pakai warna yang sudah ada di kode.
+- Tema terang: krem #FFF6EE, aksen pink #E8437F, teks cokelat, maskot Blobi. Pakai warna yang sudah ada di kode.
 - 60-30-10: krem dominan, kartu/permukaan, pink hanya untuk CTA utama & item aktif.
 - Warna feedback: hijau = sukses/blok selesai, merah = error/bahaya (seed phrase, kontrak mencurigakan), kuning/oranye = peringatan & keputusan penting, emas = PETI. Kontras ≥4.5:1, selalu ada ikon + teks.
 - Font maksimal 3 (sekarang 5). Body 16px.

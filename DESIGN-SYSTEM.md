@@ -357,7 +357,9 @@ Pola tetap: **animasi hanya saat hover/tap**, ikon boleh animasi ringan, tidak a
 2. `Button` Tamagui punya sub-theme sendiri (`light_Button`) yang menimpa border/warna dari theme root — border & warna teks wajib eksplisit.
 3. `fontFamily` hanya bekerja di `Text` (menghasilkan `.font_heading` → `--f-family`), **bukan** di `Button` (hanya menghasilkan `_ff-f-family` tanpa `--f-family`, font jatuh ke system).
 
-**Dampak bundle:** server `@tamagui/button` ~207 kB (gzip 51,6 kB). UI produksi **belum** memakai Tamagui, jadi tidak ada dampak ke user sampai migrasi langkah 5 dijalankan.
+**Dampak bundle — DIUKUR A/B (bukan perkiraan):** memasang `TamaguiProvider` di `__root.tsx` menambah **+176 KB** pada root chunk yang dimuat **SETIAP halaman** (565 KB vs 389 KB), total assets +112 KB (1.665 vs 1.553 KB). Jadi provider **tidak gratis** meski UI belum memakai Tamagui — ini konsekuensi menaruh provider di root. Kalau biaya ini tidak diinginkan sebelum migrasi langkah 5, pindahkan `TamaguiProvider` dari `__root.tsx` ke route yang benar-benar memakai Tamagui (mis. bungkus `/tamagui-poc` saja) — UI produksi tidak terpengaruh karena belum ada yang memakainya.
+
+**Hydration error di `/` = PRA-EKSISTING, bukan dari Tamagui.** Diverifikasi Playwright: dari 5 rute (`/`, `/cara`, `/leaderboard`, `/raffle`, `/tamagui-poc`) hanya `/` yang memicu `Hydration failed`, dan sudah tercatat di `progress.md` sebagai temuan Langkah 9 lanjutan (terjadi juga di produksi sebelum Tamagui dipasang). Akar masalah ditemukan: `src/components/blobi-guide.tsx:292` menghitung `isRightSide` dari `window.innerWidth` **saat render** — di server `false`, di client bisa `true`, sehingga class berbeda. Perbaikannya: pindahkan ke `useEffect`/state, atau gate dengan flag hydrated.
 
 **Dampak terukur bila langkah 2–5 dijalankan: 84 berkas unik** dari 173 berkas `.tsx/.ts` di `src/` (irisan berkas pemakai utility ukuran + pemakai komponen ui).
 

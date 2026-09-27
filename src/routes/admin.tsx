@@ -590,8 +590,9 @@ export function AdminPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-choco-500 hover:text-choco-900 p-1 cursor-pointer"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 grid size-11 place-items-center text-choco-500 hover:text-choco-900 cursor-pointer"
                     title={showPassword ? "Sembunyikan password" : "Lihat password"}
+                    aria-label={showPassword ? "Sembunyikan password" : "Lihat password"}
                   >
                     {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                   </button>
@@ -617,7 +618,7 @@ export function AdminPage() {
             <div className="mt-6 pt-4 border-t-2 border-choco-900/10 flex items-center justify-between text-xs font-pixel">
               <Link
                 to="/raffle"
-                className="text-candy-700 hover:text-candy-700 font-bold underline"
+                className="text-candy-700 hover:text-candy-700 font-bold underline inline-flex items-center min-h-11"
               >
                 ← Kembali ke Katalog
               </Link>

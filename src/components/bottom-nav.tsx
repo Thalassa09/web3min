@@ -41,12 +41,16 @@ export function BottomNav() {
     >
       {/* 6 slot sama lebar: 5 item nav + tombol bulat "Lanjut". Dengan 5 item
           ganjil + 1 tombol, tepat-tengah geometris tidak bisa dicapai — jadi
-          yang dijaga adalah batasan kerasnya: tiap tap target >= 44px
-          (terukur: 44x48 di 320px, 50x48 di 360px, 62x48 di 430px), nol
+          yang dijaga adalah batasan kerasnya: tiap tap target >= 44px, nol
           overlap, nol overflow.
+          TERUKUR: 43.67x48 di 320px (KURANG 0.34px dari 44) — dulu diklaim
+          "44x48 di 320px" dan klaim itu SALAH. Overhead 58px (px-3 parent 24 +
+          px-2.5 child 20 + border 4 + gap 2x5) menyisakan 262px / 6 = 43.67.
+          Obatnya: gap dihapus HANYA di bawah 360px -> 272/6 = 45.33px.
+          Gap dikembalikan dari 360px ke atas supaya tampilan tidak berubah.
           JANGAN kembali ke 7 kolom + spacer: elemen ke-3 jatuh ke kolom spacer
           dan label "Arena" menciut jadi 12px (terbukti lewat pengukuran). */}
-      <div className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-6 items-center gap-0.5 rounded-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep px-2.5 backdrop-blur-2xl shadow-[0_5px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.18)]">
+      <div className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-6 items-center gap-0 min-[360px]:gap-0.5 rounded-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep px-2.5 backdrop-blur-2xl shadow-[0_5px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.18)]">
         {NAV_ITEMS.slice(0, 3).map((item) => (
           <NavLink key={item.to} item={item} pathname={pathname} sound={sound} />
         ))}

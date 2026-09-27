@@ -34,9 +34,13 @@ export interface AnimatedFeatureCardProps extends Omit<HTMLMotionProps<"div">, "
 // Define HSL color values for each variant
 const colorVariants: Record<FeatureCardColor, Record<string, string>> = {
   orange: {
-    /* --feature-color is TEXT on --feature-color-dark (10-12px caps pill), so it
-       must clear 4.5:1. The vivid hues below were only 2.1–3.5:1; *-ink are the
-       darkened variants that pass. *-color stays for fills/icons. */
+    /* KOREKSI (Langkah 39): komentar lama menyebut `--feature-color` sebagai
+       TEKS yang harus lolos 4.5:1 — itu SALAH. Yang benar-benar jadi teks
+       adalah `--feature-color-ink` di atas `--feature-color-dark`; keenam
+       varian lolos (4.54–8.17:1). `--feature-color` hanya dipakai untuk
+       radial-gradient dekoratif (baris 142), jadi kontrasnya tidak relevan.
+       Diukur ulang: `--feature-color` sendiri memang 2.12–4.73:1, tapi karena
+       BUKAN teks, itu bukan cacat. */
     "--feature-color": "hsl(35, 91%, 50%)",
     "--feature-color-light": "hsl(41, 100%, 88%)",
     "--feature-color-dark": "hsl(38, 92%, 94%)",

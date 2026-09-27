@@ -292,3 +292,4 @@ test("kelas Tailwind yang TIDAK VALID tidak boleh ditulis (gagal senyap)", () =>
       .join("\n")}\n\nPakai skala bulat: min-h-11 (44px), min-h-12 (48px).`,
   );
 });
+

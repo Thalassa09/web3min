@@ -199,7 +199,7 @@ Belajar Web3 interaktif: https://web3min.com`;
           <button
             type="button"
             onClick={() => setShowRekapModal(true)}
-            className="tap-44 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-candy-50 active:translate-y-0.5 border-2 border-choco-900 rounded-full shadow-[0_2px_0_#3B2218] text-xs font-bold text-choco-900 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 min-h-11 bg-white hover:bg-candy-50 active:translate-y-0.5 border-2 border-choco-900 rounded-full shadow-[0_2px_0_#3B2218] text-xs font-bold text-choco-900 transition-all cursor-pointer"
             title="Buka Rekap Penjelajah"
           >
             <BookOpen className="size-4 text-candy-700 stroke-[2.5]" />

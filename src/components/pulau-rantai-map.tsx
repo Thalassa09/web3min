@@ -197,7 +197,7 @@ export function PulauRantaiMap({
       <div className="hidden lg:block fixed top-20 right-6 z-25 pointer-events-none">
         <button
           type="button"
-          className="tap-44 pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-cream/95 hover:bg-white backdrop-blur-md text-choco-900 border-2 border-choco-900 text-xs font-pixel font-bold transition-all active:scale-95 cursor-pointer shadow-[0_3px_0_#3B2218] hover:shadow-[0_4px_0_#3B2218]"
+          className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 min-h-11 sm:py-2 rounded-full bg-cream/95 hover:bg-white backdrop-blur-md text-choco-900 border-2 border-choco-900 text-xs font-pixel font-bold transition-all active:scale-95 cursor-pointer shadow-[0_3px_0_#3B2218] hover:shadow-[0_4px_0_#3B2218]"
           onClick={() => setShowProgresModal(true)}
           title="Buka Progres 20 Rute"
         >
@@ -418,7 +418,7 @@ export function PulauRantaiMap({
                     {wi === 0 ? (
                       <button
                         type="button"
-                        className="lg:hidden shrink-0 inline-flex items-center gap-1 h-7 px-2 rounded-full bg-white border-2 border-choco-900 text-[10px] font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
+                        className="lg:hidden shrink-0 inline-flex items-center gap-1 h-11 px-2.5 rounded-full bg-white border-2 border-choco-900 text-[10px] font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5"
                         onClick={() => setShowProgresModal(true)}
                         aria-label="Buka progres 20 rute"
                       >
@@ -484,7 +484,7 @@ export function PulauRantaiMap({
                         >
                           <button
                             type="button"
-                            className="relative flex flex-col items-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
+                            className="relative flex flex-col items-center min-h-11 min-w-11 cursor-pointer transition-transform hover:scale-105 active:scale-95"
                             onClick={(e) => {
                               e.stopPropagation();
                               e.preventDefault();

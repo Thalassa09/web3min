@@ -629,7 +629,7 @@ function RafflePage() {
                 playTap();
                 setShowGuideModal(true);
               }}
-              className="tap-44 inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full border-2 border-choco-900 bg-white hover:bg-cream font-pixel font-bold text-xs text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0"
+              className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 min-h-11 rounded-full border-2 border-choco-900 bg-white hover:bg-cream font-pixel font-bold text-xs text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0"
               title="Buka Panduan Undian"
             >
               <HelpCircle className="h-3.5 w-3.5 text-candy-600" />

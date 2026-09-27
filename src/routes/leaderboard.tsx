@@ -390,7 +390,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier(undefined);
                 }}
-                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-11 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 cursor-pointer inline-flex items-center ${
                   filterTier === undefined
                     ? "bg-choco-900 text-white"
                     : "bg-white text-choco-900 hover:bg-yellow-100"
@@ -404,7 +404,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top10");
                 }}
-                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-11 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 inline-flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top10"
                     ? "bg-candy-800 text-white"
                     : "bg-white text-choco-900 hover:bg-candy-100"
@@ -422,7 +422,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top50");
                 }}
-                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-11 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 inline-flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top50"
                     ? "bg-lemon text-choco-900"
                     : "bg-white text-choco-900 hover:bg-lemon/40"
@@ -440,7 +440,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top100");
                 }}
-                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-11 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 inline-flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top100"
                     ? "bg-leaf-deep text-white"
                     : "bg-white text-choco-900 hover:bg-leaf-fill"
@@ -458,7 +458,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top500");
                 }}
-                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-11 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 inline-flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top500"
                     ? "bg-lemon-deep text-white"
                     : "bg-white text-choco-900 hover:bg-coin-fill"
@@ -476,7 +476,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top1000");
                 }}
-                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-11 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 inline-flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top1000"
                     ? "bg-slate-700 text-white"
                     : "bg-white text-choco-900 hover:bg-slate-200"
@@ -510,7 +510,7 @@ function LeaderboardPage() {
               placeholder="Cari user atau rank..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-2xl border-2 border-choco-900/20 bg-white py-2 pl-9 pr-3 text-xs md:text-sm font-semibold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-400"
+              className="w-full min-h-11 rounded-2xl border-2 border-choco-900/20 bg-white py-2 pl-9 pr-3 text-xs md:text-sm font-semibold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:outline-none focus:ring-2 focus:ring-candy-400"
             />
           </div>
         </div>

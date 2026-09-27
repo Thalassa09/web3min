@@ -100,7 +100,7 @@ export function FlipToggle({
         e.stopPropagation();
         onClick();
       }}
-      className="relative inline-flex items-center justify-center gap-1 rounded-full border-2 border-choco-900 bg-white px-3 h-6 text-[10px] font-pixel font-bold text-choco-700 shadow-[0_2px_0_#3B2218] hover:bg-cream active:translate-y-[1px] active:shadow-none transition-all shrink-0 before:absolute before:-inset-y-[10px] before:inset-x-0 before:content-['']"
+      className="relative inline-flex items-center justify-center gap-1 rounded-full border-2 border-choco-900 bg-white px-3 h-11 text-[10px] font-pixel font-bold text-choco-700 shadow-[0_2px_0_#3B2218] hover:bg-cream active:translate-y-[1px] active:shadow-none transition-all shrink-0"
       aria-label={label}
     >
       <RotateCcw

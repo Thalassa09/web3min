@@ -584,7 +584,7 @@ function ShopPage() {
                         type="button"
                         onClick={() => setWardrobeSlot("all")}
                         aria-pressed={wardrobeSlot === "all"}
-                        className={`tap-44 shrink-0 px-4 py-1.5 rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
+                        className={`shrink-0 px-4 py-1.5 min-h-11 inline-flex items-center rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                           wardrobeSlot === "all"
                             ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                             : "bg-cream text-choco-600 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-candy-100 hover:text-choco-900"
@@ -598,7 +598,7 @@ function ShopPage() {
                           type="button"
                           onClick={() => setWardrobeSlot(s)}
                           aria-pressed={wardrobeSlot === s}
-                          className={`tap-44 shrink-0 px-4 py-1.5 rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
+                          className={`shrink-0 px-4 py-1.5 min-h-11 inline-flex items-center rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                             wardrobeSlot === s
                               ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                               : "bg-cream text-choco-600 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-candy-100 hover:text-choco-900"

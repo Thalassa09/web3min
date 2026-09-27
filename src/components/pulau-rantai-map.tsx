@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Compass, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { type Unit, type Lesson, isUnlocked } from "@/lib/curriculum";
-import { useProgress } from "@/lib/store";
+import { useProgress, useHydrated } from "@/lib/store";
 import { PulauIcon } from "@/lib/pulau-icons";
 import {
   catmullRomRoad,
@@ -27,6 +27,7 @@ export function PulauRantaiMap({
 }) {
   const navigate = useNavigate();
   const completed = useProgress((s) => s.completed);
+  const hydrated = useHydrated();
   const claimChest = useProgress((s) => s.claimChest);
   const sound = useProgress((s) => s.sound);
 
@@ -89,9 +90,11 @@ export function PulauRantaiMap({
     return map;
   }, [units]);
 
-  // Auto scroll to active node or focused unit on mount
+  // Auto scroll to active node or focused unit on mount.
+  // Bergantung pada `hydrated` & `completed.length`: saat render pertama,
+  // store masih default (completed kosong) sehingga node aktif belum ada.
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!hydrated || !containerRef.current) return;
     if (focusUnit) {
       const el = containerRef.current.querySelector(`#unit-${focusUnit}`) as HTMLElement | null;
       if (el) {
@@ -99,20 +102,13 @@ export function PulauRantaiMap({
         return;
       }
     }
-    const nowEl = containerRef.current.querySelector(".bn.now") as HTMLElement | null;
+    const nowEl = containerRef.current.querySelector('[data-active="true"]') as HTMLElement | null;
     if (nowEl) {
-      containerRef.current.scrollTop = Math.max(0, nowEl.offsetTop - 200);
+      const c = containerRef.current;
+      const delta = nowEl.getBoundingClientRect().top - c.getBoundingClientRect().top;
+      c.scrollTop = Math.max(0, c.scrollTop + delta - 200);
     }
-  }, [focusUnit]);
-
-  const scrollToActive = () => {
-    if (!containerRef.current) return;
-    const nowEl = containerRef.current.querySelector(".bn.now") as HTMLElement | null;
-    if (nowEl) {
-      nowEl.scrollIntoView({ behavior: "smooth", block: "center" });
-      triggerShake(nowEl.id || "");
-    }
-  };
+  }, [focusUnit, hydrated, completed.length]);
 
   function handleNodeClick(
     lesson: Lesson,
@@ -209,7 +205,7 @@ export function PulauRantaiMap({
         </button>
       </div>
 
-      {/* Floating Target/Resume FAB to jump to current active lesson and Daily Quests */}
+      {/* Floating FAB: Daily Quests */}
       <div className="fixed bottom-22 right-4 sm:right-6 z-25 pointer-events-none flex flex-col items-end gap-2">
         <button
           type="button"
@@ -222,16 +218,6 @@ export function PulauRantaiMap({
         >
           <Sparkles className="size-4 shrink-0 text-lemon-deep stroke-[2.5]" />
           <span>Misi Harian</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={scrollToActive}
-          className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-2 min-h-11 sm:px-3.5 sm:py-2.5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 text-choco-900 border-2 border-candy-600 text-xs font-pixel font-bold transition-all shadow-[0_3px_0_#B01F62] active:translate-y-0.5 active:shadow-none cursor-pointer"
-          title="Lompat ke blok yang sedang aktif"
-        >
-          <Compass className="size-4 shrink-0 stroke-[2.5]" />
-          <span className="hidden sm:inline">Ke Blok Aktif</span>
         </button>
       </div>
 
@@ -461,6 +447,7 @@ export function PulauRantaiMap({
                       <div
                         className="absolute -translate-x-1/2 -translate-y-1/2 z-2"
                         style={{ left: `${x}%`, top: `${y}px` }}
+                        data-active={isNow ? "true" : undefined}
                       >
                         <ChainBlock
                           blockNo={blockNo}

@@ -107,7 +107,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
           2. MOBILE FLOATING GAME HUD BUTTON (< 1024px)
           Floating pill on the right side above the bottom dock
          ───────────────────────────────────────────────────────────── */}
-      <div className="lg:hidden fixed right-4 bottom-48 z-25">
+      <div className="lg:hidden fixed right-4 bottom-35 z-25">
         <button
           type="button"
           className="flex items-center gap-2 px-3.5 py-2 min-h-11 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5 transition-all text-xs font-bold text-choco-900"

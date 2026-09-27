@@ -10,6 +10,7 @@ import { useProgress } from "@/lib/store";
 import { useNavStore } from "@/lib/nav-store";
 import { playTap } from "@/lib/audio";
 import { cn } from "@/lib/utils";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export function SideNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -24,8 +25,33 @@ export function SideNav() {
 
   const [mounted, setMounted] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  // `null` = sesi BELUM selesai dicek. Dibedakan dari `false` supaya item
+  // "Masuk Akun" tidak sempat berkedip muncul lalu hilang saat user yang sudah
+  // login membuka drawer (getSession() asinkron).
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Sumber kebenaran status login = sesi Supabase, bukan localStorage store.
+  // Store hanya menyimpan `username` dan bisa terisi untuk user yang belum
+  // login sungguhan, jadi tidak bisa dipakai sebagai penanda.
+  useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      setIsLoggedIn(false);
+      return;
+    }
+    let alive = true;
+    void supabase.auth.getSession().then(({ data }) => {
+      if (alive) setIsLoggedIn(Boolean(data.session));
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (alive) setIsLoggedIn(Boolean(session));
+    });
+    return () => {
+      alive = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -157,18 +183,25 @@ export function SideNav() {
             />
           </li>
 
-          <li key="/masuk">
-            <NavRow
-              to="/masuk"
-              label="Masuk Akun"
-              active={pathname === "/masuk"}
-              onNavigate={() => {
-                if (sound) playTap();
-                close();
-              }}
-              icon={<LogIn className="size-4.5 shrink-0 stroke-[2.2] text-candy-700" />}
-            />
-          </li>
+          {/* "Masuk Akun" hanya masuk akal untuk yang BELUM login. Sebelum
+              sesi selesai dicek (`isLoggedIn === null`) item ini TIDAK
+              dirender sama sekali — kalau dirender, user yang sudah login akan
+              melihatnya berkedip lalu hilang. Saat sudah login tidak ada yang
+              ditampilkan di slot ini: tombol Keluar sudah ada di /profile. */}
+          {isLoggedIn === false && (
+            <li key="/masuk">
+              <NavRow
+                to="/masuk"
+                label="Masuk Akun"
+                active={pathname === "/masuk"}
+                onNavigate={() => {
+                  if (sound) playTap();
+                  close();
+                }}
+                icon={<LogIn className="size-4.5 shrink-0 stroke-[2.2] text-candy-700" />}
+              />
+            </li>
+          )}
 
           {isAdmin && (
             <li key="/admin">

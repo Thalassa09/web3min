@@ -49,7 +49,6 @@ import { PixelIcon } from "@/components/ui/pixel-icon";
 import { Lozenge } from "@/components/ui/lozenge";
 import { SkillTag } from "@/components/ui/rovo-companion";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { StreakBadge } from "@/components/ui/streak-badge";
 import { PulauIcon, BlobiPixel } from "@/lib/pulau-icons";
 import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
 import { getPulauTheme } from "@/lib/pulau-rantai";
@@ -338,11 +337,21 @@ function ProfilePage() {
         {profileTab === "lisensi" && (
           <>
         {/* Profile Explorer License Card with Tactile Beveled Arcade Header */}
-        <div className="rounded-3xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 shadow-[0_6px_0_#3B2218] overflow-hidden max-w-3xl">
+        <div className="rounded-3xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 shadow-[0_6px_0_#3B2218] overflow-hidden">
           {/* Blobi Pink Striped Banner */}
+          {/* Dua layer WAJIB digabung dalam SATU `backgroundImage`. Sebelumnya
+              class `bg-gradient-to-r from-candy-500 via-candy-400 to-candy-500`
+              dipasang bersama inline `backgroundImage` — inline selalu menang,
+              jadi gradien pink-nya hilang total dan yang tersisa cuma garis
+              putih transparan di atas latar putih: banner tampak kosong dan
+              teks putihnya tak terbaca. Hex diambil dari @theme styles.css
+              (candy-500 #E8437F, candy-400 #F26A99), bukan ditebak. */}
           <div
-            className="bg-gradient-to-r from-candy-500 via-candy-400 to-candy-500 border-b-2 border-candy-600 p-4 sm:p-5 flex items-center justify-between text-white"
-            style={{ backgroundImage: "repeating-linear-gradient(45deg, #ffffff18 0 10px, transparent 10px 20px)" }}
+            className="border-b-2 border-candy-600 p-4 sm:p-5 flex items-center justify-between text-white"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(45deg, #ffffff18 0 10px, transparent 10px 20px), linear-gradient(to right, #E8437F, #F26A99, #E8437F)",
+            }}
           >
             <span className="font-sans text-xs font-bold uppercase tracking-wider text-white">
               Lisensi Penjelajah Web3
@@ -391,7 +400,7 @@ function ProfilePage() {
                 {!supporter.isSupporter && (
                   <Link
                     to="/supporter"
-                    className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
+                    className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-blush-50 to-blush-200 border-2 border-candy-600 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
                   >
                     <Crown className="size-3.5" />
                     <span>Jadi Supporter</span>
@@ -499,7 +508,7 @@ function ProfilePage() {
         {/* Semua kartu dipaksa tinggi sama (`auto-rows-fr`) — sebelumnya baris 1
             melar jadi 177px karena StreakBadge memakai `h-full min-h-[110px]`
             sementara baris 2 cuma 114px, jadi grid terlihat timpang. */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-4 max-w-3xl">
+        <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-4">
           <div className="flex flex-col justify-between rounded-3xl border-2 border-leaf-shadow bg-gradient-to-b from-leaf-soft via-leaf-fill to-leaf-fill-deep p-4 shadow-[0_4px_0_#0F6045]">
             <div className="flex items-center justify-between text-leaf-shadow">
               <span className="font-pixel text-xs font-bold uppercase tracking-wider">Total XP</span>
@@ -511,14 +520,19 @@ function ProfilePage() {
             </div>
           </div>
 
-          <div className="flex flex-col items-stretch justify-stretch">
-            <StreakBadge
-              length={streak}
-              frequency="daily"
-              variant="colored"
-              subtitle="Hari Beruntun"
-              className="w-full flex-1"
-            />
+          {/* Kartu Streak — pola SAMA dengan 3 kartu lain (label uppercase +
+              ikon di kanan atas, angka 30px, sub-label). Sebelumnya memakai
+              <StreakBadge> yang isinya center dan urutannya ikon-angkanya-sub,
+              jadi satu-satunya kartu yang tidak rata kiri. */}
+          <div className="flex flex-col justify-between rounded-3xl border-2 border-flame-line bg-gradient-to-b from-flame-soft via-flame-fill to-flame-fill-deep p-4 shadow-[0_4px_0_#C2410C]">
+            <div className="flex items-center justify-between text-flame-ink">
+              <span className="font-pixel text-xs font-bold uppercase tracking-wider">Hari Beruntun</span>
+              <Flame className="size-4 text-flame-ink" aria-hidden="true" />
+            </div>
+            <div className="mt-2">
+              <div className="font-pixel text-3xl font-bold text-flame-ink-deep tabular-nums">{streak}</div>
+              <div className="mt-0.5 text-xs font-semibold text-flame-ink">hari</div>
+            </div>
           </div>
 
           <div className="flex flex-col justify-between rounded-3xl border-2 border-lemon-deep bg-gradient-to-b from-coin-fill via-coin-fill to-coin-fill-deep p-4 shadow-[0_4px_0_#D9A400]">

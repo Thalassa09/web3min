@@ -167,6 +167,7 @@ function ShopPage() {
             <button
               type="button"
               onClick={() => handleModeChange("shop")}
+              aria-pressed={mode === "shop"}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "shop"
                   ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
@@ -180,6 +181,7 @@ function ShopPage() {
             <button
               type="button"
               onClick={() => handleModeChange("wardrobe")}
+              aria-pressed={mode === "wardrobe"}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "wardrobe"
                   ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
@@ -581,6 +583,7 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeSlot("all")}
+                        aria-pressed={wardrobeSlot === "all"}
                         className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                           wardrobeSlot === "all"
                             ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
@@ -594,6 +597,7 @@ function ShopPage() {
                           key={s}
                           type="button"
                           onClick={() => setWardrobeSlot(s)}
+                          aria-pressed={wardrobeSlot === s}
                           className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                             wardrobeSlot === s
                               ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"

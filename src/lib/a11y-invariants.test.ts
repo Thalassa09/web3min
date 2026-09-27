@@ -124,20 +124,23 @@ test("outline-none hanya sah kalau ada pengganti fokus yang terlihat", () => {
 });
 
 test("dock sub-navigasi memakai penanda status yang bisa dibaca screen reader", () => {
-  // 7 pill dock nyata; sebagian hanya memakai warna untuk menandai tab aktif.
-  // DESIGN.md §5 mewajibkan aria-current="page" (atau aria-pressed untuk
-  // kontrol non-navigasi). Guard mengunci yang SUDAH punya; sisanya tercatat
-  // sebagai utang di progress.md.
-  const docks: Array<[string, string]> = [
-    ["src/routes/kisah.index.tsx", "aria-pressed"],
-    ["src/routes/profile.tsx", "aria-pressed"],
-    ["src/routes/shop.tsx", "aria-pressed"],
+  // 7 pill dock nyata. Status tab aktif TIDAK boleh disampaikan lewat warna saja
+  // (WCAG 1.4.1). Dua pola sah di repo:
+  //   - navigasi antar-halaman  → `aria-current="page"`  (leaderboard ↔ raffle)
+  //   - toggle mode/filter      → `aria-pressed={...}`   (kisah.index, profile, shop)
+  // Guard mengunci KETUJUHNYA; sebelumnya hanya 3 yang punya.
+  const docks: Array<[string, string, string]> = [
+    ["src/routes/kisah.index.tsx", "aria-pressed", "dock kategori Kisah"],
+    ["src/routes/profile.tsx", "aria-pressed", "dock tab Profil"],
+    ["src/routes/shop.tsx", "aria-pressed", "dock mode & filter Toko"],
+    ["src/routes/raffle.tsx", 'aria-current="page"', "dock Undian (tab aktif)"],
+    ["src/routes/leaderboard.tsx", 'aria-current="page"', "dock Klasemen (tab aktif)"],
   ];
-  for (const [p, marker] of docks) {
+  for (const [p, marker, label] of docks) {
     assert.match(
       read(p),
-      new RegExp(marker),
-      `${p} kehilangan ${marker} pada dock — status tab aktif jadi warna-saja (gagal WCAG 1.4.1)`,
+      new RegExp(marker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+      `${label}: ${p} kehilangan ${marker} — status tab aktif jadi warna-saja (gagal WCAG 1.4.1)`,
     );
   }
 });

@@ -607,6 +607,7 @@ function RafflePage() {
             <span>Klasemen Mingguan</span>
           </Link>
           <div
+            aria-current="page"
             className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-xs md:text-sm font-pixel font-bold text-white shadow-[0_3px_0_#6E1239] transition-transform"
           >
             <Ticket className="h-4 w-4 shrink-0 text-white stroke-[2.5]" />

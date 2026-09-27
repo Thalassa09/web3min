@@ -196,6 +196,7 @@ function LeaderboardPage() {
         <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218] max-w-md mx-auto">
           <Link
             to="/leaderboard"
+            aria-current="page"
             className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-amber-600 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
           >
             <Trophy className="h-4 w-4 shrink-0 text-choco-900" />

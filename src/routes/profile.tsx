@@ -34,6 +34,7 @@ import {
   LogIn,
   BadgeCheck,
   Crown,
+  Users,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
@@ -832,6 +833,29 @@ function ProfilePage() {
               Buka Arena →
             </Link>
           </div>
+        </SurfaceCard>
+
+        {/* Komunitas DAO — pintu masuk /dao (sengaja BUKAN item bottom nav;
+            nav bawah tetap 5 menu sesuai keputusan arsitektur). */}
+        <SurfaceCard variant="default" className="p-4 sm:p-5 space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <Users className="size-4 text-candy-700 shrink-0" />
+              <h2 className="font-display font-bold text-sm sm:text-base text-choco-900">
+                Komunitas DAO
+              </h2>
+            </div>
+            <Link
+              to="/dao"
+              className="text-xs font-bold text-candy-700 hover:text-candy-700 shrink-0 inline-flex items-center py-2 -my-2 min-h-11"
+            >
+              Buka Komunitas →
+            </Link>
+          </div>
+          <p className="text-xs font-semibold text-choco-600 leading-relaxed">
+            Gabung komunitas Discord-nya setelah lulus kuis rutenya. Dibuka dengan
+            belajar, bukan dengan bayar.
+          </p>
         </SurfaceCard>
 
         {/* Verifikasi Email Akun (Pemulihan & Keamanan) */}

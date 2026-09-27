@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BubbleRouteImport } from './routes/bubble'
 import { Route as CaraRouteImport } from './routes/cara'
+import { Route as DaoRouteImport } from './routes/dao'
 import { Route as IntroRouteImport } from './routes/intro'
 import { Route as KisahRouteImport } from './routes/kisah'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
@@ -57,6 +58,11 @@ const BubbleRoute = BubbleRouteImport.update({
 const CaraRoute = CaraRouteImport.update({
   id: '/cara',
   path: '/cara',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DaoRoute = DaoRouteImport.update({
+  id: '/dao',
+  path: '/dao',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IntroRoute = IntroRouteImport.update({
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/bubble': typeof BubbleRoute
   '/cara': typeof CaraRoute
+  '/dao': typeof DaoRoute
   '/intro': typeof IntroRoute
   '/kisah': typeof KisahRouteWithChildren
   '/leaderboard': typeof LeaderboardRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/bubble': typeof BubbleRoute
   '/cara': typeof CaraRoute
+  '/dao': typeof DaoRoute
   '/intro': typeof IntroRoute
   '/leaderboard': typeof LeaderboardRoute
   '/masuk': typeof MasukRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/bubble': typeof BubbleRoute
   '/cara': typeof CaraRoute
+  '/dao': typeof DaoRoute
   '/intro': typeof IntroRoute
   '/kisah': typeof KisahRouteWithChildren
   '/leaderboard': typeof LeaderboardRoute
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bubble'
     | '/cara'
+    | '/dao'
     | '/intro'
     | '/kisah'
     | '/leaderboard'
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bubble'
     | '/cara'
+    | '/dao'
     | '/intro'
     | '/leaderboard'
     | '/masuk'
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bubble'
     | '/cara'
+    | '/dao'
     | '/intro'
     | '/kisah'
     | '/leaderboard'
@@ -319,6 +331,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   BubbleRoute: typeof BubbleRoute
   CaraRoute: typeof CaraRoute
+  DaoRoute: typeof DaoRoute
   IntroRoute: typeof IntroRoute
   KisahRoute: typeof KisahRouteWithChildren
   LeaderboardRoute: typeof LeaderboardRoute
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/cara'
       fullPath: '/cara'
       preLoaderRoute: typeof CaraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dao': {
+      id: '/dao'
+      path: '/dao'
+      fullPath: '/dao'
+      preLoaderRoute: typeof DaoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/intro': {
@@ -529,6 +549,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   BubbleRoute: BubbleRoute,
   CaraRoute: CaraRoute,
+  DaoRoute: DaoRoute,
   IntroRoute: IntroRoute,
   KisahRoute: KisahRouteWithChildren,
   LeaderboardRoute: LeaderboardRoute,

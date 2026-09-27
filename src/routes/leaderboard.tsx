@@ -265,7 +265,7 @@ function LeaderboardPage() {
 
           <Link
             to="/raffle"
-            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 px-5 py-3 text-xs md:text-sm font-bold text-choco-900 shadow-[0_4px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
           >
             <span>Buka Undian Hadiah</span>
           </Link>
@@ -406,7 +406,7 @@ function LeaderboardPage() {
                 }}
                 className={`px-3.5 py-1.5 min-h-11 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 inline-flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top10"
-                    ? "bg-candy-800 text-white"
+                    ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900"
                     : "bg-white text-choco-900 hover:bg-candy-100"
                 }`}
               >
@@ -550,7 +550,7 @@ function LeaderboardPage() {
               <button
                 type="button"
                 onClick={retryDb}
-                className="flex min-h-11 items-center gap-2 rounded-full border-2 border-choco-900 bg-candy-800 px-4 text-sm font-black text-white shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5"
+                className="flex min-h-11 items-center gap-2 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 px-4 text-sm font-black text-choco-900 shadow-[0_3px_0_#B01F62] transition-transform active:translate-y-0.5"
               >
                 <RefreshCw aria-hidden="true" className="size-4" />
                 Coba lagi
@@ -564,7 +564,7 @@ function LeaderboardPage() {
               </p>
               <Link
                 to="/"
-                className="flex min-h-11 items-center gap-2 rounded-full border-2 border-choco-900 bg-candy-800 px-4 text-sm font-black text-white shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5"
+                className="flex min-h-11 items-center gap-2 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 px-4 text-sm font-black text-choco-900 shadow-[0_3px_0_#B01F62] transition-transform active:translate-y-0.5"
               >
                 Mulai Belajar
                 <ArrowRight aria-hidden="true" className="size-4" />
@@ -749,7 +749,7 @@ function LeaderboardPage() {
             <button
               type="button"
               onClick={() => setShowPrizeModal(false)}
-              className="w-full rounded-full border-2 border-choco-900 bg-candy-800 hover:bg-candy-950 py-3 font-bold text-white shadow-[0_3px_0_#3B2218] active:translate-y-0.5 transition-all cursor-pointer"
+              className="w-full rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 py-3 font-bold text-choco-900 shadow-[0_3px_0_#B01F62] active:translate-y-0.5 transition-all cursor-pointer"
             >
               Tutup Rincian
             </button>

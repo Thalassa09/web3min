@@ -6,22 +6,17 @@ import { firstPlayableId } from "@/lib/curriculum";
 import { ArrowRight } from "@/lib/kicon";
 import { cn } from "@/lib/utils";
 
-// Gradient pink untuk TOMBOL AKSI "Lanjut" saja. Tab nav aktif TIDAK lagi
-// memakainya — sejak permintaan user (2026-09-27) semua tab aktif memakai
-// pastel rose (blush-50 -> blush-200, teks choco-900) seperti chip "Murid
-// Blobi" di /profile. Jangan kembalikan tab ke ramp gelap ini.
+// Gradient pastel rose untuk TOMBOL AKSI "Lanjut". Sejak sweep "candy gelap ->
+// pastel rose" (permintaan user, 2026-09-27) SELURUH elemen aktif — tab nav
+// maupun tombol ini — memakai blush-50 -> blush-200 dengan label choco-900,
+// seragam dengan chip "Murid Blobi" di /profile. Tidak ada lagi ramp gelap di
+// nav; jangan dikembalikan.
 //
-// Ini versi GELAP dari
-// brand pink: #FF6699/#E8437F/#D82668 hanya 3.79:1 di atas label putih (gagal
-// WCAG AA untuk teks kecil). Jangan dikembalikan ke stop terang sebelum
-// contrast-budget.test.ts ikut diubah.
-//
-// Stop 0% WAJIB candy-700 (#B01F62), bukan candy-600. Label nav aktif adalah
-// teks 10px putih: candy-600 lolos saat diam (4.71:1) tapi `hover:brightness-110`
-// di tombol "Lanjut" menaikkannya ke 4.0:1 — di bawah ambang. candy-700 aman di
-// kedua state (6.53:1 diam, 5.62:1 hover), jadi label tidak perlu dihapus.
+// Label/ikon kini choco-900 di atas pastel. Kontras di stop TERGELAP
+// (blush-200 #FDC8D8) = 10.11:1 — diukur `contrast-budget.test.ts`, yang juga
+// memastikan nol `text-white` kembali ke berkas ini.
 const CANDY_ACTIVE =
-  "bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 shadow-[0_3px_0_#6E1239,0_6px_12px_rgba(232,67,127,0.25)]";
+  "bg-gradient-to-b from-blush-50 to-blush-200 shadow-[0_3px_0_#B01F62,0_6px_12px_rgba(232,67,127,0.25)]";
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -73,8 +68,8 @@ export function BottomNav() {
             // ~44px, tombol 52px meluber dan menimpa "Toko" (terbukti:
             // 149..201 vs 195..238). Ikut lebar kolom, tetap bulat, dan tetap
             // >= 44px sehingga tap target tidak hilang.
-            "mx-auto grid size-[min(52px,100%)] shrink-0 place-items-center rounded-full border-2 border-candy-600/60 text-white",
-            "transition-all duration-120 ease-out hover:brightness-110 active:scale-95 active:translate-y-0.5 active:shadow-[0_1px_0_#B01F62]",
+            "mx-auto grid size-[min(52px,100%)] shrink-0 place-items-center rounded-full border-2 border-candy-600 text-choco-900",
+            "transition-all duration-120 ease-out hover:brightness-105 active:scale-95 active:translate-y-0.5 active:shadow-[0_1px_0_#B01F62]",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-choco-900 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-fill",
             CANDY_ACTIVE,
           )}

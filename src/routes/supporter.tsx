@@ -444,7 +444,7 @@ function SupporterPage() {
                 <button
                   type="button"
                   onClick={() => void startPayment()}
-                  className="mt-3 inline-flex items-center gap-1.5 min-h-11 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 px-5 text-xs font-pixel font-bold text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-choco-900"
+                  className="mt-3 inline-flex items-center gap-1.5 min-h-11 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 px-5 text-xs font-pixel font-bold text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-choco-900"
                 >
                   <RefreshCw className="size-3.5" />
                   Coba lagi

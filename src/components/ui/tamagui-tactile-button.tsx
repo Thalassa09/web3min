@@ -14,11 +14,11 @@
  *    `fontFamily="$heading"` + `fontSize` token, dan pasang di elemen teksnya.
  *
  * Aturan desain yang dipatuhi (DESIGN-SYSTEM.md):
- * - border solid 2px `choco-900`  → `borderColor="$choco900"`
- * - hard slab blur NOL            → `boxShadow: "0 4px 0 #3B2218"`
+ * - border solid 2px candy-600    → `borderColor="$candy600"`
+ * - hard slab blur NOL            → `boxShadow: "0 4px 0 #B01F62"`
  * - radius 14px (md)              → `rounded="$2"`
  * - tap target >= 44px            → `minH={44}`
- * - label putih hanya di ramp gelap (WCAG AA) → `#B01F62` (6.53:1)
+ * - permukaan pastel rose + label choco-900 (sweep 2026-09-27) → `#FFF0F5` / `#3B2218` (10.11:1)
  * - font heading Space Grotesk    → `Text fontFamily="$heading"`
  */
 import { Button, Text, XStack } from "tamagui";
@@ -32,8 +32,8 @@ export function TamaguiTactileButton({
   onPress?: () => void;
   disabled?: boolean;
 }) {
-  const labelColor = disabled ? "#6B4A3A" : "#FFFFFF";
-  const fill = disabled ? "#EDE4DC" : "#B01F62";
+  const labelColor = disabled ? "#6B4A3A" : "#3B2218";
+  const fill = disabled ? "#EDE4DC" : "#FFF0F5";
 
   return (
     <Button
@@ -42,16 +42,16 @@ export function TamaguiTactileButton({
       minH={44}
       px="$5"
       borderWidth={2}
-      borderColor="$choco900"
+      borderColor="$candy600"
       rounded="$2"
       bg={fill}
       // Hard slab, blur NOL — inti gaya "Gamified UI / Soft Neo-Brutalism".
-      boxShadow="0 4px 0 #3B2218"
+      boxShadow="0 4px 0 #B01F62"
       pressStyle={{
         transform: [{ translateY: 2 }],
-        boxShadow: "0 1px 0 #3B2218",
+        boxShadow: "0 1px 0 #B01F62",
       }}
-      hoverStyle={{ bg: disabled ? "#EDE4DC" : "#85174A" }}
+      hoverStyle={{ bg: disabled ? "#EDE4DC" : "#FDC8D8" }}
     >
       <XStack items="center" gap="$2">
         <Text

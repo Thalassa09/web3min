@@ -96,7 +96,7 @@ function PublicProfilePage() {
             </p>
             <Link
               to="/leaderboard"
-              className="mt-5 inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 px-5 text-xs font-pixel font-bold text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition"
+              className="mt-5 inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 px-5 text-xs font-pixel font-bold text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition"
             >
               Lihat klasemen
               <ArrowRight className="size-3.5" />
@@ -183,7 +183,7 @@ function PublicProfilePage() {
           </p>
           <Link
             to="/onboarding"
-            className="mt-4 inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 px-5 text-xs font-pixel font-bold text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition"
+            className="mt-4 inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 px-5 text-xs font-pixel font-bold text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition"
           >
             Mulai belajar gratis
             <ArrowRight className="size-3.5" />

@@ -191,10 +191,10 @@ function Onboarding() {
           {/* Mascot Side (5 Cols - Blobi on Tactile 3D Arcade Tile) */}
           <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-linear-to-b from-blush-50 to-blush-100 border-2 border-choco-900 shadow-[0_6px_0_#3B2218] rounded-3xl p-6 gap-4 relative overflow-hidden">
             {/* Decorative Arcade Top Badge */}
-            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 hidden md:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-candy-800 border-2 border-choco-900 text-white font-pixel text-[9px] font-bold shadow-[0_2px_0_#3B2218]">
-              <Sparkles className="size-2.5 text-white" />
+            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 hidden md:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 border-2 border-candy-600 text-choco-900 font-pixel text-[9px] font-bold shadow-[0_2px_0_#B01F62]">
+              <Sparkles className="size-2.5 text-choco-900" />
               <span>BLOBI CO-PILOT</span>
-              <Sparkles className="size-2.5 text-white" />
+              <Sparkles className="size-2.5 text-choco-900" />
             </div>
 
             <div className="shrink-0 flex items-center justify-center size-24 md:size-40 md:mt-3">
@@ -208,7 +208,7 @@ function Onboarding() {
               />
             </div>
             <div className="w-full">
-              <div className="inline-block px-3.5 py-1 rounded-xl bg-candy-800 text-white font-pixel text-xs sm:text-sm font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
+              <div className="inline-block px-3.5 py-1 rounded-xl bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 font-pixel text-xs sm:text-sm font-bold border-2 border-candy-600 shadow-[0_2px_0_#B01F62]">
                 Blobi
               </div>
               <div className="mt-2.5 p-3 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218]">
@@ -289,7 +289,7 @@ function Onboarding() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">Koin & Tiket Undian</span>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-candy-800 text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border-2 border-candy-600 shadow-[0_1.5px_0_#B01F62]">
                           Reward
                         </span>
                       </div>
@@ -304,7 +304,7 @@ function Onboarding() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="w-full py-3.5 px-6 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
+                    className="w-full py-3.5 px-6 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 text-choco-900 font-pixel font-bold text-sm sm:text-base border-2 border-candy-600 shadow-[0_4px_0_#B01F62] active:translate-y-1 active:shadow-[0_1px_0_#B01F62] cursor-pointer flex items-center justify-center gap-2.5 transition-all"
                   >
                     <span>Mulai Petualangan Web3</span>
                     <ArrowRight className="size-5" />
@@ -339,7 +339,7 @@ function Onboarding() {
                       className={cn(
                         "px-3.5 py-1 rounded-full text-xs font-pixel font-bold transition-all cursor-pointer",
                         authMode === "register"
-                          ? "bg-candy-800 text-white border border-choco-900 shadow-[0_1.5px_0_#3B2218]"
+                          ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border border-candy-600 shadow-[0_1.5px_0_#B01F62]"
                           : "text-choco-700 hover:text-choco-900"
                       )}
                     >
@@ -354,7 +354,7 @@ function Onboarding() {
                       className={cn(
                         "px-3.5 py-1 rounded-full text-xs font-pixel font-bold transition-all cursor-pointer",
                         authMode === "login"
-                          ? "bg-candy-800 text-white border border-choco-900 shadow-[0_1.5px_0_#3B2218]"
+                          ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border border-candy-600 shadow-[0_1.5px_0_#B01F62]"
                           : "text-choco-700 hover:text-choco-900"
                       )}
                     >
@@ -506,7 +506,7 @@ function Onboarding() {
                     <button
                       type="submit"
                       disabled={busy}
-                      className="flex-1 py-3 px-5 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
+                      className="flex-1 py-3 px-5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 disabled:opacity-50 text-choco-900 font-pixel font-bold text-xs sm:text-sm border-2 border-candy-600 shadow-[0_4px_0_#B01F62] active:translate-y-1 active:shadow-[0_1px_0_#B01F62] cursor-pointer flex items-center justify-center gap-2 transition-all"
                     >
                       <span>
                         {busy
@@ -565,7 +565,7 @@ function Onboarding() {
                             <span className="font-pixel text-xs font-bold text-choco-900">{g.label}</span>
                           </div>
                           {isSelected ? (
-                            <span className="size-5 rounded-full bg-candy-800 text-white flex items-center justify-center shadow-xs border border-choco-900">
+                            <span className="size-5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 flex items-center justify-center shadow-xs border border-candy-600">
                               <Check className="size-3" strokeWidth={3} />
                             </span>
                           ) : (
@@ -595,7 +595,7 @@ function Onboarding() {
                     type="button"
                     onClick={() => void finish()}
                     disabled={busy}
-                    className="flex-1 py-3 px-5 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all"
+                    className="flex-1 py-3 px-5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 disabled:opacity-50 text-choco-900 font-pixel font-bold text-xs sm:text-sm border-2 border-candy-600 shadow-[0_4px_0_#B01F62] active:translate-y-1 active:shadow-[0_1px_0_#B01F62] cursor-pointer flex items-center justify-center gap-2 transition-all"
                   >
                     <span>{busy ? "Mendaftarkan…" : "Mulai Petualangan!"}</span>
                     <ArrowRight className="size-4" />

@@ -33,11 +33,11 @@ export function Lozenge({
   const STYLES: Record<LozengeAppearance, { subtle: string; bold: string }> = {
     default: {
       subtle: "bg-candy-100 text-candy-700 border-candy-300",
-      bold: "bg-candy-800 text-white border-candy-700",
+      bold: "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border-candy-600",
     },
     inprogress: {
       subtle: "bg-candy-100 text-candy-700 border-candy-300",
-      bold: "bg-candy-800 text-white border-candy-700",
+      bold: "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border-candy-600",
     },
     success: {
       subtle: "bg-leaf-soft text-leaf-shadow border-leaf-line",

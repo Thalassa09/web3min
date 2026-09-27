@@ -16,7 +16,9 @@
  *   A. bentuk stadium penuh  → `rounded-full`
  *   B. border SOLID sefamili → warna border == warna slab
  *   C. hard slab blur nol    → `shadow-[0_2px_0_<slab>]`
- *   D. teks tebal, putih HANYA di atas ramp gelap (danger)
+ *   D. teks tebal GELAP di atas isi terang (choco-900 di atas pastel); putih
+ *      hanya bila permukaan gelapnya teruji kontras (sejak sweep 2026-09-27
+ *      nol tone berlabel putih — danger pun kini pastel rose)
  *
  * Tone `gold`/`mint`/`warning` memakai token Web3min yang SUDAH ada di `@theme`
  * (lemon, ok-*, warn-*) — bukan palet Tailwind bawaan — supaya chip baru tidak
@@ -54,8 +56,8 @@ const chip = cva(
         mint: "bg-ok-soft border-ok-ink text-ok-ink shadow-[0_2px_0_#0F6045]",
         /** Warning — menunggu verifikasi. Token `warn-*`. */
         warning: "bg-warn-soft border-warn-ink text-warn-ink shadow-[0_2px_0_#8A6100]",
-        /** Danger — gagal/ditolak. Teks putih di atas ramp gelap (aturan D). */
-        danger: "bg-candy-800 border-choco-900 text-white shadow-[0_2px_0_#3B2218]",
+        /** Danger — gagal/ditolak. Pastel rose + label choco-900 (sweep 2026-09-27; dulu ramp gelap berlabel putih). */
+        danger: "bg-gradient-to-b from-blush-50 to-blush-200 border-candy-600 text-choco-900 shadow-[0_2px_0_#B01F62]",
       },
     },
     defaultVariants: { tone: "neutral" },

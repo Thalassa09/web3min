@@ -108,7 +108,7 @@ function SettingsPage() {
               setSaved(true);
               window.setTimeout(() => setSaved(false), 4000);
             }}
-            className="mt-3 py-2.5 px-5 min-h-11 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+            className="mt-3 py-2.5 px-5 min-h-11 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 disabled:opacity-50 text-choco-900 font-pixel font-bold text-xs border-2 border-candy-600 shadow-[0_3px_0_#B01F62] active:translate-y-0.5 cursor-pointer transition-all"
           >
             Simpan Akun X
           </button>
@@ -133,7 +133,7 @@ function SettingsPage() {
             onClick={() => setSound(!sound)}
             className={`py-2 min-h-11 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all flex items-center gap-1.5 ${
               sound
-                ? "bg-candy-800 text-white"
+                ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900"
                 : "bg-cream text-choco-700"
             }`}
           >
@@ -155,7 +155,7 @@ function SettingsPage() {
             onClick={() => setReduceMotion(!reduceMotion)}
             className={`py-2 min-h-11 px-5 rounded-full font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all ${
               reduceMotion
-                ? "bg-candy-800 text-white"
+                ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900"
                 : "bg-cream text-choco-700"
             }`}
           >
@@ -231,7 +231,7 @@ function SettingsPage() {
             <button
               type="button"
               disabled={isDeleting}
-              className="flex-1 py-2 min-h-11 px-5 rounded-full bg-err-ink hover:bg-candy-900 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
+              className="flex-1 py-2 min-h-11 px-5 rounded-full bg-err-ink hover:brightness-105 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
               onClick={() => void handleReset()}
             >
               {isDeleting ? "Menghapus..." : "Ya, Hapus Akun"}

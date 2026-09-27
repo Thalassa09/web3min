@@ -177,7 +177,7 @@ function ShopPage() {
               <button
                 type="button"
                 onClick={note.onAction}
-                className="px-3.5 py-1 min-h-11 rounded-[10px] bg-candy-800 text-white text-xs font-pixel font-bold hover:bg-candy-950 shadow-[0_2px_0_#3B2218] cursor-pointer"
+                className="px-3.5 py-1 min-h-11 rounded-[10px] bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 text-xs font-pixel font-bold hover:brightness-105 shadow-[0_2px_0_#B01F62] cursor-pointer"
               >
                 {note.actionText} →
               </button>
@@ -219,7 +219,7 @@ function ShopPage() {
                   className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                     mode === "wardrobe"
                       ? "bg-gradient-to-b from-lemon-bright to-lemon text-choco-900 border-2 border-lemon-deep shadow-[0_2px_0_#D9A400]"
-                      : "bg-candy-800 text-white"
+                      : "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900"
                   }`}
                 >
                   {ownedCount}
@@ -417,7 +417,7 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className="inline-flex items-center justify-center min-h-11 rounded-full border-2 border-choco-900 px-5 py-2.5 text-xs md:text-sm font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
+                      className="inline-flex items-center justify-center min-h-11 rounded-full border-2 border-candy-600 px-5 py-2.5 text-xs md:text-sm font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
                     >
                       {heartsFull ? "Nyawa Penuh" : gems < HEART_REFILL_COST ? "Koin Kurang" : "Isi Ulang Sekarang →"}
                     </button>
@@ -472,7 +472,7 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className="inline-flex items-center justify-center min-h-11 rounded-full border-2 border-choco-900 px-4 py-2 text-xs font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
+                      className="inline-flex items-center justify-center min-h-11 rounded-full border-2 border-candy-600 px-4 py-2 text-xs font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
                     >
                       {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Koin Kurang" : "Beli Pelindung →"}
                     </button>
@@ -499,7 +499,7 @@ function ShopPage() {
               <button
                 type="button"
                 onClick={() => handleModeChange("wardrobe")}
-                className="shrink-0 px-5 py-2 min-h-11 rounded-full bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex items-center gap-1.5 cursor-pointer hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+                className="shrink-0 px-5 py-2 min-h-11 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 font-pixel font-bold text-xs border-2 border-candy-600 shadow-[0_3px_0_#B01F62] flex items-center gap-1.5 cursor-pointer hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
               >
                 <span>Buka Ruang Ganti Blobi →</span>
               </button>
@@ -577,7 +577,7 @@ function ShopPage() {
                           onClick={() => setBlobiMood(mood)}
                           className={`flex items-center justify-center gap-2 px-3 py-2 min-h-11 rounded-xl text-xs font-bold select-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
                             blobiMood === mood
-                              ? "bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white shadow-[0_3px_0_#B01F62] border-2 border-candy-600"
+                              ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] border-2 border-candy-600"
                               : "bg-white text-choco-700 hover:bg-candy-50 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                           }`}
                         >
@@ -687,7 +687,7 @@ function ShopPage() {
                         aria-pressed={wardrobeSlot === "all"}
                         className={`shrink-0 px-4 py-1.5 min-h-11 inline-flex items-center rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                           wardrobeSlot === "all"
-                            ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                            ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border-2 border-candy-600 shadow-[0_2px_0_#B01F62]"
                             : "bg-cream text-choco-600 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-candy-100 hover:text-choco-900"
                         }`}
                       >
@@ -701,7 +701,7 @@ function ShopPage() {
                           aria-pressed={wardrobeSlot === s}
                           className={`shrink-0 px-4 py-1.5 min-h-11 inline-flex items-center rounded-full text-xs font-pixel font-bold whitespace-nowrap cursor-pointer transition-[transform,box-shadow,background-color,border-color,color] active:translate-y-[1px] ${
                             wardrobeSlot === s
-                              ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
+                              ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border-2 border-candy-600 shadow-[0_2px_0_#B01F62]"
                               : "bg-cream text-choco-600 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] hover:bg-candy-100 hover:text-choco-900"
                           }`}
                         >
@@ -726,7 +726,7 @@ function ShopPage() {
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("all")}
-                        className="px-4 py-2 min-h-11 rounded-[14px] bg-candy-800 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-[1px]"
+                        className="px-4 py-2 min-h-11 rounded-[14px] bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 font-pixel font-bold text-xs border-2 border-candy-600 shadow-[0_3px_0_#B01F62] cursor-pointer active:translate-y-[1px]"
                       >
                         Lihat Katalog Lengkap ({totalCount})
                       </button>
@@ -827,7 +827,7 @@ function ShopPage() {
                                     playEquip();
                                     flash(`"${acc.name}" dipasang pada Blobi!`);
                                   }}
-                                  className="w-full py-1 min-h-11 rounded-[10px] bg-candy-800 text-white border-2 border-choco-900 text-[11px] font-pixel font-bold hover:bg-candy-950 shadow-[0_2px_0_#3B2218] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
+                                  className="w-full py-1 min-h-11 rounded-[10px] bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border-2 border-candy-600 text-[11px] font-pixel font-bold hover:brightness-105 shadow-[0_2px_0_#B01F62] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer"
                                 >
                                   Pakai
                                 </button>

@@ -210,7 +210,7 @@ function FunnelChart({ data }: { data: AdminAnalytics["funnel"] }) {
             </div>
             <div className="h-3 rounded-full bg-cream-100 border border-choco-900/20 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-candy-700 to-candy-800"
+                className="h-full rounded-full bg-gradient-to-r from-blush-50 to-blush-200"
                 style={{ width: `${Math.max(pct, 2)}%` }}
               />
             </div>

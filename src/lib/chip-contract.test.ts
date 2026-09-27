@@ -125,12 +125,22 @@ test("komponen kanonik <Chip> mematuhi empat aturan keras", () => {
     "Chip tidak boleh memakai shadow ber-blur (aturan C)",
   );
 
-  // D. teks putih hanya di atas ramp gelap
+  // D. teks tebal gelap di atas isi terang; putih hanya bila permukaannya
+  //    gelap teruji. Sweep "candy gelap -> pastel rose" (2026-09-27) memindahkan
+  //    tone danger ke pastel rose berlabel choco-900 — jadi SEKARANG nol tone
+  //    yang berlabel putih. Kalau tone baru menambah label putih, permukaannya
+  //    wajib diuji kontras dulu (lihat contrast-budget.test.ts).
   const whiteTones = [...chip.matchAll(/\b(\w+):\s*"[^"]*\btext-white\b[^"]*"/g)].map((m) => m[1]);
   assert.deepEqual(
     whiteTones,
-    ["danger"],
-    `teks putih hanya sah di tone danger (ramp gelap teruji), bukan: ${whiteTones.join(", ")}`,
+    [],
+    `nol tone chip boleh berlabel putih sejak sweep 2026-09-27; ditemukan: ${whiteTones.join(", ")}`,
+  );
+  // Tone danger wajib tetap terdaftar dan memakai keluarga rose pastel.
+  assert.match(
+    chip,
+    /danger:\s*"[^"]*from-blush-50[^"]*to-blush-200[^"]*text-choco-900/,
+    "tone danger wajib pastel rose + text-choco-900 (sweep 2026-09-27)",
   );
 });
 

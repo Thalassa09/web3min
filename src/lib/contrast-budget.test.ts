@@ -52,10 +52,26 @@ test("body text clears 4.5:1 on every surface it actually sits on", () => {
 
 test("white labels only sit on surfaces dark enough for white text", () => {
   // Surface must be at least 4.5:1 against white, i.e. dark enough.
+  // CATATAN sweep 2026-09-27: candy-800/900 tidak lagi dipakai sebagai
+  // permukaan berlabel putih di src/ (semua permukaan pink kini pastel rose
+  // berlabel choco-900), tapi nilainya tetap diuji karena token-nya masih ada
+  // dan bisa dipakai kapan saja — permukaan gelap apa pun wajib lolos.
   for (const name of ["candy-700", "candy-800", "candy-900", "choco-900"]) {
     const v = contrast("#FFFFFF", token(name));
     assert.ok(v >= 4.5, `white on --color-${name} = ${v.toFixed(2)}:1 — terlalu terang untuk teks putih`);
   }
+});
+
+test("label choco-900 di atas permukaan pastel rose lolos AA (sweep 2026-09-27)", () => {
+  // Sweep "candy gelap -> pastel rose": permukaan blush-50 -> blush-200
+  // berlabel choco-900. Titik terburuk = stop TERGELAP (blush-200 #FDC8D8).
+  const choco = token("choco-900");
+  for (const name of ["blush-50", "blush-200"]) {
+    const v = contrast(choco, token(name));
+    assert.ok(v >= 4.5, `choco-900 di atas --color-${name} = ${v.toFixed(2)}:1 — di bawah 4.5:1`);
+  }
+  // `hover:brightness-105` menaikkan kecerahan latar → rasio NAIK, bukan turun.
+  // Jadi tidak ada state hover yang perlu diuji terpisah seperti dulu.
 });
 
 test("no white text sits on --color-candy-500 (3.79:1)", () => {
@@ -92,27 +108,24 @@ test("no white text sits on --color-candy-500 (3.79:1)", () => {
   );
 });
 
-test("active nav / Lanjut gradient stops clear 4.5:1, including hover", () => {
-  // bottom-nav.tsx holds the ramp as a Tailwind arbitrary-value string, so this
-  // parses the source instead of asking for a token. `hover:brightness-110` on
-  // the Lanjut button lifts every stop by 10%, and that branch is what makes
-  // candy-600 unacceptable as stop 0% (4.71 at rest -> 4.0 on hover).
+test("nav & tombol Lanjut memakai pastel rose berlabel choco-900 (sweep 2026-09-27)", () => {
+  // Sejak sweep "candy gelap -> pastel rose" SELURUH elemen aktif di
+  // bottom-nav (tab nav DAN tombol "Lanjut") memakai blush-50 -> blush-200
+  // dengan label/ikon choco-900. Guard lama mengunci ramp gelap 3-stop +
+  // label putih; sekarang yang dikunci adalah:
+  //   1. CANDY_ACTIVE memuat ramp pastel 2-stop (blush-50 -> blush-200),
+  //   2. TIDAK ada `text-white` di berkas itu (label pasti choco-900),
+  //   3. kontras choco-900 di stop TERGELAP (blush-200) >= 4.5:1.
   const nav = readFileSync(join(ROOT, "src/components/bottom-nav.tsx"), "utf8");
-  // Scope to the CANDY_ACTIVE constant: the file also holds the pill's own
-  // light surface gradient (from-white via-[#FFF9F5] ...), which carries no
-  // white text and must not be scored.
   const decl = nav.match(/const CANDY_ACTIVE\s*=\s*([\s\S]*?);\n/);
   assert.ok(decl, "CANDY_ACTIVE declaration not found in bottom-nav.tsx");
-  // Sejak Langkah 32 ramp ditulis dengan TOKEN, bukan hex mentah
-  // (`from-candy-700 via-candy-800 to-candy-900`). Guard harus menerima
-  // keduanya — kalau hanya hex, mengubah hex→token akan mematikan guard ini
-  // diam-diam (sudah dibuktikan: gagal `expected a 3-stop ramp, found 0`).
-  // Token di-resolve lewat `@theme`, jadi nilainya tetap diukur sungguhan.
+
   const themeCss = readFileSync(join(ROOT, "src/styles.css"), "utf8");
   const resolveToken = (name: string): string | null => {
     const m = themeCss.match(new RegExp(`--color-${name}:\\s*(#[0-9A-Fa-f]{6})`));
     return m ? m[1] : null;
   };
+
   const stops: string[] = [];
   for (const m of decl![1].matchAll(
     /(?:^|[\s"'])(?:from|via|to)-\[#([0-9A-Fa-f]{6})\]|(?:^|[\s"'])(?:from|via|to)-([a-z][\w-]*)/g,
@@ -121,10 +134,6 @@ test("active nav / Lanjut gradient stops clear 4.5:1, including hover", () => {
       stops.push("#" + m[1]);
       continue;
     }
-    // `bg-gradient-to-b` juga cocok dengan pola `to-([a-z]...)` — tolak yang
-    // diikuti nama arah (`b`, `r`, `l`, `t`, `br`, `tr`, ...). Tanpa ini regex
-    // menangkap `to-b` sebagai token dan guard mati dengan pesan menyesatkan
-    // (`token \`b\` tidak ada di @theme`) — sudah dibuktikan.
     if (/^(b|t|l|r|bl|br|tl|tr)$/.test(m[2])) continue;
     const hex = resolveToken(m[2]);
     assert.ok(
@@ -133,22 +142,22 @@ test("active nav / Lanjut gradient stops clear 4.5:1, including hover", () => {
     );
     stops.push(hex!);
   }
-  assert.ok(stops.length >= 3, `expected a 3-stop ramp in CANDY_ACTIVE, found ${stops.length}: ${stops.join(", ")}`);
+  assert.ok(stops.length >= 2, `expected a pastel ramp in CANDY_ACTIVE, found ${stops.length}: ${stops.join(", ")}`);
 
-  const brighten = (hex: string, p: number) =>
-    "#" +
-    [0, 2, 4]
-      .map((i) => Math.min(255, Math.round(parseInt(hex.slice(1 + i, 3 + i), 16) * p)).toString(16).padStart(2, "0"))
-      .join("");
+  // Label & ikon wajib gelap — nol teks putih di seluruh berkas.
+  // Komentar dibuang dulu: komentar dokumentasi justru MENYEBUT `text-white`
+  // untuk menjelaskan kenapa ia dilarang (guard yang memindai komentarnya
+  // sendiri = false FAIL).
+  const navKode = nav.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+  assert.ok(
+    !/\btext-white\b/.test(navKode),
+    "bottom-nav tidak boleh punya `text-white` lagi — label pastel wajib choco-900 (sweep 2026-09-27)",
+  );
 
+  const choco900 = resolveToken("choco-900")!;
   for (const s of stops) {
-    for (const [state, hex] of [
-      ["rest", s],
-      ["hover", brighten(s, 1.1)],
-    ] as const) {
-      const v = contrast("#FFFFFF", hex);
-      assert.ok(v >= 4.5, `nav ramp stop ${s} at ${state} (${hex}) = ${v.toFixed(2)}:1 — white label fails AA`);
-    }
+    const v = contrast(choco900, s);
+    assert.ok(v >= 4.5, `nav ramp stop ${s} = ${v.toFixed(2)}:1 — label choco-900 gagal AA`);
   }
 });
 

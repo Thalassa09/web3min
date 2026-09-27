@@ -106,7 +106,7 @@ function getSlotBadge(slotType?: string | null, category?: string) {
   }
   if (slotType === "ITEM" || category === "outfit" || category === "badge") {
     return {
-      badgeBg: "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]",
+      badgeBg: "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 border-2 border-candy-600 shadow-[0_2px_0_#B01F62]",
       label: "Item Limited",
       icon: Tag,
     };
@@ -687,7 +687,7 @@ function RafflePage() {
                   playTap();
                   setShowBuyModal(true);
                 }}
-                className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 font-pixel font-bold text-xs sm:text-sm text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 font-pixel font-bold text-xs sm:text-sm text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Plus className="h-4 w-4 stroke-[3]" />
                 <span>Beli Tiket Sekarang →</span>
@@ -761,7 +761,7 @@ function RafflePage() {
                 }}
                 className={`rounded-full border-2 border-choco-900 px-3.5 h-11 text-xs font-bold transition-all cursor-pointer inline-flex items-center ${
                   activeCategory === cat.id
-                    ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
+                    ? "bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_2px_0_#B01F62]"
                     : "bg-white text-choco-700 hover:bg-cream"
                 }`}
               >
@@ -821,7 +821,7 @@ function RafflePage() {
                 setActiveCategory("all");
                 setActiveStatus("all");
               }}
-              className="px-5 py-2 min-h-11 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5"
+              className="px-5 py-2 min-h-11 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 text-choco-900 font-pixel font-bold text-xs border-2 border-candy-600 shadow-[0_3px_0_#B01F62] cursor-pointer active:translate-y-0.5"
             >
               Lihat Semua Undian →
             </button>
@@ -1100,7 +1100,7 @@ function RafflePage() {
                     <button
                       onClick={() => handleOpenEnterModal(raffle)}
                       disabled={!isLive || isExpired || !raffle.endsAt}
-                      className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none text-choco-900 font-pixel text-xs sm:text-sm font-bold shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
                       <Ticket className="size-4 stroke-[2.5]" />
                       <span>
@@ -1287,7 +1287,7 @@ function RafflePage() {
             <button
               onClick={handleBuyTickets}
               disabled={gems < buyAmount * RAFFLE_TICKET_PRICE}
-              className="w-full py-3 px-4 rounded-full border-2 border-choco-900 bg-candy-800 hover:bg-candy-950 disabled:opacity-40 text-white font-pixel text-xs font-bold shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer"
+              className="w-full py-3 px-4 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 disabled:opacity-40 text-choco-900 font-pixel text-xs font-bold shadow-[0_4px_0_#B01F62] active:translate-y-1 active:shadow-none cursor-pointer"
             >
               Konfirmasi Tukar
             </button>
@@ -1315,7 +1315,7 @@ function RafflePage() {
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <div className="size-11 rounded-2xl bg-candy-800 border-2 border-choco-900 flex items-center justify-center text-white shadow-[0_2px_0_#3B2218]">
+              <div className="size-11 rounded-2xl bg-gradient-to-b from-blush-50 to-blush-200 border-2 border-candy-600 flex items-center justify-center text-choco-900 shadow-[0_2px_0_#B01F62]">
                 <Ticket className="size-6" />
               </div>
               <div>
@@ -1423,7 +1423,7 @@ function RafflePage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="py-2 min-h-11 px-6 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-40 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-1.5"
+                  className="py-2 min-h-11 px-6 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 disabled:opacity-40 text-choco-900 font-pixel font-bold text-xs border-2 border-candy-600 shadow-[0_3px_0_#B01F62] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-1.5"
                 >
                   <Check className="size-4" />
                   <span>

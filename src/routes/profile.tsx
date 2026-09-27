@@ -391,7 +391,7 @@ function ProfilePage() {
                 {!supporter.isSupporter && (
                   <Link
                     to="/supporter"
-                    className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
+                    className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
                   >
                     <Crown className="size-3.5" />
                     <span>Jadi Supporter</span>

@@ -39,12 +39,14 @@ Mengkodifikasi identitas visual dari `https://web3min.com/leaderboard` untuk dit
 
 ### 2.3 Tombol Taktil 3D (Buttons & CTAs)
 
-> **⚠️ PENTING — ada DUA ramp pink yang berbeda, jangan tertukar.**
-> `styles.css` **tidak berlapis** (`unlayered`), sedangkan utility Tailwind hidup di `@layer utilities`. Menurut aturan cascade, **unlayered menang** — jadi setiap elemen yang memakai kelas `.btn-gummy` **mengabaikan** utility `from-[#D62A78] …` di barisnya dan memakai ramp `.btn-gummy`. Dibuktikan empiris di Chromium dengan CSS build produksi (Langkah 18).
+> **⚠️ PENTING — `.btn-gummy` MENANG atas utility di barisnya.**
+> `styles.css` **tidak berlapis** (`unlayered`), sedangkan utility Tailwind hidup di `@layer utilities`. Menurut aturan cascade, **unlayered menang** — jadi setiap elemen yang memakai kelas `.btn-gummy` **mengabaikan** utility latar di barisnya dan memakai ramp `.btn-gummy`. Dibuktikan empiris di Chromium dengan CSS build produksi (Langkah 18).
 
-1. **Primary Candy CTA — dua jalur, hasil sama-sama lolos AA:**
-   - **(a) Lewat `.btn-gummy`** (dipakai `ui/button.tsx`; utility di baris itu **kalah**): latar `linear-gradient(180deg, #B01F62 0%, #85174A 60%, #6E1239 100%)` · border `2px solid rgba(176,31,98,0.6)` · radius `16px` · slab `0 4px 0 #6E1239` · label `15px/700` putih. Kontras terukur: **6,53 / 9,46 / 11,61:1**; hover `brightness(1.03)` → terburuk **6,25:1** ✅
-   - **(b) Utility ramp langsung** (9 call-site yang **tidak** memakai `.btn-gummy`: `side-nav`, `desk-rail`, `raffle` ×2, `shop` ×4, `leaderboard`): `from-[#D62A78] via-[#B01F62] to-[#85174A]` + `border-2 border-choco-900` + `shadow-[0_3px_0_#3B2218]`. Kontras: **4,71 / 6,53 / 9,46:1**; dengan `hover:brightness-105` stop-0 turun ke **4,32:1** — di bawah 4,5 untuk teks kecil. **Jangan pakai ramp ini untuk label putih di bawah ~18px**; kalau perlu hover, pakai `brightness-103` (≥5:1) atau mulai dari `#B01F62`.
+> **Sweep "candy gelap → pastel rose" (2026-09-27).** Permintaan user: *"candy gelap ubah ke pastel rose semua"* — SEMUA permukaan pink gelap (`bg-candy-700/800/900/950`, ramp `from-candy-*`/`via-candy-*`/`to-candy-*`, slab `#6E1239`/`#85174A`) diganti **pastel rose** `blush-50 → blush-200` dengan **label choco-900**, border `candy-600`, slab `#B01F62`. Nol pemakaian gelap baru dijaga `design-rules.test.ts` + `contrast-budget.test.ts`.
+
+1. **Primary Candy CTA — satu resep pastel untuk SEMUA jalur:**
+   - **(a) Lewat `.btn-gummy`** (dipakai `ui/button.tsx`; utility latar di baris itu **kalah**): latar `linear-gradient(180deg, #FFF0F5 0%, #FDC8D8 100%)` · border `2px solid #D62A78` · radius `16px` · slab `0 4px 0 #B01F62` · label `15px/700` **choco-900**. Kontras terukur di stop TERGELAP (`#FDC8D8`): **10,11:1** ✅ (`hover:brightness` menaikkan kecerahan latar → rasio ikut naik, bukan turun).
+   - **(b) Utility ramp langsung** (dulu 9 call-site gelap: `side-nav`, `desk-rail`, `raffle` ×2, `shop` ×4, `leaderboard` — kini semuanya `from-blush-50 to-blush-200` + `border-candy-600` + `shadow-[0_3px_0_#B01F62]` + `text-choco-900`): kontras **10,11:1** di stop tergelap. Tidak ada lagi label putih di atas pink di `src/`.
    - Active state: `active:translate-y-1 active:shadow-none` (`.btn-gummy` memakai `translateY(2px)` + slab `0 1px 0`).
 2. **Gold Action Button** (`variant="coin"` / `--lemon`):
    - Latar: `bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35]`
@@ -124,7 +126,7 @@ Semua sub-halaman yang berpasangan (seperti Klasemen & Undian, atau Toko & Ruang
 
 
 - **Tap Target:** Setiap tombol interaktif memiliki tinggi minimal 44px (`min-h-[44px]` atau `py-2.5 px-4`).
-- **Kontras Teks:** Seluruh label teks putih di atas tombol pink wajib menggunakan ramp `candy-800` (`#85174A` / `#B01F62`) dengan rasio kontras `>= 4.5:1` (lulus uji `contrast-budget.test.ts`).
+- **Kontras Teks:** Sejak sweep 2026-09-27, label di atas permukaan pink adalah **`choco-900` di atas pastel rose** (`blush-50`→`blush-200`) — terukur **10,11:1** di stop tergelap (lulus uji `contrast-budget.test.ts`). Label **putih** hanya sah di atas permukaan yang gelap teruji (mis. `danger`/`err-ink`, `choco-900`, `leaf-shadow`) — permukaan candy gelap `candy-700/800/900` tidak lagi dipakai sebagai permukaan berlabel di `src/`.
 - **Mobile Safe Area:** Seluruh fixed container mematuhi `env(safe-area-inset-top)` dan `env(safe-area-inset-bottom)`.
 
 ---
@@ -159,7 +161,7 @@ Acuan visual: dua chip di `/profile` — `Level 2` (keluarga netral) dan `Murid 
 | **A** | Bentuk **stadium penuh** → `rounded-full` | `rounded-[8px]`…`rounded-[18px]`, `rounded-lg/xl/2xl` pada chip | Sudut kotak memecah bahasa visual; acuan memakai pill murni |
 | **B** | Border **solid** sefamili dengan isi → `border-candy-600`, `border-choco-900`, `border-emerald-700` | `border-choco-900/18`, `border-candy-500/40`, `border-*/20` pada chip | Border transparan membuat chip tampak "belum selesai"/redup, bukan taktil |
 | **C** | Wajib punya **hard slab shadow**, blur nol → `shadow-[0_2px_0_<slab>]` | `shadow-none`, `shadow-sm`, shadow ber-blur | Ekstrusi 3D adalah inti gaya *Tactile Arcade* |
-| **D** | Teks **tebal** dan **gelap di atas isi terang** (atau putih hanya di atas ramp gelap teruji) | teks tipis, teks putih di atas pink terang | Keterbacaan + bobot chip sekelas token |
+| **D** | Teks **tebal** dan **gelap di atas isi terang** (atau putih hanya di atas permukaan gelap teruji) | teks tipis, teks putih di atas pink terang/pastel | Keterbacaan + bobot chip sekelas token. Sejak sweep 2026-09-27 **nol tone chip berlabel putih** — `danger` pun kini pastel rose + `choco-900`; putih hanya boleh kembali kalau permukaannya diuji kontras dulu |
 
 ### 6.3 Matriks keluarga warna chip
 | Keluarga | Isi | Border (solid) | Slab | Contoh pemakaian |
@@ -169,7 +171,7 @@ Acuan visual: dua chip di `/profile` — `Level 2` (keluarga netral) dan `Murid 
 | **Gold / Prestasi** | `from-[#FFFBEB] to-[#FDE68A]` | `border-choco-900` | `#C8940C` | peringkat, hadiah liga |
 | **Mint / Lulus** | `from-[#F0FDF4] to-[#BBF7D0]` | `border-emerald-700` | `#15803D` | status selesai, aman on-chain |
 | **Amber / Peringatan** | `from-[#FFF8E1] to-[#FFE08A]` | `border-amber-600` | `#B27B00` | menunggu verifikasi |
-| **Rose gelap / Bahaya** | `bg-candy-800` | `border-choco-900` | `#3B2218` | teks putih, aksi destruktif |
+| **Rose pastel / Bahaya** | `from-blush-50 to-blush-200` | `border-candy-600` | `#B01F62` | teks `choco-900`, aksi destruktif (sweep 2026-09-27: dulu `bg-candy-800` + putih) |
 
 ### 6.4 Kapan BUKAN chip
 Kontrak ini **tidak** berlaku untuk: input form, kartu konten, tombol aksi penuh, atau pill dock navigasi (yang punya spec sendiri di §4). Yang diikat adalah elemen kecil penanda status: tinggi ≤ ~28px, teks ≤ `text-xs`.
@@ -422,6 +424,30 @@ ia memberi rasa aman. Diperluas menerima kelas MAUPUN hex, lalu **dibuktikan men
 
 Badge terkunci sendiri **6,24:1 — lolos**. Jadi nol bug produksi; yang diperbaiki adalah
 **kemampuan deteksi guard-nya**, bukan warnanya.
+
+### v1.6 — SWEEP "CANDY GELAP → PASTEL ROSE" (permintaan user 2026-09-27)
+
+User: *"candy gelap ubah ke pastel rose semua, ubah design md dan guardnya"* (pilihan **Opsi A: semua** — termasuk tombol aksi utama).
+
+**Yang diubah (90 baris di 36 berkas + 3 berkas manual):**
+- SEMUA fill `bg-candy-700/800/900/950` → `bg-gradient-to-b from-blush-50 to-blush-200`
+- SEMUA ramp gradien `from-candy-600 via-candy-700 to-candy-800` (dan varian 700→900, 500→700) → `from-blush-50 to-blush-200`
+- SEMUA slab gelap `#6E1239`/`#85174A`/`#B01E5D` → `#B01F62`
+- SEMUA `text-white` di elemen ber-permukaan pink → `text-choco-900`; border `border-choco-900` pada elemen itu → `border-candy-600`
+- `hover:bg-candy-950`/`900` → `hover:brightness-105` (latar pastel + hover menggelap tidak lagi ada — brightness menaikkan rasio kontras, bukan menurunkan)
+- Manual: `.btn-gummy` (styles.css), `TactileButton` varian `primary`, tombol "Lanjut" `bottom-nav.tsx`, `TamaguiTactileButton` (POC), tone `danger` `chip.tsx`, tone `brand` `badge.tsx`/`lozenge.tsx`, `ui/button.tsx` primary.
+
+**Yang TIDAK diubah (sengaja):** teks/border `candy-700` (masih sah — itu teks, bukan permukaan), definisi token di `@theme`/`tamagui.config.ts`, warna aksen non-pink (leaf/mint/coin/lemon/flame/grape), dan tombol destruktif `bg-err-ink`/`bg-danger` (tetap putih — itu keluarga merah, bukan pink).
+
+**Kontras:** label `choco-900` di stop tergelap `#FDC8D8` = **10,11:1** (butuh 4,5:1). Semua permukaan pink kini pastel → nol label putih di atas pink di seluruh `src/`.
+
+**Guard diperbarui (4):**
+1. `design-rules.test.ts` — **test baru**: permukaan candy gelap (`bg-candy-700…950`, ramp `from/via/to-candy-*`, hex `#6E1239`/`#85174A`/`#B01E5D`) dilarang kembali di `src/` (kecuali definisi token & berkas test). Dibuktikan menangkap: `bg-candy-800` disisipkan ke `coach.tsx` → exit 1.
+2. `contrast-budget.test.ts` — test CANDY_ACTIVE diubah: kini mengunci ramp pastel 2-stop + **nol `text-white`** di `bottom-nav.tsx` (komentar dibuang dulu) + kontras choco-900 di tiap stop; **test baru**: `choco-900` di atas `blush-50`/`blush-200` ≥ 4,5:1.
+3. `chip-contract.test.ts` — aturan D: nol tone berlabel putih (dulu `["danger"]`); `danger` wajib pastel rose + `text-choco-900`.
+4. `chip.tsx` dokumentasi header disinkronkan.
+
+**Sisa:** `src/styles.css` masih mendefinisikan `candy-800/900/950` (dipakai guard `token-scale` — jangan dihapus), dan `--skytx: #85174A` di blok `.alert` (dipakai `profile.tsx:233`, 1 call-site) **tidak** disentuh — di luar daftar permukaan candy yang di-sweep.
 
 ### v1.2 — temuan audit dokumen ini
 

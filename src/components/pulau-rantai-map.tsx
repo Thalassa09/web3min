@@ -227,7 +227,7 @@ export function PulauRantaiMap({
         <button
           type="button"
           onClick={scrollToActive}
-          className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-2 min-h-11 sm:px-3.5 sm:py-2.5 rounded-full bg-candy-800 hover:bg-candy-950 text-white border-2 border-choco-900 text-xs font-pixel font-bold transition-all shadow-[0_3px_0_#3B2218] active:translate-y-0.5 active:shadow-none cursor-pointer"
+          className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-2 min-h-11 sm:px-3.5 sm:py-2.5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 text-choco-900 border-2 border-candy-600 text-xs font-pixel font-bold transition-all shadow-[0_3px_0_#B01F62] active:translate-y-0.5 active:shadow-none cursor-pointer"
           title="Lompat ke blok yang sedang aktif"
         >
           <Compass className="size-4 shrink-0 stroke-[2.5]" />
@@ -403,7 +403,7 @@ export function PulauRantaiMap({
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-candy-800 text-white font-pixel font-bold text-[10px] tracking-wide border border-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                      <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 font-pixel font-bold text-[10px] tracking-wide border border-candy-600 shadow-[0_1.5px_0_#B01F62]">
                         <span>RUTE {unit.index}</span>
                         <span>·</span>
                         <span>{theme.kind.toUpperCase()}</span>
@@ -494,7 +494,7 @@ export function PulauRantaiMap({
                             aria-label={`Mulai kuis: ${lesson.title}`}
                             data-coach="start"
                           >
-                            <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-candy-800 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-[10px] font-pixel font-bold text-white whitespace-nowrap animate-bounce">
+                            <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 border-2 border-candy-600 shadow-[0_2px_0_#B01F62] text-[10px] font-pixel font-bold text-choco-900 whitespace-nowrap animate-bounce">
                               Ayo belajar
                             </div>
                             <div className="size-14 sm:size-16 drop-shadow-[0_6px_0_rgba(59,34,24,0.35)] pointer-events-none">
@@ -559,7 +559,7 @@ export function PulauRantaiMap({
             <div className="mt-2">
               <button
                 type="button"
-                className="w-full py-3.5 px-6 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-sm sm:text-base border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-6 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 text-choco-900 font-pixel font-bold text-sm sm:text-base border-2 border-candy-600 shadow-[0_4px_0_#B01F62] active:translate-y-1 active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
                 onClick={() => startLesson(sheetLesson.lesson.id)}
               >
                 <PulauIcon name="star" size={20} fill />

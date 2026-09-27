@@ -382,7 +382,7 @@ export function BlobiFloatingCompanion({
               {/* Tap badge ("Toel!") in Arcade 3D */}
               <span
                 style={{ transform: `scaleX(${facing})` }}
-                className="absolute -top-1 -right-1 px-2 py-0.5 rounded-full bg-candy-800 text-white text-[10px] font-pixel font-bold border-2 border-choco-900 shadow-[0_2px_0_#3B2218] animate-bounce pointer-events-none"
+                className="absolute -top-1 -right-1 px-2 py-0.5 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 text-[10px] font-pixel font-bold border-2 border-candy-600 shadow-[0_2px_0_#B01F62] animate-bounce pointer-events-none"
               >
                 Toel!
               </span>
@@ -458,13 +458,13 @@ export function BlobiLockedModal({
           {onScrollToActive && (
             <button
               type="button"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 min-h-11 px-4 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 min-h-11 px-4 rounded-full bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 text-choco-900 font-pixel font-bold text-xs border-2 border-candy-600 shadow-[0_3px_0_#B01F62] active:translate-y-0.5 cursor-pointer transition-all"
               onClick={() => {
                 onDismiss();
                 onScrollToActive();
               }}
             >
-              <Sparkles className="size-3.5 text-white" />
+              <Sparkles className="size-3.5 text-choco-900" />
               <span>Arahkan ke Modul Aktif</span>
             </button>
           )}

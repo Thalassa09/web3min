@@ -90,7 +90,7 @@ function BackFace() {
       </div>
 
       <div className="mt-8 w-full px-6">
-        <button className="h-11 w-full rounded-xl bg-gradient-to-b from-candy-500 via-candy-600 to-candy-700 text-white text-xs font-bold tracking-wider shadow-[0_3px_0_#3B2218] transition-all hover:scale-[1.03] active:translate-y-[2px] active:shadow-[0_1px_0_#3B2218]">
+        <button className="h-11 w-full rounded-xl bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 text-xs font-bold tracking-wider shadow-[0_3px_0_#B01F62] transition-all hover:scale-[1.03] active:translate-y-[2px] active:shadow-[0_1px_0_#B01F62]">
           <Zap className="mr-2 size-3.5 inline-block fill-current" />
           Book Viewing
         </button>

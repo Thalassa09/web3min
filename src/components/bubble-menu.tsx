@@ -270,7 +270,7 @@ export function BubbleMenu({
           )
         ) : (
           <div className="flex items-center gap-2">
-            <span className="grid size-7 place-items-center rounded-full border-2 border-ink-900 bg-candy-800 text-xs font-black text-white shadow-ink-xs">
+            <span className="grid size-7 place-items-center rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-xs font-black text-choco-900 shadow-[0_2px_0_#B01F62]">
               W3
             </span>
             <span className="font-display text-base font-black text-ink-900 sm:text-lg">

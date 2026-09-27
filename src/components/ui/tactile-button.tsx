@@ -20,12 +20,15 @@ const VARIANT_STYLES: Record<
   ButtonVariant,
   { bg: string; text: string; border: string; shadowColor: string; hover: string }
 > = {
+  // Sejak sweep "candy gelap -> pastel rose" (2026-09-27) permukaan primary
+  // memakai pastel rose + label choco-900 (10.11:1 di stop tergelap) — bukan
+  // lagi ramp gelap berlabel putih. Slab tetap #B01F62.
   primary: {
-    bg: "bg-primary",
-    text: "text-white",
-    border: "border-2 border-primary-shadow",
+    bg: "bg-gradient-to-b from-blush-50 to-blush-200",
+    text: "text-choco-900",
+    border: "border-2 border-candy-600",
     shadowColor: "#B01F62",
-    hover: "hover:bg-primary-hover hover:brightness-105",
+    hover: "hover:brightness-105",
   },
   secondary: {
     bg: "bg-paper",

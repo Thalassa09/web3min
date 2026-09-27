@@ -137,12 +137,13 @@ Tanpa blur lembut — offset vertikal nyata. Shadow ber-blur **hanya** sah untuk
 | **Pill Dock Glass** | `from-white via-[#FFF9F5] to-[#FDEEE4]` | `border-2 border-choco-900/20 shadow-[0_4px_0_#3B2218]` | sub-nav switcher, filter bar |
 
 ### 4. Tombol taktil 3D
-**Primary Candy CTA** (pink gelap, WCAG AA teruji):
+**Primary Candy CTA** (pastel rose + label gelap, WCAG AA teruji — sweep 2026-09-27):
 ```tsx
-bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A]
-border-2 border-choco-900 text-white font-pixel font-bold
-shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218]
+bg-gradient-to-b from-blush-50 to-blush-200
+border-2 border-candy-600 text-choco-900 font-pixel font-bold
+shadow-[0_4px_0_#B01F62] active:translate-y-1 active:shadow-[0_1px_0_#B01F62]
 ```
+Kontras label `choco-900` di stop tergelap (`#FDC8D8`) = **10,11:1**. Semua permukaan pink di `src/` memakai resep ini sejak sweep; label putih hanya sah di permukaan gelap teruji (danger/err-ink/choco-900/leaf-shadow).
 **Gold Action:** `from-[#FFE873] via-[#FFD84D] to-[#E6BF35]` · `border-2 border-choco-900` · `shadow-[0_3px_0_#C8940C]` · `text-choco-900`
 **Secondary/White:** `bg-white hover:bg-cream` · `border-2 border-choco-900` · `shadow-[0_3px_0_#3B2218]`
 **Disabled:** `bg-[#EDE4DC] text-choco-600 border-2 border-choco-900/25` — kontras terukur **6.28:1**
@@ -332,7 +333,7 @@ Semua sub-halaman berpasangan (Klasemen & Undian, Toko & Ruang Ganti) **wajib** 
      bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5
      shadow-[0_4px_0_#3B2218] max-w-md mx-auto">
 ```
-Tab aktif: `border-2 border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239] font-pixel font-bold`
+Tab aktif: `border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] font-pixel font-bold` (sweep 2026-09-27 — dulu ramp gelap berlabel putih)
 Tab tidak aktif: `border-2 border-transparent text-choco-600 hover:border-choco-900/20 hover:bg-candy-50`
 Wajib `aria-pressed` untuk aksesibilitas state. **7 dock terverifikasi di 6 berkas** (terukur Langkah 18): `/raffle`, `/shop` (×2: mode toko + scope lemari), `/profile`, `/kisah`, `pulau-rantai-progres`, `/leaderboard`.
 > **Koreksi:** `/admin` **TIDAK** memakai pill dock — tab-nya baris underline (`border-b-2 border-choco-900/20`) dengan pill `rounded-xl`, jadi jangan dihitung sebagai dock.
@@ -356,7 +357,7 @@ Acuan: dua chip di `/profile` — `Level 2` (netral) & `Murid Blobi` (pink).
 | **A** | `rounded-full` | `rounded-lg/xl/2xl` pada chip | Sudut kotak memecah bahasa visual |
 | **B** | Border **solid** sefamili | `border-*/18`, `border-*/20`, `border-*/40` | Border transparan = chip tampak belum selesai |
 | **C** | Hard slab, blur nol | `shadow-none`, `shadow-sm`, shadow ber-blur | Ekstrusi 3D inti gaya Soft Neo-Brutalism |
-| **D** | Teks tebal gelap di atas isi terang | teks tipis; putih di atas pink terang | Keterbacaan + bobot chip |
+| **D** | Teks tebal gelap di atas isi terang | teks tipis; putih di atas pink terang/pastel | Keterbacaan + bobot chip. Sejak sweep 2026-09-27 **nol tone berlabel putih** (`danger` pun pastel rose + `choco-900`) |
 
 **Matriks keluarga warna:**
 | Keluarga | Isi | Border | Slab | Contoh |

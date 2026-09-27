@@ -293,6 +293,41 @@ test("kelas Tailwind yang TIDAK VALID tidak boleh ditulis (gagal senyap)", () =>
   );
 });
 
+test("permukaan candy gelap (700-950) tidak boleh kembali sebagai FILL di src/ (sweep 2026-09-27)", () => {
+  // Permintaan user: "candy gelap ubah ke pastel rose semua". Sweep mengganti
+  // SETIAP permukaan candy gelap — fill `bg-candy-800/900/950`, ramp gradien
+  // `from-candy-600 via-candy-700 to-candy-800` / `from-candy-700 via-candy-800
+  // to-candy-900`, dan slab gelap `#6E1239`/`#85174A`/`#B01E5D` — menjadi
+  // pastel rose (blush-50 -> blush-200, label choco-900, border candy-600,
+  // slab #B01F62). Ratchet: nol pemakaian baru.
+  //
+  // Yang TETAP SAH (jangan ikut dilarang):
+  //   - `text-candy-700`, `border-candy-700` — teks/border, bukan permukaan;
+  //   - `bg-candy-50/100/200` — permukaan pastel;
+  //   - definisi token di `src/styles.css` & `src/tamagui.config.ts`.
+  // Berkas test dikecualikan (menyebut nama kelas di pesan/komentar).
+  const FORBIDDEN = /\bbg-candy-(?:700|800|900|950)\b|(?:from|via|to)-candy-(?:600|700|800|900|950)\b|#(?:6E1239|85174A|B01E5D)/i;
+  const SKIP = /src\/(?:lib\/[^/]+\.test\.ts|styles\.css|tamagui\.config\.ts)$/;
+
+  const offenders: string[] = [];
+  for (const { path, src } of FILES) {
+    if (SKIP.test(path)) continue;
+    const kode = src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+    kode.split("\n").forEach((line, i) => {
+      const m = line.match(FORBIDDEN);
+      if (m) offenders.push(`${path}:${i + 1} → ${m[0]}`);
+    });
+  }
+
+  assert.deepEqual(
+    offenders,
+    [],
+    `Permukaan candy gelap kembali — pakai pastel rose (from-blush-50 to-blush-200 + text-choco-900 + border-candy-600 + slab #B01F62):\n${offenders
+      .map((o) => "  " + o)
+      .join("\n")}`,
+  );
+});
+
 test("border 3px/4px dilarang — patokan §9 = border 2px", () => {
   // Bukti drift (bukan gaya sengaja): 24 berkas CAMPUR border-2 & border-3, dan
   // NOL berkas yang murni 3px. Di settings.tsx dua <section> berstruktur IDENTIK

@@ -142,7 +142,7 @@ function KisahHub() {
                   <Link
                     to="/kisah/$storyId"
                     params={{ storyId: featured.id }}
-                    className="inline-flex items-center gap-2 px-5 py-2 min-h-11 rounded-2xl border-2 border-choco-900 bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs sm:text-sm shadow-[0_4px_0_#3B2218] active:translate-y-0.5 transition-all"
+                    className="inline-flex items-center gap-2 px-5 py-2 min-h-11 rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 hover:brightness-105 text-choco-900 font-pixel font-bold text-xs sm:text-sm shadow-[0_4px_0_#B01F62] active:translate-y-0.5 transition-all"
                   >
                     <span>Mulai Sekarang</span>
                     <ArrowRight className="size-4" />

@@ -213,3 +213,66 @@ test("palet Tailwind asing tidak boleh BERTAMBAH (ratchet — DESIGN.md §7)", (
       .join("\n")}\n\nKalau ini perbaikan, turunkan angkanya di BEKAS (atau hapus berkasnya).`,
   );
 });
+
+test("kartu statistik /profile tetap mengikuti patokan DESIGN.md §9", () => {
+  // DESIGN.md §9 = PATOKAN RESMI yang ditunjuk user ("ini jadikan patokan
+  // design mulai sekarang"). Guard ini mengunci anatomi terukurnya supaya
+  // patokan tidak luntur diam-diam saat komponen disentuh lagi.
+  //
+  // Yang dikunci (bukan sekadar "ada angka" — nilainya SPESIFIK):
+  //   radius 24px (`rounded-3xl`) · border 2px warna keluarga · gradien 3 stop
+  //   · hard slab `0 4px 0` · padding 16px · tinggi rata (`auto-rows-fr`)
+  //   · label Space Grotesk 12px/700 uppercase · nilai 30px/700 tabular-nums
+  //   · sub Inter 12px/600
+  const profile = readFileSync(join(ROOT, "src/routes/profile.tsx"), "utf8");
+
+  // 1. Grid kartu statistik wajib meratakan tinggi (cacat yang pernah nyata:
+  //    baris 1 = 177px vs baris 2 = 114px karena StreakBadge h-full min-h).
+  assert.match(
+    profile,
+    /grid[^"]*auto-rows-fr[^"]*gap-4/,
+    "grid kartu statistik wajib `auto-rows-fr` (DESIGN.md §9.1 — tinggi wajib rata)",
+  );
+
+  // 2. Ketiga kartu non-streak wajib memakai anatomi penuh: rounded-3xl +
+  //    border-2 warna keluarga + gradien `from-… via-… to-…` + slab `0_4px_0`.
+  const kartuStat = profile.match(
+    /flex flex-col justify-between rounded-3xl border-2 [^"]+shadow-\[0_4px_0_[^\]]+\]/g,
+  ) ?? [];
+  assert.ok(
+    kartuStat.length >= 3,
+    `wajib ada >=3 kartu statistik beranatomi lengkap (rounded-3xl + border-2 + slab 0_4px_0), ketemu ${kartuStat.length}`,
+  );
+  for (const k of kartuStat) {
+    assert.match(k, /bg-gradient-to-b from-\S+ via-\S+ to-\S+/, `kartu wajib gradien 3 stop: ${k.slice(0, 70)}`);
+    assert.match(k, /\bp-4\b/, `kartu wajib padding 16px (p-4): ${k.slice(0, 70)}`);
+  }
+
+  // 3. Hierarki teks: label uppercase Space Grotesk 12px/700.
+  const label = profile.match(/font-pixel text-xs font-bold uppercase tracking-wider/g) ?? [];
+  assert.ok(
+    label.length >= 3,
+    `label kartu wajib 'font-pixel text-xs font-bold uppercase tracking-wider' (Space Grotesk 12px/700), ketemu ${label.length}`,
+  );
+
+  // 4. Nilai angka wajib 30px/700 + tabular-nums (angka tidak goyang).
+  const nilai = profile.match(/font-pixel text-3xl font-bold \S+ tabular-nums/g) ?? [];
+  assert.ok(
+    nilai.length >= 3,
+    `nilai kartu wajib 'font-pixel text-3xl font-bold … tabular-nums', ketemu ${nilai.length}`,
+  );
+
+  // 5. Sub-label wajib Inter 12px/600 (`text-xs font-semibold`).
+  const sub = profile.match(/mt-0\.5 text-xs font-semibold/g) ?? [];
+  assert.ok(sub.length >= 3, `sub-label kartu wajib 'text-xs font-semibold' (Inter 12px/600), ketemu ${sub.length}`);
+
+  // 6. §9 sendiri wajib ada & menyebut angka patokan (bukan prosa kosong).
+  const design = readFileSync(join(ROOT, "DESIGN.md"), "utf8");
+  assert.match(design, /## 9\. PATOKAN RESMI/, "DESIGN.md wajib punya §9 Patokan Resmi");
+  for (const angka of ["24px", "2px solid", "177px", "30px", "auto-rows-fr", "0 4px 0"]) {
+    assert.ok(
+      design.includes(angka),
+      `DESIGN.md §9 wajib memuat angka patokan '${angka}' — kalau format berubah, perbarui dokumen DAN guard`,
+    );
+  }
+});

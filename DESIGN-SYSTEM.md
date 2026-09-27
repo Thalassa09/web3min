@@ -382,7 +382,8 @@ Acuan: dua chip di `/profile` — `Level 2` (netral) & `Murid Blobi` (pink).
 ### 5b. Aturan cepat & riwayat perubahan
 
 - **Do & Don't** (aturan cepat sebelum menulis komponen + **3 pelanggaran nyata** yang terukur) → `DESIGN.md` **§7**
-- **Changelog** (apa yang diadopsi / ditolak dari draft "Tactile Arcade" + temuan audit v1.2) → `DESIGN.md` **§8**
+- **PATOKAN RESMI** (anatomi kartu profil & kartu statistik `/profile` — radius 24px, border 2px, gradien 3 stop, hard slab `0 4px 0`, hierarki Space Grotesk 12/30px + Inter 12px) → `DESIGN.md` **§9**. **Ini acuan tetap** — semua komponen baru yang menampilkan kartu ringkasan/statistik/identitas wajib mengikuti §9. Dikunci guard di `design-rules.test.ts`.
+- **Changelog** (apa yang diadopsi / ditolak dari draft "Tactile Arcade" + temuan audit v1.2) → `DESIGN.md` **§10**
 
 Catatan penting dari §7: tiga aturan **tidak** dijaga guard otomatis — "`#000` dilarang" (3 pelanggaran), "hex mentah dilarang" (43 `bg-[#…]`), "divider `/20`" (3 sisa `/18`). Guard yang tidak ada = aturan yang dilanggar diam-diam.
 

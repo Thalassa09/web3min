@@ -227,7 +227,86 @@ Sisanya yang **masih** tidak dijaga otomatis: aturan "hex mentah dilarang" (`bg-
 
 ---
 
-## 8. Changelog
+## 9. PATOKAN RESMI — Kartu Profil & Kartu Statistik `/profile`
+
+**Status: ACUAN TETAP.** Bagian ini bukan usulan. User menunjuk bagian `/profile` ini
+secara eksplisit ("ini jadikan patokan design mulai sekarang"). Semua komponen baru
+yang menampilkan **kartu ringkasan / kartu statistik / kartu identitas** wajib mengikuti
+anatomi di bawah. Angka diambil dari `getComputedStyle` di browser 390px, bukan tafsiran.
+
+> **Cakupan:** HANYA elemen yang terlihat di tangkapan layar user — kartu profil
+> (avatar + identitas + chip + tombol), kartu bio, dan baris 4 kartu statistik.
+> Bagian `/profile` yang lain (Keahlian, Analitik, Pengaturan) **bukan** bagian patokan.
+
+### 9.1 Anatomi kartu statistik (pola inti — paling sering dipakai ulang)
+
+| Ciri | Nilai terukur |
+|---|---|
+| radius | `rounded-3xl` = **24px** |
+| border | **2px solid** warna keluarga (bukan abu, bukan transparan) |
+| latar | gradien vertikal **3 stop** — terang → sedang → tua |
+| shadow | **hard slab** `0 4px 0 <warna-tua-keluarga>` (tanpa blur) |
+| padding | **16px** |
+| tinggi | **177px** — dipaksa rata via `auto-rows-fr` pada grid |
+| grid | 2 kolom (mobile) / 4 kolom (`lg`), **gap 16px**, `max-w-3xl` |
+
+**Hierarki teks di dalam kartu (3 lapis, jangan diubah):**
+
+| Lapis | Font | Ukuran | Berat | Ciri |
+|---|---|---|---|---|
+| Label | **Space Grotesk** | 12px | 700 | `uppercase`, `tracking-wider` |
+| Nilai | **Space Grotesk** | **30px** | 700 | `tabular-nums` (angka tidak goyang) |
+| Sub | **Inter** | 12px | 600 | kalimat biasa |
+
+**Empat keluarga warna kartu (satu keluarga per kartu):**
+
+| Kartu | Border | Gradien | Slab | Teks label/sub | Teks nilai |
+|---|---|---|---|---|---|
+| Total XP | `leaf-shadow` | `leaf-soft → leaf-fill → leaf-fill-deep` | `#0F6045` | `leaf-shadow` | `leaf-deep-ink` |
+| Streak | `#EA580C` | `#FFF7ED → #FFEDD5 → #FED7AA` | `#C2410C` | `#9A3412` | `#9A3412` |
+| Koin | `lemon-deep` | `coin-fill → coin-fill → coin-fill-deep` | `#D9A400` | `warn-ink` | `coin-ink-deep` |
+| Modul | `candy-600` | `blush-50 → blush-100 → blush-200` | `#B01F62` | `candy-800` | `candy-950` |
+
+Kontras ke-12 teks sudah diukur terhadap **stop gradien TERGELAP** (titik terburuk,
+bukan titik terang): **4,61–10,20:1** — semua lolos AA.
+
+### 9.2 Anatomi kartu profil & isinya
+
+| Elemen | Ciri terukur |
+|---|---|
+| Kartu pembungkus | radius **24px**, border **2px `choco-900/20`**, gradien `white → #FFF9F5 → #FDEEE4` |
+| Avatar tile | `rounded-2xl` (16px), border **2px `candy-600`**, gradien `candy-50 → candy-100 → candy-200`, slab `0 3px 0 #B01F62` |
+| Chip Level | **pill**, border **2px `choco-900` solid**, gradien `white → #FBE9DC`, slab `0 2px 0 #3B2218`, teks 12px/700 |
+| Chip Murid Blobi | **pill**, border **2px `candy-600`**, gradien `#FFF0F5 → #FDC8D8`, slab `0 2px 0 #B01F62` |
+| Tombol "Ganti Blobi" | radius **28px**, border **2px `choco-900/20`**, gradien krem, slab `0 3px 0 #3B2218`, 12px/800 |
+| Kartu bio | radius **18px**, border **2px `choco-900` SOLID**, `bg-cream`, slab **`2px 2px 0 #3B2218`** (offset, bukan vertikal), teks *italic* |
+| Tombol "Ubah" | radius **12px**, `bg-white`, border **2px `choco-900`**, slab `0 2px 0 #3B2218` |
+
+### 9.3 Tujuh aturan yang membuat patokan ini terasa "padat" (chunky)
+
+1. **Selalu ada border 2px.** Tidak ada kartu tanpa garis tepi — kecuali chip di atas foto/artwork (§6.4).
+2. **Selalu ada hard slab.** `0 Npx 0 warna-tua` — **N = 2** untuk kontrol kecil, **3** untuk tombol/avatar, **4** untuk kartu statistik, **5** untuk elemen besar. Nol blur.
+3. **Gradien vertikal 3 stop**, bukan warna rata. Stop akhir selalu versi tergelap (tempat kontras diukur).
+4. **Radius ikut ukuran elemen:** 12 (tombol kecil) → 18 (kartu bio) → 24 (kartu besar) → pill (chip).
+5. **Angka selalu `tabular-nums`** supaya tidak bergeser saat nilainya berubah.
+6. **Label selalu uppercase Space Grotesk 700;** kalimat penjelas selalu Inter 600. Dua font, tidak lebih (§ Typography).
+7. **Tinggi kartu dalam satu baris wajib rata** (`auto-rows-fr`). Grid yang timpang = pelanggaran, bukan selera.
+
+### 9.4 Batas yang harus tetap lulus
+
+- Kontras teks **≥ 4,5:1** diukur di stop gradien tergelap.
+- Nol overflow horizontal di 360px & 430px.
+- **Diketahui menyimpang (utang, jangan ditiru):** tombol "Ganti Blobi" & "Ubah" tingginya
+  **36px**, di bawah 44px yang diwajibkan `AGENTS.md`. Chip (24px) dikecualikan karena
+  label, bukan kontrol. Kalau tombol ini disentuh, naikkan ke 44px — jangan tiru 36px-nya.
+
+### 9.5 Guard
+
+Pola ini dikunci `src/lib/design-rules.test.ts` (test "kartu statistik /profile tetap
+mengikuti patokan §9") dan `src/lib/chip-contract.test.ts` (test chip acuan). Mengubah
+anatomi kartu statistik tanpa memperbarui §9 akan membuat suite gagal.
+
+## 10. Changelog
 
 ### v1.1 — sinkronisasi draft "Tactile Arcade"
 
@@ -253,6 +332,40 @@ Ringkasan: draft v1.1 dikirim sebagai usulan, lalu **diverifikasi baris per bari
 | Guard | Regex rawan false positive | Guard berbasis komponen | ✅ diadopsi — **8 guard** sekarang |
 | A11y | Tidak ada focus state, reduced motion, `viewport-fit` | Ditambahkan di §5 & §3 | ✅ diadopsi (`b9f063d`) |
 | Tap target | `py-2.5 px-4` tidak menjamin 44px | Wajib `min-h-11` | ✅ diadopsi (**13×** di kode) |
+
+### v1.3 — PATOKAN RESMI ditetapkan user (`/profile`)
+
+User menunjuk bagian `/profile` (kartu profil + baris 4 kartu statistik) dan berkata
+*"ini jadikan patokan design mulai sekarang"*, dengan penegasan cakupan:
+*"hanya yang saya kirim gambarnya engga semua"*. Ditulis sebagai **§9**, bukan
+usulan — anatomi diukur dari `getComputedStyle` di browser 390px.
+
+| Yang ditetapkan | Angka terukur |
+|---|---|
+| Radius kartu besar | 24px (`rounded-3xl`) |
+| Border | 2px **solid** warna keluarga (bukan abu, bukan transparan) |
+| Latar | gradien vertikal **3 stop** (terang → sedang → tua) |
+| Shadow | **hard slab** `0 4px 0` warna tua keluarga — **nol blur** |
+| Padding | 16px (`p-4`) |
+| Tinggi | **rata** via `auto-rows-fr` (177px), bukan mengikuti konten |
+| Label | Space Grotesk **12px/700** uppercase, `tracking-wider` |
+| Nilai | Space Grotesk **30px/700** `tabular-nums` |
+| Sub | Inter **12px/600** |
+| Grid | 2 kolom mobile / 4 kolom `lg`, gap 16px, `max-w-3xl` |
+
+**Empat keluarga warna kartu** (satu keluarga per kartu): `leaf-*` (XP) ·
+oranye `#FFF7ED→#FFEDD5→#FED7AA` (streak) · `lemon-*`/`coin-*` (koin) ·
+`blush-*` (modul). Kontras 12 teks: **4,61–10,20:1**, diukur di **stop tergelap**.
+
+**Guard baru** di `design-rules.test.ts`: mengunci `auto-rows-fr`, ≥3 kartu beranatomi
+lengkap (rounded-3xl + border-2 + gradien 3 stop + slab `0_4px_0` + `p-4`), label
+uppercase, nilai `text-3xl … tabular-nums`, sub `text-xs font-semibold`, dan §9 sendiri
+wajib memuat angka patokan. **4 skenario pelanggaran dibuktikan tertangkap**: hapus
+`auto-rows-fr` · slab `4px→1px` · nilai `30px→24px` · label uppercase dihapus.
+
+**Utang yang jangan ditiru:** tombol "Ganti Blobi" & "Ubah" tingginya **36px** — di bawah
+44px yang diwajibkan `AGENTS.md`. Chip (24px) dikecualikan karena label, bukan kontrol.
+Kalau tombol itu disentuh, naikkan ke 44px.
 
 ### v1.2 — temuan audit dokumen ini
 

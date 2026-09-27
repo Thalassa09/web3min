@@ -91,8 +91,8 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
               <span>{streak}</span>
             </div>
             <span className="w-1 h-1 rounded-full bg-choco-300" />
-            <div className="flex items-center gap-1.5 text-choco-700">
-              <Sparkles className="size-3.5 text-candy-700" />
+            <div className="flex items-center gap-1.5 text-candy-700">
+              <Sparkles className="size-3.5 fill-candy-500 text-candy-700" />
               <span>{completedQuests}/3</span>
             </div>
             <span className="w-1 h-1 rounded-full bg-choco-300" />
@@ -107,7 +107,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
           2. MOBILE FLOATING GAME HUD BUTTON (< 1024px)
           Floating pill on the right side above the bottom dock
          ───────────────────────────────────────────────────────────── */}
-      <div className="lg:hidden fixed right-4 bottom-20 z-25">
+      <div className="lg:hidden fixed right-4 bottom-48 z-25">
         <button
           type="button"
           className="flex items-center gap-2 px-3.5 py-2 min-h-11 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5 transition-all text-xs font-bold text-choco-900"
@@ -119,8 +119,8 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
             <span>{streak}</span>
           </div>
           <span className="w-1 h-1 rounded-full bg-choco-300" />
-          <div className="flex items-center gap-1 text-choco-700">
-            <Sparkles className="size-3.5 text-candy-700" />
+          <div className="flex items-center gap-1 text-candy-700">
+            <Sparkles className="size-3.5 fill-candy-500 text-candy-700" />
             <span>{completedQuests}/3</span>
           </div>
         </button>

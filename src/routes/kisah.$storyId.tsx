@@ -39,10 +39,10 @@ function StoryPage() {
         <aside
           role="region"
           aria-label="Ajakan onboarding"
-          className="sticky top-0 z-30 flex items-center justify-between gap-3 bg-gradient-to-r from-amber-100 via-amber-200 to-amber-100 border-b-2 border-choco-900 px-4 py-2 text-xs font-bold text-choco-900 shadow-xs"
+          className="sticky top-0 z-30 flex items-center justify-between gap-3 bg-gradient-to-r from-coin-fill via-coin-fill-deep to-coin-fill border-b-2 border-choco-900 px-4 py-2 text-xs font-bold text-choco-900 shadow-xs"
         >
           <div className="flex items-center gap-2">
-            <Sparkles className="size-4 text-amber-600 shrink-0" />
+            <Sparkles className="size-4 text-lemon-deep shrink-0" />
             <span>Mode Baca Cerita Web3</span>
           </div>
           <Link

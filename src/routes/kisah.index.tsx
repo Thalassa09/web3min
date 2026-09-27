@@ -125,8 +125,8 @@ function KisahHub() {
         {featured && (
           <div className="relative overflow-hidden rounded-[28px] border-3 border-choco-900 bg-gradient-to-br from-cream via-[#FFF8F0] to-[#FCECD8] p-5 sm:p-7 shadow-[0_8px_0_#3B2218] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="relative z-10 max-w-2xl space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-300 text-choco-900 border-2 border-choco-900 font-pixel font-bold text-[11px] sm:text-xs shadow-[0_2px_0_#3B2218]">
-                <Sparkles className="size-3.5 text-amber-800 fill-amber-500" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lemon text-choco-900 border-2 border-choco-900 font-pixel font-bold text-[11px] sm:text-xs shadow-[0_2px_0_#3B2218]">
+                <Sparkles className="size-3.5 text-warn-ink fill-coin-shadow" />
                 <span>PILIHAN MINGGU INI · 3 MENIT BACA</span>
               </div>
 
@@ -212,12 +212,12 @@ function KisahHub() {
                       color={asset.color}
                       badge={
                         isDone ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-[0_2px_0_#15803D]">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-leaf-fill text-leaf-shadow border-2 border-leaf-shadow font-pixel text-[10px] font-bold shadow-[0_2px_0_#15803D]">
                             <Check className="size-3 stroke-[3]" />
                             <span>Selesai</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border-2 border-amber-600 font-pixel text-[10px] font-bold shadow-[0_2px_0_#B27B00]">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-coin-fill text-coin-ink-deep border-2 border-lemon-deep font-pixel text-[10px] font-bold shadow-[0_2px_0_#B27B00]">
                             <span>+{s.xp} XP</span>
                           </span>
                         )
@@ -319,12 +319,12 @@ function KisahHub() {
                       color={asset.color}
                       badge={
                         isDone ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border-2 border-emerald-700 font-pixel text-[10px] font-bold shadow-[0_2px_0_#15803D]">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-leaf-fill text-leaf-shadow border-2 border-leaf-shadow font-pixel text-[10px] font-bold shadow-[0_2px_0_#15803D]">
                             <Check className="size-3 stroke-[3]" />
                             <span>Terbukti</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border-2 border-rose-600 font-pixel text-[10px] font-bold shadow-[0_2px_0_#BE123C]">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-err-soft text-err-ink border-2 border-err-ink font-pixel text-[10px] font-bold shadow-[0_2px_0_#BE123C]">
                             <span>Kasus Nyata</span>
                           </span>
                         )

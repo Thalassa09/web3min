@@ -20,7 +20,7 @@ const STEPS = [
     desc: "Setiap salah menjawab kuis, 1 nyawa berkurang. Nyawa pulih berkala secara otomatis, atau kamu bisa isi ulang di Toko.",
     icon: Heart,
     badge: "Aturan Main",
-    badgeColor: "bg-rose-100 text-rose-800",
+    badgeColor: "bg-err-soft text-err-ink",
   },
   {
     num: "03",
@@ -28,7 +28,7 @@ const STEPS = [
     desc: "Node pulau saling terhubung. Selesaikan satu blok untuk membuka blok berikutnya. Bangun fondasimu dari nol tanpa lompat-lompat.",
     icon: Signpost,
     badge: "Progresi",
-    badgeColor: "bg-amber-100 text-amber-800",
+    badgeColor: "bg-coin-fill text-warn-ink",
   },
   {
     num: "04",
@@ -52,7 +52,7 @@ const STEPS = [
     desc: "Kumpulkan XP, jaga streak harian, dan tukar Koin untuk ikut undian item Blobi limited dan slot mint NFT.",
     icon: Award,
     badge: "Undian Hadiah",
-    badgeColor: "bg-emerald-100 text-emerald-800",
+    badgeColor: "bg-leaf-fill text-leaf-shadow",
   },
 ];
 
@@ -84,7 +84,7 @@ function CaraPage() {
             <h2 className="font-pixel text-xs sm:text-sm font-bold text-choco-900 uppercase tracking-wider">
               Enam Prinsip Petualangan
             </h2>
-            <span className="font-pixel text-[10px] text-choco-600 bg-amber-100 border border-choco-900 px-2 py-0.5 rounded-full">
+            <span className="font-pixel text-[10px] text-choco-600 bg-coin-fill border border-choco-900 px-2 py-0.5 rounded-full">
               6 Langkah Santai
             </span>
           </div>
@@ -117,12 +117,12 @@ function CaraPage() {
         </div>
 
         {/* Safety Callout */}
-        <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-amber-200 border-3 border-choco-900 shadow-[0_5px_0_#3B2218] flex items-start gap-4 text-choco-900">
-          <div className="size-11 rounded-2xl bg-choco-900 text-amber-300 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+        <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-coin-fill-deep border-3 border-choco-900 shadow-[0_5px_0_#3B2218] flex items-start gap-4 text-choco-900">
+          <div className="size-11 rounded-2xl bg-choco-900 text-coin-fill-deep flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
             <ShieldAlert className="size-6" />
           </div>
           <div>
-            <span className="font-pixel text-[9px] uppercase font-bold text-choco-800 bg-amber-300 px-2 py-0.5 rounded-full border border-choco-900">
+            <span className="font-pixel text-[9px] uppercase font-bold text-choco-800 bg-lemon px-2 py-0.5 rounded-full border border-choco-900">
               Peringatan Keamanan Mutlak
             </span>
             <h4 className="font-pixel text-xs sm:text-sm font-bold text-choco-900 mt-1">

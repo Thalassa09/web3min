@@ -197,7 +197,7 @@ function LeaderboardPage() {
           <Link
             to="/leaderboard"
             aria-current="page"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-amber-600 bg-gradient-to-b from-[#FFE873] via-lemon to-[#E6BF35] text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-lemon-deep bg-gradient-to-b from-[#FFE873] via-lemon to-[#E6BF35] text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
           >
             <Trophy className="h-4 w-4 shrink-0 text-choco-900" />
             <span>Klasemen Mingguan</span>
@@ -215,7 +215,7 @@ function LeaderboardPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
-              <Trophy className="h-4 w-4 text-amber-500 fill-amber-400" />
+              <Trophy className="h-4 w-4 text-lemon-deep fill-coin-shadow" />
               Liga Emas • Reset Mingguan
             </div>
             <h1 className="text-3xl md:text-4xl font-pixel font-bold tracking-tight text-choco-900">
@@ -223,8 +223,8 @@ function LeaderboardPage() {
             </h1>
             <p className="text-sm md:text-base font-bold text-choco-700 max-w-xl leading-relaxed">
               Peringkat <strong className="text-choco-900 underline decoration-candy-500 underline-offset-2">1 s/d 1.000</strong> berhak mendapatkan hadiah koin mingguan dengan total prize pool{" "}
-              <span className="inline-flex items-center gap-1 font-pixel font-bold text-choco-900 bg-amber-200 px-2 py-0.5 rounded-full border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
-                <Coins className="h-4 w-4 fill-amber-500" />
+              <span className="inline-flex items-center gap-1 font-pixel font-bold text-choco-900 bg-coin-fill-deep px-2 py-0.5 rounded-full border-2 border-choco-900 shadow-[0_2px_0_#3B2218]">
+                <Coins className="h-4 w-4 fill-coin-shadow" />
                 {TOTAL_WEEKLY_PRIZE_COINS.toLocaleString("id-ID")}+ Koin
               </span>
               !
@@ -274,8 +274,8 @@ function LeaderboardPage() {
 
       {/* Claimed Toast Banner */}
       {claimedNotice && (
-        <div className="flex items-center gap-3 rounded-2xl border-2 border-choco-900 bg-emerald-100 p-4 font-bold text-emerald-950 shadow-[0_4px_0_#3B2218]">
-          <CheckCircle2 className="h-6 w-6 text-emerald-700 shrink-0" />
+        <div className="flex items-center gap-3 rounded-2xl border-2 border-choco-900 bg-leaf-fill p-4 font-bold text-leaf-deep-ink shadow-[0_4px_0_#3B2218]">
+          <CheckCircle2 className="h-6 w-6 text-leaf-shadow shrink-0" />
           <p className="text-sm font-semibold">{claimedNotice}</p>
         </div>
       )}
@@ -288,7 +288,7 @@ function LeaderboardPage() {
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-white via-blush-50 to-blush-200 shadow-[0_3px_0_#B01F62]">
                 <Mascot mood="proud" size={40} className="h-10 w-10" />
               </div>
-              <div className="absolute -top-2 -left-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-400 text-xs font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218]">
+              <div className="absolute -top-2 -left-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-choco-900 bg-lemon text-xs font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218]">
                 #{calculatedUserRank}
               </div>
             </div>
@@ -304,12 +304,12 @@ function LeaderboardPage() {
                 <span>{currentUser.weeklyXp} XP Mingguan</span>
                 <span>•</span>
                 <span className="flex items-center gap-1 text-flame-500 font-bold">
-                  <Flame className="h-4 w-4 fill-orange-500" />
+                  <Flame className="h-4 w-4 fill-streak" />
                   {currentUser.streak} Hari
                 </span>
                 <span>•</span>
-                <span className="flex items-center gap-1 text-amber-700 font-bold">
-                  <Coins className="h-4 w-4 fill-amber-500" />
+                <span className="flex items-center gap-1 text-warn-ink font-bold">
+                  <Coins className="h-4 w-4 fill-coin-shadow" />
                   Saldo: {gems} Koin
                 </span>
               </div>
@@ -319,8 +319,8 @@ function LeaderboardPage() {
           <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             <div className="text-right hidden md:block">
               <div className="text-xs font-bold text-choco-600">Estimasi Hadiah:</div>
-              <div className="text-base font-bold text-amber-700 flex items-center gap-1 justify-end font-pixel">
-                <Coins className="h-4 w-4 fill-amber-500" />
+              <div className="text-base font-bold text-warn-ink flex items-center gap-1 justify-end font-pixel">
+                <Coins className="h-4 w-4 fill-coin-shadow" />
                 +{userRankItem.rewardCoins} Koin
               </div>
             </div>
@@ -331,7 +331,7 @@ function LeaderboardPage() {
               className={`inline-flex items-center justify-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs md:text-sm font-bold transition-transform ${
                 isClaimedThisWeek
                   ? "bg-stone-200 border-stone-300 text-stone-500 cursor-not-allowed shadow-none"
-                  : "border-emerald-700 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] text-white shadow-[0_4px_0_#047857] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
+                  : "border-leaf-shadow bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] text-white shadow-[0_4px_0_#0F6045] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
               }`}
             >
               {isClaimedThisWeek ? (
@@ -410,7 +410,7 @@ function LeaderboardPage() {
                     : "bg-white text-choco-900 hover:bg-candy-100"
                 }`}
               >
-                <Crown className="size-3.5 text-amber-500 shrink-0" />
+                <Crown className="size-3.5 text-lemon-deep shrink-0" />
                 <span>Top 10</span>
                 <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
                   (200 <CoinIcon size={12} className="inline-block" />)
@@ -428,7 +428,7 @@ function LeaderboardPage() {
                     : "bg-white text-choco-900 hover:bg-lemon/40"
                 }`}
               >
-                <Star className="size-3.5 text-amber-600 shrink-0" />
+                <Star className="size-3.5 text-lemon-deep shrink-0" />
                 <span>Top 50</span>
                 <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
                   (100 <CoinIcon size={12} className="inline-block" />)
@@ -442,11 +442,11 @@ function LeaderboardPage() {
                 }}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top100"
-                    ? "bg-emerald-500 text-white"
-                    : "bg-white text-choco-900 hover:bg-emerald-100"
+                    ? "bg-leaf-deep text-white"
+                    : "bg-white text-choco-900 hover:bg-leaf-fill"
                 }`}
               >
-                <Flame className="size-3.5 text-emerald-500 shrink-0" />
+                <Flame className="size-3.5 text-leaf-deep shrink-0" />
                 <span>Top 100</span>
                 <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
                   (60 <CoinIcon size={12} className="inline-block" />)
@@ -460,11 +460,11 @@ function LeaderboardPage() {
                 }}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top500"
-                    ? "bg-amber-500 text-white"
-                    : "bg-white text-choco-900 hover:bg-amber-100"
+                    ? "bg-lemon-deep text-white"
+                    : "bg-white text-choco-900 hover:bg-coin-fill"
                 }`}
               >
-                <Zap className="size-3.5 text-amber-500 shrink-0" />
+                <Zap className="size-3.5 text-lemon-deep shrink-0" />
                 <span>251 s.d. 500</span>
                 <span className="inline-flex items-center gap-0.5 opacity-90 font-mono text-[11px]">
                   (25 <CoinIcon size={12} className="inline-block" />)
@@ -584,11 +584,11 @@ function LeaderboardPage() {
                     p.isCurrentUser
                       ? "bg-candy-100 font-bold border-l-8 border-l-candy-500"
                       : isFirst
-                      ? "bg-amber-50/70"
+                      ? "bg-coin-fill/70"
                       : isSecond
                       ? "bg-slate-50/70"
                       : isThird
-                      ? "bg-orange-50/70"
+                      ? "bg-flame-soft/70"
                       : "hover:bg-candy-50/40"
                   }`}
                 >
@@ -596,7 +596,7 @@ function LeaderboardPage() {
                   <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                     <div className="w-10 sm:w-12 flex items-center justify-center shrink-0">
                       {isFirst ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-400 font-bold text-choco-900 shadow-[0_1px_0_#3B2218] text-xs">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-choco-900 bg-lemon font-bold text-choco-900 shadow-[0_1px_0_#3B2218] text-xs">
                           1
                         </div>
                       ) : isSecond ? (
@@ -604,7 +604,7 @@ function LeaderboardPage() {
                           2
                         </div>
                       ) : isThird ? (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-600 text-white font-bold shadow-[0_1px_0_#3B2218] text-xs">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-choco-900 bg-lemon-deep text-white font-bold shadow-[0_1px_0_#3B2218] text-xs">
                           3
                         </div>
                       ) : (
@@ -638,7 +638,7 @@ function LeaderboardPage() {
                   {/* Right: Streak & XP & Reward */}
                   <div className="flex items-center gap-4 sm:gap-6 shrink-0">
                     <div className="hidden sm:flex items-center gap-1 text-xs font-bold text-flame-500 w-12 justify-center">
-                      <Flame className="h-3.5 w-3.5 fill-orange-500" />
+                      <Flame className="h-3.5 w-3.5 fill-streak" />
                       {p.streak}
                     </div>
 
@@ -650,21 +650,21 @@ function LeaderboardPage() {
                       <span
                         className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border-2 border-choco-900 text-xs font-bold shadow-[0_1px_0_#3B2218] ${
                           isFirst
-                            ? "bg-amber-300 text-choco-900"
+                            ? "bg-lemon text-choco-900"
                             : isSecond
                             ? "bg-slate-200 text-choco-900"
                             : isThird
-                            ? "bg-amber-600 text-white"
+                            ? "bg-lemon-deep text-white"
                             : p.rank <= 10
                             ? "bg-candy-300 text-choco-900"
                             : p.rank <= 50
                             ? "bg-lemon text-choco-900"
                             : p.rank <= 100
-                            ? "bg-emerald-100 text-emerald-900"
-                            : "bg-amber-50 text-amber-900"
+                            ? "bg-leaf-fill text-leaf-deep-ink"
+                            : "bg-coin-fill text-coin-ink-deep"
                         }`}
                       >
-                        <Coins className="h-3 w-3 fill-amber-500" />
+                        <Coins className="h-3 w-3 fill-coin-shadow" />
                         +{p.rewardCoins}
                       </span>
                     </div>
@@ -694,7 +694,7 @@ function LeaderboardPage() {
           >
             <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-3">
               <div className="flex items-center gap-2">
-                <Trophy className="h-6 w-6 text-amber-500 fill-amber-400" />
+                <Trophy className="h-6 w-6 text-lemon-deep fill-coin-shadow" />
                 <h3 className="font-pixel text-base sm:text-lg font-bold text-choco-900">Skema Hadiah Koin (1 s.d. 1.000)</h3>
               </div>
               <button
@@ -721,16 +721,16 @@ function LeaderboardPage() {
                     <div className="text-xs font-bold text-choco-900">{tier.label}</div>
                     <div className="text-[11px] font-semibold text-choco-600">{tier.description}</div>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-amber-600 bg-gradient-to-b from-[#FFE873] to-lemon font-bold text-xs text-choco-900 shadow-[0_2px_0_#C8940C]">
-                    <Coins className="h-3.5 w-3.5 fill-amber-500" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-lemon-deep bg-gradient-to-b from-[#FFE873] to-lemon font-bold text-xs text-choco-900 shadow-[0_2px_0_#C8940C]">
+                    <Coins className="h-3.5 w-3.5 fill-coin-shadow" />
                     +{tier.coins} Koin
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="rounded-2xl border-2 border-amber-600 bg-gradient-to-b from-[#FFFBEB] to-[#FEF3C7] p-3 text-xs font-semibold text-amber-950 flex items-center gap-2 shadow-[0_2px_0_#D97706]">
-              <HelpCircle className="h-4 w-4 shrink-0 text-amber-700" />
+            <div className="rounded-2xl border-2 border-lemon-deep bg-gradient-to-b from-[#FFFBEB] to-coin-fill p-3 text-xs font-semibold text-coin-ink-deep flex items-center gap-2 shadow-[0_2px_0_#D97706]">
+              <HelpCircle className="h-4 w-4 shrink-0 text-warn-ink" />
               <span>Total Prize Pool Mingguan: <strong>30.150+ Koin</strong> yang didistribusikan kepada 1.000 petualang aktif!</span>
             </div>
 

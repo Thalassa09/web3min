@@ -194,7 +194,7 @@ function ShopPage() {
                 <span
                   className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                     mode === "wardrobe"
-                      ? "bg-gradient-to-b from-[#FFE873] to-lemon text-choco-900 border-2 border-amber-600 shadow-[0_2px_0_#C8940C]"
+                      ? "bg-gradient-to-b from-[#FFE873] to-lemon text-choco-900 border-2 border-lemon-deep shadow-[0_2px_0_#D9A400]"
                       : "bg-candy-800 text-white"
                   }`}
                 >
@@ -294,7 +294,7 @@ function ShopPage() {
 
                   <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-choco-900/15">
                     <div className="flex items-center gap-2">
-                      <div className="size-8 rounded-xl border-2 border-choco-900 bg-amber-400 flex items-center justify-center shadow-[0_1.5px_0_#3B2218]">
+                      <div className="size-8 rounded-xl border-2 border-choco-900 bg-lemon flex items-center justify-center shadow-[0_1.5px_0_#3B2218]">
                         <img src="/props/star.png" alt="Koin" className="size-5 object-contain pixelated" />
                       </div>
                       <span className="font-pixel text-lg font-bold text-choco-900">
@@ -331,7 +331,7 @@ function ShopPage() {
                         <img src="/props/shield.png" alt="Pelindung Streak" className="size-7 object-contain pixelated" />
                       </div>
                       <span className={`px-2.5 py-0.5 rounded-full border-2 border-choco-900 text-[10px] font-pixel font-bold shadow-[0_1.5px_0_#3B2218] ${
-                        freeze > 0 ? "bg-amber-400 text-choco-900" : "bg-white text-choco-700"
+                        freeze > 0 ? "bg-lemon text-choco-900" : "bg-white text-choco-700"
                       }`}>
                         {freeze > 0 ? "Aktif Melindungi" : "Siaga"}
                       </span>
@@ -493,7 +493,7 @@ function ShopPage() {
                       <span className="flex items-center gap-1.5">
                         <span>Aksesori Aktif:</span>
                         {previewWorn && (
-                          <span className="px-1.5 py-0.5 rounded-full bg-lemon border-2 border-amber-600 text-[9px] font-bold text-choco-900 shadow-[0_1px_0_#C8940C]">
+                          <span className="px-1.5 py-0.5 rounded-full bg-lemon border-2 border-lemon-deep text-[9px] font-bold text-choco-900 shadow-[0_1px_0_#D9A400]">
                             Mode Coba
                           </span>
                         )}
@@ -525,7 +525,7 @@ function ShopPage() {
                             key={slot}
                             className={`p-2 rounded-xl border-2 transition-all ${
                               isPreview
-                                ? "bg-amber-50 border-amber-600 shadow-[0_2px_0_#D97706]"
+                                ? "bg-coin-fill border-lemon-deep shadow-[0_2px_0_#D9A400]"
                                 : acc
                                 ? "bg-candy-50 border-candy-600 shadow-[0_2px_0_#B01F62]"
                                 : "bg-stone-50 border-stone-200"
@@ -670,7 +670,7 @@ function ShopPage() {
                                   Belum Punya
                                 </span>
                               ) : isLimitedItem(acc.id) ? (
-                                <span className="text-[10px] font-pixel font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-choco-900">
+                                <span className="text-[10px] font-pixel font-bold text-leaf-shadow bg-leaf-fill px-2 py-0.5 rounded-full border border-choco-900">
                                   Limited
                                 </span>
                               ) : null}
@@ -694,7 +694,7 @@ function ShopPage() {
                                 {acc.blurb}
                               </div>
                               {isLimitedItem(acc.id) && (
-                                <div className="mt-1 text-[9px] font-pixel font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-300 inline-block">
+                                <div className="mt-1 text-[9px] font-pixel font-bold text-leaf-shadow bg-leaf-soft px-1.5 py-0.5 rounded border border-leaf-line inline-block">
                                   Edisi Kolektor (Hanya dari Undian)
                                 </div>
                               )}

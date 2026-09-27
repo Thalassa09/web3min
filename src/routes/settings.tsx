@@ -48,11 +48,11 @@ function SettingsPage() {
         <section className="mt-5 p-4 sm:p-5 rounded-3xl bg-cream border-3 border-choco-900 shadow-[0_4px_0_#3B2218] text-choco-900">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-3">
-              <div className="size-10 rounded-2xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center shadow-[0_2px_0_#3B2218]">
+              <div className="size-10 rounded-2xl bg-lemon-deep border-2 border-choco-900 flex items-center justify-center shadow-[0_2px_0_#3B2218]">
                 <Database className="size-5 text-choco-900" />
               </div>
               <div>
-                <span className="font-pixel text-[9px] uppercase font-bold text-choco-700 bg-amber-100 border border-choco-900 px-2 py-0.5 rounded-full">
+                <span className="font-pixel text-[9px] uppercase font-bold text-choco-700 bg-coin-fill border border-choco-900 px-2 py-0.5 rounded-full">
                   Penyimpanan Cloud
                 </span>
                 <h3 className="font-pixel text-base font-bold text-choco-900 mt-0.5">
@@ -62,10 +62,10 @@ function SettingsPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 border-2 border-emerald-700 text-emerald-800 font-pixel text-[10px] font-bold shadow-[0_2px_0_#15803D]">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-leaf-fill border-2 border-leaf-shadow text-leaf-shadow font-pixel text-[10px] font-bold shadow-[0_2px_0_#0F6045]">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-ok-ink"></span>
                 </span>
                 TERHUBUNG
               </span>
@@ -113,8 +113,8 @@ function SettingsPage() {
             Simpan Akun X
           </button>
           {saved ? (
-            <p className="mt-2 text-xs font-bold text-emerald-700 bg-emerald-100 p-2.5 rounded-2xl border border-emerald-400 flex items-center gap-1.5" role="status" aria-live="polite">
-              <Check className="size-4 text-emerald-700 shrink-0" />
+            <p className="mt-2 text-xs font-bold text-leaf-shadow bg-leaf-fill p-2.5 rounded-2xl border border-mint flex items-center gap-1.5" role="status" aria-live="polite">
+              <Check className="size-4 text-leaf-shadow shrink-0" />
               <span>Perubahan akun X berhasil disimpan!</span>
             </p>
           ) : null}
@@ -206,9 +206,9 @@ function SettingsPage() {
           <button
             type="button"
             onClick={() => setConfirm(true)}
-            className="w-full py-3.5 px-5 rounded-full bg-white hover:bg-rose-50 text-rose-700 font-pixel font-bold text-xs border-2 border-rose-400 shadow-[0_3px_0_#E11D48] active:translate-y-0.5 cursor-pointer transition-all flex items-center justify-center gap-2"
+            className="w-full py-3.5 px-5 rounded-full bg-white hover:bg-err-soft text-err-ink font-pixel font-bold text-xs border-2 border-ruby-line shadow-[0_3px_0_#B3272C] active:translate-y-0.5 cursor-pointer transition-all flex items-center justify-center gap-2"
           >
-            <Trash2 className="size-4 text-rose-600" />
+            <Trash2 className="size-4 text-err-ink" />
             <span>Hapus Akun & Reset Seluruh Progres</span>
           </button>
         </div>
@@ -231,7 +231,7 @@ function SettingsPage() {
             <button
               type="button"
               disabled={isDeleting}
-              className="flex-1 py-2.5 px-5 rounded-full bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
+              className="flex-1 py-2.5 px-5 rounded-full bg-err-ink hover:bg-candy-900 disabled:opacity-50 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2.5px_0_#3B2218]"
               onClick={() => void handleReset()}
             >
               {isDeleting ? "Menghapus..." : "Ya, Hapus Akun"}

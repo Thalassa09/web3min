@@ -182,7 +182,7 @@ export function SideNav() {
                   if (sound) playTap();
                   close();
                 }}
-                icon={<Shield className="size-4.5 shrink-0 stroke-[2.2] text-amber-500" />}
+                icon={<Shield className="size-4.5 shrink-0 stroke-[2.2] text-lemon-deep" />}
               />
             </li>
           )}

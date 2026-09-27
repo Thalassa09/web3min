@@ -150,23 +150,23 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
 
       {/* Accordion 2: Kunci Ingatan & Jebakan (Less is More) */}
       {exercise.remember ? (
-        <div className="mt-3 rounded-2xl border-2 border-amber-500/40 bg-amber-50/60 overflow-hidden transition-all">
+        <div className="mt-3 rounded-2xl border-2 border-lemon-deep/40 bg-coin-fill/60 overflow-hidden transition-all">
           <button
             type="button"
             aria-expanded={openRemember}
             onClick={() => setOpenRemember((prev) => !prev)}
-            className="w-full flex items-center justify-between p-3.5 text-left font-pixel text-xs sm:text-sm font-bold text-amber-950 hover:bg-amber-100/50 transition-colors cursor-pointer select-none"
+            className="w-full flex items-center justify-between p-3.5 text-left font-pixel text-xs sm:text-sm font-bold text-coin-ink-deep hover:bg-coin-fill-deep/50 transition-colors cursor-pointer select-none"
           >
             <span className="flex items-center gap-2">
-              <Lightbulb className="size-4 text-amber-600 shrink-0" />
+              <Lightbulb className="size-4 text-lemon-deep shrink-0" />
               <span>Kunci Ingatan & Jebakan</span>
             </span>
             <ChevronDown
-              className={cn("size-4 text-amber-800 transition-transform duration-200", openRemember && "rotate-180")}
+              className={cn("size-4 text-warn-ink transition-transform duration-200", openRemember && "rotate-180")}
             />
           </button>
           {openRemember && (
-            <div className="px-3.5 pb-3.5 pt-1 text-[13.5px] font-bold leading-[22px] text-amber-950 border-t border-amber-400/30 bg-amber-50/90">
+            <div className="px-3.5 pb-3.5 pt-1 text-[13.5px] font-bold leading-[22px] text-coin-ink-deep border-t border-lemon-deep/30 bg-coin-fill/90">
               {exercise.remember}
             </div>
           )}

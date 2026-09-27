@@ -167,7 +167,7 @@ function Onboarding() {
   };
 
   return (
-    <main className="min-h-dvh bg-[#FDFBF7] flex items-start sm:items-center justify-center px-3 py-6 sm:px-6 sm:py-10 relative select-none overflow-x-hidden overflow-y-auto">
+    <main className="min-h-dvh bg-cream-50 flex items-start sm:items-center justify-center px-3 py-6 sm:px-6 sm:py-10 relative select-none overflow-x-hidden overflow-y-auto">
       <div className="w-full max-w-4xl relative z-10 bg-cream rounded-[32px] border-4 border-choco-900 shadow-[0_10px_0_#3B2218] p-6 sm:p-10">
         {/* Step Progress Bar (Shown on Step 1 & 2) */}
         {step > 0 && (
@@ -182,14 +182,14 @@ function Onboarding() {
                 />
               ))}
             </div>
-            <span className="font-pixel text-[11px] font-bold text-choco-900 shrink-0 bg-amber-100 border-2 border-choco-900 px-3 py-0.5 rounded-full shadow-[0_1.5px_0_#3B2218]">
+            <span className="font-pixel text-[11px] font-bold text-choco-900 shrink-0 bg-coin-fill border-2 border-choco-900 px-3 py-0.5 rounded-full shadow-[0_1.5px_0_#3B2218]">
               Langkah {step} dari 2
             </span>
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
           {/* Mascot Side (5 Cols - Blobi on Tactile 3D Arcade Tile) */}
-          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-linear-to-b from-blush-50 to-[#FCE7F3] border-3 border-choco-900 shadow-[0_6px_0_#3B2218] rounded-3xl p-6 gap-4 relative overflow-hidden">
+          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-linear-to-b from-blush-50 to-blush-100 border-3 border-choco-900 shadow-[0_6px_0_#3B2218] rounded-3xl p-6 gap-4 relative overflow-hidden">
             {/* Decorative Arcade Top Badge */}
             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 hidden md:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-candy-800 border-2 border-choco-900 text-white font-pixel text-[9px] font-bold shadow-[0_2px_0_#3B2218]">
               <Sparkles className="size-2.5 text-white" />
@@ -248,14 +248,14 @@ function Onboarding() {
 
                 {/* 3 Core Highlights (Tactile 3D Retro Arcade Candy Pods) */}
                 <div className="space-y-3.5">
-                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-amber-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
-                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-amber-200 p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
+                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-coin-fill/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-coin-fill-deep p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
                       <img src="/props/book.png" alt="Modul Belajar" className="size-7 object-contain pixelated" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">20 Rute Pulau Rantai</span>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-amber-300 text-choco-900 border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-coin-fill-deep text-choco-900 border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
                           Santai
                         </span>
                       </div>
@@ -265,14 +265,14 @@ function Onboarding() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-emerald-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
-                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-emerald-200 p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
+                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-leaf-soft/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                    <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-leaf-fill-deep p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
                       <img src="/props/shield.png" alt="Simulasi Aman" className="size-7 object-contain pixelated" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-pixel text-xs sm:text-sm font-bold text-choco-900">100% Simulasi Bebas Risiko</span>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-emerald-400 text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-mint text-white border-2 border-choco-900 shadow-[0_1.5px_0_#3B2218]">
                           Tanpa Modal
                         </span>
                       </div>
@@ -282,7 +282,7 @@ function Onboarding() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-pink-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
+                  <div className="flex items-center gap-4 rounded-3xl border-2 border-choco-900 bg-white hover:bg-blush-50/50 p-4 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] active:translate-y-0.5 active:shadow-[0_2px_0_#3B2218] transition-all">
                     <div className="size-12 shrink-0 rounded-2xl border-2 border-choco-900 bg-candy-200 p-2 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
                       <img src="/props/star.png" alt="Hadiah & Koin" className="size-7 object-contain pixelated" />
                     </div>
@@ -440,8 +440,8 @@ function Onboarding() {
                   )}
 
                   {formError ? (
-                    <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
-                      <AlertTriangle className="size-4 text-rose-600 shrink-0" />
+                    <div className="p-3 rounded-2xl bg-err-soft border-2 border-err-ink text-candy-900 text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
+                      <AlertTriangle className="size-4 text-err-ink shrink-0" />
                       <span>{formError}</span>
                     </div>
                   ) : null}

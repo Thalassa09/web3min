@@ -87,11 +87,11 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
           className={cn(
             "px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold tracking-tight uppercase border-2 shadow-[0_2px_0_#3B2218]",
             status === "done"
-              ? "bg-emerald-100 text-emerald-800 border-choco-900"
+              ? "bg-leaf-fill text-leaf-shadow border-choco-900"
               : status === "active"
               ? "bg-white text-choco-900 border-choco-900 ring-2 ring-candy-400"
               : status === "chest"
-              ? "bg-amber-100 text-amber-900 border-choco-900"
+              ? "bg-coin-fill text-coin-ink-deep border-choco-900"
               : "bg-[#EAE4DC] text-choco-600 border-choco-900/60"
           )}
         >
@@ -181,7 +181,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
                 "size-2.5 rounded-full border border-choco-900 transition-all duration-200 shadow-[0_1px_0_#3B2218]",
                 isFilled
                   ? status === "done"
-                    ? "bg-emerald-500 ring-1 ring-white/60"
+                    ? "bg-leaf-deep ring-1 ring-white/60"
                     : "bg-candy-500 ring-1 ring-white/60 animate-pulse"
                   : "bg-cream/90 border-choco-300"
               )}

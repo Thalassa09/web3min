@@ -149,77 +149,59 @@ test("hex mentah yang tokennya SUDAH ADA tidak boleh ditulis inline", () => {
   );
 });
 
-test("palet Tailwind asing tidak boleh BERTAMBAH (ratchet — DESIGN.md §7)", () => {
-  // Temuan Langkah 33: 172 pemakaian palet bawaan Tailwind (`emerald-*`,
-  // `amber-*`, `orange-*`, `rose-*`) di 30+ berkas — warna yang TIDAK ada di
-  // `@theme`. Warna itu tetap ter-render (jadi nol error) tapi berarti:
-  //   (a) halaman memakai warna di luar identitas web3min, dan
-  //   (b) nilai kontrasnya tidak pernah diukur guard mana pun.
+test("palet Tailwind asing DILARANG di src/ (DESIGN.md §7)", () => {
+  // Langkah 35: 172 pemakaian palet bawaan Tailwind (`emerald/amber/orange/rose`)
+  // di 21 berkas sudah dimigrasikan ke token web3min. Ratchet sebelumnya sudah
+  // mencapai NOL, jadi aturannya kini HARD — nol toleransi, bukan "jangan naik".
   //
-  // Mengganti 172 pemakaian sekaligus = mengubah tampilan 30+ halaman tanpa
-  // bisa diperiksa satu per satu. Karena itu guard ini memakai pola RATCHET:
-  // daftar di bawah membekukan berkas yang MASIH kotor. Yang sudah bersih
-  // tidak boleh jadi kotor lagi, dan jumlah per berkas tidak boleh naik.
+  // Kenapa ini penting: warna palet bawaan TIDAK ADA di `@theme`, jadi ia tetap
+  // ter-render tanpa error apa pun, tapi (a) di luar identitas web3min dan
+  // (b) kontrasnya tidak pernah diukur guard mana pun. Persis pola "aturan tanpa
+  // guard = aturan yang dilanggar diam-diam".
   //
-  // Cara memakainya: migrasikan satu berkas, lalu HAPUS dari daftar ini.
-  // Angka yang lebih kecil dari daftar = boleh (kemajuan); lebih besar = gagal.
-  const BEKAS: Record<string, number> = {
-    "src/components/censored-username-modal.tsx": 5,
-    "src/components/game-overlay-hud.tsx": 1,
-    "src/components/lesson/exercises.tsx": 5,
-    "src/components/lesson/player.tsx": 1,
-    "src/components/pulau-rantai-map.tsx": 1,
-    "src/components/pulau-rantai-progres.tsx": 15,
-    "src/components/side-nav.tsx": 1,
-    "src/components/ui/button.tsx": 1,
-    "src/components/ui/chain-block.tsx": 3,
-    "src/routes/about.tsx": 6,
-    "src/routes/admin.tsx": 0,
-    "src/routes/cara.tsx": 7,
-    "src/routes/kisah.$storyId.tsx": 2,
-    "src/routes/kisah.index.tsx": 7,
-    "src/routes/leaderboard.tsx": 41,
-    "src/routes/masuk.tsx": 6,
-    "src/routes/onboarding.tsx": 9,
-    "src/routes/privacy.tsx": 12,
-    "src/routes/profile.tsx": 6,
-    "src/routes/raffle.tsx": 32,
-    "src/routes/settings.tsx": 10,
-    "src/routes/shop.tsx": 7,
-  };
-  // Panel admin sengaja netral (tabel data) — tidak dihitung sama sekali.
+  // Pengganti yang benar (semua sudah ada di @theme):
+  //   emerald-* → leaf-* / mint-* / ok-*        (hijau sukses)
+  //   amber-*   → coin-* / lemon-* / warn-ink   (gold: koin, PETI, peringatan)
+  //   orange-*  → flame-* / streak              (oranye beruntun)
+  //   rose-*    → candy-* / ruby-* / err-*      (pink / error)
+  //   violet-*  → grape-*                       (ungu)
+  //
+  // Panel admin dikecualikan SADAR: tabel data netral, bukan permukaan bermerek.
+  //
+  // `src/lib/pulau-rantai.ts` juga dikecualikan — tapi BUKAN karena "data".
+  // Isinya 21 warna LATAR PETA PULAU (hijau hutan, ungu gunung, biru laut, batu
+  // abu). Warna DUNIA sengaja berbeda dari warna UI: kalau semua pulau dipaksa
+  // jadi 4 keluarga patokan (mint/oranye/gold/pink), peta kehilangan
+  // keragaman visual dan tiap pulau jadi tak bisa dibedakan. Tujuh warna di
+  // antaranya kebetulan sama persis dengan palet bawaan Tailwind — itu
+  // kebetulan, bukan pemakaian palet Tailwind. Dikonfirmasi user (Langkah 35):
+  // "biarkan — warna dunia berbeda dari warna UI".
+  const ASING = /\b(emerald|amber|orange|rose|violet|sky|teal|indigo|fuchsia|lime|cyan)-\d{2,3}\b/;
   const ABAIKAN = new Set([
     "src/routes/admin.tsx",
     "src/components/admin-stats.tsx",
     "src/components/admin-raffle-modal.tsx",
+    "src/lib/pulau-rantai.ts",
   ]);
 
-  const ASING = /\b(emerald|amber|orange|rose|violet|sky|teal|indigo|fuchsia)-\d{2,3}\b/;
-  const counts: Record<string, number> = {};
+  const offenders: string[] = [];
   for (const { path, src } of FILES) {
     if (ABAIKAN.has(path)) continue;
-    const n = src.split("\n").filter((l) => ASING.test(l)).length;
-    if (n > 0) counts[path] = n;
-  }
-
-  const naik: string[] = [];
-  for (const [path, n] of Object.entries(counts)) {
-    const batas = BEKAS[path];
-    if (batas === undefined) {
-      naik.push(`${path} — BERKAS BARU memakai palet asing (${n} baris)`);
-    } else if (n > batas) {
-      naik.push(`${path} — naik dari ${batas} jadi ${n} baris`);
-    }
+    src.split("\n").forEach((line, i) => {
+      const m = line.match(ASING);
+      if (m) offenders.push(`${path}:${i + 1} → ${m[0]}`);
+    });
   }
 
   assert.deepEqual(
-    naik,
+    offenders,
     [],
-    `Palet Tailwind asing BERTAMBAH — pakai token web3min (leaf-*/coin-*/streak/candy-*):\n${naik
+    `Palet Tailwind asing (tidak ada di @theme) — pakai token web3min:\n${offenders
       .map((o) => "  " + o)
-      .join("\n")}\n\nKalau ini perbaikan, turunkan angkanya di BEKAS (atau hapus berkasnya).`,
+      .join("\n")}`,
   );
 });
+
 
 test("kartu statistik /profile tetap mengikuti patokan DESIGN.md §9", () => {
   // DESIGN.md §9 = PATOKAN RESMI yang ditunjuk user ("ini jadikan patokan

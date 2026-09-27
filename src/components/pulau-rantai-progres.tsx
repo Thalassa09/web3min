@@ -178,7 +178,7 @@ Belajar Web3 interaktif: https://web3min.com`;
           </h2>
           <button
             type="button"
-            className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-200 text-choco-900 shadow-[0_2px_0_#3B2218] transition-all hover:bg-amber-300 hover:scale-105 active:translate-y-0.5 cursor-pointer"
+            className="flex size-9 sm:size-10 items-center justify-center rounded-full border-2 border-choco-900 bg-coin-fill-deep text-choco-900 shadow-[0_2px_0_#3B2218] transition-all hover:bg-lemon hover:scale-105 active:translate-y-0.5 cursor-pointer"
             onClick={() => setShowRekapModal(true)}
             aria-label="Buka Rekap Penjelajah"
             title="Buka Rekap Penjelajah"
@@ -319,13 +319,13 @@ Belajar Web3 interaktif: https://web3min.com`;
           </div>
 
           {/* Pod 2: Streak Rantai */}
-          <div className="p-3.5 bg-amber-50/50 rounded-2xl border-2 border-choco-900/20 flex flex-col justify-between">
+          <div className="p-3.5 bg-coin-fill/50 rounded-2xl border-2 border-choco-900/20 flex flex-col justify-between">
             <div className="text-[11px] font-bold text-choco-600 uppercase tracking-wide">
               Hari Rantai Aktif
             </div>
             <div className="my-1.5 flex items-center gap-2">
               <span className="text-3xl font-black font-sans text-flame-500 tabular-nums flex items-center gap-1.5">
-                <Fire className="size-7 text-orange-500 fill-orange-500 shrink-0" weight="fill" />
+                <Fire className="size-7 text-streak fill-streak shrink-0" weight="fill" />
                 {streak}
               </span>
               <span className="text-sm font-bold text-choco-600">
@@ -514,17 +514,17 @@ Belajar Web3 interaktif: https://web3min.com`;
       {/* Connected League Card with Progress Bar */}
       <Link
         to="/leaderboard"
-        className="block bg-amber-50 hover:bg-amber-100/70 border-2 border-choco-900 rounded-2xl p-4 shadow-[0_4px_0_#3B2218] space-y-2.5 transition-all active:translate-y-0.5 cursor-pointer"
+        className="block bg-coin-fill hover:bg-coin-fill-deep/70 border-2 border-choco-900 rounded-2xl p-4 shadow-[0_4px_0_#3B2218] space-y-2.5 transition-all active:translate-y-0.5 cursor-pointer"
       >
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="size-9 rounded-full border-2 border-choco-900 bg-amber-300 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+            <div className="size-9 rounded-full border-2 border-choco-900 bg-lemon flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
               <Trophy className="size-4.5 text-choco-900 stroke-[2.5]" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className="font-bold text-sm text-choco-900">{league.name}</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200 px-2 py-0.5 rounded-full border border-amber-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-coin-ink-deep bg-coin-fill-deep px-2 py-0.5 rounded-full border border-lemon-deep">
                   {league.id}
                 </span>
               </div>
@@ -561,7 +561,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               Struk Blok Terakhir
             </span>
             {lastCompletedLesson && (
-              <span className="size-2 rounded-full bg-emerald-500" title="Valid on-chain" />
+              <span className="size-2 rounded-full bg-leaf-deep" title="Valid on-chain" />
             )}
           </div>
           <span className="text-xs font-sans font-bold tabular-nums text-candy-700 bg-candy-100 px-2.5 py-0.5 rounded-full border border-candy-300">
@@ -590,11 +590,11 @@ Belajar Web3 interaktif: https://web3min.com`;
 
               <div className="flex justify-between items-center gap-2">
                 <span className="text-choco-500 font-bold shrink-0">Status Konsensus</span>
-                <div className="flex items-center gap-1.5 font-bold text-emerald-700">
+                <div className="flex items-center gap-1.5 font-bold text-leaf-shadow">
                   <div className="flex gap-1">
-                    <span className="size-2 rounded-full bg-emerald-500" />
-                    <span className="size-2 rounded-full bg-emerald-500" />
-                    <span className="size-2 rounded-full bg-emerald-500" />
+                    <span className="size-2 rounded-full bg-leaf-deep" />
+                    <span className="size-2 rounded-full bg-leaf-deep" />
+                    <span className="size-2 rounded-full bg-leaf-deep" />
                   </div>
                   <span>Tervalidasi (3/3)</span>
                 </div>
@@ -613,7 +613,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                     title="Salin Hash"
                   >
                     {copiedHash ? (
-                      <Check className="size-3.5 text-emerald-600 stroke-[3]" />
+                      <Check className="size-3.5 text-leaf-shadow stroke-[3]" />
                     ) : (
                       <Copy className="size-3.5 stroke-[2.5]" />
                     )}
@@ -758,7 +758,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                       <span
                         className={`text-[10px] font-sans font-bold tabular-nums px-2 py-0.5 rounded-full border ${
                           isAllDone
-                            ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+                            ? "bg-leaf-fill text-leaf-shadow border-leaf-line"
                             : doneInUnit > 0
                             ? "bg-candy-100 text-candy-800 border-candy-300"
                             : "bg-gray-100 text-gray-600 border-gray-300"
@@ -771,7 +771,7 @@ Belajar Web3 interaktif: https://web3min.com`;
                     <div className="w-full bg-cream rounded-full h-2 border-2 border-choco-900 overflow-hidden">
                       <div
                         className={`h-full rounded-full ${
-                          isAllDone ? "bg-emerald-500" : "bg-candy-500"
+                          isAllDone ? "bg-leaf-deep" : "bg-candy-500"
                         }`}
                         style={{
                           width: `${Math.round((doneInUnit / Math.max(1, nonChest.length)) * 100)}%`,
@@ -857,7 +857,7 @@ Belajar Web3 interaktif: https://web3min.com`;
               <div className="p-3 bg-white border-2 border-choco-900 rounded-xl shadow-[0_2px_0_#3B2218]">
                 <div className="text-[11px] font-bold text-choco-500">Hari Rantai</div>
                 <div className="text-xl font-black font-sans text-flame-500 tabular-nums flex items-center gap-1">
-                  <Fire className="size-4.5 text-orange-500 fill-orange-500" weight="fill" />
+                  <Fire className="size-4.5 text-streak fill-streak" weight="fill" />
                   {streak} <span className="text-xs text-choco-500 font-bold">Hari</span>
                 </div>
                 <div className="text-[10px] text-choco-600 font-bold">Streak aktif</div>

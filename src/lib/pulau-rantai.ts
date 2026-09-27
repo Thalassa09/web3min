@@ -60,6 +60,19 @@ export interface PulauTheme {
   props: Array<{ name: string; side: "left" | "right"; top: number; size: number; flip?: boolean }>;
 }
 
+/**
+ * Warna LATAR PETA PULAU — ini warna DUNIA, bukan warna UI.
+ *
+ * Sengaja TIDAK memakai 4 keluarga patokan (mint/oranye/gold/pink, DESIGN.md §9):
+ * kalau semua pulau diseragamkan, peta kehilangan keragaman visual dan tiap
+ * pulau jadi tak bisa dibedakan. Tujuh warna di sini kebetulan sama persis
+ * dengan palet bawaan Tailwind (teal-600, fuchsia-600, emerald-700, rose-700,
+ * slate-800, indigo-500, amber-600) — itu kebetulan, bukan pemakaian palet
+ * Tailwind. Dikonfirmasi user: "biarkan — warna dunia berbeda dari warna UI".
+ *
+ * Guard `design-rules.test.ts` mengecualikan berkas ini SADAR, dengan alasan
+ * di atas — bukan karena lupa.
+ */
 export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u1: {
     bg: "#1D3B22",

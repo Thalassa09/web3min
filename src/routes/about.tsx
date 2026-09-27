@@ -39,7 +39,7 @@ function AboutPage() {
                 <img src="/props/book.png" alt="Buku" className="size-6 object-contain pixelated" />
               </div>
               <div>
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-pixel font-bold bg-amber-100 border border-choco-900 text-choco-800">
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-pixel font-bold bg-coin-fill border border-choco-900 text-choco-800">
                   Prinsip 1
                 </span>
                 <h2 className="text-base sm:text-lg font-pixel font-bold text-choco-900 mt-0.5">
@@ -53,13 +53,13 @@ function AboutPage() {
           </div>
 
           {/* Pod 2: Keamanan & Privasi Mutlak */}
-          <div className="rounded-2xl border-3 border-choco-900 bg-emerald-50 p-5 sm:p-6 shadow-[0_5px_0_#3B2218]">
+          <div className="rounded-2xl border-3 border-choco-900 bg-leaf-soft p-5 sm:p-6 shadow-[0_5px_0_#3B2218]">
             <div className="flex items-center gap-3 mb-2.5">
-              <div className="size-10 rounded-2xl border-2 border-choco-900 bg-emerald-200 flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+              <div className="size-10 rounded-2xl border-2 border-choco-900 bg-leaf-fill-deep flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
                 <img src="/props/shield.png" alt="Perisai" className="size-6 object-contain pixelated" />
               </div>
               <div>
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-pixel font-bold bg-emerald-200 border border-choco-900 text-emerald-900">
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-pixel font-bold bg-leaf-fill-deep border border-choco-900 text-leaf-deep-ink">
                   Prinsip 2
                 </span>
                 <h2 className="text-base sm:text-lg font-pixel font-bold text-choco-900 mt-0.5">
@@ -75,11 +75,11 @@ function AboutPage() {
           {/* Pod 3: Sumber Terbuka & Verifikasi Fakta */}
           <div className="rounded-2xl border-3 border-choco-900 bg-white p-5 sm:p-6 shadow-[0_5px_0_#3B2218]">
             <div className="flex items-center gap-3 mb-2.5">
-              <div className="size-10 rounded-2xl border-2 border-choco-900 bg-amber-200 flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
+              <div className="size-10 rounded-2xl border-2 border-choco-900 bg-coin-fill-deep flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
                 <img src="/props/star.png" alt="Bintang" className="size-6 object-contain pixelated" />
               </div>
               <div>
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-pixel font-bold bg-amber-100 border border-choco-900 text-choco-800">
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-pixel font-bold bg-coin-fill border border-choco-900 text-choco-800">
                   Prinsip 3
                 </span>
                 <h2 className="text-base sm:text-lg font-pixel font-bold text-choco-900 mt-0.5">

@@ -204,8 +204,8 @@ function MasukPage() {
           </div>
 
           {error && (
-            <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
-              <AlertTriangle className="size-4 text-rose-600 shrink-0" />
+            <div className="p-3 rounded-2xl bg-err-soft border-2 border-err-ink text-err-ink text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
+              <AlertTriangle className="size-4 text-err-ink shrink-0" />
               <span>{error}</span>
             </div>
           )}
@@ -271,15 +271,15 @@ function MasukPage() {
 
             {/* Alert Error / Success */}
             {resetError && (
-              <div className="p-3 rounded-2xl bg-rose-100 border-2 border-rose-500 text-rose-900 text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
-                <ShieldAlert className="size-4 text-rose-600 shrink-0" />
+              <div className="p-3 rounded-2xl bg-err-soft border-2 border-err-ink text-err-ink text-xs font-bold shadow-[0_2px_0_#E11D48] flex items-center gap-1.5">
+                <ShieldAlert className="size-4 text-err-ink shrink-0" />
                 <span>{resetError}</span>
               </div>
             )}
 
             {resetSuccess && (
-              <div className="p-3 rounded-2xl bg-emerald-100 border-2 border-emerald-600 text-emerald-950 text-xs font-bold shadow-[0_2px_0_#059669] flex items-center gap-1.5">
-                <CheckCircle2 className="size-4 text-emerald-600 shrink-0" />
+              <div className="p-3 rounded-2xl bg-leaf-fill border-2 border-leaf-shadow text-leaf-deep-ink text-xs font-bold shadow-[0_2px_0_#059669] flex items-center gap-1.5">
+                <CheckCircle2 className="size-4 text-leaf-shadow shrink-0" />
                 <span>{resetSuccess}</span>
               </div>
             )}

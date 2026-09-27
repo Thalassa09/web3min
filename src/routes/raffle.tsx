@@ -169,24 +169,24 @@ function RaffleCardBack({
           {isMintSlot && (
             <>
               <div className="flex items-center gap-2">
-                <Check className="size-3 text-emerald-600 shrink-0" />
+                <Check className="size-3 text-leaf-shadow shrink-0" />
                 <span>Jenis slot: <strong>{raffle.slotType || "GTD"}</strong></span>
               </div>
               {raffle.mintPrice && (
                 <div className="flex items-center gap-2">
-                  <Check className="size-3 text-emerald-600 shrink-0" />
+                  <Check className="size-3 text-leaf-shadow shrink-0" />
                   <span>Harga mint: <strong>{raffle.mintPrice}</strong></span>
                 </div>
               )}
               {raffle.mintSchedule && (
                 <div className="flex items-center gap-2">
-                  <Check className="size-3 text-emerald-600 shrink-0" />
+                  <Check className="size-3 text-leaf-shadow shrink-0" />
                   <span>Jadwal mint: <strong>{raffle.mintSchedule}</strong></span>
                 </div>
               )}
               {raffle.officialMintDomain && (
                 <div className="flex items-center gap-2 font-mono text-[11px]">
-                  <Check className="size-3 text-emerald-600 shrink-0" />
+                  <Check className="size-3 text-leaf-shadow shrink-0" />
                   <span>Situs mint resmi: <strong>{raffle.officialMintDomain}</strong></span>
                 </div>
               )}
@@ -196,11 +196,11 @@ function RaffleCardBack({
           {isItemSlot && itemMeta && (
             <>
               <div className="flex items-center gap-2">
-                <Check className="size-3 text-emerald-600 shrink-0" />
+                <Check className="size-3 text-leaf-shadow shrink-0" />
                 <span>Edisi terbatas: <strong>{itemMeta.total} buah</strong></span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="size-3 text-emerald-600 shrink-0" />
+                <Check className="size-3 text-leaf-shadow shrink-0" />
                 <span>Sisa edisi: <strong>{itemMeta.total - raffle.winnerCount} buah</strong></span>
               </div>
             </>
@@ -208,21 +208,21 @@ function RaffleCardBack({
 
           {raffle.requirementXHandle && (
             <div className="flex items-center gap-2">
-              <Check className="size-3 text-emerald-600 shrink-0" />
+              <Check className="size-3 text-leaf-shadow shrink-0" />
               <span>Syarat: follow <strong>{raffle.requirementXHandle}</strong> di X</span>
             </div>
           )}
 
           {raffle.announcementDate && (
             <div className="flex items-center gap-2">
-              <Check className="size-3 text-emerald-600 shrink-0" />
+              <Check className="size-3 text-leaf-shadow shrink-0" />
               <span>Pengumuman: <strong>{raffle.announcementDate}</strong></span>
             </div>
           )}
 
           {raffle.perks.map((p, idx) => (
             <div key={idx} className="flex items-center gap-2">
-              <Check className="size-3 text-emerald-600 shrink-0" />
+              <Check className="size-3 text-leaf-shadow shrink-0" />
               <span>{p}</span>
             </div>
           ))}
@@ -652,7 +652,7 @@ function RafflePage() {
             <div className="flex flex-col gap-2.5 shrink-0 w-full sm:w-auto min-w-[280px]">
               <div className="flex items-center justify-around gap-4 rounded-2xl border-2 border-choco-900 bg-white/95 p-3 px-4 shadow-[0_3px_0_#3B2218]">
                 <div className="flex items-center gap-2.5">
-                  <div className="size-9 rounded-xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_1.5px_0_#3B2218]">
+                  <div className="size-9 rounded-xl bg-lemon border-2 border-choco-900 flex items-center justify-center text-choco-900 shadow-[0_1.5px_0_#3B2218]">
                     <Ticket className="h-4.5 w-4.5 stroke-[2.5]" />
                   </div>
                   <div>
@@ -701,7 +701,7 @@ function RafflePage() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4 text-center sm:text-left">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-choco-900 bg-white/90 text-choco-900 shadow-[0_3px_0_#3B2218]">
-                <Trophy className="h-8 w-8 text-amber-500 fill-amber-400" />
+                <Trophy className="h-8 w-8 text-lemon-deep fill-coin-shadow" />
               </div>
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-2.5 py-0.5 text-[11px] font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_1px_0_#3B2218]">
@@ -730,14 +730,14 @@ function RafflePage() {
           <div
             className={`flex items-center gap-3 rounded-2xl border-2 border-choco-900 p-4 font-bold shadow-[0_4px_0_#3B2218] ${
               toast.type === "error"
-                ? "bg-rose-100 text-rose-950"
-                : "bg-emerald-100 text-emerald-950"
+                ? "bg-err-soft text-err-ink"
+                : "bg-leaf-fill text-leaf-deep-ink"
             }`}
           >
             {toast.type === "error" ? (
-              <AlertTriangle className="h-5 w-5 text-rose-600 shrink-0" />
+              <AlertTriangle className="h-5 w-5 text-err-ink shrink-0" />
             ) : (
-              <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+              <CheckCircle2 className="h-5 w-5 text-leaf-shadow shrink-0" />
             )}
             <p className="text-xs sm:text-sm font-semibold">{toast.message}</p>
           </div>
@@ -779,7 +779,7 @@ function RafflePage() {
               }}
               className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                 activeStatus === "live"
-                  ? "bg-emerald-300 text-choco-900 shadow-[0_1px_0_#3B2218]"
+                  ? "bg-leaf-fill-deep text-choco-900 shadow-[0_1px_0_#3B2218]"
                   : "text-choco-600 hover:text-choco-900"
               }`}
             >
@@ -941,20 +941,20 @@ function RafflePage() {
                         <div className="shrink-0">
                           {isLive ? (
                             isExpired ? (
-                              <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-100 text-amber-900 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-coin-fill text-coin-ink-deep px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
                                 <span>Menunggu Pengundian</span>
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-emerald-200 text-emerald-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-leaf-fill-deep text-leaf-deep-ink px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
                                 <span className="relative flex h-2 w-2">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-700"></span>
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-leaf-deep opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-leaf-shadow"></span>
                                 </span>
                                 <span>BERLANGSUNG</span>
                               </span>
                             )
                           ) : isVerifying ? (
-                            <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-amber-200 text-amber-950 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                            <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-coin-fill-deep text-coin-ink-deep px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
                               <span>MENUNGGU VERIFIKASI</span>
                             </span>
                           ) : (
@@ -1037,14 +1037,14 @@ function RafflePage() {
 
                     {/* Public Winners List (Only visible when ended) */}
                     {isEnded && publicResult?.winners && publicResult.winners.length > 0 && (
-                      <div className="rounded-2xl border-2 border-emerald-700 bg-emerald-50 p-3 space-y-2 mt-2">
-                        <div className="text-[11px] font-bold font-pixel text-emerald-900 flex items-center justify-between">
+                      <div className="rounded-2xl border-2 border-leaf-shadow bg-leaf-soft p-3 space-y-2 mt-2">
+                        <div className="text-[11px] font-bold font-pixel text-leaf-deep-ink flex items-center justify-between">
                           <span>Daftar Pemenang:</span>
                           <span className="text-[10px] font-mono font-normal">
                             {publicResult.total_winners ?? publicResult.winners.length} Total
                           </span>
                         </div>
-                        <div className="space-y-1 font-mono text-[11px] text-emerald-950">
+                        <div className="space-y-1 font-mono text-[11px] text-leaf-deep-ink">
                           {publicResult.winners.map((w, idx) => (
                             <div key={idx} className="flex items-center justify-between">
                               <span>
@@ -1053,7 +1053,7 @@ function RafflePage() {
                             </div>
                           ))}
                           {(publicResult.total_winners ?? publicResult.winners.length) > publicResult.winners.length && (
-                            <div className="text-[10px] text-emerald-700 italic pt-0.5">
+                            <div className="text-[10px] text-leaf-shadow italic pt-0.5">
                               +{(publicResult.total_winners ?? publicResult.winners.length) - publicResult.winners.length} pemenang lainnya
                             </div>
                           )}
@@ -1061,12 +1061,12 @@ function RafflePage() {
 
                         {/* Exclusive Discord link for winner only */}
                         {isWinner && publicResult.user_win_info?.discord_group_link && (
-                          <div className="pt-2 border-t border-emerald-600/20">
+                          <div className="pt-2 border-t border-leaf-deep/20">
                             <a
                               href={publicResult.user_win_info.discord_group_link}
                               target="_blank"
                               rel="noreferrer"
-                              className="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-pixel font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_2px_0_#15803D]"
+                              className="w-full py-2 px-3 rounded-xl bg-leaf-deep hover:bg-leaf-shadow text-white font-pixel font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_2px_0_#15803D]"
                             >
                               <span>Masuk ke Grup Komunitas Eksklusif</span>
                             </a>
@@ -1207,7 +1207,7 @@ function RafflePage() {
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <div className="size-12 rounded-2xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center shadow-[0_3px_0_#3B2218]">
+              <div className="size-12 rounded-2xl bg-lemon border-2 border-choco-900 flex items-center justify-center shadow-[0_3px_0_#3B2218]">
                 <Ticket className="size-6 text-choco-900" />
               </div>
               <div>
@@ -1222,7 +1222,7 @@ function RafflePage() {
 
             <div className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] mb-4 flex items-center justify-between">
               <span className="text-xs font-bold text-choco-700">Saldo Koin Kamu</span>
-              <span className="font-mono text-base font-black text-amber-700">{gems} Koin</span>
+              <span className="font-mono text-base font-black text-warn-ink">{gems} Koin</span>
             </div>
 
             <div className="space-y-3 mb-5">
@@ -1584,7 +1584,7 @@ function RafflePage() {
             </button>
 
             <div className="flex items-center gap-2.5">
-              <ShieldCheck className="size-5 text-emerald-600" />
+              <ShieldCheck className="size-5 text-leaf-shadow" />
               <h3 className="font-pixel text-base font-bold text-choco-900">
                 Transparansi Commit-Reveal
               </h3>
@@ -1603,8 +1603,8 @@ function RafflePage() {
             </div>
 
             {previewFairness.status === "ended" && previewFairness.drawSeed && (
-              <div className="p-3 rounded-xl bg-emerald-50 border-2 border-emerald-700 font-mono text-[11px] break-all">
-                <div className="text-[9px] font-bold uppercase text-emerald-700 mb-1">
+              <div className="p-3 rounded-xl bg-leaf-soft border-2 border-leaf-shadow font-mono text-[11px] break-all">
+                <div className="text-[9px] font-bold uppercase text-leaf-shadow mb-1">
                   Revealed Draw Seed (Setelah Selesai):
                 </div>
                 {previewFairness.drawSeed}

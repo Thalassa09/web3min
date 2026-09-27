@@ -792,7 +792,7 @@ function ProfilePage() {
                   Verifikasi Email Akun
                 </h2>
                 {recoveryEmail && !isEditingEmail && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-emerald-100 text-emerald-800 border-2 border-emerald-500 shadow-[0_1.5px_0_#10B981]">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-pixel font-bold bg-leaf-fill text-leaf-shadow border-2 border-leaf-line shadow-[0_1.5px_0_#10B981]">
                     Terverifikasi ✓
                   </span>
                 )}
@@ -819,15 +819,15 @@ function ProfilePage() {
           </div>
 
           {emailSaveSuccess && (
-            <div className="p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-950 text-xs font-bold shadow-[0_2px_0_#10B981] flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-emerald-600 shrink-0" />
+            <div className="p-3 rounded-2xl bg-leaf-soft border-2 border-leaf-line text-leaf-deep-ink text-xs font-bold shadow-[0_2px_0_#1E9E78] flex items-center gap-2">
+              <CheckCircle2 className="size-4 text-leaf-shadow shrink-0" />
               <span>{emailSaveSuccess}</span>
             </div>
           )}
 
           {emailSaveError && (
-            <div className="p-3 rounded-2xl bg-rose-50 border-2 border-rose-500 text-rose-950 text-xs font-bold shadow-[0_2px_0_#F43F5E] flex items-center gap-2">
-              <ShieldAlert className="size-4 text-rose-600 shrink-0" />
+            <div className="p-3 rounded-2xl bg-err-soft border-2 border-err-ink text-err-ink text-xs font-bold shadow-[0_2px_0_#B3272C] flex items-center gap-2">
+              <ShieldAlert className="size-4 text-err-ink shrink-0" />
               <span>{emailSaveError}</span>
             </div>
           )}
@@ -838,7 +838,7 @@ function ProfilePage() {
                 <span className="text-choco-500">Email:</span>
                 <span>{recoveryEmail}</span>
               </div>
-              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-300 hidden sm:inline">
+              <span className="text-[11px] font-bold text-leaf-shadow bg-leaf-soft px-2 py-0.5 rounded-lg border border-leaf-line hidden sm:inline">
                 Siap menerima kode reset & verifikasi
               </span>
             </div>

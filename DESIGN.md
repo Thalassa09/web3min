@@ -367,6 +367,34 @@ wajib memuat angka patokan. **4 skenario pelanggaran dibuktikan tertangkap**: ha
 44px yang diwajibkan `AGENTS.md`. Chip (24px) dikecualikan karena label, bukan kontrol.
 Kalau tombol itu disentuh, naikkan ke 44px.
 
+### v1.4 — SELURUH HALAMAN DISAMAKAN KE PATOKAN §9
+
+User: *"buru saya mau semuanya designya seperti ini"* + *"liat warna mint oren gold dan pink itu sangat indah"*.
+**172 pemakaian palet bawaan Tailwind di 21 berkas → 0.**
+
+| Palet asing | Diganti ke | Keluarga |
+|---|---|---|
+| `emerald-*` | `leaf-*` / `ok-*` / `mint` | hijau sukses (mint) |
+| `amber-*` | `coin-*` / `lemon-*` / `warn-ink` | gold (koin, PETI, peringatan) |
+| `orange-*` | `flame-*` / `streak` | oranye beruntun |
+| `rose-*` | `candy-*` / `ruby-*` / `err-*` | pink / error |
+
+**10 token `flame-*` baru** (`flame-soft/fill/fill-deep/line/slab/ink/ink-deep/hot/fill-top/line-hot`)
+untuk keluarga oranye — hex-nya **sama persis** dengan yang sudah dipakai produksi, jadi nol perubahan warna.
+
+**Guard naik dari ratchet → aturan HARD.** Selama migrasi, `design-rules.test.ts` memakai pola
+ratchet (22 berkas dibekukan jumlahnya) supaya bisa maju bertahap. Begitu semua berkas mencapai 0,
+aturannya diperketat jadi **nol toleransi**: satu pemakaian `emerald-*` baru = suite gagal.
+
+**Pengecualian SADAR** (bukan lupa): `admin*` (tabel data netral) dan **`pulau-rantai.ts`**.
+Yang terakhir penting: 21 warnanya adalah **warna DUNIA** (hijau hutan, ungu gunung, biru laut, batu abu),
+bukan warna UI. Kalau dipaksa jadi 4 keluarga patokan, peta kehilangan keragaman visual dan tiap pulau
+tak bisa dibedakan. Tujuh warna kebetulan sama persis dengan palet bawaan Tailwind — itu kebetulan.
+Keputusan user: *"biarkan — warna dunia berbeda dari warna UI"*. Alasannya ditulis di komentar berkas.
+
+**Verifikasi**: warna diukur dari DOM 12 rute (resolve `oklab` lewat canvas — regex `rgb()` akan
+melewatkannya). 0 pageerror; keluarga web3min terdeteksi di produksi: leaf 7 varian, coin 6, flame 4, candy 7.
+
 ### v1.2 — temuan audit dokumen ini
 
 | Temuan | Status |

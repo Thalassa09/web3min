@@ -343,7 +343,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
             </p>
             {exercise.type === "match" ? (
               <div className="ml-auto flex items-center gap-2">
-                <span className="px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold shadow-xs">
+                <span className="px-4 py-2 rounded-full bg-leaf-soft border border-leaf-line text-leaf-shadow text-xs font-bold shadow-xs">
                   Pasangkan Semua Kartu
                 </span>
               </div>

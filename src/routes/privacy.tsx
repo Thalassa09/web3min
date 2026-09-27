@@ -28,15 +28,15 @@ function PrivacyPage() {
           {/* Card 1: Zero Wallet Risk */}
           <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
-              <div className="size-11 rounded-2xl bg-emerald-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
-                <Lock className="size-6 text-emerald-800" />
+              <div className="size-11 rounded-2xl bg-leaf-fill border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+                <Lock className="size-6 text-leaf-shadow" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-pixel text-xs sm:text-sm font-bold text-choco-900">
                     Nol Akses Seed Phrase & Private Key
                   </h3>
-                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-emerald-200 text-emerald-900 border border-choco-900">
+                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-leaf-fill-deep text-leaf-deep-ink border border-choco-900">
                     Mutlak
                   </span>
                 </div>
@@ -50,15 +50,15 @@ function PrivacyPage() {
           {/* Card 2: Local Storage & Supabase Sync */}
           <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
-              <div className="size-11 rounded-2xl bg-amber-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
-                <Database className="size-6 text-amber-800" />
+              <div className="size-11 rounded-2xl bg-coin-fill border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+                <Database className="size-6 text-warn-ink" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-pixel text-xs sm:text-sm font-bold text-choco-900">
                     Penyimpanan Progres & Anonimitas
                   </h3>
-                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-amber-200 text-amber-900 border border-choco-900">
+                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-coin-fill-deep text-coin-ink-deep border border-choco-900">
                     Transparan
                   </span>
                 </div>
@@ -94,15 +94,15 @@ function PrivacyPage() {
           {/* Card 4: Full User Control */}
           <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
-              <div className="size-11 rounded-2xl bg-rose-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
-                <Trash2 className="size-6 text-rose-800" />
+              <div className="size-11 rounded-2xl bg-err-soft border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+                <Trash2 className="size-6 text-err-ink" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-pixel text-xs sm:text-sm font-bold text-choco-900">
                     Hak Reset & Penghapusan Data
                   </h3>
-                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-rose-200 text-rose-900 border border-choco-900">
+                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-err-soft text-err-ink border border-choco-900">
                     Kendali Penuh
                   </span>
                 </div>
@@ -138,15 +138,15 @@ function PrivacyPage() {
           {/* Card 6: Pedoman Komunitas & Sensor Username */}
           <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
-              <div className="size-11 rounded-2xl bg-emerald-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
-                <CheckCircle2 className="size-6 text-emerald-800" />
+              <div className="size-11 rounded-2xl bg-leaf-fill border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
+                <CheckCircle2 className="size-6 text-leaf-shadow" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-pixel text-xs sm:text-sm font-bold text-choco-900">
                     Pedoman Komunitas & Moderasi Nama
                   </h3>
-                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-emerald-200 text-emerald-900 border border-choco-900">
+                  <span className="px-2.5 py-0.5 rounded-full font-pixel text-[9px] font-bold bg-leaf-fill-deep text-leaf-deep-ink border border-choco-900">
                     Aman
                   </span>
                 </div>

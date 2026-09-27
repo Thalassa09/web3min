@@ -220,7 +220,7 @@ export function PulauRantaiMap({
           className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full bg-lemon hover:bg-lemon/90 text-choco-900 border-2 border-choco-900 text-xs font-pixel font-bold transition-all shadow-[0_3px_0_#3B2218] active:translate-y-0.5 active:shadow-none cursor-pointer"
           title="Buka Misi Harian"
         >
-          <Sparkles className="size-4 shrink-0 text-amber-600 stroke-[2.5]" />
+          <Sparkles className="size-4 shrink-0 text-lemon-deep stroke-[2.5]" />
           <span>Misi Harian</span>
         </button>
 

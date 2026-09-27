@@ -12,21 +12,42 @@ interface SegmentedNavProps {
   activeId: string;
   onChange: (id: string) => void;
   className?: string;
+  /** Label untuk screen reader, mis. "Pilih kategori toko". */
+  "aria-label"?: string;
 }
 
 /**
- * Sunny World Segmented Navigation
- * Clean tactile pill switch on candy-100 base with crisp active card.
+ * SegmentedNav — pill dock sub-navigasi (DESIGN.md §5).
+ *
+ * Bentuk visual diselaraskan dengan 7 pill dock NYATA di repo (kisah.index,
+ * raffle, profile, shop ×2, leaderboard) yang selama ini ditulis manual:
+ *   container  : rounded-2xl border-2 border-choco-900/20 + gradien krem + slab 4px
+ *   tab aktif  : rounded-xl + gradien candy-700→candy-900 + teks putih + slab 2px
+ *   tab diam   : rounded-xl border-transparent (biar layout tidak bergeser)
+ *
+ * Perbedaan penting dari versi lama (yang nol pemakai):
+ *   - `rounded-[16px]`/`rounded-[12px]` → `rounded-2xl`/`rounded-xl` (token skala)
+ *   - container `bg-candy-100` → gradien krem (samakan dgn dock nyata)
+ *   - TAMBAH `role="tablist"` + `role="tab"` + `aria-selected` supaya status tab
+ *     tidak disampaikan lewat WARNA saja (WCAG 1.4.1). Versi lama hanya
+ *     mengandalkan kelas aktif.
+ *   - TAMBAH `aria-label` opsional — dock tanpa judul membingungkan screen reader.
+ *   - TAMBAH `focus-visible:outline-*` (WCAG 2.4.7) — versi lama tidak punya.
+ *   - TAMBAH `motion-reduce:transition-none` (DESIGN-SYSTEM §Animations).
+ *   - Tab wajib `min-h-11` (44px, AGENTS.md Mobile #2) — versi lama `py-2` saja.
  */
 export function SegmentedNav({
   items,
   activeId,
   onChange,
   className = "",
+  "aria-label": ariaLabel,
 }: SegmentedNavProps) {
   return (
     <div
-      className={`inline-flex items-center p-1.5 rounded-[16px] bg-candy-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] ${className}`}
+      role="tablist"
+      aria-label={ariaLabel}
+      className={`inline-flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] ${className}`}
     >
       {items.map((item) => {
         const isActive = item.id === activeId;
@@ -34,15 +55,19 @@ export function SegmentedNav({
           <button
             key={item.id}
             type="button"
+            role="tab"
+            aria-selected={isActive}
             onClick={() => onChange(item.id)}
             className={`
-              relative flex items-center justify-center gap-2 px-4 py-2 rounded-[12px] text-xs font-pixel font-bold select-none cursor-pointer
+              relative inline-flex min-h-11 flex-1 items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-pixel font-bold
               transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out
+              motion-reduce:transition-none
+              focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600
               active:translate-y-[1px]
               ${
                 isActive
-                  ? "bg-candy-800 text-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
-                  : "text-choco-600 hover:text-choco-900 hover:bg-white/50 border-2 border-transparent"
+                  ? "border-2 border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_2px_0_#3B2218]"
+                  : "border-2 border-transparent text-choco-600 hover:text-choco-900 hover:bg-candy-50"
               }
             `}
           >
@@ -53,7 +78,7 @@ export function SegmentedNav({
                 className={`text-[10px] font-pixel px-2 py-0.5 rounded-full font-bold ${
                   isActive
                     ? "bg-lemon text-choco-900"
-                    : "bg-cream text-choco-600 border border-choco-900/30"
+                    : "bg-cream text-choco-600 border-2 border-choco-900/30"
                 }`}
               >
                 {item.badge}

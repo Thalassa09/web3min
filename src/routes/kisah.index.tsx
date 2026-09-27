@@ -200,7 +200,7 @@ function KisahHub() {
                     key={s.id}
                     to="/kisah/$storyId"
                     params={{ storyId: s.id }}
-                    className="block group cursor-pointer focus:outline-none"
+                    className="block group cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600 rounded-3xl"
                   >
                     <AnimatedFeatureCard
                       index={indexStr}
@@ -307,7 +307,7 @@ function KisahHub() {
                     key={c.id}
                     to="/bedah/$caseId"
                     params={{ caseId: c.id }}
-                    className="block group cursor-pointer focus:outline-none"
+                    className="block group cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600 rounded-3xl"
                   >
                     <AnimatedFeatureCard
                       index={indexStr}

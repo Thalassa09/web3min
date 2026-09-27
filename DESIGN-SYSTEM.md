@@ -321,6 +321,12 @@ Semua varian: `border-2 border-choco-900` **solid 100%** + `shadow-[0_4px_0_#3B2
 
 ### 2. Pola Pill Dock (sub-navigasi)
 Semua sub-halaman berpasangan (Klasemen & Undian, Toko & Ruang Ganti) **wajib** pakai dock pill terpusat:
+
+> **Komponen kanonik tersedia sejak Langkah 23: `src/components/ui/segmented-nav.tsx`.** Pakai `<SegmentedNav>` untuk dock baru. Bentuknya diselaraskan dengan **7 pill dock NYATA** yang selama ini ditulis manual (`kisah.index`, `raffle`, `profile`, `shop` ×2, `leaderboard`). Versi lama komponen ini (`rounded-[16px]`, `bg-candy-100`) **nol pemakai** dan tidak punya a11y.
+>
+> Beda penting dari versi lama: `role="tablist"` + `role="tab"` + **`aria-selected`** (status tab jangan disampaikan lewat warna saja — WCAG 1.4.1), `aria-label` opsional, `focus-visible:outline-*` (WCAG 2.4.7), `motion-reduce:transition-none`, dan tab `min-h-11` (**44px** sesuai AGENTS.md Mobile #2; versi lama hanya `py-2` ≈ 36px). Terbukti render: dock w=289px slab `0 4px 0`, tab 44px, klik nyata mengubah `aria-selected` → `[false,true,false]`, 0 pageerror.
+>
+> **Utang terukur** (belum diperbaiki, tercatat di progress.md): 3 dari 7 dock nyata (`raffle`, `shop` ×2, `leaderboard`) **belum punya penanda a11y** untuk tab aktif — statusnya masih warna-saja.
 ```tsx
 <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20
      bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5

@@ -172,7 +172,9 @@ function SupporterPage() {
   // ── Aksi: buat order ──────────────────────────────────────────────────────
   const startPayment = async () => {
     setPhase({ kind: "creating" });
-    const res = await createSupporterOrder();
+    // redirectUrl wajib: tanpa ini user tersangkut di halaman GatePay setelah
+    // bayar dan tidak tahu harus kembali ke mana.
+    const res = await createSupporterOrder("https://web3min.com/supporter");
     if (!res.ok || !res.orderId) {
       if (res.alreadySupporter) {
         setPhase({ kind: "done" });
@@ -356,9 +358,18 @@ function SupporterPage() {
                 </span>
               </div>
               <p className="text-[11px] font-semibold text-choco-700 leading-relaxed">
-                Nominal ini <strong>sudah termasuk kode unik</strong> supaya pembayaranmu
-                terdeteksi otomatis. Bayar dengan angka yang <strong>persis sama</strong> —
-                kalau dibulatkan, sistem tidak bisa mencocokkan.
+                {phase.uniqueAmount > phase.baseAmount ? (
+                  <>
+                    Nominal ini <strong>sudah termasuk kode unik</strong> supaya pembayaranmu
+                    terdeteksi otomatis. Bayar dengan angka yang <strong>persis sama</strong> —
+                    kalau dibulatkan, sistem tidak bisa mencocokkan.
+                  </>
+                ) : (
+                  <>
+                    Bayar dengan angka yang <strong>persis sama</strong> — kalau dibulatkan
+                    atau dilebihkan, sistem tidak bisa mencocokkan.
+                  </>
+                )}
               </p>
             </div>
 

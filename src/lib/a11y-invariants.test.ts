@@ -255,3 +255,52 @@ test("dock sub-navigasi memakai penanda status yang bisa dibaca screen reader", 
     );
   }
 });
+
+test("komponen ber-portal tidak merender di server maupun render-pertama klien", () => {
+  // Langkah 28: hydration error #418 di `/` ternyata berasal dari `coach.tsx`:
+  //   `if (!active || typeof document === "undefined") return null;`
+  // Server → `null`. Klien render pertama → `typeof document` ADA, jadi ia
+  // langsung mengembalikan `createPortal(...)`. React melihat pohon berbeda
+  // dan melempar #418 di SETIAP kunjungan ke beranda.
+  //
+  // Aturan: komponen yang memakai `createPortal` WAJIB menunggu `mounted`
+  // (state yang baru `true` di dalam useEffect) sebelum merender portal, supaya
+  // render pertama klien identik dengan server.
+  //
+  // Catatan: `dialog.tsx` saat ini aman KEBETULAN (`open` selalu false di render
+  // pertama), tapi pola itu rapuh — begitu ada dialog `open=true` saat render
+  // awal, bug yang sama muncul. Guard ini menutupnya untuk semua komponen.
+  const files = tsxFiles(join(ROOT, "src"));
+  const offenders: string[] = [];
+
+  for (const f of files) {
+    const src = readFileSync(f, "utf8");
+    if (!src.includes("createPortal")) continue;
+    const pakaiPortal = /return\s+createPortal|createPortal\(/.test(src);
+    if (!pakaiPortal) continue;
+
+    // Dua pola yang SAH di repo:
+    //   (a) guard awal:  `if (!mounted || !active) return null;` lalu `return createPortal(...)`
+    //       (coach.tsx, dialog.tsx, side-nav.tsx)
+    //   (b) ekspresi ternary: `useFixedPosition && mounted && typeof document !== "undefined"
+    //       ? createPortal(overlayMarkup, document.body) : overlayMarkup`
+    //       (bubble-menu.tsx)
+    // Keduanya wajib memuat `mounted`. Yang diperiksa adalah `mounted` DI DEKAT
+    // pemakaian portal, bukan sembarang guard di berkas — `coach.tsx` juga punya
+    // `if (!el) return null` untuk helper pengukuran, dan itu bukan guard portal.
+    const punyaGuardMounted = /if\s*\(\s*!mounted\b/.test(src) || /&&\s*mounted\s*&&/.test(src);
+    if (!punyaGuardMounted) {
+      offenders.push(
+        `${f.replace(ROOT + "/", "")} — portal dirender tanpa menunggu \`mounted\``,
+      );
+    }
+  }
+
+  assert.deepEqual(
+    offenders,
+    [],
+    `Komponen ber-portal bisa memicu hydration mismatch #418:\n${offenders
+      .map((o) => `  ${o}`)
+      .join("\n")}\nTambah: const [mounted, setMounted] = useState(false); useEffect(() => setMounted(true), []); lalu \`if (!mounted || …) return null;\``,
+  );
+});

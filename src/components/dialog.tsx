@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X } from "@/lib/kicon";
 
@@ -63,7 +63,17 @@ export function Dialog({
     };
   }, [open, onClose]);
 
-  if (!open || typeof document === "undefined") return null;
+  // Dialog hanya boleh di-portal SETELAH hydration. Tanpa `mounted`, server
+  // mengembalikan `null` sedangkan klien bisa langsung mengembalikan portal —
+  // mismatch #418. Saat ini `open` selalu false di render pertama sehingga
+  // bug-nya belum muncul, tapi itu kebetulan: begitu ada dialog yang `open=true`
+  // saat render awal, bug yang sama muncul lagi. `mounted` menutupnya permanen.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !open) return null;
 
   return createPortal(
     <div

@@ -90,11 +90,21 @@ export function CoachTour() {
   const [step, setStep] = useState(0);
   const [spot, setSpot] = useState<Box | null>(null);
   const [panelBox, setPanelBox] = useState({ top: 120, left: 16, width: 320 });
+  // Portal hanya boleh dirender SETELAH hydration selesai. Tanpa ini, server
+  // mengembalikan `null` (karena `typeof document === "undefined"`) sementara
+  // klien pada render pertama sudah mengembalikan `createPortal(...)` — React
+  // membaca itu sebagai mismatch dan melempar error #418 di setiap kunjungan
+  // ke beranda. `mounted` membuat render pertama klien SAMA dengan server.
+  const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const current = STEPS[step] ?? STEPS[0];
   const last = step >= STEPS.length - 1;
   const active = !coachSeen && completed.length === 0;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!active) return;
@@ -170,7 +180,7 @@ export function CoachTour() {
     setStep((n) => n + 1);
   }
 
-  if (!active || typeof document === "undefined") return null;
+  if (!mounted || !active) return null;
 
   return createPortal(
     <div className="coach-root" role="dialog" aria-modal="true" aria-labelledby={titleId}>

@@ -104,6 +104,25 @@ Semua sub-halaman yang berpasangan (seperti Klasemen & Undian, atau Toko & Ruang
 >
 > Diverifikasi dengan Tab nyata di browser: **39/40 elemen dapat outline 3px pink**. Yang benar-benar kurang hanya 3 kontrol `div` ber-`onClick` (kolom chart progres, gambar NFT di undian, tautan wallet) — sudah ditambahkan `role="button"` + `tabIndex={0}` + `onKeyDown` Enter/Space. Guard-nya juga diperketat: **`tabIndex` DAN `onKeyDown` dua-duanya wajib** (satu saja tidak cukup — bisa difokus tapi tak bisa diaktifkan, atau sebaliknya).
 
+### 5.1 Hydration: portal wajib menunggu `mounted`
+
+> **Dijaga `src/lib/a11y-invariants.test.ts` test ke-10 (Langkah 28).** Komponen yang memakai `createPortal` **wajib** menunggu penanda `mounted` sebelum merender portal:
+>
+> ```tsx
+> const [mounted, setMounted] = useState(false);
+> useEffect(() => setMounted(true), []);
+> if (!mounted || !open) return null;   // render pertama klien = server
+> ```
+>
+> **Kenapa:** pola `if (!open || typeof document === "undefined") return null` **tidak cukup**. Saat SSR `document` tidak ada → `null`; di klien render pertama `document` ADA → langsung `createPortal(...)`. React melihat pohon berbeda dan melempar **#418** di setiap kunjungan. Itu akar bug beranda yang lama tercatat salah alamat (dulu disebut `blobi-guide.tsx`, padahal `coach.tsx`).
+>
+> Dua pola sah di repo: (a) guard `if (!mounted || …) return null` sebelum `return createPortal(...)` — `coach.tsx`, `dialog.tsx`, `side-nav.tsx`; (b) ternary `… && mounted && … ? createPortal(...) : markup` — `bubble-menu.tsx`. Guard memeriksa keduanya.
+>
+> **Catatan:** `dialog.tsx` aman hanya KEBETULAN (`open` selalu false di render pertama). Pola itu rapuh — begitu ada dialog `open=true` saat render awal, #418 kembali. Karena itu `mounted` dipasang di sana juga.
+>
+> **Pelajaran metode:** `MutationObserver` **tidak** menangkap mismatch ini (React tidak mem-patch atribut yang berbeda — pesannya sendiri berbunyi "won't be patched up"), dan `build:dev` tetap memakai React production sehingga pesan tetap minified. Yang berhasil: **isolasi per-rute** (hanya `/` yang kena) lalu **bandingkan HTML server vs DOM klien per-elemen**.
+
+
 - **Tap Target:** Setiap tombol interaktif memiliki tinggi minimal 44px (`min-h-[44px]` atau `py-2.5 px-4`).
 - **Kontras Teks:** Seluruh label teks putih di atas tombol pink wajib menggunakan ramp `candy-800` (`#85174A` / `#B01F62`) dengan rasio kontras `>= 4.5:1` (lulus uji `contrast-budget.test.ts`).
 - **Mobile Safe Area:** Seluruh fixed container mematuhi `env(safe-area-inset-top)` dan `env(safe-area-inset-bottom)`.

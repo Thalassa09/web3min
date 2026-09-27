@@ -1236,6 +1236,68 @@ export async function rpcGetMySupporterStatus(): Promise<SupporterStatus> {
   }
 }
 
+export interface PublicProfile {
+  ok: boolean;
+  reason?: string;
+  username: string;
+  censored: boolean;
+  xp: number;
+  weeklyXp: number;
+  streak: number;
+  lessonsCompleted: number;
+  isSupporter: boolean;
+  supporterLifetime: boolean;
+  supporterSince: string | null;
+}
+
+const NO_PROFILE: PublicProfile = {
+  ok: false,
+  reason: "not_found",
+  username: "",
+  censored: false,
+  xp: 0,
+  weeklyXp: 0,
+  streak: 0,
+  lessonsCompleted: 0,
+  isSupporter: false,
+  supporterLifetime: false,
+  supporterSince: null,
+};
+
+/**
+ * Profil publik satu user — untuk halaman /u/$username yang bisa dibagikan.
+ *
+ * RPC-nya `security definer` dan sengaja TIDAK mengembalikan data pribadi
+ * apa pun (bio, twitter, wallet, email, account_type). Yang keluar hanya
+ * yang sudah tampil di klasemen publik + hitungan pencapaian. Aturan sensor
+ * nama ikut `get_display_name()`, jadi user tersensor tetap aman.
+ *
+ * Bisa dipanggil tanpa login (anon) — halaman ini memang untuk dibagikan.
+ */
+export async function rpcGetPublicProfile(username: string): Promise<PublicProfile> {
+  if (!isSupabaseConfigured || !supabase || !username) return NO_PROFILE;
+  try {
+    const { data, error } = await supabase.rpc("get_public_profile", { p_username: username });
+    if (error || !data || typeof data !== "object") return NO_PROFILE;
+    const d = data as Record<string, unknown>;
+    if (d.ok !== true) return { ...NO_PROFILE, reason: typeof d.reason === "string" ? d.reason : "not_found" };
+    return {
+      ok: true,
+      username: typeof d.username === "string" ? d.username : "",
+      censored: d.censored === true,
+      xp: typeof d.xp === "number" ? d.xp : 0,
+      weeklyXp: typeof d.weekly_xp === "number" ? d.weekly_xp : 0,
+      streak: typeof d.streak === "number" ? d.streak : 0,
+      lessonsCompleted: typeof d.lessons_completed === "number" ? d.lessons_completed : 0,
+      isSupporter: d.is_supporter === true,
+      supporterLifetime: d.supporter_lifetime === true,
+      supporterSince: typeof d.supporter_since === "string" ? d.supporter_since : null,
+    };
+  } catch {
+    return NO_PROFILE;
+  }
+}
+
 /**
  * Admin mengaktifkan supporter secara MANUAL.
  *

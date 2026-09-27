@@ -32,6 +32,7 @@ import { Route as BedahCaseIdRouteImport } from './routes/bedah.$caseId'
 import { Route as KisahIndexRouteImport } from './routes/kisah.index'
 import { Route as KisahStoryIdRouteImport } from './routes/kisah.$storyId'
 import { Route as LessonLessonIdRouteImport } from './routes/lesson.$lessonId'
+import { Route as UUsernameRouteImport } from './routes/u.$username'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -148,6 +149,11 @@ const LessonLessonIdRoute = LessonLessonIdRouteImport.update({
   path: '/lesson/$lessonId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UUsernameRoute = UUsernameRouteImport.update({
+  id: '/u/$username',
+  path: '/u/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/bedah/$caseId': typeof BedahCaseIdRoute
   '/kisah/$storyId': typeof KisahStoryIdRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
+  '/u/$username': typeof UUsernameRoute
   '/kisah/': typeof KisahIndexRoute
 }
 export interface FileRoutesByTo {
@@ -196,6 +203,7 @@ export interface FileRoutesByTo {
   '/bedah/$caseId': typeof BedahCaseIdRoute
   '/kisah/$storyId': typeof KisahStoryIdRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
+  '/u/$username': typeof UUsernameRoute
   '/kisah': typeof KisahIndexRoute
 }
 export interface FileRoutesById {
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/bedah/$caseId': typeof BedahCaseIdRoute
   '/kisah/$storyId': typeof KisahStoryIdRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
+  '/u/$username': typeof UUsernameRoute
   '/kisah/': typeof KisahIndexRoute
 }
 export interface FileRouteTypes {
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/bedah/$caseId'
     | '/kisah/$storyId'
     | '/lesson/$lessonId'
+    | '/u/$username'
     | '/kisah/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/bedah/$caseId'
     | '/kisah/$storyId'
     | '/lesson/$lessonId'
+    | '/u/$username'
     | '/kisah'
   id:
     | '__root__'
@@ -298,6 +309,7 @@ export interface FileRouteTypes {
     | '/bedah/$caseId'
     | '/kisah/$storyId'
     | '/lesson/$lessonId'
+    | '/u/$username'
     | '/kisah/'
   fileRoutesById: FileRoutesById
 }
@@ -323,6 +335,7 @@ export interface RootRouteChildren {
   WardrobeRoute: typeof WardrobeRoute
   BedahCaseIdRoute: typeof BedahCaseIdRoute
   LessonLessonIdRoute: typeof LessonLessonIdRoute
+  UUsernameRoute: typeof UUsernameRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -488,6 +501,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LessonLessonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/u/$username': {
+      id: '/u/$username'
+      path: '/u/$username'
+      fullPath: '/u/$username'
+      preLoaderRoute: typeof UUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -525,6 +545,7 @@ const rootRouteChildren: RootRouteChildren = {
   WardrobeRoute: WardrobeRoute,
   BedahCaseIdRoute: BedahCaseIdRoute,
   LessonLessonIdRoute: LessonLessonIdRoute,
+  UUsernameRoute: UUsernameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

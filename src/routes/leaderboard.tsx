@@ -620,9 +620,21 @@ function LeaderboardPage() {
 
                     <div className="min-w-0 truncate">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs sm:text-sm font-bold text-choco-900 truncate">
-                          @{p.name}
-                        </span>
+                        {p.censored ? (
+                          // Baris tersensor TIDAK ditautkan: halaman publik mencari
+                          // username ASLI, jadi tautannya akan berujung "tidak ditemukan".
+                          <span className="text-xs sm:text-sm font-bold text-choco-900 truncate">
+                            @{p.name}
+                          </span>
+                        ) : (
+                          <Link
+                            to="/u/$username"
+                            params={{ username: p.name }}
+                            className="text-xs sm:text-sm font-bold text-choco-900 truncate underline decoration-choco-900/30 underline-offset-2 hover:decoration-choco-900 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600"
+                          >
+                            @{p.name}
+                          </Link>
+                        )}
                         {p.isCurrentUser && (
                           <span className="rounded-full bg-candy-400 px-2 py-0.5 text-[9px] font-bold uppercase text-choco-900 border border-choco-900 shrink-0">
                             Kamu

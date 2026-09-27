@@ -128,6 +128,12 @@ export interface ParticipantItem {
   weeklyXp: number;
   streak: number;
   isCurrentUser?: boolean;
+  /**
+   * Nama sudah disamarkan database (`get_display_name`). Baris tersensor
+   * TIDAK boleh ditautkan ke `/u/<nama samaran>` — halaman publik mencari
+   * username ASLI, jadi tautannya akan berujung "tidak ditemukan".
+   */
+  censored?: boolean;
   avatarMood: "proud" | "wave" | "celebrate" | "think" | "idle";
   rewardCoins: number;
 }
@@ -166,6 +172,7 @@ export function getLeaderboardParticipants(
     weeklyXp: number;
     streak: number;
     isCurrentUser: boolean;
+    censored?: boolean;
   };
 
   const pool: RawEntry[] = [];
@@ -180,6 +187,7 @@ export function getLeaderboardParticipants(
       weeklyXp: isMe ? Math.max(u.weekly_xp ?? u.xp, userWeeklyXp) : (u.weekly_xp ?? u.xp),
       streak: isMe ? Math.max(u.streak, userStreak) : u.streak,
       isCurrentUser: isMe,
+      censored: u.username_censored === true,
     });
   }
 
@@ -221,6 +229,7 @@ export function getLeaderboardParticipants(
       weeklyXp: entry.weeklyXp,
       streak: entry.streak,
       isCurrentUser: entry.isCurrentUser,
+      censored: entry.censored,
       avatarMood: MOODS[i % MOODS.length],
       rewardCoins,
     };

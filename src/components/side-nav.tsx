@@ -113,7 +113,7 @@ export function SideNav() {
             }}
             aria-label="Sembunyikan menu"
             title="Sembunyikan menu (Esc)"
-            className="flex size-9 items-center justify-center rounded-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] text-choco-900 shadow-[0_2.5px_0_#3B2218] transition-all hover:brightness-105 hover:rotate-90 active:translate-y-[1px] active:shadow-none cursor-pointer"
+            className="flex size-9 items-center justify-center rounded-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep text-choco-900 shadow-[0_2.5px_0_#3B2218] transition-all hover:brightness-105 hover:rotate-90 active:translate-y-[1px] active:shadow-none cursor-pointer"
           >
             <X className="size-4.5 stroke-[2.5]" />
           </button>
@@ -196,7 +196,7 @@ export function SideNav() {
             if (sound) playTap();
             close();
           }}
-          className="group mt-auto flex items-center gap-3 rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-3.5 shadow-[0_4px_0_#3B2218] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#3B2218] active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218]"
+          className="group mt-auto flex items-center gap-3 rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-3.5 shadow-[0_4px_0_#3B2218] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#3B2218] active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218]"
         >
           <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-blush-50 via-blush-100 to-blush-200 shadow-[0_3px_0_#B01F62]">
             <Mascot mood="proud" size={36} lite fill={false} interactive={false} />

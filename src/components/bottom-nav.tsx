@@ -46,7 +46,7 @@ export function BottomNav() {
           overlap, nol overflow.
           JANGAN kembali ke 7 kolom + spacer: elemen ke-3 jatuh ke kolom spacer
           dan label "Arena" menciut jadi 12px (terbukti lewat pengukuran). */}
-      <div className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-6 items-center gap-0.5 rounded-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] px-2.5 backdrop-blur-2xl shadow-[0_5px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.18)]">
+      <div className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-6 items-center gap-0.5 rounded-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep px-2.5 backdrop-blur-2xl shadow-[0_5px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.18)]">
         {NAV_ITEMS.slice(0, 3).map((item) => (
           <NavLink key={item.to} item={item} pathname={pathname} sound={sound} />
         ))}
@@ -66,7 +66,7 @@ export function BottomNav() {
             // >= 44px sehingga tap target tidak hilang.
             "mx-auto grid size-[min(52px,100%)] shrink-0 place-items-center rounded-full border-2 border-candy-600/60 text-white",
             "transition-all duration-120 ease-out hover:brightness-110 active:scale-95 active:translate-y-0.5 active:shadow-[0_1px_0_#B01F62]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-choco-900 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF9F5]",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-choco-900 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-fill",
             CANDY_ACTIVE,
           )}
         >

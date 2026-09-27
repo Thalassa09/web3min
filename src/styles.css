@@ -155,6 +155,29 @@
   --color-flame-hot: #FF5722;    /* ikon api */
   --color-flame-fill-top: #FDBA74; /* stop 3 varian 'flame' */
   --color-flame-line-hot: #FB923C; /* border varian glow */
+
+  /* --- Token hasil audit hex berulang (Langkah 36) -----------------------
+     ika hex dipakai >=2× dan berulang, ia layak jadi token: mengubahnya
+     nanti jadi satu baris, bukan 30. Semua hex di bawah SAMA PERSIS dengan
+     yang sudah dipakai produksi — nol perubahan warna. */
+  --color-cream-fill: #FFF9F5;      /* stop 2 gradien kartu krem (30×) */
+  --color-cream-fill-deep: #FDEEE4; /* stop 3 gradien kartu krem (26×) */
+  --color-warn-ink-soft: #B27B00;   /* teks peringatan di atas latar terang (9×) */
+  --color-warn-fill: #FFFBEB;       /* stop 1 kartu gold (6×) */
+  --color-choco-line: #FBE9DC;      /* garis/stop chip netral (6×) */
+  --color-coin-fill-top: #FFE08A;   /* stop 1 gradien koin (5×) */
+  --color-coin-fill-mid: #FEF3C7;   /* stop 2 kartu gold (5×) */
+  --color-coin-fill-end: #FDE68A;   /* stop 3 kartu gold (5×) */
+  --color-grape-soft: #C4A8FF;      /* ungu lembut badge (4×) */
+  --color-lemon-bright: #FFE873;    /* stop 1 gradien lemon (4×) */
+  --color-ink-warm: #3B1317;        /* latar gelap hangat (4×) */
+  --color-blush-fill: #FFE4ED;      /* stop 2 kartu pink (3×) */
+  --color-ruby-deep: #8C1D18;       /* teks bahaya sangat gelap (2×) */
+  --color-lemon-deep-end: #E6BF35;  /* stop 3 gradien lemon (2×) */
+  --color-line-warm: #EAE4DC;       /* garis netral hangat (2×) */
+  --color-leaf-bright: #34D399;     /* stop 1 gradien hijau (2×) */
+  --color-leaf-mid: #10B981;        /* stop 2 gradien hijau (2×) */
+  --color-leaf-end: #059669;        /* stop 3 gradien hijau (2×) */
   --color-ruby-shadow: #A02025; /* teks error di atas #FFECEC (7.21:1) */
   --color-ok: #17805F;          /* alias sukses — dipakai tactile-button */
   --color-ok-shadow: #0F6045;

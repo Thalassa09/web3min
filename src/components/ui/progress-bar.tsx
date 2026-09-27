@@ -43,7 +43,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     <div className={cn("w-full flex items-center gap-3", className)} {...rest}>
       <div
         className={cn(
-          "relative flex-1 bg-blush-50 border-[#3B1317] rounded-full overflow-hidden shadow-xs",
+          "relative flex-1 bg-blush-50 border-ink-warm rounded-full overflow-hidden shadow-xs",
           heightClasses
         )}
         role="progressbar"
@@ -54,13 +54,13 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         <div
           className={cn(
             "h-full candy-stripe-fill rounded-full transition-all duration-300 ease-out",
-            !isIndeterminate && percentage < 100 && "border-r-2 border-[#3B1317]"
+            !isIndeterminate && percentage < 100 && "border-r-2 border-ink-warm"
           )}
           style={{ width: `${percentage}%` }}
         />
       </div>
       {showLabel && !isIndeterminate && (
-        <span className="font-pixel text-xs sm:text-sm font-bold text-[#3B1317] tabular-nums shrink-0">
+        <span className="font-pixel text-xs sm:text-sm font-bold text-ink-warm tabular-nums shrink-0">
           {percentage}%
         </span>
       )}
@@ -85,7 +85,7 @@ export function CandyLoader({
     <div className={cn("w-full flex flex-col items-center gap-2", className)}>
       <ProgressBar indeterminate size={size} />
       {label && (
-        <span className="font-pixel text-xs font-bold text-[#3B1317] uppercase tracking-wider animate-pulse">
+        <span className="font-pixel text-xs font-bold text-ink-warm uppercase tracking-wider animate-pulse">
           {label}
         </span>
       )}

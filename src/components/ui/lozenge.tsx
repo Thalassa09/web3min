@@ -44,11 +44,11 @@ export function Lozenge({
       bold: "bg-leaf-shadow text-white border-leaf-shadow",
     },
     new: {
-      subtle: "bg-violet-soft text-grape-bold-shadow border-[#C4A8FF]",
+      subtle: "bg-violet-soft text-grape-bold-shadow border-grape-soft",
       bold: "bg-grape-bold text-white border-grape-bold-shadow",
     },
     moved: {
-      subtle: "bg-warn-soft text-[#B27B00] border-[#FFE08A]",
+      subtle: "bg-warn-soft text-warn-ink-soft border-coin-fill-top",
       bold: "bg-coin text-ink-900 border-coin-shadow",
     },
     removed: {

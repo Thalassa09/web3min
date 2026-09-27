@@ -395,6 +395,34 @@ Keputusan user: *"biarkan — warna dunia berbeda dari warna UI"*. Alasannya dit
 **Verifikasi**: warna diukur dari DOM 12 rute (resolve `oklab` lewat canvas — regex `rgb()` akan
 melewatkannya). 0 pageerror; keluarga web3min terdeteksi di produksi: leaf 7 varian, coin 6, flame 4, candy 7.
 
+### v1.5 — 18 token baru dari hex berulang + guard yang lolos palsu
+
+Audit lanjutan setelah migrasi §9: **163 pemakaian** dalam **18 hex berulang** belum punya token.
+Terbesar `#FFF9F5` **30×** & `#FDEEE4` **26×** — gradien kartu krem yang dipakai di mana-mana.
+Semua dijadikan token dengan hex **sama persis** (nol perubahan warna). Token: 111 → **129 deklarasi**.
+
+| Hex | Token | Pakai |
+|---|---|---|
+| `#FFF9F5` | `cream-fill` | 30× |
+| `#FDEEE4` | `cream-fill-deep` | 26× |
+| `#B27B00` | `warn-ink-soft` | 9× |
+| `#FFFBEB` | `warn-fill` | 6× |
+| `#FBE9DC` | `choco-line` | 6× |
+| `#FFE08A` `#FEF3C7` `#FDE68A` | `coin-fill-top/mid/end` | 5× masing-masing |
+| `#C4A8FF` `#FFE873` `#3B1317` | `grape-soft` `lemon-bright` `ink-warm` | 4× |
+| `#FFE4ED` | `blush-fill` | 3× |
+| `#8C1D18` `#E6BF35` `#EAE4DC` `#34D399` `#10B981` `#059669` | `ruby-deep` `lemon-deep-end` `line-warm` `leaf-bright/mid/end` | 2× |
+
+**Temuan terpenting — guard yang LOLOS PALSU.** Test #6 di `contrast-budget.test.ts`
+(alpha pada warna teks tidak boleh menurunkan kontras < 4,5:1) mencari string `bg-[#EAE4DC]`.
+Setelah migrasi token, kode memakai `bg-line-warm` — jadi **guard itu diam-diam berhenti menguji
+apa pun** dan selalu hijau. Guard yang tidak lagi cocok lebih berbahaya daripada tidak ada guard:
+ia memberi rasa aman. Diperluas menerima kelas MAUPUN hex, lalu **dibuktikan menangkap**:
+`choco-600/50` di badge terkunci = **2,21:1** → exit 1 (batas alpha aman 0,86).
+
+Badge terkunci sendiri **6,24:1 — lolos**. Jadi nol bug produksi; yang diperbaiki adalah
+**kemampuan deteksi guard-nya**, bukan warnanya.
+
 ### v1.2 — temuan audit dokumen ini
 
 | Temuan | Status |

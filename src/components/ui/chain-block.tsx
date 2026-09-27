@@ -92,7 +92,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
               ? "bg-white text-choco-900 border-choco-900 ring-2 ring-candy-400"
               : status === "chest"
               ? "bg-coin-fill text-coin-ink-deep border-choco-900"
-              : "bg-[#EAE4DC] text-choco-600 border-choco-900/60"
+              : "bg-line-warm text-choco-600 border-choco-900/60"
           )}
         >
           {status === "chest" ? "PETI" : hexHash}
@@ -121,7 +121,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
             "hover:brightness-105 active:shadow-[0_1px_0_#3B2218]"
           ],
           status === "done" && [
-            "bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669]",
+            "bg-gradient-to-b from-leaf-bright via-leaf-mid to-leaf-end",
             "text-white shadow-[0_6px_0_#065F46,0_8px_0_#3B2218]",
             "hover:brightness-105 active:shadow-[0_1px_0_#3B2218]"
           ],

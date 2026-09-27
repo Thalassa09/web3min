@@ -9,7 +9,7 @@ function AboutPage() {
     <AppShell>
       <main className="mx-auto max-w-3xl px-4 py-6 sm:py-8 select-none">
         {/* Header Hero Banner */}
-        <div className="relative overflow-hidden rounded-[32px] border-4 border-choco-900 bg-linear-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-6 md:p-8 shadow-[0_8px_0_#3B2218]">
+        <div className="relative overflow-hidden rounded-[32px] border-4 border-choco-900 bg-linear-to-b from-warn-fill via-coin-fill-mid to-coin-fill-end p-6 md:p-8 shadow-[0_8px_0_#3B2218]">
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 text-center sm:text-left">
             <div className="flex-1">
               <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-white px-3 py-1 font-pixel text-[10px] font-bold text-choco-900 shadow-[0_2px_0_#3B2218] mb-2">

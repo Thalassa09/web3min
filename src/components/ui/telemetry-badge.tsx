@@ -32,24 +32,24 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
     text: "text-candy-700",
   },
   violet: {
-    border: "border-[#C4A8FF]",
+    border: "border-grape-soft",
     bg: "bg-violet-soft",
     text: "text-grape-bold-shadow",
   },
   grape: {
-    border: "border-[#C4A8FF]",
+    border: "border-grape-soft",
     bg: "bg-violet-soft",
     text: "text-grape-bold-shadow",
   },
   amber: {
-    border: "border-[#FFE08A]",
+    border: "border-coin-fill-top",
     bg: "bg-warn-soft",
-    text: "text-[#B27B00]",
+    text: "text-warn-ink-soft",
   },
   coin: {
-    border: "border-[#FFE08A]",
+    border: "border-coin-fill-top",
     bg: "bg-warn-soft",
-    text: "text-[#B27B00]",
+    text: "text-warn-ink-soft",
   },
   flame: {
     border: "border-[#FFB580]",

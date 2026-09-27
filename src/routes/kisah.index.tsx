@@ -93,7 +93,7 @@ function KisahHub() {
           </div>
 
           {/* Segment Filter — Arena pill dock (DESIGN.md §4) */}
-          <div className="inline-flex self-start sm:self-auto gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218]">
+          <div className="inline-flex self-start sm:self-auto gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shadow-[0_4px_0_#3B2218]">
             {(
               [
                 { id: "cerita", label: `Cerita Interaktif · ${openStories.length}` },

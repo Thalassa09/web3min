@@ -9,8 +9,8 @@ const css = readFileSync(join(ROOT, "src/styles.css"), "utf8");
 const theme = css.match(/@theme \{([\s\S]*?)\n\}/)![1];
 
 /**
- * Peta alias warna. `@theme` mendeklarasikan 111 nama `--color-*` yang hanya
- * berisi 73 hex unik — 20+ di antaranya dipakai BEBERAPA nama sekaligus
+ * Peta alias warna. `@theme` mendeklarasikan 129 nama `--color-*` yang hanya
+ * berisi 91 hex unik — 20+ di antaranya dipakai BEBERAPA nama sekaligus
  * (alias kompatibilitas + token shadcn). Alias itu SAH dan jangan dihapus
  * (ratusan call-site memakainya), tapi kalau salah satu anggotanya diubah
  * sendirian, dua nama yang seharusnya sama warna akan **diam-diam berbeda** —
@@ -70,28 +70,28 @@ test("setiap grup alias resolve ke satu hex yang sama", () => {
   );
 });
 
-test("peta alias tetap lengkap — 111 deklarasi, 110 nama, 73 hex unik", () => {
+test("peta alias tetap lengkap — 129 deklarasi, 128 nama, 91 hex unik", () => {
   // Angka ini adalah hasil pengukuran `@theme`, bukan target yang dikarang.
   // Kalau berubah, itu keputusan sadar: perbarui DESIGN-SYSTEM.md §Colors dulu,
   // baru angka di sini.
   //
-  // 111 deklarasi tapi 110 nama: `--color-flame` ditulis DUA KALI dengan nilai
+  // 129 deklarasi tapi 128 nama: `--color-flame` ditulis DUA KALI dengan nilai
   // sama (#FF8A3D) — duplikasi tak berbahaya, tapi dihitung apa adanya supaya
   // angka di dokumen tidak pernah lebih rapi dari kenyataan.
   const all = [...theme.matchAll(/--color-([a-z0-9-]+)\s*:/g)].map((m) => m[1]);
   const uniqueNames = new Set(all);
   const uniqueHex = new Set([...declared.values()]);
 
-  assert.equal(all.length, 111, `jumlah deklarasi --color-* berubah dari 111 jadi ${all.length}`);
+  assert.equal(all.length, 129, `jumlah deklarasi --color-* berubah dari 129 jadi ${all.length}`);
   assert.equal(
     uniqueNames.size,
-    110,
-    `jumlah nama --color-* unik berubah dari 110 jadi ${uniqueNames.size}. Perbarui peta alias di DESIGN-SYSTEM.md §Colors + guard ini kalau memang disengaja.`,
+    128,
+    `jumlah nama --color-* unik berubah dari 128 jadi ${uniqueNames.size}. Perbarui peta alias di DESIGN-SYSTEM.md §Colors + guard ini kalau memang disengaja.`,
   );
   assert.equal(
     uniqueHex.size,
-    73,
-    `jumlah hex unik berubah dari 73 jadi ${uniqueHex.size}. Alias baru/terhapus harus tercermin di DESIGN-SYSTEM.md §Colors.`,
+    91,
+    `jumlah hex unik berubah dari 91 jadi ${uniqueHex.size}. Alias baru/terhapus harus tercermin di DESIGN-SYSTEM.md §Colors.`,
   );
 
   // Setiap nama yang terdaftar di `declared` harus benar-benar ada.

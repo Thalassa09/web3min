@@ -9,7 +9,7 @@
  *
  * Resep di sini BUKAN karangan — `neutral` & `rose` disalin PERSIS dari chip
  * acuan yang sudah dipin guard (`src/routes/profile.tsx` baris 352 & 355):
- *   Level 2      → from-white to-[#FBE9DC]  border-choco-900  slab #3B2218  text-choco-900
+ *   Level 2      → from-white to-choco-line  border-choco-900  slab #3B2218  text-choco-900
  *   Murid Blobi  → from-blush-50 to-blush-200  border-candy-600  slab #B01F62  text-choco-900
  *
  * Empat aturan keras (DESIGN.md §6.2) yang otomatis dipatuhi:
@@ -45,7 +45,7 @@ const chip = cva(
        */
       tone: {
         /** Netral — `Level 2`, hitungan blok. Acuan: profile.tsx:352 */
-        neutral: "bg-gradient-to-b from-white to-[#FBE9DC] border-choco-900 text-choco-900 shadow-[0_2px_0_#3B2218]",
+        neutral: "bg-gradient-to-b from-white to-choco-line border-choco-900 text-choco-900 shadow-[0_2px_0_#3B2218]",
         /** Rose — `Murid Blobi`, penanda undian. Acuan: profile.tsx:355 */
         rose: "bg-gradient-to-b from-blush-50 to-blush-200 border-candy-600 text-choco-900 shadow-[0_2px_0_#B01F62]",
         /** Gold — peringkat, hadiah liga, koin. Token `lemon` + slab choco. */

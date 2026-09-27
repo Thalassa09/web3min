@@ -229,7 +229,7 @@ function ProfilePage() {
             Three tabs + nowrap overflowed the 320px viewport by 78px; scroll the
             strip instead of pushing the whole page wider. `no-scrollbar` keeps
             the dock visually clean while still swipeable. */}
-        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] max-w-full overflow-x-auto no-scrollbar overscroll-x-contain">
+        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shadow-[0_4px_0_#3B2218] max-w-full overflow-x-auto no-scrollbar overscroll-x-contain">
           {(
             [
               { id: "lisensi", label: "Lisensi & Wardrobe" },
@@ -320,7 +320,7 @@ function ProfilePage() {
         {profileTab === "lisensi" && (
           <>
         {/* Profile Explorer License Card with Tactile Beveled Arcade Header */}
-        <div className="rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 shadow-[0_6px_0_#3B2218] overflow-hidden max-w-3xl">
+        <div className="rounded-3xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 shadow-[0_6px_0_#3B2218] overflow-hidden max-w-3xl">
           {/* Blobi Pink Striped Banner */}
           <div
             className="bg-gradient-to-r from-candy-500 via-candy-400 to-candy-500 border-b-2 border-candy-600 p-4 sm:p-5 flex items-center justify-between text-white"
@@ -363,7 +363,7 @@ function ProfilePage() {
               <Link
                 to="/shop"
                 search={{ tab: "wardrobe" }}
-                className="px-4 py-2 rounded-xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900/20 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <Sparkles className="size-3.5 text-coin" />
                 <span>Ganti Blobi</span>
@@ -768,7 +768,7 @@ function ProfilePage() {
             </Link>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-gradient-to-b from-white to-[#FFF9F5] border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-choco-600">
+          <div className="p-3.5 rounded-2xl bg-gradient-to-b from-white to-cream-fill border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-medium text-choco-600">
             <div>
               <div className="font-bold text-choco-900">Peringkat #7 di Liga Emas</div>
               <div className="text-[11px] text-choco-500 mt-0.5">Top 10 berbagi pool reward 500 Bintang mingguan.</div>

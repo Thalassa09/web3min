@@ -399,7 +399,7 @@ export function PulauRantaiMap({
 
                 {/* World Sign Board - Tactile Beveled Style */}
                 <div
-                  className="absolute left-3 right-3 sm:left-4 sm:right-4 max-w-lg mx-auto top-2.5 z-10 bg-gradient-to-b from-white/95 via-[#FFF9F5]/95 to-[#FDEEE4]/95 backdrop-blur-md border-2 border-choco-900/20 rounded-3xl px-3.5 py-2.5 sm:p-3.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.14)] transition-all pointer-events-auto"
+                  className="absolute left-3 right-3 sm:left-4 sm:right-4 max-w-lg mx-auto top-2.5 z-10 bg-gradient-to-b from-white/95 via-cream-fill/95 to-cream-fill-deep/95 backdrop-blur-md border-2 border-choco-900/20 rounded-3xl px-3.5 py-2.5 sm:p-3.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.14)] transition-all pointer-events-auto"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">

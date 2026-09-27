@@ -54,10 +54,10 @@ export function StatusBanner({
       appearance: "inprogress",
     },
     warning: {
-      border: "border-[#FFE08A]",
+      border: "border-coin-fill-top",
       bg: "bg-warn-soft",
       shadow: "shadow-[0_3px_0_#FFE08A]",
-      icon: <AlertTriangle className="size-4 text-[#B27B00]" />,
+      icon: <AlertTriangle className="size-4 text-warn-ink-soft" />,
       badgeText: "PERINGATAN",
       appearance: "moved",
     },

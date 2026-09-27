@@ -72,7 +72,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ),
       secondary: cn(
         "btn-gummy btn-gummy--secondary",
-        "bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] text-choco-900 border-2 border-choco-900/20",
+        "bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep text-choco-900 border-2 border-choco-900/20",
         "shadow-[0_4px_0_#3B2218,0_8px_16px_-2px_rgba(59,34,24,0.12),inset_0_1px_0_rgba(255,255,255,0.9)]",
         "hover:brightness-105 active:translate-y-1 active:shadow-none",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-choco-600"
@@ -86,7 +86,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ),
       coin: cn(
         "btn-gummy",
-        "bg-gradient-to-b from-[#FFE873] via-lemon to-[#E6BF35] text-choco-900 border-2 border-lemon-deep/50",
+        "bg-gradient-to-b from-lemon-bright via-lemon to-lemon-deep-end text-choco-900 border-2 border-lemon-deep/50",
         "shadow-[0_4px_0_#C8940C,0_8px_16px_-2px_rgba(255,216,77,0.25),inset_0_1px_0_rgba(255,255,255,0.7)]",
         "hover:brightness-105 active:translate-y-1 active:shadow-none",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lemon"

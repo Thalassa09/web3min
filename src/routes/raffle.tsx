@@ -598,7 +598,7 @@ function RafflePage() {
     <AppShell>
       <main className="px-3 py-4 sm:px-4 sm:py-6 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-28 max-w-4xl mx-auto space-y-6">
         {/* Arena Sub-Navigation Tabs */}
-        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)] max-w-md mx-auto">
+        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-1.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)] max-w-md mx-auto">
           <Link
             to="/leaderboard"
             className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
@@ -616,7 +616,7 @@ function RafflePage() {
         </div>
 
         {/* Hero Card */}
-        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-blush-50 via-[#FFE4ED] to-blush-200 p-5 sm:p-7 md:p-8 shadow-[0_6px_0_#3B2218]">
+        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-blush-50 via-blush-fill to-blush-200 p-5 sm:p-7 md:p-8 shadow-[0_6px_0_#3B2218]">
           {/* Top Bar inside Card: Cycle Badge (Left) & Panduan Button (Right) */}
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218] whitespace-nowrap">
@@ -697,7 +697,7 @@ function RafflePage() {
         </div>
 
         {/* Reciprocal Promo Banner: Bridge to Leaderboard */}
-        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
+        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-warn-fill via-coin-fill-mid to-coin-fill-end p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4 text-center sm:text-left">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-choco-900 bg-white/90 text-choco-900 shadow-[0_3px_0_#3B2218]">

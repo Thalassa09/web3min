@@ -44,10 +44,10 @@ export function SectionMessage({
     },
     warning: {
       bg: "bg-warn-soft",
-      border: "border-2 border-[#FFE08A]",
+      border: "border-2 border-coin-fill-top",
       shadow: "shadow-[0_3px_0_#FFE08A]",
-      titleColor: "text-[#B27B00]",
-      defaultIcon: <AlertTriangle className="size-4 text-[#B27B00]" />,
+      titleColor: "text-warn-ink-soft",
+      defaultIcon: <AlertTriangle className="size-4 text-warn-ink-soft" />,
     },
     error: {
       bg: "bg-ruby-soft-bg",
@@ -65,7 +65,7 @@ export function SectionMessage({
     },
     discovery: {
       bg: "bg-violet-soft",
-      border: "border-2 border-[#C4A8FF]",
+      border: "border-2 border-grape-soft",
       shadow: "shadow-[0_3px_0_#C4A8FF]",
       titleColor: "text-grape-bold-shadow",
       defaultIcon: <Sparkles className="size-4 text-grape-bold" />,

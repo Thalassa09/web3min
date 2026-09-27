@@ -18,7 +18,7 @@ import { UNITS, firstPlayableId, getLesson, type Lesson } from "@/lib/curriculum
  * Skinning tetap web3min (nol pelanggaran kontrak):
  * - border `choco-900` 2px + hard slab `0 4px 0 #3B2218` (bukan blur)
  * - CTA pink `candy-700` (bukan biru #3B82F6 dari referensi)
- * - latar gradien krem (`from-white to-[#FBE9DC]`), bukan lavender
+ * - latar gradien krem (`from-white to-choco-line`), bukan lavender
  * - ikon memakai warna yang sudah ada: `streak`/`lemon`/`candy`
  */
 
@@ -97,7 +97,7 @@ export function CurrentLessonCard({
     return (
       <div
         className={cn(
-          "rounded-[24px] border-3 border-choco-900 bg-gradient-to-b from-white to-[#FBE9DC] p-5 shadow-[0_6px_0_#3B2218]",
+          "rounded-[24px] border-3 border-choco-900 bg-gradient-to-b from-white to-choco-line p-5 shadow-[0_6px_0_#3B2218]",
           className,
         )}
       >
@@ -135,7 +135,7 @@ export function CurrentLessonCard({
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       {/* Kartu utama */}
-      <div className="rounded-[24px] border-3 border-choco-900 bg-gradient-to-b from-white to-[#FBE9DC] p-4 shadow-[0_6px_0_#3B2218] sm:p-5">
+      <div className="rounded-[24px] border-3 border-choco-900 bg-gradient-to-b from-white to-choco-line p-4 shadow-[0_6px_0_#3B2218] sm:p-5">
         <div className="flex items-start gap-3">
           <div className="min-w-0 flex-1">
             <p className="font-pixel text-[10px] font-bold uppercase tracking-wider text-candy-700">

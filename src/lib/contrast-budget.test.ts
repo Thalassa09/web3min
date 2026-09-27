@@ -203,7 +203,12 @@ test("alpha-reduced choco text on the locked-block surface stays >= 4.5:1", () =
   const offenders: string[] = [];
   for (const f of files) {
     for (const [i, line] of readFileSync(f, "utf8").split("\n").entries()) {
-      if (!/bg-\[#EAE4DC\]/.test(line)) continue;
+      // Cocokkan kelas MAUPUN hex. Bug nyata (Langkah 36): guard ini dulu
+      // HANYA mencari `bg-[#EAE4DC]`. Setelah migrasi token, badge terkunci
+      // memakai `bg-line-warm` — jadi guard DIAM-DIAM berhenti menguji apa pun
+      // (lolos palsu). Guard yang tidak lagi cocok lebih berbahaya daripada
+      // tidak ada guard: ia memberi rasa aman.
+      if (!/bg-\[#EAE4DC\]|bg-line-warm/.test(line)) continue;
       // cari text-choco-<n>/<alpha> di baris yang sama
       for (const m of line.matchAll(/text-choco-(\d+)\/(\d+)/g)) {
         const a = parseInt(m[2], 10) / 100;

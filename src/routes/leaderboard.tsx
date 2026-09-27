@@ -193,11 +193,11 @@ function LeaderboardPage() {
     <AppShell>
       <div className="mx-auto max-w-4xl px-4 py-6 md:py-8 space-y-6">
         {/* Arena Sub-Navigation Tabs */}
-        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218] max-w-md mx-auto">
+        <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-1.5 shadow-[0_4px_0_#3B2218] max-w-md mx-auto">
           <Link
             to="/leaderboard"
             aria-current="page"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-lemon-deep bg-gradient-to-b from-[#FFE873] via-lemon to-[#E6BF35] text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-lemon-deep bg-gradient-to-b from-lemon-bright via-lemon to-lemon-deep-end text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
           >
             <Trophy className="h-4 w-4 shrink-0 text-choco-900" />
             <span>Klasemen Mingguan</span>
@@ -211,7 +211,7 @@ function LeaderboardPage() {
           </Link>
         </div>
       {/* Top Header Card */}
-      <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
+      <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-warn-fill via-coin-fill-mid to-coin-fill-end p-6 md:p-8 shadow-[0_6px_0_#3B2218]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218]">
@@ -247,7 +247,7 @@ function LeaderboardPage() {
       <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-blush-50 via-blush-100 to-blush-200 p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-choco-900 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_3px_0_#3B2218]">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-choco-900 bg-gradient-to-b from-warn-fill via-coin-fill-mid to-coin-fill-end text-choco-900 shadow-[0_3px_0_#3B2218]">
               <Ticket className="h-8 w-8 stroke-[2.5]" />
             </div>
             <div className="space-y-1">
@@ -331,7 +331,7 @@ function LeaderboardPage() {
               className={`inline-flex items-center justify-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs md:text-sm font-bold transition-transform ${
                 isClaimedThisWeek
                   ? "bg-stone-200 border-stone-300 text-stone-500 cursor-not-allowed shadow-none"
-                  : "border-leaf-shadow bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] text-white shadow-[0_4px_0_#0F6045] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
+                  : "border-leaf-shadow bg-gradient-to-b from-leaf-bright via-leaf-mid to-leaf-end text-white shadow-[0_4px_0_#0F6045] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
               }`}
             >
               {isClaimedThisWeek ? (
@@ -517,7 +517,7 @@ function LeaderboardPage() {
       </div>
 
       {/* Leaderboard Table Card in Tactile Beveled Style */}
-      <div className="rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_6px_0_#3B2218] overflow-hidden">
+      <div className="rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shadow-[0_6px_0_#3B2218] overflow-hidden">
         <div className="border-b-2 border-choco-900/15 bg-gradient-to-r from-blush-50 to-blush-100 px-6 py-3 flex items-center justify-between text-xs font-bold uppercase text-choco-900 tracking-wider">
           <div className="flex items-center gap-4">
             <span className="w-12 text-center">Rank</span>
@@ -540,7 +540,7 @@ function LeaderboardPage() {
             <SkeletonRows count={6} />
           ) : dbError ? (
             <div className="flex flex-col items-center gap-4 p-10 text-center" role="alert">
-              <AlertTriangle aria-hidden="true" className="size-7 text-[#B27B00]" />
+              <AlertTriangle aria-hidden="true" className="size-7 text-warn-ink-soft" />
               <div>
                 <p className="font-black text-choco-900">Klasemen server belum bisa dimuat</p>
                 <p className="mt-1 text-sm font-semibold text-choco-600">
@@ -721,7 +721,7 @@ function LeaderboardPage() {
                     <div className="text-xs font-bold text-choco-900">{tier.label}</div>
                     <div className="text-[11px] font-semibold text-choco-600">{tier.description}</div>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-lemon-deep bg-gradient-to-b from-[#FFE873] to-lemon font-bold text-xs text-choco-900 shadow-[0_2px_0_#C8940C]">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-lemon-deep bg-gradient-to-b from-lemon-bright to-lemon font-bold text-xs text-choco-900 shadow-[0_2px_0_#C8940C]">
                     <Coins className="h-3.5 w-3.5 fill-coin-shadow" />
                     +{tier.coins} Koin
                   </div>
@@ -729,7 +729,7 @@ function LeaderboardPage() {
               ))}
             </div>
 
-            <div className="rounded-2xl border-2 border-lemon-deep bg-gradient-to-b from-[#FFFBEB] to-coin-fill p-3 text-xs font-semibold text-coin-ink-deep flex items-center gap-2 shadow-[0_2px_0_#D97706]">
+            <div className="rounded-2xl border-2 border-lemon-deep bg-gradient-to-b from-warn-fill to-coin-fill p-3 text-xs font-semibold text-coin-ink-deep flex items-center gap-2 shadow-[0_2px_0_#D97706]">
               <HelpCircle className="h-4 w-4 shrink-0 text-warn-ink" />
               <span>Total Prize Pool Mingguan: <strong>30.150+ Koin</strong> yang didistribusikan kepada 1.000 petualang aktif!</span>
             </div>

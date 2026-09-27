@@ -388,14 +388,14 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                     {exercise.explanation || "Semua kartu berhasil disambungkan."}
                   </p>
                   {matchHadMistakeRef.current ? (
-                    <p className="mt-1 text-xs font-semibold text-[#8C1D18]">
+                    <p className="mt-1 text-xs font-semibold text-ruby-deep">
                       Ada sambungan yang belum tepat. Soal ini akan diulang di akhir sesi.
                     </p>
                   ) : null}
                 </div>
               ) : null}
               {!ok && exercise?.type !== "match" ? (
-                <p className="mt-1 text-xs font-semibold text-[#8C1D18]">Soal ini akan diulang di akhir sesi.</p>
+                <p className="mt-1 text-xs font-semibold text-ruby-deep">Soal ini akan diulang di akhir sesi.</p>
               ) : null}
             </div>
             <DuoButton
@@ -517,12 +517,12 @@ function CompleteCard({
         </div>
       ) : null}
       <p className="mt-5 text-sm font-bold text-ink-500">XP</p>
-      <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.xp}</p>
+      <p className="text-2xl font-extrabold tabular-nums text-warn-ink-soft">+{awarded.xp}</p>
       <p className="mt-3 flex items-center justify-center gap-1 text-sm font-bold text-ink-500">
         <BlockStamp size={16} />
         Koin
       </p>
-      <p className="text-2xl font-extrabold tabular-nums text-[#B27B00]">+{awarded.gems}</p>
+      <p className="text-2xl font-extrabold tabular-nums text-warn-ink-soft">+{awarded.gems}</p>
       {awarded.perfect ? (
         <div className="perfect-confetti mt-4 text-sm font-bold text-leaf-shadow" aria-hidden="true">
           <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />

@@ -163,7 +163,7 @@ function ShopPage() {
 
         {/* PRIMARY MODE SELECTOR: Toko vs Ruang Ganti Blobi */}
         <div className="flex items-center justify-center">
-          <div className="flex w-full max-w-md items-center gap-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-1.5 shadow-[0_4px_0_#3B2218]">
+          <div className="flex w-full max-w-md items-center gap-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-1.5 shadow-[0_4px_0_#3B2218]">
             <button
               type="button"
               onClick={() => handleModeChange("shop")}
@@ -194,7 +194,7 @@ function ShopPage() {
                 <span
                   className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                     mode === "wardrobe"
-                      ? "bg-gradient-to-b from-[#FFE873] to-lemon text-choco-900 border-2 border-lemon-deep shadow-[0_2px_0_#D9A400]"
+                      ? "bg-gradient-to-b from-lemon-bright to-lemon text-choco-900 border-2 border-lemon-deep shadow-[0_2px_0_#D9A400]"
                       : "bg-candy-800 text-white"
                   }`}
                 >
@@ -211,7 +211,7 @@ function ShopPage() {
         {mode === "shop" && (
           <div className="space-y-6">
             {/* Header Toko */}
-            <div className="hidden sm:block p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_6px_0_#3B2218] space-y-2">
+            <div className="hidden sm:block p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900 shadow-[0_6px_0_#3B2218] space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h1 className="font-pixel font-bold text-2xl sm:text-3xl text-choco-900 tracking-tight flex items-center gap-2">
@@ -381,7 +381,7 @@ function ShopPage() {
             </div>
 
             {/* Exclusive Wardrobe Banner */}
-            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-blush-50 via-[#FFE4ED] to-blush-200 border-2 border-choco-900 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_6px_0_#3B2218]">
+            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-blush-50 via-blush-fill to-blush-200 border-2 border-choco-900 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_6px_0_#3B2218]">
               <div className="flex items-center gap-4 text-center sm:text-left">
                 <div className="size-14 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center shrink-0">
                   <Sparkles className="size-7 text-candy-500" />
@@ -412,7 +412,7 @@ function ShopPage() {
         {mode === "wardrobe" && (
           <div className="space-y-6">
             {/* Header Ruang Ganti */}
-            <div className="hidden sm:block p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] space-y-2">
+            <div className="hidden sm:block p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900 shadow-[0_4px_0_#3B2218] space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h1 className="font-pixel font-bold text-2xl sm:text-3xl text-choco-900 tracking-tight flex items-center gap-2">
@@ -443,7 +443,7 @@ function ShopPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               {/* LEFT COLUMN: Panggung Busana Blobi (5 cols) */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="p-6 rounded-3xl flex flex-col items-center text-center bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_6px_0_#3B2218]">
+                <div className="p-6 rounded-3xl flex flex-col items-center text-center bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900 shadow-[0_6px_0_#3B2218]">
                   <div className="w-full flex items-center justify-between pb-3 border-b-2 border-choco-900/15">
                     <span className="text-xs font-pixel font-bold text-choco-900">Panggung Busana</span>
                     <span className="text-[11px] font-semibold text-choco-600">
@@ -547,11 +547,11 @@ function ShopPage() {
 
               {/* RIGHT COLUMN: Lemari Pakaian & Koleksi (7 cols) */}
               <div className="lg:col-span-7 space-y-4">
-                <div className="p-5 rounded-3xl bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] border-2 border-choco-900 shadow-[0_6px_0_#3B2218] space-y-4">
+                <div className="p-5 rounded-3xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900 shadow-[0_6px_0_#3B2218] space-y-4">
                   {/* Closet Controls: Scope Toggle + Slot Filter */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b-2 border-choco-900/15">
                     {/* Scope: Koleksi Dimiliki vs Katalog Lengkap — Arena pill dock */}
-                    <div className="w-full sm:w-auto inline-flex p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] gap-1.5 shrink-0">
+                    <div className="w-full sm:w-auto inline-flex p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shadow-[0_4px_0_#3B2218] gap-1.5 shrink-0">
                       <button
                         type="button"
                         onClick={() => setWardrobeScope("owned")}

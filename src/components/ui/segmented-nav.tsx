@@ -47,7 +47,7 @@ export function SegmentedNav({
     <div
       role="tablist"
       aria-label={ariaLabel}
-      className={`inline-flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_4px_0_#3B2218] ${className}`}
+      className={`inline-flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shadow-[0_4px_0_#3B2218] ${className}`}
     >
       {items.map((item) => {
         const isActive = item.id === activeId;

@@ -260,7 +260,7 @@ Belajar Web3 interaktif: https://web3min.com`;
             </div>
           </div>
 
-          <div className="self-start sm:self-auto flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shrink-0 shadow-[0_4px_0_#3B2218]">
+          <div className="self-start sm:self-auto flex items-center gap-1.5 p-1.5 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shrink-0 shadow-[0_4px_0_#3B2218]">
             <button
               type="button"
               aria-pressed={mode === "w"}

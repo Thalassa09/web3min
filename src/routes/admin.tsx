@@ -69,7 +69,7 @@ import {
 } from "@/lib/server-sync";
 import { INITIAL_RAFFLES } from "@/lib/raffles";
 import { supabase } from "@/lib/supabase";
-import { CandyLoader } from "@/components/ui/progress-bar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -863,8 +863,26 @@ export function AdminPage() {
               </div>
 
               {isLoading ? (
-                <div className="p-10 flex flex-col items-center justify-center">
-                  <CandyLoader size="md" label="MEMUAT DATA UNDIAN..." />
+                <div className="space-y-3.5" role="status" aria-label="Memuat data undian">
+                  {Array.from({ length: 3 }, (_, i) => (
+                    <div
+                      key={i}
+                      className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex flex-col md:flex-row md:items-center justify-between gap-4"
+                    >
+                      <div className="flex items-start gap-3.5 min-w-0 flex-1">
+                        <Skeleton className="size-16 sm:size-20 shrink-0 rounded-xl" />
+                        <div className="min-w-0 flex-1 space-y-2 pt-0.5">
+                          <Skeleton className="h-5 w-24 rounded-full" />
+                          <Skeleton className="h-4 w-3/4" />
+                          <Skeleton className="h-3 w-1/2" />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2.5 shrink-0">
+                        <Skeleton className="h-9 w-24 rounded-xl" />
+                        <Skeleton className="h-9 w-20 rounded-xl" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : filteredRaffles.length === 0 ? (
                 <div className="p-8 rounded-2xl bg-white border-2 border-choco-900/30 text-center space-y-3">
@@ -1115,8 +1133,41 @@ export function AdminPage() {
               </div>
 
               {isUsersLoading ? (
-                <div className="p-12 flex flex-col items-center justify-center space-y-4">
-                  <CandyLoader size="lg" label="MEMUAT DAFTAR PENGGUNA..." />
+                <div className="rounded-2xl border-2 border-choco-900 bg-white overflow-hidden shadow-[0_4px_0_#3B2218]" role="status" aria-label="Memuat daftar pengguna">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-cream border-b-2 border-choco-900/20 text-choco-900 font-pixel uppercase text-[10px]">
+                        <tr>
+                          <th className="p-3">User ID</th>
+                          <th className="p-3">Username Asli</th>
+                          <th className="p-3">Nama Tampil (Publik)</th>
+                          <th className="p-3">Tipe</th>
+                          <th className="p-3">Status Sensor</th>
+                          <th className="p-3">Supporter</th>
+                          <th className="p-3 text-right">XP Mingguan</th>
+                          <th className="p-3 text-right">Total XP</th>
+                          <th className="p-3 text-center">Aksi Sensor</th>
+                          <th className="p-3 text-center">Aksi Supporter</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-choco-900/10">
+                        {Array.from({ length: 6 }, (_, i) => (
+                          <tr key={i}>
+                            <td className="p-3"><Skeleton className="h-3 w-14" /></td>
+                            <td className="p-3"><Skeleton className="h-3.5 w-24" /></td>
+                            <td className="p-3"><Skeleton className="h-3.5 w-28" /></td>
+                            <td className="p-3"><Skeleton className="h-5 w-14 rounded-full" /></td>
+                            <td className="p-3"><Skeleton className="h-5 w-20 rounded-full" /></td>
+                            <td className="p-3"><Skeleton className="h-5 w-16 rounded-full" /></td>
+                            <td className="p-3"><Skeleton className="ml-auto h-3.5 w-12" /></td>
+                            <td className="p-3"><Skeleton className="ml-auto h-3.5 w-12" /></td>
+                            <td className="p-3"><Skeleton className="mx-auto h-8 w-20 rounded-xl" /></td>
+                            <td className="p-3"><Skeleton className="mx-auto h-8 w-20 rounded-xl" /></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               ) : adminUsers.length === 0 ? (
                 <div className="p-12 text-center rounded-3xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
@@ -1444,8 +1495,26 @@ function AdminParticipantsModal({
         {/* Body */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 tactile-scrollbar">
           {loading ? (
-            <div className="p-8 flex flex-col items-center justify-center">
-              <CandyLoader size="md" label="MEMUAT DAFTAR PESERTA..." />
+            <div className="space-y-2.5" role="status" aria-label="Memuat daftar peserta">
+              {Array.from({ length: 5 }, (_, i) => (
+                <div
+                  key={i}
+                  className="p-3.5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5"
+                >
+                  <div className="space-y-2 flex-1">
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="size-5 shrink-0 rounded-full" />
+                      <Skeleton className="h-3.5 w-24" />
+                      <Skeleton className="h-5 w-16 rounded-full" />
+                    </div>
+                    <Skeleton className="h-5 w-2/3 rounded-lg" />
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Skeleton className="h-8 w-20 rounded-xl" />
+                    <Skeleton className="h-8 w-20 rounded-xl" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : participants.length === 0 ? (
             <div className="p-8 rounded-2xl bg-white border-2 border-choco-900/20 text-center space-y-2">

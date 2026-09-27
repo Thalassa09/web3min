@@ -19,9 +19,9 @@ export const streakBadgeVariants = cva(
     variants: {
       variant: {
         colored:
-          "border-2 border-[#EA580C] bg-gradient-to-b from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA] text-choco-900 shadow-[0_4px_0_#EA580C] hover:brightness-105",
+          "border-2 border-flame-line bg-gradient-to-b from-flame-soft via-flame-fill to-flame-fill-deep text-choco-900 shadow-[0_4px_0_flame-line] hover:brightness-105",
         flame:
-          "border-2 border-[#EA580C] bg-gradient-to-b from-[#FFEDD5] to-[#FDBA74] text-[#7C2D12] shadow-[0_5px_0_#C2410C]",
+          "border-2 border-flame-line bg-gradient-to-b from-flame-fill to-flame-fill-top text-flame-ink-deep shadow-[0_5px_0_flame-slab]",
         glow:
           "border-2 border-streak bg-[#23140C] text-cream shadow-[0_0_24px_rgba(255,138,61,0.4),0_4px_0_#3B2218]",
         candy:
@@ -128,7 +128,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
               iconSize,
               "shrink-0 transition-transform duration-200 hover:scale-110",
               isColored
-                ? "text-[#FF5722] fill-[#FF8A3D] drop-shadow-[0_3px_10px_rgba(255,87,34,0.45)]"
+                ? "text-flame-hot fill-streak drop-shadow-[0_3px_10px_rgba(255,87,34,0.45)]"
                 : "text-primary"
             )}
             aria-hidden="true"
@@ -137,7 +137,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
         <span
           className={cn(
             "font-display font-extrabold tracking-tight tabular-nums flex items-baseline justify-center",
-            isColored ? "text-[#9A3412]" : "text-inherit",
+            isColored ? "text-flame-ink" : "text-inherit",
             valueSize
           )}
           aria-hidden="true"
@@ -146,7 +146,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
           <span
             className={cn(
               "ml-1.5 font-sans font-semibold tracking-normal text-sm sm:text-base",
-              isColored ? "text-[#9A3412]" : "text-muted-foreground"
+              isColored ? "text-flame-ink" : "text-muted-foreground"
             )}
           >
             {valueUnit}
@@ -155,7 +155,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
         <span
           className={cn(
             "font-sans font-medium uppercase tracking-wider",
-            isColored ? "text-[#7C2D12] font-bold" : "text-muted-foreground",
+            isColored ? "text-flame-ink-deep font-bold" : "text-muted-foreground",
             subtitleSize
           )}
           aria-hidden="true"

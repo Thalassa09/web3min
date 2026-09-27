@@ -142,6 +142,19 @@
   --color-blush-50: #FFF0F5;
   --color-blush-100: #FFE4EC;
   --color-blush-200: #FDC8D8;
+  /* Keluarga oranye streak — dipakai kartu "Hari Beruntun" (DESIGN.md §9).
+     Hex-nya SAMA PERSIS dengan yang sudah dipakai produksi (nol perubahan warna),
+     hanya diberi nama supaya bisa dipakai subagent tanpa hex mentah. */
+  --color-flame-soft: #FFF7ED;   /* stop 1 (terang) */
+  --color-flame-fill: #FFEDD5;   /* stop 2 (sedang) */
+  --color-flame-fill-deep: #FED7AA; /* stop 3 (TERGELAP — kontras diukur di sini) */
+  --color-flame-line: #EA580C;   /* border 2px */
+  --color-flame-slab: #C2410C;   /* hard slab 0 4px 0 */
+  --color-flame-ink: #9A3412;    /* teks label/nilai (5.40:1 di stop tergelap) */
+  --color-flame-ink-deep: #7C2D12; /* teks sub (6.92:1) */
+  --color-flame-hot: #FF5722;    /* ikon api */
+  --color-flame-fill-top: #FDBA74; /* stop 3 varian 'flame' */
+  --color-flame-line-hot: #FB923C; /* border varian glow */
   --color-ruby-shadow: #A02025; /* teks error di atas #FFECEC (7.21:1) */
   --color-ok: #17805F;          /* alias sukses — dipakai tactile-button */
   --color-ok-shadow: #0F6045;

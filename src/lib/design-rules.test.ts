@@ -125,7 +125,14 @@ test("hex mentah yang tokennya SUDAH ADA tidak boleh ditulis inline", () => {
   const PINNED = new Set(["src/routes/profile.tsx"]);
   for (const { path, src } of FILES) {
     if (PINNED.has(path)) continue;
-    src.split("\n").forEach((line, i) => {
+    // Buang komentar DULU — kalimat dokumentasi sering menyebut hex historis
+    // (mis. "stop akhir #FED7AA") dan itu bukan pemakaian. Guard yang memindai
+    // komentarnya sendiri menghasilkan false FAIL, sama berbahayanya dengan
+    // false PASS: orang lalu mematikan guard-nya.
+    const kode = src
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    kode.split("\n").forEach((line, i) => {
       for (const m of line.matchAll(/(?:bg|border|text|from|via|to|ring)-\[#([0-9A-Fa-f]{6})\]/g)) {
         const hex = ("#" + m[1]).toUpperCase();
         if (known.has(hex)) offenders.push(`${path}:${i + 1} → ${hex}`);

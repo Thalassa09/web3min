@@ -324,7 +324,7 @@ function ShopPage() {
                 </div>
 
                 {/* 2. Side Bento Card: Pelindung Streak (Spans 1 Col) */}
-                <div className="flex flex-col justify-between rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA] p-5 shadow-[0_6px_0_#3B2218]">
+                <div className="flex flex-col justify-between rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-flame-soft via-flame-fill to-flame-fill-deep p-5 shadow-[0_6px_0_#3B2218]">
                   <div>
                     <div className="flex items-center justify-between mb-3">
                       <div className="size-12 rounded-2xl border-2 border-choco-900 bg-white flex items-center justify-center shadow-[0_2px_0_#3B2218]">

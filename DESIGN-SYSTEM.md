@@ -379,6 +379,13 @@ Acuan: dua chip di `/profile` — `Level 2` (netral) & `Murid Blobi` (pink).
 - Tinggi dipatok (`h-[620px] sm:h-[600px]`) karena kedua sisi `position:absolute`.
 - Tap target toggle 44px via pseudo-element `before:-inset-y-[10px]` (visual tetap 24px).
 
+### 5b. Aturan cepat & riwayat perubahan
+
+- **Do & Don't** (aturan cepat sebelum menulis komponen + **3 pelanggaran nyata** yang terukur) → `DESIGN.md` **§7**
+- **Changelog** (apa yang diadopsi / ditolak dari draft "Tactile Arcade" + temuan audit v1.2) → `DESIGN.md` **§8**
+
+Catatan penting dari §7: tiga aturan **tidak** dijaga guard otomatis — "`#000` dilarang" (3 pelanggaran), "hex mentah dilarang" (43 `bg-[#…]`), "divider `/20`" (3 sisa `/18`). Guard yang tidak ada = aturan yang dilanggar diam-diam.
+
 ### 5. Daftar komponen `src/components/ui/`
 **37 berkas `.tsx`** (34 ber-styling + 3 demo: `demo.tsx`, `feature-card-demo.tsx`, `card-14-demo.tsx`). Dipakai lewat **42 baris impor** dari 21 berkas, menghasilkan **75 JSX call-site** (terukur Langkah 18).
 Paling banyak dipakai: `TactileButton` (12×), `ProgressBar` (11×), `SurfaceCard` (6×), `Badge` (5×), `StreakBadge` (5×), `AnimatedFeatureCard` (5×), `CandyLoader` (4×), `Card` (4×).

@@ -176,3 +176,93 @@ Kontrak ini **tidak** berlaku untuk: input form, kartu konten, tombol aksi penuh
 
 ### 6.5 Guard
 `src/lib/chip-contract.test.ts` wajib gagal kalau ada chip (`border-2` + teks kecil) memakai border transparan atau radius bukan-pill di `src/**/*.tsx`.
+
+---
+
+## 7. Do & Don't
+
+Aturan cepat sebelum menulis komponen baru. Angka di kolom kanan = **hasil ukur di kode nyata**, bukan teori — dihitung dengan `grep` saat bagian ini ditulis.
+
+| ✅ Lakukan | ❌ Hindari | Bukti |
+|---|---|---|
+| Outline `choco-900` yang hangat (`#3B2218`) | Hitam pekat `#000` | `border-choco-900` **674×** · `#000` murni **3×** — ketiganya **pelanggaran nyata** (lihat catatan di bawah) |
+| Slab keras `0 Npx 0` tanpa blur | Blur / spread / shadow ambient | `shadow-[0_Npx_0_#3B2218]` **475×** · `shadow-{sm,md,lg,xl}` **4×** |
+| Token nyata (`bg-cream-50`, `shadow-ink-sm`) | Hex mentah di komponen | **43** `bg-[#…]` mentah masih ada — 9 di antaranya `telemetry-badge.tsx` |
+| Komponen kanonik (`<Chip tone="…">`, `<SegmentedNav>`) | Chip / nav buatan tangan | Dijaga `chip-contract.test.ts` (6 test) + `a11y-invariants.test.ts` (10 test) |
+| `danger`/`err-ink` untuk aksi destruktif | Candy (pink brand) untuk tombol hapus | `danger`/`err-ink` **30×** · dijaga `feedback-colors.test.ts` |
+| Istilah ramah ("Koin", "Hari Beruntun") | Jargon Web3 tanpa penjelasan | "Koin" **18 berkas** · "Hari Beruntun" **1 berkas** (istilah lain masih "Streak") |
+| `font-pixel` hanya untuk label pendek (≤`text-xs`) | `font-pixel` untuk paragraf | **92** pemakaian `font-pixel` + `text-1xpx` — mayoritas label, aman |
+| Satu keluarga warna per elemen | Mencampur `emerald-*` dengan `mint-*` | `emerald-*` **±70×** · `mint-*` custom **±25×** — dua keluarga berbeda untuk arti "benar" |
+
+### 7.1 Tiga pelanggaran nyata yang ditemukan saat menulis bagian ini
+
+Ini **bukan** teori dari draft — ketiganya ada di kode produksi sekarang:
+
+1. **Slab hitam murni `#000` (3×)** — melanggar aturan pertama tabel di atas:
+   - `src/components/bubble-menu.tsx:357` & `:419` — `shadow-[0_2px_0_#000]`
+   - `src/routes/kisah.index.tsx:169` — `shadow-[0_2px_0_#000]`
+   Ganti ke `#3B2218` (choco-900) agar konsisten dengan 475 pemakaian lain.
+
+2. **43 hex mentah `bg-[#…]`** — melanggar "pakai token". Terbanyak: `telemetry-badge.tsx` (9), `lozenge.tsx` (5), `profile.tsx` (4), `status-banner.tsx` (4), `section-message.tsx` (4). Sebagian mungkin memang perlu (gradien multi-stop tidak bisa jadi token), tapi harus diaudit satu per satu.
+
+3. **`choco-900/18` (3×)** — melanggar aturan "divider pakai `/20`". Sisa dari v1.0 yang lolos sinkronisasi.
+
+**Belum diperbaiki** — dicatat sebagai utang, bukan diubah diam-diam. Ketiganya kosmetik (nol dampak fungsi), jadi tidak mendesak.
+
+### 7.2 Guard yang mengunci tabel ini
+
+| Aturan | Guard |
+|---|---|
+| Chip seragam | `chip-contract.test.ts` |
+| Warna feedback benar | `feedback-colors.test.ts` |
+| Kontras ≥4,5:1 (teks) / ≥3:1 (ikon) | `contrast-budget.test.ts` |
+| Token Tamagui ↔ `@theme` sinkron | `tamagui-tokens.test.ts` · `token-scale.test.ts` |
+| Peta alias warna | `color-alias.test.ts` |
+| A11y (fokus, tap target, dock, portal) | `a11y-invariants.test.ts` |
+| Font maksimal 2 keluarga | `font-budget.test.ts` |
+| Target coach punya penulis | `coach-targets.test.ts` |
+
+Yang **tidak** dijaga otomatis: aturan "`#000` dilarang", "hex mentah dilarang", "`/18` dilarang". Tiga pelanggaran di §7.1 membuktikan itu — **guard yang tidak ada = aturan yang dilanggar diam-diam.**
+
+---
+
+## 8. Changelog
+
+### v1.1 — sinkronisasi draft "Tactile Arcade"
+
+Ringkasan: draft v1.1 dikirim sebagai usulan, lalu **diverifikasi baris per baris** terhadap `@theme` nyata. Yang cocok diadopsi; yang bertentangan **kode yang menang** (lihat `DESIGN-SYSTEM.md` §8). Kemiripan dokumen dengan draft: **13%** — jadi ini bukan salinan, tapi hasil audit.
+
+| Bagian | Masalah di v1.0 | Perbaikan | Status |
+|---|---|---|---|
+| Judul | "Tactile **Spatial** Arcade" vs "Tactile Arcade" | Seragam: **Tactile Arcade** | ✅ diadopsi |
+| §1 | Markdown bold rusak; "Emosi" tidak bold | Diperbaiki + 5 Hukum Visual | ✅ diadopsi |
+| Canvas | Hex `#FFF6EE` tapi class `bg-[#FDFBF7]` (beda warna) | Satu token: `cream-50` = `#FFF6EE` | ✅ diadopsi |
+| Teks sekunder | Dua opsi ambigu (`choco-700` / `choco-600`) | **`choco-600`** = sekunder, **`choco-700`** = utama | ✅ diadopsi (draft benar, dokumen lama salah) |
+| Line subdued | `/18` vs `/20` | Seragam **`/20`** | ⚠️ 3 sisa `/18` (§7.1) |
+| Mint | `emerald-700` tidak cocok slab `#15803D` | Keluarga `mint-*` custom | ⚠️ `emerald-*` masih ±70× |
+| Pill Dock | Dinamai "Glass" padahal glassmorphism dilarang | Nama "Pill Dock", blur dihapus, `aria-current` | ✅ diadopsi (`bb3e4e0`, `2fd1f88`) |
+| Tombol | `active:translate-y-1` (4px) + slab 1px = tenggelam 1px | Rumus slab diam (§3.2) | ✅ diadopsi |
+| Tombol Gold | Border choco tapi slab `#C8940C` | Slab `choco-900` | ❌ **tidak diadopsi** — `#C8940C` masih dipakai (`button.tsx:90`, `shop.tsx` ×2, `leaderboard.tsx:200`). Sengaja: slab emas adalah penanda PETI/koin |
+| Bahaya | Warna sama dengan CTA → rawan salah klik | Keluarga `danger-*` terpisah | ✅ diadopsi |
+| Peringatan vs Gold | Gradien hampir identik | Warning pindah ke oranye (`warn-*`) | ✅ diadopsi |
+| Kontras | `candy-800` diberi dua hex | Satu hex per token | ✅ diadopsi |
+| Chip | Resep tanpa `bg-gradient-to-b`; `select-none` menghalangi salin | Komponen `<Chip>` berbasis `cva` | ✅ diadopsi (`fe6711a`) |
+| Chip interaktif | Tinggi ~24px < 44px tap target | Perluasan hit area (§6.4) | ✅ diadopsi |
+| Baseline | 51 + 12 + 17 = 80 ≠ 62 | Dijelaskan: kategori tumpang tindih | ✅ diadopsi |
+| Guard | Regex rawan false positive | Guard berbasis komponen | ✅ diadopsi — **8 guard** sekarang |
+| A11y | Tidak ada focus state, reduced motion, `viewport-fit` | Ditambahkan di §5 & §3 | ✅ diadopsi (`b9f063d`) |
+| Tap target | `py-2.5 px-4` tidak menjamin 44px | Wajib `min-h-11` | ✅ diadopsi (**13×** di kode) |
+
+### v1.2 — temuan audit dokumen ini
+
+| Temuan | Status |
+|---|---|
+| Hydration #418 di beranda (portal tidak menunggu `mounted`) | ✅ `d6bb944` |
+| Tur coach berjalan tanpa spotlight (3 target tidak punya penulis) | ✅ `eadd983` |
+| Kontras badge blok terkunci 4,01:1 (gagal AA) | ✅ `f7d5895` |
+| 3 kontrol non-native tidak terjangkau keyboard | ✅ `b9f063d` |
+| Utang lama "42 berkas tanpa focus-visible" | ❌ **PALSU** — aturan global ada, terukur 39/40 elemen dapat outline |
+| Utang lama "akar hydration di `blobi-guide.tsx:292`" | ❌ **SALAH ALAMAT** — akarnya `coach.tsx:173` |
+| Utang lama "`choco-500` di `bg-cream/70` = 4,29" | ❌ **SALAH LATAR** — sebenarnya 4,84 (yang gagal: `bg-candy-100`) |
+
+**Pola yang berulang:** tiga catatan utang lama ternyata **salah**. Penyebabnya sama — dihitung dari kemunculan kelas Tailwind / dibaca dari dokumen, bukan diukur dari efek nyata. Aturannya sekarang: **ukur dulu, baru tulis** (§5, §6.5).

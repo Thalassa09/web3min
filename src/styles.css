@@ -663,7 +663,14 @@ button, input, textarea, select {
 /* Focus rings — High contrast WCAG AA */
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
+input:focus-visible,
+/* Elemen non-native yang berperan sebagai kontrol (div/span[role="button"],
+   kolom chart, gambar yang bisa diklik). Tanpa ini mereka hanya dapat outline
+   default browser 1px hitam — terlihat, tapi tidak konsisten & kurang kontras. */
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 3px solid var(--color-primary, #E8437F) !important;
   outline-offset: 2px !important;
 }

@@ -361,8 +361,18 @@ Belajar Web3 interaktif: https://web3min.com`;
                   return (
                     <div
                       key={col.label}
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={isSelected}
+                      aria-label={`Pilih ${col.label}: ${col.xp} XP`}
                       onClick={() => setSelectedCol(idx)}
-                      className="flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedCol(idx);
+                        }
+                      }}
+                      className="flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600"
                     >
                       {/* Floating Tooltip Indicator */}
                       <div className="h-6 flex items-center justify-center mb-1">
@@ -426,8 +436,18 @@ Belajar Web3 interaktif: https://web3min.com`;
                   return (
                     <div
                       key={col.label}
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={isSelected}
+                      aria-label={`Pilih ${col.label}: ${col.xp} XP`}
                       onClick={() => setSelectedCol(idx)}
-                      className="flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedCol(idx);
+                        }
+                      }}
+                      className="flex-1 flex flex-col justify-end items-center cursor-pointer group transition-transform rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600"
                     >
                       <div className="h-6 flex items-center justify-center mb-1">
                         {isSelected && (

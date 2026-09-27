@@ -904,9 +904,18 @@ function RafflePage() {
 
                     {/* c. Gambar NFT — edge-to-edge, badge rarity/status mengambang di atasnya */}
                     <div
-                      className="relative aspect-square w-full overflow-hidden bg-choco-50 cursor-pointer group shrink-0"
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Lihat gambar ${raffle.title} ukuran penuh`}
+                      className="relative aspect-square w-full overflow-hidden bg-choco-50 cursor-pointer group shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600"
                       onClick={() => {
                         setPreviewImage({ url: displayImage, title: raffle.title });
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setPreviewImage({ url: displayImage, title: raffle.title });
+                        }
                       }}
                       title="Klik untuk melihat gambar ukuran penuh"
                     >
@@ -1071,8 +1080,17 @@ function RafflePage() {
                   <div className="mt-4 pt-3 border-t border-choco-900/10 space-y-2">
                     {userTickets > 0 && userEntry?.walletAddress && isMintSlot && (
                       <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Ubah alamat wallet sebelum undian berakhir"
                         onClick={() => handleOpenEnterModal(raffle, true)}
-                        className="text-[11px] font-mono text-choco-700 text-center hover:text-candy-700 cursor-pointer underline decoration-dotted"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleOpenEnterModal(raffle, true);
+                          }
+                        }}
+                        className="text-[11px] font-mono text-choco-700 text-center hover:text-candy-700 cursor-pointer underline decoration-dotted rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600"
                         title="Klik untuk mengubah alamat wallet sebelum undian berakhir"
                       >
                         Wallet terdaftar: {maskWalletAddress(userEntry.walletAddress)}

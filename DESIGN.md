@@ -89,7 +89,20 @@ Semua sub-halaman yang berpasangan (seperti Klasemen & Undian, atau Toko & Ruang
 
 ## 5. Invarian Aksesibilitas & Responsivitas
 
-> **Dijaga `src/lib/a11y-invariants.test.ts` (6 test, Langkah 23).** Guard ini mengunci yang **sudah benar** supaya tidak ada regresi: viewport `viewport-fit=cover`, `safe-area-inset-bottom` di navbar bawah, `motion-reduce:transition-none` di komponen taktil baru, `focus-visible:outline` yang tidak boleh dihapus dari 4 komponen kunci, `outline-none` wajib punya pengganti fokus, dan penanda `aria-pressed` pada dock yang sudah punya.
+> **Dijaga `src/lib/a11y-invariants.test.ts` (9 test, Langkah 23 + 26).** Guard ini mengunci yang **sudah benar** supaya tidak ada regresi: viewport `viewport-fit=cover`, `safe-area-inset-bottom` di navbar bawah, `motion-reduce:transition-none` di komponen taktil baru, `focus-visible:outline` yang tidak boleh dihapus dari 4 komponen kunci, `outline-none` wajib punya pengganti fokus, penanda `aria-pressed`/`aria-current` pada 7 dock, aturan focus-visible global, `prefers-reduced-motion` global, dan elemen non-native yang bisa diklik wajib terjangkau keyboard.
+>
+> **⚠️ Pelajaran mahal (Langkah 26): hitung EFEK, bukan kelas.** Sempat tercatat sebagai "utang" bahwa 42 berkas punya elemen tanpa `focus-visible` dan 53 berkas tanpa `motion-reduce`. **Keduanya SALAH.** Angka itu dihitung dari kemunculan KELAS Tailwind, padahal `styles.css` sudah punya dua aturan GLOBAL yang menutup semuanya:
+>
+> ```css
+> button:focus-visible, a:focus-visible, input:focus-visible,
+> [role="button"]:focus-visible, [role="tab"]:focus-visible,
+> select:focus-visible, textarea:focus-visible {
+>   outline: 3px solid var(--color-primary, #E8437F) !important;
+> }
+> @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; … } }
+> ```
+>
+> Diverifikasi dengan Tab nyata di browser: **39/40 elemen dapat outline 3px pink**. Yang benar-benar kurang hanya 3 kontrol `div` ber-`onClick` (kolom chart progres, gambar NFT di undian, tautan wallet) — sudah ditambahkan `role="button"` + `tabIndex={0}` + `onKeyDown` Enter/Space. Guard-nya juga diperketat: **`tabIndex` DAN `onKeyDown` dua-duanya wajib** (satu saja tidak cukup — bisa difokus tapi tak bisa diaktifkan, atau sebaliknya).
 
 - **Tap Target:** Setiap tombol interaktif memiliki tinggi minimal 44px (`min-h-[44px]` atau `py-2.5 px-4`).
 - **Kontras Teks:** Seluruh label teks putih di atas tombol pink wajib menggunakan ramp `candy-800` (`#85174A` / `#B01F62`) dengan rasio kontras `>= 4.5:1` (lulus uji `contrast-budget.test.ts`).

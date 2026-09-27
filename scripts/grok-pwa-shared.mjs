@@ -298,10 +298,28 @@ export function descriptionFromDocument(html) {
 
 /** The page's own canonical URL, so per-route og:url is not pinned to the site root. */
 export function canonicalFromDocument(html) {
-  const match = String(html ?? "").match(
-    /<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']([^"']*)["']/i,
-  );
-  return match ? unescapeHtml(match[1]).trim() : "";
+  // Ambil canonical TERAKHIR, bukan pertama — dan TIDAK peduli urutan atribut.
+  //
+  // Kenapa yang terakhir: root route (`__root.tsx`) selalu menulis canonical
+  // alamat beranda (`https://web3min.com`) untuk semua halaman, dan tag itu
+  // keluar LEBIH DULU daripada canonical milik rute. Versi lama memakai
+  // `match()` yang mengambil yang PERTAMA, sehingga `og:url` SETIAP halaman
+  // menjadi alamat beranda — terbukti di produksi: `/u/apollo_romanus`
+  // melaporkan `og:url = https://web3min.com`.
+  //
+  // Kenapa per-tag, bukan satu regex: regex gabungan menuntut `rel` muncul
+  // SEBELUM `href`, sehingga `<link href="..." rel="canonical">` tidak
+  // terbaca sama sekali (tertangkap oleh uji unit, bukan dugaan).
+  const tags = String(html ?? "").match(/<link\b[^>]*>/gi);
+  if (!tags || tags.length === 0) return "";
+
+  let last = "";
+  for (const tag of tags) {
+    if (!/\brel\s*=\s*["']canonical["']/i.test(tag)) continue;
+    const href = tag.match(/\bhref\s*=\s*["']([^"']*)["']/i);
+    if (href) last = unescapeHtml(href[1]).trim();
+  }
+  return last;
 }
 
 export function resolveOgTitle(

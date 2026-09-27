@@ -2,9 +2,29 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/app-shell";
 import { rpcGetPublicProfile, type PublicProfile } from "@/lib/server-sync";
+import { buildMeta } from "@/lib/seo";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/u/$username")({
+  /**
+   * Meta per-halaman. TANPA ini, crawler (Twitter/WhatsApp/Telegram) membaca
+   * judul situs untuk SEMUA tautan — jadi berbagi `/u/<nama>` akan tampil
+   * sebagai "web3min — Belajar Web3 dari nol", bukan sebagai profil orangnya.
+   * Terbukti lewat uji HTML mentah di produksi sebelum ini dipasang.
+   *
+   * Nama user TIDAK dimasukkan ke judul dari sisi klien: halaman publik
+   * mencari username ASLI, dan untuk user tersensor nama itu sensitif.
+   * Judul memakai nama apa adanya dari parameter URL — sama dengan yang
+   * sudah publik di alamat tautannya sendiri.
+   */
+  head: ({ params }) => {
+    const name = decodeURIComponent(params.username);
+    return buildMeta({
+      title: `@${name} — Profil Petualang web3min`,
+      description: `Lihat progres belajar Web3 @${name} di web3min: XP, streak, dan blok yang sudah selesai.`,
+      path: `/u/${params.username}`,
+    });
+  },
   component: PublicProfilePage,
 });
 

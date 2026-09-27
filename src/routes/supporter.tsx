@@ -14,6 +14,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
+import { buildMeta } from "@/lib/seo";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
 import {
@@ -23,7 +24,23 @@ import {
   type SupporterStatus,
 } from "@/lib/server-sync";
 
-export const Route = createFileRoute("/supporter")({ component: SupporterPage });
+export const Route = createFileRoute("/supporter")({
+  /**
+   * Meta per-halaman — tanpa ini crawler membaca judul situs untuk tautan
+   * /supporter juga, sehingga kartu share-nya tidak menjelaskan apa pun.
+   * Catatan copy: TIDAK menyebut "dari Rp 30.000" sebagai harga asli — angka
+   * itu harga normal yang dicoret, bukan harga yang pernah berlaku
+   * (UU Perlindungan Konsumen; lihat catatan di RENCANA-SUPPORTER.md).
+   */
+  head: () =>
+    buildMeta({
+      title: "Jadi Supporter web3min — Rp 9.999 sekali bayar",
+      description:
+        "Dukung web3min tetap gratis untuk semua: badge permanen, isi nyawa 4× sehari, dan tiket undian 3× lipat.",
+      path: "/supporter",
+    }),
+  component: SupporterPage,
+});
 
 /** Harga ditentukan server. Angka ini hanya untuk tampilan. */
 const PRICE_IDR = 9999;

@@ -1185,6 +1185,11 @@ export interface SupporterStatus {
   isLifetime: boolean;
   since: string | null;
   expiresAt: string | null;
+  /**
+   * false = pemanggil belum login. Dipakai /supporter supaya user yang belum
+   * masuk diminta masuk, bukan diberi pesan "pembayaran gagal" yang menyesatkan.
+   */
+  authenticated: boolean;
 }
 
 const NO_SUPPORTER: SupporterStatus = {
@@ -1192,6 +1197,7 @@ const NO_SUPPORTER: SupporterStatus = {
   isLifetime: false,
   since: null,
   expiresAt: null,
+  authenticated: false,
 };
 
 /**
@@ -1208,14 +1214,22 @@ const NO_SUPPORTER: SupporterStatus = {
 export async function rpcGetMySupporterStatus(): Promise<SupporterStatus> {
   if (!isSupabaseConfigured || !supabase) return NO_SUPPORTER;
   try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const authenticated = Boolean(session?.user);
+
     const { data, error } = await supabase.rpc("get_my_supporter_status");
-    if (error || !data || typeof data !== "object") return NO_SUPPORTER;
+    if (error || !data || typeof data !== "object") {
+      // Tetap laporkan status login walau RPC gagal — supaya UI bisa
+      // membedakan "belum masuk" dari "server bermasalah".
+      return { ...NO_SUPPORTER, authenticated };
+    }
     const d = data as Record<string, unknown>;
     return {
       isSupporter: d.is_supporter === true,
       isLifetime: d.is_lifetime === true,
       since: typeof d.since === "string" ? d.since : null,
       expiresAt: typeof d.expires_at === "string" ? d.expires_at : null,
+      authenticated,
     };
   } catch {
     return NO_SUPPORTER;

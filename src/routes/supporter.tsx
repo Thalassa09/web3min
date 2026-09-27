@@ -59,7 +59,7 @@ type Phase =
   | { kind: "pending"; orderId: string; uniqueAmount: number; checkoutUrl?: string; expiresAt: number }
   | { kind: "activating" }
   | { kind: "done" }
-  | { kind: "error"; message: string };
+  | { kind: "error"; message: string; hadOrder?: boolean };
 
 function SupporterPage() {
   const [phase, setPhase] = useState<Phase>({ kind: "loading" });
@@ -75,6 +75,12 @@ function SupporterPage() {
       if (!alive) return;
       if (status.isSupporter) {
         setPhase({ kind: "done" });
+      } else if (!status.authenticated) {
+        // Belum masuk: jangan tampilkan tombol bayar. Kalau ditampilkan, user
+        // menekan tombol lalu dapat "Kamu harus masuk dulu" — dan kalau dia
+        // sudah terlanjur transfer, pesan itu menyesatkan (terlihat seperti
+        // pembayaran gagal padahal cuma belum login).
+        setPhase({ kind: "not-logged-in" });
       } else {
         setPhase({ kind: "idle", status });
       }
@@ -111,6 +117,7 @@ function SupporterPage() {
         if (res.status === "expired" || res.status === "cancelled") {
           setPhase({
             kind: "error",
+            hadOrder: true,
             message: res.status === "expired" ? "Waktu pembayaran habis." : "Pembayaran dibatalkan.",
           });
           return true;
@@ -149,7 +156,13 @@ function SupporterPage() {
         setPhase({ kind: "done" });
         return;
       }
-      setPhase({ kind: "error", message: res.error || "Gagal membuat pembayaran." });
+      // Belum login: arahkan ke halaman masuk, jangan tampilkan sebagai
+      // "pembayaran gagal" — user belum pernah membuat order apa pun.
+      if (/masuk dulu|sesi tidak valid|kedaluwarsa/i.test(res.error || "")) {
+        setPhase({ kind: "not-logged-in" });
+        return;
+      }
+      setPhase({ kind: "error", hadOrder: false, message: res.error || "Gagal membuat pembayaran." });
       return;
     }
     setPhase({
@@ -394,15 +407,17 @@ function SupporterPage() {
               <AlertTriangle className="size-4 shrink-0 text-err-ink mt-0.5" />
               <div className="min-w-0">
                 <div className="font-pixel text-sm font-black text-choco-900">
-                  Pembayaran gagal
+                  Pembayaran belum bisa dimulai
                 </div>
                 <p className="mt-1 text-xs font-semibold text-choco-700 leading-relaxed">
                   {phase.message}
                 </p>
-                <p className="mt-1.5 text-xs font-semibold text-choco-700 leading-relaxed">
-                  <strong>Kalau kamu sudah transfer</strong>, jangan bayar ulang — hubungi admin
-                  dengan menyebut username-mu. Kami aktifkan manual.
-                </p>
+                {phase.hadOrder && (
+                  <p className="mt-1.5 text-xs font-semibold text-choco-700 leading-relaxed">
+                    <strong>Kalau kamu sudah transfer</strong>, jangan bayar ulang — hubungi admin
+                    dengan menyebut username-mu. Kami aktifkan manual.
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={() => void startPayment()}

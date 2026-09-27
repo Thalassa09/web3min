@@ -182,7 +182,7 @@ function MasukPage() {
                   setResetStep("request");
                   setShowResetModal(true);
                 }}
-                className="text-[11px] font-bold text-candy-700 hover:text-candy-700 hover:underline cursor-pointer"
+                className="text-[11px] font-bold text-candy-700 hover:text-candy-700 hover:underline cursor-pointer inline-flex items-center min-h-11 px-1"
               >
                 Lupa Password?
               </button>
@@ -225,7 +225,7 @@ function MasukPage() {
           <span className="font-semibold text-choco-600">Belum punya akun?</span>
           <Link
             to="/onboarding"
-            className="font-pixel font-bold text-candy-700 hover:text-candy-700 hover:underline"
+            className="font-pixel font-bold text-candy-700 hover:text-candy-700 hover:underline inline-flex items-center min-h-11"
           >
             Daftar Petualang Baru →
           </Link>

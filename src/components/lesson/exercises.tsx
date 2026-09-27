@@ -536,7 +536,7 @@ function OrderBoard({
                 if (useProgress.getState().sound) playTap();
                 setBuilt((b) => [...b, item.i]);
               }}
-              className="quiz-opt rounded-xl border-2 border-b-4 px-3 py-1.5 text-sm font-extrabold"
+              className="quiz-opt rounded-xl border-2 border-b-4 px-3 py-1 min-h-11 text-sm font-extrabold"
             >
               {item.text}
             </button>

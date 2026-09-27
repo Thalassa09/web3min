@@ -244,7 +244,7 @@ function ProfilePage() {
                 type="button"
                 onClick={() => setProfileTab(tab.id)}
                 aria-pressed={active}
-                className={`px-3.5 py-1.5 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-3.5 py-1.5 min-h-11 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer whitespace-nowrap inline-flex items-center ${
                   active
                     ? "border-candy-600 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
                     : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
@@ -363,7 +363,7 @@ function ProfilePage() {
               <Link
                 to="/shop"
                 search={{ tab: "wardrobe" }}
-                className="px-4 py-2 rounded-xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <Sparkles className="size-3.5 text-coin" />
                 <span>Ganti Blobi</span>
@@ -383,7 +383,7 @@ function ProfilePage() {
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="shrink-0 px-3 py-1.5 rounded-[12px] bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-xs font-bold text-candy-700 hover:bg-candy-50 active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
+                    className="shrink-0 px-3 py-1.5 min-h-11 rounded-[12px] bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-xs font-bold text-candy-700 hover:bg-candy-50 active:translate-y-[1px] active:shadow-none transition-all cursor-pointer flex items-center gap-1.5"
                     title="Ubah status belajarmu"
                   >
                     <Pencil className="size-3.5" />
@@ -430,7 +430,7 @@ function ProfilePage() {
                             setBioDraft(bio);
                             setIsEditing(false);
                           }}
-                          className="px-3 py-1.5 rounded-[12px] text-xs font-bold text-ink-500 hover:text-ink-900 hover:bg-[#F0F6FF] transition-colors cursor-pointer"
+                          className="px-3 py-1.5 min-h-11 rounded-[12px] text-xs font-bold text-ink-500 hover:text-ink-900 hover:bg-[#F0F6FF] transition-colors cursor-pointer"
                         >
                           Batal
                         </button>

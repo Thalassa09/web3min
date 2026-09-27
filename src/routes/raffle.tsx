@@ -236,7 +236,7 @@ function RaffleCardBack({
               e.stopPropagation();
               onVerifyFairness();
             }}
-            className="mt-2 w-full rounded-xl border-2 border-choco-900/15 bg-white px-3 py-2 flex items-center justify-between text-[11px] text-choco-700 font-mono hover:bg-cream transition-colors cursor-pointer"
+            className="mt-2 w-full rounded-xl border-2 border-choco-900/15 bg-white px-3 py-2 min-h-11 flex items-center justify-between text-[11px] text-choco-700 font-mono hover:bg-cream transition-colors cursor-pointer"
             title="Lihat cara verifikasi keaslian pengundian (Commit-Reveal)"
           >
             <span className="truncate max-w-[190px] font-medium">
@@ -601,7 +601,7 @@ function RafflePage() {
         <div className="flex items-center gap-2 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-1.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.12)] max-w-md mx-auto">
           <Link
             to="/leaderboard"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 min-h-11 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
           >
             <Trophy className="h-4 w-4 shrink-0 text-choco-700" />
             <span>Klasemen Mingguan</span>
@@ -629,7 +629,7 @@ function RafflePage() {
                 playTap();
                 setShowGuideModal(true);
               }}
-              className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full border-2 border-choco-900 bg-white hover:bg-cream font-pixel font-bold text-xs text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0"
+              className="tap-44 inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-full border-2 border-choco-900 bg-white hover:bg-cream font-pixel font-bold text-xs text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all shrink-0"
               title="Buka Panduan Undian"
             >
               <HelpCircle className="h-3.5 w-3.5 text-candy-600" />
@@ -759,7 +759,7 @@ function RafflePage() {
                   playTap();
                   setActiveCategory(cat.id);
                 }}
-                className={`rounded-full border-2 border-choco-900 px-3.5 h-8 text-xs font-bold transition-all cursor-pointer ${
+                className={`rounded-full border-2 border-choco-900 px-3.5 h-11 text-xs font-bold transition-all cursor-pointer inline-flex items-center ${
                   activeCategory === cat.id
                     ? "bg-candy-800 text-white shadow-[0_2px_0_#3B2218]"
                     : "bg-white text-choco-700 hover:bg-cream"
@@ -777,7 +777,7 @@ function RafflePage() {
                 playTap();
                 setActiveStatus("live");
               }}
-              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+              className={`rounded-full px-3 py-1 min-h-11 inline-flex items-center text-xs font-bold transition-all cursor-pointer ${
                 activeStatus === "live"
                   ? "bg-leaf-fill-deep text-choco-900 shadow-[0_1px_0_#3B2218]"
                   : "text-choco-600 hover:text-choco-900"
@@ -790,7 +790,7 @@ function RafflePage() {
                 playTap();
                 setActiveStatus("all");
               }}
-              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+              className={`rounded-full px-3 py-1 min-h-11 inline-flex items-center text-xs font-bold transition-all cursor-pointer ${
                 activeStatus === "all"
                   ? "bg-choco-900 text-cream shadow-[0_1px_0_#3B2218]"
                   : "text-choco-600 hover:text-choco-900"
@@ -821,7 +821,7 @@ function RafflePage() {
                 setActiveCategory("all");
                 setActiveStatus("all");
               }}
-              className="px-5 py-2.5 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5"
+              className="px-5 py-2 min-h-11 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5"
             >
               Lihat Semua Undian →
             </button>
@@ -1262,7 +1262,7 @@ function RafflePage() {
                     key={btn.n}
                     type="button"
                     onClick={() => setBuyAmount((prev) => Math.min(100, prev + btn.n))}
-                    className="flex-1 py-1.5 rounded-xl border border-choco-900 bg-white hover:bg-candy-50 font-pixel text-xs font-bold text-choco-900 shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                    className="flex-1 py-1 min-h-11 rounded-xl border border-choco-900 bg-white hover:bg-candy-50 font-pixel text-xs font-bold text-choco-900 shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
                   >
                     {btn.label}
                   </button>
@@ -1270,7 +1270,7 @@ function RafflePage() {
                 <button
                   type="button"
                   onClick={() => setBuyAmount(Math.max(1, Math.min(100, Math.floor(gems / 10))))}
-                  className="flex-1 py-1.5 rounded-xl border border-choco-900 bg-lemon hover:bg-lemon/80 font-pixel text-xs font-bold text-choco-900 shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                  className="flex-1 py-1 min-h-11 rounded-xl border border-choco-900 bg-lemon hover:bg-lemon/80 font-pixel text-xs font-bold text-choco-900 shadow-[0_1.5px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
                 >
                   Maks
                 </button>
@@ -1416,14 +1416,14 @@ function RafflePage() {
                 <button
                   type="button"
                   onClick={() => setEnteringRaffle(null)}
-                  className="py-2.5 px-4 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] cursor-pointer"
+                  className="py-2 min-h-11 px-4 rounded-full bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] cursor-pointer"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="py-2.5 px-6 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-40 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-1.5"
+                  className="py-2 min-h-11 px-6 rounded-full bg-candy-800 hover:bg-candy-950 disabled:opacity-40 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-1 active:shadow-none cursor-pointer flex items-center gap-1.5"
                 >
                   <Check className="size-4" />
                   <span>
@@ -1523,7 +1523,7 @@ function RafflePage() {
             <div className="pt-2 text-right">
               <button
                 onClick={() => setShowGuideModal(false)}
-                className="py-2.5 px-6 rounded-full bg-choco-900 text-cream font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                className="py-2 min-h-11 px-6 rounded-full bg-choco-900 text-cream font-pixel font-bold text-xs shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
               >
                 Saya Mengerti
               </button>
@@ -1619,7 +1619,7 @@ function RafflePage() {
             <div className="pt-2 text-right">
               <button
                 onClick={() => setPreviewFairness(null)}
-                className="py-2 px-5 rounded-full bg-choco-900 text-cream font-pixel font-bold text-xs cursor-pointer shadow-[0_2px_0_#3B2218]"
+                className="py-2 min-h-11 px-5 rounded-full bg-choco-900 text-cream font-pixel font-bold text-xs cursor-pointer shadow-[0_2px_0_#3B2218]"
               >
                 Tutup
               </button>

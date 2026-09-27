@@ -79,7 +79,7 @@ function Intro() {
         <div className="w-full flex justify-end mb-4">
           <button
             type="button"
-            className="px-4 py-1.5 rounded-xl bg-cream hover:bg-candy-100 text-xs font-pixel font-bold text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow] active:translate-y-[1px] active:shadow-none cursor-pointer"
+            className="px-4 py-1 min-h-11 rounded-xl bg-cream hover:bg-candy-100 text-xs font-pixel font-bold text-choco-900 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow] active:translate-y-[1px] active:shadow-none cursor-pointer"
             onClick={leave}
           >
             Lewati

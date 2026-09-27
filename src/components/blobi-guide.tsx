@@ -458,7 +458,7 @@ export function BlobiLockedModal({
           {onScrollToActive && (
             <button
               type="button"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 min-h-11 px-4 rounded-full bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
               onClick={() => {
                 onDismiss();
                 onScrollToActive();
@@ -470,7 +470,7 @@ export function BlobiLockedModal({
           )}
           <button
             type="button"
-            className="py-2.5 px-4 rounded-full bg-white hover:bg-candy-50 text-choco-900 font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
+            className="py-2 min-h-11 px-4 rounded-full bg-white hover:bg-candy-50 text-choco-900 font-bold text-xs border-2 border-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer transition-all"
             onClick={onDismiss}
           >
             Mengerti

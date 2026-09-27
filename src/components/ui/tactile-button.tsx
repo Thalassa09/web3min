@@ -65,7 +65,11 @@ const VARIANT_STYLES: Record<
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
-  sm: "h-9 px-3.5 text-xs font-extrabold gap-1.5 rounded-sm",
+  // `sm` dinaikkan h-9 (36px) -> h-11 (44px): AGENTS.md mewajibkan tap target
+  // min 44px, dan `sm` dipakai di 10+ tombol nyata (Simpan Status, Ganti Akun,
+  // Keluar Akun, Buka rak lencana). 36px gagal audit tap-target di 6 rute.
+  // Padding horizontal tetap px-3.5 supaya tidak ada yang melebar tak perlu.
+  sm: "h-11 px-3.5 text-xs font-extrabold gap-1.5 rounded-sm",
   md: "h-11 px-5 text-sm font-extrabold gap-2 rounded-md",
   lg: "h-13 px-6 text-base font-extrabold gap-2.5 rounded-lg",
 };

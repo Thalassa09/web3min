@@ -265,3 +265,30 @@ test("kartu statistik /profile tetap mengikuti patokan DESIGN.md §9", () => {
     );
   }
 });
+
+test("kelas Tailwind yang TIDAK VALID tidak boleh ditulis (gagal senyap)", () => {
+  // Temuan Langkah 37: skrip migrasi tap-target menulis `min-h-11.5` di 30 tempat.
+  // Tailwind TIDAK mengenal `min-h-11.5` — kelas itu diabaikan TANPA error apa pun,
+  // jadi tombolnya tetap 36px padahal di kode terlihat "sudah diperbaiki".
+  // Ini kelas gagal yang paling berbahaya: hasilnya terlihat benar di diff,
+  // tapi nol efek di layar. Kelas tidak valid = perbaikan palsu.
+  //
+  // Tailwind v4 hanya punya kelipatan .5 untuk spacing (`p-2.5`, `gap-1.5`),
+  // dan `min-h-*` hanya menerima angka bulat skala (11 = 44px, 12 = 48px).
+  const INVALID = /\b(min-h|min-w|max-h|max-w)-\d+\.\d+\b/;
+  const offenders: string[] = [];
+  for (const { path, src } of FILES) {
+    const kode = src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+    kode.split("\n").forEach((line, i) => {
+      const m = line.match(INVALID);
+      if (m) offenders.push(`${path}:${i + 1} → ${m[0]}`);
+    });
+  }
+  assert.deepEqual(
+    offenders,
+    [],
+    `Kelas Tailwind tidak valid (diabaikan Tailwind = gagal senyap):\n${offenders
+      .map((o) => "  " + o)
+      .join("\n")}\n\nPakai skala bulat: min-h-11 (44px), min-h-12 (48px).`,
+  );
+});

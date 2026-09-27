@@ -81,7 +81,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
           /* Minimized Floating HUD Pill on the right edge (Default state) */
           <button
             type="button"
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer hover:scale-105 active:translate-y-0.5 transition-all text-xs font-bold text-choco-900 group"
+            className="flex items-center gap-2.5 px-4 py-2 min-h-11 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer hover:scale-105 active:translate-y-0.5 transition-all text-xs font-bold text-choco-900 group"
             onClick={() => setIsDesktopOpen(true)}
             title="Klik untuk membuka Quest & Arena HUD"
           >
@@ -110,7 +110,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
       <div className="lg:hidden fixed right-4 bottom-20 z-25">
         <button
           type="button"
-          className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5 transition-all text-xs font-bold text-choco-900"
+          className="flex items-center gap-2 px-3.5 py-2 min-h-11 rounded-full bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] cursor-pointer active:translate-y-0.5 transition-all text-xs font-bold text-choco-900"
           onClick={() => setIsMobileOpen(true)}
           title="Buka Misi & Arena"
         >

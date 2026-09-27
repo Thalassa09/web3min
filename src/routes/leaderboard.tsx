@@ -197,14 +197,14 @@ function LeaderboardPage() {
           <Link
             to="/leaderboard"
             aria-current="page"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-lemon-deep bg-gradient-to-b from-lemon-bright via-lemon to-lemon-deep-end text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 min-h-11 px-3 rounded-xl border-2 border-lemon-deep bg-gradient-to-b from-lemon-bright via-lemon to-lemon-deep-end text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
           >
             <Trophy className="h-4 w-4 shrink-0 text-choco-900" />
             <span>Klasemen Mingguan</span>
           </Link>
           <Link
             to="/raffle"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 min-h-11 px-3 rounded-xl border-2 border-transparent hover:border-choco-900/20 hover:bg-candy-50 text-xs md:text-sm font-bold text-choco-600 hover:text-choco-900 transition-all"
           >
             <Ticket className="h-4 w-4 shrink-0 text-choco-700" />
             <span>Undian Hadiah</span>
@@ -234,7 +234,7 @@ function LeaderboardPage() {
           <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
             <button
               onClick={() => setShowPrizeModal(true)}
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-white px-4 py-2.5 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-white px-4 py-2 min-h-11 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
             >
               <Award className="h-4 w-4 text-candy-500" />
               Rincian Hadiah (1 s.d. 1.000)
@@ -328,7 +328,7 @@ function LeaderboardPage() {
             <button
               onClick={handleClaim}
               disabled={isClaimedThisWeek}
-              className={`inline-flex items-center justify-center gap-2 rounded-full border-2 px-5 py-2.5 text-xs md:text-sm font-bold transition-transform ${
+              className={`inline-flex items-center justify-center gap-2 rounded-full border-2 px-5 py-2 min-h-11 text-xs md:text-sm font-bold transition-transform ${
                 isClaimedThisWeek
                   ? "bg-stone-200 border-stone-300 text-stone-500 cursor-not-allowed shadow-none"
                   : "border-leaf-shadow bg-gradient-to-b from-leaf-bright via-leaf-mid to-leaf-end text-white shadow-[0_4px_0_#0F6045] hover:brightness-105 active:translate-y-[2px] active:shadow-none"
@@ -390,7 +390,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier(undefined);
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 cursor-pointer ${
+                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 cursor-pointer ${
                   filterTier === undefined
                     ? "bg-choco-900 text-white"
                     : "bg-white text-choco-900 hover:bg-yellow-100"
@@ -404,7 +404,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top10");
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top10"
                     ? "bg-candy-800 text-white"
                     : "bg-white text-choco-900 hover:bg-candy-100"
@@ -422,7 +422,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top50");
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top50"
                     ? "bg-lemon text-choco-900"
                     : "bg-white text-choco-900 hover:bg-lemon/40"
@@ -440,7 +440,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top100");
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top100"
                     ? "bg-leaf-deep text-white"
                     : "bg-white text-choco-900 hover:bg-leaf-fill"
@@ -458,7 +458,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top500");
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top500"
                     ? "bg-lemon-deep text-white"
                     : "bg-white text-choco-900 hover:bg-coin-fill"
@@ -476,7 +476,7 @@ function LeaderboardPage() {
                   if (hasDragged.current) return;
                   setFilterTier("tier-top1000");
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                className={`tap-44 px-3.5 py-1.5 rounded-full text-xs font-bold border-2 border-choco-900 transition-all shadow-[0_2px_0_#3B2218] shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   filterTier === "tier-top1000"
                     ? "bg-slate-700 text-white"
                     : "bg-white text-choco-900 hover:bg-slate-200"

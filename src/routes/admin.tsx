@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Shield,
   Lock,
+  Activity,
   Plus,
   Edit3,
   Trash2,
@@ -39,6 +40,7 @@ import {
   Download,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
+import { AdminStatsPanel } from "@/components/admin-stats";
 import {
   AdminRaffleModal,
   AdminDeleteModal,
@@ -49,6 +51,7 @@ import {
   rpcGetRaffles,
   rpcGetRaffleStats,
   rpcAdminVerifyKey,
+  rpcIsAdmin,
   rpcAdminUpsertRaffle,
   rpcAdminDeleteRaffle,
   rpcAdminGetRaffleEntries,
@@ -64,6 +67,7 @@ import {
   type DbAdminUserItem,
 } from "@/lib/server-sync";
 import { INITIAL_RAFFLES } from "@/lib/raffles";
+import { supabase } from "@/lib/supabase";
 import { CandyLoader } from "@/components/ui/progress-bar";
 
 export const Route = createFileRoute("/admin")({
@@ -129,12 +133,14 @@ function getNetworkBadgeStyle(network?: string): { bg: string; text: string; bor
 
 export function AdminPage() {
   const [adminKey, setAdminKey] = React.useState<string | null>(null);
+  const [isAdminSession, setIsAdminSession] = React.useState(false);
+  const [adminCheckDone, setAdminCheckDone] = React.useState(false);
   const [passwordInput, setPasswordInput] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [loginLoading, setLoginLoading] = React.useState(false);
   const [loginError, setLoginError] = React.useState<string | null>(null);
 
-  const [activeAdminTab, setActiveAdminTab] = React.useState<"raffles" | "users">("raffles");
+  const [activeAdminTab, setActiveAdminTab] = React.useState<"stats" | "raffles" | "users">("stats");
 
   const [dbRaffles, setDbRaffles] = React.useState<DbRaffleItem[]>([]);
   const [statsMap, setStatsMap] = React.useState<Record<string, DbRaffleStats>>({});
@@ -191,10 +197,17 @@ export function AdminPage() {
     }
   };
 
-  const refreshUsers = React.useCallback(async (key: string) => {
+  /**
+   * `key` boleh kosong/null: setelah gerbang admin pindah ke `is_admin()`,
+   * RPC `admin_get_users` menerima admin sesi tanpa kunci rahasia. Kalau tidak
+   * diizinkan kosong, tab Manajemen Pengguna selalu tampil "Tidak ada pengguna"
+   * untuk admin yang masuk lewat akun — persis kebocoran UI yang ditemukan
+   * saat verifikasi browser.
+   */
+  const refreshUsers = React.useCallback(async (key?: string | null) => {
     setIsUsersLoading(true);
     try {
-      const u = await rpcAdminGetUsers(key, userFilter);
+      const u = await rpcAdminGetUsers(key ?? "", userFilter);
       setAdminUsers(u);
     } catch (err) {
       console.warn("[admin] Failed to load users:", err);
@@ -221,6 +234,21 @@ export function AdminPage() {
     } finally {
       setIsLoading(false);
     }
+  }, []);
+
+  // Sesi admin: kalau akun ini terdaftar is_admin di database, panel langsung
+  // terbuka tanpa kunci rahasia (kunci lama bocor di repo publik).
+  React.useEffect(() => {
+    let alive = true;
+    void (async () => {
+      const ok = await rpcIsAdmin();
+      if (!alive) return;
+      setIsAdminSession(ok);
+      setAdminCheckDone(true);
+    })();
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // Restore session from sessionStorage (not localStorage)
@@ -269,19 +297,29 @@ export function AdminPage() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     sessionStorage.removeItem("web3min_admin_auth");
     localStorage.removeItem("web3min_admin_auth");
     setAdminKey(null);
     setPasswordInput("");
+    // Kalau panel terbuka karena sesi admin (bukan kunci), "Keluar" harus
+    // benar-benar mengakhiri sesi — kalau tidak, admin mengira sudah keluar
+    // padahal aksesnya masih hidup.
+    if (isAdminSession) {
+      try {
+        await supabase?.auth.signOut();
+      } catch {}
+      setIsAdminSession(false);
+    }
     showToast("Berhasil keluar dari mode admin.");
   };
 
   const handleToggleCensorship = async (userId: string, currentCensored: boolean, uName: string) => {
-    if (!adminKey) return;
+    // Tidak ada `if (!adminKey) return;` — admin sesi (is_admin) sah mengubah
+    // sensor tanpa kunci rahasia; RPC-nya sendiri yang memutuskan.
     const nextState = !currentCensored;
     const res = await rpcAdminSetUserCensorship(
-      adminKey,
+      adminKey ?? "",
       userId,
       nextState,
       nextState ? "Disensor manual oleh admin" : "Dipulihkan manual oleh admin"
@@ -476,8 +514,13 @@ export function AdminPage() {
       </div>
 
       <div className="mx-auto max-w-5xl px-4 py-6 md:py-8 space-y-6">
-        {/* If not logged in as Admin, show login card */}
-        {!adminKey ? (
+        {/* Sesi admin (is_admin di database) langsung masuk; kunci hanya cadangan */}
+        {!adminCheckDone ? (
+          <div className="max-w-md mx-auto my-8 space-y-3" aria-busy="true">
+            <div className="h-40 rounded-[32px] bg-cream-100 border-2 border-choco-900/15 animate-pulse" />
+            <p className="text-center text-xs font-bold text-choco-500">Memeriksa akses admin…</p>
+          </div>
+        ) : !adminKey && !isAdminSession ? (
           <div className="max-w-md mx-auto my-8 p-6 sm:p-8 rounded-[32px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200">
             <div className="flex items-center gap-3 mb-4">
               <div className="size-12 rounded-2xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center shadow-[0_3px_0_#3B2218]">
@@ -611,6 +654,7 @@ export function AdminPage() {
             <div className="flex items-center gap-2 border-b-2 border-choco-900/20 pb-3 flex-wrap">
               {(
                 [
+                  { id: "stats", label: "Statistik", icon: <Activity className="size-3.5" /> },
                   { id: "raffles", label: `Kelola Undian (${displayRaffles.length})`, icon: null },
                   {
                     id: "users",
@@ -627,7 +671,7 @@ export function AdminPage() {
                     aria-pressed={active}
                     onClick={() => {
                       setActiveAdminTab(t.id);
-                      if (t.id === "users" && adminKey) void refreshUsers(adminKey);
+                      if (t.id === "users") void refreshUsers(adminKey);
                     }}
                     className={`px-4 py-2 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                       active
@@ -642,7 +686,9 @@ export function AdminPage() {
               })}
             </div>
 
-            {activeAdminTab === "raffles" ? (
+            {activeAdminTab === "stats" ? (
+              <AdminStatsPanel />
+            ) : activeAdminTab === "raffles" ? (
               <>
 
             {/* Quick Stats Grid (5 Accurate KPI Cards) */}
@@ -1028,7 +1074,7 @@ export function AdminPage() {
                       type="button"
                       onClick={() => {
                         setUserFilter(f.id);
-                        if (adminKey) void refreshUsers(adminKey);
+                        void refreshUsers(adminKey);
                       }}
                       className={`px-3 py-1 rounded-lg font-pixel text-[10px] font-bold transition-all cursor-pointer ${
                         userFilter === f.id

@@ -1063,3 +1063,111 @@ export async function pingAndWakeDatabase(): Promise<DbPingResult> {
 }
 
 
+
+/* ------------------------------------------------------------------ *
+ * Dashboard statistik admin (Langkah 2 — activity_log)
+ *
+ * Gate ada di DATABASE lewat is_admin(), bukan di UI: halaman /admin
+ * boleh dibuka siapa pun, tapi RPC ini melempar `forbidden` (42501)
+ * untuk non-admin. RPC lama yang masih memakai p_key sengaja tidak
+ * diikutkan ke sini supaya migrasi bertahap.
+ * ------------------------------------------------------------------ */
+
+export type AdminOverview = {
+  total_users: number;
+  new_today: number;
+  dau: number;
+  wau: number;
+  mau: number;
+  lessons_today: number;
+  raffle_entries_today: number;
+  log_since: string | null;
+};
+
+export type AdminDailyPoint = {
+  day: string;
+  signups: number;
+  active_users: number;
+  lessons: number;
+};
+
+export type AdminFunnelRow = { lesson_id: string; users: number };
+
+export type AdminActivityRow = {
+  created_at: string;
+  username: string | null;
+  event: string;
+  ref_id: string | null;
+  meta: Record<string, unknown>;
+};
+
+export type AdminAnalytics = {
+  overview: AdminOverview;
+  series: AdminDailyPoint[];
+  funnel: AdminFunnelRow[];
+  feed: AdminActivityRow[];
+};
+
+/** Pesan khusus supaya UI bisa membedakan "bukan admin" dari error lain. */
+export const ADMIN_FORBIDDEN = "forbidden";
+
+function isForbidden(message: string | undefined): boolean {
+  if (!message) return false;
+  return /forbidden|42501|permission denied/i.test(message);
+}
+
+export async function rpcAdminAnalytics(days = 30): Promise<
+  { ok: true; data: AdminAnalytics } | { ok: false; error: string; forbidden: boolean }
+> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { ok: false, error: "Database belum dikonfigurasi.", forbidden: false };
+  }
+  try {
+    const [o, s, f, r] = await Promise.all([
+      supabase.rpc("admin_overview"),
+      supabase.rpc("admin_daily_series", { p_days: days }),
+      supabase.rpc("admin_lesson_funnel"),
+      supabase.rpc("admin_recent_activity", { p_limit: 50 }),
+    ]);
+
+    const firstError = o.error || s.error || f.error || r.error;
+    if (firstError) {
+      return {
+        ok: false,
+        error: firstError.message,
+        forbidden: isForbidden(firstError.message),
+      };
+    }
+
+    return {
+      ok: true,
+      data: {
+        overview: (o.data ?? {}) as AdminOverview,
+        series: (Array.isArray(s.data) ? s.data : []) as AdminDailyPoint[],
+        funnel: (Array.isArray(f.data) ? f.data : []) as AdminFunnelRow[],
+        feed: (Array.isArray(r.data) ? r.data : []) as AdminActivityRow[],
+      },
+    };
+  } catch (err: unknown) {
+    const msg = (err as Error)?.message || "Gagal memuat statistik admin.";
+    return { ok: false, error: msg, forbidden: isForbidden(msg) };
+  }
+}
+
+/**
+ * Apakah pemanggil terdaftar sebagai admin (kolom profiles.is_admin)?
+ *
+ * Dipakai /admin untuk membuka panel tanpa kunci rahasia: penentuannya di
+ * database, bukan di UI. Non-admin dapat `false` (bukan error) karena RPC
+ * `is_admin()` sendiri tidak melempar — lihat migration admin_analytics.
+ */
+export async function rpcIsAdmin(): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  try {
+    const { data, error } = await supabase.rpc("is_admin");
+    if (error) return false;
+    return data === true;
+  } catch {
+    return false;
+  }
+}

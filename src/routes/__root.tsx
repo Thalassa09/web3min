@@ -50,6 +50,10 @@ export const Route = createRootRoute({
       ...defaultSeo.meta,
     ],
     links: [
+      // favicon.ico DULU 404 — itu jalur pertama yang dicek Google & browser
+      // lama, dan sebab utamanya web3min.com tampil dengan globe generik di
+      // hasil pencarian. Sekarang ada, multi-ukuran 16/32/48/64.
+      { rel: "icon", href: "/favicon.ico", sizes: "16x16 32x32 48x48 64x64" },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "icon", type: "image/png", sizes: "192x192", href: "/icon-192.png" },
       { rel: "icon", type: "image/png", sizes: "512x512", href: "/icon-512.png" },

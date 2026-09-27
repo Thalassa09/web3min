@@ -1,7 +1,7 @@
 {
   "name": "web3min",
   "short_name": "web3min",
-  "description": "Belajar Web3 dari nol: 128 blok, 20 rute, bahasa santai. Dompet, DeFi, sampai cara ngenalin penipu.",
+  "description": "Kenali penipu crypto sebelum kena. 20 rute berjenjang, 128 blok latihan interaktif. Dompet, DeFi, sampai NFT — gratis, tanpa modal, tanpa perlu dompet asli.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -23,13 +23,13 @@
       "purpose": "any"
     },
     {
-      "src": "/icon-192.png",
+      "src": "/icon-maskable-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

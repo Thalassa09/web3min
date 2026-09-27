@@ -12,7 +12,8 @@ import { buildMeta } from "@/lib/seo";
 export const Route = createFileRoute("/")({
   head: () =>
     buildMeta({
-      title: "web3min — Belajar Web3 dari nol, bahasa santai",
+      // Judul TIDAK ditulis ulang di sini — dulu disalin persis dari seo.ts,
+      // jadi mengubah satu tempat membuat yang lain diam-diam basi.
       path: "/",
     }),
   component: Home,

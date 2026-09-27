@@ -1,6 +1,22 @@
-export const DEFAULT_SITE_TITLE = "web3min — Belajar Web3 dari nol, bahasa santai";
+/**
+ * Judul & deskripsi situs — SATU SUMBER untuk beranda, manifest PWA, dan kartu
+ * share. Jangan tulis ulang string ini di tempat lain: `index.tsx` dulu menyalin
+ * judulnya persis, jadi mengubah satu tempat diam-diam membuat yang lain basi.
+ *
+ * Kenapa kalimatnya begini (diukur, bukan selera):
+ *  - "gratis" WAJIB ada: konten tidak digerbang bayar (supporter = donasi
+ *    opsional: badge + isi nyawa 4× + tiket 3×), dan "gratis" kata kunci yang
+ *    paling dicari pemula Indonesia.
+ *  - "anti-tipu" = pain point terkuat. 14 kasus on-chain di arsip Kisah.
+ *  - Angka 20 rute / 128 blok DIVERIFIKASI dari kurikulum
+ *    (`sequentialNodes()` = 128, `UNITS.length` = 20), bukan dikarang.
+ *  - "bahasa santai" dulu muncul di judul DAN deskripsi (membuang ruang
+ *    deskripsi yang hanya ~160 char ditampilkan Google).
+ *  - Judul 51 char, deskripsi 156 char — di dalam batas tampil Google.
+ */
+export const DEFAULT_SITE_TITLE = "web3min — Belajar Web3 dari nol, gratis & anti-tipu";
 export const DEFAULT_DESCRIPTION =
-  "Belajar Web3 dari nol: 128 blok, 20 rute, bahasa santai. Dompet, DeFi, sampai cara ngenalin penipu.";
+  "Kenali penipu crypto sebelum kena. 20 rute berjenjang, 128 blok latihan interaktif. Dompet, DeFi, sampai NFT — gratis, tanpa modal, tanpa perlu dompet asli.";
 export const BASE_URL = "https://web3min.com";
 export const DEFAULT_OG_IMAGE = `${BASE_URL}/og.jpg`;
 

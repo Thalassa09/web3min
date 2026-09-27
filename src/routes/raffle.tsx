@@ -805,7 +805,7 @@ function RafflePage() {
         {allRaffles.length === 0 && isDbLoading ? (
           <SkeletonCards count={4} />
         ) : filteredRaffles.length === 0 ? (
-          <div className="py-16 text-center space-y-3 bg-white rounded-[28px] border-3 border-choco-900 shadow-[0_4px_0_#3B2218] p-6">
+          <div className="py-16 text-center space-y-3 bg-white rounded-[28px] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] p-6">
             <div className="size-16 mx-auto rounded-full bg-lemon/30 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center text-choco-900">
               <Ticket className="size-8 text-candy-600" />
             </div>
@@ -1194,7 +1194,7 @@ function RafflePage() {
           onClick={() => setShowBuyModal(false)}
         >
           <div
-            className="relative w-full max-w-sm rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200"
+            className="relative w-full max-w-sm rounded-[28px] bg-cream border-2 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1302,7 +1302,7 @@ function RafflePage() {
           onClick={() => setEnteringRaffle(null)}
         >
           <div
-            className="relative w-full max-w-md rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200"
+            className="relative w-full max-w-md rounded-[28px] bg-cream border-2 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1447,7 +1447,7 @@ function RafflePage() {
           onClick={() => setShowGuideModal(false)}
         >
           <div
-            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 space-y-4 tactile-scrollbar"
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-[28px] bg-cream border-2 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 space-y-4 tactile-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1539,7 +1539,7 @@ function RafflePage() {
           onClick={() => setPreviewImage(null)}
         >
           <div
-            className="relative max-w-lg w-full rounded-3xl bg-cream border-3 border-choco-900 p-4 shadow-[0_8px_0_#3B2218] text-center"
+            className="relative max-w-lg w-full rounded-3xl bg-cream border-2 border-choco-900 p-4 shadow-[0_8px_0_#3B2218] text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1571,7 +1571,7 @@ function RafflePage() {
           onClick={() => setPreviewFairness(null)}
         >
           <div
-            className="relative w-full max-w-md rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 space-y-3"
+            className="relative w-full max-w-md rounded-[28px] bg-cream border-2 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 space-y-3"
             onClick={(e) => e.stopPropagation()}
           >
             <button

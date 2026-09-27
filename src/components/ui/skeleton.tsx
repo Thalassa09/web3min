@@ -42,7 +42,7 @@ export function SkeletonCards({ count = 4 }: { count?: number }) {
       {Array.from({ length: count }, (_, i) => (
         <div
           key={i}
-          className="rounded-[28px] border-3 border-choco-900/15 bg-white p-5 sm:p-6 shadow-[0_4px_0_rgba(59,34,24,0.06)] space-y-4"
+          className="rounded-[28px] border-2 border-choco-900/15 bg-white p-5 sm:p-6 shadow-[0_4px_0_rgba(59,34,24,0.06)] space-y-4"
         >
           <div className="flex items-center justify-between gap-2">
             <Skeleton className="h-6 w-24 rounded-full" />

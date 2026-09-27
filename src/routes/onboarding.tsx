@@ -168,7 +168,7 @@ function Onboarding() {
 
   return (
     <main className="min-h-dvh bg-cream-50 flex items-start sm:items-center justify-center px-3 py-6 sm:px-6 sm:py-10 relative select-none overflow-x-hidden overflow-y-auto">
-      <div className="w-full max-w-4xl relative z-10 bg-cream rounded-[32px] border-4 border-choco-900 shadow-[0_10px_0_#3B2218] p-6 sm:p-10">
+      <div className="w-full max-w-4xl relative z-10 bg-cream rounded-[32px] border-2 border-choco-900 shadow-[0_10px_0_#3B2218] p-6 sm:p-10">
         {/* Step Progress Bar (Shown on Step 1 & 2) */}
         {step > 0 && (
           <div className="mb-6 flex items-center justify-between gap-3">
@@ -189,7 +189,7 @@ function Onboarding() {
         )}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
           {/* Mascot Side (5 Cols - Blobi on Tactile 3D Arcade Tile) */}
-          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-linear-to-b from-blush-50 to-blush-100 border-3 border-choco-900 shadow-[0_6px_0_#3B2218] rounded-3xl p-6 gap-4 relative overflow-hidden">
+          <div className="md:col-span-5 flex md:flex-col items-center justify-center text-left md:text-center bg-linear-to-b from-blush-50 to-blush-100 border-2 border-choco-900 shadow-[0_6px_0_#3B2218] rounded-3xl p-6 gap-4 relative overflow-hidden">
             {/* Decorative Arcade Top Badge */}
             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 hidden md:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-candy-800 border-2 border-choco-900 text-white font-pixel text-[9px] font-bold shadow-[0_2px_0_#3B2218]">
               <Sparkles className="size-2.5 text-white" />
@@ -387,7 +387,7 @@ function Onboarding() {
                           setFormError(null);
                         }}
                         placeholder="contoh: satoshi atau blobi_fan"
-                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                        className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
                         autoFocus
                         autoComplete="username"
                       />
@@ -412,7 +412,7 @@ function Onboarding() {
                       onFocus={() => setIsTypingPassword(true)}
                       onBlur={() => setIsTypingPassword(false)}
                       autoComplete={authMode === "register" ? "new-password" : "current-password"}
-                      className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                      className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
                       placeholder="Minimal 6 karakter"
                     />
                   </div>
@@ -433,7 +433,7 @@ function Onboarding() {
                         onFocus={() => setIsTypingPassword(true)}
                         onBlur={() => setIsTypingPassword(false)}
                         autoComplete="new-password"
-                        className="w-full h-13 px-4 rounded-2xl bg-white border-3 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
+                        className="w-full h-13 px-4 rounded-2xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_3px_0_#3B2218] focus:border-candy-500 focus:shadow-[0_4px_0_#3B2218] outline-none transition-all"
                         placeholder="Ulangi password yang sama"
                       />
                     </div>

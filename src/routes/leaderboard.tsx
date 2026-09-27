@@ -689,7 +689,7 @@ function LeaderboardPage() {
           onClick={() => setShowPrizeModal(false)}
         >
           <div
-            className="relative w-full max-w-lg rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-4 max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200 text-choco-900"
+            className="relative w-full max-w-lg rounded-[28px] border-2 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-4 max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200 text-choco-900"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b-2 border-choco-900/15 pb-3">

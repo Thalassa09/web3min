@@ -97,7 +97,7 @@ export function CurrentLessonCard({
     return (
       <div
         className={cn(
-          "rounded-[24px] border-3 border-choco-900 bg-gradient-to-b from-white to-choco-line p-5 shadow-[0_6px_0_#3B2218]",
+          "rounded-[24px] border-2 border-choco-900 bg-gradient-to-b from-white to-choco-line p-5 shadow-[0_6px_0_#3B2218]",
           className,
         )}
       >
@@ -135,7 +135,7 @@ export function CurrentLessonCard({
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       {/* Kartu utama */}
-      <div className="rounded-[24px] border-3 border-choco-900 bg-gradient-to-b from-white to-choco-line p-4 shadow-[0_6px_0_#3B2218] sm:p-5">
+      <div className="rounded-[24px] border-2 border-choco-900 bg-gradient-to-b from-white to-choco-line p-4 shadow-[0_6px_0_#3B2218] sm:p-5">
         <div className="flex items-start gap-3">
           <div className="min-w-0 flex-1">
             <p className="font-pixel text-[10px] font-bold uppercase tracking-wider text-candy-700">

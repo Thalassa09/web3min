@@ -122,7 +122,7 @@ const AnimatedFeatureCard = React.forwardRef<HTMLDivElement, AnimatedFeatureCard
         ref={ref}
         style={cardStyle}
         className={cn(
-          "group relative flex min-h-[380px] sm:min-h-[410px] w-full flex-col justify-between overflow-hidden rounded-[26px] border-3 border-choco-900 bg-cream p-4 sm:p-5 shadow-[0_6px_0_#3B2218] transition-colors select-none",
+          "group relative flex min-h-[380px] sm:min-h-[410px] w-full flex-col justify-between overflow-hidden rounded-[26px] border-2 border-choco-900 bg-cream p-4 sm:p-5 shadow-[0_6px_0_#3B2218] transition-colors select-none",
           isLocked && "opacity-75 grayscale-[0.35]",
           className
         )}

@@ -419,7 +419,7 @@ export function BlobiLockedModal({
       onClick={onDismiss}
     >
       <div
-        className="relative w-full max-w-sm p-5 sm:p-6 rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] animate-in zoom-in-95 duration-200 text-choco-900"
+        className="relative w-full max-w-sm p-5 sm:p-6 rounded-[28px] bg-cream border-2 border-choco-900 shadow-[0_8px_0_#3B2218] animate-in zoom-in-95 duration-200 text-choco-900"
         onClick={(e) => e.stopPropagation()}
       >
         <button

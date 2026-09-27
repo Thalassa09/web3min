@@ -47,7 +47,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
             />
 
             {/* Expanded HUD Card */}
-            <div className="relative z-40 w-[330px] max-h-[calc(100vh-9.5rem)] rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] overflow-hidden flex flex-col transition-all duration-200 animate-in fade-in zoom-in-95 text-choco-900">
+            <div className="relative z-40 w-[330px] max-h-[calc(100vh-9.5rem)] rounded-[28px] bg-cream border-2 border-choco-900 shadow-[0_8px_0_#3B2218] overflow-hidden flex flex-col transition-all duration-200 animate-in fade-in zoom-in-95 text-choco-900">
               {/* Game HUD Header */}
               <div className="flex items-center justify-between px-4 py-2.5 bg-candy-100 text-choco-900 border-b-2 border-choco-900 shrink-0">
                 <div className="flex items-center gap-2">
@@ -139,7 +139,7 @@ export function GameOverlayHUD({ children }: { children?: ReactNode }) {
             aria-label="Tutup overlay"
           />
 
-          <div className="relative w-full max-w-md bg-cream border-t-3 sm:border-3 border-choco-900 rounded-t-[28px] sm:rounded-[28px] shadow-[0_8px_0_#3B2218] overflow-hidden max-h-[85vh] flex flex-col z-10 animate-in slide-in-from-bottom-6 duration-200 text-choco-900">
+          <div className="relative w-full max-w-md bg-cream border-t-2 sm:border-2 border-choco-900 rounded-t-[28px] sm:rounded-[28px] shadow-[0_8px_0_#3B2218] overflow-hidden max-h-[85vh] flex flex-col z-10 animate-in slide-in-from-bottom-6 duration-200 text-choco-900">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 bg-candy-100 text-choco-900 border-b-2 border-choco-900 shrink-0">
               <div className="flex items-center gap-2">

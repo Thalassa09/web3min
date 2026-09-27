@@ -24,7 +24,7 @@ export function Card({ className, font, children, ...props }: BitCardProps) {
   return (
     <div
       className={cn(
-        "relative bg-card text-card-foreground border-y-4 md:border-y-6 border-foreground dark:border-ring p-0",
+        "relative bg-card text-card-foreground border-y-2 md:border-y-6 border-foreground dark:border-ring p-0",
         font !== "normal" && "retro",
         className
       )}
@@ -35,7 +35,7 @@ export function Card({ className, font, children, ...props }: BitCardProps) {
       </div>
 
       <div
-        className="absolute inset-0 border-x-4 md:border-x-6 -mx-1 md:-mx-1.5 border-inherit pointer-events-none"
+        className="absolute inset-0 border-x-2 md:border-x-6 -mx-1 md:-mx-1.5 border-inherit pointer-events-none"
         aria-hidden="true"
       />
     </div>

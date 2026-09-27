@@ -169,7 +169,7 @@ export function StoryPlayer({ story }: { story: Story }) {
         </div>
       </div>
 
-      <div className="border-t-3 border-choco-900 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-white">
+      <div className="border-t-2 border-choco-900 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-white">
         <DuoButton wide disabled={beat.type === "fork" && pick === null} onClick={advance}>
           {last ? "Kelar" : "Lanjut"}
         </DuoButton>

@@ -521,7 +521,7 @@ export function AdminPage() {
             <p className="text-center text-xs font-bold text-choco-500">Memeriksa akses admin…</p>
           </div>
         ) : !adminKey && !isAdminSession ? (
-          <div className="max-w-md mx-auto my-8 p-6 sm:p-8 rounded-[32px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200">
+          <div className="max-w-md mx-auto my-8 p-6 sm:p-8 rounded-[32px] bg-cream border-2 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200">
             <div className="flex items-center gap-3 mb-4">
               <div className="size-12 rounded-2xl bg-amber-400 border-2 border-choco-900 flex items-center justify-center shadow-[0_3px_0_#3B2218]">
                 <Shield className="size-6 text-choco-900" />
@@ -804,7 +804,7 @@ export function AdminPage() {
             </div>
 
             {/* Raffles Management List */}
-            <div className="p-5 sm:p-6 rounded-[32px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] space-y-4">
+            <div className="p-5 sm:p-6 rounded-[32px] bg-cream border-2 border-choco-900 shadow-[0_8px_0_#3B2218] space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
                   <h3 className="font-pixel text-lg font-bold text-choco-900">
@@ -1342,7 +1342,7 @@ function AdminParticipantsModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-xl max-h-[90vh] flex flex-col rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 overflow-hidden"
+        className="relative w-full max-w-xl max-h-[90vh] flex flex-col rounded-[28px] bg-cream border-2 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -1669,7 +1669,7 @@ function RaffleVerificationModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-[28px] bg-cream border-3 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 overflow-hidden"
+        className="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-[28px] bg-cream border-2 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900 animate-in zoom-in-95 duration-200 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

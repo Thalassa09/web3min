@@ -46,7 +46,7 @@ export function CensoredUsernameModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-choco-900/60 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-md rounded-[28px] border-3 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-4 text-choco-900 animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md rounded-[28px] border-2 border-choco-900 bg-cream p-5 sm:p-6 shadow-[0_8px_0_#3B2218] space-y-4 text-choco-900 animate-in zoom-in-95 duration-200">
         <div className="flex items-center gap-3 border-b-2 border-choco-900/15 pb-3">
           <div className="size-11 rounded-2xl border-2 border-choco-900 bg-lemon text-choco-900 flex items-center justify-center shadow-[0_2px_0_#3B2218] shrink-0">
             <ShieldAlert className="size-6 text-choco-900" />

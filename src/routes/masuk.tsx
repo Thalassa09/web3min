@@ -114,10 +114,10 @@ function MasukPage() {
 
   return (
     <main className="min-h-dvh bg-[#FDFBF7] flex flex-col justify-start sm:justify-center items-center px-4 py-6 sm:py-8 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] overflow-y-auto">
-      <div className="w-full max-w-md p-6 sm:p-8 rounded-[32px] bg-cream border-4 border-choco-900 shadow-[0_10px_0_#3B2218] my-auto">
+      <div className="w-full max-w-md p-6 sm:p-8 rounded-[32px] bg-cream border-2 border-choco-900 shadow-[0_10px_0_#3B2218] my-auto">
         {/* Mascot & Title */}
         <div className="flex items-center gap-4 mb-6">
-          <div className="size-20 rounded-2xl bg-linear-to-b from-blush-50 to-[#FCE7F3] border-3 border-choco-900 shadow-[0_4px_0_#3B2218] flex items-center justify-center shrink-0">
+          <div className="size-20 rounded-2xl bg-linear-to-b from-blush-50 to-[#FCE7F3] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] flex items-center justify-center shrink-0">
             <Mascot
               mood={isTypingPassword ? "sleep" : "wave"}
               size={64}
@@ -240,7 +240,7 @@ function MasukPage() {
           aria-labelledby="reset-modal-title"
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-choco-900/60 backdrop-blur-xs select-none"
         >
-          <div className="relative w-full max-w-md rounded-[28px] bg-cream border-3 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 space-y-4">
+          <div className="relative w-full max-w-md rounded-[28px] bg-cream border-2 border-choco-900 p-5 sm:p-6 shadow-[0_8px_0_#3B2218] text-choco-900 space-y-4">
             {/* Header Modal */}
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-2.5">

@@ -61,7 +61,7 @@ function CaraPage() {
     <AppShell>
       <main className="max-w-3xl mx-auto px-4 py-6 sm:py-8 select-none">
         {/* Hero Banner */}
-        <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-[#FFF5F8] to-[#FED7E2] border-4 border-choco-900 shadow-[0_8px_0_#3B2218] flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 text-center sm:text-left">
+        <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-[#FFF5F8] to-[#FED7E2] border-2 border-choco-900 shadow-[0_8px_0_#3B2218] flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 text-center sm:text-left">
           <div className="flex-1">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-candy-800 border-2 border-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218] mb-2.5">
               BUKU PANDUAN
@@ -93,7 +93,7 @@ function CaraPage() {
             {STEPS.map((s) => (
               <div
                 key={s.num}
-                className="p-5 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] transition-all flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218] hover:translate-y-[-2px] hover:shadow-[0_6px_0_#3B2218] transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
@@ -117,7 +117,7 @@ function CaraPage() {
         </div>
 
         {/* Safety Callout */}
-        <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-coin-fill-deep border-3 border-choco-900 shadow-[0_5px_0_#3B2218] flex items-start gap-4 text-choco-900">
+        <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-coin-fill-deep border-2 border-choco-900 shadow-[0_5px_0_#3B2218] flex items-start gap-4 text-choco-900">
           <div className="size-11 rounded-2xl bg-choco-900 text-coin-fill-deep flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
             <ShieldAlert className="size-6" />
           </div>
@@ -138,7 +138,7 @@ function CaraPage() {
         <div className="mt-8 flex flex-col sm:flex-row gap-3">
           <Link
             to="/"
-            className="flex-1 py-4 px-6 rounded-2xl bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs sm:text-sm border-3 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all text-center"
+            className="flex-1 py-4 px-6 rounded-2xl bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs sm:text-sm border-2 border-choco-900 shadow-[0_4px_0_#3B2218] active:translate-y-1 active:shadow-[0_1px_0_#3B2218] cursor-pointer flex items-center justify-center gap-2 transition-all text-center"
           >
             <span>Mulai Petualangan Pulau Rantai</span>
             <ArrowRight className="size-4" />

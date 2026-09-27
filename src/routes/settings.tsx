@@ -45,7 +45,7 @@ function SettingsPage() {
         <h1 className="text-[28px] font-extrabold leading-[34px] font-display text-choco-900">Pengaturan</h1>
 
         {/* Progress Synchronization Card */}
-        <section className="mt-5 p-4 sm:p-5 rounded-3xl bg-cream border-3 border-choco-900 shadow-[0_4px_0_#3B2218] text-choco-900">
+        <section className="mt-5 p-4 sm:p-5 rounded-3xl bg-cream border-2 border-choco-900 shadow-[0_4px_0_#3B2218] text-choco-900">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-3">
               <div className="size-10 rounded-2xl bg-lemon-deep border-2 border-choco-900 flex items-center justify-center shadow-[0_2px_0_#3B2218]">

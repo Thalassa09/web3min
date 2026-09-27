@@ -675,7 +675,7 @@ Belajar Web3 interaktif: https://web3min.com`;
           onClick={() => setShowRouteSelector(false)}
         >
           <div
-            className="w-full max-w-lg bg-cream border-3 border-choco-900 rounded-t-[28px] sm:rounded-[28px] shadow-[0_8px_0_#3B2218] max-h-[85vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom-4"
+            className="w-full max-w-lg bg-cream border-2 border-choco-900 rounded-t-[28px] sm:rounded-[28px] shadow-[0_8px_0_#3B2218] max-h-[85vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom-4"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -793,7 +793,7 @@ Belajar Web3 interaktif: https://web3min.com`;
           onClick={() => setShowRekapModal(false)}
         >
           <div
-            className="w-full max-w-md bg-cream border-3 border-choco-900 rounded-[28px] p-5 shadow-[0_8px_0_#3B2218] space-y-4 animate-in zoom-in-95 text-choco-900"
+            className="w-full max-w-md bg-cream border-2 border-choco-900 rounded-[28px] p-5 shadow-[0_8px_0_#3B2218] space-y-4 animate-in zoom-in-95 text-choco-900"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}

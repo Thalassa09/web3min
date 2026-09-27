@@ -190,7 +190,7 @@ export function DeskRail() {
           onClick={() => setShowProgresModal(false)}
         >
           <div
-            className="bg-cream border-3 border-choco-900 rounded-[28px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_8px_0_#3B2218] p-4 sm:p-5 relative animate-in zoom-in-95 duration-200"
+            className="bg-cream border-2 border-choco-900 rounded-[28px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_8px_0_#3B2218] p-4 sm:p-5 relative animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <PulauRantaiProgres onClose={() => setShowProgresModal(false)} />

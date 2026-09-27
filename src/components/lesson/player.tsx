@@ -212,7 +212,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
 
   return (
     <div className={cn("quiz-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden bg-cream lg:max-w-none", world.skin)}>
-      <div className="shrink-0 flex items-center gap-3 px-3 py-2 min-h-11 bg-white border-b-3 border-choco-900 shadow-[0_3px_0_#3B2218] lg:px-8">
+      <div className="shrink-0 flex items-center gap-3 px-3 py-2 min-h-11 bg-white border-b-2 border-choco-900 shadow-[0_3px_0_#3B2218] lg:px-8">
         <button
           type="button"
           aria-label="Keluar"
@@ -328,7 +328,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       </div>
 
       {phase === "ask" && exercise ? (
-        <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t-3 border-choco-900 px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-3px_0_#3B2218] lg:px-8">
+        <div className="shrink-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-choco-900 px-5 py-3.5 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-3px_0_#3B2218] lg:px-8">
           <div className="mx-auto w-full max-w-3xl flex items-center justify-between gap-4">
             <p className="text-xs font-semibold text-choco-600">
               {exercise.type === "tip"

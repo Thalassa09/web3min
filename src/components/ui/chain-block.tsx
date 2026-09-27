@@ -112,7 +112,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
         onClick={onClick}
         aria-label={`${nodeLabel} — ${statusLabel}`}
         className={cn(
-          "relative size-[64px] sm:size-[68px] rounded-full border-3 border-choco-900 cursor-pointer select-none transition-all duration-100",
+          "relative size-[64px] sm:size-[68px] rounded-full border-2 border-choco-900 cursor-pointer select-none transition-all duration-100",
           "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",
           "active:translate-y-[5px] active:shadow-[0_1px_0_#3B2218]",
           status === "active" && [

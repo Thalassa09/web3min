@@ -86,12 +86,12 @@ export function Progress({
       </ProgressPrimitive.Root>
 
       <div
-        className="absolute inset-0 border-y-3 -my-0.5 border-foreground dark:border-ring pointer-events-none"
+        className="absolute inset-0 border-y-2 -my-0.5 border-foreground dark:border-ring pointer-events-none"
         aria-hidden="true"
       />
 
       <div
-        className="absolute inset-0 border-x-3 -mx-0.5 border-foreground dark:border-ring pointer-events-none"
+        className="absolute inset-0 border-x-2 -mx-0.5 border-foreground dark:border-ring pointer-events-none"
         aria-hidden="true"
       />
     </div>

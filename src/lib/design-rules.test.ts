@@ -293,3 +293,22 @@ test("kelas Tailwind yang TIDAK VALID tidak boleh ditulis (gagal senyap)", () =>
   );
 });
 
+test("border 3px/4px dilarang — patokan §9 = border 2px", () => {
+  // Bukti drift (bukan gaya sengaja): 24 berkas CAMPUR border-2 & border-3, dan
+  // NOL berkas yang murni 3px. Di settings.tsx dua <section> berstruktur IDENTIK
+  // (mt-5 p-4 sm:p-5 rounded-3xl) beda border — baris 48 `border-3`, baris 81
+  // `border-2`. Itu drift yang tak terlihat karena tidak ada guard.
+  // Pengecualian sah: `border-b-4` pada tombol kuis & figure — aksen 3D bawah
+  // yang tebal, terbukti berulang di quiz-opt/proof-gallery/case-clinic.
+  const offenders: string[] = [];
+  for (const { path, src } of FILES) {
+    src.split("\n").forEach((line, i) => {
+      const kode = line.replace(/\/\/.*$/, "").replace(/\/\*.*?\*\//g, "");
+      for (const m of kode.matchAll(/border(-[tblrxy])?-(3|4)\b/g)) {
+        if (m[0] === "border-b-4") continue;
+        offenders.push(`${path}:${i + 1} → ${m[0]}`);
+      }
+    });
+  }
+  assert.deepEqual(offenders, [], `border 3px/4px (patokan §9 = 2px):\n${offenders.join("\n")}`);
+});

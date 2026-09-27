@@ -123,7 +123,7 @@ function KisahHub() {
 
         {/* Featured Banner Card */}
         {featured && (
-          <div className="relative overflow-hidden rounded-[28px] border-3 border-choco-900 bg-gradient-to-br from-cream via-[#FFF8F0] to-[#FCECD8] p-5 sm:p-7 shadow-[0_8px_0_#3B2218] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="relative overflow-hidden rounded-[28px] border-2 border-choco-900 bg-gradient-to-br from-cream via-[#FFF8F0] to-[#FCECD8] p-5 sm:p-7 shadow-[0_8px_0_#3B2218] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="relative z-10 max-w-2xl space-y-2">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lemon text-choco-900 border-2 border-choco-900 font-pixel font-bold text-[11px] sm:text-xs shadow-[0_2px_0_#3B2218]">
                 <Sparkles className="size-3.5 text-warn-ink fill-coin-shadow" />
@@ -160,7 +160,7 @@ function KisahHub() {
             </div>
 
             {/* Featured Evidence Graphic */}
-            <div className="relative shrink-0 w-full md:w-72 h-44 rounded-2xl border-3 border-choco-900 bg-white shadow-[0_6px_0_#3B2218] overflow-hidden flex items-center justify-center">
+            <div className="relative shrink-0 w-full md:w-72 h-44 rounded-2xl border-2 border-choco-900 bg-white shadow-[0_6px_0_#3B2218] overflow-hidden flex items-center justify-center">
               <img
                 src={STORY_ASSETS[featured.id]?.image || "/props/star.png"}
                 alt={featured.title}

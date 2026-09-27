@@ -9,7 +9,7 @@ function PrivacyPage() {
     <AppShell>
       <main className="max-w-3xl mx-auto px-4 py-6 sm:py-8 select-none">
         {/* Header Hero Banner */}
-        <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-cream via-candy-100 to-[#FFD6E6] border-4 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900">
+        <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-cream via-candy-100 to-[#FFD6E6] border-2 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900">
           <div className="flex items-center gap-2 mb-2">
             <span className="px-3 py-1 rounded-full bg-candy-800 border-2 border-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218]">
               PRIVASI & KEAMANAN DATA
@@ -26,7 +26,7 @@ function PrivacyPage() {
         {/* Bento Privacy Cards */}
         <div className="mt-8 space-y-4">
           {/* Card 1: Zero Wallet Risk */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
               <div className="size-11 rounded-2xl bg-leaf-fill border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                 <Lock className="size-6 text-leaf-shadow" />
@@ -48,7 +48,7 @@ function PrivacyPage() {
           </div>
 
           {/* Card 2: Local Storage & Supabase Sync */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
               <div className="size-11 rounded-2xl bg-coin-fill border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                 <Database className="size-6 text-warn-ink" />
@@ -70,7 +70,7 @@ function PrivacyPage() {
           </div>
 
           {/* Card 3: No Ads & Tracking */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
               <div className="size-11 rounded-2xl bg-candy-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                 <EyeOff className="size-6 text-candy-800" />
@@ -92,7 +92,7 @@ function PrivacyPage() {
           </div>
 
           {/* Card 4: Full User Control */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
               <div className="size-11 rounded-2xl bg-err-soft border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                 <Trash2 className="size-6 text-err-ink" />
@@ -114,7 +114,7 @@ function PrivacyPage() {
           </div>
 
           {/* Card 5: Data Undian */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
               <div className="size-11 rounded-2xl bg-purple-100 border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                 <Shield className="size-6 text-purple-800" />
@@ -136,7 +136,7 @@ function PrivacyPage() {
           </div>
 
           {/* Card 6: Pedoman Komunitas & Sensor Username */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-white border-3 border-choco-900 shadow-[0_4px_0_#3B2218]">
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_4px_0_#3B2218]">
             <div className="flex items-start gap-4">
               <div className="size-11 rounded-2xl bg-leaf-fill border-2 border-choco-900 flex items-center justify-center shrink-0 shadow-[0_2px_0_#3B2218]">
                 <CheckCircle2 className="size-6 text-leaf-shadow" />
@@ -169,7 +169,7 @@ function PrivacyPage() {
           </Link>
           <Link
             to="/about"
-            className="py-3.5 px-6 rounded-2xl bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-3 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer text-center"
+            className="py-3.5 px-6 rounded-2xl bg-candy-800 hover:bg-candy-950 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] active:translate-y-0.5 cursor-pointer text-center"
           >
             Tentang Web3min
           </Link>

@@ -608,9 +608,9 @@ function RafflePage() {
           </Link>
           <div
             aria-current="page"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-xs md:text-sm font-pixel font-bold text-white shadow-[0_3px_0_#6E1239] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-xs md:text-sm font-pixel font-bold text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none transition-transform"
           >
-            <Ticket className="h-4 w-4 shrink-0 text-white stroke-[2.5]" />
+            <Ticket className="h-4 w-4 shrink-0 text-choco-900 stroke-[2.5]" />
             <span>Undian Hadiah</span>
           </div>
         </div>

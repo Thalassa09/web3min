@@ -6,7 +6,12 @@ import { firstPlayableId } from "@/lib/curriculum";
 import { ArrowRight } from "@/lib/kicon";
 import { cn } from "@/lib/utils";
 
-// Gradient pink untuk elemen aktif & tombol "Lanjut". Ini versi GELAP dari
+// Gradient pink untuk TOMBOL AKSI "Lanjut" saja. Tab nav aktif TIDAK lagi
+// memakainya — sejak permintaan user (2026-09-27) semua tab aktif memakai
+// pastel rose (blush-50 -> blush-200, teks choco-900) seperti chip "Murid
+// Blobi" di /profile. Jangan kembalikan tab ke ramp gelap ini.
+//
+// Ini versi GELAP dari
 // brand pink: #FF6699/#E8437F/#D82668 hanya 3.79:1 di atas label putih (gagal
 // WCAG AA untuk teks kecil). Jangan dikembalikan ke stop terang sebelum
 // contrast-budget.test.ts ikut diubah.
@@ -104,7 +109,7 @@ function NavLink({
       className={cn(
         "flex h-12 min-w-0 flex-col items-center justify-center rounded-2xl transition-all duration-120 ease-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-choco-900",
         active
-          ? cn("border-2 border-candy-600/50 text-white", CANDY_ACTIVE)
+          ? "border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62]"
           : "text-choco-900/60 hover:text-choco-900 hover:bg-white/60 font-bold",
       )}
     >
@@ -112,7 +117,7 @@ function NavLink({
         <Icon
           className={cn(
             "size-5 shrink-0 transition-colors",
-            active ? "text-white stroke-[2.4]" : "text-choco-900/70",
+            active ? "text-choco-900 stroke-[2.4]" : "text-choco-900/70",
           )}
           weight={active ? "fill" : "regular"}
         />
@@ -120,7 +125,7 @@ function NavLink({
       <span
         className={cn(
           "mt-0.5 truncate text-[10px] tracking-[0.01em] leading-none",
-          active ? "text-white font-extrabold" : "text-choco-900/70 font-bold",
+          active ? "text-choco-900 font-extrabold" : "text-choco-900/70 font-bold",
         )}
       >
         {item.label}

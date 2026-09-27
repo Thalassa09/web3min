@@ -110,7 +110,7 @@ function KisahHub() {
                   className={cn(
                     "px-3.5 py-1.5 min-h-11 sm:px-4 sm:py-2 rounded-xl border-2 font-pixel font-bold text-xs sm:text-sm transition-all cursor-pointer whitespace-nowrap inline-flex items-center",
                     active
-                      ? "border-candy-600 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
+                      ? "border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                       : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                   )}
                 >

@@ -194,7 +194,7 @@ function ShopPage() {
               aria-pressed={mode === "shop"}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2 min-h-11 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "shop"
-                  ? "bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
+                  ? "border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                   : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
               }`}
             >
@@ -208,7 +208,7 @@ function ShopPage() {
               aria-pressed={mode === "wardrobe"}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2 min-h-11 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "wardrobe"
-                  ? "bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
+                  ? "border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                   : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
               }`}
             >
@@ -659,7 +659,7 @@ function ShopPage() {
                         aria-pressed={wardrobeScope === "owned"}
                         className={`flex-1 sm:flex-initial px-3 py-1 min-h-11 rounded-xl border-2 text-xs font-pixel font-bold cursor-pointer text-center transition-all whitespace-nowrap ${
                           wardrobeScope === "owned"
-                            ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
+                            ? "border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                             : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                         }`}
                       >
@@ -671,7 +671,7 @@ function ShopPage() {
                         aria-pressed={wardrobeScope === "all"}
                         className={`flex-1 sm:flex-initial px-3 py-1 min-h-11 rounded-xl border-2 text-xs font-pixel font-bold cursor-pointer text-center transition-all whitespace-nowrap ${
                           wardrobeScope === "all"
-                            ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
+                            ? "border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                             : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                         }`}
                       >

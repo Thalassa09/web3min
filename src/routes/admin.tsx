@@ -701,7 +701,7 @@ export function AdminPage() {
                     }}
                     className={`px-4 py-2 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                       active
-                        ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
+                        ? "border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                         : "border-transparent bg-white text-choco-700 hover:bg-cream hover:border-choco-900/20"
                     }`}
                   >

@@ -343,7 +343,7 @@ export function AdminStatsPanel() {
                 onClick={() => setDays(d)}
                 className={`px-3 py-1.5 rounded-lg font-pixel text-xs font-bold border-2 transition-all cursor-pointer ${
                   active
-                    ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_2px_0_#6E1239]"
+                    ? "border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                     : "border-transparent text-choco-700 hover:bg-white"
                 }`}
               >

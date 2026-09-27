@@ -245,13 +245,13 @@ function NavRow({
       className="group flex w-full items-center"
     >
       {active ? (
-        <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 pl-2 pr-4 text-white shadow-[0_4px_0_#B01E5D] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01E5D]">
+        <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 pl-2 pr-4 text-choco-900 shadow-[0_4px_0_#B01F62] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01F62]">
           <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20 p-0.5">
-            <span className="grid size-8 place-items-center rounded-full bg-white text-[#FF3D88] shadow-[0_2px_0_#3B2218]">
+            <span className="grid size-8 place-items-center rounded-full bg-white text-candy-700 shadow-[0_2px_0_#3B2218]">
               {icon}
             </span>
           </span>
-          <span className="font-display text-[15.5px] font-extrabold tracking-[-0.01em] text-white">
+          <span className="font-display text-[15.5px] font-extrabold tracking-[-0.01em] text-choco-900">
             {label}
           </span>
           {badge ? <Badge tone={badgeTone} className="ml-auto" label={badge} /> : null}

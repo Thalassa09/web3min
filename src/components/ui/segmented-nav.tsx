@@ -66,7 +66,7 @@ export function SegmentedNav({
               active:translate-y-[1px]
               ${
                 isActive
-                  ? "border-2 border-candy-600 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_2px_0_#3B2218]"
+                  ? "border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 text-choco-900 shadow-[0_3px_0_#B01F62] hover:brightness-105 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none"
                   : "border-2 border-transparent text-choco-600 hover:text-choco-900 hover:bg-candy-50"
               }
             `}

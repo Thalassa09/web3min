@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { CaseClinic } from "@/components/case-clinic";
 import { getCase, isOpen } from "@/lib/stories";
-import { useProgress } from "@/lib/store";
+import { useProgress, useHydrated } from "@/lib/store";
 
 export const Route = createFileRoute("/bedah/$caseId")({ component: CasePage });
 
@@ -12,15 +12,23 @@ function CasePage() {
   const onboarded = useProgress((s) => s.onboarded);
   const introSeen = useProgress((s) => s.introSeen);
   const completed = useProgress((s) => s.completed);
+  const hydrated = useHydrated();
   const navigate = useNavigate();
   const open = study ? isOpen(study.unlockAfter, completed) : false;
 
   useEffect(() => {
-    if (!onboarded) void navigate({ to: "/onboarding" });
-    else if (!introSeen) void navigate({ to: "/intro" });
+    // Tunggu localStorage selesai dibaca dulu — efek anak berjalan sebelum efek
+    // induk (HydrationGate), jadi tanpa ini deep link /bedah/<id> terlempar ke
+    // /onboarding walau user sudah daftar.
+    if (!hydrated) return;
+    // Baca nilai TERKINI: field dari render ini bisa tertinggal satu render saat
+    // rehydrate selesai (lihat catatan di lesson.$lessonId.tsx).
+    const live = useProgress.getState();
+    if (!live.onboarded) void navigate({ to: "/onboarding" });
+    else if (!live.introSeen) void navigate({ to: "/intro" });
     else if (!study || !open) void navigate({ to: "/kisah" });
-  }, [onboarded, introSeen, study, open, navigate]);
+  }, [hydrated, onboarded, introSeen, study, open, navigate]);
 
-  if (!onboarded || !introSeen || !study || !open) return null;
+  if (!hydrated || !onboarded || !introSeen || !study || !open) return null;
   return <CaseClinic key={study.id} study={study} />;
 }

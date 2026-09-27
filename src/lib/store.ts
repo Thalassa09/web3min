@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useEffect, useState } from "react";
 import { getLesson, isUnlocked } from "@/lib/curriculum";
 import { ACCESSORY_BY_ID, featuredOf, sanitizeWorn, type Worn } from "@/lib/accessories";
 import { FREEZE_COST, HEART_REFILL_COST, OUTFIT_LABEL, SHOP_ITEMS } from "@/lib/shop";
@@ -14,6 +15,46 @@ import { rpcBuyTickets, rpcEnterRaffle, rpcUpdateRaffleWallet, rpcClaimWeeklyLea
 import { isValidEvmAddress } from "@/lib/wallet";
 
 export type DailyGoal = 10 | 20 | 30 | 50;
+
+/**
+ * Apakah localStorage sudah selesai dibaca?
+ *
+ * Store memakai `skipHydration`, jadi render pertama (server + klien) selalu
+ * memakai nilai default — `onboarded: false`. Rute yang menjaga akses di dalam
+ * `useEffect` (lesson, bedah, intro) berjalan LEBIH DULU daripada efek induk
+ * yang me-rehydrate, karena React menjalankan efek anak sebelum efek induk.
+ * Akibatnya user yang sudah login tapi membuka tautan langsung
+ * `/lesson/u1-l1` dilempar ke `/onboarding` lalu ke `/` — dua hop itu terlihat
+ * persis di rekaman history: `pushState /onboarding` → `pushState /`.
+ *
+ * Rute WAJIB menunggu flag ini sebelum memutuskan redirect, dan harus
+ * berlangganan (`useHydrated`) — bukan membaca sekali — karena efek anak
+ * berjalan sebelum rehydrate selesai.
+ */
+const hydratedListeners = new Set<() => void>();
+export const hydration: { ready: boolean; subscribe: (fn: () => void) => () => void } = {
+  ready: false,
+  subscribe(fn: () => void) {
+    hydratedListeners.add(fn);
+    return () => hydratedListeners.delete(fn);
+  },
+};
+
+export function markHydrated() {
+  if (hydration.ready) return;
+  hydration.ready = true;
+  for (const fn of hydratedListeners) fn();
+}
+
+/** Dipakai rute: `const hydrated = useHydrated();` lalu jangan redirect sebelum true. */
+export function useHydrated(): boolean {
+  const [ready, setReady] = useState(hydration.ready);
+  useEffect(() => {
+    if (hydration.ready) return;
+    return hydration.subscribe(() => setReady(true));
+  }, []);
+  return ready;
+}
 
 export const MAX_HEARTS = 5;
 export const HEART_MS = 20 * 60 * 1000;

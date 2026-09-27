@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Mascot, SpeechBubble, TypeLine, type MascotMood } from "@/components/mascot";
 import { resumePath } from "@/lib/continue-to";
 import { playComplete } from "@/lib/audio";
-import { useProgress } from "@/lib/store";
+import { useProgress, useHydrated } from "@/lib/store";
 
 export const Route = createFileRoute("/intro")({ component: Intro });
 
@@ -29,6 +29,7 @@ function Intro() {
   const introSeen = useProgress((s) => s.introSeen);
   const completeIntro = useProgress((s) => s.completeIntro);
   const sound = useProgress((s) => s.sound);
+  const hydrated = useHydrated();
   const navigate = useNavigate();
   const router = useRouter();
   const [beat, setBeat] = useState(0);
@@ -42,9 +43,15 @@ function Intro() {
   }, [completeIntro, router]);
 
   useEffect(() => {
-    if (!onboarded) void navigate({ to: "/onboarding" });
-    else if (introSeen) leave();
-  }, [onboarded, introSeen, navigate, leave]);
+    // Tunggu rehydrate dulu (efek anak jalan sebelum efek induk) supaya user
+    // yang sudah daftar tidak terlempar ke /onboarding saat buka /intro langsung.
+    if (!hydrated) return;
+    // Baca nilai TERKINI: `onboarded` dari render ini bisa tertinggal satu render
+    // saat rehydrate selesai (lihat catatan di lesson.$lessonId.tsx).
+    const live = useProgress.getState();
+    if (!live.onboarded) void navigate({ to: "/onboarding" });
+    else if (live.introSeen) leave();
+  }, [hydrated, onboarded, introSeen, navigate, leave]);
 
   useEffect(() => {
     setDoneTyping(false);
@@ -63,7 +70,7 @@ function Intro() {
     setBeat((n) => n + 1);
   }
 
-  if (!onboarded || introSeen) return null;
+  if (!hydrated || !onboarded || introSeen) return null;
 
   return (
     <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-cream px-4 py-8 select-none overflow-hidden">

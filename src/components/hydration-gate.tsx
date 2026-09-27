@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { useProgress } from "@/lib/store";
+import { useProgress, markHydrated } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
 import { syncProgressFromServer } from "@/lib/server-sync";
 import { BootScreen } from "@/components/boot-screen";
@@ -35,6 +35,8 @@ export function HydrationGate({ children }: { children: ReactNode }) {
         s.tick();
         applyMotion(s.reduceMotion);
       } catch {}
+      // Rute yang menjaga akses menunggu sinyal ini sebelum memutuskan redirect.
+      markHydrated();
       setReady(true);
     };
 

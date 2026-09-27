@@ -88,7 +88,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
               ? "bg-white text-choco-900 border-choco-900 ring-2 ring-candy-400"
               : status === "chest"
               ? "bg-amber-100 text-amber-900 border-choco-900"
-              : "bg-[#EAE4DC] text-choco-600/80 border-choco-900/60"
+              : "bg-[#EAE4DC] text-choco-600 border-choco-900/60"
           )}
         >
           {status === "chest" ? "PETI" : hexHash}

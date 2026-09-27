@@ -131,3 +131,67 @@ test("KNOWN GAP: --color-candy-500 stays too light for white text (3.79:1)", () 
   const v = contrast("#FFFFFF", token("candy-500"));
   assert.ok(v < 4.5 && v > 3, `candy-500 vs white drifted to ${v.toFixed(2)}:1 — revisit the CTA fill rules`);
 });
+
+test("alpha-reduced choco text on the locked-block surface stays >= 4.5:1", () => {
+  // Langkah 27: badge blok TERKUNCI memakai `bg-[#EAE4DC] text-choco-600/80`.
+  // Opacity 80% menurunkan rasio dari 6.24 (teks penuh) ke 4.01 — GAGAL AA
+  // untuk teks 10px. Terukur, bukan dugaan: choco-600 penuh = 6.24,
+  // @90% = 4.98, @80% = 4.01.
+  //
+  // Pelajaran: opacity pada WARNA TEKS adalah cara paling mudah merusak
+  // kontras tanpa mengubah token apa pun — guard token-vs-token di atas
+  // tidak akan pernah menangkapnya. Guard ini memindai kode.
+  const surface = "#EAE4DC";
+  const choco600 = token("choco-600");
+
+  const mix = (fg: string, bg: string, a: number) =>
+    "#" +
+    [0, 2, 4]
+      .map((i) => {
+        const f = parseInt(fg.slice(1 + i, 3 + i), 16);
+        const b = parseInt(bg.slice(1 + i, 3 + i), 16);
+        return Math.round(f * a + b * (1 - a)).toString(16).padStart(2, "0");
+      })
+      .join("");
+
+  // Batas bawah yang masih lulus: cari alpha terendah yang >= 4.5.
+  let alphaAman = 1;
+  for (let a = 1; a >= 0.5; a -= 0.01) {
+    if (contrast(mix(choco600, surface, a), surface) >= 4.5) alphaAman = a;
+    else break;
+  }
+  assert.ok(alphaAman > 0.8, `alpha aman terhitung ${alphaAman.toFixed(2)} — di luar dugaan, tinjau ulang`);
+
+  const files: string[] = [];
+  const walk = (dir: string) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) {
+        if (e.name !== "8bit") walk(p);
+      } else if (e.name.endsWith(".tsx")) files.push(p);
+    }
+  };
+  walk(join(ROOT, "src"));
+
+  const offenders: string[] = [];
+  for (const f of files) {
+    for (const [i, line] of readFileSync(f, "utf8").split("\n").entries()) {
+      if (!/bg-\[#EAE4DC\]/.test(line)) continue;
+      // cari text-choco-<n>/<alpha> di baris yang sama
+      for (const m of line.matchAll(/text-choco-(\d+)\/(\d+)/g)) {
+        const a = parseInt(m[2], 10) / 100;
+        const hex = token(`choco-${m[1]}`);
+        const v = contrast(mix(hex, surface, a), surface);
+        if (v < 4.5) {
+          offenders.push(`${f.replace(ROOT + "/", "")}:${i + 1} — choco-${m[1]}/${m[2]} = ${v.toFixed(2)}:1`);
+        }
+      }
+    }
+  }
+
+  assert.deepEqual(
+    offenders,
+    [],
+    `Teks ber-opacity di atas ${surface} gagal AA (butuh alpha >= ${alphaAman.toFixed(2)}):\n${offenders.map((o) => `  ${o}`).join("\n")}`,
+  );
+});

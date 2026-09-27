@@ -532,7 +532,7 @@ function LeaderboardPage() {
 
         <div className="text-[11px] font-bold text-choco-600 px-6 py-2 bg-cream/70 border-b border-choco-900/10 flex items-center justify-between">
           <span>Menampilkan {participants.length} dari {totalCount} petualang</span>
-          <span className="text-[10px] uppercase font-pixel text-choco-500">Liga Emas</span>
+          <span className="text-[10px] uppercase font-pixel text-choco-600">Liga Emas</span>
         </div>
 
         <div className="divide-y-2 divide-choco-900/10">
@@ -629,7 +629,7 @@ function LeaderboardPage() {
                           </span>
                         )}
                       </div>
-                      <div className="text-[10px] text-choco-500 font-bold block sm:hidden">
+                      <div className="text-[10px] text-choco-600 font-bold block sm:hidden">
                         {p.weeklyXp} XP • {p.streak} Hari
                       </div>
                     </div>
@@ -643,7 +643,7 @@ function LeaderboardPage() {
                     </div>
 
                     <div className="w-16 sm:w-20 text-right text-xs sm:text-sm font-bold text-choco-900">
-                      {p.weeklyXp.toLocaleString("id-ID")} <span className="text-[10px] text-choco-500 font-bold">XP</span>
+                      {p.weeklyXp.toLocaleString("id-ID")} <span className="text-[10px] text-choco-600 font-bold">XP</span>
                     </div>
 
                     <div className="w-24 sm:w-28 text-right">

@@ -156,8 +156,9 @@ test("panel statistik: 4 sel berwarna + berikon, bukan sel putih polos", async (
   const src = readFileSync(join(process.cwd(), "src/routes/raffle.tsx"), "utf8");
   const css = readFileSync(join(process.cwd(), "src/styles.css"), "utf8");
 
-  // Ambil blok grid statistik saja (antara "grid grid-cols-2 gap-2" dan penutupnya)
-  const start = src.indexOf('className="grid grid-cols-2 gap-2"');
+  // Ambil blok grid statistik saja. Pencarian TANPA `gap-2` di akhir supaya
+  // tidak rapuh terhadap penambahan kelas lain di grid yang sama.
+  const start = src.indexOf('className="grid grid-cols-2');
   assert.ok(start !== -1, "grid statistik 2x2 hilang dari kartu undian");
   const blok = src.slice(start, src.indexOf("</div>", src.indexOf("Belum dijadwalkan", start)) + 6);
 
@@ -210,5 +211,55 @@ test("panel statistik: 4 sel berwarna + berikon, bukan sel putih polos", async (
   assert.ok(
     !/divide-choco-900\/10/.test(blok),
     "divider `divide-choco-900/10` (kontras 1,1:1) tidak boleh kembali",
+  );
+
+  // 6. Tinggi sel wajib rata dalam satu baris.
+  //    Terukur di 320px: nilai 2 baris ("Menunggu Pengundian") membuat selnya
+  //    87px sementara pasangan sebarisnya 63px → dasar grid timpang. Aturan repo
+  //    (DESIGN.md §9): tinggi kartu dalam satu baris WAJIB rata.
+  const gridStart = src.indexOf('className="grid grid-cols-2 auto-rows-fr gap-2"');
+  assert.ok(
+    gridStart !== -1,
+    "grid statistik wajib memakai `auto-rows-fr` supaya tinggi sel satu baris rata",
+  );
+  const selPenuh = (blok.match(/h-full flex flex-col justify-center/g) ?? []).length;
+  assert.equal(
+    selPenuh,
+    4,
+    `keempat sel wajib \`h-full flex flex-col justify-center\` agar isi terpusat saat tinggi dipaksa rata, ditemukan ${selPenuh}`,
+  );
+});
+
+test("badge baris atas wajib flex-wrap (badge panjang tidak meluber di 320px)", async () => {
+  // Terukur di 320px: badge status "MENUNGGU PENGUNDIAN" meluber **+42px** keluar
+  // kartu karena barisnya `flex-nowrap` sementara ketiga grup `shrink-0`. Badge
+  // yang terpotong menghilangkan informasi status — dan itu justru satu-satunya
+  // hal yang dibaca user di kartu undian yang sudah tutup.
+  //
+  // Pemeriksaan dilakukan pada BARIS BADGE saja (baris yang punya `left-3
+  // right-3`), bukan seluruh berkas — `flex-nowrap` masih sah di tempat lain
+  // (mis. baris chip kategori di kepala halaman).
+  const { readFileSync } = await import("node:fs");
+  const { join } = await import("node:path");
+  const src = readFileSync(join(process.cwd(), "src/routes/raffle.tsx"), "utf8");
+
+  const barisBadge = src
+    .split("\n")
+    .filter((l) => l.includes("absolute top-3 left-3 right-3"));
+  assert.equal(barisBadge.length, 1, "baris badge (absolute top-3 left-3 right-3) wajib tepat satu");
+
+  assert.match(
+    barisBadge[0],
+    /flex flex-wrap/,
+    "baris badge wajib `flex-wrap` supaya badge panjang turun baris, bukan meluber keluar kartu",
+  );
+  assert.ok(
+    !/flex-nowrap/.test(barisBadge[0]),
+    "`flex-nowrap` pada baris badge tidak boleh kembali (badge panjang meluber +42px di 320px)",
+  );
+  assert.match(
+    barisBadge[0],
+    /gap-y-/,
+    "baris badge wajib punya jarak vertikal antar-baris (`gap-y-*`) setelah wrap",
   );
 });

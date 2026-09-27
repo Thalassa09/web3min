@@ -962,8 +962,14 @@ function RafflePage() {
                       }}
                       title="Klik untuk melihat gambar ukuran penuh"
                     >
-                      {/* Baris badge mengambang — induk `relative` = div gambar ini */}
-                      <div className="absolute top-3 left-3 right-3 z-10 flex items-center flex-nowrap gap-2">
+                      {/* Baris badge mengambang — induk `relative` = div gambar ini.
+                          WAJIB `flex-wrap`: ketiga grup memakai `shrink-0`, jadi
+                          dengan `flex-nowrap` badge status yang panjang
+                          ("MENUNGGU PENGUNDIAN") meluber keluar kartu di 320px
+                          (terukur +42px). Dengan wrap, ia turun ke baris kedua
+                          dan informasinya tetap utuh — bukan dipendekkan atau
+                          dipotong. */}
+                      <div className="absolute top-3 left-3 right-3 z-10 flex flex-wrap items-center gap-2 gap-y-1.5">
                         <span
                           className={`inline-flex items-center gap-1 rounded-full border-2 border-choco-900 px-2.5 h-6 text-[11px] font-bold shrink-0 ${badge.badgeBg}`}
                         >
@@ -1043,12 +1049,18 @@ function RafflePage() {
                           flame  → flame-ink 5.40 / flame-ink-deep 6.92 di flame-fill-deep
                         Semua diukur di STOP TERGELAP (titik terburuk), bukan yang
                         terang. Sebelumnya sel putih polos + divider /10 yang
-                        nyaris tak terlihat sehingga panel terasa datar. */}
-                    <div className="grid grid-cols-2 gap-2">
+                        nyaris tak terlihat sehingga panel terasa datar.
+
+                        `auto-rows-fr` + `h-full flex-col justify-center` WAJIB:
+                        nilai 2 baris ("Menunggu Pengundian") membuat selnya lebih
+                        tinggi dari pasangan sebarisnya — terukur 63px vs 87px di
+                        320px, jadi dasar grid terlihat timpang (aturan repo:
+                        tinggi kartu dalam satu baris wajib rata). */}
+                    <div className="grid grid-cols-2 auto-rows-fr gap-2">
                       {/* Tiket Terkumpul — netral (metrik partisipasi, bukan status).
                           Border & gradien persis patokan DESIGN.md §9
                           (`border-choco-900/20` + from-white via/to cream-fill). */}
-                      <div className="rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-2.5 text-center">
+                      <div className="h-full flex flex-col justify-center rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-2.5 text-center">
                         <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-600">
                           <Ticket className="size-3 shrink-0" />
                           Tiket Terkumpul
@@ -1059,7 +1071,7 @@ function RafflePage() {
                       </div>
 
                       {/* Kuota Pemenang — keluarga coin (emas = hadiah) */}
-                      <div className="rounded-2xl border-2 border-lemon-deep bg-gradient-to-b from-coin-fill via-coin-fill to-coin-fill-deep p-2.5 text-center">
+                      <div className="h-full flex flex-col justify-center rounded-2xl border-2 border-lemon-deep bg-gradient-to-b from-coin-fill via-coin-fill to-coin-fill-deep p-2.5 text-center">
                         <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-coin-ink">
                           <Trophy className="size-3 shrink-0" />
                           Pemenang
@@ -1070,7 +1082,7 @@ function RafflePage() {
                       </div>
 
                       {/* Tiket Kamu — keluarga leaf (hijau = progresmu sendiri) */}
-                      <div className="rounded-2xl border-2 border-leaf-line bg-gradient-to-b from-leaf-soft via-leaf-fill to-leaf-fill-deep p-2.5 text-center">
+                      <div className="h-full flex flex-col justify-center rounded-2xl border-2 border-leaf-line bg-gradient-to-b from-leaf-soft via-leaf-fill to-leaf-fill-deep p-2.5 text-center">
                         <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-leaf-shadow">
                           <Ticket className="size-3 shrink-0" />
                           Tiket Kamu
@@ -1087,7 +1099,7 @@ function RafflePage() {
                       </div>
 
                       {/* Status / Sisa Waktu — keluarga flame (oranye = waktu/urgensi) */}
-                      <div className="rounded-2xl border-2 border-flame-line bg-gradient-to-b from-flame-soft via-flame-fill to-flame-fill-deep p-2.5 text-center">
+                      <div className="h-full flex flex-col justify-center rounded-2xl border-2 border-flame-line bg-gradient-to-b from-flame-soft via-flame-fill to-flame-fill-deep p-2.5 text-center">
                         <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-flame-ink">
                           <Clock className="size-3 shrink-0" />
                           {isExpired ? "Status" : "Sisa Waktu"}

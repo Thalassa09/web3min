@@ -10,7 +10,6 @@ import {
   Sparkles,
   Check,
   RotateCcw,
-  ArrowRight,
   ShoppingBag,
   Shirt,
   Store,
@@ -246,14 +245,6 @@ function ShopPage() {
                     Tukarkan koin dari hasil belajar untuk membeli penguat streak, isi ulang nyawa, dan aksesori eksklusif Blobi.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleModeChange("wardrobe")}
-                  className="px-4 py-2 min-h-11 rounded-full border-2 border-choco-900 bg-white hover:bg-cream text-choco-900 font-pixel font-bold text-xs shadow-[0_3px_0_#3B2218] active:translate-y-0.5 flex items-center gap-1.5 shrink-0 cursor-pointer transition-all"
-                >
-                  <Shirt className="size-3.5 text-candy-500" />
-                  <span>Ruang Ganti ({ownedCount}) →</span>
-                </button>
               </div>
             </div>
 
@@ -269,14 +260,6 @@ function ShopPage() {
                     <span>Item & Penguat Belajar</span>
                   </h2>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleModeChange("wardrobe")}
-                  className="inline-flex items-center gap-2 rounded-xl border-2 border-choco-900 bg-cream px-3.5 py-2 min-h-11 text-[13px] font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218] transition-[transform,box-shadow] hover:bg-candy-100 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
-                >
-                  <Shirt className="size-4" strokeWidth={2.4} />
-                  <span>Ruang Ganti</span>
-                </button>
               </div>
 
               {/* Asymmetrical Bento Showcase for Items */}
@@ -492,7 +475,7 @@ function ShopPage() {
                     Koleksi Pakaian & Aksesori Blobi
                   </h3>
                   <p className="text-xs sm:text-sm text-choco-700 mt-0.5 leading-relaxed font-sans font-semibold">
-                    Semua baju, topi, kacamata, dan aksesori Blobi kini tersedia eksklusif di <strong>Ruang Ganti Blobi</strong>. Coba atau pasang langsung pada karaktermu!
+                    Semua baju, topi, kacamata, dan aksesori Blobi tersedia di sini. Coba atau pasang langsung pada karaktermu!
                   </p>
                 </div>
               </div>

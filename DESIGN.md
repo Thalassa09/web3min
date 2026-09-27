@@ -99,6 +99,15 @@ Semua sub-halaman yang berpasangan (seperti Klasemen & Undian, atau Toko & Ruang
 
 Acuan visual: dua chip di `/profile` — `Level 2` (keluarga netral) dan `Murid Blobi` (keluarga pink). **Semua chip status, label level, penanda kategori, dan badge kecil di seluruh aplikasi wajib mengikuti resep ini.** Divergensi terukur saat kontrak ini ditetapkan: 62 titik di 18 berkas (51 radius bukan pill, 12 border transparan, 17 tanpa hard slab).
 
+> **Komponen kanonik tersedia sejak Langkah 22: `src/components/ui/chip.tsx`.** Pakai `<Chip tone="…">`, jangan tulis resepnya manual — 31 chip di 20+ berkas masih manual dan itu sumber drift (sebagian memakai palet bawaan Tailwind `emerald-*`/`amber-*`/`rose-*`, satu memakai hex mentah `#0E7A46` yang **tidak ada di `@theme`**).
+>
+> ```tsx
+> import { Chip } from "@/components/ui/chip";
+> <Chip tone="neutral">Level 2</Chip>
+> ```
+>
+> Enam tone: `neutral` · `rose` · `gold` · `mint` · `warning` · `danger`. Resep `neutral` & `rose` **disalin persis** dari chip acuan `/profile` (nol perubahan visual); `gold`/`mint`/`warning` memakai token `@theme` yang sudah ada (`lemon`, `ok-*`, `warn-*`) supaya tidak menambah palet Tailwind asing. Dijaga 2 test tambahan di `chip-contract.test.ts`: empat aturan keras + **border & slab wajib sekeluarga** (bukan hex identik — chip acuan sendiri memakai `border-candy-600` + slab `#B01F62`, keduanya keluarga pink).
+
 ### 6.1 Resep tunggal
 ```tsx
 <span className="

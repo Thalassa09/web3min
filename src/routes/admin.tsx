@@ -57,6 +57,7 @@ import {
   rpcAdminGetRaffleEntries,
   rpcAdminGetUsers,
   rpcAdminSetUserCensorship,
+  rpcAdminGrantSupporter,
   rpcAdminTriggerDraw,
   rpcAdminVerifyWinner,
   rpcAdminSwapReserveWinner,
@@ -329,6 +330,30 @@ export function AdminPage() {
       void refreshUsers(adminKey);
     } else {
       showToast(res.error || "Gagal mengubah status sensor.");
+    }
+  };
+
+  /**
+   * Jaring aman pembayaran: aktifkan supporter manual.
+   *
+   * Dipakai kalau deteksi pembayaran GatePay gagal padahal user sudah bayar.
+   * Tanpa ini, user bisa membayar dan tidak menerima apa pun.
+   * `days = null` = lifetime.
+   */
+  const handleGrantSupporter = async (uName: string, days: number | null) => {
+    const label = days === null ? "lifetime" : `${days} hari`;
+    if (!window.confirm(`Aktifkan supporter ${label} untuk @${uName}?`)) return;
+    const res = await rpcAdminGrantSupporter(adminKey ?? "", uName, days);
+    if (res.success) {
+      const masa = res.isLifetime
+        ? "selamanya"
+        : res.expiresAt
+          ? `sampai ${new Date(res.expiresAt).toLocaleDateString("id-ID")}`
+          : "";
+      showToast(`@${uName} sekarang supporter ${masa}.`);
+      void refreshUsers(adminKey);
+    } else {
+      showToast(res.error || "Gagal mengaktifkan supporter.");
     }
   };
 
@@ -1107,9 +1132,11 @@ export function AdminPage() {
                           <th className="p-3">Nama Tampil (Publik)</th>
                           <th className="p-3">Tipe</th>
                           <th className="p-3">Status Sensor</th>
+                          <th className="p-3">Supporter</th>
                           <th className="p-3 text-right">XP Mingguan</th>
                           <th className="p-3 text-right">Total XP</th>
                           <th className="p-3 text-center">Aksi Sensor</th>
+                          <th className="p-3 text-center">Aksi Supporter</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-choco-900/10 font-medium text-choco-900">
@@ -1157,6 +1184,19 @@ export function AdminPage() {
                                   </span>
                                 )}
                               </td>
+                              <td className="p-3">
+                                {u.is_supporter ? (
+                                  <span className="px-2 py-0.5 rounded-full bg-candy-100 text-candy-800 font-pixel text-[9px] font-bold border border-candy-300">
+                                    {u.supporter_lifetime
+                                      ? "Supporter · lifetime"
+                                      : `Supporter · s/d ${u.supporter_expires_at ? new Date(u.supporter_expires_at).toLocaleDateString("id-ID") : "?"}`}
+                                  </span>
+                                ) : (
+                                  <span className="px-2 py-0.5 rounded-full bg-cream text-choco-600 font-pixel text-[9px] font-bold">
+                                    Bukan
+                                  </span>
+                                )}
+                              </td>
                               <td className="p-3 text-right font-mono font-bold text-amber-800">
                                 {u.weekly_xp}
                               </td>
@@ -1181,6 +1221,26 @@ export function AdminPage() {
                                 >
                                   {u.username_censored ? "Pulihkan" : "Sensor"}
                                 </button>
+                              </td>
+                              <td className="p-3 text-center">
+                                <div className="inline-flex items-center gap-1.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => handleGrantSupporter(u.username, 30)}
+                                    className="px-3 py-1 rounded-full font-pixel text-[10px] font-bold border border-choco-900 bg-candy-200 hover:bg-candy-300 text-choco-900 shadow-[0_1px_0_#3B2218] active:translate-y-0.5 cursor-pointer whitespace-nowrap"
+                                    title="Aktifkan/perpanjang supporter 30 hari"
+                                  >
+                                    +30 hari
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleGrantSupporter(u.username, null)}
+                                    className="px-3 py-1 rounded-full font-pixel text-[10px] font-bold border border-choco-900 bg-coin-fill hover:bg-coin-fill-deep text-choco-900 shadow-[0_1px_0_#3B2218] active:translate-y-0.5 cursor-pointer whitespace-nowrap"
+                                    title="Aktifkan supporter selamanya"
+                                  >
+                                    Lifetime
+                                  </button>
+                                </div>
                               </td>
                             </tr>
                           ))}

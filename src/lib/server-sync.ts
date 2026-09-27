@@ -649,6 +649,12 @@ export type DbAdminUserItem = {
   weekly_xp: number;
   streak: number;
   created_at: string;
+  /** Status EFEKTIF dari server — supporter kedaluwarsa dihitung false. */
+  is_supporter?: boolean;
+  /** true = aktif tanpa tanggal berakhir. */
+  supporter_lifetime?: boolean;
+  /** Tanggal berakhir; null = lifetime / tidak aktif. */
+  supporter_expires_at?: string | null;
 };
 
 export async function rpcAdminGetUsers(key: string, filterType = "all"): Promise<DbAdminUserItem[]> {
@@ -1169,5 +1175,152 @@ export async function rpcIsAdmin(): Promise<boolean> {
     return data === true;
   } catch {
     return false;
+  }
+}
+
+export interface SupporterStatus {
+  /** Aktif secara EFEKTIF — supporter kedaluwarsa dihitung false oleh database. */
+  isSupporter: boolean;
+  /** true = aktif tanpa tanggal berakhir. */
+  isLifetime: boolean;
+  since: string | null;
+  expiresAt: string | null;
+}
+
+const NO_SUPPORTER: SupporterStatus = {
+  isSupporter: false,
+  isLifetime: false,
+  since: null,
+  expiresAt: null,
+};
+
+/**
+ * Status supporter milik pemanggil.
+ *
+ * Sumber kebenaran ada di SERVER (`profiles.is_supporter` + masa aktif), bukan
+ * localStorage — badge tidak boleh bisa dipalsukan dari sisi klien. RPC-nya
+ * `stable` + `security definer`; kedaluwarsa sudah dihitung di sana, jadi
+ * klien tidak perlu (dan tidak boleh) menghitung sendiri.
+ *
+ * Gagal apa pun -> status non-supporter. Aman: yang salah hanya tampilan,
+ * bukan hak akses (fitur supporter tetap divalidasi server saat dipakai).
+ */
+export async function rpcGetMySupporterStatus(): Promise<SupporterStatus> {
+  if (!isSupabaseConfigured || !supabase) return NO_SUPPORTER;
+  try {
+    const { data, error } = await supabase.rpc("get_my_supporter_status");
+    if (error || !data || typeof data !== "object") return NO_SUPPORTER;
+    const d = data as Record<string, unknown>;
+    return {
+      isSupporter: d.is_supporter === true,
+      isLifetime: d.is_lifetime === true,
+      since: typeof d.since === "string" ? d.since : null,
+      expiresAt: typeof d.expires_at === "string" ? d.expires_at : null,
+    };
+  } catch {
+    return NO_SUPPORTER;
+  }
+}
+
+/**
+ * Admin mengaktifkan supporter secara MANUAL.
+ *
+ * Ini jaring aman yang wajib ada sebelum halaman jualan dibuka: kalau deteksi
+ * pembayaran GatePay gagal, user sudah terlanjur bayar — jangan sampai dia
+ * tidak dapat apa-apa. `p_days = null` berarti lifetime.
+ *
+ * Kalau user masih aktif, masa aktifnya DIPERPANJANG dari tanggal berakhir
+ * (bukan dari hari ini) — logikanya di database, jangan diduplikasi di klien.
+ */
+export async function rpcAdminGrantSupporter(
+  key: string,
+  username: string,
+  days: number | null,
+): Promise<{ success: boolean; error?: string; isLifetime?: boolean; expiresAt?: string | null }> {
+  if (!isSupabaseConfigured || !supabase) return { success: false, error: "Supabase tidak siap." };
+  try {
+    const { data, error } = await supabase.rpc("admin_grant_supporter", {
+      p_key: key,
+      p_username: username,
+      p_days: days,
+    });
+    if (error) return { success: false, error: error.message };
+    const d = (data ?? {}) as Record<string, unknown>;
+    if (d.success !== true) return { success: false, error: "Server menolak permintaan." };
+    return {
+      success: true,
+      isLifetime: d.is_lifetime === true,
+      expiresAt: typeof d.expires_at === "string" ? d.expires_at : null,
+    };
+  } catch (err: unknown) {
+    return { success: false, error: (err as Error)?.message || "Gagal menghubungi server." };
+  }
+}
+
+
+// ── Supporter: pembayaran QRIS (GatePay) ────────────────────────────────────
+// `x-api-key` GatePay HANYA hidup di server; klien cuma bicara ke endpoint kita.
+
+export interface SupporterOrderResult {
+  ok: boolean;
+  error?: string;
+  alreadySupporter?: boolean;
+  orderId?: string;
+  reference?: string;
+  baseAmount?: number;
+  uniqueAmount?: number;
+  qris?: string;
+  checkoutUrl?: string;
+  expiresIn?: number;
+}
+
+/**
+ * Buat order QRIS supporter. Harga ditentukan SERVER (Rp 9.999) — tidak pernah
+ * dikirim dari sini, supaya tidak bisa diubah dari browser.
+ */
+export async function createSupporterOrder(redirectUrl?: string): Promise<SupporterOrderResult> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { ok: false, error: "Supabase tidak siap." };
+  }
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return { ok: false, error: "Kamu harus masuk dulu." };
+
+    const res = await fetch("/api/supporter/create-order", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ redirectUrl }),
+    });
+    const json = (await res.json()) as SupporterOrderResult;
+    return json;
+  } catch (err: unknown) {
+    return { ok: false, error: (err as Error)?.message || "Gagal menghubungi server." };
+  }
+}
+
+/**
+ * Cek status satu order langsung ke GatePay (lewat server).
+ *
+ * Dipakai sebagai CADANGAN kalau webhook telat/gagal — deteksi pembayaran
+ * GatePay memakai API internal yang bisa expired, jadi klien tidak boleh
+ * menggantungkan diri pada webhook saja.
+ */
+export async function checkSupporterOrder(
+  orderId: string,
+): Promise<{ ok: boolean; status?: string; error?: string; activated?: boolean }> {
+  if (!isSupabaseConfigured || !supabase) return { ok: false, error: "Supabase tidak siap." };
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return { ok: false, error: "Sesi tidak ditemukan." };
+
+    const res = await fetch(`/api/supporter/order-status?orderId=${encodeURIComponent(orderId)}`, {
+      headers: { authorization: `Bearer ${session.access_token}` },
+    });
+    return (await res.json()) as { ok: boolean; status?: string; error?: string; activated?: boolean };
+  } catch (err: unknown) {
+    return { ok: false, error: (err as Error)?.message || "Gagal menghubungi server." };
   }
 }

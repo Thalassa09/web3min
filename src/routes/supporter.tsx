@@ -225,46 +225,61 @@ function SupporterPage() {
         </header>
 
         {/* ── Kartu harga ────────────────────────────────────────────────── */}
+        {/* Blok harga & blok pembayaran DITUMPUK rata kiri, bukan dua kolom.
+            Dua kolom butuh 386px sedangkan konten kartu cuma 314px di 390px,
+            sehingga `flex-wrap` SELALU pecah di 320/360/390/430px (tinggi
+            baris terukur 138px) dan blok "Bayar via" yang `text-right`
+            berakhir menggantung di tengah kartu — teksnya berhenti di x=209
+            padahal tepi kanan kartu x=354, jadi ada ~145px ruang mati.
+            Tumpukan + divider /20: nol wrap, nol ruang mati, tetap terbaca
+            di desktop. */}
         <SurfaceCard className="mb-5">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wide text-choco-500">
-                Harga perkenalan
-              </div>
-              <div className="flex items-baseline gap-2">
-                <span className="font-pixel text-3xl font-black text-choco-900 tabular-nums">
-                  {formatRupiah(PRICE_IDR)}
-                </span>
-                <span className="text-sm font-bold text-choco-500 line-through tabular-nums">
-                  {formatRupiah(PRICE_NORMAL_IDR)}
-                </span>
-              </div>
-              <div className="mt-1 text-xs font-bold text-ok-ink">
-                Hemat {formatRupiah(PRICE_NORMAL_IDR - PRICE_IDR)} · sekali bayar
-              </div>
+          <div className="text-[11px] font-bold uppercase tracking-wide text-choco-500">
+            Harga perkenalan
+          </div>
+          <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <span className="font-pixel text-3xl font-black text-choco-900 tabular-nums">
+              {formatRupiah(PRICE_IDR)}
+            </span>
+            <span className="text-sm font-bold text-choco-500 line-through tabular-nums">
+              {formatRupiah(PRICE_NORMAL_IDR)}
+            </span>
+          </div>
+          <div className="mt-1 text-xs font-bold text-ok-ink">
+            Hemat {formatRupiah(PRICE_NORMAL_IDR - PRICE_IDR)} · sekali bayar
+          </div>
+
+          <div className="mt-4 border-t-2 border-choco-900/20 pt-3">
+            <div className="text-[11px] font-bold uppercase tracking-wide text-choco-500">
+              Bayar via
             </div>
-            <div className="text-right">
-              <div className="text-[11px] font-bold uppercase tracking-wide text-choco-500">
-                Bayar via
-              </div>
-              <div className="font-pixel text-sm font-black text-choco-900">QRIS</div>
-              <div className="text-[11px] font-semibold text-choco-600">
+            <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <span className="font-pixel text-sm font-black text-choco-900">QRIS</span>
+              <span className="text-[11px] font-semibold text-choco-600">
                 DANA · GoPay · OVO · m-banking
-              </div>
+              </span>
             </div>
           </div>
         </SurfaceCard>
 
         {/* ── Keuntungan ─────────────────────────────────────────────────── */}
+        {/* Sebelum ini kartu benefit memakai `bg-white` rata + border /20 +
+            TANPA slab, padahal setiap permukaan kartu lain di app ini memakai
+            gradien 3 stop + hard slab (DESIGN.md §9.3 aturan 2 & 3, preseden
+            leaderboard/raffle/how-to). Di sebelah kartu harga yang bergradien
+            + berslab, kartu flat terbaca seperti belum selesai di-styling —
+            bukan hierarki, tapi dua bahasa visual di satu halaman. Tile ikon
+            ikut disamakan dengan preseden how-to.tsx: border SOLID choco-900
+            + slab 0_2px_0. Kontras ikon candy-700 di atas candy-100 = 5,42:1. */}
         <section className="space-y-3 mb-6">
           {BENEFITS.map((b) => {
             const Icon = b.icon;
             return (
               <div
                 key={b.title}
-                className="flex gap-3 rounded-2xl border-2 border-choco-900/20 bg-white p-4"
+                className="flex gap-3 rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-4 shadow-[0_4px_0_#3B2218]"
               >
-                <div className="shrink-0 size-10 rounded-xl bg-candy-100 border-2 border-choco-900/20 flex items-center justify-center">
+                <div className="shrink-0 size-10 rounded-xl bg-candy-100 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center">
                   <Icon className="size-5 text-candy-700" />
                 </div>
                 <div className="min-w-0">

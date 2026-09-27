@@ -187,7 +187,7 @@ Aturan cepat sebelum menulis komponen baru. Angka di kolom kanan = **hasil ukur 
 |---|---|---|
 | Outline `choco-900` yang hangat (`#3B2218`) | Hitam pekat `#000` | `border-choco-900` **674×** · `#000` murni **3×** — ketiganya **pelanggaran nyata** (lihat catatan di bawah) |
 | Slab keras `0 Npx 0` tanpa blur | Blur / spread / shadow ambient | `shadow-[0_Npx_0_#3B2218]` **475×** · `shadow-{sm,md,lg,xl}` **4×** |
-| Token nyata (`bg-cream-50`, `shadow-ink-sm`) | Hex mentah di komponen | **43** `bg-[#…]` mentah masih ada — 9 di antaranya `telemetry-badge.tsx` |
+| Token nyata (`bg-cream-50`, `shadow-ink-sm`) | Hex mentah di komponen | **43 pemakaian** `bg-[#…]` mentah — 9 di antaranya `telemetry-badge.tsx` |
 | Komponen kanonik (`<Chip tone="…">`, `<SegmentedNav>`) | Chip / nav buatan tangan | Dijaga `chip-contract.test.ts` (6 test) + `a11y-invariants.test.ts` (10 test) |
 | `danger`/`err-ink` untuk aksi destruktif | Candy (pink brand) untuk tombol hapus | `danger`/`err-ink` **30×** · dijaga `feedback-colors.test.ts` |
 | Istilah ramah ("Koin", "Hari Beruntun") | Jargon Web3 tanpa penjelasan | "Koin" **18 berkas** · "Hari Beruntun" **1 berkas** (istilah lain masih "Streak") |
@@ -207,7 +207,7 @@ Ini **bukan** teori dari draft — ketiganya ada di kode produksi sekarang:
 
 3. **`choco-900/18` (3×)** — melanggar aturan "divider pakai `/20`". Sisa dari v1.0 yang lolos sinkronisasi.
 
-**Belum diperbaiki** — dicatat sebagai utang, bukan diubah diam-diam. Ketiganya kosmetik (nol dampak fungsi), jadi tidak mendesak.
+**Status:** 2 dari 3 sudah **DIPERBAIKI** (`#000` 3× → `choco-900`; `/18` 3× → `/20`) dan **dikunci guard** `design-rules.test.ts`. Sisanya — **43 hex mentah** — masih utang: sebagian sah (gradien multi-stop tidak bisa jadi satu token), jadi butuh audit satu per satu, bukan penggantian massal.
 
 ### 7.2 Guard yang mengunci tabel ini
 
@@ -221,8 +221,9 @@ Ini **bukan** teori dari draft — ketiganya ada di kode produksi sekarang:
 | A11y (fokus, tap target, dock, portal) | `a11y-invariants.test.ts` |
 | Font maksimal 2 keluarga | `font-budget.test.ts` |
 | Target coach punya penulis | `coach-targets.test.ts` |
+| `#000` dilarang · divider `/20` · baris §7 wajib berangka | `design-rules.test.ts` |
 
-Yang **tidak** dijaga otomatis: aturan "`#000` dilarang", "hex mentah dilarang", "`/18` dilarang". Tiga pelanggaran di §7.1 membuktikan itu — **guard yang tidak ada = aturan yang dilanggar diam-diam.**
+Sisanya yang **masih** tidak dijaga otomatis: aturan "hex mentah dilarang" (`bg-[#…]` 43×). Dua lainnya (`#000`, `/18`) **sudah dikunci** `design-rules.test.ts` setelah §7.1 membuktikan bahwa **guard yang tidak ada = aturan yang dilanggar diam-diam.**
 
 ---
 

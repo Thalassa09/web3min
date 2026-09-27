@@ -46,7 +46,7 @@ export function BottomNav() {
           overlap, nol overflow.
           JANGAN kembali ke 7 kolom + spacer: elemen ke-3 jatuh ke kolom spacer
           dan label "Arena" menciut jadi 12px (terbukti lewat pengukuran). */}
-      <div className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-6 items-center gap-0.5 rounded-full border-2 border-choco-900/18 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] px-2.5 backdrop-blur-2xl shadow-[0_5px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.18)]">
+      <div className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-6 items-center gap-0.5 rounded-full border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] px-2.5 backdrop-blur-2xl shadow-[0_5px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.18)]">
         {NAV_ITEMS.slice(0, 3).map((item) => (
           <NavLink key={item.to} item={item} pathname={pathname} sound={sound} />
         ))}

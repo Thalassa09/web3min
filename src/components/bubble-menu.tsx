@@ -354,7 +354,7 @@ export function BubbleMenu({
       >
         {/* Header Title in Overlay */}
         <div className="mb-6 flex flex-col items-center text-center px-4">
-          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-choco-900/85 px-4 py-1 text-xs font-black uppercase tracking-wider text-white shadow-[0_2px_0_#000] backdrop-blur-md">
+          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-choco-900/85 px-4 py-1 text-xs font-black uppercase tracking-wider text-white shadow-[0_2px_0_#3B2218] backdrop-blur-md">
             <Sparkles className="size-3.5 text-coin" />
             Menu Navigasi Penjelajah
           </span>
@@ -416,7 +416,7 @@ export function BubbleMenu({
         <button
           type="button"
           onClick={handleToggle}
-          className="mt-8 flex items-center gap-2 rounded-full border-2 border-choco-900 bg-choco-900/85 px-5 py-2 text-xs font-black text-white shadow-[0_2px_0_#000] backdrop-blur-md transition-all hover:bg-black/55 active:translate-y-0.5 cursor-pointer"
+          className="mt-8 flex items-center gap-2 rounded-full border-2 border-choco-900 bg-choco-900/85 px-5 py-2 text-xs font-black text-white shadow-[0_2px_0_#3B2218] backdrop-blur-md transition-all hover:bg-black/55 active:translate-y-0.5 cursor-pointer"
         >
           <X className="size-3.5" /> Tutup Menu (Esc)
         </button>

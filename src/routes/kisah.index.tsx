@@ -166,7 +166,7 @@ function KisahHub() {
                 alt={featured.title}
                 className="w-full h-full object-cover object-center filter brightness-[0.98] transition-transform hover:scale-105 duration-300"
               />
-              <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#000]">
+              <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218]">
                 BUKTI UTAMA
               </div>
             </div>

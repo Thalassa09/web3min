@@ -41,7 +41,15 @@ import {
 } from "@/lib/audio";
 import { FREEZE_COST, HEART_REFILL_COST, isLimitedItem } from "@/lib/shop";
 import { MAX_HEARTS, formatGems, useProgress } from "@/lib/store";
-import { rpcBuyFreeze, rpcRefillHearts, rpcBuyTickets, syncProgressFromServer } from "@/lib/server-sync";
+import {
+  rpcBuyFreeze,
+  rpcRefillHearts,
+  rpcRefillHeartsFree,
+  rpcGetFreeRefillQuota,
+  rpcBuyTickets,
+  syncProgressFromServer,
+  type FreeRefillQuota,
+} from "@/lib/server-sync";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { TactileButton } from "@/components/ui/tactile-button";
 
@@ -60,6 +68,22 @@ function ShopPage() {
   const equipOutfit = useProgress((s) => s.equipOutfit);
   const freeze = useProgress((s) => s.streakFreeze);
   const raffleTickets = useProgress((s) => s.raffleTickets ?? 0);
+
+  /**
+   * Kuota isi nyawa GRATIS: 2x sehari (4x untuk supporter). Dihitung di
+   * database — jangan pernah menghitung kuota di klien, bisa dipalsukan.
+   */
+  const [freeQuota, setFreeQuota] = useState<FreeRefillQuota | null>(null);
+  const [freeBusy, setFreeBusy] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    void rpcGetFreeRefillQuota().then((q) => {
+      if (alive) setFreeQuota(q);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
   const buyRaffleTicketsWithGems = useProgress((s) => s.buyRaffleTicketsWithGems);
 
   // Read initial tab from URL param if present
@@ -290,6 +314,83 @@ function ShopPage() {
                     <p className="mt-2 text-xs md:text-sm font-semibold leading-relaxed text-choco-700 max-w-xl">
                       Salah menjawab saat kuis? Pulihkan 5 nyawa penuh sekaligus agar kamu bisa langsung melanjutkan rute tanpa menunggu waktu jeda.
                     </p>
+                  </div>
+
+                  {/* Isi nyawa GRATIS (kuota harian: 2x biasa, 4x supporter) */}
+                  <div className="mt-4 rounded-2xl border-2 border-choco-900/15 bg-cream p-3.5">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <Heart className="size-3.5 text-candy-700" />
+                          <span className="font-pixel text-xs font-black text-choco-900">
+                            Isi nyawa gratis
+                          </span>
+                          {freeQuota?.isSupporter && (
+                            <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-b from-coin-fill to-coin-fill-deep px-1.5 py-0.5 text-[10px] font-bold text-coin-ink-deep border border-coin-shadow">
+                              <Crown className="size-2.5" />
+                              4×
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-0.5 text-[11px] font-semibold text-choco-600">
+                          {!freeQuota
+                            ? "Memeriksa kuota…"
+                            : !freeQuota.authenticated
+                              ? "Masuk dulu untuk pakai kuota gratis."
+                              : freeQuota.remaining > 0
+                                ? `Sisa ${freeQuota.remaining}× hari ini (${freeQuota.used}/${freeQuota.limit})`
+                                : `Kuota habis (${freeQuota.used}/${freeQuota.limit}). Besok bisa lagi.`}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        disabled={
+                          heartsFull ||
+                          freeBusy ||
+                          !freeQuota ||
+                          !freeQuota.authenticated ||
+                          freeQuota.remaining <= 0
+                        }
+                        onClick={async () => {
+                          if (!freeQuota?.authenticated) {
+                            window.location.href = "/masuk";
+                            return;
+                          }
+                          setFreeBusy(true);
+                          const res = await rpcRefillHeartsFree();
+                          setFreeBusy(false);
+                          if (res.ok) {
+                            playBuy();
+                            flash("Nyawa terisi penuh! 🎉");
+                            setFreeQuota(await rpcGetFreeRefillQuota());
+                            await syncProgressFromServer();
+                          } else {
+                            playDeny();
+                            flash(res.error || "Gagal mengisi nyawa.");
+                          }
+                        }}
+                        className="inline-flex items-center justify-center min-h-11 rounded-full border-2 border-choco-900 px-4 py-2 text-xs font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-mint to-ok-shadow text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
+                      >
+                        {heartsFull
+                          ? "Nyawa Penuh"
+                          : freeBusy
+                            ? "Mengisi…"
+                            : !freeQuota?.authenticated
+                              ? "Masuk dulu"
+                              : freeQuota.remaining <= 0
+                                ? "Kuota Habis"
+                                : "Isi Gratis →"}
+                      </button>
+                    </div>
+                    {freeQuota?.authenticated && !freeQuota.isSupporter && (
+                      <Link
+                        to="/supporter"
+                        className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-candy-700 hover:text-candy-800 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-candy-600"
+                      >
+                        <Crown className="size-3" />
+                        Jadi Supporter untuk 4× sehari →
+                      </Link>
+                    )}
                   </div>
 
                   <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-choco-900/15">

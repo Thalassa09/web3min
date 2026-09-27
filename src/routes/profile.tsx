@@ -32,13 +32,15 @@ import {
   Mail,
   CheckCircle2,
   LogIn,
+  BadgeCheck,
+  Crown,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
 import { BlockStamp } from "@/components/motif";
 import { UNITS, sequentialNodes } from "@/lib/curriculum";
 import { sanitizeBio } from "@/lib/people";
-import { saveBioToServer } from "@/lib/server-sync";
+import { saveBioToServer, rpcGetMySupporterStatus } from "@/lib/server-sync";
 import { logoutAccount, getRecoveryEmail, saveRecoveryEmail, ALLOWED_EMAIL_DOMAINS, isValidRecoveryEmail } from "@/lib/account";
 import { formatGems, useProgress } from "@/lib/store";
 import { SurfaceCard } from "@/components/ui/surface-card";
@@ -110,6 +112,22 @@ function ProfilePage() {
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [badgesOpen, setBadgesOpen] = useState(false);
+
+  /**
+   * Status supporter diambil dari SERVER (bukan localStorage) supaya badge
+   * tidak bisa dipalsukan dari sisi klien. Gagal apa pun = bukan supporter;
+   * yang salah hanya tampilan, bukan hak akses.
+   */
+  const [supporter, setSupporter] = useState({ isSupporter: false, isLifetime: false });
+  useEffect(() => {
+    let alive = true;
+    void rpcGetMySupporterStatus().then((s) => {
+      if (alive) setSupporter({ isSupporter: s.isSupporter, isLifetime: s.isLifetime });
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const allSeqNodes = useMemo(() => sequentialNodes(), []);
   const totalLessons = allSeqNodes.length;
@@ -355,19 +373,39 @@ function ProfilePage() {
                     <span className="font-sans text-xs font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-b from-[#FFF0F5] to-[#FDC8D8] text-choco-900 border-2 border-candy-600 shadow-[0_2px_0_#B01F62]">
                       Murid Blobi
                     </span>
+                    {supporter.isSupporter && (
+                      <span
+                        className="inline-flex items-center gap-1 font-sans text-xs font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-b from-coin-fill to-coin-fill-deep text-coin-ink-deep border-2 border-coin-shadow shadow-[0_2px_0_#D9A400]"
+                        title={supporter.isLifetime ? "Supporter selamanya" : "Supporter aktif"}
+                      >
+                        <BadgeCheck className="size-3" />
+                        OG Supporter
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
 
-              {/* Action Button: Ruang Ganti Blobi */}
-              <Link
-                to="/shop"
-                search={{ tab: "wardrobe" }}
-                className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
-              >
-                <Sparkles className="size-3.5 text-coin" />
-                <span>Ganti Blobi</span>
-              </Link>
+              {/* Action Button: Ruang Ganti Blobi + jadi supporter */}
+              <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-end">
+                {!supporter.isSupporter && (
+                  <Link
+                    to="/supporter"
+                    className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Crown className="size-3.5" />
+                    <span>Jadi Supporter</span>
+                  </Link>
+                )}
+                <Link
+                  to="/shop"
+                  search={{ tab: "wardrobe" }}
+                  className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep border-2 border-choco-900/20 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Sparkles className="size-3.5 text-coin" />
+                  <span>Ganti Blobi</span>
+                </Link>
+              </div>
             </div>
 
             {/* User Motto / Status Section */}

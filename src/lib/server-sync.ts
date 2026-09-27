@@ -1324,3 +1324,67 @@ export async function checkSupporterOrder(
     return { ok: false, error: (err as Error)?.message || "Gagal menghubungi server." };
   }
 }
+
+
+// ── Supporter: benefit (nyawa gratis & tiket x3) ────────────────────────────
+// Kedua benefit dihitung di DATABASE. Klien hanya menampilkan; kalau dihitung
+// di klien, siapa pun bisa memalsukan kuota atau multiplier dari browser.
+
+export interface FreeRefillQuota {
+  used: number;
+  limit: number;
+  remaining: number;
+  hearts: number;
+  isSupporter: boolean;
+  resetAt: string | null;
+  /** false = pemanggil belum login; UI harus menyuruh masuk, bukan bilang kuota habis. */
+  authenticated: boolean;
+}
+
+const NO_QUOTA: FreeRefillQuota = {
+  used: 0, limit: 2, remaining: 0, hearts: 5, isSupporter: false, resetAt: null,
+  authenticated: false,
+};
+
+/** Sisa kuota isi nyawa gratis hari ini (2x biasa, 4x supporter). */
+export async function rpcGetFreeRefillQuota(): Promise<FreeRefillQuota> {
+  if (!isSupabaseConfigured || !supabase) return NO_QUOTA;
+  try {
+    const { data, error } = await supabase.rpc("get_free_refill_quota");
+    if (error || !data || typeof data !== "object") return NO_QUOTA;
+    const d = data as Record<string, unknown>;
+    return {
+      used: Number(d.used) || 0,
+      limit: Number(d.limit) || 2,
+      remaining: Number(d.remaining) || 0,
+      hearts: Number(d.hearts) || 0,
+      isSupporter: d.is_supporter === true,
+      resetAt: typeof d.reset_at === "string" ? d.reset_at : null,
+      authenticated: d.authenticated === true,
+    };
+  } catch {
+    return NO_QUOTA;
+  }
+}
+
+/** Pakai satu kuota isi nyawa gratis. */
+export async function rpcRefillHeartsFree(): Promise<{ ok: boolean; error?: string; remaining?: number }> {
+  if (!isSupabaseConfigured || !supabase) return { ok: false, error: "Supabase tidak siap." };
+  const opKey = "shop:refill-free";
+  if (!canExecuteOp(opKey, 1000)) return { ok: false, error: "Tunggu sebentar." };
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return { ok: false, error: "Kamu harus masuk dulu." };
+
+    const { data, error } = await supabase.rpc("refill_hearts_free");
+    if (error) return { ok: false, error: error.message };
+    const d = (data ?? {}) as Record<string, unknown>;
+    if (d.success !== true) return { ok: false, error: "Gagal mengisi nyawa." };
+    return { ok: true, remaining: Number(d.remaining) || 0 };
+  } catch (err: unknown) {
+    return { ok: false, error: (err as Error)?.message || "Gagal menghubungi server." };
+  } finally {
+    endOp(opKey);
+  }
+}

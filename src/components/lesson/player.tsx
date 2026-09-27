@@ -78,6 +78,16 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     }
   }, [hearts, phase]);
 
+  // Nyawa pulih (regen otomatis tiap HEART_MS lewat tick store, atau isi ulang koin)
+  // -> lanjutkan sesi. Tanpa ini user terjebak di layar "Nyawa habis" walau nyawanya
+  // sudah pulih; satu-satunya jalan keluar adalah keluar sesi dan progresnya hilang.
+  useEffect(() => {
+    if (phase === "dead" && hearts > 0) {
+      setPhase("ask");
+      setReady(false);
+    }
+  }, [hearts, phase]);
+
   const goNext = useCallback(() => {
     matchHadMistakeRef.current = false;
     const nextIndex = index + 1;

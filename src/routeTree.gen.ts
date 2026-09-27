@@ -25,6 +25,7 @@ import { Route as RaffleRouteImport } from './routes/raffle'
 import { Route as RantaiRouteImport } from './routes/rantai'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as SupporterRouteImport } from './routes/supporter'
 import { Route as TamaguiPocRouteImport } from './routes/tamagui-poc'
 import { Route as WardrobeRouteImport } from './routes/wardrobe'
 import { Route as BedahCaseIdRouteImport } from './routes/bedah.$caseId'
@@ -112,6 +113,11 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupporterRoute = SupporterRouteImport.update({
+  id: '/supporter',
+  path: '/supporter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TamaguiPocRoute = TamaguiPocRouteImport.update({
   id: '/tamagui-poc',
   path: '/tamagui-poc',
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/rantai': typeof RantaiRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
+  '/supporter': typeof SupporterRoute
   '/tamagui-poc': typeof TamaguiPocRoute
   '/wardrobe': typeof WardrobeRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/rantai': typeof RantaiRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
+  '/supporter': typeof SupporterRoute
   '/tamagui-poc': typeof TamaguiPocRoute
   '/wardrobe': typeof WardrobeRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
@@ -208,6 +216,7 @@ export interface FileRoutesById {
   '/rantai': typeof RantaiRoute
   '/settings': typeof SettingsRoute
   '/shop': typeof ShopRoute
+  '/supporter': typeof SupporterRoute
   '/tamagui-poc': typeof TamaguiPocRoute
   '/wardrobe': typeof WardrobeRoute
   '/bedah/$caseId': typeof BedahCaseIdRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/rantai'
     | '/settings'
     | '/shop'
+    | '/supporter'
     | '/tamagui-poc'
     | '/wardrobe'
     | '/bedah/$caseId'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/rantai'
     | '/settings'
     | '/shop'
+    | '/supporter'
     | '/tamagui-poc'
     | '/wardrobe'
     | '/bedah/$caseId'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/rantai'
     | '/settings'
     | '/shop'
+    | '/supporter'
     | '/tamagui-poc'
     | '/wardrobe'
     | '/bedah/$caseId'
@@ -306,6 +318,7 @@ export interface RootRouteChildren {
   RantaiRoute: typeof RantaiRoute
   SettingsRoute: typeof SettingsRoute
   ShopRoute: typeof ShopRoute
+  SupporterRoute: typeof SupporterRoute
   TamaguiPocRoute: typeof TamaguiPocRoute
   WardrobeRoute: typeof WardrobeRoute
   BedahCaseIdRoute: typeof BedahCaseIdRoute
@@ -426,6 +439,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/supporter': {
+      id: '/supporter'
+      path: '/supporter'
+      fullPath: '/supporter'
+      preLoaderRoute: typeof SupporterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tamagui-poc': {
       id: '/tamagui-poc'
       path: '/tamagui-poc'
@@ -500,6 +520,7 @@ const rootRouteChildren: RootRouteChildren = {
   RantaiRoute: RantaiRoute,
   SettingsRoute: SettingsRoute,
   ShopRoute: ShopRoute,
+  SupporterRoute: SupporterRoute,
   TamaguiPocRoute: TamaguiPocRoute,
   WardrobeRoute: WardrobeRoute,
   BedahCaseIdRoute: BedahCaseIdRoute,

@@ -16,6 +16,7 @@ import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
 import { DailyQuests } from "@/components/daily-quests";
 import { Mascot } from "@/components/mascot";
 import { ChainBlock } from "@/components/ui/chain-block";
+import { CloudFog } from "@/components/ui/cloud-fog";
 import { Button } from "@/components/ui/button";
 
 export function PulauRantaiMap({
@@ -62,6 +63,85 @@ export function PulauRantaiMap({
     }
     return null;
   }, [units, completed]);
+
+  /**
+   * Rute yang MASIH TERTUTUP AWAN.
+   *
+   * Definisi: belum punya satu pun blok selesai DAN tidak berisi blok aktif
+   * berikutnya. Rute yang sedang dikerjakan (berisi `nextLessonId`) TIDAK
+   * ditutup — user harus bisa melihat dan menekan blok aktifnya.
+   *
+   * Konsekuensinya rute pertama tidak pernah tertutup, dan rute berikutnya
+   * terbuka tepat saat blok terakhir rute sebelumnya selesai.
+   */
+  const lockedUnitIds = useMemo(() => {
+    const locked = new Set<string>();
+    for (const u of units) {
+      const hasCompleted = u.lessons.some((l) => completed.includes(l.id));
+      const hasActive = u.lessons.some((l) => l.id === nextLessonId);
+      if (!hasCompleted && !hasActive) locked.add(u.id);
+    }
+    return locked;
+  }, [units, completed, nextLessonId]);
+
+  /**
+   * Animasi pembuka awan — hanya SEKALI per rute per perangkat.
+   *
+   * `clearedRef` menyimpan rute yang sudah pernah dibuka. Rute yang belum
+   * tercatat TAPI sudah tidak terkunci = baru saja terbuka -> mainkan animasi,
+   * lalu catat supaya kunjungan berikutnya langsung tanpa animasi.
+   *
+   * Kunjungan pertama (localStorage kosong, mis. user baru) TIDAK memutar
+   * animasi untuk semua rute — itu akan jadi 19 animasi sekaligus. Yang
+   * dianggap "baru terbuka" hanya rute yang benar-benar berubah status.
+   */
+  const [openingUnits, setOpeningUnits] = useState<Set<string>>(new Set());
+  const clearedRef = useRef<Set<string> | null>(null);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const KEY = "web3min-fog-cleared";
+
+    if (clearedRef.current === null) {
+      // Baca sekali. Gagal baca (private mode) -> anggap semua sudah tercatat
+      // supaya tidak ada animasi beruntun yang mengganggu.
+      let stored: Set<string>;
+      try {
+        const raw = localStorage.getItem(KEY);
+        stored = new Set<string>(raw ? (JSON.parse(raw) as string[]) : []);
+        if (raw === null) {
+          // Kunjungan pertama: catat semua rute yang SUDAH terbuka tanpa
+          // animasi, supaya yang dianimasikan nanti hanya rute yang baru.
+          stored = new Set(
+            units.filter((u) => !lockedUnitIds.has(u.id)).map((u) => u.id),
+          );
+          localStorage.setItem(KEY, JSON.stringify([...stored]));
+        }
+      } catch {
+        stored = new Set(units.map((u) => u.id));
+      }
+      clearedRef.current = stored;
+      return;
+    }
+
+    const newlyOpen = units
+      .filter((u) => !lockedUnitIds.has(u.id) && !clearedRef.current!.has(u.id))
+      .map((u) => u.id);
+    if (newlyOpen.length === 0) return;
+
+    setOpeningUnits(new Set(newlyOpen));
+    clearedRef.current = new Set([...clearedRef.current, ...newlyOpen]);
+    try {
+      localStorage.setItem(KEY, JSON.stringify([...clearedRef.current]));
+    } catch {
+      /* private mode: animasi tetap jalan, hanya tidak diingat */
+    }
+
+    // Setelah animasi selesai (1,2s + sedikit jeda), lepas penanda supaya
+    // CloudFog di-unmount oleh parent.
+    const t = setTimeout(() => setOpeningUnits(new Set()), 1400);
+    return () => clearTimeout(t);
+  }, [hydrated, units, lockedUnitIds]);
 
   // Active lesson and unit reference for Blobi guidance
   const activeInfo = useMemo(() => {
@@ -494,6 +574,36 @@ export function PulauRantaiMap({
                   );
                 })}
               </div>
+
+              {/* ── Kabut awan untuk rute yang belum terbuka ────────────────
+                  Diletakkan SETELAH node & papan nama di DOM, tapi z-index-nya
+                  (z-3) lebih rendah dari papan nama (z-10) sehingga papan nama
+                  tetap di atas. Node aktif TIDAK pernah tertutup karena rute
+                  yang berisi `nextLessonId` tidak masuk `lockedUnitIds`.
+
+                  `|| openingUnits.has(unit.id)` WAJIB: tanpa itu, begitu rute
+                  terbuka `lockedUnitIds` tidak lagi memuat unit ini sehingga
+                  CloudFog langsung unmount dan animasi keluarnya tidak pernah
+                  terlihat. Dengan syarat tambahan ini, fog tetap ter-render
+                  selama jendela animasi (1,4s) lalu dilepas. */}
+              {(lockedUnitIds.has(unit.id) || openingUnits.has(unit.id)) && (
+                <CloudFog
+                  unitIndex={unit.index}
+                  prevUnitIndex={Math.max(1, unit.index - 1)}
+                  prevUnitTitle={units[wi - 1]?.title}
+                  height={H}
+                  phase={openingUnits.has(unit.id) ? "open" : "closed"}
+                  onDeny={() => {
+                    if (sound) playDeny();
+                    showToast(
+                      `Rute ${unit.index} masih tertutup awan. Selesaikan Rute ${Math.max(
+                        1,
+                        unit.index - 1,
+                      )} dulu ya!`,
+                    );
+                  }}
+                />
+              )}
             </div>
           );
         })}

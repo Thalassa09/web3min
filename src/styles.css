@@ -2552,3 +2552,97 @@ button.jb:active, .fab:active .jb {
   margin-left: 6px;
   box-shadow: inset 12px 0 0 var(--ink);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CLOUD FOG — kabut awan penutup rute yang belum terbuka
+   ══════════════════════════════════════════════════════════════════════════════
+   Lapisan ini duduk di z-2: DI ATAS node dan DI BAWAH papan nama rute (z-10).
+   Tombol awan memakai z-3 di dalam lapisan, jadi papan nama tetap bisa ditekan.
+
+   Awan bergerak sangat pelan (9-18s) — tujuannya terasa hidup, bukan menarik
+   perhatian. Kalau dipercepat, mata tertarik ke rute terkunci padahal yang
+   penting justru rute aktif.
+*/
+
+/* Tombol penuh area awan. Tailwind preflight sudah mereset tombol, tapi
+   dinyatakan eksplisit supaya tidak bergantung pada asumsi itu. */
+.cloud-fog-hit {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+
+.cloud-fog-mist {
+  /* Bagian atas SENGAJA transparan: papan nama "RUTE N · JUDUL" duduk di sana
+     dan wajib tetap terbaca. Kekuatan kabut naik bertahap ke bawah, tempat
+     node berada — di sanalah kesan "tertutup" harus paling kuat. */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 249, 251, 0) 0%,
+    rgba(255, 249, 251, 0.28) 12%,
+    rgba(255, 249, 251, 0.62) 32%,
+    rgba(234, 220, 232, 0.82) 62%,
+    rgba(234, 220, 232, 0.94) 100%
+  );
+  pointer-events: none;
+  transition: opacity 1.2s ease-out;
+}
+
+/* Fase buka: kabut memudar */
+.cloud-fog-mist-out {
+  opacity: 0;
+}
+
+.cloud-fog-bit {
+  position: absolute;
+  pointer-events: none;
+  animation-name: cloud-fog-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  will-change: translate;
+}
+
+@keyframes cloud-fog-drift {
+  from { translate: -10px 0; }
+  to   { translate: 14px 0; }
+}
+
+/* Fase buka: awan kiri keluar ke kiri, awan kanan ke kanan.
+   `translate` dipakai (bukan transform) supaya flip scaleX(-1) tidak hilang. */
+.cloud-fog-out-left {
+  animation: cloud-fog-slide-left 1.2s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+}
+
+.cloud-fog-out-right {
+  animation: cloud-fog-slide-right 1.2s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+}
+
+@keyframes cloud-fog-slide-left {
+  to { translate: -140% 0; opacity: 0; }
+}
+
+@keyframes cloud-fog-slide-right {
+  to { translate: 140% 0; opacity: 0; }
+}
+
+.cloud-fog-badge {
+  transition:
+    transform 120ms ease-out,
+    box-shadow 120ms ease-out,
+    opacity 400ms ease-out;
+}
+
+/* Reduced motion: drift & transisi dimatikan, pembuka jadi fade singkat.
+   Awan TETAP terlihat (fog of war masih informatif) — hanya geraknya hilang. */
+@media (prefers-reduced-motion: reduce) {
+  .cloud-fog-bit { animation: none !important; }
+  .cloud-fog-mist { transition-duration: 0.01ms !important; }
+  .cloud-fog-out-left,
+  .cloud-fog-out-right { animation: none !important; opacity: 0; }
+  .cloud-fog-badge { transition-duration: 0.01ms !important; }
+}

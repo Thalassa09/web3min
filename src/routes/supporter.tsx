@@ -56,7 +56,7 @@ type Phase =
   | { kind: "not-logged-in" }
   | { kind: "idle"; status: SupporterStatus }
   | { kind: "creating" }
-  | { kind: "pending"; orderId: string; uniqueAmount: number; checkoutUrl?: string; expiresAt: number }
+  | { kind: "pending"; orderId: string; baseAmount: number; uniqueAmount: number; checkoutUrl?: string; expiresAt: number }
   | { kind: "activating" }
   | { kind: "done" }
   | { kind: "error"; message: string; hadOrder?: boolean };
@@ -65,6 +65,11 @@ function SupporterPage() {
   const [phase, setPhase] = useState<Phase>({ kind: "loading" });
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [checking, setChecking] = useState(false);
+  // Apakah GatePay menambahkan kode unik ke nominal? Diambil dari respons
+  // order nyata, bukan diasumsikan — merchant bisa mematikannya (disarankan
+  // untuk GoPay), dan teks di bawah harus jujur mengikuti kenyataan itu.
+  const hasUniqueCode =
+    phase.kind === "pending" && phase.uniqueAmount > phase.baseAmount;
   const pollRef = useRef<number | null>(null);
 
   // ── Muat status awal ──────────────────────────────────────────────────────
@@ -168,6 +173,7 @@ function SupporterPage() {
     setPhase({
       kind: "pending",
       orderId: res.orderId,
+      baseAmount: res.baseAmount ?? PRICE_IDR,
       uniqueAmount: res.uniqueAmount ?? PRICE_IDR,
       checkoutUrl: res.checkoutUrl,
       expiresAt: Date.now() + (res.expiresIn ?? 900) * 1000,
@@ -436,11 +442,18 @@ function SupporterPage() {
           <div className="flex items-start gap-2">
             <Sparkles className="size-3.5 shrink-0 text-choco-500 mt-0.5" />
             <div className="text-[11px] font-semibold text-choco-700 leading-relaxed space-y-1.5">
-              <p>
-                <strong>Kenapa nominalnya bukan pas Rp 9.999?</strong> Sistem pembayaran
-                menambahkan kode unik beberapa rupiah supaya transaksimu terdeteksi otomatis.
-                Angka itu masuk ke kami, bukan potongan pihak ketiga.
-              </p>
+              {hasUniqueCode ? (
+                <p>
+                  <strong>Kenapa nominalnya bukan pas Rp 9.999?</strong> Sistem pembayaran
+                  menambahkan kode unik beberapa rupiah supaya transaksimu terdeteksi otomatis.
+                  Angka itu masuk ke kami, bukan potongan pihak ketiga.
+                </p>
+              ) : (
+                <p>
+                  <strong>Bayar persis Rp 9.999.</strong> Jangan dibulatkan atau dilebihkan —
+                  nominal yang berbeda membuat pembayaranmu sulit dilacak.
+                </p>
+              )}
               <p>
                 <strong>Belum punya QRIS?</strong> Bisa dibayar dari aplikasi apa pun yang punya
                 menu QRIS: DANA, GoPay, OVO, ShopeePay, atau m-banking.

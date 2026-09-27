@@ -56,9 +56,22 @@ test("non-.sql entries are dropped (readdir also yields the auth/ directory)", (
   assert.deepEqual(pendingMigrations(["auth", "README.md"], []), []);
 });
 
-test("the auth schema ships outside the globbed directory", () => {
+test("auth schema ships outside the globbed directory (dan stub lokal tetap ada)", () => {
+  // Template kosong mengharapkan `migrations/` bersih dari .sql supaya
+  // migrasi app tidak tercampur. web3min BEDA: ia sudah punya stub PGlite
+  // lokal (`0002_core.sql` + `0003_rpc.sql`) untuk dev tanpa Supabase —
+  // produksi memakai `supabase/migrations/`, dan `_migrations` tidak pernah
+  // dibuat di Supabase (diverifikasi: `to_regclass('public._migrations')` null).
+  //
+  // Yang tetap wajib dijaga: skema auth TIDAK boleh ikut ter-glob, karena
+  // applier tidak menelusuri subdirektori.
   const migrationsDir = join(projectRoot(), "migrations");
-  assert.deepEqual(pendingMigrations(readdirSync(migrationsDir), []), []);
+  const pending = pendingMigrations(readdirSync(migrationsDir), []);
+  assert.deepEqual(
+    pending.map((p) => p.name).sort(),
+    ["0002_core.sql", "0003_rpc.sql"],
+    "hanya stub lokal yang ter-glob",
+  );
   assert.ok(readdirSync(join(migrationsDir, "auth")).includes("0001_auth.sql"));
 });
 

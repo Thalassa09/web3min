@@ -18,7 +18,7 @@
     "check:curriculum": "npx tsx scripts/assert-curriculum-integrity.ts",
     "check:auth": "node scripts/check-auth-invariant.mjs",
     "audit:security": "node scripts/security-backend-audit.mjs",
-    "test:unit": "node --experimental-strip-types --test 'src/lib/**/*.test.ts'",
+    "test:unit": "node --experimental-strip-types --test 'src/lib/**/*.test.ts' 'scripts/**/*.test.mjs'",
     "test": "npm run test:unit",
     "lint": "eslint .",
     "format": "prettier --write ."

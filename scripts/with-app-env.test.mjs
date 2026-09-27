@@ -59,8 +59,13 @@ test("an explicit process-env override wins over the file", () => {
   assert.equal(merged.PATH, "/usr/bin");
 });
 
-test("the template ships auth off", () => {
-  assert.deepEqual(readAppEnv(projectRoot()), { VITE_AUTH_ENABLED: "false" });
+test("the app env declares auth ON (web3min punya login)", () => {
+  // web3min BUKAN template kosong: ia punya rute /masuk + Supabase auth,
+  // jadi VITE_AUTH_ENABLED harus "true". Nilai "false" adalah default
+  // template Grok lama — jangan dikembalikan.
+  // Catatan: `readAppEnv` hanya mengembalikan kunci yang dikenal, jadi
+  // `deploy.database` dari file tidak ikut muncul di sini.
+  assert.deepEqual(readAppEnv(projectRoot()), { VITE_AUTH_ENABLED: "true" });
 });
 
 test("vite loadEnv resolves the wrapped value", () => {
@@ -80,7 +85,8 @@ test("the wrapped command runs with the app env applied", async () => {
     "-e",
     PRINT_FLAG,
   ]);
-  assert.equal(stdout, "false");
+  // Nilai dari .grok/app-env.json repo (auth ON — web3min punya login).
+  assert.equal(stdout, "true");
 });
 
 test("the wrapped command sees an explicit override, not the file value", async () => {
@@ -124,5 +130,6 @@ test("the CLI still runs when invoked through a symlinked path", async () => {
     "-e",
     PRINT_FLAG,
   ]);
-  assert.equal(stdout, "false");
+  // Nilai dari .grok/app-env.json repo (auth ON — web3min punya login).
+  assert.equal(stdout, "true");
 });

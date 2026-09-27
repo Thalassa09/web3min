@@ -21,33 +21,50 @@ import { renderInstallPage } from "./grok-pwa-plugin.mjs";
 
 const TEMPLATE_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
+// Temp dir KOSONG: mencegah `normalizeHeadContext` membaca `src/lib/og/site.json`
+// milik repo web3min. Tanpa ini, `resolveOgTitle` selalu memakai site.title
+// repo ("web3min") dan mengabaikan `appName` yang dioper tes — itulah sebab
+// beberapa tes di bawah gagal setelah web3min punya site.json sendiri.
+function emptyCwd() {
+  return mkdtempSync(join(tmpdir(), "grok-og-test-"));
+}
+
+
 test("injects before </head>", () => {
   const out = injectGrokPwaHead("<html><head><title>x</title></head><body></body></html>");
   assert.match(out, /rel="manifest"/);
   assert.match(out, /apple-touch-icon/);
-  assert.match(out, /grok-app-builder\/extensions\.js/);
   assert.ok(out.indexOf("manifest") < out.indexOf("</head>"));
+  // Script extensions.js Grok App Builder SENGAJA DIHAPUS dari web3min
+  // (commit 31102aa "remove Grok App Builder artifacts & extension script"),
+  // dan `grokExtensionsHeadTags()` sekarang mengembalikan array kosong.
+  // Dijaga supaya tidak diam-diam muncul kembali di bundle produksi.
+  assert.doesNotMatch(out, /grok-app-builder\/extensions\.js/);
 });
 
-test("injects the extensions script without a project id", () => {
+test("tidak menyuntikkan extensions script tanpa project id", () => {
   const out = injectGrokPwaHead("<html><head></head></html>", {
     appName: "Demo",
     projectId: "",
+    cwd: emptyCwd(),
   });
-  assert.match(out, /src="https:\/\/grok\.com\/grok-app-builder\/extensions\.js" defer/);
+  // Aset Grok App Builder sudah dihapus dari web3min — nol jejak di HTML.
+  assert.doesNotMatch(out, /grok-app-builder/);
   assert.doesNotMatch(out, /grok-project-id/);
   assert.doesNotMatch(out, /data-project-id/);
   assert.doesNotMatch(out, /property="grok:app_id"/);
 });
 
-test("injects project id on the script and meta when provided", () => {
+test("project id hanya jadi meta, tanpa script Grok", () => {
   const out = injectGrokPwaHead("<html><head></head></html>", {
     appName: "Demo",
     projectId: "proj-123",
+    cwd: emptyCwd(),
   });
-  assert.match(out, /name="grok-project-id" content="proj-123"/);
-  assert.match(out, /data-project-id="proj-123"/);
+  // Meta id masih ditulis (dipakai tooling), tapi SCRIPT Grok sudah dihapus.
   assert.match(out, /property="grok:app_id" content="proj-123"/);
+  assert.doesNotMatch(out, /grok-app-builder/);
+  assert.doesNotMatch(out, /data-project-id="proj-123"/);
 });
 
 test("does not duplicate grok:app_id", () => {
@@ -246,6 +263,7 @@ test("site title Grok App is a real name, not a sentinel", () => {
 test("published grok.me slug is still a title fallback", () => {
   const out = injectGrokPwaHead("<html><head></head></html>", {
     host: "wild-race.grok.me",
+    cwd: emptyCwd(),
   });
   assert.match(out, /property="og:title" content="Wild Race"/);
 });
@@ -307,6 +325,7 @@ test("emits og:image for a public host and prefers a custom card", () => {
     appName: "Wild Race",
     host: "wild-race.grok.me",
     site: { title: "Wild Race" },
+    cwd: emptyCwd(),
   });
   assert.match(
     placeholder,
@@ -327,6 +346,7 @@ test("placeholder og:image appends site.color when it is 6-digit hex", () => {
   const themed = injectGrokPwaHead("<html><head></head></html>", {
     host: "wild-race.grok.me",
     site: { title: "Wild Race", color: "#FF4D2E" },
+    cwd: emptyCwd(),
   });
   assert.match(
     themed,
@@ -362,11 +382,15 @@ test("site.json title wins over the host slug", () => {
   assert.match(out, /property="og:title" content="Pixel Nova"/);
 });
 
-test("injects into documents with no head element", () => {
-  const out = injectGrokPwaHead("<html><body>hi</body></html>", { appName: "Solo" });
+test("menyuntik ke dokumen tanpa elemen head", () => {
+  const out = injectGrokPwaHead("<html><body>hi</body></html>", {
+    appName: "Solo",
+    cwd: emptyCwd(),
+  });
   assert.match(out, /<head>/);
   assert.match(out, /property="og:title" content="Solo"/);
   assert.match(out, /<\/head>/);
+  assert.match(out, /<body>hi<\/body>/);
 });
 
 test("streaming injector matches </HEAD> case-insensitively", () => {
@@ -380,12 +404,14 @@ test("streaming injector matches </HEAD> case-insensitively", () => {
   assert.match(out, /<body>hello<\/body>/);
 });
 
-test("does not duplicate the extensions script", () => {
-  const ctx = { appName: "Demo", projectId: "proj-123" };
+test("injeksi idempoten (tanpa menggandakan tag)", () => {
+  const ctx = { appName: "Demo", projectId: "proj-123", cwd: emptyCwd() };
   const once = injectGrokPwaHead("<html><head></head></html>", ctx);
   const twice = injectGrokPwaHead(once, ctx);
   assert.equal(once, twice);
-  assert.equal(twice.split("extensions.js").length - 1, 1);
+  // Tripwire: script Grok App Builder sudah dihapus dari web3min
+  // (commit 31102aa) — jangan sampai muncul kembali.
+  assert.equal(twice.split("extensions.js").length - 1, 0);
 });
 
 test("is idempotent", () => {
@@ -395,7 +421,10 @@ test("is idempotent", () => {
 });
 
 test("uses the app name in the injected title tag", () => {
-  const out = injectGrokPwaHead("<html><head></head></html>", { appName: "Wild Race" });
+  const out = injectGrokPwaHead("<html><head></head></html>", {
+    appName: "Wild Race",
+    cwd: emptyCwd(),
+  });
   assert.match(out, /apple-mobile-web-app-title" content="Wild Race"/);
 });
 
@@ -475,9 +504,14 @@ test("escapes host-derived values in the install page", () => {
 
 test("renders the manifest with the per-app name", () => {
   const manifest = JSON.parse(renderWebManifest("wild-race.grok.me"));
+  // Nama panjang mengikuti host (per-app), tapi identitas web3min dipertahankan:
+  // short_name, warna brand, dan ikon yang SUDAH DIPINDAH ke public/icon-180.png
+  // (dulu public/__grok/icon-180.png — dihapus bersama artefak Grok, 31102aa).
   assert.equal(manifest.name, "Wild Race");
-  assert.equal(manifest.short_name, "Wild Race");
-  assert.equal(manifest.icons[0].src, "/__grok/icon-180.png");
+  assert.equal(manifest.short_name, "web3min");
+  assert.equal(manifest.icons[0].src, "/icon-180.png");
+  assert.equal(manifest.theme_color, "#E8437F");
+  assert.equal(manifest.background_color, "#FFF6EE");
 });
 
 // Tripwires: the deployed-app path only works if Nitro scans server/ — an
@@ -494,8 +528,10 @@ test("nitro middleware and its bundled assets exist", () => {
   assert.match(middleware, /install-page\.html\?raw/);
   assert.match(middleware, /virtual:grok-og-identity/);
   readFileSync(join(TEMPLATE_ROOT, "scripts/install-page.html"));
-  readFileSync(join(TEMPLATE_ROOT, "public/__grok/icon-180.png"));
-  readFileSync(join(TEMPLATE_ROOT, "public/__grok/install/styles.css"));
+  // Ikon & stylesheet install page SUDAH DIPINDAH keluar dari __grok/
+  // (commit 31102aa menghapus folder itu). Path baru:
+  readFileSync(join(TEMPLATE_ROOT, "public/icon-180.png"));
+  readFileSync(join(TEMPLATE_ROOT, "public/manifest.json"));
 });
 
 test("vite plugin bakes og identity as a virtual module", () => {

@@ -13,6 +13,8 @@ export interface ChainBlockProps {
   isShaking?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  /** Penanda target tur coach (`[data-coach="node"]`). Hanya node aktif. */
+  coach?: boolean;
 }
 
 /**
@@ -33,6 +35,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
   isShaking = false,
   className,
   style,
+  coach = false,
 }) => {
   const hexHash = `#0x${blockNo.toString(16).toUpperCase().padStart(2, "0")}`;
 
@@ -76,6 +79,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
         className
       )}
       style={style}
+      data-coach={coach ? "node" : undefined}
     >
       {/* 1. Attached Hash Tag (#0x01) with Retro Arcade Pill */}
       <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-10 pointer-events-none whitespace-nowrap">

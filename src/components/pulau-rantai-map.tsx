@@ -468,6 +468,7 @@ export function PulauRantaiMap({
                           title={lesson.title}
                           confirmations={confirmations}
                           isShaking={shakingId === lesson.id}
+                          coach={isNow}
                           onClick={() => handleNodeClick(lesson, unit, status, x, y)}
                         />
                       </div>
@@ -491,6 +492,7 @@ export function PulauRantaiMap({
                             }}
                             title="Mulai kuis blok ini"
                             aria-label={`Mulai kuis: ${lesson.title}`}
+                            data-coach="start"
                           >
                             <div className="mb-0.5 px-2.5 py-0.5 rounded-full bg-candy-800 border-2 border-choco-900 shadow-[0_2px_0_#3B2218] text-[10px] font-pixel font-bold text-white whitespace-nowrap animate-bounce">
                               Ayo belajar

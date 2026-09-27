@@ -162,6 +162,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
         <Link
           to="/shop"
           title={`Nyawa ${hearts}/${MAX_HEARTS}, ketuk untuk buka Toko`}
+          data-coach="hearts"
           className={cn(
             pillBase,
             hearts <= 1 && "animate-pulse border-danger text-ruby-shadow bg-danger/10",

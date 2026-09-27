@@ -2556,10 +2556,12 @@ button.jb:active, .fab:active .jb {
 /* ══════════════════════════════════════════════════════════════════════════════
    CLOUD FOG — kabut awan penutup rute yang belum terbuka
    ══════════════════════════════════════════════════════════════════════════════
-   Lapisan ini duduk di z-2: DI ATAS node dan DI BAWAH papan nama rute (z-10).
-   Tombol awan memakai z-3 di dalam lapisan, jadi papan nama tetap bisa ditekan.
+   Lapisan awan duduk di z-20: DI ATAS node (z-2) dan DI ATAS maskot (z-10),
+   tapi DI BAWAH papan nama rute (z-30) dan DI BAWAH toast/modal (z-50).
+   Semua nilai z itu sudah terverifikasi ada di CSS hasil build — kelas z yang
+   tidak terdaftar gagal SENYAP (tidak error, tapi tidak berpengaruh).
 
-   Awan bergerak sangat pelan (9-18s) — tujuannya terasa hidup, bukan menarik
+   Awan bergerak sangat pelan (8-12s) — tujuannya terasa hidup, bukan menarik
    perhatian. Kalau dipercepat, mata tertarik ke rute terkunci padahal yang
    penting justru rute aktif.
 */
@@ -2579,17 +2581,18 @@ button.jb:active, .fab:active .jb {
 .cloud-fog-mist {
   /* Bagian atas SENGAJA transparan: papan nama "RUTE N · JUDUL" duduk di sana
      dan wajib tetap terbaca. Kekuatan kabut naik bertahap ke bawah, tempat
-     node berada — di sanalah kesan "tertutup" harus paling kuat. */
+     node berada — di sanalah kesan "tertutup" harus paling kuat.
+     Warna: putih #FFFFFF -> krem #FFF6EE (identitas web3min). */
   background: linear-gradient(
     to bottom,
-    rgba(255, 249, 251, 0) 0%,
-    rgba(255, 249, 251, 0.28) 12%,
-    rgba(255, 249, 251, 0.62) 32%,
-    rgba(234, 220, 232, 0.82) 62%,
-    rgba(234, 220, 232, 0.94) 100%
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.30) 12%,
+    rgba(255, 246, 238, 0.66) 34%,
+    rgba(255, 246, 238, 0.86) 64%,
+    rgba(255, 246, 238, 0.96) 100%
   );
   pointer-events: none;
-  transition: opacity 1.2s ease-out;
+  transition: opacity 400ms ease-out;
 }
 
 /* Fase buka: kabut memudar */
@@ -2608,33 +2611,27 @@ button.jb:active, .fab:active .jb {
 }
 
 @keyframes cloud-fog-drift {
-  from { translate: -10px 0; }
-  to   { translate: 14px 0; }
+  from { translate: -8px 0; }
+  to   { translate: 12px 0; }
 }
 
-/* Fase buka: awan kiri keluar ke kiri, awan kanan ke kanan.
-   `translate` dipakai (bukan transform) supaya flip scaleX(-1) tidak hilang. */
-.cloud-fog-out-left {
-  animation: cloud-fog-slide-left 1.2s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+/* Fase buka: awan memudar + mengecil ~400ms (fade/scale-out, bukan slide). */
+.cloud-fog-out {
+  animation: cloud-fog-fade-out 400ms ease-out forwards !important;
 }
 
-.cloud-fog-out-right {
-  animation: cloud-fog-slide-right 1.2s cubic-bezier(0.4, 0, 1, 1) forwards !important;
-}
-
-@keyframes cloud-fog-slide-left {
-  to { translate: -140% 0; opacity: 0; }
-}
-
-@keyframes cloud-fog-slide-right {
-  to { translate: 140% 0; opacity: 0; }
+@keyframes cloud-fog-fade-out {
+  to { opacity: 0; scale: 0.86; }
 }
 
 .cloud-fog-badge {
   transition:
     transform 120ms ease-out,
-    box-shadow 120ms ease-out,
     opacity 400ms ease-out;
+}
+
+.cloud-fog-badge-out {
+  opacity: 0;
 }
 
 /* Reduced motion: drift & transisi dimatikan, pembuka jadi fade singkat.
@@ -2642,7 +2639,8 @@ button.jb:active, .fab:active .jb {
 @media (prefers-reduced-motion: reduce) {
   .cloud-fog-bit { animation: none !important; }
   .cloud-fog-mist { transition-duration: 0.01ms !important; }
-  .cloud-fog-out-left,
-  .cloud-fog-out-right { animation: none !important; opacity: 0; }
-  .cloud-fog-badge { transition-duration: 0.01ms !important; }
+  .cloud-fog-out { animation: none !important; opacity: 0; }
+  .cloud-fog-badge,
+  .cloud-fog-badge-out { transition-duration: 0.01ms !important; }
 }
+

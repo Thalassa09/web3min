@@ -17,6 +17,7 @@ import { DailyQuests } from "@/components/daily-quests";
 import { Mascot } from "@/components/mascot";
 import { ChainBlock } from "@/components/ui/chain-block";
 import { CloudFog } from "@/components/ui/cloud-fog";
+import { Chip } from "@/components/ui/chip";
 import { Button } from "@/components/ui/button";
 
 export function PulauRantaiMap({
@@ -31,6 +32,28 @@ export function PulauRantaiMap({
   const hydrated = useHydrated();
   const claimChest = useProgress((s) => s.claimChest);
   const sound = useProgress((s) => s.sound);
+
+  /**
+   * Penanda "sudah di klien & efek pertama sudah jalan" untuk elemen yang
+   * TIDAK boleh ada di HTML server.
+   *
+   * KENAPA TIDAK CUKUP `useHydrated()`: `useHydrated` membaca `hydration.ready`,
+   * sebuah variabel MODUL di store. Dengan selective hydration, subtree peta
+   * bisa ter-hidrasi SETELAH `HydrationGate` menjalankan efeknya — sehingga
+   * `hydration.ready` sudah `true` saat React menghidrasi komponen ini.
+   * Akibatnya: SSR merender TANPA chip/awan, klien menghidrasi DENGAN
+   * chip/awan → **hydration mismatch #418** (terbukti terukur, bukan dugaan:
+   * versi tanpa penanda ini memunculkan #418 di `/`, sementara build HEAD
+   * bersih).
+   *
+   * `useState(false)` + `useEffect` menjamin `false` di render pertama klien
+   * (sama dengan server) dan `true` hanya setelah efek — jadi markup server
+   * dan klien pertama IDENTIK.
+   */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  /** Boleh merender elemen yang bergantung pada progres lokal? */
+  const siapTampilProgres = hydrated && mounted;
 
   const [shakingId, setShakingId] = useState<string | null>(null);
   const [sheetLesson, setSheetLesson] = useState<{
@@ -137,9 +160,9 @@ export function PulauRantaiMap({
       /* private mode: animasi tetap jalan, hanya tidak diingat */
     }
 
-    // Setelah animasi selesai (1,2s + sedikit jeda), lepas penanda supaya
-    // CloudFog di-unmount oleh parent.
-    const t = setTimeout(() => setOpeningUnits(new Set()), 1400);
+    // Setelah animasi selesai (fade/scale-out 400ms + sedikit jeda), lepas
+    // penanda supaya CloudFog di-unmount oleh parent.
+    const t = setTimeout(() => setOpeningUnits(new Set()), 620);
     return () => clearTimeout(t);
   }, [hydrated, units, lockedUnitIds]);
 
@@ -463,9 +486,12 @@ export function PulauRantaiMap({
                   />
                 ))}
 
-                {/* World Sign Board - Tactile Beveled Style */}
+                {/* World Sign Board - Tactile Beveled Style.
+                    z-30 WAJIB: awan rute terkunci memakai z-20 (di atas node
+                    z-2 dan maskot z-10), jadi papan nama harus lebih tinggi
+                    supaya "RUTE N · judul" + chip "Terkunci" tetap terbaca. */}
                 <div
-                  className="absolute left-3 right-3 sm:left-4 sm:right-4 max-w-lg mx-auto top-2.5 z-10 bg-gradient-to-b from-white/95 via-cream-fill/95 to-cream-fill-deep/95 backdrop-blur-md border-2 border-choco-900/20 rounded-3xl px-3.5 py-2.5 sm:p-3.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.14)] transition-all pointer-events-auto"
+                  className="absolute left-3 right-3 sm:left-4 sm:right-4 max-w-lg mx-auto top-2.5 z-30 bg-gradient-to-b from-white/95 via-cream-fill/95 to-cream-fill-deep/95 backdrop-blur-md border-2 border-choco-900/20 rounded-3xl px-3.5 py-2.5 sm:p-3.5 shadow-[0_4px_0_#3B2218,0_10px_20px_-4px_rgba(59,34,24,0.14)] transition-all pointer-events-auto"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
@@ -477,6 +503,18 @@ export function PulauRantaiMap({
                       <h3 className="text-xs sm:text-base font-bold font-pixel text-choco-900 tracking-tight truncate">
                         {unit.title}
                       </h3>
+                      {/* Chip status terkunci. Ditaruh DI PAPAN NAMA (z-30),
+                          bukan di dalam awan (z-20), supaya user tetap tahu
+                          rute ini terkunci walau awannya sedang beranimasi
+                          keluar. Syarat `hydrated` sama dengan awan — kalau
+                          tidak, chip berkedip untuk user yang progresnya sudah
+                          banyak. */}
+                      {siapTampilProgres && lockedUnitIds.has(unit.id) ? (
+                        <Chip tone="neutral" className="shrink-0 gap-1">
+                          <PulauIcon name="lock" size={11} />
+                          <span>Terkunci</span>
+                        </Chip>
+                      ) : null}
                     </div>
                     <span className="shrink-0 text-[10px] font-pixel font-bold text-choco-600 bg-cream-100 px-2 py-0.5 rounded-full border border-choco-900/30">
                       {unit.lessons.filter((l) => l.kind !== "chest").length} Blok
@@ -576,17 +614,23 @@ export function PulauRantaiMap({
               </div>
 
               {/* ── Kabut awan untuk rute yang belum terbuka ────────────────
-                  Diletakkan SETELAH node & papan nama di DOM, tapi z-index-nya
-                  (z-3) lebih rendah dari papan nama (z-10) sehingga papan nama
-                  tetap di atas. Node aktif TIDAK pernah tertutup karena rute
-                  yang berisi `nextLessonId` tidak masuk `lockedUnitIds`.
+                  `hydrated` WAJIB jadi syarat pertama. Store memakai
+                  `skipHydration`, jadi render pertama SELALU `completed: []` —
+                  semua rute terlihat terkunci. Tanpa penahan ini, user lama
+                  melihat awan menutupi 19 rute lalu semuanya hilang sekejap
+                  (berkedip), dan markup SSR/klien berbeda → hydration mismatch
+                  (#418). Store lokal, jadi awan hanya boleh muncul setelah
+                  progres sungguhan terbaca.
+
+                  Awan memakai z-20: di atas node (z-2) dan maskot (z-10),
+                  di bawah papan nama (z-30) dan toast/modal (z-50).
 
                   `|| openingUnits.has(unit.id)` WAJIB: tanpa itu, begitu rute
                   terbuka `lockedUnitIds` tidak lagi memuat unit ini sehingga
                   CloudFog langsung unmount dan animasi keluarnya tidak pernah
                   terlihat. Dengan syarat tambahan ini, fog tetap ter-render
-                  selama jendela animasi (1,4s) lalu dilepas. */}
-              {(lockedUnitIds.has(unit.id) || openingUnits.has(unit.id)) && (
+                  selama jendela animasi (~400ms + jeda) lalu dilepas. */}
+              {siapTampilProgres && (lockedUnitIds.has(unit.id) || openingUnits.has(unit.id)) && (
                 <CloudFog
                   unitIndex={unit.index}
                   prevUnitIndex={Math.max(1, unit.index - 1)}
@@ -596,10 +640,7 @@ export function PulauRantaiMap({
                   onDeny={() => {
                     if (sound) playDeny();
                     showToast(
-                      `Rute ${unit.index} masih tertutup awan. Selesaikan Rute ${Math.max(
-                        1,
-                        unit.index - 1,
-                      )} dulu ya!`,
+                      "Rute ini masih tertutup awan! Selesaikan rute sebelumnya dulu.",
                     );
                   }}
                 />

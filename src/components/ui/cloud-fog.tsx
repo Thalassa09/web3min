@@ -2,25 +2,32 @@ import React, { useMemo } from "react";
 import { PulauIcon } from "@/lib/pulau-icons";
 
 /**
- * CloudFog — kabut awan penutup untuk rute yang belum terbuka (fog of war).
+ * CloudFog — lapisan awan penutup untuk rute yang belum terbuka (fog of war).
  *
  * Kenapa ada: peta rantai menampilkan 20 rute sekaligus. Tanpa penanda, user
  * baru tidak tahu rute mana yang sudah bisa dimainkan — semua node terlihat
- * sama redupnya. Kabut membuat batas "wilayah yang sudah terbuka" terlihat
+ * sama redupnya. Awan membuat batas "wilayah yang sudah terbuka" terlihat
  * sekilas, tanpa harus membaca satu per satu.
  *
- * Aturan yang dijaga di sini:
+ * URUTAN Z-INDEX (semuanya sudah terverifikasi ADA di CSS hasil build —
+ * kelas z yang tidak terdaftar gagal SENYAP, jadi jangan mengarang nilai):
+ *   node rantai   z-2
+ *   maskot Blobi  z-10
+ *   awan ini      z-20   <- menutupi node DAN maskot
+ *   papan nama    z-30   <- tetap terbaca di atas awan
+ *   toast/modal   z-50
+ *
+ * Aturan lain yang dijaga di sini:
  *  - Posisi awan ditentukan PRNG ber-seed `unitIndex`, BUKAN Math.random().
  *    Kalau random, awan melompat setiap re-render (setiap kali user menyelesaikan
  *    satu blok, seluruh peta bergeser sendiri — terlihat seperti bug).
- *  - Papan nama rute (`z-10`) HARUS tetap di atas awan. Awan memakai `z-3`:
- *    node memakai `z-2`, dan DUA elemen ber-z-index sama tidak dijamin
- *    diselesaikan oleh urutan DOM (terbukti: `elementFromPoint` di titik
- *    node rute terkunci mengembalikan tombol node, bukan awan). `z-3`
- *    memastikan awan menang, sementara papan nama `z-10` tetap di atasnya.
+ *  - Parent WAJIB menahan render sampai `hydrated`. Store memakai
+ *    `skipHydration`, jadi render pertama selalu `completed: []` — semua rute
+ *    terlihat terkunci. Tanpa penahan itu, user lama melihat awan di 19 rute
+ *    lalu semuanya hilang sekejap (dan berisiko hydration mismatch #418).
  *  - Animasi pembuka hanya berjalan SEKALI per rute perangkat
  *    (localStorage `web3min-fog-cleared`). Kalau tidak, setiap kunjungan
- *    ulang akan memutar animasi 1,2 detik dan terasa lambat.
+ *    ulang akan memutar animasi dan terasa lambat.
  *  - `prefers-reduced-motion`: drift dimatikan total, pembuka jadi fade instan.
  */
 
@@ -61,9 +68,16 @@ interface CloudSpec {
 }
 
 /**
- * Awan pixel SVG. Digambar dengan blok-blok persegi + `shapeRendering`
- * crispEdges supaya tepinya tajam seperti pixel art — bukan kurva halus.
- * Tiga lapis warna: badan #FFF9FB, bayangan bawah #EADCE8, outline #8C7285.
+ * Awan pixel SVG — gumpalan krem/putih dengan outline choco-900.
+ *
+ * Digambar sebagai SATU path bertingkat (bukan tumpukan rect) supaya outline
+ * bisa memakai `vectorEffect="non-scaling-stroke"`: tebal garis tetap **2px**
+ * di skala awan mana pun (awan di sini diskalakan 0.85–1.6×; kalau outline
+ * digambar sebagai rect terpisah, tebalnya ikut membesar dan terlihat tebal
+ * tidak konsisten antar awan).
+ *
+ * Dua warna isi: badan `#FFFFFF`, pita perut `#FFF6EE` (krem) — memberi bobot
+ * di bawah tanpa gradien, jadi tetap terasa pixel art.
  */
 function PixelCloud({ className }: { className?: string }) {
   return (
@@ -74,40 +88,18 @@ function PixelCloud({ className }: { className?: string }) {
       aria-hidden="true"
       focusable="false"
     >
-      {/* Badan awan — blok-blok bertingkat */}
-      <g fill="#FFF9FB">
-        <rect x="8" y="16" width="48" height="16" />
-        <rect x="14" y="8" width="16" height="12" />
-        <rect x="30" y="4" width="18" height="16" />
-        <rect x="44" y="12" width="14" height="12" />
-        <rect x="4" y="20" width="8" height="12" />
-        <rect x="52" y="20" width="8" height="12" />
-      </g>
-
-      {/* Bayangan bawah — memberi bobot, bukan gradien */}
-      <g fill="#EADCE8">
-        <rect x="8" y="30" width="48" height="4" />
-        <rect x="4" y="30" width="6" height="3" />
-        <rect x="54" y="30" width="6" height="3" />
-        <rect x="44" y="22" width="14" height="4" />
-      </g>
-
-      {/* Outline — hanya sisi luar, mengikuti siluet blok */}
-      <g fill="#8C7285">
-        <rect x="8" y="14" width="48" height="2" />
-        <rect x="6" y="16" width="2" height="16" />
-        <rect x="56" y="16" width="2" height="16" />
-        <rect x="8" y="32" width="48" height="2" />
-        <rect x="14" y="6" width="16" height="2" />
-        <rect x="12" y="8" width="2" height="6" />
-        <rect x="30" y="2" width="18" height="2" />
-        <rect x="48" y="4" width="2" height="8" />
-        <rect x="44" y="10" width="14" height="2" />
-        <rect x="4" y="18" width="2" height="12" />
-        <rect x="58" y="18" width="2" height="12" />
-        <rect x="2" y="28" width="2" height="2" />
-        <rect x="60" y="28" width="2" height="2" />
-      </g>
+      {/* Siluet awan — blok bertingkat, outline choco-900 (#3B2218) 2px. */}
+      <path
+        d="M4 32 L4 20 L8 20 L8 16 L14 16 L14 8 L30 8 L30 4 L48 4 L48 12 L44 12 L44 16 L56 16 L56 20 L60 20 L60 32 Z"
+        fill="#FFFFFF"
+        stroke="#3B2218"
+        strokeWidth="2"
+        strokeLinejoin="miter"
+        vectorEffect="non-scaling-stroke"
+      />
+      {/* Pita krem di perut awan. Duduk di DALAM siluet (x 6..58, y 26..31)
+          supaya tidak menutupi outline di tepi. */}
+      <path d="M6 26 H58 V31 H6 Z" fill="#FFF6EE" />
     </svg>
   );
 }
@@ -137,7 +129,10 @@ export function CloudFog({
         left: onLeft ? -6 + rand() * 14 : 74 + rand() * 16,
         top: Math.max(4, Math.min(height - 44, top - 20)),
         scale: 0.85 + rand() * 0.75,
-        duration: 9 + rand() * 9,
+        // 8–12 detik: cukup pelan untuk terasa hidup tanpa menarik perhatian.
+        // Kalau lebih cepat, mata tertarik ke rute terkunci padahal yang penting
+        // justru rute aktif.
+        duration: 8 + rand() * 4,
         delay: rand() * 6,
         flip: rand() > 0.5,
       });
@@ -149,67 +144,78 @@ export function CloudFog({
 
   return (
     /*
-     * SELURUH area awan adalah satu <button> — sesuai spesifikasi: satu tap di
-     * mana pun di area ini menjalankan playDeny() + toast.
+     * SELURUH area awan adalah satu <button>.
+     *
+     * Kenapa <button> dan bukan <div role="button">: elemen <button> native
+     * SUDAH memberi role="button" implisit, sudah fokusable (tabIndex 0), dan
+     * sudah memicu `click` dari Enter maupun Space. Menambahkan role/tabIndex/
+     * onKeyDown secara manual justru REDUNDAN, dan onKeyDown manual pada button
+     * menyebabkan aksi berjalan DUA KALI (keydown -> click bawaan + handler
+     * sendiri). Jadi tiga syarat aksesibilitas itu terpenuhi oleh elemennya.
      *
      * `touch-action: pan-y` WAJIB. Tanpa itu tombol setinggi rute (sampai 820px)
      * menelan gesture swipe, dan user terkunci: tidak bisa scroll melewati rute
      * berawan sama sekali. Dengan pan-y, swipe vertikal tetap men-scroll
      * halaman sementara tap tetap ditangkap tombol ini.
-     *
-     * Badge di dalamnya sengaja <div>, bukan <button> — nested button adalah
-     * HTML tidak valid dan membingungkan screen reader.
      */
     <button
       type="button"
       onClick={onDeny}
-      aria-label={`Rute ${unitIndex} masih tertutup awan. Selesaikan Rute ${prevUnitIndex} dulu.`}
+      aria-label={`Rute ${unitIndex} masih tertutup awan. Selesaikan Rute ${prevUnitIndex} untuk membuka.`}
       data-cloud-fog={unitIndex}
-      className="absolute inset-0 z-3 cloud-fog-hit cursor-pointer"
+      className="absolute inset-0 z-20 cloud-fog-hit cursor-pointer"
       style={{ touchAction: "pan-y" }}
     >
-      {/* Lapisan kabut gradien. Bagian atas dibiarkan transparan supaya papan
-          nama rute (z-10) tetap terbaca. */}
+      {/* Lapisan kabut. Bagian atas dibiarkan transparan supaya papan nama rute
+          (z-30) tetap terbaca. */}
       <span
-        className={`absolute inset-x-0 bottom-0 h-[94%] cloud-fog-mist block ${
+        className={`absolute inset-x-0 bottom-0 h-[88%] cloud-fog-mist block ${
           isOpen ? "cloud-fog-mist-out" : ""
         }`}
       />
 
-      {/* Awan bergerak pelan ke kiri-kanan. Saat `phase=open`, awan kiri keluar
-          ke kiri dan awan kanan ke kanan, lalu parent meng-unmount. */}
-      {clouds.map((c, i) => {
-        const side = i % 2 === 0 ? "left" : "right";
-        return (
-          <span
-            key={i}
-            className={`absolute cloud-fog-bit ${isOpen ? `cloud-fog-out-${side}` : ""}`}
-            style={{
-              left: `${c.left}%`,
-              top: `${c.top}px`,
-              width: `${64 * c.scale}px`,
-              animationDuration: `${c.duration}s`,
-              animationDelay: `${c.delay}s`,
-              // Arah flip ditentukan PRNG yang sama dengan posisi.
-              transform: c.flip ? "scaleX(-1)" : undefined,
-            }}
-          >
-            <PixelCloud className="w-full h-auto" />
-          </span>
-        );
-      })}
+      {/* Awan bergerak pelan ke kiri-kanan. Saat `phase=open`, seluruh lapisan
+          memudar + mengecil ~400ms, lalu parent meng-unmount. */}
+      {clouds.map((c, i) => (
+        <span
+          key={i}
+          className={`absolute cloud-fog-bit ${isOpen ? "cloud-fog-out" : ""}`}
+          style={{
+            left: `${c.left}%`,
+            top: `${c.top}px`,
+            width: `${64 * c.scale}px`,
+            animationDuration: `${c.duration}s`,
+            animationDelay: `${c.delay}s`,
+            // Arah flip ditentukan PRNG yang sama dengan posisi.
+            transform: c.flip ? "scaleX(-1)" : undefined,
+          }}
+        >
+          <PixelCloud className="w-full h-auto" />
+        </span>
+      ))}
 
-      {/* Badge ajakan — visual saja, kliknya ditangani tombol induk. */}
-      <span className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 cloud-fog-badge inline-flex flex-col items-center gap-1.5 rounded-3xl border-2 border-choco-900/25 bg-white/92 px-4 py-3.5 backdrop-blur-md shadow-[0_4px_0_#3B2218,0_10px_20px_-6px_rgba(59,34,24,0.22)] max-w-[calc(100%-32px)]">
-        <span className="grid size-11 place-items-center rounded-full border-2 border-choco-900/25 bg-cream-fill text-choco-900/70">
+      {/* Badge tengah — visual saja, kliknya ditangani tombol induk.
+          `pointer-events-none` supaya tidak ada elemen yang menghalangi
+          pengukuran `elementFromPoint` saat diuji.
+
+          Isinya SENGAJA hanya teks, tanpa chip: chip "Terkunci" sudah ada di
+          papan nama (z-30) yang selalu terbaca. Menaruhnya di sini juga membuat
+          satu informasi muncul dua kali dalam satu layar. */}
+      <span
+        className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cloud-fog-badge pointer-events-none inline-flex flex-col items-center gap-2 ${
+          isOpen ? "cloud-fog-badge-out" : ""
+        }`}
+      >
+        <span className="grid size-11 place-items-center rounded-full border-2 border-choco-900 bg-cream-fill text-choco-900 shadow-[0_2px_0_#3B2218]">
           <PulauIcon name="lock" size={20} />
         </span>
-        <span className="font-pixel font-bold text-xs text-choco-900 text-center leading-tight">
-          Rute masih tertutup awan
-        </span>
-        <span className="text-[11px] font-semibold text-choco-600 text-center leading-tight max-w-[190px]">
-          Selesaikan Rute {prevUnitIndex}
-          {prevUnitTitle ? ` (${prevUnitTitle})` : ""} dulu
+        <span className="max-w-[210px] rounded-2xl border-2 border-choco-900 bg-white/95 px-4 py-2.5 text-center font-pixel text-xs font-bold leading-tight text-choco-900 shadow-[0_3px_0_#3B2218] backdrop-blur-sm">
+          Selesaikan Rute {prevUnitIndex} untuk membuka
+          {prevUnitTitle ? (
+            <span className="mt-0.5 block text-[10px] font-semibold text-choco-600">
+              {prevUnitTitle}
+            </span>
+          ) : null}
         </span>
       </span>
     </button>

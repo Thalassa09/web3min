@@ -847,14 +847,30 @@ function RafflePage() {
               const isExpired = raffle.endsAt ? Date.now() > raffle.endsAt : false;
 
               // Small info text under title (2c)
-              const isMintSlot = raffle.slotType === "GTD" || raffle.slotType === "WL" || (!raffle.slotType && raffle.category === "nft");
-              const isItemSlot = raffle.slotType === "ITEM" || raffle.category === "outfit" || raffle.category === "badge";
+              // URUTAN PENTING: item diperiksa LEBIH DULU daripada mint.
+              // `isMintSlot` lama berbunyi `(!slotType && category === "nft")`,
+              // jadi undian ITEM yang tersimpan dengan category "nft" (data
+              // lama) ikut terbaca sebagai slot mint dan mendapat catatan
+              // "Hak mint, bukan NFT gratis" — padahal hadiahnya item busana
+              // yang langsung masuk akun. `raffle.itemId` dijadikan sinyal
+              // tambahan: kalau undian menunjuk item nyata, ia item, bukan
+              // slot mint, apa pun isi `category`-nya.
+              const isItemSlot =
+                raffle.slotType === "ITEM" ||
+                raffle.category === "outfit" ||
+                raffle.category === "badge" ||
+                Boolean(raffle.itemId);
+              const isMintSlot =
+                !isItemSlot &&
+                (raffle.slotType === "GTD" ||
+                  raffle.slotType === "WL" ||
+                  (!raffle.slotType && raffle.category === "nft"));
 
               let noteText: string | null = null;
-              if (isMintSlot) {
-                noteText = "Hak mint, bukan NFT gratis. Mint di situs resmi mitra.";
-              } else if (isItemSlot) {
+              if (isItemSlot) {
                 noteText = "Item eksklusif Blobi, langsung masuk ke akun pemenang. Tidak dijual di Toko.";
+              } else if (isMintSlot) {
+                noteText = "Hak mint, bukan NFT gratis. Mint di situs resmi mitra.";
               } else if (raffle.isSimulation) {
                 noteText = "Simulasi, bukan hadiah sungguhan.";
               }
@@ -873,7 +889,14 @@ function RafflePage() {
               // Artwork URL fallback
               const itemMeta = raffle.itemId ? ITEM_PREVIEWS[raffle.itemId] : null;
               const displayImage = raffle.imageUrl || itemMeta?.src || "/mascot/wave.png";
-              const isItemPixelated = Boolean(!raffle.imageUrl && itemMeta?.src);
+              // Aset item (mahkota 64×48, lencana 96×96) jauh lebih kecil dari
+              // kotak 416×416. Dengan `object-cover` ia diperbesar sampai
+              // memenuhi kotak → pixel-nya raksasa dan komposisinya terlihat
+              // aneh (mahkota hanya menempati sudut, sisa ruang kosong).
+              // Item karena itu memakai `object-contain` supaya tampil utuh
+              // dan terpusat; foto/artwork besar tetap `cover` supaya penuh.
+              const useContain = Boolean(!raffle.imageUrl && itemMeta?.src);
+              const isItemPixelated = useContain;
 
               return (
                 <FlipRaffleCard
@@ -884,7 +907,7 @@ function RafflePage() {
                   }
                   front={
                   <>
-                  <div className="flex flex-col h-full">
+                  <div className="flex flex-col">
                     {/* b. Judul + hadiah + catatan — DI BAWAH gambar, ber-padding */}
                     <div className="px-4 pt-3 md:px-5">
                       <h2 className="text-xl md:text-2xl font-pixel font-bold text-choco-900 leading-tight capitalize tracking-tight">
@@ -968,8 +991,8 @@ function RafflePage() {
                       <img
                         src={displayImage}
                         alt={raffle.title}
-                        className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${
-                          isItemPixelated ? "pixelated" : ""
+                        className={`w-full h-full transition-transform duration-300 group-hover:scale-105 ${
+                          useContain ? "object-contain p-8 pixelated" : "object-cover"
                         }`}
                         loading="lazy"
                         decoding="async"

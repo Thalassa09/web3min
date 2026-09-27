@@ -25,22 +25,42 @@ interface FlipRaffleCardProps {
   /** true = sisi belakang terlihat. Dikontrol pemanggil agar bisa per-kartu. */
   flipped: boolean;
   onToggle: () => void;
-  /** Kelas tinggi kartu, mis. "h-[640px]". Wajib — kedua sisi absolut. */
-  h?: string;
   className?: string;
 }
 
+/**
+ * Kartu undian yang bisa dibalik (flip) — turunan `card-14` yang diadaptasi ke
+ * kontrak Soft Neo-Brutalism (DESIGN-SYSTEM.md).
+ *
+ * Kenapa ada komponen ini, bukan pakai `PerspectiveFlipCard` langsung:
+ * `PerspectiveFlipCard` bawaan `card-14` mengandalkan `group-hover/p-card`.
+ * Di HP tidak ada hover, jadi `card-14` akan mati total di perangkat sentuh —
+ * mayoritas pengguna web3min (AGENTS.md: "Mayoritas user dari HP").
+ * Karena itu komponen ini memakai STATE eksplisit:
+ *   - tap/klik di mana saja pada kartu membalik sisi (bekerja di HP & desktop)
+ *   - hover di desktop juga membalik, sebagai bonus
+ *   - tombol "Balik" memberi afordans yang jelas bahwa kartu punya dua sisi
+ *
+ * TINGGI: kedua sisi ditumpuk dengan CSS GRID (`grid-area: 1/1`), BUKAN
+ * `position: absolute` + tinggi tetap. Versi lama mematok `h-[620px]
+ * sm:h-[600px]` karena sisi absolut tidak menyumbang tinggi sama sekali; itu
+ * membuat kartu TERPOTONG saat konten lebih tinggi dari patokan — terukur
+ * 675px konten vs 600px kartu, sehingga tombol "Pasang Tiket Undian" berada
+ * 75px DI LUAR kartu yang ber-`overflow:hidden` dan tidak bisa diklik
+ * (`elementFromPoint` di titik tengahnya mengembalikan elemen lain).
+ * Dengan grid, tinggi kartu = sisi TERTINGGI, jadi tidak ada yang bisa
+ * terpotong walau judul wrap atau catatan bertambah panjang.
+ */
 export function FlipRaffleCard({
   front,
   back,
   flipped,
   onToggle,
-  h = "h-[620px] sm:h-[600px]",
   className,
 }: FlipRaffleCardProps) {
   return (
     <div
-      className={cn("group/raffle-card w-full [perspective:2000px]", h, className)}
+      className={cn("group/raffle-card w-full [perspective:2000px]", className)}
       data-raffle-card
       data-flipped={flipped ? "true" : "false"}
       onClick={() => onToggle()}
@@ -56,13 +76,13 @@ export function FlipRaffleCard({
     >
       <div
         className={cn(
-          "relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d]",
+          "grid h-full transition-transform duration-700 [transform-style:preserve-3d]",
           flipped && "[transform:rotateY(180deg)]",
         )}
       >
         {/* ── Sisi depan: gambar + judul + hadiah + statistik + CTA ── */}
         <div
-          className="absolute inset-0 size-full rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shadow-[0_6px_0_#3B2218] [transform-style:preserve-3d] [backface-visibility:hidden] overflow-hidden"
+          className="[grid-area:1/1] rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep shadow-[0_6px_0_#3B2218] [transform-style:preserve-3d] [backface-visibility:hidden] overflow-hidden"
           aria-hidden={flipped}
         >
           {front}
@@ -70,7 +90,7 @@ export function FlipRaffleCard({
 
         {/* ── Sisi belakang: detail slot / mint / perks ── */}
         <div
-          className="absolute inset-0 size-full rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-cream-fill via-white to-cream-fill p-4 md:p-5 shadow-[0_6px_0_#3B2218] [transform-style:preserve-3d] [backface-visibility:hidden] [transform:rotateY(180deg)] overflow-hidden"
+          className="[grid-area:1/1] rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-cream-fill via-white to-cream-fill p-4 md:p-5 shadow-[0_6px_0_#3B2218] [transform-style:preserve-3d] [backface-visibility:hidden] [transform:rotateY(180deg)] overflow-hidden"
           aria-hidden={!flipped}
         >
           {back}

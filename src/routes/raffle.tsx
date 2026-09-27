@@ -33,7 +33,7 @@ import {
   type DbRaffleStats,
   type RafflePublicResults,
 } from "@/lib/server-sync";
-import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE, formatRaffleCountdown, type RaffleItem } from "@/lib/raffles";
+import { INITIAL_RAFFLES, RAFFLE_TICKET_PRICE, formatRaffleCountdown, effectiveRaffleStatus, isRaffleOpenForEntry, type RaffleItem } from "@/lib/raffles";
 import { playBuy, playClaim, playDeny, playTap } from "@/lib/audio";
 import { SkeletonCards } from "@/components/ui/skeleton";
 import { isValidEvmAddress, maskWalletAddress, isValidXHandle, formatXHandle } from "@/lib/wallet";
@@ -307,6 +307,17 @@ function RafflePage() {
   const [activeCategory, setActiveCategory] = React.useState<string>("all");
   const [activeStatus, setActiveStatus] = React.useState<"live" | "all">("live");
 
+  // "Jam" yang berdetak tiap menit. Tanpa ini, halaman yang dibiarkan terbuka
+  // akan terus menampilkan "1 Menit" lalu melompat ke "Selesai" hanya saat
+  // di-refresh — dan badge/filter bisa tetap bilang "BERLANGSUNG" padahal
+  // waktunya sudah habis. Satu nilai `now` dipakai SEMUA perhitungan waktu
+  // supaya tidak ada dua bagian UI yang memakai waktu berbeda.
+  const [now, setNow] = React.useState(() => Date.now());
+  React.useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
+
   // Toast notification state
   const [toast, setToast] = React.useState<ToastState>(null);
   const [hasNotifiedWinner, setHasNotifiedWinner] = React.useState(false);
@@ -448,7 +459,12 @@ function RafflePage() {
   // Filtered raffles (Categories: Semua, Slot Mint, Item Blobi, Grup)
   const filteredRaffles = React.useMemo(() => {
     return allRaffles.filter((item) => {
-      if (activeStatus === "live" && item.status !== "live") return false;
+      // Status EFEKTIF, bukan kolom mentah: kolom `status` di DB hanya diubah
+      // manual oleh admin, jadi undian yang waktunya sudah lewat masih
+      // tersimpan 'live' dan akan salah muncul di filter "Berlangsung".
+      if (activeStatus === "live" && effectiveRaffleStatus(item.status, item.endsAt, now) !== "live") {
+        return false;
+      }
       if (activeCategory === "mint") {
         return item.slotType === "GTD" || item.slotType === "WL" || item.category === "nft";
       }
@@ -783,7 +799,7 @@ function RafflePage() {
                   : "text-choco-600 hover:text-choco-900"
               }`}
             >
-              Berlangsung ({allRaffles.filter((r) => r.status === "live").length})
+              Berlangsung ({allRaffles.filter((r) => effectiveRaffleStatus(r.status, r.endsAt, now) === "live").length})
             </button>
             <button
               onClick={() => {
@@ -839,12 +855,16 @@ function RafflePage() {
               const totalTickets = stats?.total_tickets ?? 0;
               const userEntry = enteredRaffles[raffle.id];
               const userTickets = userEntry?.count ?? 0;
-              const isLive = raffle.status === "live";
+              // Status EFEKTIF: undian yang waktunya sudah lewat diperlakukan
+              // sebagai 'expired' walau kolom `status` di DB masih 'live'
+              // (kolom itu hanya diubah manual oleh admin).
+              const effectiveStatus = effectiveRaffleStatus(raffle.status, raffle.endsAt, now);
+              const isLive = effectiveStatus === "live";
               const isVerifying = raffle.status === "verifying";
               const isEnded = raffle.status === "ended" || raffle.status === "drawn";
               const publicResult = resultsMap[raffle.id];
               const isWinner = publicResult?.is_user_winner ?? false;
-              const isExpired = raffle.endsAt ? Date.now() > raffle.endsAt : false;
+              const isExpired = effectiveStatus === "expired";
 
               // Small info text under title (2c)
               // URUTAN PENTING: item diperiksa LEBIH DULU daripada mint.
@@ -962,23 +982,28 @@ function RafflePage() {
                         </div>
 
                         <div className="shrink-0">
+                          {/* `isLive` sudah memakai status EFEKTIF, jadi cabang
+                              `isExpired` di dalamnya tidak pernah tercapai —
+                              undian kedaluwarsa langsung jatuh ke badge
+                              "SELESAI" di bawah, sama seperti tombolnya yang
+                              berbunyi "Menunggu Pengundian"/"Undian Selesai".
+                              Dulu cabang ini bisa tampil "BERLANGSUNG" di kartu
+                              yang kolom SISA WAKTUNYA sudah "Selesai". */}
                           {isLive ? (
-                            isExpired ? (
-                              <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-coin-fill text-coin-ink-deep px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
-                                <span>Menunggu Pengundian</span>
+                            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-leaf-fill-deep text-leaf-deep-ink px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-leaf-deep opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-leaf-shadow"></span>
                               </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900 bg-leaf-fill-deep text-leaf-deep-ink px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
-                                <span className="relative flex h-2 w-2">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-leaf-deep opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-leaf-shadow"></span>
-                                </span>
-                                <span>BERLANGSUNG</span>
-                              </span>
-                            )
+                              <span>BERLANGSUNG</span>
+                            </span>
                           ) : isVerifying ? (
                             <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-coin-fill-deep text-coin-ink-deep px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
                               <span>MENUNGGU VERIFIKASI</span>
+                            </span>
+                          ) : isExpired ? (
+                            <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-coin-fill text-coin-ink-deep px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
+                              <span>MENUNGGU PENGUNDIAN</span>
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 rounded-full border-2 border-choco-900 bg-stone-200 text-stone-800 px-2.5 h-6 text-[10px] font-bold shadow-[0_1.5px_0_#3B2218]">
@@ -1009,11 +1034,23 @@ function RafflePage() {
                         </span>
                       </div>
                     </div>
-                    {/* f. Grid Statistik 2x2 Bento Box */}
-                    <div className="grid grid-cols-2 divide-x-2 divide-y-2 divide-choco-900/10 rounded-2xl border-2 border-choco-900 bg-white shadow-[0_3px_0_#3B2218] overflow-hidden text-center">
-                      {/* Tiket Terkumpul */}
-                      <div className="p-2.5 bg-white">
-                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
+                    {/* f. Grid Statistik 2x2 — tiap sel satu keluarga warna,
+                        memakai PASANGAN TOKEN RESMI yang kontrasnya sudah
+                        terukur & tercatat di styles.css (bukan warna karangan):
+                          netral → choco-600/choco-900 di cream-fill-deep
+                          coin   → coin-ink 5.19 / coin-ink-deep 7.74 di coin-fill-deep
+                          leaf   → leaf-shadow 7.01 / leaf-deep-ink 7.86 di leaf-fill-deep
+                          flame  → flame-ink 5.40 / flame-ink-deep 6.92 di flame-fill-deep
+                        Semua diukur di STOP TERGELAP (titik terburuk), bukan yang
+                        terang. Sebelumnya sel putih polos + divider /10 yang
+                        nyaris tak terlihat sehingga panel terasa datar. */}
+                    <div className="grid grid-cols-2 gap-2">
+                      {/* Tiket Terkumpul — netral (metrik partisipasi, bukan status).
+                          Border & gradien persis patokan DESIGN.md §9
+                          (`border-choco-900/20` + from-white via/to cream-fill). */}
+                      <div className="rounded-2xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-2.5 text-center">
+                        <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-600">
+                          <Ticket className="size-3 shrink-0" />
                           Tiket Terkumpul
                         </span>
                         <span className="font-pixel font-bold text-sm sm:text-base text-choco-900 tabular-nums">
@@ -1021,25 +1058,27 @@ function RafflePage() {
                         </span>
                       </div>
 
-                      {/* Kuota Pemenang */}
-                      <div className="p-2.5 bg-white">
-                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
+                      {/* Kuota Pemenang — keluarga coin (emas = hadiah) */}
+                      <div className="rounded-2xl border-2 border-lemon-deep bg-gradient-to-b from-coin-fill via-coin-fill to-coin-fill-deep p-2.5 text-center">
+                        <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-coin-ink">
+                          <Trophy className="size-3 shrink-0" />
                           Pemenang
                         </span>
-                        <span className="font-pixel font-bold text-sm sm:text-base text-choco-900 tabular-nums">
+                        <span className="font-pixel font-bold text-sm sm:text-base text-coin-ink-deep tabular-nums">
                           {isItemSlot ? `${raffle.winnerCount} Pemenang` : `${raffle.winnerCount} Slot`}
                         </span>
                       </div>
 
-                      {/* Tiket Kamu */}
-                      <div className="p-2.5 bg-white border-t-2 border-choco-900/10">
-                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
+                      {/* Tiket Kamu — keluarga leaf (hijau = progresmu sendiri) */}
+                      <div className="rounded-2xl border-2 border-leaf-line bg-gradient-to-b from-leaf-soft via-leaf-fill to-leaf-fill-deep p-2.5 text-center">
+                        <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-leaf-shadow">
+                          <Ticket className="size-3 shrink-0" />
                           Tiket Kamu
                         </span>
-                        <span className="font-pixel font-bold text-sm sm:text-base text-choco-900 tabular-nums">
+                        <span className="font-pixel font-bold text-sm sm:text-base text-leaf-deep-ink tabular-nums">
                           {isEnded
                             ? isWinner
-                              ? "Kamu Menang! 🎉"
+                              ? "Kamu Menang!"
                               : "Belum Beruntung"
                             : userTickets > 0
                             ? `${userTickets} Tiket`
@@ -1047,13 +1086,18 @@ function RafflePage() {
                         </span>
                       </div>
 
-                      {/* Sisa Waktu */}
-                      <div className="p-2.5 bg-white border-t-2 border-choco-900/10">
-                        <span className="text-[10px] font-pixel font-bold uppercase tracking-wider text-choco-500 block">
-                          Sisa Waktu
+                      {/* Status / Sisa Waktu — keluarga flame (oranye = waktu/urgensi) */}
+                      <div className="rounded-2xl border-2 border-flame-line bg-gradient-to-b from-flame-soft via-flame-fill to-flame-fill-deep p-2.5 text-center">
+                        <span className="flex items-center justify-center gap-1 text-[10px] font-pixel font-bold uppercase tracking-wider text-flame-ink">
+                          <Clock className="size-3 shrink-0" />
+                          {isExpired ? "Status" : "Sisa Waktu"}
                         </span>
-                        <span className="font-pixel font-bold text-xs sm:text-sm text-choco-900 truncate block tabular-nums">
-                          {raffle.endsAt ? formatRaffleCountdown(raffle.endsAt) : "Belum dijadwalkan"}
+                        <span className="font-pixel font-bold text-sm sm:text-base text-flame-ink-deep tabular-nums">
+                          {isExpired
+                            ? "Menunggu Pengundian"
+                            : raffle.endsAt
+                            ? formatRaffleCountdown(raffle.endsAt, now)
+                            : "Belum dijadwalkan"}
                         </span>
                       </div>
                     </div>
@@ -1122,13 +1166,15 @@ function RafflePage() {
 
                     <button
                       onClick={() => handleOpenEnterModal(raffle)}
-                      disabled={!isLive || isExpired || !raffle.endsAt}
+                      disabled={!isRaffleOpenForEntry(raffle.status, raffle.endsAt, now)}
                       className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none text-choco-900 font-pixel text-xs sm:text-sm font-bold shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
                       <Ticket className="size-4 stroke-[2.5]" />
                       <span>
                         {isEnded
                           ? "Undian Selesai"
+                          : isVerifying
+                          ? "Menunggu Verifikasi"
                           : isExpired
                           ? "Menunggu Pengundian"
                           : !raffle.endsAt

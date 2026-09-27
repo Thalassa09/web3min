@@ -56,9 +56,62 @@ export type ActivityEntry = {
 
 export const RAFFLE_TICKET_PRICE = 10; // 10 koin = 1 tiket
 
-export function formatRaffleCountdown(endsAt?: number | null): string {
+export type EffectiveRaffleStatus = RaffleStatus | "expired";
+
+/**
+ * Status undian yang SEBENARNYA, sebagai sumber kebenaran tunggal untuk UI.
+ *
+ * Kenapa perlu: kolom `status` di database hanya diubah MANUAL oleh admin,
+ * jadi undian yang `ends_at`-nya sudah lewat tetap tersimpan `'live'` sampai
+ * ada yang menutupnya. Kalau UI mempercayai kolom itu apa adanya, muncul
+ * kontradiksi yang dilaporkan user: satu kartu menampilkan "Selesai" di SISA
+ * WAKTU, tapi filter masih menghitungnya "Berlangsung" dan badge-nya bisa
+ * bilang BERLANGSUNG.
+ *
+ * Server sudah benar sejak awal — RPC `enter_raffle` menolak kalau
+ * `ends_at <= now()` — jadi ini murni masalah tampilan. Tapi UI yang berbohong
+ * tetap merugikan: user mencoba memasang tiket, gagal, lalu menyalahkan
+ * tombolnya alih-alih jadwalnya.
+ *
+ * Aturan:
+ *   - hanya `live` yang bisa menjadi `expired`; `ended`/`drawn`/`verifying`/
+ *     `upcoming` adalah keputusan admin dan TIDAK boleh "dihidupkan" oleh waktu
+ *   - `ends_at` NULL = belum dijadwalkan → ikut status kolom
+ *   - batas memakai `<=` supaya sama persis dengan validasi server
+ */
+export function effectiveRaffleStatus(
+  status: RaffleStatus,
+  endsAt?: number | null,
+  now: number = Date.now(),
+): EffectiveRaffleStatus {
+  if (status !== "live") return status;
+  if (endsAt == null) return status;
+  return endsAt <= now ? "expired" : "live";
+}
+
+/**
+ * Apakah user masih boleh memasang tiket. Menyalin syarat tombol di UI
+ * (`!isLive || isExpired || !raffle.endsAt`) supaya tombol aktif/tidaknya
+ * tidak pernah berbeda dari keputusan server.
+ *
+ * CATATAN: RPC `enter_raffle` sebenarnya LEBIH LONGGAR — ia hanya menolak
+ * kalau `status <> 'live'` atau `ends_at <= now()`, jadi undian tanpa jadwal
+ * (`ends_at` NULL) masih diterima server. UI sengaja lebih ketat: undian tanpa
+ * batas waktu bisa berjalan selamanya. Kalau kelak server diperketat, ubah di
+ * sini juga supaya keduanya tetap sama.
+ */
+export function isRaffleOpenForEntry(
+  status: RaffleStatus,
+  endsAt?: number | null,
+  now: number = Date.now(),
+): boolean {
+  if (endsAt == null) return false;
+  return effectiveRaffleStatus(status, endsAt, now) === "live";
+}
+
+export function formatRaffleCountdown(endsAt?: number | null, now: number = Date.now()): string {
   if (!endsAt) return "Belum dijadwalkan";
-  const diff = endsAt - Date.now();
+  const diff = endsAt - now;
   if (diff <= 0) return "Selesai";
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

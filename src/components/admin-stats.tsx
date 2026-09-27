@@ -210,7 +210,7 @@ function FunnelChart({ data }: { data: AdminAnalytics["funnel"] }) {
             </div>
             <div className="h-3 rounded-full bg-cream-100 border border-choco-900/20 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#B01F62] to-[#85174A]"
+                className="h-full rounded-full bg-gradient-to-r from-candy-700 to-candy-800"
                 style={{ width: `${Math.max(pct, 2)}%` }}
               />
             </div>
@@ -343,7 +343,7 @@ export function AdminStatsPanel() {
                 onClick={() => setDays(d)}
                 className={`px-3 py-1.5 rounded-lg font-pixel text-xs font-bold border-2 transition-all cursor-pointer ${
                   active
-                    ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_2px_0_#6E1239]"
+                    ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_2px_0_#6E1239]"
                     : "border-transparent text-choco-700 hover:bg-white"
                 }`}
               >

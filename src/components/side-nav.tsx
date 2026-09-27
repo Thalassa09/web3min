@@ -198,7 +198,7 @@ export function SideNav() {
           }}
           className="group mt-auto flex items-center gap-3 rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] p-3.5 shadow-[0_4px_0_#3B2218] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#3B2218] active:translate-y-[2px] active:shadow-[0_2px_0_#3B2218]"
         >
-          <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] shadow-[0_3px_0_#B01F62]">
+          <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-blush-50 via-blush-100 to-blush-200 shadow-[0_3px_0_#B01F62]">
             <Mascot mood="proud" size={36} lite fill={false} interactive={false} />
           </div>
           <div className="min-w-0 flex-1">
@@ -245,7 +245,7 @@ function NavRow({
       className="group flex w-full items-center"
     >
       {active ? (
-        <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] pl-2 pr-4 text-white shadow-[0_4px_0_#B01E5D] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01E5D]">
+        <span className="flex h-[52px] w-full items-center gap-2.5 rounded-full bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 pl-2 pr-4 text-white shadow-[0_4px_0_#B01E5D] transition-transform active:translate-y-[2px] active:shadow-[0_2px_0_#B01E5D]">
           <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20 p-0.5">
             <span className="grid size-8 place-items-center rounded-full bg-white text-[#FF3D88] shadow-[0_2px_0_#3B2218]">
               {icon}
@@ -286,7 +286,7 @@ function Badge({
         "shrink-0 rounded-full border px-2.5 py-0.5 text-[11px] font-extrabold leading-none tracking-tight",
         tone === "amber"
           ? "border-[#F0C96A] bg-[#FFF8E8] text-[#C48A00] shadow-[0_2px_0_#D4902C]"
-          : "border-[#F3B4CC] bg-[#FFF0F5] text-[#9E2356] shadow-[0_2px_0_#BD145F]",
+          : "border-[#F3B4CC] bg-blush-50 text-[#9E2356] shadow-[0_2px_0_#BD145F]",
         className,
       )}
     >

@@ -197,7 +197,7 @@ function LeaderboardPage() {
           <Link
             to="/leaderboard"
             aria-current="page"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-amber-600 bg-gradient-to-b from-[#FFE873] via-[#FFD84D] to-[#E6BF35] text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-amber-600 bg-gradient-to-b from-[#FFE873] via-lemon to-[#E6BF35] text-xs md:text-sm font-bold text-choco-900 shadow-[0_3px_0_#C8940C] transition-transform"
           >
             <Trophy className="h-4 w-4 shrink-0 text-choco-900" />
             <span>Klasemen Mingguan</span>
@@ -244,7 +244,7 @@ function LeaderboardPage() {
       </div>
 
       {/* Promo Banner: Hadiah Undian Bridge */}
-      <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
+      <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-blush-50 via-blush-100 to-blush-200 p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#3B2218]">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4 text-center sm:text-left">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-choco-900 bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] text-choco-900 shadow-[0_3px_0_#3B2218]">
@@ -265,7 +265,7 @@ function LeaderboardPage() {
 
           <Link
             to="/raffle"
-            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 px-5 py-3 text-xs md:text-sm font-bold text-white shadow-[0_4px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
           >
             <span>Buka Undian Hadiah</span>
           </Link>
@@ -281,11 +281,11 @@ function LeaderboardPage() {
       )}
 
       {/* User Status Sticky Card in Tactile Beveled Style */}
-      <div className="rounded-3xl border-2 border-candy-600 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#B01F62]">
+      <div className="rounded-3xl border-2 border-candy-600 bg-gradient-to-b from-blush-50 via-blush-100 to-blush-200 p-5 md:p-6 text-choco-900 shadow-[0_6px_0_#B01F62]">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-white via-[#FFF0F5] to-[#FDC8D8] shadow-[0_3px_0_#B01F62]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-white via-blush-50 to-blush-200 shadow-[0_3px_0_#B01F62]">
                 <Mascot mood="proud" size={40} className="h-10 w-10" />
               </div>
               <div className="absolute -top-2 -left-2 flex h-7 w-7 items-center justify-center rounded-full border-2 border-choco-900 bg-amber-400 text-xs font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218]">
@@ -518,7 +518,7 @@ function LeaderboardPage() {
 
       {/* Leaderboard Table Card in Tactile Beveled Style */}
       <div className="rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-white via-[#FFF9F5] to-[#FDEEE4] shadow-[0_6px_0_#3B2218] overflow-hidden">
-        <div className="border-b-2 border-choco-900/15 bg-gradient-to-r from-[#FFF0F5] to-[#FFE4EC] px-6 py-3 flex items-center justify-between text-xs font-bold uppercase text-choco-900 tracking-wider">
+        <div className="border-b-2 border-choco-900/15 bg-gradient-to-r from-blush-50 to-blush-100 px-6 py-3 flex items-center justify-between text-xs font-bold uppercase text-choco-900 tracking-wider">
           <div className="flex items-center gap-4">
             <span className="w-12 text-center">Rank</span>
             <span>Petualang</span>
@@ -715,13 +715,13 @@ function LeaderboardPage() {
               {LEADERBOARD_PRIZE_TIERS.map((tier) => (
                 <div
                   key={tier.id}
-                  className="flex items-center justify-between p-3 rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] shadow-[0_2px_0_#B01F62]"
+                  className="flex items-center justify-between p-3 rounded-2xl border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-100 shadow-[0_2px_0_#B01F62]"
                 >
                   <div className="space-y-0.5">
                     <div className="text-xs font-bold text-choco-900">{tier.label}</div>
                     <div className="text-[11px] font-semibold text-choco-600">{tier.description}</div>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-amber-600 bg-gradient-to-b from-[#FFE873] to-[#FFD84D] font-bold text-xs text-choco-900 shadow-[0_2px_0_#C8940C]">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-amber-600 bg-gradient-to-b from-[#FFE873] to-lemon font-bold text-xs text-choco-900 shadow-[0_2px_0_#C8940C]">
                     <Coins className="h-3.5 w-3.5 fill-amber-500" />
                     +{tier.coins} Koin
                   </div>

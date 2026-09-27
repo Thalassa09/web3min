@@ -128,7 +128,7 @@ export function TactileButton({
         tactile-btn relative inline-flex items-center justify-center font-sans font-extrabold select-none cursor-pointer
         focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-candy-400 focus-visible:ring-offset-2
         disabled:cursor-not-allowed disabled:shadow-none
-        ${disabled ? "bg-[#EDE4DC] text-choco-600 border-2 border-choco-900/25" : `${v.bg} ${v.text} ${v.border} ${v.hover}`}
+        ${disabled ? "bg-disabled text-choco-600 border-2 border-choco-900/25" : `${v.bg} ${v.text} ${v.border} ${v.hover}`}
         ${s} ${fullWidth ? "w-full" : ""} ${className}
       `}
       {...props}

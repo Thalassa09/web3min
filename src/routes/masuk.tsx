@@ -117,7 +117,7 @@ function MasukPage() {
       <div className="w-full max-w-md p-6 sm:p-8 rounded-[32px] bg-cream border-4 border-choco-900 shadow-[0_10px_0_#3B2218] my-auto">
         {/* Mascot & Title */}
         <div className="flex items-center gap-4 mb-6">
-          <div className="size-20 rounded-2xl bg-linear-to-b from-[#FFF0F5] to-[#FCE7F3] border-3 border-choco-900 shadow-[0_4px_0_#3B2218] flex items-center justify-center shrink-0">
+          <div className="size-20 rounded-2xl bg-linear-to-b from-blush-50 to-[#FCE7F3] border-3 border-choco-900 shadow-[0_4px_0_#3B2218] flex items-center justify-center shrink-0">
             <Mascot
               mood={isTypingPassword ? "sleep" : "wave"}
               size={64}

@@ -608,7 +608,7 @@ function RafflePage() {
           </Link>
           <div
             aria-current="page"
-            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-xs md:text-sm font-pixel font-bold text-white shadow-[0_3px_0_#6E1239] transition-transform"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border-2 border-candy-600 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-xs md:text-sm font-pixel font-bold text-white shadow-[0_3px_0_#6E1239] transition-transform"
           >
             <Ticket className="h-4 w-4 shrink-0 text-white stroke-[2.5]" />
             <span>Undian Hadiah</span>
@@ -616,7 +616,7 @@ function RafflePage() {
         </div>
 
         {/* Hero Card */}
-        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] p-5 sm:p-7 md:p-8 shadow-[0_6px_0_#3B2218]">
+        <div className="relative overflow-hidden rounded-3xl border-2 border-choco-900 bg-gradient-to-b from-blush-50 via-[#FFE4ED] to-blush-200 p-5 sm:p-7 md:p-8 shadow-[0_6px_0_#3B2218]">
           {/* Top Bar inside Card: Cycle Badge (Left) & Panduan Button (Right) */}
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-choco-900/20 bg-white/90 px-3 py-1 text-xs font-pixel font-bold uppercase tracking-wider text-choco-900 shadow-[0_2px_0_#3B2218] whitespace-nowrap">
@@ -687,7 +687,7 @@ function RafflePage() {
                   playTap();
                   setShowBuyModal(true);
                 }}
-                className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] font-pixel font-bold text-xs sm:text-sm text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 font-pixel font-bold text-xs sm:text-sm text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Plus className="h-4 w-4 stroke-[3]" />
                 <span>Beli Tiket Sekarang →</span>
@@ -1100,7 +1100,7 @@ function RafflePage() {
                     <button
                       onClick={() => handleOpenEnterModal(raffle)}
                       disabled={!isLive || isExpired || !raffle.endsAt}
-                      className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] disabled:bg-[#EDE4DC] disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full h-11 sm:h-12 px-5 rounded-full border-2 border-choco-900 bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none text-white font-pixel text-xs sm:text-sm font-bold shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
                       <Ticket className="size-4 stroke-[2.5]" />
                       <span>

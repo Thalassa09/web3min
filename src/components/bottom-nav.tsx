@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 // di tombol "Lanjut" menaikkannya ke 4.0:1 — di bawah ambang. candy-700 aman di
 // kedua state (6.53:1 diam, 5.62:1 hover), jadi label tidak perlu dihapus.
 const CANDY_ACTIVE =
-  "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] shadow-[0_3px_0_#6E1239,0_6px_12px_rgba(232,67,127,0.25)]";
+  "bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 shadow-[0_3px_0_#6E1239,0_6px_12px_rgba(232,67,127,0.25)]";
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });

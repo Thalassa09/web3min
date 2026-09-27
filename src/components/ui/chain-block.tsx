@@ -116,7 +116,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
           "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",
           "active:translate-y-[5px] active:shadow-[0_1px_0_#3B2218]",
           status === "active" && [
-            "bg-gradient-to-b from-[#FF6B9E] via-[#E8437F] to-[#C92A65]",
+            "bg-gradient-to-b from-[#FF6B9E] via-candy-500 to-[#C92A65]",
             "text-white shadow-[0_6px_0_#8F1340,0_8px_0_#3B2218]",
             "hover:brightness-105 active:shadow-[0_1px_0_#3B2218]"
           ],

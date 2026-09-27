@@ -38,8 +38,8 @@ export function StatusBanner({
     }
   > = {
     verified: {
-      border: "border-[#98E4B5]",
-      bg: "bg-[#E8FBF0]",
+      border: "border-leaf-line",
+      bg: "bg-leaf-soft",
       shadow: "shadow-[0_3px_0_#98E4B5]",
       icon: <ShieldCheck className="size-4 text-leaf-shadow" />,
       badgeText: "ON-CHAIN PROOF",
@@ -55,7 +55,7 @@ export function StatusBanner({
     },
     warning: {
       border: "border-[#FFE08A]",
-      bg: "bg-[#FFF8E1]",
+      bg: "bg-warn-soft",
       shadow: "shadow-[0_3px_0_#FFE08A]",
       icon: <AlertTriangle className="size-4 text-[#B27B00]" />,
       badgeText: "PERINGATAN",
@@ -70,16 +70,16 @@ export function StatusBanner({
       appearance: "default",
     },
     danger: {
-      border: "border-[#F4A4A0]",
-      bg: "bg-[#FFECEC]",
+      border: "border-ruby-line",
+      bg: "bg-ruby-soft-bg",
       shadow: "shadow-[0_3px_0_#F4A4A0]",
       icon: <AlertCircle className="size-4 text-ruby-shadow" />,
       badgeText: "PENTING",
       appearance: "removed",
     },
     success: {
-      border: "border-[#98E4B5]",
-      bg: "bg-[#E8FBF0]",
+      border: "border-leaf-line",
+      bg: "bg-leaf-soft",
       shadow: "shadow-[0_3px_0_#98E4B5]",
       icon: <CheckCircle2 className="size-4 text-leaf-shadow" />,
       badgeText: "SUKSES",

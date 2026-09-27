@@ -103,9 +103,36 @@ test("active nav / Lanjut gradient stops clear 4.5:1, including hover", () => {
   // white text and must not be scored.
   const decl = nav.match(/const CANDY_ACTIVE\s*=\s*([\s\S]*?);\n/);
   assert.ok(decl, "CANDY_ACTIVE declaration not found in bottom-nav.tsx");
-  const stops = [...decl![1].matchAll(/from-\[#([0-9A-Fa-f]{6})\]|via-\[#([0-9A-Fa-f]{6})\]|to-\[#([0-9A-Fa-f]{6})\]/g)].map(
-    (m) => "#" + (m[1] || m[2] || m[3]),
-  );
+  // Sejak Langkah 32 ramp ditulis dengan TOKEN, bukan hex mentah
+  // (`from-candy-700 via-candy-800 to-candy-900`). Guard harus menerima
+  // keduanya — kalau hanya hex, mengubah hex→token akan mematikan guard ini
+  // diam-diam (sudah dibuktikan: gagal `expected a 3-stop ramp, found 0`).
+  // Token di-resolve lewat `@theme`, jadi nilainya tetap diukur sungguhan.
+  const themeCss = readFileSync(join(ROOT, "src/styles.css"), "utf8");
+  const resolveToken = (name: string): string | null => {
+    const m = themeCss.match(new RegExp(`--color-${name}:\\s*(#[0-9A-Fa-f]{6})`));
+    return m ? m[1] : null;
+  };
+  const stops: string[] = [];
+  for (const m of decl![1].matchAll(
+    /(?:^|[\s"'])(?:from|via|to)-\[#([0-9A-Fa-f]{6})\]|(?:^|[\s"'])(?:from|via|to)-([a-z][\w-]*)/g,
+  )) {
+    if (m[1]) {
+      stops.push("#" + m[1]);
+      continue;
+    }
+    // `bg-gradient-to-b` juga cocok dengan pola `to-([a-z]...)` — tolak yang
+    // diikuti nama arah (`b`, `r`, `l`, `t`, `br`, `tr`, ...). Tanpa ini regex
+    // menangkap `to-b` sebagai token dan guard mati dengan pesan menyesatkan
+    // (`token \`b\` tidak ada di @theme`) — sudah dibuktikan.
+    if (/^(b|t|l|r|bl|br|tl|tr)$/.test(m[2])) continue;
+    const hex = resolveToken(m[2]);
+    assert.ok(
+      hex,
+      `CANDY_ACTIVE memakai token \`${m[2]}\` yang tidak ada di @theme — kontrasnya tidak bisa diukur`,
+    );
+    stops.push(hex!);
+  }
   assert.ok(stops.length >= 3, `expected a 3-stop ramp in CANDY_ACTIVE, found ${stops.length}: ${stops.join(", ")}`);
 
   const brighten = (hex: string, p: number) =>

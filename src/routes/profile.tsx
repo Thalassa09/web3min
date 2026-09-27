@@ -246,7 +246,7 @@ function ProfilePage() {
                 aria-pressed={active}
                 className={`px-3.5 py-1.5 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                   active
-                    ? "border-candy-600 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                    ? "border-candy-600 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
                     : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                 }`}
               >
@@ -339,7 +339,7 @@ function ProfilePage() {
             <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between gap-4 mb-4">
               <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                 {/* Blobi Avatar */}
-                <div className="size-20 sm:size-24 rounded-2xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-600 shadow-[0_3px_0_#B01F62] flex items-center justify-center shrink-0">
+                <div className="size-20 sm:size-24 rounded-2xl bg-gradient-to-b from-candy-50 via-candy-100 to-candy-200 border-2 border-candy-600 shadow-[0_3px_0_#B01F62] flex items-center justify-center shrink-0">
                   <Mascot mood="proud" size={68} />
                 </div>
 
@@ -449,7 +449,7 @@ function ProfilePage() {
               )}
 
               {saved && (
-                <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-extrabold text-leaf-shadow bg-[#E8FBF0] px-3 py-1 rounded-full border border-[#98E4B5]">
+                <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-extrabold text-leaf-shadow bg-leaf-soft px-3 py-1 rounded-full border border-leaf-line">
                   <Check className="size-3.5" /> Status tersimpan di profil!
                 </div>
               )}
@@ -458,47 +458,50 @@ function ProfilePage() {
         </div>
 
         {/* 4 Chunky Stat Cards in Tactile Beveled Style */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl">
-          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#F0FDF4] via-[#DCFCE7] to-[#BBF7D0] border-2 border-emerald-700 shadow-[0_4px_0_#15803D] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-emerald-800">
-              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Total XP</span>
-              <Trophy className="size-4 text-emerald-700" />
+        {/* Semua kartu dipaksa tinggi sama (`auto-rows-fr`) — sebelumnya baris 1
+            melar jadi 177px karena StreakBadge memakai `h-full min-h-[110px]`
+            sementara baris 2 cuma 114px, jadi grid terlihat timpang. */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-4 max-w-3xl">
+          <div className="flex flex-col justify-between rounded-3xl border-2 border-leaf-shadow bg-gradient-to-b from-leaf-soft via-leaf-fill to-leaf-fill-deep p-4 shadow-[0_4px_0_#0F6045]">
+            <div className="flex items-center justify-between text-leaf-shadow">
+              <span className="font-pixel text-xs font-bold uppercase tracking-wider">Total XP</span>
+              <Trophy className="size-4 text-leaf-shadow" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-sans text-emerald-950">{xp}</div>
-              <div className="text-xs font-medium text-emerald-800 mt-0.5">Poin pengalaman</div>
+              <div className="font-pixel text-3xl font-bold text-leaf-deep-ink tabular-nums">{xp}</div>
+              <div className="mt-0.5 text-xs font-semibold text-leaf-shadow">Poin pengalaman</div>
             </div>
           </div>
 
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col items-stretch justify-stretch">
             <StreakBadge
               length={streak}
               frequency="daily"
               variant="colored"
               subtitle="Hari Beruntun"
-              className="w-full h-full min-h-[110px]"
+              className="w-full flex-1"
             />
           </div>
 
-          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-amber-600 shadow-[0_4px_0_#D97706] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-amber-800">
-              <span className="font-sans text-xs font-semibold uppercase tracking-wider">Koin</span>
-              <Sparkles className="size-4 text-amber-600" />
+          <div className="flex flex-col justify-between rounded-3xl border-2 border-lemon-deep bg-gradient-to-b from-coin-fill via-coin-fill to-coin-fill-deep p-4 shadow-[0_4px_0_#D9A400]">
+            <div className="flex items-center justify-between text-warn-ink">
+              <span className="font-pixel text-xs font-bold uppercase tracking-wider">Koin</span>
+              <Sparkles className="size-4 text-lemon-deep" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-sans text-amber-950">{formatGems(gems)}</div>
-              <div className="text-xs font-medium text-amber-800 mt-0.5">Saldo hadiah</div>
+              <div className="font-pixel text-3xl font-bold text-coin-ink-deep tabular-nums">{formatGems(gems)}</div>
+              <div className="mt-0.5 text-xs font-semibold text-warn-ink">Saldo hadiah</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4EC] to-[#FDC8D8] border-2 border-candy-600 shadow-[0_4px_0_#B01F62] flex flex-col justify-between">
+          <div className="flex flex-col justify-between rounded-3xl border-2 border-candy-600 bg-gradient-to-b from-blush-50 via-blush-100 to-blush-200 p-4 shadow-[0_4px_0_#B01F62]">
             <div className="flex items-center justify-between text-candy-800">
-              <span className="font-pixel text-xs font-semibold uppercase tracking-wider">Modul</span>
+              <span className="font-pixel text-xs font-bold uppercase tracking-wider">Modul</span>
               <Compass className="size-4 text-candy-700" />
             </div>
             <div className="mt-2">
-              <div className="text-3xl font-bold font-pixel text-candy-950">{lessonsDone}</div>
-              <div className="text-xs font-medium text-candy-800 mt-0.5">Terselesaikan</div>
+              <div className="font-pixel text-3xl font-bold text-candy-950 tabular-nums">{lessonsDone}</div>
+              <div className="mt-0.5 text-xs font-semibold text-candy-800">Terselesaikan</div>
             </div>
           </div>
         </div>
@@ -568,7 +571,7 @@ function ProfilePage() {
           {/* Header Row: Compact & Non-wrapping */}
           <div className="flex items-center justify-between gap-2.5">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="size-11 rounded-full bg-[#E8FBF0] border-2 border-[#98E4B5] flex items-center justify-center shrink-0 shadow-[0_2px_0_#98E4B5]">
+              <div className="size-11 rounded-full bg-leaf-soft border-2 border-leaf-line flex items-center justify-center shrink-0 shadow-[0_2px_0_#98E4B5]">
                 <PixelIcon name="medal" size={22} alt="" />
               </div>
               <div className="min-w-0">
@@ -924,7 +927,7 @@ function ProfilePage() {
                   variant="secondary"
                   size="sm"
                   onClick={() => setConfirmLogout(true)}
-                  className="text-ruby-shadow border-[#F4A4A0] hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
+                  className="text-ruby-shadow border-ruby-line hover:bg-[#FFF2F1] shadow-[0_3px_0_#F4A4A0]"
                   icon={<LogOut className="size-3.5 text-ruby-shadow" />}
                 >
                   Keluar Akun

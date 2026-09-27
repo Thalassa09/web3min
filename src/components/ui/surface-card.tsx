@@ -23,7 +23,7 @@ export function SurfaceCard({
     cream:
       "bg-gradient-to-b from-[#FFFBEB] via-[#FEF3C7] to-[#FDE68A] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] text-choco-900",
     sky:
-      "bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] text-choco-900",
+      "bg-gradient-to-b from-blush-50 via-[#FFE4ED] to-blush-200 border-2 border-choco-900 shadow-[0_4px_0_#3B2218] text-choco-900",
     flat:
       "bg-white border-2 border-choco-900 shadow-none text-choco-900",
     interactive:

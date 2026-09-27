@@ -9,7 +9,7 @@ function PrivacyPage() {
     <AppShell>
       <main className="max-w-3xl mx-auto px-4 py-6 sm:py-8 select-none">
         {/* Header Hero Banner */}
-        <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-[#FFF6EE] via-[#FFE3EC] to-[#FFD6E6] border-4 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900">
+        <div className="p-6 sm:p-8 rounded-[32px] bg-linear-to-b from-cream via-candy-100 to-[#FFD6E6] border-4 border-choco-900 shadow-[0_8px_0_#3B2218] text-choco-900">
           <div className="flex items-center gap-2 mb-2">
             <span className="px-3 py-1 rounded-full bg-candy-800 border-2 border-choco-900 text-white font-pixel text-[10px] font-bold shadow-[0_2px_0_#3B2218]">
               PRIVASI & KEAMANAN DATA

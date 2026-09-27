@@ -675,7 +675,7 @@ export function AdminPage() {
                     }}
                     className={`px-4 py-2 rounded-xl border-2 font-pixel text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                       active
-                        ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                        ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
                         : "border-transparent bg-white text-choco-700 hover:bg-cream hover:border-choco-900/20"
                     }`}
                   >

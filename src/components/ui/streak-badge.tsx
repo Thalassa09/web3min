@@ -23,7 +23,7 @@ export const streakBadgeVariants = cva(
         flame:
           "border-2 border-[#EA580C] bg-gradient-to-b from-[#FFEDD5] to-[#FDBA74] text-[#7C2D12] shadow-[0_5px_0_#C2410C]",
         glow:
-          "border-2 border-[#FF8A3D] bg-[#23140C] text-[#FFF6EE] shadow-[0_0_24px_rgba(255,138,61,0.4),0_4px_0_#3B2218]",
+          "border-2 border-streak bg-[#23140C] text-cream shadow-[0_0_24px_rgba(255,138,61,0.4),0_4px_0_#3B2218]",
         candy:
           "border-2 border-choco-900 bg-white text-choco-900 shadow-[0_4px_0_#3B2218]",
         default:
@@ -106,6 +106,14 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
 
     const isColored = variant === "colored" || variant === "flame" || variant === "glow";
 
+    // Kontras teks di varian berwarna diukur terhadap stop gradient TERGELAP
+    // (`to-[#FED7AA]`), bukan yang terang — teks harus lolos di titik terburuk.
+    // Sebelumnya tiga teks memakai alpha `/80` yang menurunkannya di bawah 4,5:1:
+    //   `#EA580C/80` → 2.52:1  (teks "hari")
+    //   `#9A3412/80` → 3.75:1  (subtitle "HARI BERUNTUN")
+    //   `#C2410C`    → 4.52:1 di stop terang, tapi 3.83:1 di stop gelap (angka)
+    // Sekarang semuanya pakai warna penuh: `#9A3412` (5.40) dan `#7C2D12` (6.92).
+
     return (
       <div
         ref={ref}
@@ -129,7 +137,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
         <span
           className={cn(
             "font-display font-extrabold tracking-tight tabular-nums flex items-baseline justify-center",
-            isColored ? "text-[#C2410C]" : "text-inherit",
+            isColored ? "text-[#9A3412]" : "text-inherit",
             valueSize
           )}
           aria-hidden="true"
@@ -138,7 +146,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
           <span
             className={cn(
               "ml-1.5 font-sans font-semibold tracking-normal text-sm sm:text-base",
-              isColored ? "text-[#EA580C]/80" : "text-muted-foreground"
+              isColored ? "text-[#9A3412]" : "text-muted-foreground"
             )}
           >
             {valueUnit}
@@ -147,7 +155,7 @@ export const StreakBadge = React.forwardRef<HTMLDivElement, StreakBadgeProps>(
         <span
           className={cn(
             "font-sans font-medium uppercase tracking-wider",
-            isColored ? "text-[#9A3412]/80 font-bold" : "text-muted-foreground",
+            isColored ? "text-[#7C2D12] font-bold" : "text-muted-foreground",
             subtitleSize
           )}
           aria-hidden="true"

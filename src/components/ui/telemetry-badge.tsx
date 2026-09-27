@@ -12,13 +12,13 @@ interface TelemetryBadgeProps {
 
 const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
   mint: {
-    border: "border-[#98E4B5]",
-    bg: "bg-[#E8FBF0]",
+    border: "border-leaf-line",
+    bg: "bg-leaf-soft",
     text: "text-leaf-shadow",
   },
   leaf: {
-    border: "border-[#98E4B5]",
-    bg: "bg-[#E8FBF0]",
+    border: "border-leaf-line",
+    bg: "bg-leaf-soft",
     text: "text-leaf-shadow",
   },
   cyan: {
@@ -33,22 +33,22 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
   },
   violet: {
     border: "border-[#C4A8FF]",
-    bg: "bg-[#F3ECFF]",
-    text: "text-[#6A3FD1]",
+    bg: "bg-violet-soft",
+    text: "text-grape-bold-shadow",
   },
   grape: {
     border: "border-[#C4A8FF]",
-    bg: "bg-[#F3ECFF]",
-    text: "text-[#6A3FD1]",
+    bg: "bg-violet-soft",
+    text: "text-grape-bold-shadow",
   },
   amber: {
     border: "border-[#FFE08A]",
-    bg: "bg-[#FFF8E1]",
+    bg: "bg-warn-soft",
     text: "text-[#B27B00]",
   },
   coin: {
     border: "border-[#FFE08A]",
-    bg: "bg-[#FFF8E1]",
+    bg: "bg-warn-soft",
     text: "text-[#B27B00]",
   },
   flame: {
@@ -57,13 +57,13 @@ const TONE_MAP: Record<string, { border: string; bg: string; text: string }> = {
     text: "text-flame-shadow",
   },
   rose: {
-    border: "border-[#F4A4A0]",
-    bg: "bg-[#FFECEC]",
+    border: "border-ruby-line",
+    bg: "bg-ruby-soft-bg",
     text: "text-ruby-shadow",
   },
   ruby: {
-    border: "border-[#F4A4A0]",
-    bg: "bg-[#FFECEC]",
+    border: "border-ruby-line",
+    bg: "bg-ruby-soft-bg",
     text: "text-ruby-shadow",
   },
   zinc: {

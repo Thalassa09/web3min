@@ -211,7 +211,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         : null;
 
   return (
-    <div className={cn("quiz-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden bg-[#FFF6EE] lg:max-w-none", world.skin)}>
+    <div className={cn("quiz-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden bg-cream lg:max-w-none", world.skin)}>
       <div className="shrink-0 flex items-center gap-3 px-3 py-2.5 bg-white border-b-3 border-choco-900 shadow-[0_3px_0_#3B2218] lg:px-8">
         <button
           type="button"
@@ -230,7 +230,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
         <div className="mx-1 flex min-w-0 flex-1 items-center">
           <ProgressBar value={solved} max={Math.max(1, scored)} size="sm" />
         </div>
-        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFECEC] border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-ruby-shadow">
+        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-ruby-soft-bg border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-ruby-shadow">
           <Heart className={cn("size-4 text-ruby", phase === "feedback" && !ok && "heart-break")} weight="fill" />
           {hearts}
         </span>

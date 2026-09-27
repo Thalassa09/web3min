@@ -119,7 +119,29 @@
   --color-ruby-soft: #FFE3EC;
   --color-leaf: #6FE3C1;
   --color-leaf-deep: #1E9E78;
-  --color-leaf-shadow: #0F6045; /* teks sukses di atas #E8FBF0 (7.08:1) */
+  --color-leaf-soft: #E8FBF0;   /* latar sukses — dipakai 8×; kembar dgn ok-soft #E8FBF4
+                                   (beda 4 di channel biru). leaf-shadow di atasnya 7.01:1 */
+  --color-ruby-soft-bg: #FFECEC; /* latar error — dipakai 6×; kembar dgn err-soft #FFE9EA.
+                                   ruby-shadow di atasnya 6.77:1 */
+  --color-ruby-line: #F4A4A0;   /* border latar error (lozenge/profile) */
+  --color-leaf-line: #98E4B5;   /* border latar sukses (lozenge/profile) */
+  --color-disabled: #EDE4DC;    /* latar tombol disabled — dipakai 5× (duo-button, tactile-button) */
+  --color-violet-soft: #F3ECFF; /* latar aksen ungu muda — dipakai 4× */
+  --color-grape-bold: #8B5CF6;  /* lozenge bold ungu (varian pekat dari grape #9B6BFF) */
+  --color-grape-bold-shadow: #6A3FD1;
+  --color-leaf-shadow: #0F6045; /* teks sukses di atas leaf-soft #E8FBF0 (7.01:1) */
+  --color-leaf-deep-ink: #0B4A35; /* nilai angka kartu statistik XP di atas #B8EDD2 (7.86:1) */
+  --color-coin-ink-deep: #5C4300; /* nilai angka kartu statistik Koin di atas #FFE9A8 (7.74:1) */
+  --color-leaf-fill: #D6F5E4;   /* gradient tengah kartu XP */
+  --color-leaf-fill-deep: #B8EDD2; /* gradient akhir kartu XP (stop TERGELAP — teks diukur di sini) */
+  --color-coin-fill: #FFF4CC;   /* gradient tengah kartu Koin */
+  --color-coin-fill-deep: #FFE9A8; /* gradient akhir kartu Koin (stop TERGELAP) */
+  /* Skala pink lembut khusus kartu statistik /profile. SENGAJA terpisah dari
+     `candy-50/100/200` — hex-nya BEDA TIPIS (#FFF0F5 vs #FFF4F8) dan
+     menggesernya ke candy-* akan mengubah warna kartu tanpa disadari. */
+  --color-blush-50: #FFF0F5;
+  --color-blush-100: #FFE4EC;
+  --color-blush-200: #FDC8D8;
   --color-ruby-shadow: #A02025; /* teks error di atas #FFECEC (7.21:1) */
   --color-ok: #17805F;          /* alias sukses — dipakai tactile-button */
   --color-ok-shadow: #0F6045;

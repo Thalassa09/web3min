@@ -5,6 +5,7 @@ import { CoachTour } from "@/components/coach";
 import { DeskRail } from "@/components/desk-rail";
 import { PathMap } from "@/components/path-map";
 import { BlobiFloatingCompanion } from "@/components/blobi-guide";
+import { CurrentLessonCard } from "@/components/ui/current-lesson-card";
 import { UNITS, firstPlayableId, getLesson } from "@/lib/curriculum";
 import { useProgress } from "@/lib/store";
 import { buildMeta } from "@/lib/seo";
@@ -60,6 +61,9 @@ function Home() {
   return (
     <AppShell rail={<DeskRail />}>
       <main className="w-full relative">
+        <div className="mx-auto w-full max-w-2xl px-3 pt-3">
+          <CurrentLessonCard lesson={activeLesson ?? null} />
+        </div>
         <PathMap units={UNITS} focusUnit={unitId} />
         <BlobiFloatingCompanion
           activeLesson={activeLesson}

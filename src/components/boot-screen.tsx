@@ -61,7 +61,7 @@ export function BootScreen({
 
         {/* Candy-Stripe Loading Bar with Tactile Beveled border */}
         <div className="mt-6 w-[220px]" aria-hidden>
-          <div className="relative h-5 w-full overflow-hidden rounded-full border-2 border-choco-900/30 bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] shadow-[0_3px_0_#3B2218,0_6px_12px_rgba(59,34,24,0.12)]">
+          <div className="relative h-5 w-full overflow-hidden rounded-full border-2 border-choco-900/30 bg-gradient-to-b from-blush-50 to-blush-100 shadow-[0_3px_0_#3B2218,0_6px_12px_rgba(59,34,24,0.12)]">
             <div
               className="h-full candy-stripe-fill rounded-full transition-all duration-300 ease-out border-r-2 border-choco-900/40"
               style={{ width: `${stage === 0 ? 35 : stage === 1 ? 75 : 100}%` }}

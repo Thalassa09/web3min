@@ -170,7 +170,7 @@ function ShopPage() {
               aria-pressed={mode === "shop"}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "shop"
-                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
+                  ? "bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
                   : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
               }`}
             >
@@ -184,7 +184,7 @@ function ShopPage() {
               aria-pressed={mode === "wardrobe"}
               className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs sm:text-sm font-pixel font-bold transition-all cursor-pointer ${
                 mode === "wardrobe"
-                  ? "bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
+                  ? "bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white border-2 border-candy-600 shadow-[0_3px_0_#6E1239]"
                   : "text-choco-700 hover:text-choco-900 hover:bg-white/60"
               }`}
             >
@@ -194,7 +194,7 @@ function ShopPage() {
                 <span
                   className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold ${
                     mode === "wardrobe"
-                      ? "bg-gradient-to-b from-[#FFE873] to-[#FFD84D] text-choco-900 border-2 border-amber-600 shadow-[0_2px_0_#C8940C]"
+                      ? "bg-gradient-to-b from-[#FFE873] to-lemon text-choco-900 border-2 border-amber-600 shadow-[0_2px_0_#C8940C]"
                       : "bg-candy-800 text-white"
                   }`}
                 >
@@ -316,7 +316,7 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className="inline-flex items-center justify-center rounded-full border-2 border-choco-900 px-5 py-2.5 text-xs md:text-sm font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-[#EDE4DC] disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
+                      className="inline-flex items-center justify-center rounded-full border-2 border-choco-900 px-5 py-2.5 text-xs md:text-sm font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
                     >
                       {heartsFull ? "Nyawa Penuh" : gems < HEART_REFILL_COST ? "Koin Kurang" : "Isi Ulang Sekarang →"}
                     </button>
@@ -371,7 +371,7 @@ function ShopPage() {
                           playDeny();
                         }
                       }}
-                      className="inline-flex items-center justify-center rounded-full border-2 border-choco-900 px-4 py-2 text-xs font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-[#EDE4DC] disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
+                      className="inline-flex items-center justify-center rounded-full border-2 border-choco-900 px-4 py-2 text-xs font-pixel font-bold transition-all cursor-pointer bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white shadow-[0_3px_0_#3B2218] hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-disabled disabled:text-choco-600 disabled:opacity-60 disabled:shadow-none"
                     >
                       {freeze > 0 ? "Sudah Aktif" : gems < FREEZE_COST ? "Koin Kurang" : "Beli Pelindung →"}
                     </button>
@@ -381,7 +381,7 @@ function ShopPage() {
             </div>
 
             {/* Exclusive Wardrobe Banner */}
-            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#FFF0F5] via-[#FFE4ED] to-[#FDC8D8] border-2 border-choco-900 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_6px_0_#3B2218]">
+            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-blush-50 via-[#FFE4ED] to-blush-200 border-2 border-choco-900 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_6px_0_#3B2218]">
               <div className="flex items-center gap-4 text-center sm:text-left">
                 <div className="size-14 rounded-2xl bg-white border-2 border-choco-900 shadow-[0_2px_0_#3B2218] flex items-center justify-center shrink-0">
                   <Sparkles className="size-7 text-candy-500" />
@@ -398,7 +398,7 @@ function ShopPage() {
               <button
                 type="button"
                 onClick={() => handleModeChange("wardrobe")}
-                className="shrink-0 px-5 py-2.5 rounded-full bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex items-center gap-1.5 cursor-pointer hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
+                className="shrink-0 px-5 py-2.5 rounded-full bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white font-pixel font-bold text-xs border-2 border-choco-900 shadow-[0_3px_0_#3B2218] flex items-center gap-1.5 cursor-pointer hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all"
               >
                 <span>Buka Ruang Ganti Blobi →</span>
               </button>
@@ -453,7 +453,7 @@ function ShopPage() {
 
                   {/* Circular Blobi Pedestal */}
                   <div className="py-6 flex items-center justify-center relative">
-                    <div className="p-7 rounded-full bg-gradient-to-b from-[#FFF0F5] to-[#FFE4EC] border-2 border-choco-900 shadow-[0_4px_0_#3B2218] transition-transform hover:scale-105">
+                    <div className="p-7 rounded-full bg-gradient-to-b from-blush-50 to-blush-100 border-2 border-choco-900 shadow-[0_4px_0_#3B2218] transition-transform hover:scale-105">
                       <Mascot mood={blobiMood} size={160} worn={activeWorn} />
                     </div>
                   </div>
@@ -476,7 +476,7 @@ function ShopPage() {
                           onClick={() => setBlobiMood(mood)}
                           className={`flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold select-none transition-[transform,box-shadow,background-color,border-color,color] cursor-pointer active:translate-y-[1px] ${
                             blobiMood === mood
-                              ? "bg-gradient-to-b from-[#D62A78] via-[#B01F62] to-[#85174A] text-white shadow-[0_3px_0_#B01F62] border-2 border-candy-600"
+                              ? "bg-gradient-to-b from-candy-600 via-candy-700 to-candy-800 text-white shadow-[0_3px_0_#B01F62] border-2 border-candy-600"
                               : "bg-white text-choco-700 hover:bg-candy-50 border-2 border-choco-900 shadow-[0_2px_0_#3B2218]"
                           }`}
                         >
@@ -558,7 +558,7 @@ function ShopPage() {
                         aria-pressed={wardrobeScope === "owned"}
                         className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-xl border-2 text-xs font-pixel font-bold cursor-pointer text-center transition-all whitespace-nowrap ${
                           wardrobeScope === "owned"
-                            ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                            ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
                             : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                         }`}
                       >
@@ -570,7 +570,7 @@ function ShopPage() {
                         aria-pressed={wardrobeScope === "all"}
                         className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-xl border-2 text-xs font-pixel font-bold cursor-pointer text-center transition-all whitespace-nowrap ${
                           wardrobeScope === "all"
-                            ? "border-candy-600/50 bg-gradient-to-b from-[#B01F62] via-[#85174A] to-[#6E1239] text-white shadow-[0_3px_0_#6E1239]"
+                            ? "border-candy-600/50 bg-gradient-to-b from-candy-700 via-candy-800 to-candy-900 text-white shadow-[0_3px_0_#6E1239]"
                             : "border-transparent text-choco-600 hover:text-choco-900 hover:border-choco-900/20 hover:bg-candy-50"
                         }`}
                       >
@@ -658,7 +658,7 @@ function ShopPage() {
                                 {SLOT_LABEL[acc.slot]}
                               </span>
                               {isEquipped ? (
-                                <span className="inline-flex items-center gap-0.5 text-[10px] font-pixel font-bold text-[#1E9E78] bg-white px-2 py-0.5 rounded-full border border-mint">
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-pixel font-bold text-mint-deep bg-white px-2 py-0.5 rounded-full border border-mint">
                                   <Check className="size-3" /> Dipakai
                                 </span>
                               ) : isPreviewing ? (

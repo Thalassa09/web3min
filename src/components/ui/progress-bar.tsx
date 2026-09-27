@@ -43,7 +43,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     <div className={cn("w-full flex items-center gap-3", className)} {...rest}>
       <div
         className={cn(
-          "relative flex-1 bg-[#FFF0F5] border-[#3B1317] rounded-full overflow-hidden shadow-xs",
+          "relative flex-1 bg-blush-50 border-[#3B1317] rounded-full overflow-hidden shadow-xs",
           heightClasses
         )}
         role="progressbar"

@@ -40,19 +40,19 @@ export function Lozenge({
       bold: "bg-candy-800 text-white border-candy-700",
     },
     success: {
-      subtle: "bg-[#E8FBF0] text-leaf-shadow border-[#98E4B5]",
+      subtle: "bg-leaf-soft text-leaf-shadow border-leaf-line",
       bold: "bg-leaf-shadow text-white border-leaf-shadow",
     },
     new: {
-      subtle: "bg-[#F3ECFF] text-[#6A3FD1] border-[#C4A8FF]",
-      bold: "bg-[#8B5CF6] text-white border-[#6A3FD1]",
+      subtle: "bg-violet-soft text-grape-bold-shadow border-[#C4A8FF]",
+      bold: "bg-grape-bold text-white border-grape-bold-shadow",
     },
     moved: {
-      subtle: "bg-[#FFF8E1] text-[#B27B00] border-[#FFE08A]",
+      subtle: "bg-warn-soft text-[#B27B00] border-[#FFE08A]",
       bold: "bg-coin text-ink-900 border-coin-shadow",
     },
     removed: {
-      subtle: "bg-[#FFECEC] text-ruby-shadow border-[#F4A4A0]",
+      subtle: "bg-ruby-soft-bg text-ruby-shadow border-ruby-line",
       bold: "bg-ruby-shadow text-white border-ruby-shadow",
     },
   };

@@ -19,6 +19,7 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] Peta: maskot di node aktif menutupi bagian tengah judul blok tetangga (mis. `#0x02` "Web2 vs") — pra-ada, bukan regresi U1 (pill lama tertutup penuh); keputusan: geser maskot atau biarkan.
 
 ## Terakhir dikerjakan
+- [x] Blobi v4.1 jadi halaman web3min.com/blobi + endpoint server `/api/blobi/chat` (9router -> cbai/deepseek-v4.1-flash; kunci hanya di server; URL tunnel dari Edge Config `blobi-tunnel` supaya ganti alamat tidak perlu redeploy; rate limit RPC 30/10mnt per IP). Commit `cd83ddd` + `74ca9c3`; live terverifikasi: 3D render, chat balas "Jangan kasih. Itu 100% scam" (mood angry), nol error konsol.
 - [x] U6: ajakan akun sekali di layar "Pelajaran selesai" blok pertama — "Masuk ke akun" (tanpa sesi) / "Pasang sekarang" (sesi tanpa email pemulihan); offline dilewati; penanda `accountNudgeSeen`. Commit `9375a8b`, E2E 3/3 lolos 390/360.
 - [x] Fase 3 kuis: bank soal 20 rute (756 soal) + Ujian Rute opsional 15 soal tanpa hadiah; opsi disetarakan (tebak-terpanjang 68,9% -> 26,0%). Commit `ee1dca8`.
 - [x] U8 triase: tombol bagikan WhatsApp/Telegram di layar "Kisah selesai" (`story-player.tsx`), terverifikasi klik 390/360.

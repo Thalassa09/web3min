@@ -1,0 +1,14 @@
+-- 20260929000003_revoke_admin_verify_key_execute.sql
+-- S6 triase: jalur kunci admin lama.
+--
+-- Kondisi terverifikasi di DB live:
+--  - body admin_verify_key TIDAK memuat string kunci lama mana pun;
+--  - Vault kosong (0 secret, `web3min_admin_key` tidak ada) -> jalur kunci
+--    praktis mati; hanya public.is_admin() yang bisa lolos.
+--  - TAPI EXECUTE masih terbuka untuk anon/authenticated, dan fungsi ini
+--    tanpa rate limit -> oracle tebak-kunci bagi anon.
+--
+-- Pemanggil internal (admin_upsert_raffle, admin_delete_raffle, dst.) adalah
+-- fungsi security definer milik postgres, jadi tetap bisa memanggil tanpa
+-- grant ini (owner selalu boleh). service_role juga tetap boleh.
+revoke execute on function public.admin_verify_key(text) from public, anon, authenticated;

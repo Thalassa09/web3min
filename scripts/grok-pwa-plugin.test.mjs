@@ -11,9 +11,11 @@ import {
   injectGrokPwaHead,
   isDocumentPath,
   isInstallQuery,
+  ogImageFromDocument,
   publicAppHost,
   renderWebManifest,
   resolveOgCardAsset,
+  resolveRouteOgImage,
   snapshotOgIdentity,
   stripInstallParams,
 } from "./grok-pwa-shared.mjs";
@@ -512,6 +514,86 @@ test("renders the manifest with the per-app name", () => {
   assert.equal(manifest.icons[0].src, "/icon-180.png");
   assert.equal(manifest.theme_color, "#E8437F");
   assert.equal(manifest.background_color, "#FFF6EE");
+});
+
+// ── og:image per-rute (web3min: kartu share /kisah/$storyId) ──────────────
+test("ogImageFromDocument ambil tag TERAKHIR dan tidak peduli urutan atribut", () => {
+  const html = [
+    '<meta property="og:image" content="https://web3min.com/og.jpg">',
+    '<meta content="https://web3min.com/stories/s-peta.jpg" property="og:image">',
+  ].join("");
+  assert.equal(ogImageFromDocument(html), "https://web3min.com/stories/s-peta.jpg");
+  assert.equal(ogImageFromDocument("<html><head></head></html>"), "");
+});
+
+test("ogImageFromDocument mengembalikan yang terakhir meski tag pertama lebih spesifik", () => {
+  const html =
+    '<meta property="og:image" content="/og.jpg"><meta property="og:image" content="/stories/s-seed.jpg">';
+  assert.equal(ogImageFromDocument(html), "/stories/s-seed.jpg");
+});
+
+test("resolveRouteOgImage: terima same-origin https & path relatif, tolak sisanya", () => {
+  assert.equal(
+    resolveRouteOgImage("https://web3min.com/stories/s-peta.jpg", "web3min.com"),
+    "https://web3min.com/stories/s-peta.jpg",
+  );
+  // Path relatif diresolusi ke host publik
+  assert.equal(resolveRouteOgImage("/stories/s-peta.jpg", "web3min.com"), "https://web3min.com/stories/s-peta.jpg");
+  // Origin canonical halaman juga boleh (mis. preview domain)
+  assert.equal(
+    resolveRouteOgImage("https://preview.example.com/x.jpg", "web3min.com", "https://preview.example.com/kisah/s-peta"),
+    "https://preview.example.com/x.jpg",
+  );
+  // Pihak ketiga / http / protocol-relative / kosong → ditolak
+  assert.equal(resolveRouteOgImage("https://evil.example/x.jpg", "web3min.com"), "");
+  assert.equal(resolveRouteOgImage("http://web3min.com/x.jpg", "web3min.com"), "");
+  assert.equal(resolveRouteOgImage("//evil.example/x.jpg", "web3min.com"), "");
+  assert.equal(resolveRouteOgImage("/x.jpg", ""), "");
+  assert.equal(resolveRouteOgImage("", "web3min.com"), "");
+});
+
+test("kartu per-rute menang atas kartu situs, tanpa klaim ukuran 1200x630", () => {
+  const html = [
+    "<html><head><title>Web3 bukan cuma chart | Kisah web3min</title>",
+    '<link rel="canonical" href="https://web3min.com/kisah/s-peta">',
+    '<meta property="og:image" content="https://web3min.com/stories/s-peta.jpg">',
+    "</head></html>",
+  ].join("");
+  const out = injectGrokPwaHead(html, { host: "web3min.com" });
+  assert.match(out, /property="og:image" content="https:\/\/web3min\.com\/stories\/s-peta\.jpg"/);
+  assert.match(out, /name="twitter:image" content="https:\/\/web3min\.com\/stories\/s-peta\.jpg"/);
+  assert.doesNotMatch(out, /property="og:image:width"/);
+  assert.doesNotMatch(out, /property="og:image:height"/);
+  // og:image hanya SATU (tidak digandakan)
+  assert.equal(out.split('property="og:image" content=').length - 1, 1);
+});
+
+test("tanpa og:image rute, kartu situs tetap dipakai dengan ukuran 1200x630", () => {
+  const root = mkdtempSync(join(tmpdir(), "grok-og-route-none-"));
+  mkdirSync(join(root, "public"));
+  writeFileSync(join(root, "public/og.jpg"), "x");
+  const out = injectGrokPwaHead("<html><head><title>web3min</title></head></html>", {
+    host: "web3min.com",
+    cwd: root,
+    site: { title: "web3min" },
+  });
+  assert.match(out, /property="og:image" content="https:\/\/web3min\.com\/og\.jpg"/);
+  assert.match(out, /property="og:image:width" content="1200"/);
+  assert.match(out, /property="og:image:height" content="630"/);
+});
+
+test("og:image rute pihak ketiga diabaikan — kartu situs tetap aman", () => {
+  const root = mkdtempSync(join(tmpdir(), "grok-og-route-evil-"));
+  mkdirSync(join(root, "public"));
+  writeFileSync(join(root, "public/og.jpg"), "x");
+  const html = [
+    "<html><head><title>web3min</title>",
+    '<meta property="og:image" content="https://evil.example/x.jpg">',
+    "</head></html>",
+  ].join("");
+  const out = injectGrokPwaHead(html, { host: "web3min.com", cwd: root, site: { title: "web3min" } });
+  assert.doesNotMatch(out, /evil\.example/);
+  assert.match(out, /property="og:image" content="https:\/\/web3min\.com\/og\.jpg"/);
 });
 
 // Tripwires: the deployed-app path only works if Nitro scans server/ — an

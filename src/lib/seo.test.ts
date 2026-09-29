@@ -68,6 +68,9 @@ test("buildMeta handles custom parameters correctly", () => {
   assert.equal(metaMap.get("property:og:description"), "Layanan keuangan tanpa teller.");
   assert.equal(metaMap.get("property:og:url"), `${BASE_URL}/lesson/u5-l1`);
   assert.equal(metaMap.get("property:og:image"), "https://web3min.com/custom.png");
+  // Gambar kustom dipakai apa adanya: jangan klaim ukuran og.jpg.
+  assert.equal(metaMap.has("property:og:image:width"), false);
+  assert.equal(metaMap.has("property:og:image:height"), false);
   assert.equal(metaMap.get("name:twitter:title"), "Apa itu DeFi | web3min");
   assert.equal(metaMap.get("name:twitter:image"), "https://web3min.com/custom.png");
 

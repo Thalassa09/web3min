@@ -16,12 +16,14 @@ const SHARE_META_KEYS = new Set([
   "og:image",
   "og:image:width",
   "og:image:height",
+  "og:image:alt",
   "og:type",
   "og:url",
   "og:site_name",
   "twitter:card",
   "twitter:title",
   "twitter:image",
+  "twitter:image:alt",
   "twitter:description",
   "x:game:image",
   "x:game:image:width",
@@ -322,6 +324,24 @@ export function canonicalFromDocument(html) {
   return last;
 }
 
+/**
+ * Kartu share milik halaman (`og:image`), ambil tag TERAKHIR dan jangan peduli
+ * urutan atribut — sama seperti canonical: root route menulis default lebih
+ * dulu, rute yang lebih spesifik (mis. `/kisah/$storyId`) menulis setelahnya.
+ * Dipakai supaya og:image per-rute bisa menang atas kartu situs di middleware.
+ */
+export function ogImageFromDocument(html) {
+  const tags = String(html ?? "").match(/<meta\b[^>]*>/gi);
+  if (!tags || tags.length === 0) return "";
+  let last = "";
+  for (const tag of tags) {
+    if (!/\bproperty\s*=\s*["']og:image["']/i.test(tag)) continue;
+    const content = tag.match(/\bcontent\s*=\s*["']([^"']*)["']/i);
+    if (content) last = unescapeHtml(content[1]).trim();
+  }
+  return last;
+}
+
 export function resolveOgTitle(
   site = {},
   appName = DEFAULT_APP_NAME,
@@ -352,6 +372,37 @@ export function resolveOgCardAsset(site = {}, cwd = process.cwd()) {
   return ogCardPublicPath(cwd) || (detectCustomOgCard(cwd, site) ? String(site.image ?? "").trim() || "/og.jpg" : "");
 }
 
+/**
+ * og:image milik rute hanya dipertahankan kalau memang milik app ini:
+ * same-origin dengan host publik ATAU dengan origin canonical halaman.
+ * Selain itu (host pihak ketiga, `//host/...`, http) ditolak supaya slot
+ * kartu share tidak bisa dibelokkan ke luar. Path relatif diresolusi ke host
+ * publik; nilai kosong / tidak valid mengembalikan "" (pakai kartu situs).
+ */
+export function resolveRouteOgImage(value, publicHost = "", documentUrl = "") {
+  const raw = String(value ?? "").trim();
+  if (!raw) return "";
+  if (raw.startsWith("/")) {
+    if (raw.startsWith("//") || !publicHost) return "";
+    return `https://${publicHost}${raw}`;
+  }
+  let url;
+  try {
+    url = new URL(raw);
+  } catch {
+    return "";
+  }
+  if (url.protocol !== "https:") return "";
+  let docHost = "";
+  try {
+    docHost = new URL(String(documentUrl ?? "")).host;
+  } catch {
+    docHost = "";
+  }
+  const allowed = [publicHost, docHost].filter(Boolean).map((h) => h.toLowerCase());
+  return allowed.includes(url.host.toLowerCase()) ? url.href : "";
+}
+
 /** Stamp `card=custom` when public/og.jpg or public/og.png is on disk. */
 function applyCustomCardFromFs(site, cwd) {
   const disk = ogCardPublicPath(cwd);
@@ -366,6 +417,7 @@ export function grokOgHeadTags({
   documentTitle = "",
   documentDescription = "",
   documentUrl = "",
+  documentImage = "",
   cwd = process.cwd(),
 } = {}) {
   const title = resolveOgTitle(site, appName, host, documentTitle);
@@ -393,14 +445,24 @@ export function grokOgHeadTags({
   if (publicHost) {
     const asset = resolveOgCardAsset(site, cwd);
     const custom = Boolean(asset);
-    let image = custom
+    const siteCard = custom
       ? `https://${publicHost}${asset.startsWith("/") ? asset : `/${asset}`}`
       : `${ogServiceUrl()}/v1/card.png?host=${encodeURIComponent(publicHost)}&title=${encodeURIComponent(title)}`;
-    const color = !custom ? placeholderCardColor(site) : "";
+    // Kartu per-rute (mis. /kisah/$storyId) menang atas kartu situs asal
+    // same-origin — lihat resolveRouteOgImage. Kalau rutenya tidak punya
+    // og:image sendiri (atau URL-nya ditolak), kartu situs tetap dipakai.
+    const routeImage = resolveRouteOgImage(documentImage, publicHost, ogUrl);
+    const useRouteImage = Boolean(routeImage) && routeImage !== siteCard;
+    let image = useRouteImage ? routeImage : siteCard;
+    const color = !custom && !useRouteImage ? placeholderCardColor(site) : "";
     if (color) image += `&color=${encodeURIComponent(color)}`;
     tags.push(`<meta property="og:image" content="${escapeHtml(image)}">`);
-    tags.push(`<meta property="og:image:width" content="1200">`);
-    tags.push(`<meta property="og:image:height" content="630">`);
+    // Ukuran 1200x630 hanya benar untuk kartu platform / og.jpg. Gambar rute
+    // punya dimensi sendiri — jangan diklaim.
+    if (!useRouteImage) {
+      tags.push(`<meta property="og:image:width" content="1200">`);
+      tags.push(`<meta property="og:image:height" content="630">`);
+    }
     tags.push(`<meta property="og:image:alt" content="${escapeHtml(title)}">`);
     tags.push(`<meta name="twitter:image" content="${escapeHtml(image)}">`);
     tags.push(`<meta name="twitter:image:alt" content="${escapeHtml(title)}">`);
@@ -476,6 +538,7 @@ export function injectGrokPwaHead(html, ctx = {}) {
   const documentTitle = titleFromDocument(html);
   const documentDescription = descriptionFromDocument(html);
   const documentUrl = canonicalFromDocument(html);
+  const documentImage = ogImageFromDocument(html);
   const appName = resolveOgTitle(
     site,
     ctx.appName ?? DEFAULT_APP_NAME,
@@ -494,7 +557,7 @@ export function injectGrokPwaHead(html, ctx = {}) {
 
   next = insertAfterHeadOpen(
     next,
-    grokOgHeadTags({ host, appName, site, documentTitle, documentDescription, documentUrl, cwd }).join(""),
+    grokOgHeadTags({ host, appName, site, documentTitle, documentDescription, documentUrl, documentImage, cwd }).join(""),
   );
 
   if (!next.includes("/grok-app-builder/extensions.js")) {

@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { StoryPlayer } from "@/components/story-player";
 import { getStory } from "@/lib/stories";
 import { useProgress } from "@/lib/store";
-import { buildMeta } from "@/lib/seo";
+import { BASE_URL, buildMeta } from "@/lib/seo";
 import { Sparkles, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/kisah/$storyId")({
@@ -15,6 +15,7 @@ export const Route = createFileRoute("/kisah/$storyId")({
       title,
       description,
       path: `/kisah/${params.storyId}`,
+      image: story ? `${BASE_URL}/stories/${story.id}.jpg` : undefined,
     });
   },
   component: StoryPage,

@@ -35,6 +35,7 @@ export function buildMeta(options?: MetaOptions) {
   const path = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
   const canonicalUrl = `${BASE_URL}${path === "/" ? "" : path}`;
   const image = options?.image || DEFAULT_OG_IMAGE;
+  const isDefaultImage = !options?.image;
   const type = options?.type || "website";
 
   return {
@@ -47,8 +48,14 @@ export function buildMeta(options?: MetaOptions) {
       { property: "og:description", content: description },
       { property: "og:url", content: canonicalUrl },
       { property: "og:image", content: image },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      // og:image:width/height hanya untuk kartu default og.jpg (1200x630).
+      // Gambar kustom (mis. per Kisah) dipakai apa adanya, tanpa klaim ukuran.
+      ...(isDefaultImage
+        ? [
+            { property: "og:image:width", content: "1200" },
+            { property: "og:image:height", content: "630" },
+          ]
+        : []),
       { property: "og:image:alt", content: title },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },

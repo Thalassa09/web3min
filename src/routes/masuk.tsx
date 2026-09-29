@@ -63,8 +63,8 @@ function MasukPage() {
       setResetError("Kode verifikasi harus 6 digit.");
       return;
     }
-    if (resetNewPass.length < 6) {
-      setResetError("Password baru minimal 6 karakter.");
+    if (resetNewPass.length < 8) {
+      setResetError("Password baru minimal 8 karakter.");
       return;
     }
     if (resetNewPass !== resetConfirmPass) {

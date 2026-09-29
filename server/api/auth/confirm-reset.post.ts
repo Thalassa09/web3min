@@ -23,8 +23,8 @@ export default defineEventHandler(async (event) => {
     if (!code || code.length !== 6) {
       return { ok: false, error: "Kode verifikasi harus 6 digit angka." };
     }
-    if (!newPassword || newPassword.length < 6) {
-      return { ok: false, error: "Password baru minimal 6 karakter." };
+    if (!newPassword || newPassword.length < 8) {
+      return { ok: false, error: "Password baru minimal 8 karakter." };
     }
 
     if (!SUPABASE_SERVICE_ROLE_KEY) {

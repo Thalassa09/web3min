@@ -13,6 +13,7 @@ import {
 } from "@/lib/pulau-rantai";
 import { playTap, playClaim, playDeny, playMoodSfx } from "@/lib/audio";
 import { PulauRantaiProgres } from "@/components/pulau-rantai-progres";
+import { routeExamId } from "@/lib/route-exam";
 import { DailyQuests } from "@/components/daily-quests";
 import { Mascot } from "@/components/mascot";
 import { ChainBlock } from "@/components/ui/chain-block";
@@ -178,6 +179,21 @@ export function PulauRantaiMap({
     return null;
   }, [units, completed]);
 
+  /**
+   * Rute yang ujian bawaannya (`checkpoint`) SUDAH selesai.
+   *
+   * Dipakai hanya untuk memunculkan tombol "Ujian Rute" opsional, jadi tidak
+   * menyentuh `isUnlocked` atau progresi kurikulum.
+   */
+  const unitDoneIds = useMemo(() => {
+    const done = new Set<string>();
+    for (const u of units) {
+      const cp = u.lessons.find((l) => l.kind === "checkpoint");
+      if (cp && completed.includes(cp.id)) done.add(u.id);
+    }
+    return done;
+  }, [units, completed]);
+
   // Order map for block numbers
   const blockNumberMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -332,6 +348,7 @@ export function PulauRantaiMap({
       >
         {units.map((unit, wi) => {
           const theme = getPulauTheme(unit.id, wi + 1);
+          const unitDone = unitDoneIds.has(unit.id);
           const lessonCount = unit.lessons.length;
           const H = wi === 0 ? 820 : Math.max(640, lessonCount * 115 + 80);
           const T = 160;
@@ -519,6 +536,20 @@ export function PulauRantaiMap({
                     <span className="shrink-0 text-[10px] font-pixel font-bold text-choco-600 bg-cream-100 px-2 py-0.5 rounded-full border border-choco-900/30">
                       {unit.lessons.filter((l) => l.kind !== "chest").length} Blok
                     </span>
+                    {/* Ujian Rute opsional: muncul HANYA setelah ujian rute
+                        bawaan selesai. Tidak mengubah progresi, tidak memberi
+                        XP/koin, dan tidak memblokir blok berikutnya. */}
+                    {siapTampilProgres && unitDone ? (
+                      <button
+                        type="button"
+                        className="shrink-0 inline-flex items-center gap-1 h-11 px-2.5 rounded-full bg-white border-2 border-choco-900 text-[10px] font-pixel font-bold text-choco-900 shadow-[0_2px_0_#3B2218] active:translate-y-0.5 cursor-pointer"
+                        onClick={() => startLesson(routeExamId(unit.id))}
+                        aria-label={`Mulai ujian rute ${unit.index}, latihan opsional 15 soal`}
+                      >
+                        <PulauIcon name="flag" size={12} />
+                        <span>Ujian Rute</span>
+                      </button>
+                    ) : null}
                     {wi === 0 ? (
                       <button
                         type="button"

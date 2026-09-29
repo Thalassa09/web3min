@@ -133,3 +133,24 @@ export function startSession(
   saveSession(session);
   return session;
 }
+
+/**
+ * Laporkan hasil sesi kuis untuk perbandingan penyelesaian antar rute.
+ *
+ * HANYA panjang kuis, status selesai, dan posisi berhenti: tanpa nama, wallet,
+ * isi jawaban, atau teks soal. Fungsi ini juga tidak pernah menyentuh XP/koin,
+ * karena hadiah tetap dihitung RPC `complete_lesson` di server.
+ */
+export function noteQuizCompleted(input: {
+  lessonId: string;
+  quizLength: number;
+  completed: boolean;
+  dropAtIndex: number | null;
+}): void {
+  if (typeof window === "undefined") return;
+  void import("@/lib/server-sync")
+    .then((mod) => mod.rpcLogQuizSession(input))
+    .catch(() => {
+      // Kegagalan telemetri tidak boleh mengganggu penyelesaian blok.
+    });
+}

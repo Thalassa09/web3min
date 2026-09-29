@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Heart, X, Check } from "@/lib/kicon";
-import type { Exercise, Lesson } from "@/lib/curriculum";
-import { firstPlayableId, getLesson, sequentialNodes } from "@/lib/curriculum";
+import type { Exercise, Lesson, Unit } from "@/lib/curriculum";
+import { firstPlayableId, getLesson, getUnit, sequentialNodes } from "@/lib/curriculum";
 import { worldOf } from "@/lib/worlds";
 import { formatHeartWait, HEART_MS, msUntilHeart, useProgress } from "@/lib/store";
 import { DuoButton } from "@/components/duo-button";
@@ -16,19 +16,21 @@ import { cn } from "@/lib/utils";
 import { Dialog } from "@/components/dialog";
 import { rpcCompleteLesson, syncProgressFromServer } from "@/lib/server-sync";
 import {
-  DEFAULT_TARGET,
   advance,
   isSessionComplete,
+  lessonTarget,
   makeSeed,
   markCorrect,
   markWrong,
   planQueue,
   type QuizSession,
 } from "@/lib/quiz-ops";
+import { ROUTE_EXAM_SIZE, isRouteExamId } from "@/lib/route-exam";
 import {
   clearSession,
   forgetWrong,
   loadSession,
+  noteQuizCompleted,
   rememberWrong,
   saveSession,
   startSession,
@@ -51,18 +53,23 @@ const REVIEW_LOOKBACK = 3;
  * Soal review diambil dari blok BEBERAPA langkah sebelumnya yang pernah salah
  * dan masih ada di kurikulum. Kalau datanya tidak ada, review dilewati.
  */
-function buildQuizPlan(lesson: Lesson) {
-  const scored = lesson.exercises.filter((ex) => ex.type !== "tip");
+function buildQuizPlan(lesson: Lesson, unitIndex: number, unit: Unit | undefined) {
+  // Ujian Rute menyampel 15 soal dari SELURUH bank rute, bukan dari satu blok.
+  // Bank penuh ini juga jadi peta `resolve`, supaya sesi ujian yang tersimpan
+  // tetap bisa dilanjutkan walau soal yang tampil sudah berbeda urutan.
+  const exam = isRouteExamId(lesson.id);
+  const source = exam && unit ? unit.lessons.filter((l) => l.kind !== "chest").flatMap((l) => l.exercises) : lesson.exercises;
+  const scored = source.filter((ex) => ex.type !== "tip");
   const pool = scored.map((ex) => ({ id: ex.id, type: ex.type }));
-  const target = lesson.kind === "checkpoint" ? scored.length : (DEFAULT_TARGET.lesson ?? scored.length);
+  const target = exam ? ROUTE_EXAM_SIZE : lessonTarget(unitIndex, lesson.kind);
 
   // Peta id soal -> soal + pemiliknya. Soal review berasal dari blok lain, jadi
   // `pending` tidak bisa lagi mengandalkan `lesson.exercises` saja.
   const resolve = new Map<string, { ex: Exercise; ownerId: string }>();
-  for (const ex of lesson.exercises) resolve.set(ex.id, { ex, ownerId: lesson.id });
+  for (const ex of scored) resolve.set(ex.id, { ex, ownerId: lesson.id });
 
   const reviewItems: { id: string; type: string }[] = [];
-  if (lesson.kind !== "checkpoint") {
+  if (lesson.kind !== "checkpoint" && !isRouteExamId(lesson.id)) {
     const seq = sequentialNodes();
     const at = seq.findIndex((node) => node.id === lesson.id);
     const lookback = at > 0 ? seq.slice(Math.max(0, at - REVIEW_LOOKBACK), at) : [];
@@ -98,7 +105,9 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const dailyGoal = useProgress((s) => s.dailyGoal);
   const xpToday = useProgress((s) => s.xpToday);
 
-  const quiz = useMemo(() => buildQuizPlan(lesson), [lesson]);
+  const unit = useMemo(() => getUnit(lesson.unitId), [lesson.unitId]);
+  const unitIndex = unit?.index ?? 1;
+  const quiz = useMemo(() => buildQuizPlan(lesson, unitIndex, unit), [lesson, unitIndex, unit]);
   const [session, setSession] = useState<QuizSession | null>(null);
   const [phase, setPhase] = useState<Phase>(() => (useProgress.getState().hearts <= 0 ? "dead" : "ask"));
   const [ok, setOk] = useState(false);
@@ -141,18 +150,34 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     setReady(h.ready);
   }, []);
 
+  // Ujian Rute itu latihan opsional: tidak memberi XP/koin dan tidak menulis
+  // `completions`, jadi aturan ekonomi tidak berubah sama sekali.
+  const isExam = isRouteExamId(lesson.id);
+
   const finish = useCallback(
     (perfect: boolean) => {
+      clearSession();
+      if (isExam) {
+        setAwarded({ xp: 0, gems: 0, perfect, replay: false });
+        setPhase("done");
+        if (sound) playComplete();
+        return;
+      }
       const res = completeLesson(lesson.id, { perfect });
       setAwarded(res);
       setPhase("done");
       if (sound) playComplete();
-      clearSession();
+      noteQuizCompleted({
+        lessonId: lesson.id,
+        quizLength: quiz.sessionTotal,
+        completed: true,
+        dropAtIndex: null,
+      });
       void rpcCompleteLesson(lesson.id, perfect).then((ok) => {
         if (ok) void syncProgressFromServer();
       });
     },
-    [completeLesson, lesson.id, sound],
+    [completeLesson, lesson.id, sound, isExam, quiz.sessionTotal],
   );
 
   // Hydration sync: ensure 0 hearts immediately drops to dead state
@@ -523,6 +548,16 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
             variant="ghost"
             onClick={() => {
               setShowExitConfirm(false);
+              // Posisi berhenti dilaporkan HANYA untuk sesi yang belum tuntas,
+              // dan hanya berupa angka indeks (tanpa jawaban atau identitas).
+              if (session && !isExam && !isSessionComplete(session)) {
+                noteQuizCompleted({
+                  lessonId: lesson.id,
+                  quizLength: session.total,
+                  completed: false,
+                  dropAtIndex: session.index,
+                });
+              }
               void navigate({ to: "/" });
             }}
           >
@@ -602,37 +637,51 @@ function CompleteCard({
 }) {
   const next = firstPlayableId(useProgress.getState().completed);
   const nextLesson = next ? getLesson(next) : null;
+  // Ujian Rute adalah latihan opsional: tidak ada XP/koin untuk ditampilkan,
+  // dan tombol "Pelajaran berikutnya" tidak relevan karena bloknya sudah lewat.
+  const exam = isRouteExamId(lesson.id);
   return (
     <div className="flex flex-1 flex-col items-center justify-center text-center">
       <Mascot mood="celebrate" size={200} float />
-      <h2 className="mt-2 text-3xl font-extrabold text-ink-900">Pelajaran selesai</h2>
+      <h2 className="mt-2 text-3xl font-extrabold text-ink-900">
+        {exam ? "Ujian rute selesai" : "Pelajaran selesai"}
+      </h2>
       <p className="mt-1 font-medium text-ink-500">{lesson.title}</p>
+      {exam ? (
+        <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-choco-900 bg-candy-100 px-3.5 py-1 text-xs font-bold text-candy-700">
+          <span>Latihan opsional, tanpa XP dan tanpa koin</span>
+        </div>
+      ) : null}
       {awarded.replay ? (
         <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-choco-900 bg-candy-100 px-3.5 py-1 text-xs font-bold text-candy-700">
           <span>Pengulangan materi, hadiah disesuaikan</span>
         </div>
       ) : null}
-      <p className="mt-5 text-sm font-bold text-ink-500">XP</p>
-      <p className="text-2xl font-extrabold tabular-nums text-warn-ink-soft">+{awarded.xp}</p>
-      <p className="mt-3 flex items-center justify-center gap-1 text-sm font-bold text-ink-500">
-        <BlockStamp size={16} />
-        Koin
-      </p>
-      <p className="text-2xl font-extrabold tabular-nums text-warn-ink-soft">+{awarded.gems}</p>
+      {!exam ? (
+        <>
+          <p className="mt-5 text-sm font-bold text-ink-500">XP</p>
+          <p className="text-2xl font-extrabold tabular-nums text-warn-ink-soft">+{awarded.xp}</p>
+          <p className="mt-3 flex items-center justify-center gap-1 text-sm font-bold text-ink-500">
+            <BlockStamp size={16} />
+            Koin
+          </p>
+          <p className="text-2xl font-extrabold tabular-nums text-warn-ink-soft">+{awarded.gems}</p>
+        </>
+      ) : null}
       {awarded.perfect ? (
         <div className="perfect-confetti mt-4 text-sm font-bold text-leaf-shadow" aria-hidden="true">
           <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
           Sempurna tanpa ada kesalahan.
         </div>
       ) : null}
-      {dailyHit ? <p className="mt-2 text-sm font-bold text-flame">Streak hari ini aman.</p> : null}
+      {dailyHit && !exam ? <p className="mt-2 text-sm font-bold text-flame">Streak hari ini aman.</p> : null}
       <div className="mt-8 flex w-full flex-col gap-3">
-        {nextLesson ? (
+        {nextLesson && !exam ? (
           <DuoButton wide onClick={onNext}>
             Pelajaran berikutnya
           </DuoButton>
         ) : null}
-        <DuoButton variant={nextLesson ? "ghost" : "primary"} wide onClick={onHome}>
+        <DuoButton variant={nextLesson && !exam ? "ghost" : "primary"} wide onClick={onHome}>
           Kembali ke peta
         </DuoButton>
       </div>

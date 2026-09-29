@@ -226,6 +226,48 @@ export async function rpcCompleteLesson(
   }
 }
 
+/**
+ * Telemetri penyelesaian kuis (Fase 3).
+ *
+ * HANYA panjang kuis, status selesai, dan posisi berhenti. Tidak ada XP, koin,
+ * tiket, atau identitas. Server menulisnya ke `activity_log` lewat
+ * `log_quiz_session`, dan RPC itu TIDAK menyentuh `progress` maupun
+ * `completions` sama sekali, jadi angka ekonomi tetap tidak bisa disentuh dari
+ * klien. Dipakai untuk membandingkan penyelesaian Rute 1 dengan rute berikutnya.
+ *
+ * Ujian Rute tidak pernah memanggil ini: ia latihan opsional, bukan kemajuan.
+ */
+export async function rpcLogQuizSession(input: {
+  lessonId: string;
+  quizLength: number;
+  completed: boolean;
+  dropAtIndex: number | null;
+}): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  const opKey = `quizlog:${input.lessonId}`;
+  if (!canExecuteOp(opKey, 3000)) return false;
+  startOp(opKey);
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return false;
+
+    const quizLength = Math.trunc(input.quizLength);
+    if (!Number.isFinite(quizLength) || quizLength < 0) return false;
+
+    const { error } = await supabase.rpc("log_quiz_session", {
+      p_lesson_id: input.lessonId,
+      p_quiz_length: Math.min(200, Math.max(0, quizLength)),
+      p_completed: Boolean(input.completed),
+      p_drop_at_index: input.dropAtIndex === null ? null : Math.max(0, Math.trunc(input.dropAtIndex)),
+    });
+    return !error;
+  } catch {
+    return false;
+  } finally {
+    endOp(opKey);
+  }
+}
+
 export async function rpcCompleteStory(
   storyId: string,
 ): Promise<{ xp: number; gems: number; replay: boolean } | null> {

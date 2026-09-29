@@ -191,8 +191,10 @@ test("sesi yang rusak dibuang, bukan dipakai", () => {
     total: 2,
   });
   assert.ok(ok, "sesi yang bentuknya benar harus lolos");
-  assert.deepEqual(ok.queue, ["a", "b"], "id dobel dibuang");
-  assert.equal(ok.index, 2, "indeks dijepit ke panjang antrean");
+  // Duplikat di `queue` SENGAJA dipertahankan: soal yang salah memang muncul
+  // dua kali (aslinya + ulangan). Membuangnya menghapus antrean ulang.
+  assert.deepEqual(ok.queue, ["a", "a", "b"], "duplikat antrean = ulangan, jangan dibuang");
+  assert.equal(ok.index, 3, "indeks dijepit ke panjang antrean (termasuk ulangan)");
   assert.deepEqual(ok.wrong, [], "field yang salah tipe jatuh ke nilai aman");
 });
 

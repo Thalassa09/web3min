@@ -2,6 +2,7 @@ import { MORE_UNITS } from "@/lib/more-units";
 import { LATER_UNITS } from "@/lib/later-units";
 import { withGapLessons } from "@/lib/complete-lessons";
 import { withProofs } from "@/lib/proof";
+import { withBank } from "@/lib/quiz-bank";
 
 export type UnitColor = "green" | "blue" | "gold" | "purple" | "teal" | "red";
 
@@ -2477,7 +2478,7 @@ export const CORE_UNITS: Unit[] = [
   },
 ];
 
-export const UNITS: Unit[] = withProofs(withGapLessons([...CORE_UNITS, ...MORE_UNITS, ...LATER_UNITS]));
+export const UNITS: Unit[] = withProofs(withBank(withGapLessons([...CORE_UNITS, ...MORE_UNITS, ...LATER_UNITS])));
 
 export function allPathNodes(): Lesson[] {
   return UNITS.flatMap((unit) => unit.lessons);

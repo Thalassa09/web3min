@@ -25,6 +25,23 @@ export const DEFAULT_TARGET: Record<string, number> = {
   checkpoint: 99,
 };
 
+/** Sasaran soal per blok: Rute 1-2 tetap pendek, Rute 3+ lebih dalam. */
+export const LESSON_TARGET_EARLY = 6;
+export const LESSON_TARGET_LATE = 8;
+
+/**
+ * Sasaran jumlah soal untuk satu blok.
+ *
+ * Ujian bawaan (`checkpoint`) memakai seluruh banknya; blok biasa memakai 6 soal
+ * di Rute 1-2 dan 8 soal di Rute 3 ke atas. Bank yang lebih kecil dari sasaran
+ * tetap dipakai seluruhnya (lihat `pickSessionItems`), jadi rute yang belum
+ * punya bank tambahan tidak kehilangan soal.
+ */
+export function lessonTarget(unitIndex: number, kind: string): number {
+  if (kind === "checkpoint") return Number.MAX_SAFE_INTEGER;
+  return unitIndex >= 3 ? LESSON_TARGET_LATE : LESSON_TARGET_EARLY;
+}
+
 export type QuizItem = { id: string; type: string };
 
 /** RNG deterministik (mulberry32). Satu seed = satu urutan soal. */
@@ -271,16 +288,28 @@ export function progressOf(session: QuizSession): { solved: number; total: numbe
   return { solved: session.solved.length, total: Math.max(1, session.total) };
 }
 
-function stringList(raw: unknown, cap: number): string[] {
+/**
+ * Daftar id yang dibersihkan, TANPA membuang duplikat.
+ *
+ * Dipakai untuk `queue`: soal yang salah memang muncul DUA kali di antrean
+ * (aslinya plus ulangan di akhir). Kalau di sini duplikatnya dibuang, sesi yang
+ * di-resume kehilangan antrean ulangnya dan janji "diulang sekali di akhir"
+ * hilang diam-diam setelah keluar aplikasi.
+ */
+function idList(raw: unknown, cap: number): string[] {
   if (!Array.isArray(raw)) return [];
   const out: string[] = [];
   for (const value of raw) {
     if (typeof value !== "string" || !value) continue;
-    if (out.includes(value)) continue;
     out.push(value);
     if (out.length >= cap) break;
   }
   return out;
+}
+
+/** Daftar id yang dibersihkan DAN di-unik-kan (untuk daftar penanda, bukan antrean). */
+function uniqueIdList(raw: unknown, cap: number): string[] {
+  return [...new Set(idList(raw, cap * 2))].slice(0, cap);
 }
 
 /**
@@ -294,7 +323,7 @@ export function sanitizeSession(raw: unknown): QuizSession | null {
   if (row.v !== SESSION_VERSION) return null;
   if (typeof row.lessonId !== "string" || !row.lessonId) return null;
   if (typeof row.seed !== "number" || !Number.isFinite(row.seed)) return null;
-  const queue = stringList(row.queue, 200);
+  const queue = idList(row.queue, 200);
   if (!queue.length) return null;
   const total = typeof row.total === "number" && row.total > 0 ? Math.trunc(row.total) : new Set(queue).size;
   const indexRaw = typeof row.index === "number" && Number.isFinite(row.index) ? Math.trunc(row.index) : 0;
@@ -304,12 +333,12 @@ export function sanitizeSession(raw: unknown): QuizSession | null {
     lessonId: row.lessonId,
     seed: row.seed,
     queue,
-    review: stringList(row.review, 20),
+    review: uniqueIdList(row.review, 20),
     index: Math.min(Math.max(0, indexRaw), queue.length),
-    solved: stringList(row.solved, 200),
-    wrong: stringList(row.wrong, 200),
-    heartSpent: stringList(row.heartSpent, 200),
-    retried: stringList(row.retried, 200),
+    solved: uniqueIdList(row.solved, 200),
+    wrong: uniqueIdList(row.wrong, 200),
+    heartSpent: uniqueIdList(row.heartSpent, 200),
+    retried: uniqueIdList(row.retried, 200),
     total: Math.max(1, Math.min(total, 200)),
     startedAt: typeof row.startedAt === "number" && row.startedAt > 0 ? row.startedAt : now,
     updatedAt: now,
@@ -318,6 +347,7 @@ export function sanitizeSession(raw: unknown): QuizSession | null {
 
 /** Buang id soal yang sudah tidak ada di kurikulum (mis. konten disunting). */
 export function pruneSession(session: QuizSession, validIds: ReadonlySet<string>): QuizSession | null {
+  // `filter` mempertahankan duplikat antrean ulang; jangan pakai Set di sini.
   const queue = session.queue.filter((id) => validIds.has(id));
   if (!queue.length) return null;
   const keep = new Set(queue);

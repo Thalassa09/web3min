@@ -127,13 +127,13 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
         { left: "Solana", right: "Alamat & wallet beda" },
         { left: "Base / Arb", right: "EVM, alamat 0x" },
       ], undefined, "WETH dan WBTC adalah versi 'dibungkus' agar bisa dipakai di aplikasi Ethereum, sedangkan Solana punya sistem alamat sendiri."),
-      tf("u3l7q2", "Kirim SOL ke alamat 0x Ethereum selalu aman.", false, "Solana dan Ethereum memakai sistem alamat yang berbeda, jadi mengirim SOL ke alamat 0x tidak akan sampai dan asetnya bisa hangus."),
+      tf("u3l7q2", "Kirim SOL ke alamat 0x Ethereum selalu aman.", false, "Solana dan Ethereum memakai sistem alamat yang berbeda. Mengirim SOL ke alamat 0x tidak akan sampai, dan asetnya bisa hangus."),
       c("u3l7q3", "Apa fungsi utama dari Wrapped ETH (WETH) di ekosistem DeFi?", [
           "ETH yang dibungkus biar jadi token di pool",
           "Koin baru yang lebih mahal dari ETH asli",
           "Biaya administrasi transaksi harian di jaringan",
           "Seed kata rahasia dompet pribadimu",
-        ], 0, "WETH adalah ETH yang dibungkus menjadi token standar ERC-20 agar bisa dipakai di kolam likuiditas dan aplikasi DeFi; nilainya tetap setara satu ETH."),
+        ], 0, "WETH adalah ETH yang dibungkus jadi token standar ERC-20. Tujuannya supaya bisa dipakai di kolam likuiditas dan aplikasi DeFi. Nilainya tetap setara satu ETH."),
       c("u3l7q4", "WBTC native Bitcoin?", [
           "Bukan. Ada kustodian / mekanisme bungkus",
           "Ya, satoshi pindah secara fisik ke USB kamu",
@@ -172,7 +172,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
   ],
   u5: [
     L("u5", "u5-l11", "lesson", "AMM & IL", "Kolam rumus. Geser harga, bisa kalah vs hold.", "swap", [
-      tip("u5l11t", "Kamu bukan 'deposito'. Kamu jadi pasar", "AMM (Uniswap dkk.) nggak pake buku order. Harga dari rumus cadangan. Kamu taruh 2 token ke pool LP (dana likuiditas), orang swap lewat kamu, kamu dapet fee. Impermanent loss: kalo harga salah satu token lari jauh, nilai gabunganmu bisa kalah dibanding hold doang, ini yang disebut IL (impermanent loss). 'Impermanent' kalo harga balik. Kalo nggak balik, tetep loss.", {
+      tip("u5l11t", "Kamu bukan 'deposito'. Kamu jadi pasar", "AMM (Uniswap dkk.) nggak pake buku order. Harga dari rumus cadangan. Kamu taruh 2 token ke pool LP (dana likuiditas), orang swap lewat kamu, kamu dapat fee. Impermanent loss (IL): kalau harga salah satu token lari jauh, nilai gabunganmu bisa kalah dibanding menyimpan tokennya saja. Disebut 'impermanent' kalau harga balik lagi. Kalau nggak balik, tetap rugi.", {
         points: [
           "x·y=k: beli banyak ETH dari pool, ETH berkurang, harganya naik di pool itu.",
           "Fee bisa nutup IL di pair ramai (ETH/USDC). Di pair liar, IL + rugpull lebih kenceng dari fee.",
@@ -218,7 +218,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
       blank("u6l5q4", "Izin tarik token tanpa tx gas, lewat tanda tangan pesan, sering disebut ___.", ["permit", "halving", "floor", "gwei"], 0, "Permit memungkinkan protokol memindahkan token atas izin tanda tangan off-chain pengguna tanpa perlu transaksi approve terpisah."),
     ]),
     L("u6", "u6-l6", "lesson", "RPC, SIM, 'support'", "Pintu samping: jaringan palsu, nomor dicuri.", "shield", [
-      tip("u6l6t", "Bukan cuma link phishing", "Malicious RPC (jalur koneksi wallet ke jaringan): wallet kamu disuruh ganti jaringan 'baru', tx dikirim ke node penipu yang dapat memanipulasi tampilan saldo atau mengarahkan ke transaksi berbahaya. SIM swap: nomor HP direbut, masuk email/CEX yang 2FA-nya SMS. Fake support: Discord/X 'bantuan' minta screen share atau seed. Screen share = mereka liat popup seed, atau remote.", {
+      tip("u6l6t", "Bukan cuma link phishing", "Malicious RPC (jalur koneksi wallet ke jaringan): wallet kamu disuruh ganti jaringan 'baru'. Transaksi dikirim ke node penipu yang bisa memalsukan tampilan saldo atau mengarahkan ke transaksi berbahaya. SIM swap: nomor HP direbut, lalu email atau bursa dengan 2FA SMS ikut dikuasai. Fake support: akun 'bantuan' di Discord atau X meminta screen share atau seed. Screen share membuat mereka bisa melihat popup seed atau mengambil alih layarmu.", {
         points: [
           "RPC ganti cuma dari docs resmi. Jangan dari DM 'biar klaim muncul'.",
           "2FA: authenticator app / security key, bukan SMS.",
@@ -229,7 +229,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
         remember: "SMS bukan 2FA. RPC bukan dari DM. Support nggak ngetuk pintu.",
       }),
       c("u6l6q1", "SIM swap bahayanya ke apa?", ["Akun yang 2FA-nya SMS: email, CEX, Telegram", "Jaringan blockchain jadi offline dan tidak bisa diakses", "Biaya gas di semua transaksi otomatis menjadi nol", "Koleksi NFT di wallet otomatis terbakar tanpa perintah"], 0, "Ganti 2FA ke app/kunci. Nomor HP bukan brankas."),
-      tf("u6l6q2", "Ganti RPC dari DM 'biar airdrop kelihatan' itu aman.", false, "Mengganti RPC ke node yang dikirim lewat DM berarti kamu menyerahkan datamu ke server asing yang bisa memalsukan saldo dan mencuri tanda tangan transaksimu. Ambil RPC hanya dari dokumentasi resmi."),
+      tf("u6l6q2", "Ganti RPC dari DM 'biar airdrop kelihatan' itu aman.", false, "Mengganti RPC ke node yang dikirim lewat DM berarti menyerahkan datamu ke server asing. Server itu bisa memalsukan saldo dan mencuri tanda tangan transaksimu. Ambil RPC hanya dari dokumentasi resmi."),
       c("u6l6q3", "CS Discord minta screen share + seed. Itu?", ["Penipu", "Prosedur Ledger", "Syarat pajak", "Prosedur resmi"], 0, "Berbagi layar dan memperlihatkeran seed phrase akan memberikan kendali penuh kepada penipu untuk menguras seluruh isi dompetmu."),
       c("u6l6q4", "2FA paling waras?", ["Authenticator / security key, bukan SMS", "Kode SMS karena paling praktis dan tidak perlu aplikasi tambahan", "Bertanya ke admin grup kalau ada notifikasi mencurigakan", "Menyimpan foto seed phrase sebagai cadangan darurat"], 0, "SMS sangat rentan terhadap pembajakan kartu SIM (SIM swap), sedangkan aplikasi autentikator menghasilkan kode langsung di perangkatmu."),
     ]),
@@ -246,7 +246,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
         example: "Long meme 20x, funding 0,3%/8 jam. Arah naik dikit, funding nyedot. Trus wick (lonjakan harga sesaat), likuidasi. Kalah dua kali.",
         remember: "Perps sewa nyali. Funding itu sewa. Spot nggak nge-charge gitu.",
       }),
-      c("u8l5q1", "Apa fungsi utama dari mekanisme funding rate pada kontrak perpetual futures?", ["Sewa berkala antara long dan short biar harga perps nempel spot", "Biaya yang dibayar trader setiap kali membuka posisi baru di bursa", "Bunga pinjaman yang dibebankan bursa atas margin yang kamu pakai", "Pajak keuntungan yang dipotong otomatis saat posisimu ditutup"], 0, "Funding rate adalah mekanisme biaya berkala antara posisi long dan short agar harga kontrak berjangka tetap seimbang dengan harga pasar spot."),
+      c("u8l5q1", "Apa fungsi utama dari mekanisme funding rate pada kontrak perpetual futures?", ["Sewa berkala antara long dan short biar harga perps nempel spot", "Biaya yang dibayar trader setiap kali membuka posisi baru di bursa", "Bunga pinjaman yang dibebankan bursa atas margin yang kamu pakai", "Pajak keuntungan yang dipotong otomatis saat posisimu ditutup"], 0, "Funding rate adalah biaya berkala antara posisi long dan short. Tujuannya menjaga harga kontrak berjangka tetap dekat dengan harga pasar spot."),
       tf("u8l5q2", "Long bener arah selalu cuan di perps, funding nggak ngaruh.", false, "Funding bisa nyedot pelan. Wick bisa nyita."),
       c("u8l5q3", "Beda spot sama perps?", [
           "Spot = punya aset. Perps = kontrak taruhan",
@@ -398,7 +398,7 @@ export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
       }),
       c("u19l5q1", "Apa fungsi utama dari layanan domain Ethereum Name Service (ENS)?", ["Nama yang nunjuk ke alamat. Tetap harus dicek resolvenya", "KTP digital yang wajib dimiliki setiap pengguna wallet di jaringan", "Layanan perbankan yang menyimpan saldo stablecoin pengguna", "Fitur yang membuat biaya gas gratis untuk semua transaksi .eth"], 0, "ENS memetakan nama yang mudah dibaca ke alamat dompet, tapi nama itu bisa kedaluwarsa atau diarahkan ulang. Selalu periksa alamat hasil resolve sebelum mengirim dana."),
       tf("u19l5q2", "Kirim ke nama .eth dari DM, tanpa cek alamat, selalu aman.", false, "Homograph, salah ketik, resolve berubah."),
-      c("u19l5q3", "Apa yang terjadi jika masa sewa nama domain .eth milikmu sudah kedaluwarsa?", ["Bisa diambil orang lain", "Nempel selamanya otomatis", "Jadi BTC", "Dijamin OJK"], 0, "Nama .eth disewa per periode. Kalau masa sewanya habis, nama itu dilepas dan bisa dibeli siapa pun, sehingga kiriman ke nama lama bisa masuk ke dompet orang lain."),
+      c("u19l5q3", "Apa yang terjadi jika masa sewa nama domain .eth milikmu sudah kedaluwarsa?", ["Bisa diambil orang lain", "Nempel selamanya otomatis", "Jadi BTC", "Dijamin OJK"], 0, "Nama .eth disewa per periode. Kalau masa sewanya habis, nama itu dilepas dan bisa dibeli siapa pun. Kiriman ke nama lama bisa masuk ke dompet orang lain."),
       blank("u19l5q4", "Nama Ethereum populer berakhiran .___.", ["eth", "com", "id", "sol"], 0, "Ethereum Name Service (ENS) memetakan alamat heksadesimal dompet yang rumit menjadi nama domain manusia yang mudah diingat berakhiran .eth."),
     ]),
   ],

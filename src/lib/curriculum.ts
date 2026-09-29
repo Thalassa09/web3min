@@ -738,7 +738,7 @@ export const CORE_UNITS: Unit[] = [
           "u2l2q5",
           "Susun aturan emas keamanan seed phrase:",
           ["Jangan", "pernah", "share", "seed", "phrase"],
-          "Aturan ini berlaku selamanya: siapa pun yang memegang seed phrase-mu memegang seluruh isi dompetmu, jadi jangan pernah membagikannya ke siapa pun.",
+          "Aturan ini berlaku selamanya: siapa pun yang memegang seed phrase-mu memegang seluruh isi dompetmu. Jangan pernah membagikannya ke siapa pun.",
         ),
       ]),
       L("u2", "u2-l3", "lesson", "Private vs public", "Yang boleh dipamerin, yang harus dikunci.", "lock", [
@@ -1667,7 +1667,7 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u5", "u5-l7", "lesson", "Likuidasi DeFi", "Agunan disikat bot. Bukan CS bank.", "siren", [
-        tip("u5l7t", "Mesin likuidasi, pelan-pelan", "Kamu minjem di DeFi harus overcollateral: agunan lebih besar dari utang. Protokol ngecek health factor (HF). Kalau harga agunan jatuh dan HF tembus di bawah 1, siapa pun (biasanya bot) boleh bayar utangmu, lalu menyita agunan plus bonus. Nggak ada CS yang nahan. Nggak ada 'tunggu gajian'.", {
+        tip("u5l7t", "Mesin likuidasi, pelan-pelan", "Kalau meminjam di DeFi, kamu harus memberi jaminan lebih besar dari utangnya. Protokol memeriksa health factor (HF). Kalau harga jaminan jatuh dan HF di bawah 1, siapa pun boleh melunasi utangmu. Biasanya bot. Jaminanmu disita plus bonus. Nggak ada CS yang menahan. Nggak ada 'tunggu gajian'.", {
           points: [
             "Contoh kasar: agunan ETH $100, minjem USDC $70. LTV (rasio utang terhadap jaminan) 70%. Masih ada bantal.",
             "Health factor ≈ (nilai agunan × ambang likuidasi) ÷ utang. Di atas 1 = aman. Mendekati 1 = bahaya. Di bawah 1 = boleh disikat.",
@@ -1766,7 +1766,7 @@ export const CORE_UNITS: Unit[] = [
             "Dipakai jahat: geser harga di pool tipis, tipu oracle spot, trus sikat protokol yang percaya harga itu. Udah pernah, berulang kali.",
             "Bela diri protokol: jangan pakai harga spot DEX doang. TWAP, Chainlink, cap, isolasi pasar.",
           ],
-          example: "Bot pinjam 5 juta USDC, bayar utang orang, ambil ETH agunan + bonus, jual ETH, kembalikan 5 juta plus fee, sisa bonus masuk kantong. Modal awal bot: gas. Semua dalam satu transaksi.",
+          example: "Bot meminjam 5 juta USDC lalu melunasi utang orang. Bot mengambil ETH jaminan plus bonus, menjualnya, dan mengembalikan 5 juta plus biaya. Sisanya jadi keuntungan bot. Modal awal bot cuma biaya gas. Semua terjadi dalam satu transaksi.",
           remember: "Flash loan bukan hadiah. Utang yang wajib lunas sebelum transaksi selesai. Gagal = seolah nggak terjadi.",
         }),
         tip("u5l8t2", "Bandingkan sama likuidasi lama", "Bank, bursa, DeFi biasa, dan DeFi plus flash loan adalah empat sistem dengan mekanisme berbeda. Yang berubah: siapa yang boleh nyita, butuh modal berapa, dan seminggu atau satu detik.", {
@@ -1872,7 +1872,7 @@ export const CORE_UNITS: Unit[] = [
             "Spot AMM: harga = cadangan pool saat ini (x·y=k). Pool tipis + swap gede = harga loncat. Paling gampang ditipu.",
             "TWAP: rata-rata beberapa blok. Lebih susah, tapi bisa kalo penyerang tahan harga palsu cukup lama (mahal).",
             "Aggregator (Chainlink dkk.): banyak sumber, ada heartbeat, ada deviation. Bukan kebal, jauh lebih susah digeser 1 detik.",
-            "Resep klasik: flash loan → geser pool yang dipake oracle → protokol kira agunan mahal / utang murah → minjem max atau mint atau 'likuidasi' yang nggak adil → balikin harga → lunasin flash loan. Sisa = rampasan.",
+            "Resep klasiknya: pinjam dana kilat (flash loan), lalu geser pool yang dipakai oracle. Protokol salah menilai harga jaminan atau utang. Penyerang meminjam maksimal, mencetak token, atau melikuidasi posisi secara tidak adil. Harga dikembalikan, flash loan dilunasi. Sisanya jadi rampasan.",
             "Yang dikuras bukan 'bug transfer'. Kodenya jalan bener. Yang salah: percaya harga yang bisa dibeli.",
           ],
           example: "Pool TOKEN/ETH cuma $80 ribu. Protokol ngerjain TOKEN sebagai agunan pake harga spot pool itu, LTV 80%. Penyerang pump TOKEN 10x sebentar, minjem USDC sebanyak-banyaknya, dump balik. Protokol sisa TOKEN mahal di kertas, USDC-nya ilang.",
@@ -2481,7 +2481,7 @@ export const CORE_UNITS: Unit[] = [
           0,
           "Mirip toko yang bawa kabur DP. Di crypto kecepatannya menit.",
         ),
-        tf("u6l3q2", "Likuiditas yang dikunci dan tim yang transparan ngurangin (bukan ngapus) risiko rugpull.", true, "Likuiditas yang terkunci dan tim yang transparan memang menurunkan risiko rugpull, tapi tidak menghapusnya: kode bisa punya celah dan pemilik bisa saja masih menyimpan kendali tersembunyi."),
+        tf("u6l3q2", "Likuiditas yang dikunci dan tim yang transparan ngurangin (bukan ngapus) risiko rugpull.", true, "Likuiditas yang terkunci dan tim yang transparan menurunkan risiko rugpull. Tapi risikonya tidak hilang: kode bisa punya celah, dan pemilik bisa saja masih memegang kendali tersembunyi."),
         c(
           "u6l3q3",
           "Ajakan di grup: 'Masuk sekarang, dijamin naik 100x malam ini'. Apa arti sebenarnya?",

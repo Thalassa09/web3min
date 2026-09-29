@@ -19,6 +19,7 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] JANGAN diubah, tandai untuk dicek manusia: giveaway/undian berpotensi bermasalah hukum di Indonesia.
 
 ## Terakhir dikerjakan
+- [x] U4 triase: penjelasan kuota (2×/hari, Supporter 4×) + reset 00.00 WIB di kartu isi nyawa gratis `/shop`. Commit `2bbbe28`.
 - [x] U3 triase: `aria-label` + `role="img"` utk pill XP/streak/koin & nyawa di header (`top-status.tsx`). Commit `d1bd062`.
 - [x] S2 triase: ganti email pemulihan butuh re-auth password (`saveRecoveryEmail` + input konfirmasi di `/profile`). Commit `d6dc010`; audit script disesuaikan pasca-revoke (`eac6f53`, 19/19 PASS).
 - [x] S5+S6 diterapkan ke DB live: revoke EXECUTE `sync_user_progress(uuid)` + `admin_verify_key(text)` dari anon/authenticated; search_path utk `get_raffles()`/`admin_upsert_raffle`; riwayat migrasi direpair. Commit `39c30fd`.

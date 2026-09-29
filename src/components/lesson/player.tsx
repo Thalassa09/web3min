@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Heart, X, Check } from "@/lib/kicon";
+import { Heart, X, Check, UserCircle, Shield } from "@/lib/kicon";
 import type { Exercise, Lesson, Unit } from "@/lib/curriculum";
 import { firstPlayableId, getLesson, getUnit, sequentialNodes } from "@/lib/curriculum";
 import { worldOf } from "@/lib/worlds";
@@ -15,6 +15,8 @@ import { playComplete, playCorrect, playHeart, playWrong } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 import { Dialog } from "@/components/dialog";
 import { rpcCompleteLesson, syncProgressFromServer } from "@/lib/server-sync";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import { resolveAccountNudge, type AccountNudgeVariant } from "@/lib/account-nudge";
 import {
   advance,
   isSessionComplete,
@@ -640,6 +642,12 @@ function CompleteCard({
   // Ujian Rute adalah latihan opsional: tidak ada XP/koin untuk ditampilkan,
   // dan tombol "Pelajaran berikutnya" tidak relevan karena bloknya sudah lewat.
   const exam = isRouteExamId(lesson.id);
+  // U6: slot ajakan akun. Dibaca SEKALI saat layar ini muncul (snapshot), bukan
+  // reaktif: penanda "sekali" ditulis oleh kartunya sendiri saat tampil, dan
+  // kalau slot ini ikut bereaksi kartunya akan hilang seketika di layar yang sama.
+  const [nudgeSlot] = useState(
+    () => !exam && !awarded.replay && !useProgress.getState().accountNudgeSeen,
+  );
   return (
     <div className="flex flex-1 flex-col items-center justify-center text-center">
       <Mascot mood="celebrate" size={200} float />
@@ -675,6 +683,7 @@ function CompleteCard({
         </div>
       ) : null}
       {dailyHit && !exam ? <p className="mt-2 text-sm font-bold text-flame">Streak hari ini aman.</p> : null}
+      {nudgeSlot ? <AccountNudgeCard /> : null}
       <div className="mt-8 flex w-full flex-col gap-3">
         {nextLesson && !exam ? (
           <DuoButton wide onClick={onNext}>
@@ -683,6 +692,94 @@ function CompleteCard({
         ) : null}
         <DuoButton variant={nextLesson && !exam ? "ghost" : "primary"} wide onClick={onHome}>
           Kembali ke peta
+        </DuoButton>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * U6: ajakan akun satu kali di layar "Pelajaran selesai".
+ *
+ * Kartu ini membaca keadaan sesi dari penyimpanan lokal (tanpa jaringan
+ * tambahan) lalu memilih SATU pesan:
+ * - belum ada sesi login -> ajak masuk, supaya progres tidak hanya di perangkat
+ * - sudah ada sesi, email pemulihan kosong -> ajak pasang email pemulihan
+ * - sudah lengkap, offline, atau server mati -> tidak menampilkan apa pun
+ *
+ * Begitu pesan tampil, penanda `accountNudgeSeen` ditulis: ajakan ini tidak
+ * pernah muncul dua kali. Tombol "Nanti aja" hanya menutup kartu di layar ini.
+ */
+function AccountNudgeCard() {
+  const navigate = useNavigate();
+  const markSeen = useProgress((s) => s.markAccountNudgeSeen);
+  const [variant, setVariant] = useState<AccountNudgeVariant | null>(null);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    const online = typeof navigator === "undefined" ? true : navigator.onLine;
+    // Tanpa jaringan, pembacaan sesi bisa gagal dan terbaca seolah "belum
+    // masuk" padahal sesinya ada. Lewati saja; kesempatan masih ada nanti.
+    if (!online || !isSupabaseConfigured || !supabase) return;
+    void supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (!alive) return;
+        const user = data.session?.user;
+        setVariant(
+          resolveAccountNudge({
+            eligible: true,
+            online: true,
+            configured: true,
+            hasSession: Boolean(user),
+            hasRecoveryEmail: Boolean(user?.user_metadata?.recovery_email),
+          }),
+        );
+      })
+      .catch(() => {
+        // Gagal membaca sesi: jangan menuduh, jangan tampilkan apa pun.
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  // Sudah tampil = sudah ditandai, walau tanpa klik apa pun.
+  useEffect(() => {
+    if (variant === "signin" || variant === "email") markSeen();
+  }, [variant, markSeen]);
+
+  if (hidden || (variant !== "signin" && variant !== "email")) return null;
+
+  const signin = variant === "signin";
+  const Icon = signin ? UserCircle : Shield;
+  return (
+    <div className="mt-6 w-full rounded-2xl border-2 border-choco-900 bg-white p-4 text-left shadow-[0_3px_0_#3B2218]">
+      <div className="flex items-start gap-3">
+        <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 border-choco-900 bg-candy-100 shadow-[0_2px_0_#3B2218]">
+          <Icon className="size-4 text-candy-700" weight="bold" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-extrabold text-ink-900">
+            {signin ? "Simpan progres di akun" : "Amankan akunmu"}
+          </p>
+          <p className="mt-1 text-xs font-medium leading-relaxed text-ink-500">
+            {signin
+              ? "Progresmu baru tersimpan di perangkat ini. Masuk biar aman di akunmu."
+              : "Pasang email pemulihan biar akunmu bisa dipulihkan kalau lupa password."}
+          </p>
+        </div>
+      </div>
+      <div className="mt-3 flex flex-col gap-2">
+        <DuoButton
+          wide
+          onClick={() => void navigate({ to: signin ? "/masuk" : "/profile" })}
+        >
+          {signin ? "Masuk ke akun" : "Pasang sekarang"}
+        </DuoButton>
+        <DuoButton wide variant="ghost" onClick={() => setHidden(true)}>
+          Nanti aja
         </DuoButton>
       </div>
     </div>

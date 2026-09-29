@@ -123,6 +123,8 @@ export type ProgressState = {
   completedCases: string[];
   guideSeen: boolean;
   coachSeen: boolean;
+  /** U6: ajakan akun di layar selesai blok pertama sudah pernah tampil. */
+  accountNudgeSeen: boolean;
   raffleTickets: number;
   enteredRaffles: Record<string, { count: number; enteredAt: number; discord?: string; xHandle?: string; walletAddress?: string }>;
   lastWalletAddress?: string;
@@ -139,6 +141,7 @@ type Actions = {
   completeOnboarding: (username: string, dailyGoal: DailyGoal) => void;
   completeIntro: () => void;
   completeGuide: () => void;
+  markAccountNudgeSeen: () => void;
   setUsername: (username: string) => void;
   updateUsername: (newUsername: string) => Promise<{ success: boolean; error?: string }>;
   setTwitter: (handle: string) => boolean;
@@ -204,6 +207,7 @@ const initial: ProgressState = {
   introSeen: false,
   guideSeen: false,
   coachSeen: false,
+  accountNudgeSeen: false,
   lessonsToday: 0,
   perfectToday: 0,
   storiesToday: 0,
@@ -319,6 +323,7 @@ function sanitizeState(raw: (Partial<ProgressState> & { name?: string }) | undef
     introSeen: Boolean(raw.introSeen),
     guideSeen: Boolean(raw.guideSeen),
     coachSeen: Boolean(raw.coachSeen),
+    accountNudgeSeen: Boolean(raw.accountNudgeSeen),
     username,
     twitter,
     friends,
@@ -452,6 +457,10 @@ export const useProgress = create<ProgressState & Actions>()(
         const s = get();
         if (s.coachSeen && s.guideSeen) return;
         set({ guideSeen: true, coachSeen: true });
+      },
+      markAccountNudgeSeen: () => {
+        if (get().accountNudgeSeen) return;
+        set({ accountNudgeSeen: true });
       },
       setUsername: (username) => {
         const clean = sanitizeUsername(username);

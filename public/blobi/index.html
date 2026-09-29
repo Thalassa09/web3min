@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Blobi, maskot web3min yang bisa diajak ngobrol dan bicara.">
+<meta name="theme-color" content="#E8437F">
+<link rel="canonical" href="https://web3min.com/blobi">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A9%B7%3C/text%3E%3C/svg%3E">
+<title>Blobi · web3min</title>
+<style>
+:root{--pink:#E8437F;--soft:#FFF1F6;--ink:#3A1428}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;color:var(--ink);font-family:ui-rounded,"Nunito",system-ui,sans-serif;background:radial-gradient(circle at 50% 28%,#fff,var(--soft) 65%,#fbd3e2)}
+#c{position:fixed;inset:0;width:100%;height:100%;touch-action:none}
+#st{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));width:100%;text-align:center;font-size:14px;font-weight:700;opacity:.55}
+#ui{position:fixed;left:0;right:0;bottom:0;max-width:560px;margin:auto;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px}
+#log{max-height:26vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.m{padding:8px 13px;border-radius:18px 18px 18px 4px;max-width:86%;font-size:15px;line-height:1.4;background:#fff;box-shadow:0 2px 10px #e8437f26}
+.m.u{align-self:flex-end;border-radius:18px 18px 4px 18px;background:var(--pink);color:#fff}
+#bar{display:flex;gap:6px}
+#t{flex:1;min-width:0;padding:0 16px;height:46px;border-radius:23px;border:2px solid #f5c4d7;font:inherit;font-size:16px;outline:none;background:#fff}
+#t:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+button{flex:none;border:0;border-radius:50%;width:46px;height:46px;background:var(--pink);color:#fff;font-size:20px;cursor:pointer}
+button.off{background:#c9a3b4}button.on{background:var(--ink)}
+#ui{pointer-events:none}#ui>*{pointer-events:auto}#log{pointer-events:none}.m{pointer-events:auto}
+#chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+button.c{flex:none;width:auto;height:auto;padding:8px 13px;border-radius:16px;background:#fff;color:var(--ink);border:2px solid #f5c4d7;font:inherit;font-size:14px}
+.p{position:fixed;pointer-events:none;font-size:24px;animation:fl 1.5s ease-out forwards;z-index:5}
+@keyframes fl{from{transform:scale(.6)}to{transform:translate(var(--dx),-150px) scale(1.3);opacity:0}}
+#load{position:fixed;inset:0;display:grid;place-items:center;font-weight:700;color:var(--pink);pointer-events:none}
+#note{font-size:11px;text-align:center;opacity:.6}
+#em{position:fixed;left:0;right:0;top:calc(42px + env(safe-area-inset-top,0px));display:flex;gap:6px;padding:2px 10px;overflow-x:auto;scrollbar-width:none;pointer-events:none;z-index:6}
+#em button{flex:none;pointer-events:auto;width:38px;height:38px;font-size:18px;background:#fff;border:2px solid #f5c4d7;box-shadow:0 2px 8px #e8437f26;transition:transform .12s}
+#em button:first-child{margin-left:auto}#em button:last-child{margin-right:auto}#em button:active{transform:scale(.88)}
+@media (prefers-reduced-motion:reduce){.p{animation-duration:.01s}}
+</style></head><body>
+<canvas id="c"></canvas><div id="load">Blobi lagi bangun…</div><noscript><p style="position:fixed;inset:40% 0 auto;text-align:center">Aktifkan JavaScript untuk bertemu Blobi.</p></noscript>
+<div id="st">Blobi lagi santai</div>
+<div id="em" role="group" aria-label="Coba ekspresi Blobi"><button data-a="note" aria-label="Mencatat">📝</button><button data-a="read" aria-label="Membaca">📖</button><button data-a="idea" aria-label="Ide">💡</button><button data-a="sip" aria-label="Minum boba">🧋</button><button data-a="game" aria-label="Main game">🎮</button><button data-a="music" aria-label="Dengar musik">🎧</button><button data-a="chart" aria-label="Cek chart">📈</button><button data-a="dance" aria-label="Joget">🕺</button><button data-e="happy" aria-label="Senang">😊</button><button data-e="love" aria-label="Terharu">😍</button><button data-e="star" aria-label="Girang">🤩</button><button data-e="laugh" aria-label="Ketawa">😆</button><button data-e="wide" aria-label="Kaget">😮</button><button data-e="sad" aria-label="Sedih">😢</button><button data-e="angry" aria-label="Waspada">😠</button><button data-e="wink" aria-label="Iseng">😜</button><button data-e="think" aria-label="Mikir">🤔</button><button data-e="sleepy" aria-label="Ngantuk">😴</button><button data-e="dizzy" aria-label="Pusing">😵</button></div>
+<div id="ui"><div id="log" role="log" aria-live="polite"></div><div id="chips"></div>
+<div id="bar"><input id="t" maxlength="300" aria-label="Pesan untuk Blobi" placeholder="Tanya Blobi soal web3…" enterkeyhint="send" autocomplete="off">
+<button id="mic" aria-label="Bicara">🎤</button><button id="snd" aria-label="Kirim">➤</button><button id="mute" aria-label="Suara">🔊</button></div><div id="note">Blobi adalah AI dan bisa keliru. Jangan bagikan seed phrase atau data pribadi.</div></div>
+<script src="/blobi/three.min.js"></script>
+<script>
+const CONFIG={API_URL:'/api/blobi/chat',LANG:'id-ID'};
+const $=id=>document.getElementById(id);
+let state='idle',kick=0,amp=.035;
+const LABEL={idle:'Blobi lagi santai',listening:'Blobi mendengarkan…',thinking:'Blobi mikir…',speaking:'Blobi bicara'};
+
+const SPR={"poses":{"idle":{"g":["................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","..........................aeeeeeeeeeee..........................",".......................eeed33232223223eee.......................",".....................aaddd322222222223dddaa.....................","....................dee222332222222222222ee.....................",".................dddc2111111132222222222313ddda.................","................de2221111111132222222222311223e.................","................d322311111111222222222221113233e................","................d2311113111232222222222223111229f...............","...............da2111113213222222222222222311339da..............",".............ed9221111332322222222222222223311133fa.............",".............ed9311111222222222222222222222221132dd.............",".............ea911111222222222222222222222222222299e............","............e98231122222222222222222222222223cc33289a...........","............e9822211222222232332222222222223deee3249a...........","............e9822222222222deeeeeb2322222223fa000f323a...........","...........ec2222222222221a000000e32222222d000000ed2de..........","...........ed222222222223d0000000dd332222dd000000ad3de..........","...........ec2222222223fa0000defe00fd2222fa00000dffede..........","..........adb2222222223ea000aaefe00ed2222ea0000eeffede..........","..........f992222222223ea000d0effe0ed2223ea0000ffffe3e..........","..........f999822222223fa000fffffe0ed2222ea0000ffffe47e.........","..........f999922222223ea000fffffd0ed2223ed0000dfdee228ea.......","..........f999992222223fa000dfffe00ed22322d000001ed2222fa.......","........ae99999922222223df000ddd00f32222223fa000f982223fa.......","........ae999999222222228d000aa00dd22222223ddaadd823133dd.......","........ae9999998222222322deeeeee32222222222333222221113d.......","........ae99999992222221233dddddd32222222222222222311112d.......","........1e9999999922223113222222222222222223222222111113d.......","........1de99999999922111113222222322222223fd22223111128d.......","........deea9999999661111111222229e3322223d1323221113389ded.....","........d22fd9999996662111112222223ed8323fd222222211228cd1de....","......ae32ccebbb48999882231113222232dffff3222222222322bcc233e...",".....ad32bccdcbb469998842221122222223dddd222222222222bbdc823f...","....da32999bddcb989999988822222222222222222222222222bbbfd983ad..","...dd329989bddbbb9999899988882222222222222222222222bbbbfdbb423..","...e228942bcdbbbbb88888bbb9992222222222222222222229bbbcfebbb23..","...e28629bbccbbbbb9988899b999982222222222222222229bbbbeffabbae..","..e22228bccedbbbbb9998889bb9999922222222222992249bbbbce..eeef...","..e3329cdee.eabbbbbb98889bbbb99999222224899999299bbbde..........","...eeeefa....edbbbbbbb8888899bb999b8889bb998899bbbbba...........","...aaaaa.....adcbbbbbb99988999999bb999bbbbb9999bbbbd............","................dbbbbbbbbb99999bbbbbbbeeebbbbbbbffa.............","................dddbbbbbbbbbb9bbbbbbbdaaadddddddaa..............",".................eeebbbbbbbbbbbbbbbbde...eeeeeee................","....................eeffdbbbbbdffeffa...........................",".........................eeeee..................................","................................................................","................................................................"]},"wave":{"g":["................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","..........................afffffeeeeef..........................",".......................feed77777454773eee.......................",".....................aaddd777777777743dddaa.....................","..................eed3255511455555554447733fee..................",".................ddd75111111175455555555513ddda.................","................de5662111113176444455556311757e.................","................d777111111111457747755651117758e................","................8741111731757747747755667731176ae...............","..............af971111174777577755555555747111779ea.............",".............edb451111757775566655555555456711153fa.............",".............edb711117557765545455555555565571174dd.............",".............fab1111757555555777555555555475555479af............","............eb9571175555555555566575555755767dd77688a...........","............f9855511777754777778455455555457deee7681a...........","............fb977564747457dfffffc4555755543ea000e772a...........","...........eb454757555557e1000000e75777477d000000ea7de..........","...........eb45475554777a30000000ad347477dd0000001adde..........","....eea....eb6554555457fa0000deee00ed5647ea00000dfffdf..........","...dddda...eb4557555457ea000adefe00fd5457ea0000eefffdf..........","..de557fd..eb4444555677fa000d0ffff0ed5753ea0000fffff8e..........","..d857667daebb975555774fa000fffffd0fd5753fa0000ffeff68da........","..db466667eebbb65555757fd000fffffd0fd5447ed0000dfdee559fa.......","..dbb665667fbbbb5555553fa000dfffe00fd74755d000001ed5657fa.......","..aeb8866667fbbc55556577d0000ddd00f37545757ea000fa87557fa.......","..aeb9866667fbbc65765556aa000aa00dd75555557ddaadd877177dd.......","....ebb668667edb9755575557deefeef75755555755577757771114d.......","....ebb988866ddbb7555571767dddddd77755555755757757711114d.......","....ecbbb888688dbb55743117755577765755557557557755111117d.......",".....edbbb998887dbb943111115557748a55777757ea57553111169da......","......dcbbbb9888bbb88211111157566af7764577d7777671113799ded.....",".......edccbb9888bb8883111117655478ed9773ed555566711449cd1de....","........affcbbcc68999884233117577777dffff7757557777566ccc277e...",".........aaccbbc889998884423156555557dddd757555555558bbdc877f...","............fccbb9b999c99984655755555555555555565566bbbfdc971e..","............adcbb99999b9988885565555667577555556566bbcbfdbc877..",".............edbcc99999bc8999455555555765556555658bbbbcfebbb67..",".............edccc99999bbbb9998556655566557865558bbbbceddddddd..","..............afbc999999bcb9999966655755668b97579bbbbce..feee...","..............afcbcc9999bbbcc99999656668999bb9699ccbde..........","................dbcccc999999bcc999c999bcbb99999bbbbba...........","................dccccb9999999bb9bbc999bccbb999bbcccd............","..................ebbbcbb9bbb9bcbccbbbeeebbbbbbceea.............","..................adcbbbbbbbbbbcbcbbcdaaadddddddaa..............","...................edcbcbbbbbbcbccccde...eeeeeee................","....................afffdbcbbceffffea...........................",".........................eeeee..................................","................................................................","................................................................"]},"jump":{"g":["................................................................","................................................................","................................................................","................................................................","................................................................","................................................................","................................................................",".........................eeefffffea3eee.........................",".........................a1744466466ffe.........................","......................fa176444464444564378ee....................","....................ef35775444444444445773ff....................",".................eee7764511755554444576113463ee.................",".................ef37111133164446446547111356ee.................","................d76611111112644466666477711469b.d...............","...............ee757111117666444664446444711756fe...............","...............ff5711117776564446644544445711447e........efe....","..............fa91111114444446446666664444556444ae......e33ae...",".............ed66111174444444644666664446654533469f....e77543f..",".............ff6711117474444446444666644443eeee349f...fa24447f..",".............ec54135744444444446446664444430000e86fd.ec644443f..","............fbb451774444445331dcb475644443100000e77edec444467f..",".....efe....da9464344444423f00000f764444800000010e3fff244249af..",".....fff.....994644644442ee0000000f44444c000000dff3efa642999e...","...ef434f..ee674466444443f00000dd00e4444300000ffffeee924299ce...","..e744442e.ee4444444444df0000dfed00e4444700000fffff88f94299f....","..f9944477effb454444444fe000d01fff0e34447f0000ffeff66afbbbcf....","..f99244442ef9944444644fe000ffffff0e74453f0000deefe456fbbccf....","..dff99444473fb844446761f000fffffe0ef44543e000011344547ecff.....","...ff99444443fb946664472f000dfffd00ef44567fe000ee444747fcfe.....","...efbb9444446cd64466444f0000ddd000746755547eeea96711337e.......",".....bbb9444449f744466467e000edd0df644764457fa3244711111e.......",".....feb9924444be767444469e0000fea7644644444447655111112e.......",".....eeac9999448e8646646648eeeffe75645444447774457111348e.......","........ebb99998bbb944641757777456546446444fe46461111899e.......","........ecb99998bbbb46531377445546774454443354464111189be.......",".........fbbb9999bbb94711111176479adf9443ee36674661454bbe.......","..........ecbb999bbbb821111116544666ea31e3764446565554bbf.......","...........eecb9bbbbb8823111134444467fa37754444446468bbce.......","...........efebbbb98bb88824411444444555655646666466bbbcf........","...........efdebbcb8bbb8884474456644557665444466666bbbcf........","...........efdebbcb8b998888844464466666644444566699bbbcf........","...........eebbbbbb9b9999bb8992444446466444444549bbbcce.........","...........efbbbbbbb99999bb8996444466444464494469bbbcbe.........",".............abbbbbb999999b9999994444444499999499bbbbae.........",".............abbbbbb9bb999bb9999942444469999999bbcbbce..........",".............eebbbbbb9b999bbbb99999bb899bbb999bccbbee...........",".............decbbbbbbb999999bbbb99bb99bbbb999bbbce.............","...............fbbbbbbbbbb9999999bbbbbbbbcccbbbcce..............","................fcbbbbbbbb99999cbbbbbcccccbbbbbbce..............",".................efbbbbbbbbbbbbbbbbbbcccbcccccccf...............","...................eecbbbbbbbbbbbbbcccccffffffff................","..................ecdbbbbbbbbbbbbbbcccfe........................","..................ecceffdccbbbbbbbccccfe........................",".................e9bbcccdffbbbbbcbbeffd.........................",".................e4999cccccffffffff.............................","...............ee9462bbbcee.....................................","...............ff64bb88bedd.....................................","...............ff798899e........................................","...............ff89889ce........................................","................dfb9bf..........................................",".................ebbce..........................................","..................ffe...........................................","................................................................","................................................................"]}},"pal":["#fbe5ea","#faabb6","#fc9ba9","#f69ba9","#fa96a2","#f9969f","#fa94a0","#f596a1","#f78c9d","#f27790","#d37992","#e16686","#da6182","#9a4467","#571f3d","#55173a"],"body":"#fc9ba9","ink":"#55173a","eyes":[[23,31,36,42],[41,29,52,40]],"mouth":[35,43,45]};
+const GL=(()=>{try{const c=document.createElement('canvas');return !!(window.WebGLRenderingContext&&(c.getContext('webgl')||c.getContext('experimental-webgl')))}catch(_){return false}})();
+if(GL&&window.THREE){
+/* ---------- 3D: voxel dari sprite asli Blobi ---------- */
+// Pengaturan gerak & bentuk: ubah angka di sini
+const FX={sway:.05,breath:.02,wobble:.006,habits:true,thick:.27};
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;if(RM)Object.assign(FX,{sway:0,wobble:.002,habits:false});let ready=false;
+const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:true,alpha:true,powerPreference:'high-performance'});
+let pr=Math.min(devicePixelRatio,2);R.setPixelRatio(pr);
+const S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,50);
+S.add(new THREE.HemisphereLight(0xffffff,0xffc4d4,.75));
+const dl=new THREE.DirectionalLight(0xffffff,.45);dl.position.set(-2,3,5);S.add(dl);
+const rim=new THREE.DirectionalLight(0xff9ec0,.5);rim.position.set(4,1,-3);S.add(rim);
+const pal=SPR.pal.map(h=>new THREE.Color(h)),ig=SPR.poses.idle.g;
+let x0=99,x1=0,y0=99,y1=0;
+ig.forEach((r,y)=>[...r].forEach((c,x)=>{if(c!=='.'){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}}));
+const U=2.5/(x1-x0+1),CX=(x0+x1)/2,CY=(y0+y1)/2,MAXD=Math.round((x1-x0+1)*FX.thick),RR=Math.round((x1-x0+1)*FX.thick*1.1),HH=(y1-y0+1)*U,base=-HH/2;
+const G=new THREE.Group(),M=new THREE.Group();G.add(M);S.add(G);M.position.y=(y1+.5-CY)*U;
+const OFF=[];for(let j=-(RR+1);j<=RR+1;j++)for(let i=-(RR+1);i<=RR+1;i++){const q=i*i+j*j;if(q&&q<=(RR+1)*(RR+1))OFF.push([i,j,q])}OFF.sort((a,b)=>a[2]-b[2]);
+function depth(g){const H=g.length,W=g[0].length,solid=(x,y)=>y>=0&&y<H&&x>=0&&x<W&&g[y][x]!=='.';
+  const d=g.map((r,y)=>[...r].map((c,x)=>{if(c==='.')return 0;for(const[i,j,q]of OFF)if(!solid(x+i,y+j))return Math.sqrt(q);return RR+1}));
+  const loc=(x,y)=>{let m=0;for(let j=-3;j<=3;j++)for(let i=-3;i<=3;i++)m=Math.max(m,(d[y+j]||[])[x+i]||0);return m};
+  return d.map((r,y)=>r.map((v,x)=>{if(!v)return 0;const t=Math.min(v/RR,1);
+    return Math.max(1,Math.min(Math.round(MAXD*(.5*Math.sqrt(1-(1-t)*(1-t))+.5*Math.sin(t*1.5708))),Math.round(loc(x,y)*1.5+1)))}))}
+const L=[-.45,.55,.7];
+function shade(N,x,y){const h=(a,b)=>(N[b]||[])[a]||0,gx=(h(x-1,y)-h(x+1,y))*.35,gy=(h(x,y+1)-h(x,y-1))*.35;
+  return Math.max(.55,Math.min(1.15,.7+.45*(gx*L[0]+gy*L[1]+L[2])/Math.hypot(gx,gy,1)/.997))}
+// satu mesh gabungan per pose: hanya sisi yang terlihat (jauh lebih ringan dari ribuan kubus)
+const DIR=[[[0,0,1],[1,0,0],[0,1,0]],[[1,0,0],[0,1,0],[0,0,1]],[[-1,0,0],[0,0,1],[0,1,0]],[[0,1,0],[0,0,1],[1,0,0]],[[0,-1,0],[1,0,0],[0,0,1]],[[0,0,-1],[0,1,0],[1,0,0]]];
+const NB=[[0,0,1],[1,0,0],[-1,0,0],[0,-1,0],[0,1,0],[0,0,-1]];
+function Builder(){const PS=[],NS=[],CS=[],IS=[];return{
+  quad(cx,cy,cz,d,c){const[n,u,v]=DIR[d],h=U/2,b=PS.length/3;
+    for(const[a,k]of[[-1,-1],[1,-1],[1,1],[-1,1]]){PS.push(cx+(n[0]+u[0]*a+v[0]*k)*h,cy+(n[1]+u[1]*a+v[1]*k)*h,cz+(n[2]+u[2]*a+v[2]*k)*h);NS.push(n[0],n[1],n[2]);CS.push(c.r,c.g,c.b)}
+    IS.push(b,b+1,b+2,b,b+2,b+3)},
+  geo(){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(PS,3));
+    g.setAttribute('normal',new THREE.Float32BufferAttribute(NS,3));g.setAttribute('color',new THREE.Float32BufferAttribute(CS,3));g.setIndex(IS);return g}}}
+// goyang jelly dihitung di GPU (gratis untuk CPU)
+const UT={value:0},UA={value:.01};
+function mat(){const m=new THREE.MeshLambertMaterial({vertexColors:true});
+  m.onBeforeCompile=s2=>{s2.uniforms.uT=UT;s2.uniforms.uA=UA;
+    s2.vertexShader='uniform float uT;uniform float uA;\n'+s2.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>
+      float hg=clamp((position.y-(${(-M.position.y).toFixed(4)}))/${HH.toFixed(4)},0.0,1.0);
+      transformed.x+=uA*hg*sin(uT*2.0+position.y*3.0);
+      transformed.z+=uA*hg*.7*sin(uT*1.6+position.x*3.0);
+      transformed.y+=uA*.5*hg*sin(uT*2.6+position.x*3.0);`)};return m}
+const BODY=new THREE.Color(SPR.body),DK=new Set(pal.map((c,i)=>{const l=c.r*.3+c.g*.59+c.b*.11;return l<.43||l>.9?i:-1}).filter(i=>i>=0));
+function build(g){
+  const N=depth(g),B=Builder(),col=new THREE.Color(),has=(x,y,z)=>{const n=(N[y]||[])[x]||0;return z>=-n&&z<n};
+  N.forEach((r,y)=>r.forEach((n,x)=>{if(!n)return;
+    for(let z=-n;z<n;z++){let c=null;
+      NB.forEach(([a,b,e],d)=>{if(has(x+a,y+b,z+e))return;
+        const ix=parseInt(g[y][x],36);col.copy(d>0&&DK.has(ix)?BODY:pal[ix]).multiplyScalar(shade(N,x,y)*(.8+.2*(z+n)/(2*n-1)));c=col;
+        B.quad((x-CX)*U,-(y-CY)*U,(z+.5)*U,d,c)})}}));
+  const m=new THREE.Mesh(B.geo(),mat());m.visible=false;M.add(m);return{m,N}}
+// sirip dipisah dari badan lewat komponen terhubung: hanya bagian tipis yang besar dan jauh di samping badan jadi sirip; serpihan tepi tetap di badan
+function strip(g){const H=g.length,W=g[0].length,s=(x,y)=>y>=0&&y<H&&x>=0&&x<W&&g[y][x]!=='.',O=[];for(let j=-6;j<=6;j++)for(let i=-6;i<=6;i++)if(i*i+j*j<=36)O.push([i,j]);
+  const er=g.map((r,y)=>[...r].map((c,x)=>s(x,y)&&O.every(([i,j])=>s(x+i,y+j)))),kp=g.map((r,y)=>[...r].map((c,x)=>s(x,y)&&O.some(([i,j])=>(er[y+j]||[])[x+i])));
+  const lab=g.map(()=>Array(W).fill(0)),comps=[];let bx0=99,bx1=0;
+  g.forEach((r,y)=>[...r].forEach((c,x)=>{if(s(x,y)){bx0=Math.min(bx0,x);bx1=Math.max(bx1,x)}if(!s(x,y)||kp[y][x]||lab[y][x])return;
+    const q=[[x,y]],pts=[];lab[y][x]=1;
+    while(q.length){const[a,b]=q.pop();pts.push([a,b]);for(let j=-1;j<=1;j++)for(let i=-1;i<=1;i++){const p=a+i,t=b+j;if(s(p,t)&&!kp[t][p]&&!lab[t][p]){lab[t][p]=1;q.push([p,t])}}}
+    comps.push(pts)}));
+  const mid=(bx0+bx1)/2,far=(bx1-bx0+1)*.33,fin=[null,null],F=g.map(()=>Array(W).fill(0));
+  comps.forEach(p=>{const cx=p.reduce((a,q)=>a+q[0],0)/p.length,k=cx<mid?0:1;if(p.length>=20&&Math.abs(cx-mid)>far&&(!fin[k]||p.length>fin[k].length))fin[k]=p});
+  fin.forEach((p,k)=>p&&p.forEach(([x,y])=>F[y][x]=k+1));
+  const b=g.map((r,y)=>[...r].map((c,x)=>!s(x,y)||F[y][x]?'.':[[1,0],[-1,0],[0,1],[0,-1]].some(([a,b])=>F[y+b]&&F[y+b][x+a])?'e':c).join('')),
+    cf=k=>g.map((r,y)=>[...r].map((c,x)=>F[y][x]===k?c:'.').join(''));return{b,a:[cf(1),cf(2)]}}
+const SP0=strip(SPR.poses.idle.g),P={};for(const k in SPR.poses)P[k]=build(k==='idle'?SP0.b:SPR.poses[k].g);
+let cur='idle';P.idle.m.visible=true;
+// kedip & mulut: lapisan tipis yang menempel di permukaan
+const INK=new THREE.Color(SPR.ink),PINK=new THREE.Color(SPR.body);
+function overlay(pose,cells,dz=.03){const N=P[pose].N,B=Builder(),col=new THREE.Color();
+  cells.forEach(([x,y,c])=>{const n=(N[y]||[])[x];if(n)B.quad((x-CX)*U,-(y-CY)*U,(n-.5)*U+dz*U,0,col.copy(c).multiplyScalar(shade(N,x,y)))});
+  const m=new THREE.Mesh(B.geo(),mat());m.visible=false;M.add(m);return m}
+const LID={},MOU={},MW=SPR.mouth[1]-SPR.mouth[0]+1;
+['idle','wave'].forEach(k=>{const l=[],o=[];
+  const gk=SPR.poses[k].g;
+  SPR.eyes.forEach(([a,b,c,d])=>{const cy=Math.round((b+d)/2),mx=(a+c)/2,my=(b+d)/2,rx=(c-a)/2+.6,ry=(d-b)/2+.6;
+    for(let y=b;y<=d;y++)for(let x=a;x<=c;x++){if(((x-mx)/rx)**2+((y-my)/ry)**2>1)continue;
+      const ch=gk[y][a-2],sk=ch&&ch!=='.'?pal[parseInt(ch,36)]:PINK;l.push([x,y,y===cy&&x>a&&x<c?INK:sk])}});
+  for(let y=45;y<=48;y++)for(let x=SPR.mouth[0];x<=SPR.mouth[1];x++)o.push([x,y,INK]);
+  LID[k]=overlay(k,l,.09);MOU[k]=overlay(k,o,.07)});
+/* ---------- Ekspresi wajah: digambar di atas mata & mulut sprite (tanpa aset baru) ---------- */
+const RED=new THREE.Color('#e5304f'),GOLD=new THREE.Color('#ffd54a'),WHT=pal[0],TNG=new THREE.Color('#ff6f91'),TEAR=new THREE.Color('#8fd8ff'),BLSH=new THREE.Color('#ff7f9f');
+const ell=(cx,cy,rx,ry)=>{const o=[];for(let y=Math.floor(cy-ry);y<=Math.ceil(cy+ry);y++)for(let x=Math.floor(cx-rx);x<=Math.ceil(cx+rx);x++)if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1)o.push([x,y]);return o};
+// nama:[bentuk mata, bentuk mulut, mata tertutup (tanpa kedip)]
+const EX={happy:['arcU','smile',1],laugh:['arcU','open',1],love:['heart','smile',1],star:['star','open',1],wide:['look0','o'],sad:['sad','frown'],angry:['angry','flat'],sleepy:['arcD','o',1],wink:['wink','tongue',1],think:['look1','flat'],dizzy:['x','wavy',1],note:['down','smile'],read:['down','flat'],aha:['look0','smile'],sip:['arcU','smile',1],game:['look0','smile'],music:['arcU','smile',1],chart:['look1','smile'],dance:['arcU','open',1]},BL=new Set(['happy','laugh','love','star','wink','sip','music','dance']);
+function faceOf(n){const[et,mt,cl]=EX[n],E=new Map(),Mo=new Map(),ep=(x,y,c)=>E.set(y*100+x,[x,y,c]),mp=(x,y,c)=>Mo.set(y*100+x,[x,y,c]);
+  SPR.eyes.forEach((r,i)=>{const[a,b,c,d]=r,mx=(a+c)/2,my=(b+d)/2,rx=(c-a)/2+.6,ry=(d-b)/2+.6,s=(c-a)/2+.5,w=c-a,
+    cov=()=>ell(mx,my,rx+1.4,ry+1.4).forEach(([x,y])=>ep(x,y,BODY)),
+    eye=(dx,dy,pr)=>{cov();ell(mx,my,rx,ry).forEach(([x,y])=>ep(x,y,INK));ell(mx,my,rx-1.1,ry-1.1).forEach(([x,y])=>ep(x,y,WHT));ell(mx+dx,my+dy,pr,pr).forEach(([x,y])=>ep(x,y,INK));ep(Math.round(mx+dx-pr*.45),Math.round(my+dy-pr*.45),WHT)};
+    if(et==='arcU'||et==='wink'&&i===1){cov();for(let x=a;x<=c;x++){const y=Math.round(my+2.5-Math.sin(Math.PI*(x-a)/w)*4.5);ep(x,y,INK);ep(x,y+1,INK)}}
+    else if(et==='arcD'){cov();for(let x=a;x<=c;x++){const y=Math.round(my-2+Math.sin(Math.PI*(x-a)/w)*3.5);ep(x,y,INK);ep(x,y+1,INK)}}
+    else if(et==='heart'){cov();for(let y=b-1;y<=d+2;y++)for(let x=a-1;x<=c+1;x++){const u=(x-mx)/s*1.25,v=-(y-my-.5)/s*1.25;if((u*u+v*v-1)**3-u*u*v**3<=0)ep(x,y,RED)}ep(Math.round(mx-s*.4),Math.round(my-s*.3),WHT)}
+    else if(et==='star'){cov();for(let y=b-2;y<=d+2;y++)for(let x=a-2;x<=c+2;x++)if((Math.abs(x-mx)/(s+1))**.6+(Math.abs(y-my)/(s+1))**.6<=1)ep(x,y,GOLD);ep(Math.round(mx),Math.round(my),WHT)}
+    else if(et==='down'){eye(0,2.6,2.5);ell(mx,my,rx+1.4,ry+1.4).forEach(([x,y])=>{if(y<=my-2)ep(x,y,BODY)});for(let x=a;x<=c;x++)ep(x,Math.round(my-1.5),INK)}
+    else if(et==='look0')eye(0,0,2.4);
+    else if(et==='look1')eye(1.8,-1.8,2.8);
+    else if(et==='x'){cov();const k=(d-b)/w;for(let t=-s+1;t<=s-1;t+=.5){const x=Math.round(mx+t);for(const y of[Math.round(my+t*k),Math.round(my-t*k)]){ep(x,y,INK);ep(x+1,y,INK)}}}
+    else if(et==='sad'||et==='angry'){const A=et==='angry';
+      for(let y=b-3;y<=d;y++)for(let x=a-2;x<=c+2;x++){if(((x-mx)/(rx+2.2))**2+((y-my)/(ry+3))**2>1)continue;
+        const u=Math.max(0,Math.min(1,(i?c-x:x-a)/w)),yl=b+(A?.4*u:.42*(1-u))*(d-b)+1;
+        if(y<yl-1)ep(x,y,BODY);else if(y<yl+1)ep(x,y,INK)}
+      if(!A){const tx=i?c-1:a+1;for(let y=d+1;y<=d+4;y++){ep(tx,y,TEAR);ep(tx+1,y,TEAR)}}}});
+  if(BL.has(n))[[28.5,45.5],[49.5,44.5]].forEach(([X,Y])=>ell(X,Y,3.4,1.7).forEach(([x,y])=>ep(x,y,BLSH)));
+  if(mt){ell(39,46.6,7.2,3.9).forEach(([x,y])=>mp(x,y,BODY));
+    const ln=f=>{for(let x=35;x<=43;x++){const y=Math.round(f((x-35)/8));mp(x,y,INK);mp(x,y+1,INK)}};
+    if(mt==='smile'||mt==='tongue')ln(t=>45.6+Math.sin(Math.PI*t)*2.4);
+    if(mt==='frown')ln(t=>48-Math.sin(Math.PI*t)*2.2);
+    if(mt==='flat')ln(()=>47);
+    if(mt==='wavy')ln(t=>47+Math.sin(t*Math.PI*4)*1.3);
+    if(mt==='o')ell(39,47.3,2.3,2.9).forEach(([x,y])=>mp(x,y,INK));
+    if(mt==='open'){ell(39,45,6,4.6).forEach(([x,y])=>{if(y>=45)mp(x,y,INK)});ell(39,49.5,3.4,2.2).forEach(([x,y])=>{if(y>=47&&Mo.has(y*100+x)&&Mo.get(y*100+x)[2]===INK)mp(x,y,TNG)})}
+    if(mt==='tongue')ell(40,50.6,2.3,1.7).forEach(([x,y])=>{if(y>=50)mp(x,y,TNG)})}
+  return{e:[...E.values()],m:[...Mo.values()],cl:!!cl}}
+const XM={};['idle','wave'].forEach(k=>{XM[k]={};for(const n in EX){const f=faceOf(n);XM[k][n]={e:overlay(k,f.e,.05),m:overlay(k,f.m,.05),cl:f.cl}}});
+/* ---------- Aktivitas: mencatat, membaca, ide (properti 3D di depan badan) ---------- */
+const bM=c=>new THREE.MeshLambertMaterial({color:c}),mk=(g,c)=>new THREE.Mesh(g,bM(c)),RY=r=>(y1+.5-r)*U,Z0=MAXD*U+.14,PR=new THREE.Group(),BK=new THREE.Group(),pen=new THREE.Group(),bulb=new THREE.Group(),rays=new THREE.Group();
+const pc=document.createElement('canvas');pc.width=96;pc.height=120;const pg=pc.getContext('2d'),ptx=new THREE.CanvasTexture(pc);
+function paper(txt){pg.fillStyle='#fffdf8';pg.fillRect(0,0,96,120);pg.strokeStyle='#f5c4d7';pg.lineWidth=1;for(let y=22;y<120;y+=14){pg.beginPath();pg.moveTo(6,y);pg.lineTo(90,y);pg.stroke()}
+  pg.strokeStyle='#ff9ec0';pg.beginPath();pg.moveTo(14,0);pg.lineTo(14,120);pg.stroke();
+  if(txt){pg.fillStyle='#c9a3b4';for(let y=15;y<118;y+=14)pg.fillRect(19,y,18+Math.random()*50,3)}ptx.needsUpdate=true}paper();
+const hd=()=>mk(new THREE.SphereGeometry(.09,10,8),0xfc9ba9),hL=hd(),hR=hd(),pgm=new THREE.Mesh(new THREE.PlaneGeometry(.62,.76),new THREE.MeshBasicMaterial({map:ptx}));
+pgm.position.z=.05;hL.position.set(-.36,-.34,.1);hR.position.set(.36,-.34,.1);
+BK.add(mk(new THREE.BoxGeometry(.72,.86,.08),0xE8437F),pgm,hL,hR);
+const pb=mk(new THREE.CylinderGeometry(.026,.026,.46,8),0xFFD54A),pe=mk(new THREE.CylinderGeometry(.028,.028,.07,8),0xff6f91),pnt=mk(new THREE.ConeGeometry(.026,.09,8),0x55173a),ph=hd();
+pb.position.y=.32;pe.position.y=.585;pnt.rotation.x=Math.PI;pnt.position.y=.045;ph.position.y=.38;pen.add(pb,pe,pnt,ph);pen.rotation.z=-.5;BK.add(pen);PR.add(BK);PR.visible=false;hL.visible=hR.visible=ph.visible=false;
+/* ---------- Lengan 2 ruas (siku menekuk) + tangan, dan properti aktivitas baru ---------- */
+const V3=THREE.Vector3,UPV=new V3(0,1,0),AL=.66,ARMG=new THREE.Group(),_a=new V3(),_b=new V3(),_c=new V3(),_q=new V3(),_p3=new V3(),
+  REST=[new V3(-1.2,.25,.05),new V3(1.2,.25,.05)],TL=new V3(),TR=new V3(),
+  limb=()=>{const p=[];for(let i=0;i<=12;i++){const y=i/12;p.push(new THREE.Vector2(.17*(1-.5*y)*Math.sqrt(Math.max(0,1-y**6))+.001,y))}const g=new THREE.LatheGeometry(p,14),m=mk(g,0xfc9ba9),o=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0x571f3d,side:THREE.BackSide}));o.scale.set(1.22,1.05,1.22);o.position.y=-.02;m.add(o);return m},
+  AR=SP0.a.map((ag,i)=>{const cs=[];ag.forEach((r,y)=>[...r].forEach((c,x)=>{if(c!=='.')cs.push([x,y])}));if(!cs.length)cs.push([CX|0,50]);
+  const sd=i?1:-1,b=cs.reduce((m,c)=>(c[0]-m[0])*sd<0?c:m,cs[0]),t=cs.reduce((m,c)=>Math.hypot(c[0]-b[0],c[1]-b[1])>Math.hypot(m[0]-b[0],m[1]-b[1])?c:m,cs[0]),
+    X=q=>(q[0]-CX)*U,Y=q=>-(q[1]-CY)*U+M.position.y,F=new THREE.Group(),m=build(ag).m;M.remove(m);m.visible=true;m.position.set(-(t[0]-CX)*U,(t[1]-CY)*U,0);F.add(m);
+  return{sd,F,s:new V3(X(b),Y(b),0),t:new V3(X(t),Y(t),0),p:new V3(X(t),Y(t),0),v:new V3((b[0]-t[0])*U,-(b[1]-t[1])*U,0)}});
+let AK=1,ap=0,mB=0,gT=0,cT=0,cp=40;
+AR.forEach(r=>ARMG.add(r.F));const ARMN=40,CH=AR.map(()=>{const c=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),bM(0xfc9ba9),ARMN);c.frustumCulled=false;c.count=0;ARMG.add(c);return c}),
+  CO=AR.map(()=>{const c=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({color:0x571f3d,side:THREE.BackSide}),ARMN);c.frustumCulled=false;c.count=0;ARMG.add(c);return c});ARMG.visible=false;
+function seg(m,A,B){_q.subVectors(B,A);const l=_q.length();m.position.copy(A);m.scale.set(AK,Math.max(l,.001),AK);m.quaternion.setFromUnitVectors(UPV,_q.divideScalar(l||1))}
+// lengan: kurva bahu -> siku (melorot ke bawah dan keluar) -> pergelangan; kubus rapat menyusut ke pergelangan; sirip mengikuti arah lengan
+function armPath(s,T,vl,sd,ap,lo){const L=Math.hypot(T.x-s.x,T.y-s.y,T.z-s.z),mz=(s.z+T.z)/2,cx=(s.x+T.x)/2+sd*.18*L*ap,cy=Math.max((s.y+T.y)/2-.25*L*ap,lo(mz));
+  let dx=cx-T.x,dy=cy-T.y;const dl=Math.hypot(dx,dy)||1;dx/=dl;dy/=dl;const bx=T.x+dx*vl,by=T.y+dy*vl,bz=T.z,
+    n=Math.max(3,Math.min(ARMN,Math.ceil((Math.hypot(cx-s.x,cy-s.y,mz-s.z)+Math.hypot(bx-cx,by-cy,bz-mz))/.04))),P=[];
+  for(let k=0;k<n;k++){const u=k/(n-1),a=(1-u)*(1-u),b=2*u*(1-u),c=u*u,z=a*s.z+b*mz+c*bz;P.push([a*s.x+b*cx+c*bx,Math.max(a*s.y+b*cy+c*by,lo(z)),z,.09-.03*u])}
+  return{dx,dy,P}}
+
+const cyl=(a,b,h,c,y=0)=>{const m=mk(new THREE.CylinderGeometry(a,b,h,14),c);m.position.y=y;return m},
+  cupG=new THREE.Group(),padG=new THREE.Group(),hpG=new THREE.Group(),chG=new THREE.Group();
+cupG.add(cyl(.13,.1,.3,0xfff4e8),cyl(.118,.092,.17,0x9b5a48,-.06),cyl(.135,.135,.03,0xfff4e8,.165));
+const stw=cyl(.018,.018,.3,0xffd54a,.3);stw.position.x=.04;stw.rotation.z=-.2;cupG.add(stw);
+padG.add(mk(new THREE.BoxGeometry(.82,.3,.12),0x3b1a2e));
+[[-.26,0,0xff7fa8],[.22,.06,0xffd54a],[.3,-.05,0x8fd8ff]].forEach(([x,y,c])=>{const b=mk(new THREE.SphereGeometry(.045,8,6),c);b.position.set(x,y,.07);padG.add(b)});
+const band=mk(new THREE.TorusGeometry(1,.04,8,40,Math.PI),0x55173a);band.scale.y=.85;hpG.add(band);
+[-1,1].forEach(sd=>{const c=cyl(.2,.2,.16,0xE8437F);c.rotation.z=Math.PI/2;c.position.x=sd*1.0;hpG.add(c)});hpG.position.set(0,RY(35),.1);
+const cc=document.createElement('canvas');cc.width=128;cc.height=80;const cg=cc.getContext('2d'),ctx2=new THREE.CanvasTexture(cc),cds=[];
+function candle(q){const o=cp;cp=Math.max(14,Math.min(66,cp+(Math.random()-.48)*16));cds.push({o,c:cp,h:Math.min(o,cp)-Math.random()*6,l:Math.max(o,cp)+Math.random()*6});if(cds.length>9)cds.shift();
+  cg.fillStyle='#1c0a16';cg.fillRect(0,0,128,80);cg.strokeStyle='#3d1f33';cg.lineWidth=1;for(let y=10;y<80;y+=17){cg.beginPath();cg.moveTo(0,y);cg.lineTo(128,y);cg.stroke()}
+  cds.forEach((k,i)=>{const x=8+i*13,up=k.c<k.o;cg.strokeStyle=cg.fillStyle=up?'#4cd08a':'#ff5b7a';cg.beginPath();cg.moveTo(x+3.5,k.h);cg.lineTo(x+3.5,k.l);cg.stroke();cg.fillRect(x,Math.min(k.o,k.c),7,Math.max(3,Math.abs(k.c-k.o)))});
+  ctx2.needsUpdate=true;if(q&&Math.abs(cp-o)>9)pop(cp<o?'📈':'📉')}
+for(let i=0;i<9;i++)candle();
+const chp=new THREE.Mesh(new THREE.PlaneGeometry(.95,.6),new THREE.MeshBasicMaterial({map:ctx2}));chp.position.z=.02;
+chG.add(chp,mk(new THREE.BoxGeometry(1.01,.66,.03),0xE8437F));chG.position.set(0,.5,.92);chG.rotation.x=-.55;chG.updateMatrix();
+[cupG,padG,hpG,chG].forEach(o=>{o.visible=false;G.add(o)});G.add(ARMG);
+const BP=(x,y,z,o)=>{_p3.set(x,y,z);if(o)_p3.applyMatrix4(pen.matrix);return _p3.applyMatrix4(BK.matrix).applyMatrix4(PR.matrix)},CP=(x,y,z)=>_p3.set(x,y,z).applyMatrix4(chG.matrix);
+// target tangan (ruang G) untuk tiap aktivitas
+function hands(an,t){const s=Math.sin;
+  if(an==='note'||an==='read'){TL.copy(BP(-.36,0,.1));
+    if(an==='note')TR.copy(BP(0,.28,0,1));
+    else{const ft=t-(flipAt-2.6),p=ft>=0&&ft<.7?s(ft/.7*Math.PI):0;TR.copy(BP(.36-.55*p,.25*p,.1+.12*p))}}
+  else if(an==='sip'){const c=(t%4.4)/4.4,u=c<.3?c/.3:c<.62?1:c<.85?1-(c-.62)/.23:0,e=u*u*(3-2*u),y=.25+.24*e;
+    cupG.position.set(0,y+.08,.9-.03*e);cupG.rotation.x=-.3*e;TL.set(-.17,y,.87);TR.set(.17,y,.87)}
+  else if(an==='game'){const m=k=>.03*Math.abs(s(t*k));padG.rotation.x=-.45;padG.position.set(0,.3,.9);TL.set(-.37,.27+m(11),.98);TR.set(.37,.27+m(13),.98)}
+  else if(an==='music'){TL.set(-1.15+.08*s(t*4),.95+.28*s(t*4),.5);TR.set(1.15-.08*s(t*4+3.14),.95+.28*s(t*4+3.14),.5)}
+  else if(an==='chart'){TL.copy(CP(-.44,-.24,.05));TR.copy(CP(.3+.1*s(t*.8),.02+.14*s(t*1.7),.05+.04*Math.abs(s(t*6))))}
+  else if(an==='dance'){const a=.5+.5*s(t*7.5);TL.set(-1.1,.7+.5*a,.3);TR.set(1.1,.7+.5*(1-a),.3)}
+  else if(an==='idea'){TL.set(-.5,.3,.75);TR.set(.75,1.35+.08*s(t*8),.35)}
+  else{TL.copy(AR[0].t);TR.copy(AR[1].t);const f=state==='speaking'?.07*Math.abs(s(t*9)):.025*s(t*1.8);TL.y+=f;TR.y+=f;TL.x-=f;TR.x+=f}}
+
+const bm=new THREE.MeshBasicMaterial({color:0xFFD54A});
+bulb.add(new THREE.Mesh(new THREE.SphereGeometry(.2,14,10),new THREE.MeshBasicMaterial({color:0xFFE066})),mk(new THREE.CylinderGeometry(.09,.07,.13,10),0xb9a8b0));bulb.children[1].position.y=-.24;
+for(let i=0;i<6;i++){const a=i*1.0472,r=new THREE.Mesh(new THREE.BoxGeometry(.05,.15,.02),bm);r.position.set(Math.cos(a)*.42,Math.sin(a)*.42,0);r.rotation.z=a-1.5708;rays.add(r)}
+bulb.add(rays);bulb.visible=false;G.add(PR,bulb);
+const sc=document.createElement('canvas');sc.width=sc.height=64;const sg=sc.getContext('2d'),gr=sg.createRadialGradient(32,32,0,32,32,32);
+gr.addColorStop(0,'rgba(190,40,95,.5)');gr.addColorStop(1,'rgba(190,40,95,0)');sg.fillStyle=gr;sg.fillRect(0,0,64,64);
+const sh=new THREE.Mesh(new THREE.PlaneGeometry(3,3),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(sc),transparent:true,depthWrite:false}));
+sh.rotation.x=-Math.PI/2;sh.position.y=base-.005;S.add(sh);
+const plat=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.62,.12,28),new THREE.MeshLambertMaterial({color:0xffc2d6}));plat.position.y=base-.07;S.add(plat);
+const SPN=18,SC=[0xFFD54A,0xffffff,0xFF7FA8],SP=[],dm=new THREE.Object3D(),spk=new THREE.InstancedMesh(new THREE.BoxGeometry(.07,.07,.07),new THREE.MeshBasicMaterial(),SPN);
+for(let i=0;i<SPN;i++){SP.push({a:Math.random()*6.28,r:1.4+Math.random()*.5,s:.25+Math.random()*.3,h:Math.random()*6.28,y:(Math.random()-.3)*1.6});spk.setColorAt(i,new THREE.Color(SC[i%3]))}
+spk.frustumCulled=false;spk.visible=!RM;S.add(spk);let burst=0;
+
+function fit(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;
+  const z=Math.max(5,4.4/cam.aspect);cam.position.set(0,z*.09,z);cam.lookAt(0,-z*.1,0);cam.updateProjectionMatrix()}
+addEventListener('resize',fit);fit();
+const ptr={x:0,y:0};
+let ptrT=-99;['pointermove','pointerdown'].forEach(n=>addEventListener(n,e=>{ptr.x=e.clientX/innerWidth*2-1;ptr.y=e.clientY/innerHeight*2-1;ptrT=performance.now()/1e3}));
+
+/* ---------- Gerak: pegas, lompat, kebiasaan acak ---------- */
+let last=performance.now()/1e3,bl=-9,nextBlink=2,mo=0,shown='',jy=0,jv=0,big=false,wasAir=false;
+let sq=0,sqv=0,rz=0,rzv=0,kk=false,waveHold=0,waveUntil=0,nextAct=last+4,lookY=0,lookUntil=0,launchAt=0,launchV=0,fT=0,fN=0;
+function launch(v,anticip){if(jy>.01||launchAt)return;sqv-=anticip?2.4:0;launchAt=performance.now()/1e3+(anticip?.11:0);launchV=v;big=v>2.6}
+const cv=$('c');let pd=false,px=0,py=0,pt0=0,moved=0,spin=0,spinV=0,lm=0,tkAt=0,tpAt=0,thAt=0,tlAt=0;
+cv.addEventListener('pointerdown',e=>{pd=true;px=e.clientX;py=e.clientY;pt0=lm=performance.now()/1e3;moved=0;spinV=0;cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',e=>{if(!pd)return;const n=performance.now()/1e3,dx=e.clientX-px;moved+=Math.abs(dx)+Math.abs(e.clientY-py);px=e.clientX;py=e.clientY;
+  spin+=dx*.014;spinV=Math.max(-14,Math.min(14,spinV*.5+.5*dx*.014/Math.max(.008,n-lm)));lm=n});
+cv.addEventListener('pointerup',()=>{if(!pd)return;pd=false;if(moved<8&&performance.now()/1e3-pt0<.35)tap();else if(Math.abs(spinV)>6||Math.abs(spin)>9)feel('dizzy',2.4)});
+cv.addEventListener('pointercancel',()=>pd=false);
+function tap(){const t=performance.now()/1e3;actUntil=0;tapN=t-tapT<1.6?tapN+1:1;tapT=t;lastTouch=t;kick=1;launch(3.2,true);navigator.vibrate&&navigator.vibrate(12);
+  feel(['happy','wink','love','wide','angry','dizzy'][Math.min(tapN,6)-1],2.2);if(tapN<4)pop('❤️',2)}
+function pop(em,n=1){if(RM||document.querySelectorAll('.p').length>24)return;const q=new THREE.Vector3(0,base+HH*.85+jy,0).project(cam),x=(q.x*.5+.5)*innerWidth,y=(-q.y*.5+.5)*innerHeight;
+  for(let i=0;i<n;i++){const d=document.createElement('span');d.className='p';d.textContent=em;d.style.left=x+(Math.random()-.5)*110+'px';d.style.top=y+(Math.random()-.5)*40+'px';
+    d.style.setProperty('--dx',(Math.random()-.5)*60+'px');d.style.animationDelay=i*.08+'s';d.onanimationend=()=>d.remove();document.body.appendChild(d)}}
+let AC;function boing(f,r=2.2){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const n=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();
+  o.frequency.setValueAtTime(f,n);o.frequency.exponentialRampToValueAtTime(Math.max(40,f*r),n+.12);g.gain.setValueAtTime(.12,n);g.gain.exponentialRampToValueAtTime(.001,n+.18);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(n+.2)}catch(_){}}
+// ---- ekspresi: mood, gerak tubuh, suara, partikel ----
+let emo='',emoUntil=0,lastTouch=performance.now()/1e3,typingUntil=0,zAt=0,tapN=0,tapT=0,shownEx='';
+const MOOD={happy:'Blobi senang',laugh:'Blobi ketawa',love:'Blobi terharu',star:'Blobi girang',wide:'Blobi kaget',sad:'Blobi sedih',angry:'Blobi waspada',sleepy:'Blobi ngantuk',wink:'Blobi iseng',think:'Blobi mikir…',dizzy:'Blobi pusing',note:'Blobi lagi mencatat…',read:'Blobi lagi cari di buku…',aha:'Blobi dapat ide!',sip:'Blobi lagi minum boba…',game:'Blobi lagi main game…',music:'Blobi lagi dengerin musik…',chart:'Blobi lagi ngecek chart…',dance:'Blobi lagi joget!'};
+// [partikel, jumlah, nada suara, rasio nada, gerak tubuh]
+const FEEL={happy:['😊',1,520,2.2,()=>{sqv+=1.6;rzv+=5}],laugh:['😆',3,560,1.8,()=>{kick=1;rzv+=9}],love:['❤️',5,600,2.4,()=>launch(3,true)],star:['✨',5,800,2.4,()=>{launch(3.4,true);kick=1}],wide:['❗',1,700,1.6,()=>{sqv+=4}],sad:['💧',2,340,.55,()=>{sqv-=1.6}],angry:['💢',2,210,.7,()=>{rzv+=14}],sleepy:['💤',1,260,.7,()=>{sqv-=1}],wink:['😜',1,620,1.5,()=>{rzv+=6}],think:['💭',1,400,1.3,()=>{}],dizzy:['💫',4,300,1.9,()=>{spinV+=12}]};
+function feel(n,d=2.6,q){const f=FEEL[n];if(!f)return;emo=n;emoUntil=performance.now()/1e3+d;if(q)return;pop(f[0],f[1]);boing(f[2],f[3]);f[4]()}
+let act='',actUntil=0,pv=0,bs=0,bsv=0,lastRd=false,flipAt=0,lastInk=0,lastL=0;
+document.querySelectorAll('#em button[data-e]').forEach(b=>b.onclick=()=>{actUntil=0;feel(b.dataset.e,3.2)});
+const ACTS=['note','read','sip','game','music','chart','dance'];function doAct(n,d=6){act=n;actUntil=performance.now()/1e3+d;emo='';if(n==='idea'){bs=0;bsv=0;boing(880,1.5);launch(2,true)}pop({note:'📝',read:'📖',idea:'💡',sip:'🧋',game:'🎮',music:'🎧',chart:'📈',dance:'🕺'}[n])}
+document.querySelectorAll('#em button[data-a]').forEach(b=>b.onclick=()=>{const a=b.dataset.a;if(act===a&&performance.now()/1e3<actUntil)actUntil=0;else doAct(a,a==='idea'?2.4:8)});
+$('t').addEventListener('input',()=>{typingUntil=performance.now()/1e3+1.2});
+['pointerdown','pointermove','keydown'].forEach(n=>addEventListener(n,()=>{const t=performance.now()/1e3;if(shownEx==='sleepy'&&!emo){feel('wide',1.4);launch(1.8,true)}lastTouch=t}));
+// Blobi bereaksi pada isi obrolan (pakai mood dari AI kalau ada, kalau tidak pakai kata kunci)
+function react(txt,mine,mood){const w=txt.toLowerCase(),now=performance.now()/1e3;
+  if(!mine&&mood){if(mood==='idea'||(mood==='neutral'&&Math.random()<.5))doAct('idea',2.4);else if(mood!=='neutral')feel(mood,3.4);return}
+  if(mine){lastTouch=now;
+    if(/makasih|terima kasih|thanks|thx|keren|hebat|mantap|pintar/.test(w))feel('love',3);
+    else if(/haha|wkwk|lucu|ngakak/.test(w))feel('laugh',2.6);
+    else if(/\b(halo|hai|hi|hello)\b/.test(w)){waveUntil=now+2;feel('happy',2.6)}
+    else if(/sedih|rugi|ketipu|kena tipu|takut|cemas|bingung|pusing|stres/.test(w))feel('sad',3);
+    else if(/ngantuk|bosan|capek/.test(w))feel('sleepy',3)}
+  else if(/penipu|scam|bahaya|waspada|jangan pernah|seed phrase|private key|ratusan persen/.test(w)){rzv+=8;feel('angry',3.2)}
+  else if(/tidak tahu|belum tahu|kurang tahu/.test(w))feel('think',2.6)
+  else if(/\b(wah|loh|lho|hah)\b/.test(w))feel('wide',2.2)
+  else if(/bagus|benar|betul|tepat|selamat|senang|mantap|keren|semangat/.test(w))feel(Math.random()<.5?'happy':'star',2.8)}
+launch(3.2,true);
+(function tick(){
+  requestAnimationFrame(tick);
+  const t=performance.now()/1e3,raw=t-last,dt=Math.min(raw,.05);last=t;
+  const e5=1-Math.exp(-5*dt),e6=1-Math.exp(-6*dt);UT.value=t;
+  if(emo&&t>emoUntil)emo='';
+  const auto=state==='listening'||t<typingUntil?'note':state==='thinking'?'read':'',an0=act&&t<actUntil?act:auto,an=state==='speaking'&&an0!=='idea'?'':an0,book=an==='note'||an==='read',
+    ex=emo||(an==='idea'?'aha':an||(state==='idle'&&t-lastTouch>30?'sleepy':'')),lb=ex?MOOD[ex]:LABEL[state];shownEx=ex;
+  if(shown!==lb){shown=lb;$('st').textContent=lb}
+  if(ex==='sleepy'&&!emo&&t>zAt){zAt=t+2.8;pop('💤')}
+  // turunkan resolusi otomatis kalau perangkat terasa berat
+  fT+=raw;fN++;if(fT>2){if(t>4&&fN/fT<42&&pr>1){pr=Math.max(1,pr-.25);R.setPixelRatio(pr);fit()}fT=fN=0}
+  // kata baru -> badan memantul, melambai, miring sedikit
+  kick*=Math.exp(-6*dt);
+  if(kick>.95&&!kk){kk=true;sqv+=1.3;rzv+=(Math.random()-.5)*4;if(state==='speaking')waveHold=t+.3}
+  if(kick<.5)kk=false;
+  if(pd&&moved<8&&t-pt0>.5){if(t>tkAt){tkAt=t+.14;kick=1;rzv+=(Math.random()-.5)*12}if(t>tpAt){tpAt=t+.55;pop('😆');feel('laugh',.9,1);boing(500+Math.random()*250)}}
+  if(state==='thinking'&&t>thAt){thAt=t+1.4;pop('💭')}
+  if(state==='speaking'&&t>tlAt){tlAt=t+.9;pop(Math.random()<.5?'🎵':'✨')}
+  // lompat
+  if(launchAt&&t>=launchAt){jv=launchV;launchAt=0}
+  jv-=14*dt;jy+=jv*dt;if(jy<=0){jy=0;if(jv<0)jv=0}
+  const air=jy>.002;if(wasAir&&!air){sqv-=3.2;big=false}wasAir=air;
+  // kebiasaan acak saat santai: melambai, celingukan, loncat kecil, goyang
+  if(FX.habits&&state==='idle'&&t>nextAct&&!air&&!launchAt){const r=Math.random();nextAct=t+8+Math.random()*8;
+    if(r<.3){waveUntil=t+1.6;feel('happy',1.8,1)}else if(r<.55){lookY=(Math.random()<.5?-1:1)*.3;lookUntil=t+2;feel('think',2,1)}else if(r<.6)feel('wink',1.4,1);else if(r<.95)doAct(ACTS[Math.random()*ACTS.length|0],7);else launch(1.6,true)}
+  if(t>lookUntil)lookY=0;
+  // pegas: squash & stretch, goyang miring
+  sqv+=(-170*sq-13*sqv)*dt;sq+=sqv*dt;rzv+=(-60*rz-5*rzv)*dt;rz+=rzv*dt;
+  const br=FX.breath*(ex==='sleepy'?1.6:1)*Math.sin(t*(ex==='sleepy'?.9:1.8))+(state==='listening'?.03:0)+(state==='speaking'?.02*Math.sin(t*9):0);
+  const sy=Math.max(.55,1+br+sq),sx=1/Math.sqrt(sy);
+  G.scale.set(sx,sy,sx);
+  G.position.y=base+jy+(state==='thinking'?.05*Math.abs(Math.sin(t*4)):0);
+  const pw=Math.max(0,Math.min(1,1-(t-ptrT-2)/1.5)),ty=Math.max(-.6,Math.min(.6,ptr.x*.6))*pw+lookY+(state==='speaking'?.1*Math.sin(t*2.2):FX.sway*Math.sin(t*.5))+(an==='read'?.1*Math.sin(t*1.3):0)+(an==='dance'?.45*Math.sin(t*3.1):0);
+  G.rotation.y+=(ty-G.rotation.y)*e5;
+  G.rotation.x+=((book?.2:an==='game'||an==='chart'?.14:0)+ptr.y*.18*pw+FX.sway*.4*Math.sin(t*.7+1)-G.rotation.x)*e5;
+  G.rotation.z=rz+(state==='thinking'?.08*Math.sin(t*1.5):0);
+  UA.value+=((state==='speaking'?FX.wobble*3:state==='thinking'?FX.wobble*2.5:FX.wobble)+kick*.012-UA.value)*e6;
+  sh.scale.setScalar(1/(sy+jy));sh.material.opacity=1/(1+jy*2);
+  // pose sprite
+  const want=air&&big?'jump':((state==='speaking'&&t<waveHold)||t<waveUntil)?'wave':'idle';
+  if(want!==cur){P[cur].m.visible=false;cur=want;P[cur].m.visible=true}
+  const ov=cur!=='jump';
+  // kedip (kadang dua kali) & mulut mengikuti suara
+  if(t>nextBlink){bl=t;nextBlink=t+(Math.random()<.2?.25:2+Math.random()*3.5)}
+  const closed=ov&&t-bl<.14;
+  const mt=state==='speaking'?(.25+.75*Math.abs(Math.sin(t*11+Math.sin(t*3)*2)))*(.9+.4*kick):0;
+  mo+=(Math.min(mt,1)-mo)*(1-Math.exp(-20*dt));const mh=Math.round(mo*4);
+  for(const k in LID){const on=ov&&k===cur;LID[k].visible=on&&closed;MOU[k].visible=on&&mh>0;if(on)MOU[k].geometry.setDrawRange(0,6*MW*mh)}
+  const xo=(XM[cur]||{})[ex];if(ov&&xo&&xo.cl&&LID[cur])LID[cur].visible=false;
+  for(const k in XM)for(const n in XM[k]){const o=XM[k][n],on=ov&&k===cur&&n===ex;o.e.visible=on;o.m.visible=on&&mh===0&&state!=='speaking'}
+  if(pd)spinV*=Math.exp(-8*dt);else{const tg=Math.round(spin/6.2832)*6.2832;spinV+=(-10*(spin-tg)-2.5*spinV)*dt;spin+=spinV*dt}
+  M.rotation.y=spin;ARMG.rotation.y=spin;
+  burst=Math.max(burst*Math.exp(-2.2*dt),kick*.7);
+  for(let i=0;i<SPN;i++){const o=SP[i];o.a+=(o.s*(state==='speaking'?2:1)+burst*2)*dt;const r=o.r*(1+burst*.35);
+    dm.position.set(Math.cos(o.a)*r,base+HH*.5+o.y*.5+Math.sin(t*1.3+o.h)*.12+jy*.5,Math.sin(o.a)*r*.45);
+    dm.rotation.set(t+o.h,t*1.3+o.h,0);dm.scale.setScalar(.7+.25*Math.sin(t*2+o.h)+burst*.8);dm.updateMatrix();spk.setMatrixAt(i,dm.matrix)}
+  spk.instanceMatrix.needsUpdate=true;
+  // buku muncul/hilang dengan pegas, pensil mencoret di kertas, lampu ide memantul
+  pv+=((book?1:0)-pv)*e6;PR.visible=pv>.03;PR.scale.setScalar(Math.max(.001,pv));
+  if(PR.visible){const rd=an==='read';if(rd!==lastRd){lastRd=rd;paper(rd)}
+    BK.position.set(0,RY(y1-6)+(rd?.05*Math.sin(t*1.2):0),Z0);BK.rotation.set(-.45,rd?.1*Math.sin(t*1.2):0,0);pen.visible=!rd;
+    if(rd){if(t>flipAt){flipAt=t+2.6;paper(1)}}
+    else{const w=(t*.45)%1,l=Math.floor(t*.45)%7,cy=19+14*l+3*Math.sin(t*27),cx=16+72*w;pen.position.set((cx/96-.5)*.62,(.5-cy/120)*.76,.09);
+      if(t>lastInk+.05){lastInk=t;if(l!==lastL){if(l<lastL)paper();lastL=l}pg.strokeStyle='#55173a';pg.lineWidth=1.6;pg.beginPath();pg.moveTo(cx-2,cy+1);pg.lineTo(cx+2,cy-1);pg.stroke();ptx.needsUpdate=true}}}
+  bsv+=((an==='idea'?1:0)-bs)*140*dt-bsv*9*dt;bs+=bsv*dt;bulb.visible=bs>.02;
+  if(bulb.visible){bulb.scale.setScalar(Math.max(.001,bs));rays.rotation.z=t*2.2;bulb.position.set(0,HH+.5+.05*Math.sin(t*5),.1)}
+  // ---- lengan mengikuti properti; aktivitas baru: minum, game, musik, chart, joget ----
+  ap+=((an?1:0)-ap)*e6;ARMG.visible=cur==='idle';
+  cupG.visible=an==='sip';padG.visible=an==='game';hpG.visible=an==='music';chG.visible=an==='chart';
+  [cupG,padG,hpG,chG].forEach(o=>o.scale.setScalar(Math.max(.001,ap)));
+  if(an==='music'||an==='dance'){const b=Math.floor(t*(an==='dance'?2.4:2));if(b!==mB){mB=b;sqv+=1.7;rzv+=(b%2?5:-5)*(an==='dance'?1.6:1);kick=Math.max(kick,.6);if(b%2)pop(an==='dance'?'✨':'🎵');if(an==='dance'&&b%4===0&&!air&&!launchAt)launch(1.5)}}
+  if(an==='game'&&t>gT){gT=t+.3+Math.random()*.4;rzv+=(Math.random()-.5)*9;if(Math.random()<.25)pop(['⭐','💥','🎮'][Math.random()*3|0])}
+  if(chG.visible&&t>cT){cT=t+.6;candle(1)}
+  if(ARMG.visible){PR.updateMatrix();BK.updateMatrix();pen.updateMatrix();hands(an,t);
+    AR.forEach((r,i)=>{const T=i?TR:TL,th=G.rotation.x,lo=z=>(.1+z*Math.sin(th))/Math.cos(th);if(T.y<lo(T.z))T.y=lo(T.z);T.lerp(r.t,1-ap);r.p.lerp(T,1-Math.exp(-16*dt));
+      const k=armPath(r.s,r.p,r.v.length(),r.sd,ap,lo),vs=ap>.03?Math.min(1,ap*2):.001;r.F.position.copy(r.p);r.F.quaternion.setFromUnitVectors(_c.copy(r.v).normalize(),_a.set(k.dx,k.dy,0));
+      k.P.forEach((q,j)=>{dm.position.set(q[0],q[1],q[2]);dm.rotation.set(0,0,0);dm.scale.setScalar(q[3]*vs);dm.updateMatrix();CH[i].setMatrixAt(j,dm.matrix);dm.scale.setScalar(q[3]*vs*1.5);dm.updateMatrix();CO[i].setMatrixAt(j,dm.matrix)});
+      CH[i].count=CO[i].count=k.P.length;CH[i].instanceMatrix.needsUpdate=CO[i].instanceMatrix.needsUpdate=true})}
+  R.render(S,cam);if(!ready){ready=true;const l=$('load');l&&l.remove()}})();
+
+}else{ // cadangan: tanpa WebGL, tampilkan sprite asli Blobi (obrolan & suara tetap jalan)
+  $('em').style.display='none';
+  const g=SPR.poses.idle.g,c=$('c'),q=c.getContext('2d'),k=Math.max(2,Math.floor(Math.min(innerWidth*.7,380)/64));c.width=innerWidth;c.height=innerHeight;
+  g.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch!=='.'){q.fillStyle=SPR.pal[parseInt(ch,36)];q.fillRect(Math.round((innerWidth-64*k)/2)+x*k,Math.round(innerHeight*.1)+y*k,k,k)}}));
+  const l=$('load');l&&l.remove()}
+/* ---------- Suara: TTS ---------- */
+const syn=window.speechSynthesis;let voice=null,muted=false;
+function pickVoice(){if(!syn)return;const v=syn.getVoices();
+  voice=v.find(x=>x.lang.replace('_','-').toLowerCase()==='id-id')||v.find(x=>x.lang.toLowerCase().startsWith('id'))||null}
+pickVoice();if(syn)syn.onvoiceschanged=pickVoice;
+function unlock(){if(syn){const u=new SpeechSynthesisUtterance('');u.volume=0;syn.speak(u)}removeEventListener('pointerdown',unlock)}addEventListener('pointerdown',unlock); // iOS butuh sentuhan pertama
+function speak(txt){
+  if(muted||!syn){state='idle';return}
+  syn.cancel();
+  const u=new SpeechSynthesisUtterance(txt.replace(/\p{Extended_Pictographic}/gu,'').replace(/[*_`#>]/g,'').trim());
+  u.lang=CONFIG.LANG;if(voice)u.voice=voice;u.pitch=1.6;u.rate=1.05;
+  u.onstart=()=>state='speaking';u.onboundary=()=>kick=1;
+  u.onend=u.onerror=()=>{if(state==='speaking')state='idle'};
+  syn.speak(u);
+  setTimeout(()=>{if(state==='thinking')state='idle'},2500)}
+$('mute').onclick=e=>{muted=!muted;e.currentTarget.textContent=muted?'🔇':'🔊';e.currentTarget.classList.toggle('off',muted);if(muted&&syn){syn.cancel();if(state==='speaking')state='idle'}};
+
+/* ---------- Suara: mikrofon (STT) ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition,mic=$('mic');
+if(!SR)mic.style.display='none';else{
+  const rec=new SR();rec.lang=CONFIG.LANG;rec.interimResults=false;
+  rec.onstart=()=>{state='listening';mic.classList.add('on')};
+  rec.onend=()=>{mic.classList.remove('on');if(state==='listening')state='idle'};
+  rec.onerror=e=>{mic.classList.remove('on');if(state==='listening')state='idle';if(e.error==='not-allowed'||e.error==='service-not-allowed')add('Izin mikrofon ditolak. Aktifkan di pengaturan browser, atau ketik saja ya.','b')};
+  rec.onresult=e=>send(e.results[0][0].transcript);
+  mic.onclick=()=>{if(mic.classList.contains('on'))return rec.stop();if(syn)syn.cancel();try{rec.start()}catch(_){}}}
+
+/* ---------- Chat ---------- */
+const log=$('log'),hist=[];
+function add(t,c){const d=document.createElement('div');d.className='m '+c;d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight}
+let busy=false,lastSend=0;
+async function send(text){
+  text=(text||'').trim().slice(0,300);if(!text||busy||Date.now()-lastSend<1200)return;
+  lastSend=Date.now();busy=true;$('snd').disabled=true;if(syn)syn.cancel();
+  add(text,'u');typeof react==='function'&&react(text,true);hist.push({role:'user',content:text});state='thinking';
+  let reply,mood='',ok=true;const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),58000);
+  try{
+    const r=await fetch(CONFIG.API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-12)}),signal:ctl.signal});
+    if(r.status===429)throw new Error('rate');
+    if(!r.ok)throw new Error('http'+r.status);
+    const j=await r.json();reply=j.reply;mood=j.mood||'';if(!reply)throw new Error('empty');
+  }catch(err){ok=false;const m=String(err&&err.message);
+    reply=m==='rate'?'Aku lagi kebanjiran pertanyaan. Coba lagi sebentar ya!':(m==='http404'||location.protocol==='file:')?'Mode demo: otakku belum tersambung ke server.':'Koneksi ke server bermasalah. Coba lagi ya!'}
+  finally{clearTimeout(to);busy=false;$('snd').disabled=false}
+  if(ok)hist.push({role:'assistant',content:reply});else hist.pop();
+  add(reply,'b');if(ok){typeof react==='function'&&react(reply,false,mood);speak(reply)}else{state='idle';typeof feel==='function'&&feel('sad',3)}chips()}
+const POOL=['Apa itu web3?','Cara kenali penipu crypto','Apa itu seed phrase?','Bedanya CEX dan DEX?','Apa itu gas fee?','Apa itu airdrop?','Apa itu stablecoin?','Amankah simpan di dompet?'],asked=new Set();
+function chips(){const box=$('chips');box.textContent='';
+  POOL.filter(q=>!asked.has(q)).sort(()=>Math.random()-.5).slice(0,4).forEach(q=>{const b=document.createElement('button');b.className='c';b.textContent=q;b.onclick=()=>{asked.add(q);send(q)};box.appendChild(b)})}
+$('snd').onclick=()=>{send($('t').value);$('t').value=''};
+$('t').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('snd').click()}};
+add('Hai, aku Blobi! Ketuk atau putar aku, atau tanya soal web3 ya.','b');kick=1;chips();
+</script></body></html>

@@ -184,6 +184,13 @@ export default defineConfig(({ command, isPreview }) => ({
             // manifest + head-tag middleware). Nitro v3 defaults serverDir to
             // false, so removing this silently unwires /?install=1 on deploys.
             serverDir: "./server",
+            // /api/blobi/chat memanggil model penalaran (deepseek) yang bisa
+            // butuh belasan detik; default function Vercel terlalu pendek.
+            vercel: {
+              functionRules: {
+                "/api/blobi/chat": { maxDuration: 60 },
+              },
+            },
             routeRules: {
               "/api/health": {
                 headers: {

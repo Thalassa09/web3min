@@ -168,13 +168,20 @@ export function AdminPage() {
   const [isSeedingArtwork, setIsSeedingArtwork] = React.useState(false);
   const [toastMsg, setToastMsg] = React.useState<string | null>(null);
 
+  /**
+   * Satu-satunya penentu aksi admin yang boleh jalan: kunci rahasia ATAU sesi
+   * admin (is_admin di database). Admin sesi TIDAK punya kunci, jadi gate yang
+   * hanya memeriksa `adminKey` akan mematikan tombolnya tanpa pesan apa pun.
+   */
+  const canAdmin = Boolean(adminKey || isAdminSession);
+
   const showToast = (msg: string) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(null), 3500);
   };
 
   const handleTriggerDraw = async (raffle: DbRaffleItem) => {
-    if (!adminKey) return;
+    if (!canAdmin) return;
     if (
       !window.confirm(
         `Undi pemenang sekarang untuk "${raffle.title}"? Status akan beralih ke "MENUNGGU VERIFIKASI".`
@@ -183,7 +190,7 @@ export function AdminPage() {
       return;
     }
     setIsDrawing(raffle.id);
-    const res = await rpcAdminTriggerDraw(adminKey, raffle.id);
+    const res = await rpcAdminTriggerDraw(adminKey ?? "", raffle.id);
     setIsDrawing(null);
     if (res.success) {
       showToast("Undian berhasil diproses! Silakan verifikasi pemenang.");
@@ -402,9 +409,9 @@ export function AdminPage() {
   };
 
   const handleConfirmDelete = async () => {
-    if (!deletingRaffle || !adminKey) return;
+    if (!deletingRaffle || !canAdmin) return;
     setIsDeleting(true);
-    const res = await rpcAdminDeleteRaffle(adminKey, deletingRaffle.id);
+    const res = await rpcAdminDeleteRaffle(adminKey ?? "", deletingRaffle.id);
     setIsDeleting(false);
     if (res.success) {
       showToast(`Undian "${deletingRaffle.title}" berhasil dihapus.`);
@@ -417,7 +424,7 @@ export function AdminPage() {
 
   // One-click utility: populate empty artwork for initial raffles using curated presets
   const handleSeedDefaultArtwork = async () => {
-    if (!adminKey) return;
+    if (!canAdmin) return;
     setIsSeedingArtwork(true);
     let updatedCount = 0;
     try {
@@ -430,7 +437,7 @@ export function AdminPage() {
           ) || RAFFLE_IMAGE_PRESETS[0];
 
           await rpcAdminUpsertRaffle({
-            key: adminKey,
+            key: adminKey ?? "",
             id: r.id,
             title: r.title,
             prize: r.prize,
@@ -1308,7 +1315,7 @@ export function AdminPage() {
       </div>
 
       {/* Admin Add/Edit Modal */}
-      {adminKey && (
+      {canAdmin && (
         <AdminRaffleModal
           isOpen={showRaffleModal}
           onClose={() => {
@@ -1320,7 +1327,7 @@ export function AdminPage() {
             void refreshData();
           }}
           initialData={editingRaffle}
-          adminKey={adminKey}
+          adminKey={adminKey ?? ""}
         />
       )}
 
@@ -1336,22 +1343,22 @@ export function AdminPage() {
       )}
 
       {/* Admin View Participants Modal */}
-      {viewingParticipantsRaffle && adminKey && (
+      {viewingParticipantsRaffle && canAdmin && (
         <AdminParticipantsModal
           isOpen={Boolean(viewingParticipantsRaffle)}
           onClose={() => setViewingParticipantsRaffle(null)}
           raffle={viewingParticipantsRaffle}
-          adminKey={adminKey}
+          adminKey={adminKey ?? ""}
         />
       )}
 
       {/* Admin Winner Verification & Announcement Modal */}
-      {viewingVerificationRaffle && adminKey && (
+      {viewingVerificationRaffle && canAdmin && (
         <RaffleVerificationModal
           isOpen={Boolean(viewingVerificationRaffle)}
           onClose={() => setViewingVerificationRaffle(null)}
           raffle={viewingVerificationRaffle}
-          adminKey={adminKey}
+          adminKey={adminKey ?? ""}
           onUpdated={async () => {
             await refreshData();
             if (viewingVerificationRaffle) {

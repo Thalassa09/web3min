@@ -17,9 +17,10 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] React #418 di `/` (temuan lama) untuk dicek manusia; bukan regresi Langkah 9.
 - [ ] Tab klasemen overflow 12px di 360px: `<div>` memang `overflow-x: auto`, scrollable by design.
 - [ ] JANGAN diubah, tandai untuk dicek manusia: giveaway/undian berpotensi bermasalah hukum di Indonesia.
+- [ ] Peta: maskot di node aktif menutupi bagian tengah judul blok tetangga (mis. `#0x02` "Web2 vs") — pra-ada, bukan regresi U1 (pill lama tertutup penuh); keputusan: geser maskot atau biarkan.
 
 ## Terakhir dikerjakan
-- [x] U1 triase: pill node peta kini menampilkan judul pelajaran bersama nomor blok (`chain-block.tsx`). Commit `b2140e3`.
+- [x] U1 triase: pill node peta kini menampilkan judul pelajaran bersama nomor blok (`chain-block.tsx`). Commit `b2140e3`; terverifikasi build+preview 360/390 (0 overflow).
 - [x] Fase 2 mekanik kuis: antrean ulang sekali, nyawa sekali per soal, sesi ber-seed + resume `web3min-quiz-v1`, review campuran. Commit `789c690`.
 - [x] U2/U3 sisa: `aria-label` tombol ikon "posisi saya" di leaderboard; audit 22 tombol ikon-saja lain bersih. Commit `57f88f8`.
 - [x] U4 triase: penjelasan kuota (2×/hari, Supporter 4×) + reset 00.00 WIB di kartu isi nyawa gratis `/shop`. Commit `2bbbe28`.

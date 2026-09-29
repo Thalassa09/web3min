@@ -1,5 +1,6 @@
-import { defineEventHandler, readBody } from "h3";
+import { defineEventHandler, readBody, getRequestIP } from "h3";
 import { createClient } from "@supabase/supabase-js";
+import { createHash, randomInt } from "node:crypto";
 
 interface RequestResetBody {
   username?: string;
@@ -19,14 +20,26 @@ const ALLOWED_EMAIL_DOMAINS = new Set([
   "proton.me", "protonmail.com",
 ]);
 
-const DOMAIN_REJECT_MSG =
-  "Email pemulihan harus dari penyedia publik: Gmail, Yahoo, Outlook/Hotmail, iCloud, atau Proton. Domain bisnis atau email sementara tidak diizinkan.";
+// Satu-satunya pesan sukses (S1c): identik untuk username ada/tidak ada,
+// punya/tidak punya email pemulihan, terkirim/gagal terkirim. Menutup
+// enumerasi akun lewat perbedaan pesan. Detail sebenarnya masuk log server.
+const GENERIC_OK_MESSAGE =
+  "Kalau akun itu ada dan email pemulihan sudah diatur, kode 6 digit sudah dikirim. Cek juga folder spam. Belum menerima? Pastikan email pemulihanmu penyedia publik (Gmail, Yahoo, Outlook, iCloud, Proton) di halaman Profil.";
 
 function maskEmail(email: string): string {
   const [user, domain] = email.split("@");
   if (!user || !domain) return "***@***";
   if (user.length <= 2) return `${user[0]}***@${domain}`;
   return `${user[0]}***${user[user.length - 1]}@${domain}`;
+}
+
+/**
+ * Hash OTP + pepper (service-role key). `user_metadata` bisa dibaca klien,
+ * jadi OTP tidak pernah disimpan polos (S1e). Tanpa pepper, 6 digit bisa
+ * di-bruteforce dari hash; dengan pepper hanya server yang bisa menghitung.
+ */
+function hashOtp(otp: string, pepper: string): string {
+  return createHash("sha256").update(`${otp}:${pepper}`).digest("hex");
 }
 
 export default defineEventHandler(async (event) => {
@@ -38,13 +51,42 @@ export default defineEventHandler(async (event) => {
       return { ok: false, error: "Username tidak boleh kosong" };
     }
 
+    // Cek konfigurasi SEBELUM lookup: error ini tidak tergantung akun,
+    // jadi aman untuk tidak diseragamkan.
     if (!SUPABASE_SERVICE_ROLE_KEY) {
       return { ok: false, error: "Layanan server pemulihan belum dikonfigurasi (kunci admin)." };
     }
+    if (!RESEND_API_KEY) {
+      return { ok: false, error: "Layanan pengiriman email belum dikonfigurasi (RESEND_API_KEY)." };
+    }
+    const serviceKey = SUPABASE_SERVICE_ROLE_KEY;
 
-    const adminSupabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+    const adminSupabase = createClient(SUPABASE_URL, serviceKey, {
       auth: { persistSession: false },
     });
+
+    // Rate limit (S1d): 3/15 menit per username, 10/15 menit per IP.
+    // Fail-open kalau RPC bermasalah supaya pemulihan akun tidak mati total.
+    const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
+    const [rlUser, rlIp] = await Promise.all([
+      adminSupabase.rpc("check_rate_limit", {
+        p_action: "pwreset_req_user",
+        p_identifier: rawUsername,
+        p_max_requests: 3,
+        p_window_seconds: 900,
+      }),
+      adminSupabase.rpc("check_rate_limit", {
+        p_action: "pwreset_req_ip",
+        p_identifier: ip,
+        p_max_requests: 10,
+        p_window_seconds: 900,
+      }),
+    ]);
+    if (rlUser.error) console.error("[request-reset] rate limit (user) error:", rlUser.error.message);
+    if (rlIp.error) console.error("[request-reset] rate limit (ip) error:", rlIp.error.message);
+    if (rlUser.data === false || rlIp.data === false) {
+      return { ok: false, error: "Terlalu banyak permintaan reset. Coba lagi dalam 15 menit." };
+    }
 
     // 1. Cari profile berdasarkan username
     const { data: profile, error: profErr } = await adminSupabase
@@ -54,41 +96,40 @@ export default defineEventHandler(async (event) => {
       .maybeSingle();
 
     if (profErr || !profile) {
-      return { ok: false, error: `Akun dengan username "@${rawUsername}" tidak ditemukan.` };
+      return { ok: true, message: GENERIC_OK_MESSAGE };
     }
 
     // 2. Ambil metadata user auth
     const { data: userData, error: userErr } = await adminSupabase.auth.admin.getUserById(profile.id);
     if (userErr || !userData?.user) {
-      return { ok: false, error: "Data autentikasi akun tidak ditemukan." };
+      console.error("[request-reset] getUserById error:", userErr?.message || "user kosong");
+      return { ok: true, message: GENERIC_OK_MESSAGE };
     }
 
     const recoveryEmail = userData.user.user_metadata?.recovery_email;
     if (!recoveryEmail || typeof recoveryEmail !== "string" || !recoveryEmail.includes("@")) {
-      return {
-        ok: false,
-        error: `Akun "@${profile.username}" belum mendaftarkan email pemulihan di halaman Profil. Silakan hubungi admin jika akun terkunci.`,
-      };
+      console.warn(`[request-reset] @${profile.username}: belum ada email pemulihan terdaftar`);
+      return { ok: true, message: GENERIC_OK_MESSAGE };
     }
 
     const emailDomain = recoveryEmail.trim().toLowerCase().split("@")[1] || "";
     if (!ALLOWED_EMAIL_DOMAINS.has(emailDomain)) {
-      return {
-        ok: false,
-        error: `${DOMAIN_REJECT_MSG} Email terdaftar: ${maskEmail(recoveryEmail)}. Ubah di halaman Profil → Email Pemulihan Kata Sandi.`,
-        maskedEmail: maskEmail(recoveryEmail),
-      };
+      console.warn(
+        `[request-reset] @${profile.username}: domain email ditolak (${maskEmail(recoveryEmail)})`
+      );
+      return { ok: true, message: GENERIC_OK_MESSAGE };
     }
 
-    // 3. Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // 3. OTP 6-digit kriptografis (S1b); simpan HASH-nya, bukan polos (S1e).
+    const otp = randomInt(100000, 1000000).toString();
     const expiresAt = Date.now() + 15 * 60 * 1000; // 15 menit
 
-    // Simpan OTP ke metadata
     const updatedMeta = {
       ...(userData.user.user_metadata || {}),
-      reset_otp: otp,
+      reset_otp_hash: hashOtp(otp, serviceKey),
       reset_otp_expires: expiresAt,
+      reset_otp_attempts: null, // kode baru = hitungan percobaan baru (hindari dead-end)
+      reset_otp: null, // bersihkan sisa format lama (plaintext)
     };
 
     const { error: updateMetaErr } = await adminSupabase.auth.admin.updateUserById(profile.id, {
@@ -96,14 +137,11 @@ export default defineEventHandler(async (event) => {
     });
 
     if (updateMetaErr) {
-      return { ok: false, error: "Gagal membuat sesi pemulihan akun." };
+      console.error("[request-reset] updateUserById error:", updateMetaErr.message);
+      return { ok: true, message: GENERIC_OK_MESSAGE };
     }
 
     // 4. Kirim email melalui Resend
-    if (!RESEND_API_KEY) {
-      return { ok: false, error: "Layanan pengiriman email belum dikonfigurasi (RESEND_API_KEY)." };
-    }
-
     const emailHtml = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 28px 20px; background-color: #FFF9F5; border: 3px solid #3B2218; border-radius: 24px;">
         <div style="text-align: center; margin-bottom: 24px;">
@@ -148,40 +186,23 @@ export default defineEventHandler(async (event) => {
       }),
     });
 
-    const resendData = await resendRes.json();
-
     if (!resendRes.ok) {
-      console.error("[reset-password-request] Resend error:", resendData);
-      const isSandboxRestriction =
-        resendData?.message &&
-        typeof resendData.message === "string" &&
-        resendData.message.includes("You can only send testing emails");
-
-      if (isSandboxRestriction) {
-        return {
-          ok: false,
-          error:
-            "Resend masih dalam mode pengujian (sandbox). Hanya dapat mengirim ke email pemilik akun Resend sampai domain web3min.com diverifikasi di Resend.",
-          maskedEmail: maskEmail(recoveryEmail),
-        };
-      }
-
-      return {
-        ok: false,
-        error: resendData?.message || "Gagal mengirim email verifikasi. Coba beberapa saat lagi.",
-      };
+      const resendData = await resendRes.json().catch(() => null);
+      console.error(
+        "[request-reset] Resend error:",
+        resendData?.message || `HTTP ${resendRes.status}`
+      );
+      // Kegagalan kirim (mis. sandbox S3) tidak dibocorkan ke klien;
+      // detailnya ada di log server untuk admin.
+      return { ok: true, message: GENERIC_OK_MESSAGE };
     }
 
-    return {
-      ok: true,
-      maskedEmail: maskEmail(recoveryEmail),
-      message: `Kode 6-digit berhasil dikirim ke ${maskEmail(recoveryEmail)}.`,
-    };
+    return { ok: true, message: GENERIC_OK_MESSAGE };
   } catch (err: unknown) {
-    console.error("[reset-password-request] Exception:", err);
+    console.error("[request-reset] Exception:", err);
     return {
       ok: false,
-      error: (err as Error)?.message || "Terjadi kesalahan internal server.",
+      error: "Terjadi kesalahan internal server.",
     };
   }
 });

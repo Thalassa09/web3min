@@ -19,6 +19,7 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] JANGAN diubah, tandai untuk dicek manusia: giveaway/undian berpotensi bermasalah hukum di Indonesia.
 
 ## Terakhir dikerjakan
+- [x] S1 triase: OTP `crypto.randomInt` + hash+pepper (bukan plaintext di metadata), banding constant-time, batas 5 percobaan salah, rate limit RPC (3/15m per user, 10/15m per IP), pesan request-reset diseragamkan (anti-enumerasi). Commit `PENDING`.
 - [x] Fix /admin: tombol aksi admin sesi (Buat/Edit/Peserta/Undi/Hapus) mati karena gate `adminKey` saja -> `canAdmin` + guard test. Commit `db75860`.
 - [x] Fix DB alur undian: 4 fungsi pakai kolom hantu (`p.display_name`, `progress.outfits/badges`) + constraint `verifying` -> migrasi `20260929000001`, dry-run rollback alur penuh.
 - [x] S9 triase: minimum password reset disamakan 6→8 karakter (`confirm-reset.post.ts` + `masuk.tsx`) sesuai aturan register.

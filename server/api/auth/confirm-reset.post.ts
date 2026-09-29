@@ -1,5 +1,6 @@
-import { defineEventHandler, readBody } from "h3";
+import { defineEventHandler, readBody, getRequestIP } from "h3";
 import { createClient } from "@supabase/supabase-js";
+import { createHash, timingSafeEqual } from "node:crypto";
 
 interface ConfirmResetBody {
   username?: string;
@@ -9,6 +10,25 @@ interface ConfirmResetBody {
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://oopfefvptezqonilpfkk.supabase.co";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+const MAX_OTP_ATTEMPTS = 5;
+
+// Pesan gagal generik (S1c): sama untuk username tidak ada, tanpa permintaan
+// aktif, kode kedaluwarsa, dan kode salah — menutup enumerasi akun lewat
+// confirm-reset. Pengguna yang benar-benar meminta kode tetap paham.
+const GENERIC_FAIL =
+  "Kode verifikasi salah atau sudah tidak berlaku. Minta kode baru lewat tombol \"Lupa Password?\".";
+
+function hashOtp(otp: string, pepper: string): string {
+  return createHash("sha256").update(`${otp}:${pepper}`).digest("hex");
+}
+
+/** Bandingkan dua hash hex dengan waktu konstan (S1f). */
+function hashEquals(aHex: string, bHex: string): boolean {
+  const a = Buffer.from(aHex, "hex");
+  const b = Buffer.from(bHex, "hex");
+  return a.length === b.length && timingSafeEqual(a, b);
+}
 
 export default defineEventHandler(async (event) => {
   try {
@@ -30,10 +50,25 @@ export default defineEventHandler(async (event) => {
     if (!SUPABASE_SERVICE_ROLE_KEY) {
       return { ok: false, error: "Layanan server pemulihan belum dikonfigurasi (kunci admin)." };
     }
+    const serviceKey = SUPABASE_SERVICE_ROLE_KEY;
 
-    const adminSupabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+    const adminSupabase = createClient(SUPABASE_URL, serviceKey, {
       auth: { persistSession: false },
     });
+
+    // Rate limit per IP (S1a/S1d): 15 percobaan confirm / 15 menit.
+    // Fail-open kalau RPC bermasalah supaya pemulihan akun tidak mati total.
+    const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
+    const rlIp = await adminSupabase.rpc("check_rate_limit", {
+      p_action: "pwreset_confirm_ip",
+      p_identifier: ip,
+      p_max_requests: 15,
+      p_window_seconds: 900,
+    });
+    if (rlIp.error) console.error("[confirm-reset] rate limit (ip) error:", rlIp.error.message);
+    if (rlIp.data === false) {
+      return { ok: false, error: "Terlalu banyak percobaan. Coba lagi dalam 15 menit." };
+    }
 
     // 1. Cari profile berdasarkan username
     const { data: profile, error: profErr } = await adminSupabase
@@ -43,35 +78,61 @@ export default defineEventHandler(async (event) => {
       .maybeSingle();
 
     if (profErr || !profile) {
-      return { ok: false, error: `Akun dengan username "@${rawUsername}" tidak ditemukan.` };
+      return { ok: false, error: GENERIC_FAIL };
     }
 
     // 2. Ambil metadata user auth
     const { data: userData, error: userErr } = await adminSupabase.auth.admin.getUserById(profile.id);
     if (userErr || !userData?.user) {
-      return { ok: false, error: "Data autentikasi akun tidak ditemukan." };
+      console.error("[confirm-reset] getUserById error:", userErr?.message || "user kosong");
+      return { ok: false, error: GENERIC_FAIL };
     }
 
-    const savedOtp = userData.user.user_metadata?.reset_otp;
-    const expiresAt = userData.user.user_metadata?.reset_otp_expires;
+    const meta = userData.user.user_metadata || {};
+    const savedHash = meta.reset_otp_hash;
+    const expiresAt = meta.reset_otp_expires;
+    const attempts = Number(meta.reset_otp_attempts || 0);
 
-    if (!savedOtp || !expiresAt) {
-      return { ok: false, error: "Tidak ada permintaan reset aktif untuk akun ini. Silakan kirim kode baru." };
+    if (typeof savedHash !== "string" || !savedHash || !expiresAt) {
+      return { ok: false, error: GENERIC_FAIL };
+    }
+
+    if (attempts >= MAX_OTP_ATTEMPTS) {
+      return { ok: false, error: GENERIC_FAIL };
     }
 
     if (Date.now() > Number(expiresAt)) {
-      return { ok: false, error: "Kode verifikasi telah kedaluwarsa (15 menit). Silakan minta kode baru." };
+      return { ok: false, error: GENERIC_FAIL };
     }
 
-    if (savedOtp.toString().trim() !== code) {
-      return { ok: false, error: "Kode verifikasi 6-digit salah. Periksa kembali email kamu." };
+    // Bandingkan hash kode dengan waktu konstan; tidak pernah bandingkan
+    // string OTP polos (S1f). Kode polos hanya ada di email pengguna.
+    const providedHash = hashOtp(code, serviceKey);
+    if (!hashEquals(providedHash, savedHash)) {
+      const nextAttempts = attempts + 1;
+      // Catat percobaan salah; setelah batas, kode lama dimatikan sekalian.
+      const failedMeta: Record<string, unknown> = {
+        ...meta,
+        reset_otp_attempts: nextAttempts,
+      };
+      if (nextAttempts >= MAX_OTP_ATTEMPTS) {
+        failedMeta.reset_otp_hash = null;
+        failedMeta.reset_otp_expires = null;
+      }
+      const { error: failUpdateErr } = await adminSupabase.auth.admin.updateUserById(profile.id, {
+        user_metadata: failedMeta,
+      });
+      if (failUpdateErr) console.error("[confirm-reset] catat percobaan gagal error:", failUpdateErr.message);
+      return { ok: false, error: GENERIC_FAIL };
     }
 
     // 3. Update password akun & bersihkan OTP
     const updatedMeta = {
-      ...(userData.user.user_metadata || {}),
+      ...meta,
       reset_otp: null,
+      reset_otp_hash: null,
       reset_otp_expires: null,
+      reset_otp_attempts: null,
     };
 
     const { error: updateErr } = await adminSupabase.auth.admin.updateUserById(profile.id, {
@@ -80,8 +141,8 @@ export default defineEventHandler(async (event) => {
     });
 
     if (updateErr) {
-      console.error("[confirm-reset] Update password error:", updateErr);
-      return { ok: false, error: updateErr.message || "Gagal memperbarui password akun." };
+      console.error("[confirm-reset] Update password error:", updateErr.message);
+      return { ok: false, error: "Gagal memperbarui password akun. Coba lagi." };
     }
 
     return {
@@ -92,7 +153,7 @@ export default defineEventHandler(async (event) => {
     console.error("[confirm-reset] Exception:", err);
     return {
       ok: false,
-      error: (err as Error)?.message || "Terjadi kesalahan internal server.",
+      error: "Terjadi kesalahan internal server.",
     };
   }
 });

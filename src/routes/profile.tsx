@@ -168,6 +168,7 @@ function ProfilePage() {
 
   const [recoveryEmail, setRecoveryEmail] = useState<string | null>(null);
   const [emailDraft, setEmailDraft] = useState("");
+  const [emailPassword, setEmailPassword] = useState("");
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isSavingEmail, setIsSavingEmail] = useState(false);
   const [emailSaveSuccess, setEmailSaveSuccess] = useState<string | null>(null);
@@ -187,11 +188,12 @@ function ProfilePage() {
     setIsSavingEmail(true);
     setEmailSaveError(null);
     setEmailSaveSuccess(null);
-    const res = await saveRecoveryEmail(emailDraft);
+    const res = await saveRecoveryEmail(emailDraft, emailPassword);
     setIsSavingEmail(false);
     if (res.ok) {
       setRecoveryEmail(emailDraft.trim().toLowerCase());
       setIsEditingEmail(false);
+      setEmailPassword("");
       setEmailSaveSuccess("Email pemulihan akun berhasil disimpan!");
       setTimeout(() => setEmailSaveSuccess(null), 4000);
     } else {
@@ -931,12 +933,23 @@ function ProfilePage() {
                     className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
                   />
                 </div>
+                <div className="relative flex-1">
+                  <input
+                    type="password"
+                    value={emailPassword}
+                    onChange={(e) => setEmailPassword(e.target.value)}
+                    placeholder="Password akun (konfirmasi)"
+                    autoComplete="current-password"
+                    aria-label="Password akun untuk konfirmasi perubahan email"
+                    className="w-full h-11 px-3.5 rounded-xl bg-white border-2 border-choco-900 text-base sm:text-sm font-bold text-choco-900 placeholder:text-choco-400 shadow-[0_2px_0_#3B2218] focus:border-candy-500 outline-none transition-all"
+                  />
+                </div>
                 <div className="flex items-center gap-2">
                   <TactileButton
                     variant="primary"
                     size="sm"
                     type="submit"
-                    disabled={isSavingEmail || !emailDraft.trim() || !isValidRecoveryEmail(emailDraft).valid}
+                    disabled={isSavingEmail || !emailDraft.trim() || !emailPassword || !isValidRecoveryEmail(emailDraft).valid}
                     className="text-xs font-extrabold"
                   >
                     {isSavingEmail ? "Memverifikasi..." : "Verifikasi & Simpan Email →"}
@@ -948,6 +961,7 @@ function ProfilePage() {
                       type="button"
                       onClick={() => {
                         setEmailDraft(recoveryEmail);
+                        setEmailPassword("");
                         setIsEditingEmail(false);
                         setEmailSaveError(null);
                       }}
@@ -967,7 +981,7 @@ function ProfilePage() {
               )}
 
               <p className="text-[11px] font-semibold text-choco-600 leading-relaxed">
-                Gunakan email utama (Gmail, Yahoo, Outlook, iCloud, Proton) untuk verifikasi akun.
+                Masukkan password akunmu sebagai konfirmasi. Ini mencegah orang lain yang memakai perangkatmu menukar email pemulihan tanpa izin.
               </p>
             </form>
           )}

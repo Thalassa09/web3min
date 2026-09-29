@@ -19,7 +19,8 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] JANGAN diubah, tandai untuk dicek manusia: giveaway/undian berpotensi bermasalah hukum di Indonesia.
 
 ## Terakhir dikerjakan
-- [x] S5+S6 diterapkan ke DB live: revoke EXECUTE `sync_user_progress(uuid)` + `admin_verify_key(text)` dari anon/authenticated; search_path utk `get_raffles()`/`admin_upsert_raffle`; riwayat migrasi direpair. Commit `PENDING`.
+- [x] S2 triase: ganti email pemulihan butuh re-auth password (`saveRecoveryEmail` + input konfirmasi di `/profile`). Commit `PENDING`.
+- [x] S5+S6 diterapkan ke DB live: revoke EXECUTE `sync_user_progress(uuid)` + `admin_verify_key(text)` dari anon/authenticated; search_path utk `get_raffles()`/`admin_upsert_raffle`; riwayat migrasi direpair. Commit `39c30fd`.
 - [x] S1 triase: OTP `crypto.randomInt` + hash+pepper (bukan plaintext di metadata), banding constant-time, batas 5 percobaan salah, rate limit RPC (3/15m per user, 10/15m per IP), pesan request-reset diseragamkan (anti-enumerasi). Commit `a0009b0`.
 - [x] Fix /admin: tombol aksi admin sesi (Buat/Edit/Peserta/Undi/Hapus) mati karena gate `adminKey` saja -> `canAdmin` + guard test. Commit `db75860`.
 - [x] Fix DB alur undian: 4 fungsi pakai kolom hantu (`p.display_name`, `progress.outfits/badges`) + constraint `verifying` -> migrasi `20260929000001`, dry-run rollback alur penuh.

@@ -193,16 +193,38 @@ export async function getRecoveryEmail(): Promise<string | null> {
   }
 }
 
-export async function saveRecoveryEmail(email: string): Promise<{ ok: boolean; message?: string }> {
+export async function saveRecoveryEmail(
+  email: string,
+  currentPassword: string
+): Promise<{ ok: boolean; message?: string }> {
   const clean = email.trim().toLowerCase();
   const check = isValidRecoveryEmail(clean);
   if (!check.valid) {
     return { ok: false, message: check.reason };
   }
+  if (!currentPassword) {
+    return { ok: false, message: "Masukkan password akunmu untuk mengonfirmasi perubahan." };
+  }
   if (!isSupabaseConfigured || !supabase) {
     return { ok: false, message: "Server belum terhubung." };
   }
   try {
+    // Re-auth (S2): buktikan pemilik akun tahu password sebelum mengubah
+    // jalur pemulihan. Tanpa ini, siapa pun yang memegang sesi terbuka bisa
+    // menukar email pemulihan lalu menguasai akun lewat reset password.
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user?.email) {
+      return { ok: false, message: "Sesi tidak ditemukan. Masuk ulang dulu." };
+    }
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: currentPassword,
+    });
+    if (reauthError) {
+      return { ok: false, message: "Password akun salah. Perubahan email dibatalkan." };
+    }
     const { error } = await supabase.auth.updateUser({
       data: { recovery_email: clean },
     });

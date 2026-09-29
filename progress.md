@@ -22,7 +22,7 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [x] S1 triase: OTP `crypto.randomInt` + hash+pepper (bukan plaintext di metadata), banding constant-time, batas 5 percobaan salah, rate limit RPC (3/15m per user, 10/15m per IP), pesan request-reset diseragamkan (anti-enumerasi). Commit `a0009b0`.
 - [x] Fix /admin: tombol aksi admin sesi (Buat/Edit/Peserta/Undi/Hapus) mati karena gate `adminKey` saja -> `canAdmin` + guard test. Commit `db75860`.
 - [x] Fix DB alur undian: 4 fungsi pakai kolom hantu (`p.display_name`, `progress.outfits/badges`) + constraint `verifying` -> migrasi `20260929000001`, dry-run rollback alur penuh.
-- [x] S9 triase: minimum password reset disamakan 6→8 karakter (`confirm-reset.post.ts` + `masuk.tsx`) sesuai aturan register.
+- [x] S9 triase: minimum password reset disamakan 6→8 karakter (`confirm-reset.post.ts` + `masuk.tsx`) sesuai aturan register. Commit `478fc82`.
 - [x] S7+S8 triase: CSP Report-Only + X-XSS-Protection "0" di `vercel.json`; `/api/keep-alive` cek `CRON_SECRET` + respons `{ok}` tanpa bocor info. Commit `edfccc5`.
 - [x] S12 triase: hapus `/tamagui-poc` + komponen bukti Tamagui + `public/prototype` (nol rujukan; routeTree diregenerasi via Generator API). Commit `036ae7b`.
 - [x] Langkah 55: `/dao` gate kuis server + acceptance nol literal `discord.gg`. Commit `482fd0c`.

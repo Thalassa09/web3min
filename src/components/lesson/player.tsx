@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Heart, X, Check } from "@/lib/kicon";
 import type { Exercise, Lesson } from "@/lib/curriculum";
-import { firstPlayableId, getLesson, scoredExerciseCount } from "@/lib/curriculum";
+import { firstPlayableId, getLesson, sequentialNodes } from "@/lib/curriculum";
 import { worldOf } from "@/lib/worlds";
 import { formatHeartWait, HEART_MS, msUntilHeart, useProgress } from "@/lib/store";
 import { DuoButton } from "@/components/duo-button";
@@ -15,11 +15,76 @@ import { playComplete, playCorrect, playHeart, playWrong } from "@/lib/audio";
 import { cn } from "@/lib/utils";
 import { Dialog } from "@/components/dialog";
 import { rpcCompleteLesson, syncProgressFromServer } from "@/lib/server-sync";
+import {
+  DEFAULT_TARGET,
+  advance,
+  isSessionComplete,
+  makeSeed,
+  markCorrect,
+  markWrong,
+  planQueue,
+  type QuizSession,
+} from "@/lib/quiz-ops";
+import {
+  clearSession,
+  forgetWrong,
+  loadSession,
+  rememberWrong,
+  saveSession,
+  startSession,
+  wrongIdsOf,
+} from "@/lib/quiz-session-store";
 
 type Phase = "ask" | "feedback" | "done" | "dead";
 
 const WRONG_LINES = ["Pelan-pelan, kita bedah.", "Hampir. Coba liat lagi.", "Oke, simpan dulu. Nanti ketemu lagi."];
 const RIGHT_LINES = ["Mantap.", "Nah, bener.", "Nangkep."];
+const REVIEW_LOOKBACK = 3;
+
+/**
+ * Rencana kuis untuk satu blok: urutan soal, soal review, dan seed sesi.
+ *
+ * Dipisah dari komponen karena butuh baca localStorage (`wrongIdsOf`), dan
+ * sengaja dijalankan sekali lewat `useMemo` supaya susunan soal tidak berubah
+ * tiap render.
+ *
+ * Soal review diambil dari blok BEBERAPA langkah sebelumnya yang pernah salah
+ * dan masih ada di kurikulum. Kalau datanya tidak ada, review dilewati.
+ */
+function buildQuizPlan(lesson: Lesson) {
+  const scored = lesson.exercises.filter((ex) => ex.type !== "tip");
+  const pool = scored.map((ex) => ({ id: ex.id, type: ex.type }));
+  const target = lesson.kind === "checkpoint" ? scored.length : (DEFAULT_TARGET.lesson ?? scored.length);
+
+  // Peta id soal -> soal + pemiliknya. Soal review berasal dari blok lain, jadi
+  // `pending` tidak bisa lagi mengandalkan `lesson.exercises` saja.
+  const resolve = new Map<string, { ex: Exercise; ownerId: string }>();
+  for (const ex of lesson.exercises) resolve.set(ex.id, { ex, ownerId: lesson.id });
+
+  const reviewItems: { id: string; type: string }[] = [];
+  if (lesson.kind !== "checkpoint") {
+    const seq = sequentialNodes();
+    const at = seq.findIndex((node) => node.id === lesson.id);
+    const lookback = at > 0 ? seq.slice(Math.max(0, at - REVIEW_LOOKBACK), at) : [];
+    for (const prev of lookback) {
+      for (const wrongId of wrongIdsOf(prev.id)) {
+        if (resolve.has(wrongId)) continue;
+        const found = prev.exercises.find((ex) => ex.id === wrongId && ex.type !== "tip");
+        if (!found) continue;
+        resolve.set(found.id, { ex: found, ownerId: prev.id });
+        reviewItems.push({ id: found.id, type: found.type });
+      }
+    }
+  }
+
+  const seed = makeSeed(Date.now(), Math.floor(Math.random() * 0xffff));
+  const plan = planQueue(pool, target, reviewItems, seed);
+  // Total = soal bernilai yang benar-benar tampil di sesi ini (termasuk review),
+  // BUKAN jumlah soal di blok: kalau bank blok lebih kecil dari target, sesi
+  // lebih pendek dan progres harus ikut menyesuaikan.
+  const sessionTotal = new Set(plan.ids.filter((id) => resolve.get(id)?.ex.type !== "tip")).size;
+  return { plan, seed, sessionTotal, resolve };
+}
 
 export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const navigate = useNavigate();
@@ -33,21 +98,43 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   const dailyGoal = useProgress((s) => s.dailyGoal);
   const xpToday = useProgress((s) => s.xpToday);
 
-  const scored = scoredExerciseCount(lesson);
-  const [pending, setPending] = useState<Exercise[]>(() => [...lesson.exercises]);
-  const [index, setIndex] = useState(0);
+  const quiz = useMemo(() => buildQuizPlan(lesson), [lesson]);
+  const [session, setSession] = useState<QuizSession | null>(null);
   const [phase, setPhase] = useState<Phase>(() => (useProgress.getState().hearts <= 0 ? "dead" : "ask"));
   const [ok, setOk] = useState(false);
   const [ready, setReady] = useState(false);
-  const [mistakes, setMistakes] = useState(0);
-  const [solved, setSolved] = useState(0);
   const [awarded, setAwarded] = useState<{ xp: number; gems: number; perfect: boolean; replay: boolean } | null>(null);
   const handleRef = useRef<CheckHandle>({ ready: false, isCorrect: () => false });
-  const mistakesRef = useRef(0);
-  const pendingLenRef = useRef(pending.length);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const matchHadMistakeRef = useRef(false);
+  // Apakah soal yang baru dijawab salah ini masuk antrean ulang? Dipakai untuk
+  // memilih teks feedback yang jujur: salah kedua tidak mengulang lagi.
+  const [requeuedNow, setRequeuedNow] = useState(false);
 
-  const exercise = pending[index];
-  pendingLenRef.current = pending.length;
+  // Buat sesi baru atau lanjutkan sesi tersimpan. Dijalankan sekali per blok;
+  // membaca localStorage tidak boleh terjadi saat render (SSR-safe).
+  useEffect(() => {
+    const validIds = new Set(quiz.resolve.keys());
+    const resumed = loadSession(lesson.id, validIds);
+    if (resumed && isSessionComplete(resumed)) clearSession();
+    const fresh = resumed && !isSessionComplete(resumed) ? resumed : null;
+    const next = fresh ?? startSession(lesson.id, quiz.plan.ids, quiz.plan.review, quiz.sessionTotal, quiz.seed);
+    setSession(next);
+    setReady(false);
+    setOk(false);
+    setPhase(useProgress.getState().hearts <= 0 ? "dead" : "ask");
+  }, [lesson.id, quiz]);
+
+  // Simpan tiap perubahan supaya keluar aplikasi (atau HP mati) tidak
+  // menghilangkan posisi. Isinya id soal + posisi saja, tanpa XP/koin.
+  useEffect(() => {
+    if (session) saveSession(session);
+  }, [session]);
+
+  const current = session ? quiz.resolve.get(session.queue[session.index] ?? "") : undefined;
+  const exercise = current?.ex;
+  const solved = session?.solved.length ?? 0;
+  const mistakes = session?.wrong.length ?? 0;
 
   const onHandle = useCallback((h: CheckHandle) => {
     handleRef.current = h;
@@ -55,21 +142,18 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   }, []);
 
   const finish = useCallback(
-    (miss: number) => {
-      const perfect = miss === 0;
+    (perfect: boolean) => {
       const res = completeLesson(lesson.id, { perfect });
       setAwarded(res);
       setPhase("done");
       if (sound) playComplete();
+      clearSession();
       void rpcCompleteLesson(lesson.id, perfect).then((ok) => {
         if (ok) void syncProgressFromServer();
       });
     },
     [completeLesson, lesson.id, sound],
   );
-
-  const [showExitConfirm, setShowExitConfirm] = useState(false);
-  const matchHadMistakeRef = useRef(false);
 
   // Hydration sync: ensure 0 hearts immediately drops to dead state
   useEffect(() => {
@@ -79,8 +163,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   }, [hearts, phase]);
 
   // Nyawa pulih (regen otomatis tiap HEART_MS lewat tick store, atau isi ulang koin)
-  // -> lanjutkan sesi. Tanpa ini user terjebak di layar "Nyawa habis" walau nyawanya
-  // sudah pulih; satu-satunya jalan keluar adalah keluar sesi dan progresnya hilang.
+  // -> lanjutkan sesi. Sesi tersimpan, jadi user kembali ke soal yang sama.
   useEffect(() => {
     if (phase === "dead" && hearts > 0) {
       setPhase("ask");
@@ -90,19 +173,21 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
 
   const goNext = useCallback(() => {
     matchHadMistakeRef.current = false;
-    const nextIndex = index + 1;
-    if (nextIndex >= pendingLenRef.current) {
-      finish(mistakesRef.current);
+    if (!session) return;
+    const nextIndex = session.index + 1;
+    if (nextIndex >= session.queue.length || isSessionComplete(session)) {
+      finish(session.wrong.length === 0);
       return;
     }
-    setIndex(nextIndex);
+    setSession(advance(session, Date.now()));
     setPhase("ask");
     setReady(false);
     setOk(false);
-  }, [index, finish]);
+    setRequeuedNow(false);
+  }, [session, finish]);
 
   const check = useCallback(() => {
-    if (phase !== "ask" || !exercise) return;
+    if (phase !== "ask" || !exercise || !session) return;
     if (exercise.type === "tip") {
       goNext();
       return;
@@ -111,20 +196,24 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
     setOk(correct);
     setPhase("feedback");
     if (correct) {
-      setSolved((n) => n + 1);
+      setSession(markCorrect(session, exercise.id, Date.now()));
+      if (current && current.ownerId !== lesson.id) forgetWrong(current.ownerId, exercise.id);
       if (sound) playCorrect();
     } else {
-      const nextMiss = mistakesRef.current + 1;
-      mistakesRef.current = nextMiss;
-      setMistakes(nextMiss);
-      loseHeart();
+      const res = markWrong(session, exercise.id, Date.now());
+      setSession(res.session);
+      setRequeuedNow(res.requeued);
+      // Nyawa hanya berkurang pada kesalahan PERTAMA per soal.
+      if (res.spentHeart) {
+        loseHeart();
+        if (sound) playHeart();
+      }
+      if (current) rememberWrong(current.ownerId, exercise.id);
       if (sound) playWrong();
-      if (sound) playHeart();
-      setPending((q) => [...q, exercise]);
       // Note: Do NOT immediately jump to "dead" here, so the user can read the feedback
       // explanation. When they tap "Coba Lagi Nanti", continueAfterFeedback() will transition to "dead".
     }
-  }, [phase, exercise, goNext, sound, loseHeart]);
+  }, [phase, exercise, session, current, lesson.id, goNext, sound, loseHeart]);
 
   const continueAfterFeedback = useCallback(() => {
     if (useProgress.getState().hearts <= 0) {
@@ -169,32 +258,34 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
   }, [phase, ready, check, continueAfterFeedback]);
 
   const autoPass = useCallback(() => {
-    if (phase !== "ask") return;
+    if (phase !== "ask" || !session) return;
     const hadMistake = matchHadMistakeRef.current;
     setOk(!hadMistake);
     setPhase("feedback");
     if (!hadMistake) {
-      setSolved((n) => n + 1);
+      if (exercise) setSession(markCorrect(session, exercise.id, Date.now()));
       if (sound) playCorrect();
     } else {
       if (sound) playWrong();
     }
-  }, [phase, sound]);
+  }, [phase, sound, session, exercise]);
 
   const mismatch = useCallback(() => {
     if (sound) playWrong();
-    if (!matchHadMistakeRef.current) {
+    if (!matchHadMistakeRef.current && session && exercise) {
       matchHadMistakeRef.current = true;
-      const nextMiss = mistakesRef.current + 1;
-      mistakesRef.current = nextMiss;
-      setMistakes(nextMiss);
-      loseHeart();
-      if (sound) playHeart();
-      if (exercise) {
-        setPending((q) => [...q, exercise]);
+      const res = markWrong(session, exercise.id, Date.now());
+      setSession(res.session);
+      setRequeuedNow(res.requeued);
+      // Nyawa hanya berkurang pada kesalahan pertama per soal; soal juga hanya
+      // diulang sekali di akhir antrean.
+      if (res.spentHeart) {
+        loseHeart();
+        if (sound) playHeart();
       }
+      if (current) rememberWrong(current.ownerId, exercise.id);
     }
-  }, [loseHeart, sound, exercise]);
+  }, [loseHeart, sound, session, exercise, current]);
 
   const mood =
     phase === "feedback" ? (ok ? "proud" : "think") : phase === "done" ? "celebrate" : phase === "dead" ? "sleep" : "idle";
@@ -218,7 +309,8 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           aria-label="Keluar"
           className="grid size-10 place-items-center rounded-xl text-choco-700 hover:text-choco-900 hover:bg-candy-50 transition-colors cursor-pointer"
           onClick={() => {
-            if (phase === "done" || phase === "dead" || (index === 0 && mistakes === 0 && solved === 0)) {
+            const untouched = (session?.index ?? 0) === 0 && mistakes === 0 && solved === 0;
+            if (phase === "done" || phase === "dead" || untouched) {
               void navigate({ to: "/" });
             } else {
               setShowExitConfirm(true);
@@ -228,7 +320,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
           <X className="size-6" weight="bold" />
         </button>
         <div className="mx-1 flex min-w-0 flex-1 items-center">
-          <ProgressBar value={solved} max={Math.max(1, scored)} size="sm" />
+          <ProgressBar value={solved} max={Math.max(1, session?.total ?? quiz.sessionTotal)} size="sm" />
         </div>
         <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-ruby-soft-bg border border-[#FCA5A5] text-xs font-extrabold tabular-nums text-ruby-shadow">
           <Heart className={cn("size-4 text-ruby", phase === "feedback" && !ok && "heart-break")} weight="fill" />
@@ -273,7 +365,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
               </div>
             ) : null}
             <div
-              key={`${exercise.id}-${index}`}
+              key={`${exercise.id}-${session?.index ?? 0}`}
               className={cn(
                 "min-w-0 flex-1 pb-6 sm:pb-8 enter-up select-text",
                 phase === "feedback" && !ok && "wrong-shake",
@@ -281,7 +373,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
               )}
             >
               <ExerciseView
-                key={`${exercise.id}-${index}`}
+                key={`${exercise.id}-${session?.index ?? 0}`}
                 exercise={exercise}
                 disabled={phase !== "ask"}
                 reveal={phase === "feedback"}
@@ -387,15 +479,19 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                   <p className="mt-1 text-sm font-medium leading-relaxed text-ink-700">
                     {exercise.explanation || "Semua kartu berhasil disambungkan."}
                   </p>
-                  {matchHadMistakeRef.current ? (
+                  {requeuedNow ? (
                     <p className="mt-1 text-xs font-semibold text-ruby-deep">
-                      Ada sambungan yang belum tepat. Soal ini akan diulang di akhir sesi.
+                      Ada sambungan yang belum tepat. Soal ini akan diulang sekali di akhir sesi.
                     </p>
                   ) : null}
                 </div>
               ) : null}
               {!ok && exercise?.type !== "match" ? (
-                <p className="mt-1 text-xs font-semibold text-ruby-deep">Soal ini akan diulang di akhir sesi.</p>
+                <p className="mt-1 text-xs font-semibold text-ruby-deep">
+                  {requeuedNow
+                    ? "Soal ini akan diulang sekali di akhir sesi."
+                    : "Soal ini tidak diulang lagi, dan nyawamu tidak berkurang untuk soal yang sama."}
+                </p>
               ) : null}
             </div>
             <DuoButton
@@ -413,7 +509,7 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
       <Dialog
         open={showExitConfirm}
         title="Yakin Mau Keluar?"
-        description="Semua kemajuan dalam sesi pelajaran ini akan hilang. Nyawa yang telah terpakai tidak dapat dikembalikan."
+        description="Progres sesi ini tersimpan, jadi kamu bisa lanjut dari soal yang sama nanti. Nyawa yang telah terpakai tidak dapat dikembalikan."
         onClose={() => setShowExitConfirm(false)}
       >
         <div className="mt-5 flex flex-col gap-2.5 sm:flex-row-reverse sm:justify-end">

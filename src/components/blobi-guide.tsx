@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Mascot, type MascotMood } from "@/components/mascot";
 import { useProgress } from "@/lib/store";
 import { playMoodSfx, playTap } from "@/lib/audio";
-import { Sparkles, Play, Lock, X } from "lucide-react";
+import { Sparkles, Play, Lock, X, MessageCircle } from "lucide-react";
 import type { Lesson, Unit } from "@/lib/curriculum";
 
 interface BlobiGuideProps {
@@ -339,6 +339,21 @@ export function BlobiFloatingCompanion({
             <p className="text-xs font-bold text-choco-900 leading-snug pr-3">
               {speech}
             </p>
+
+            {/* Jalan pintas ke halaman obrolan penuh /blobi (halaman statis,
+                jadi anchor biasa). Di HP tidak ada drawer navigasi, jadi
+                gelembung inilah pintu masuk yang selalu terlihat. */}
+            <a
+              href="/blobi"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (sound) playTap();
+              }}
+              className="mt-2 inline-flex min-h-11 items-center gap-1.5 rounded-full border-2 border-candy-600 bg-gradient-to-b from-blush-50 to-blush-200 px-3 py-1.5 font-pixel text-[11px] font-bold text-choco-900 shadow-[0_2px_0_#B01F62] transition-all hover:brightness-105 active:translate-y-[1px] active:shadow-none"
+            >
+              <MessageCircle className="size-3.5" />
+              <span>Ngobrol dengan Blobi</span>
+            </a>
 
             {/* Bubble Tail */}
             <div

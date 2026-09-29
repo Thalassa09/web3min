@@ -35,6 +35,7 @@ import {
   BadgeCheck,
   Crown,
   Users,
+  MessageCircle,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { Mascot } from "@/components/mascot";
@@ -417,6 +418,16 @@ function ProfilePage() {
                   <Sparkles className="size-3.5 text-coin" />
                   <span>Ganti Blobi</span>
                 </Link>
+                {/* Halaman /blobi statis (bukan rute TanStack) jadi anchor biasa.
+                    Ini pintu masuk utama di HP: bottom-nav punya tab Profil,
+                    sedangkan drawer navigasi hanya ada di desktop. */}
+                <a
+                  href="/blobi"
+                  className="px-4 py-2 min-h-11 rounded-xl bg-gradient-to-b from-blush-50 to-blush-200 border-2 border-candy-600 text-choco-900 text-xs font-extrabold shadow-[0_3px_0_#B01F62] hover:brightness-105 active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <MessageCircle className="size-3.5" />
+                  <span>Ngobrol dengan Blobi</span>
+                </a>
               </div>
             </div>
 

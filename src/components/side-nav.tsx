@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronRight, Ticket, X, Shield, LogIn } from "lucide-react";
+import { ChevronRight, Ticket, X, Shield, LogIn, MessageCircle } from "lucide-react";
 import { Fire } from "@/lib/kicon";
 import { BrandMark } from "@/components/brand-mark";
 import { Mascot } from "@/components/mascot";
@@ -181,6 +181,32 @@ export function SideNav() {
               }}
               icon={<Ticket className="size-4.5 shrink-0 stroke-[2.2]" />}
             />
+          </li>
+
+          {/* Blobi = halaman statis /blobi (bukan rute TanStack), jadi memakai
+              anchor biasa. Sengaja BUKAN item NAV_ITEMS: pill bawah dikunci
+              5 menu, dan halaman ini butuh muat penuh untuk menginisialisasi
+              WebGL. */}
+          <li key="/blobi">
+            <a
+              href="/blobi"
+              title="Ngobrol dengan Blobi"
+              onClick={() => {
+                if (sound) playTap();
+                close();
+              }}
+              className="group flex w-full items-center"
+            >
+              <div className="flex h-[42px] w-full items-center">
+                <span className="grid size-[38px] shrink-0 place-items-center rounded-full border border-choco-900/15 bg-white text-choco-900 shadow-[0_2.5px_0_#3B2218] transition-all group-hover:brightness-105 group-hover:shadow-[0_3px_0_#3B2218] group-active:translate-y-px group-active:shadow-[0_1px_0_#3B2218]">
+                  <MessageCircle className="size-4.5 shrink-0 stroke-[2.2]" />
+                </span>
+                <span className="ml-3.5 font-display text-[15px] font-bold tracking-[-0.01em] text-[#4A3E3D] transition-colors group-hover:text-choco-900">
+                  Blobi
+                </span>
+                <Badge tone="pink" className="ml-auto mr-1" label="Ngobrol" />
+              </div>
+            </a>
           </li>
 
           {/* "Masuk Akun" hanya masuk akal untuk yang BELUM login. Sebelum

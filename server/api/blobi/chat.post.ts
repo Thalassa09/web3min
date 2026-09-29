@@ -14,6 +14,17 @@
  */
 import { defineEventHandler, readBody, getRequestIP, setResponseStatus } from "h3";
 import { createClient } from "@supabase/supabase-js";
+import {
+  clean,
+  guessMood,
+  inggris,
+  LEAK,
+  SAFE,
+  sanitizeContext,
+  shorten,
+  TAG,
+  TAG_ALL,
+} from "../../../src/lib/blobi-chat";
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "https://oopfefvptezqonilpfkk.supabase.co";
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || "sb_publishable_2awGzyUxgewcA_Y1UWrPBA_Sd-ob5_8";
@@ -24,54 +35,22 @@ const MODEL = process.env.BLOBI_MODEL || "cbai/deepseek-v4.1-flash";
 
 interface ChatBody {
   messages?: Array<{ role?: unknown; content?: unknown }>;
+  /** Jejak belajar dari aplikasi (nama, level, rentetan, modul selesai). */
+  context?: unknown;
 }
 
-const TAG = /\[(happy|laugh|love|star|wide|sad|angry|think|wink|idea|neutral)\]/i;
-const TAG_ALL = new RegExp(TAG.source + "\\s*", "gi");
+// Pembersih, penjaga persona/bahasa, dan sanitasi konteks hidup di
+// `src/lib/blobi-chat.ts` supaya bisa diuji tanpa menjalankan Nitro
+// (lihat src/lib/blobi-chat.test.ts).
 
-/** Bersihkan markdown/emoji/baris baru supaya enak diucapkan TTS. */
-function clean(s: string): string {
-  return s
-    .replace(/\r/g, "")
-    .replace(/\n+/g, " ")
-    .replace(/([:;,])\s*\n?\s*[-•]\s+.*$/s, "$1")
-    .replace(/[*_`#>]/g, "")
-    .replace(/^[\s\-\u2013\u2014•\d.)]+/, "")
-    .replace(/\s*[\u2013\u2014]\s*/g, ", ")
-    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu, "")
-    .replace(/\s+([,.!?;:])/g, "$1")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-}
+const SYSTEM = `WAJIB: Selalu balas dalam Bahasa Indonesia santai, walaupun pengguna menulis dalam bahasa Inggris atau bahasa lain. Jangan pernah membalas dalam bahasa Inggris.
 
-/** Jaring pengaman: maksimal 3 kalimat / 320 huruf. */
-function shorten(s: string): string {
-  const parts = s.split(/(?<=[.!?\u2026])\s+/).filter(Boolean);
-  let out = parts.slice(0, 3).join(" ");
-  if (out.length > 320) out = out.slice(0, 317).replace(/\s+\S*$/, "") + "\u2026";
-  return out.trim();
-}
-
-/** Kalau model lupa tag mood, tebak dari kata kunci. */
-function guessMood(t: string): string {
-  const w = t.toLowerCase();
-  if (/penipu|scam|bahaya|waspada|jangan pernah|seed phrase|private key|ratusan persen|red flag/.test(w)) return "angry";
-  if (/sedih|rugi|ketipu|kena tipu|takut|cemas|bingung|stres/.test(w)) return "sad";
-  if (/makasih|terima kasih|thanks|keren|hebat|mantap|pintar|selamat/.test(w)) return "star";
-  if (/haha|wkwk|lucu|ngakak/.test(w)) return "laugh";
-  if (/^\s*(halo|hai|hi|hello|pagi|siang|malam|sore)\b/.test(w)) return "happy";
-  return "think";
-}
-
-// Penjaga persona: bila model bocor sebagai asisten kode (CodeBuddy dll), jawaban diganti.
-const LEAK = /codebuddy|code buddy|asisten (kode|coding)|bantuan kode|berbasis cli|\bcli\b|codebase|ngoding|ngoprek|debugging|\bdebug\b|\bgit\b|rekan kerja|urusan kode|coding|programming|ngasih saran arsitektur/i;
-const SAFE = "Hai, aku Blobi! Aku maskot belajar web3. Yuk tanya soal dompet, seed phrase, atau cara aman di dunia kripto.";
-
-const SYSTEM = `Kamu Blobi, maskot web3min.com: blob pink lucu yang mengajar Web3 dari nol dengan gaya anti-tipu.
+Kamu Blobi, maskot web3min.com: blob pink lucu yang mengajar Web3 dari nol dengan gaya anti-tipu.
 Kamu HANYA Blobi. Kamu bukan asisten kode, bukan CodeBuddy, bukan asisten umum, bukan CLI. Jangan pernah menawarkan bantuan koding, arsitektur, file, repo, atau hal di luar belajar Web3.
 Jangan pernah menyebut kata: coding, kode, CLI, codebase, debug, git, program, atau repo. Kamu tidak tahu apa itu semua; kamu hanya maskot belajar web3.
 Panggilan "Blobi" selalu untukmu, bukan untuk pengguna. Pengguna adalah teman yang sedang belajar; jangan pernah memanggilnya Blobi.
 Kamu adalah AI; jujur soal itu kalau ditanya.
+Kalau ada teks "Kemajuan pengguna" di awal pesan, itu data nyata dari aplikasi web3min tentang teman yang sedang kamu ajak bicara. Pakai untuk menyapa dan menyesuaikan jawaban. Jangan bilang tidak punya akses, dan jangan mengarang angka lain.
 Aturan:
 - Bahasa Indonesia santai dan hangat.
 - Jangan pernah menyarankan beli atau jual koin, atau menjanjikan cuan. Ini bukan nasihat keuangan.
@@ -171,8 +150,18 @@ export default defineEventHandler(async (event) => {
     }
     const api = /\/v1$/.test(base) ? base : `${base}/v1`;
 
+    const kemajuan = sanitizeContext(body?.context);
+
     const ctl = new AbortController();
     const timer = setTimeout(() => ctl.abort(), 55_000);
+    // Model ini TERBUKTI mengabaikan kemajuan bila dikirim sebagai pesan
+    // system terpisah ("aku tidak punya akses ke datamu"). Yang bekerja:
+    // menempelkannya sebagai awalan pesan user terakhir. Diuji 4 bentuk
+    // (system terpisah, system utama, awalan user, pesan assistant) di
+    // 2026-09-29; hanya bentuk awalan-user & assistant yang dipakai model.
+    const pesan = kemajuan
+      ? [...msgs.slice(0, -1), { role: "user", content: `[${kemajuan}]\n\n${msgs[msgs.length - 1].content}` }]
+      : msgs;
     const call = (maxTokens: number) =>
       fetch(`${api}/chat/completions`, {
         method: "POST",
@@ -181,7 +170,7 @@ export default defineEventHandler(async (event) => {
         body: JSON.stringify({
           model: MODEL,
           max_tokens: maxTokens,
-          messages: [{ role: "system", content: SYSTEM }, ...msgs],
+          messages: [{ role: "system", content: SYSTEM }, ...pesan],
         }),
       });
 
@@ -205,7 +194,7 @@ export default defineEventHandler(async (event) => {
       const raw = (typeof m.content === "string" ? m.content : "").trim();
       let mood = ((raw.match(TAG) || [])[1] || "").toLowerCase();
       let reply = shorten(clean(raw.replace(TAG_ALL, "")));
-      if (LEAK.test(reply)) {
+      if (LEAK.test(reply) || inggris(reply)) {
         reply = SAFE;
         mood = "happy";
       }

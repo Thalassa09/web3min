@@ -261,15 +261,23 @@ async function runSecurityAudit() {
   }
 
   // 17. Admin Key Verification Security Check
+  // Setelah S6 (20260929000003), EXECUTE admin_verify_key dicabut dari anon:
+  // anon kini kena "permission denied" — itu hasil yang diinginkan. Kalau
+  // grant-nya kembali (mis. migrasi lama di-apply ulang), fungsi harus tetap
+  // menolak kunci salah dengan `false`.
   try {
-    const { data: vWrong } = await supabase.rpc("admin_verify_key", { p_key: "invalid-key-attempt" });
+    const { data: vWrong, error: vWrongErr } = await supabase.rpc("admin_verify_key", { p_key: "invalid-key-attempt" });
     assert(
       "admin_verify_key rejects unauthorized keys",
-      vWrong === false,
-      "Expected false"
+      vWrong === false || Boolean(vWrongErr && /permission denied/i.test(vWrongErr.message)),
+      vWrongErr?.message || `Expected false, got: ${JSON.stringify(vWrong)}`
     );
   } catch (e) {
-    assert("admin_verify_key rejects unauthorized keys", false, e.message);
+    assert(
+      "admin_verify_key rejects unauthorized keys",
+      /permission denied/i.test(e.message || ""),
+      e.message
+    );
   }
 
   // 18. Admin Upsert Raffle rejects unauthenticated caller

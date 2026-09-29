@@ -85,7 +85,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
       <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-10 pointer-events-none whitespace-nowrap">
         <span
           className={cn(
-            "px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold tracking-tight uppercase border-2 shadow-[0_2px_0_#3B2218]",
+            "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-pixel font-bold tracking-tight border-2 shadow-[0_2px_0_#3B2218] max-w-[10.5rem] sm:max-w-[14rem]",
             status === "done"
               ? "bg-leaf-fill text-leaf-shadow border-choco-900"
               : status === "active"
@@ -95,7 +95,16 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
               : "bg-line-warm text-choco-600 border-choco-900/60"
           )}
         >
-          {status === "chest" ? "PETI" : hexHash}
+          {status === "chest" ? (
+            "PETI"
+          ) : (
+            <>
+              {/* Nomor blok tetap ditampilkan; judul pelajaran menyertainya
+                  (U1) supaya peta tidak cuma berisi #0x01, #0x02. */}
+              <span className="uppercase shrink-0">{hexHash}</span>
+              {title ? <span className="truncate">{title}</span> : null}
+            </>
+          )}
         </span>
       </div>
 

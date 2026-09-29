@@ -45,6 +45,8 @@ function StatPill({
   return (
     <div
       title={title}
+      aria-label={title}
+      role="img"
       className={pillBase}
       style={{
         animation: bump ? "pill-bump 420ms var(--ease-back)" : undefined,
@@ -162,6 +164,7 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
         <Link
           to="/shop"
           title={`Nyawa ${hearts}/${MAX_HEARTS}, ketuk untuk buka Toko`}
+          aria-label={`Nyawa ${hearts} dari ${MAX_HEARTS}, ketuk untuk buka Toko`}
           data-coach="hearts"
           className={cn(
             pillBase,

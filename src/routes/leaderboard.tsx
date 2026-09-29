@@ -350,6 +350,7 @@ function LeaderboardPage() {
             <button
               onClick={scrollToUser}
               title="Lihat posisi saya di tabel"
+              aria-label="Lihat posisi saya di tabel"
               className="size-11 rounded-full border-2 border-choco-900/20 bg-white hover:bg-candy-50 text-choco-900 shadow-[0_3px_0_#3B2218] transition-transform active:translate-y-0.5 flex items-center justify-center cursor-pointer"
             >
               <MapPin className="size-4 text-choco-900" />

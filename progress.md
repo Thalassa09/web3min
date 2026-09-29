@@ -19,6 +19,7 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] Peta: maskot di node aktif menutupi bagian tengah judul blok tetangga (mis. `#0x02` "Web2 vs") — pra-ada, bukan regresi U1 (pill lama tertutup penuh); keputusan: geser maskot atau biarkan.
 
 ## Terakhir dikerjakan
+- [x] Fase 3 kuis: bank soal 20 rute (756 soal) + Ujian Rute opsional 15 soal tanpa hadiah; opsi disetarakan (tebak-terpanjang 68,9% -> 26,0%). Commit `ee1dca8`.
 - [x] U8 triase: tombol bagikan WhatsApp/Telegram di layar "Kisah selesai" (`story-player.tsx`), terverifikasi klik 390/360.
 - [x] U8 lanjutan: og:image per Kisah kini tembus middleware platform — `resolveRouteOgImage` (same-origin https/path relatif saja) + `ogImageFromDocument`; rute lain tetap `og.jpg` 1200×630. Commit `53351ed`, 53/53 tes plugin.
 - [x] U7 triase: `width`/`height` ditambah di 5 `<img>` (brand-mark, home-dock ×2, top-status, gates); CLS `/` terukur 0 dari gambar (sisa shift = overlay coach). Commit `ddd65f1`.

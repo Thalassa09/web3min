@@ -16,10 +16,12 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] Bersihkan 11 token warna tak dirujuk (`--color-brand`, `--color-err-ink`, `--color-ok-soft`, dst).
 - [ ] React #418 di `/` (temuan lama) untuk dicek manusia; bukan regresi Langkah 9.
 - [ ] Tab klasemen overflow 12px di 360px: `<div>` memang `overflow-x: auto`, scrollable by design.
-- [ ] JANGAN diubah, tandai untuk dicek manusia: giveaway/undian berpotensi bermasalah hukum di Indonesia.
 - [ ] Peta: maskot di node aktif menutupi bagian tengah judul blok tetangga (mis. `#0x02` "Web2 vs") — pra-ada, bukan regresi U1 (pill lama tertutup penuh); keputusan: geser maskot atau biarkan.
 
 ## Terakhir dikerjakan
+- [x] U8 triase: tombol bagikan WhatsApp/Telegram di layar "Kisah selesai" (`story-player.tsx`), terverifikasi klik 390/360. Og:image per kisah TIDAK bisa via route — middleware platform menstrip semua og:image lalu inject site-wide dari `site.json` (keputusan manusia).
+- [x] U7 triase: `width`/`height` ditambah di 5 `<img>` (brand-mark, home-dock ×2, top-status, gates); CLS `/` terukur 0 dari gambar (sisa shift = overlay coach). Commit `ddd65f1`.
+- [x] Hukum/legal (giveaway/undian, lisensi aset, UU PDP): dikonfirmasi pemilik "sudah sesuai yang dibuat" — jangan diubah, jangan diangkat lagi.
 - [x] U1 triase: pill node peta kini menampilkan judul pelajaran bersama nomor blok (`chain-block.tsx`). Commit `b2140e3`; terverifikasi build+preview 360/390 (0 overflow).
 - [x] Fase 2 mekanik kuis: antrean ulang sekali, nyawa sekali per soal, sesi ber-seed + resume `web3min-quiz-v1`, review campuran. Commit `789c690`.
 - [x] U2/U3 sisa: `aria-label` tombol ikon "posisi saya" di leaderboard; audit 22 tombol ikon-saja lain bersih. Commit `57f88f8`.

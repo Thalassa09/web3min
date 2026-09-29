@@ -72,7 +72,9 @@ test("navbar bawah tetap menghormati safe-area bawah", () => {
 test("komponen taktil baru wajib punya motion-reduce", () => {
   // Chip & tombol taktil bergerak saat ditekan. Pengguna yang minta
   // `prefers-reduced-motion` harus dapat versi tanpa transisi.
-  for (const p of ["src/components/ui/chip.tsx", "src/components/ui/tamagui-tactile-button.tsx"]) {
+  // (tamagui-tactile-button.tsx dihapus bersama /tamagui-poc — S12 triase;
+  // kalau komponen taktil baru ditambahkan, masukkan ke daftar ini lagi.)
+  for (const p of ["src/components/ui/chip.tsx"]) {
     const txt = read(p);
     const hasTransition = /transition-\[|transition-all|duration-\d/.test(txt);
     if (!hasTransition) continue;

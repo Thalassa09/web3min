@@ -19,6 +19,7 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] JANGAN diubah, tandai untuk dicek manusia: giveaway/undian berpotensi bermasalah hukum di Indonesia.
 
 ## Terakhir dikerjakan
+- [x] S12 triase: hapus `/tamagui-poc` + komponen bukti Tamagui + `public/prototype` (nol rujukan; routeTree diregenerasi via Generator API). Commit `<pending>`.
 - [x] Langkah 55: `/dao` gate kuis server + acceptance nol literal `discord.gg`. Commit `482fd0c`.
 - [x] Langkah 54: awan rute tertutup (fog of war) + fix hydration #418 peta. Commit `a28aa0c`.
 - [x] Langkah 53: dua bug UI `/profile` (banner lisensi, lebar) + drawer. Commit `eecaff7`.

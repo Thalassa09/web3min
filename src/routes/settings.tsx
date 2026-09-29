@@ -173,6 +173,13 @@ function SettingsPage() {
             <span className="text-candy-700 font-bold">→</span>
           </Link>
           <Link
+            to="/kamus"
+            className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
+          >
+            <span>Kamus Istilah</span>
+            <span className="text-candy-700 font-bold">→</span>
+          </Link>
+          <Link
             to="/privacy"
             className="p-4 rounded-3xl bg-white hover:bg-cream border-2 border-choco-900 shadow-[0_3px_0_#3B2218] font-pixel text-xs font-bold text-choco-900 flex items-center justify-between transition-all"
           >

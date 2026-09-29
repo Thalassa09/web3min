@@ -10,6 +10,7 @@ import { Mascot, SpeechBubble } from "@/components/mascot";
 import { BlockStamp, RouteChain } from "@/components/motif";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { ExerciseView, type CheckHandle } from "@/components/lesson/exercises";
+import { GlossaryText } from "@/components/glossary-text";
 import { HEART_REFILL_COST } from "@/lib/shop";
 import { playComplete, playCorrect, playHeart, playWrong } from "@/lib/audio";
 import { cn } from "@/lib/utils";
@@ -499,12 +500,14 @@ export function LessonPlayer({ lesson }: { lesson: Lesson }) {
                 )}
               </p>
               {exercise && exercise.type !== "tip" && exercise.type !== "match" ? (
-                <p className="mt-1 text-sm font-medium leading-relaxed text-ink-700">{exercise.explanation}</p>
+                <p className="mt-1 text-sm font-medium leading-relaxed text-ink-700">
+                  <GlossaryText text={exercise.explanation} />
+                </p>
               ) : null}
               {exercise?.type === "match" ? (
                 <div>
                   <p className="mt-1 text-sm font-medium leading-relaxed text-ink-700">
-                    {exercise.explanation || "Semua kartu berhasil disambungkan."}
+                    <GlossaryText text={exercise.explanation || "Semua kartu berhasil disambungkan."} />
                   </p>
                   {requeuedNow ? (
                     <p className="mt-1 text-xs font-semibold text-ruby-deep">

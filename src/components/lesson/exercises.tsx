@@ -2,6 +2,7 @@ import { Check, X } from "@/lib/kicon";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Lightbulb, BookOpen, ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import { Mascot } from "@/components/mascot";
+import { GlossaryText } from "@/components/glossary-text";
 import type { Exercise, TipExercise } from "@/lib/curriculum";
 import { cn, shuffle } from "@/lib/utils";
 import { playTap } from "@/lib/audio";
@@ -108,7 +109,9 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
 
       {/* Scannable Body */}
       <p className="text-[15px] font-normal leading-[24px] text-choco-700">
-        {exercise.body.replaceAll(" " + String.fromCharCode(8212) + " ", ", ").replaceAll(String.fromCharCode(8212), ", ")}
+        <GlossaryText
+          text={exercise.body.replaceAll(" " + String.fromCharCode(8212) + " ", ", ").replaceAll(String.fromCharCode(8212), ",")}
+        />
       </p>
 
       {/* Scannable Key Points (if present) */}
@@ -117,7 +120,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
           {exercise.points.map((point) => (
             <li key={point} className="flex items-start gap-2.5 text-[13.5px] font-medium leading-[20px] text-choco-800">
               <span className="mt-1.5 size-2 shrink-0 rounded-full bg-candy-500 shadow-[0_1px_0_#B01F62]" />
-              <span>{point}</span>
+              <span><GlossaryText text={point} /></span>
             </li>
           ))}
         </ul>

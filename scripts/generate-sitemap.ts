@@ -18,6 +18,7 @@ const urls = [
   { loc: "/", priority: "1.0" },
   { loc: "/kisah", priority: "0.8" },
   { loc: "/cara", priority: "0.7" },
+  { loc: "/kamus", priority: "0.6" },
   { loc: "/about", priority: "0.6" },
   { loc: "/blobi", priority: "0.6" },
   { loc: "/privacy", priority: "0.4" },

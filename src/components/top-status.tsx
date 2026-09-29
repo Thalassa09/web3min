@@ -120,6 +120,8 @@ export function TopStatus({ brand = true }: { brand?: boolean }) {
               <img
                 src="/mascot/idle.png"
                 alt=""
+                width={256}
+                height={256}
                 className="pixelated size-5 sm:size-6 object-contain"
               />
             </span>

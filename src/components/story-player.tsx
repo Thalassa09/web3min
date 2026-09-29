@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { DuoButton } from "@/components/duo-button";
 import { Mascot, SpeechBubble, TypeLine, type MascotMood } from "@/components/mascot";
 import { rpcCompleteStory, syncProgressFromServer } from "@/lib/server-sync";
+import { BASE_URL } from "@/lib/seo";
 
 const WHO_TONE: Record<Speaker, string> = {
   web3min: "text-primary",
@@ -57,6 +58,7 @@ export function StoryPlayer({ story }: { story: Story }) {
   }
 
   if (done) {
+    const links = shareLinks(story);
     return (
       <div className="mx-auto flex min-h-dvh w-full max-w-lg flex-col items-center justify-center bg-cream px-5 text-center lg:max-w-2xl">
         <Mascot mood="celebrate" size={180} float />
@@ -84,6 +86,18 @@ export function StoryPlayer({ story }: { story: Story }) {
             Kisah lain
           </DuoButton>
         )}
+
+        <div className="mt-6 w-full">
+          <p className="text-sm font-bold text-muted">Bagikan kisah ini</p>
+          <div className="mt-3 flex justify-center gap-3">
+            <DuoButton variant="secondary" onClick={() => openShare(links.wa)}>
+              WhatsApp
+            </DuoButton>
+            <DuoButton variant="secondary" onClick={() => openShare(links.tg)}>
+              Telegram
+            </DuoButton>
+          </div>
+        </div>
       </div>
     );
   }
@@ -176,6 +190,19 @@ export function StoryPlayer({ story }: { story: Story }) {
       </div>
     </div>
   );
+}
+
+function shareLinks(story: Story) {
+  const url = `${BASE_URL}/kisah/${story.id}`;
+  const text = `Coba Kisah "${story.title}" di web3min:`;
+  return {
+    wa: `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`,
+    tg: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+  };
+}
+
+function openShare(href: string) {
+  window.open(href, "_blank", "noopener,noreferrer");
 }
 
 function beatWho(beat: StoryBeat): Speaker {

@@ -324,6 +324,9 @@ function ShopPage() {
                                 ? `Sisa ${freeQuota.remaining}× hari ini (${freeQuota.used}/${freeQuota.limit})`
                                 : `Kuota habis (${freeQuota.used}/${freeQuota.limit}). Besok bisa lagi.`}
                         </p>
+                        <p className="mt-1 text-[10px] font-semibold text-choco-500">
+                          Kuota {freeQuota?.limit ?? 2}× per hari (Supporter 4×), reset tengah malam WIB (00.00).
+                        </p>
                       </div>
                       <button
                         type="button"

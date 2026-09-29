@@ -34,7 +34,7 @@ export const DAOS: Dao[] = [
     name: "web3min",
     tagline: "Komunitas resmi",
     description:
-      "Tempat nanya, tempat ngerjain bareng, dan tempat info fitur baru. Ramah pemula — nggak ada yang nyuruh beli koin.",
+      "Tempat nanya, tempat ngerjain bareng, dan tempat info fitur baru. Ramah pemula, nggak ada yang nyuruh beli koin.",
     category: "Komunitas",
     logo: "/blobi.png",
     requires: ["u2-cp"],

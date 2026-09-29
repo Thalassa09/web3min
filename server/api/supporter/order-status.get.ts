@@ -77,7 +77,7 @@ export default defineEventHandler(async (event) => {
     // ── Dibayar: verifikasi nominal sebelum mengaktifkan ─────────────────────
     if (Number(remote.data.unique_amount) !== Number(order.unique_amount)) {
       console.error(
-        "[supporter/order-status] NOMINAL TIDAK COCOK — order",
+        "[supporter/order-status] NOMINAL TIDAK COCOK, order",
         orderId,
         "harusnya",
         order.unique_amount,

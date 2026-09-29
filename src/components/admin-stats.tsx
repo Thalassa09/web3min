@@ -50,7 +50,7 @@ function shortDay(iso: string): string {
 
 function timeAgo(iso: string): string {
   const t = new Date(iso).getTime();
-  if (Number.isNaN(t)) return "—";
+  if (Number.isNaN(t)) return "-";
   const mins = Math.max(0, Math.round((Date.now() - t) / 60000));
   if (mins < 1) return "baru saja";
   if (mins < 60) return `${mins} menit lalu`;
@@ -246,10 +246,10 @@ function FeedTable({ data }: { data: AdminAnalytics["feed"] }) {
                 {timeAgo(row.created_at)}
               </td>
               <td className="py-2 pr-3 font-bold text-choco-900 whitespace-nowrap">
-                {row.username ? `@${row.username}` : "—"}
+                {row.username ? `@${row.username}` : "-"}
               </td>
               <td className="py-2 pr-3 text-choco-700">{eventLabel(row.event)}</td>
-              <td className="py-2 font-mono text-[10px] text-choco-500 truncate max-w-[10rem]">{row.ref_id ?? "—"}</td>
+              <td className="py-2 font-mono text-[10px] text-choco-500 truncate max-w-[10rem]">{row.ref_id ?? "-"}</td>
             </tr>
           ))}
         </tbody>
@@ -399,7 +399,7 @@ export function AdminStatsPanel() {
             Funnel per blok
           </h3>
           <p className="text-[11px] font-semibold text-choco-600 mb-3">
-            Berapa user yang menyelesaikan tiap blok — titik drop-off terlihat dari batang yang mengecil.
+            Berapa user yang menyelesaikan tiap blok. Titik drop-off terlihat dari batang yang mengecil.
           </p>
           <FunnelChart data={funnel} />
         </section>

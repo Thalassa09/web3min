@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>web3min — sedang offline</title>
+    <title>web3min | sedang offline</title>
     <meta name="theme-color" content="#FFF6EE" />
     <link rel="icon" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/icon-180.png" />
@@ -107,14 +107,14 @@
       // Kenapa TIDAK ada auto-reload di sini: shell bisa tersaji saat koneksi
       // sebenarnya hidup (user mengetik /offline-shell, atau SW menyajikan
       // cache karena timeout). Auto-reload di kondisi itu = loop tak berujung.
-      // Jadi: hanya reload kalau koneksi BENAR-BENAR baru kembali — yaitu saat
+      // Jadi: hanya reload kalau koneksi BENAR-BENAR baru kembali, yaitu saat
       // event `online` menyala, bukan saat halaman dimuat.
       let wasOffline = !navigator.onLine;
 
       function goHome() {
         btn.disabled = true;
         btn.textContent = "Menyambung…";
-        // Ke halaman utama, bukan reload shell ini — reload akan mengunci user
+        // Ke halaman utama, bukan reload shell ini. Reload akan mengunci user
         // di layar offline kalau server masih tidak bisa dihubungi.
         window.location.replace("/");
       }

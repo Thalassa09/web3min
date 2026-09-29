@@ -64,12 +64,12 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
       : status === "active"
       ? "Blok aktif siap dipelajari"
       : status === "chest"
-      ? "PETI hadiah — buka setelah blok terakhir rute"
+      ? "PETI hadiah, buka setelah blok terakhir rute"
       : "Blok terkunci";
   const nodeLabel =
     status === "chest"
       ? `PETI hadiah rute${title ? `: ${title}` : ""}`
-      : `${hexHash}${title ? ` — ${title}` : ""}`;
+      : `${hexHash}${title ? `: ${title}` : ""}`;
 
   return (
     <div
@@ -110,7 +110,7 @@ export const ChainBlock: React.FC<ChainBlockProps> = ({
       <button
         type="button"
         onClick={onClick}
-        aria-label={`${nodeLabel} — ${statusLabel}`}
+        aria-label={`${nodeLabel}, ${statusLabel}`}
         className={cn(
           "relative size-[64px] sm:size-[68px] rounded-full border-2 border-choco-900 cursor-pointer select-none transition-all duration-100",
           "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary",

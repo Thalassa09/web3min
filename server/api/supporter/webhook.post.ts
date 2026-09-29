@@ -55,7 +55,7 @@ export default defineEventHandler(async (event) => {
   const sig = getHeader(event, "x-signature") || "";
 
   if (!sig || !signatureValid(raw, secret, sig)) {
-    console.warn("[supporter/webhook] signature TIDAK VALID — ditolak");
+    console.warn("[supporter/webhook] signature TIDAK VALID, ditolak");
     setResponseStatus(event, 401);
     return { ok: false, error: "invalid signature" };
   }
@@ -92,7 +92,7 @@ export default defineEventHandler(async (event) => {
   // ── 3. Nominal harus cocok ────────────────────────────────────────────────
   if (Number(payload.unique_amount) !== Number(order.unique_amount)) {
     console.error(
-      "[supporter/webhook] NOMINAL TIDAK COCOK — order",
+      "[supporter/webhook] NOMINAL TIDAK COCOK, order",
       order.order_id,
       "harusnya",
       order.unique_amount,

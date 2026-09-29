@@ -1,7 +1,7 @@
 {
   "name": "web3min",
   "short_name": "web3min",
-  "description": "Kenali penipu crypto sebelum kena. 20 rute berjenjang, 128 blok latihan interaktif. Dompet, DeFi, sampai NFT — gratis, tanpa modal, tanpa perlu dompet asli.",
+  "description": "Kenali penipu crypto sebelum kena. 20 rute berjenjang, 128 blok latihan interaktif. Dompet, DeFi, sampai NFT. Gratis, tanpa modal, tanpa perlu dompet asli.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

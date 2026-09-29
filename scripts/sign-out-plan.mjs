@@ -114,8 +114,8 @@ export async function runSignOut({
   if (outcome !== "ok") {
     throw new Error(
       outcome === "timeout"
-        ? "Sign-out timed out — you are still signed in. Please try again."
-        : "Sign-out failed — you are still signed in. Please try again.",
+        ? "Sign-out timed out. You are still signed in. Please try again."
+        : "Sign-out failed. You are still signed in. Please try again.",
     );
   }
   clearToken();

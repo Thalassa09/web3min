@@ -9,7 +9,7 @@ import { Sparkles, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/kisah/$storyId")({
   head: ({ params }) => {
     const story = getStory(params.storyId);
-    const title = story ? `${story.title} — Kisah web3min` : "Kisah Nyata Web3 — web3min";
+    const title = story ? `${story.title} | Kisah web3min` : "Kisah Nyata Web3 | web3min";
     const description = story?.blurb || "Simulasi kisah nyata dunia Web3 di web3min.";
     return buildMeta({
       title,

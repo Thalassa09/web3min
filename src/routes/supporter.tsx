@@ -34,7 +34,7 @@ export const Route = createFileRoute("/supporter")({
    */
   head: () =>
     buildMeta({
-      title: "Jadi Supporter web3min — Rp 9.999 sekali bayar",
+      title: "Jadi Supporter web3min | Rp 9.999 sekali bayar",
       description:
         "Dukung web3min tetap gratis untuk semua: badge permanen, isi nyawa 4× sehari, dan tiket undian 3× lipat.",
       path: "/supporter",
@@ -50,12 +50,12 @@ const BENEFITS = [
   {
     icon: BadgeCheck,
     title: "Badge OG Supporter",
-    desc: "Lencana permanen di profil dan klasemen — tanda kamu ikut membangun web3min dari awal.",
+    desc: "Lencana permanen di profil dan klasemen, tanda kamu ikut membangun web3min dari awal.",
   },
   {
     icon: Heart,
     title: "Isi nyawa 4× sehari",
-    desc: "Pengguna biasa 2× sehari. Kamu dapat 4× — lebih sedikit menunggu, lebih banyak belajar.",
+    desc: "Pengguna biasa 2× sehari. Kamu dapat 4×: lebih sedikit menunggu, lebih banyak belajar.",
   },
   {
     icon: Ticket,
@@ -322,8 +322,8 @@ function SupporterPage() {
               Bayar {formatRupiah(PRICE_IDR)} lewat QRIS →
             </TactileButton>
             <p className="text-center text-[11px] font-semibold text-choco-600 leading-relaxed">
-              Pembayaran diproses otomatis. Kalau dalam 5 menit belum aktif, hubungi admin —
-              uangmu tidak akan hilang.
+              Pembayaran diproses otomatis. Kalau dalam 5 menit belum aktif, hubungi admin.
+              Uangmu tidak akan hilang.
             </p>
           </div>
         )}
@@ -376,12 +376,12 @@ function SupporterPage() {
                 {phase.uniqueAmount > phase.baseAmount ? (
                   <>
                     Nominal ini <strong>sudah termasuk kode unik</strong> supaya pembayaranmu
-                    terdeteksi otomatis. Bayar dengan angka yang <strong>persis sama</strong> —
-                    kalau dibulatkan, sistem tidak bisa mencocokkan.
+                    terdeteksi otomatis. Bayar dengan angka yang <strong>persis sama</strong>.
+                    Kalau dibulatkan, sistem tidak bisa mencocokkan.
                   </>
                 ) : (
                   <>
-                    Bayar dengan angka yang <strong>persis sama</strong> — kalau dibulatkan
+                    Bayar dengan angka yang <strong>persis sama</strong>. Kalau dibulatkan
                     atau dilebihkan, sistem tidak bisa mencocokkan.
                   </>
                 )}
@@ -463,7 +463,7 @@ function SupporterPage() {
                 </p>
                 {phase.hadOrder && (
                   <p className="mt-1.5 text-xs font-semibold text-choco-700 leading-relaxed">
-                    <strong>Kalau kamu sudah transfer</strong>, jangan bayar ulang — hubungi admin
+                    <strong>Kalau kamu sudah transfer</strong>, jangan bayar ulang. Hubungi admin
                     dengan menyebut username-mu. Kami aktifkan manual.
                   </p>
                 )}
@@ -493,8 +493,8 @@ function SupporterPage() {
                 </p>
               ) : (
                 <p>
-                  <strong>Bayar persis Rp 9.999.</strong> Jangan dibulatkan atau dilebihkan —
-                  nominal yang berbeda membuat pembayaranmu sulit dilacak.
+                  <strong>Bayar persis Rp 9.999.</strong> Jangan dibulatkan atau dilebihkan.
+                  Nominal yang berbeda membuat pembayaranmu sulit dilacak.
                 </p>
               )}
               <p>
@@ -503,7 +503,7 @@ function SupporterPage() {
               </p>
               <p>
                 <strong>Dana dipakai untuk apa?</strong> Biaya server, domain, dan hadiah undian.
-                Tidak ada langganan tersembunyi — sekali bayar, akses permanen.
+                Tidak ada langganan tersembunyi. Sekali bayar, akses permanen.
               </p>
               <p className="flex items-center gap-1.5 text-ok-ink">
                 <Check className="size-3" />

@@ -14,9 +14,9 @@
  *    deskripsi yang hanya ~160 char ditampilkan Google).
  *  - Judul 51 char, deskripsi 156 char — di dalam batas tampil Google.
  */
-export const DEFAULT_SITE_TITLE = "web3min — Belajar Web3 dari nol, gratis & anti-tipu";
+export const DEFAULT_SITE_TITLE = "web3min | Belajar Web3 dari nol, gratis & anti-tipu";
 export const DEFAULT_DESCRIPTION =
-  "Kenali penipu crypto sebelum kena. 20 rute berjenjang, 128 blok latihan interaktif. Dompet, DeFi, sampai NFT — gratis, tanpa modal, tanpa perlu dompet asli.";
+  "Kenali penipu crypto sebelum kena. 20 rute berjenjang, 128 blok latihan interaktif. Dompet, DeFi, sampai NFT. Gratis, tanpa modal, tanpa perlu dompet asli.";
 export const BASE_URL = "https://web3min.com";
 export const DEFAULT_OG_IMAGE = `${BASE_URL}/og.jpg`;
 

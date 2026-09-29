@@ -124,7 +124,7 @@ export function formatRaffleCountdown(endsAt?: number | null, now: number = Date
 export const INITIAL_RAFFLES: RaffleItem[] = [
   {
     id: "raf-nft-mufpjxfk",
-    title: "RoboHood — 5 Slot GTD",
+    title: "RoboHood: 5 Slot GTD",
     host: "RoboHood NFT",
     badge: "SLOT MINT",
     category: "nft",

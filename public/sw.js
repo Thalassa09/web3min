@@ -1,7 +1,7 @@
 /**
  * web3min offline shell.
  *
- * Hand-rolled, no Workbox: the app needs exactly two things offline —
+ * Hand-rolled, no Workbox: the app needs exactly two things offline:
  * 1. navigation requests still render the SPA shell (so TanStack Router shows
  *    the offline screen instead of the browser's ERR_INTERNET_DISCONNECTED), and
  * 2. the tiny asset set needed to paint that shell.
@@ -14,20 +14,20 @@
  * browser. Upgrade ke Workbox + precache penuh kalau butuh offline penuh
  * buat semua 20 rute.
  *
- * CATATAN URL: Vercel mengaktifkan clean URLs — /offline-shell.html di-serve
+ * CATATAN URL: Vercel mengaktifkan clean URLs: /offline-shell.html di-serve
  * sebagai /offline-shell dan path ber-ekstensi .html dijawab 404. Selalu pakai
  * SHELL_URL tanpa ekstensi, dan bump VERSION kalau isi shell berubah supaya
  * cache lama tidak nyangkut.
  */
 
-const VERSION = "w3m-v3";
+const VERSION = "w3m-v4";
 const SHELL_CACHE = `${VERSION}-shell`;
 const ASSET_CACHE = `${VERSION}-assets`;
 
 const SHELL_URL = "/offline-shell";
 
 // Hanya aset yang dibutuhkan buat mengecat shell offline. Jangan tambah
-// bundel utama — ukurannya beda tiap deploy dan cache-nya cepat basi.
+// bundel utama. Ukurannya beda tiap deploy dan cache-nya cepat basi.
 const PRECACHE = [SHELL_URL, "/icon-192.png", "/favicon.svg", "/manifest.json"];
 
 self.addEventListener("install", (event) => {
@@ -61,7 +61,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   // API: jangan pernah di-cache, tapi jangan biarkan browser menampilkan
-  // error mentah saat offline — balas 503 JSON supaya pemanggil bisa
+  // error mentah saat offline, balas 503 JSON supaya pemanggil bisa
   // menampilkan pesan "kamu sedang offline" sendiri.
   if (url.pathname.startsWith("/api/")) {
     event.respondWith(
@@ -77,7 +77,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Navigasi: selalu coba jaringan dulu supaya user tidak terjebak versi lama.
-  // Kalau gagal, sajikan shell dari cache — shell inilah yang menjalankan app
+  // Kalau gagal, sajikan shell dari cache. Shell inilah yang menjalankan app
   // dan menampilkan layar offline.
   if (request.mode === "navigate") {
     event.respondWith(

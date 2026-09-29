@@ -20,7 +20,7 @@ export const Route = createFileRoute("/u/$username")({
   head: ({ params }) => {
     const name = decodeURIComponent(params.username);
     return buildMeta({
-      title: `@${name} — Profil Petualang web3min`,
+      title: `@${name} | Profil Petualang web3min`,
       description: `Lihat progres belajar Web3 @${name} di web3min: XP, streak, dan blok yang sudah selesai.`,
       path: `/u/${params.username}`,
     });

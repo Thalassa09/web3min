@@ -759,7 +759,7 @@ export function AdminRaffleModal({
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Contoh: RoboHood — 5 Slot GTD"
+                  placeholder="Contoh: RoboHood: 5 Slot GTD"
                   required
                   className="w-full px-3 py-2.5 rounded-xl bg-cream/30 border-2 border-choco-900 text-xs font-bold text-choco-900 shadow-[0_1.5px_0_#3B2218]"
                 />

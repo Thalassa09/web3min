@@ -108,7 +108,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
 
       {/* Scannable Body */}
       <p className="text-[15px] font-normal leading-[24px] text-choco-700">
-        {exercise.body.replaceAll(" — ", ", ").replaceAll("—", ", ")}
+        {exercise.body.replaceAll(" " + String.fromCharCode(8212) + " ", ", ").replaceAll(String.fromCharCode(8212), ", ")}
       </p>
 
       {/* Scannable Key Points (if present) */}

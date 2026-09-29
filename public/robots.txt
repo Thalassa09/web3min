@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# Area privat / perlu login — jangan diindeks
+# Area privat / perlu login, jangan diindeks
 Disallow: /admin
 Disallow: /settings
 Disallow: /profile

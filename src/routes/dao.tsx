@@ -28,9 +28,9 @@ import { playDeny } from "@/lib/audio";
 export const Route = createFileRoute("/dao")({
   head: () =>
     buildMeta({
-      title: "Komunitas DAO web3min — gabung setelah lulus kuis",
+      title: "Komunitas DAO web3min | gabung setelah lulus kuis",
       description:
-        "Komunitas Discord web3min dan DAO pilihan. Buka dengan menyelesaikan kuis rutenya dulu — bukan dengan bayar.",
+        "Komunitas Discord web3min dan DAO pilihan. Buka dengan menyelesaikan kuis rutenya dulu, bukan dengan bayar.",
       path: "/dao",
     }),
   component: DaoPage,
@@ -261,7 +261,7 @@ function DaoPage() {
           <div className="flex items-start gap-2">
             <ShieldAlert className="size-3.5 shrink-0 text-choco-500 mt-0.5" />
             <p className="text-[11px] font-semibold text-choco-700 leading-relaxed">
-              Link undangan hanya keluar setelah kuisnya selesai — dan hanya lewat server.
+              Link undangan hanya keluar setelah kuisnya selesai, dan hanya lewat server.
               Admin web3min tidak pernah menyapa duluan di DM dan tidak pernah minta seed
               phrase atau private key.
             </p>
@@ -301,7 +301,7 @@ function DaoPage() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-choco-900" />
-                Waspadai bot <strong>“verify wallet”</strong> palsu di dalam server — verifikasi
+                Waspadai bot <strong>“verify wallet”</strong> palsu di dalam server. Verifikasi
                 wallet tidak pernah butuh tanda tangan atau seed.
               </li>
             </ul>

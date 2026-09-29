@@ -249,6 +249,108 @@ export const GLOSSARY: GlossaryEntry[] = [
     def: "Sidik jari digital dari sebuah data. Sekecil apa pun perubahannya, hasil hash-nya berubah total.",
     related: ["blockchain"],
   },
+  {
+    id: "cex",
+    term: "CEX",
+    def: "Bursa kripto terpusat yang dijalankan perusahaan, seperti Indodax atau Pintu. Kamu menitipkan asetmu di sana.",
+    related: ["dex"],
+  },
+  {
+    id: "konsensus",
+    term: "konsensus",
+    def: "Cara komputer-komputer di jaringan menyepakati catatan yang sama, supaya tidak ada yang bisa curang sendiri.",
+    related: ["pow", "pos", "validator"],
+  },
+  {
+    id: "validator",
+    term: "validator",
+    def: "Komputer yang menjaga jaringan dan memeriksa transaksi. Dulu di Bitcoin sering disebut miner (penambang).",
+    related: ["konsensus", "staking"],
+  },
+  {
+    id: "pow",
+    term: "PoW",
+    def: "Cara Bitcoin menjaga jaringan: penambang membayar listrik dan mesin untuk memecahkan teka-teki. Boros energi tapi aman.",
+    related: ["pos", "konsensus"],
+  },
+  {
+    id: "pos",
+    term: "PoS",
+    def: "Cara Ethereum menjaga jaringan sejak 2022: penjaga mengunci ETH sebagai jaminan. Hemat listrik, curang bisa dipotong (slash).",
+    related: ["pow", "staking"],
+  },
+  {
+    id: "mint",
+    term: "mint",
+    def: "Membuat token atau NFT baru di blockchain. Mint gratis pun tetap butuh biaya gas.",
+    related: ["nft", "gas"],
+  },
+  {
+    id: "on-chain",
+    term: "on-chain",
+    def: "Tercatat langsung di blockchain, bisa dilihat siapa pun. Lawannya off-chain: dicatat di sistem luar.",
+    related: ["blockchain", "explorer"],
+  },
+  {
+    id: "spot",
+    term: "spot",
+    def: "Jual beli aset secara langsung pakai uangmu sendiri, tanpa pinjaman. Lawannya trading pakai leverage.",
+    related: ["leverage"],
+  },
+  {
+    id: "fiat",
+    term: "fiat",
+    def: "Mata uang biasa yang dikeluarkan negara, seperti rupiah dan dolar. Bukan kripto.",
+    related: ["stablecoin"],
+  },
+  {
+    id: "mainnet",
+    term: "mainnet",
+    def: "Jaringan asli tempat uang sungguhan dipakai. Latihan sebaiknya di testnet dulu.",
+    related: ["testnet"],
+  },
+  {
+    id: "mempool",
+    term: "mempool",
+    def: "Antrian transaksi yang belum masuk blok. Biaya gas menentukan seberapa cepat transaksimu diproses dari antrian ini.",
+    related: ["gas", "blockchain"],
+  },
+  {
+    id: "hot-wallet",
+    term: "hot wallet",
+    def: "Dompet yang tersambung internet, misalnya aplikasi di HP. Nyaman untuk harian, tapi lebih rawan dicuri.",
+    related: ["cold-wallet", "wallet"],
+  },
+  {
+    id: "cold-wallet",
+    term: "cold wallet",
+    def: "Dompet yang kuncinya disimpan offline, misalnya di perangkat khusus. Lebih aman untuk simpanan besar.",
+    related: ["hot-wallet", "wallet"],
+  },
+  {
+    id: "token",
+    term: "token",
+    def: "Aset digital yang dibuat di atas blockchain, misalnya USDT atau token game. Berbeda dari koin utama jaringan seperti ETH.",
+    related: ["blockchain", "stablecoin"],
+  },
+  {
+    id: "rollup",
+    term: "rollup",
+    def: "Teknologi di balik Layer 2: transaksi diproses di luar lalu diringkas ke Ethereum. Bikin biaya lebih murah.",
+    related: ["l2"],
+  },
+  {
+    id: "allowance",
+    term: "allowance",
+    def: "Izin yang kamu berikan ke aplikasi untuk memakai tokenmu. Kalau berlebihan, cabut izinnya lewat alat seperti Revoke.",
+    related: ["smart-contract"],
+  },
+  {
+    id: "mining",
+    term: "mining",
+    def: "Kegiatan memakai komputer dan listrik untuk menambah blok di jaringan PoW, hadiahnya koin baru. Ethereum sudah berhenti mining sejak 2022.",
+    related: ["pow", "validator"],
+  },
 ];
 
 const byId = new Map(GLOSSARY.map((e) => [e.id, e]));

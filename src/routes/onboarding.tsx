@@ -242,7 +242,7 @@ function Onboarding() {
                     Belajar Web3 dengan santai, 3 menit sehari.
                   </h1>
                   <p className="text-xs sm:text-sm font-semibold text-choco-700 mt-2 leading-relaxed">
-                    Pahami wallet, smart contract, DeFi, dan keamanan on-chain lewat simulasi interaktif tanpa perlu modal dan tanpa risiko finansial.
+                    Kenali dompet digital (wallet), kontrak pintar (smart contract), dan cara aman memakainya. Semua lewat latihan interaktif tanpa modal.
                   </p>
                 </div>
 
@@ -260,7 +260,7 @@ function Onboarding() {
                         </span>
                       </div>
                       <p className="text-xs font-semibold text-choco-700 mt-1 leading-snug">
-                        Mulai dari nol apa itu blockchain sampai simulasi smart contract. Bahasa manusia, bukan bahasa alien.
+                        Belajar dari nol: apa itu blockchain sampai kontrak pintar (smart contract). Pakai bahasa sehari-hari.
                       </p>
                     </div>
                   </div>

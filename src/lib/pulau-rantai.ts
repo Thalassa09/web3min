@@ -77,17 +77,17 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u1: {
     bg: "#1D3B22",
     dash: "14 10",
-    kind: "Genesis",
+    kind: "Awal Mula",
     land: "Hutan Genesis",
-    look: "Mulai kenalan sama internet yang kepemilikannya balik lagi ke tanganmu sendiri.",
+    look: "Kenali internet versi baru, di mana kunci dan asetnya kamu pegang sendiri.",
     props: [],
   },
   u2: {
     bg: "#4B2F63",
     dash: "14 10",
-    kind: "Kriptografi",
+    kind: "Kunci & Dompet",
     land: "Gua Kunci Kripto",
-    look: "Kunci rumah jangan dikasih orang asing, kunci dompet on-chain jauh lebih keramat.",
+    look: "Pelajari cara menyimpan kunci dompet digital. Jangan sampai diberikan ke orang lain.",
     props: [
       { name: "lantern", side: "left", top: 18, size: 48 },
       { name: "key", side: "right", top: 44, size: 42 },
@@ -97,9 +97,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u3: {
     bg: "#B27339",
     dash: "14 10",
-    kind: "Konsensus",
+    kind: "Cara Jaringan Sepakat",
     land: "Tambang Koin",
-    look: "Bongkar cara kerja mesin konsensus di balik koin legendaris tanpa pusing rumus.",
+    look: "Pahami cara Bitcoin dan Ethereum mencatat transaksi tanpa bank. Tanpa rumus.",
     props: [
       { name: "coins", side: "left", top: 24, size: 46 },
       { name: "lantern", side: "right", top: 52, size: 44 },
@@ -109,9 +109,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u4: {
     bg: "#D95280",
     dash: "14 10",
-    kind: "Hak Cipta",
+    kind: "Karya Digital",
     land: "Galeri Token Digital",
-    look: "Bukan sekadar gambar profil, tapi bukti kepemilikan digital yang anti-duplikasi.",
+    look: "Kenali NFT: bukti kepemilikan karya digital yang tidak bisa digandakan.",
     props: [
       { name: "frame", side: "left", top: 20, size: 50 },
       { name: "flower", side: "right", top: 50, size: 42 },
@@ -121,9 +121,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u5: {
     bg: "#256CA8",
     dash: "14 10",
-    kind: "Likuiditas",
+    kind: "Keuangan Tanpa Bank",
     land: "Dermaga DeFi",
-    look: "Tukar aset dan pinjam dana langsung lewat kode cerdas tanpa campur tangan calo.",
+    look: "Belajar menukar koin dan meminjam uang lewat program otomatis di blockchain (smart contract), tanpa bank.",
     props: [
       { name: "crate", side: "left", top: 22, size: 50 },
       { name: "lily", side: "right", top: 52, size: 42 },
@@ -133,9 +133,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u6: {
     bg: "#9A3412",
     dash: "14 10",
-    kind: "Pertahanan",
+    kind: "Aman dari Penipu",
     land: "Pos Anti-Phishing",
-    look: "Kenali jebakan link manis dan pop-up jahat sebelum isi dompetmu terkuras habis.",
+    look: "Kenali link dan pop-up palsu sebelum isi dompetmu terkuras habis.",
     props: [
       { name: "shield", side: "left", top: 20, size: 48 },
       { name: "lantern", side: "right", top: 50, size: 44 },
@@ -145,9 +145,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u7: {
     bg: "#3B82F6",
     dash: "14 10",
-    kind: "Realitas Pasar",
+    kind: "Kenyataan di Pasar",
     land: "Medan Volatilitas",
-    look: "Bandingkan bayangan cuan di kalkulator sama kenyataan pahit biaya gas jaringan.",
+    look: "Bandingkan untung di atas kertas dengan kenyataan biaya transaksi (gas fee) yang harus dibayar.",
     props: [
       { name: "coins", side: "left", top: 22, size: 46 },
       { name: "star", side: "right", top: 54, size: 42 },
@@ -157,9 +157,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u8: {
     bg: "#0D9488",
     dash: "14 10",
-    kind: "Eksekusi",
+    kind: "Beli & Jual",
     land: "Bursa Spot",
-    look: "Pahami cara beli santai di pasar spot sebelum buru-buru tergoda leverage.",
+    look: "Belajar beli koin secara langsung dulu, sebelum coba trading pakai uang pinjaman (leverage).",
     props: [
       { name: "crate", side: "left", top: 20, size: 48 },
       { name: "coins", side: "right", top: 52, size: 44 },
@@ -169,9 +169,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u9: {
     bg: "#854D0E",
     dash: "14 10",
-    kind: "Spekulasi",
+    kind: "Koin Iseng",
     land: "Rawa Memecoin",
-    look: "Tertawalah bareng meme viral, tapi cek likuiditasnya sebelum dana terkunci selamanya.",
+    look: "Koin iseng bisa lucu, tapi cek dulu apakah dananya bisa ditarik kembali.",
     props: [
       { name: "mushroom", side: "left", top: 22, size: 50 },
       { name: "coins", side: "right", top: 50, size: 46 },
@@ -181,9 +181,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u10: {
     bg: "#4338CA",
     dash: "14 10",
-    kind: "Investigasi",
+    kind: "Cek Sendiri",
     land: "Lab Explorer",
-    look: "Buktikan sendiri isi kontrak di explorer sebelum percaya omongan influencer timeline.",
+    look: "Cek sendiri isi kontrak di halaman penjelajah (explorer) sebelum percaya omongan influencer.",
     props: [
       { name: "key", side: "left", top: 24, size: 46 },
       { name: "star", side: "right", top: 52, size: 44 },
@@ -193,9 +193,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u11: {
     bg: "#15803D",
     dash: "14 10",
-    kind: "Gerbang Fiat",
+    kind: "Rupiah ke Kripto",
     land: "Pasar P2P Lokal",
-    look: "Jalur resmi menukar rupiah ke dompet on-chain dengan aman dan taat aturan.",
+    look: "Jalur resmi menukar rupiah ke dompet digital dengan aman dan taat aturan.",
     props: [
       { name: "crate", side: "left", top: 20, size: 50 },
       { name: "coins", side: "right", top: 50, size: 46 },
@@ -205,9 +205,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u12: {
     bg: "#B91C1C",
     dash: "14 10",
-    kind: "Jebakan Bunga",
+    kind: "Bunga yang Menipu",
     land: "Tebing APY Semu",
-    look: "Kalau ada yang menjanjikan bunga ratusan persen sehari, hitung dari mana sumber uangnya.",
+    look: "Kalau ada yang menjanjikan bunga ratusan persen sehari, tanyakan dari mana uangnya berasal.",
     props: [
       { name: "shield", side: "left", top: 22, size: 48 },
       { name: "lantern", side: "right", top: 52, size: 44 },
@@ -217,9 +217,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u13: {
     bg: "#475569",
     dash: "14 10",
-    kind: "Psikologi",
+    kind: "Jaga Kepala Dingin",
     land: "Kuil Disiplin Diri",
-    look: "Kendalikan rem tangan mentalmu biar nggak gampang panik dan beli di pucuk.",
+    look: "Belajar tetap tenang supaya tidak panik menjual atau ikut-ikutan membeli saat harga tinggi.",
     props: [
       { name: "lantern", side: "left", top: 20, size: 46 },
       { name: "star", side: "right", top: 52, size: 44 },
@@ -229,9 +229,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u14: {
     bg: "#0284C7",
     dash: "14 10",
-    kind: "Skalabilitas",
+    kind: "Jaringan Lebih Cepat",
     land: "Jembatan Layer-2",
-    look: "Meluncur di jalan tol Layer-2 biar transaksi kilat dan gas fee nggak bikin kantong bolong.",
+    look: "Kenali Layer-2: jaringan tambahan di atas Ethereum yang bikin transaksi lebih cepat dan biayanya (gas fee) lebih murah.",
     props: [
       { name: "star", side: "left", top: 22, size: 48 },
       { name: "crate", side: "right", top: 50, size: 44 },
@@ -241,9 +241,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u15: {
     bg: "#C026D3",
     dash: "14 10",
-    kind: "Distribusi",
+    kind: "Hadiah Komunitas",
     land: "Lembah Airdrop",
-    look: "Pilah hadiah komunitas yang jujur dari umpan licik pencuri seed phrase.",
+    look: "Pilah hadiah komunitas yang asli dari jebakan pencuri kunci dompet (seed phrase).",
     props: [
       { name: "coins", side: "left", top: 20, size: 48 },
       { name: "key", side: "right", top: 52, size: 44 },
@@ -253,9 +253,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u16: {
     bg: "#047857",
     dash: "14 10",
-    kind: "Patokan Nilai",
+    kind: "Koin Stabil",
     land: "Brankas Pasak Dolar",
-    look: "Pahami bagaimana token stabil menjaga nilainya tetap satu dolar saat badai pasar.",
+    look: "Pahami cara koin stabil menjaga nilainya tetap mendekati satu dolar saat pasar bergejolak.",
     props: [
       { name: "shield", side: "left", top: 22, size: 48 },
       { name: "coins", side: "right", top: 50, size: 46 },
@@ -265,9 +265,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u17: {
     bg: "#BE185D",
     dash: "14 10",
-    kind: "Ekosistem Kreatif",
+    kind: "Dunia Karya",
     land: "Balai Komunitas NFT",
-    look: "Telusuri royalti kreator dan cara membedakan transaksi asli dari manipulasi volume.",
+    look: "Pelajari hak royalti kreator dan cara membedakan transaksi asli dari yang diatur.",
     props: [
       { name: "frame", side: "left", top: 20, size: 50 },
       { name: "flower", side: "right", top: 52, size: 42 },
@@ -277,9 +277,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u18: {
     bg: "#1E293B",
     dash: "14 10",
-    kind: "Keamanan Keras",
+    kind: "Simpanan Aman",
     land: "Benteng Kunci Dingin",
-    look: "Amankan aset besar memakai brankas offline dan persetujuan banyak pihak.",
+    look: "Amankan aset besar di penyimpanan offline (cold wallet) dan persetujuan banyak pihak.",
     props: [
       { name: "key", side: "left", top: 22, size: 48 },
       { name: "shield", side: "right", top: 52, size: 46 },
@@ -289,9 +289,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u19: {
     bg: "#6366F1",
     dash: "14 10",
-    kind: "Forensik On-Chain",
+    kind: "Jejak Transaksi",
     land: "Menara Buku Besar",
-    look: "Semua jejak transaksi terekam abadi di buku besar publik, tinggal kamu yang membaca datanya.",
+    look: "Semua jejak transaksi terekam permanen di catatan publik, tinggal kamu yang membaca datanya.",
     props: [
       { name: "lantern", side: "left", top: 20, size: 46 },
       { name: "key", side: "right", top: 50, size: 44 },
@@ -301,9 +301,9 @@ export const WORLD_PULAU_THEMES: Record<string, PulauTheme> = {
   u20: {
     bg: "#D97706",
     dash: "14 10",
-    kind: "Kedaulatan Digital",
+    kind: "Hidup di Web3",
     land: "Kota Mandiri Web3",
-    look: "Bangun reputasi digital, berkontribusi di komunitas mandiri, dan nikmati kedaulatanmu.",
+    look: "Bangun reputasi digital dan berkontribusi di komunitas yang diatur anggotanya sendiri.",
     props: [
       { name: "star", side: "left", top: 22, size: 50 },
       { name: "crate", side: "right", top: 52, size: 46 },
@@ -327,7 +327,7 @@ export function getPulauTheme(unitId: string, index: number): PulauTheme {
     dash: "14 10",
     kind: "Rute Terbuka",
     land: `Blok #${index}`,
-    look: "Jelajahi setiap blok secara mandiri dan validasi transaksi on-chain kamu.",
+    look: "Jelajahi setiap blok secara mandiri dan cek transaksimu sendiri.",
     props: [
       { name: "star", side: "left", top: 25, size: 46 },
       { name: "lantern", side: "right", top: 70, size: 44 },

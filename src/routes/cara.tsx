@@ -9,7 +9,7 @@ const STEPS = [
   {
     num: "01",
     title: "Mulai dari Modul Pertama",
-    desc: "Buka halaman peta Pulau Rantai. Tekan tombol modul aktif untuk memulai kuis. Baca rangkuman kilat 3 menit sebelum menjawab.",
+    desc: "Buka halaman peta Pulau Rantai. Tekan tombol modul aktif untuk memulai. Baca rangkuman 3 menit sebelum menjawab kuis.",
     icon: Compass,
     badge: "Langkah Awal",
     badgeColor: "bg-lemon text-choco-900",
@@ -17,7 +17,7 @@ const STEPS = [
   {
     num: "02",
     title: "Jaga Nyawa Petualangan",
-    desc: "Setiap salah menjawab kuis, 1 nyawa berkurang. Nyawa pulih berkala secara otomatis, atau kamu bisa isi ulang di Toko.",
+    desc: "Setiap jawaban salah, 1 nyawa berkurang. Nyawa pulih otomatis seiring waktu, atau bisa diisi ulang di Toko.",
     icon: Heart,
     badge: "Aturan Main",
     badgeColor: "bg-err-soft text-err-ink",
@@ -25,7 +25,7 @@ const STEPS = [
   {
     num: "03",
     title: "Rute Terbuka Berurutan",
-    desc: "Node pulau saling terhubung. Selesaikan satu blok untuk membuka blok berikutnya. Bangun fondasimu dari nol tanpa lompat-lompat.",
+    desc: "Selesaikan satu blok untuk membuka blok berikutnya. Bangun dasar dari nol tanpa lompat-lompat.",
     icon: Signpost,
     badge: "Progresi",
     badgeColor: "bg-coin-fill text-warn-ink",
@@ -33,7 +33,7 @@ const STEPS = [
   {
     num: "04",
     title: "Kumpulkan Koin & XP",
-    desc: "Dapatkan XP dan Koin dari setiap latihan, streak harian, dan peti tantangan. Gunakan Koin untuk outfit Blobi, isi ulang nyawa, dan tiket undian hadiah!",
+    desc: "Dapatkan XP dan Koin dari latihan, kebiasaan harian, dan peti hadiah. Pakai Koin untuk aksesoris Blobi, isi ulang nyawa, dan tiket undian!",
     icon: Sparkles,
     badge: "Reward",
     badgeColor: "bg-candy-100 text-candy-800",
@@ -41,7 +41,7 @@ const STEPS = [
   {
     num: "05",
     title: "Bedah Kisah & Kasus Nyata",
-    desc: "Buka menu Kisah untuk membaca studi kasus hack kripto, peretasan smart contract, dan trik membedakan proyek asli vs bodong.",
+    desc: "Buka menu Kisah untuk membaca kasus nyata penipuan kripto dan cara membedakan proyek asli dari yang bodong.",
     icon: BookOpen,
     badge: "Analisis",
     badgeColor: "bg-candy-100 text-candy-800",
@@ -49,7 +49,7 @@ const STEPS = [
   {
     num: "06",
     title: "Ikuti Undian Hadiah Mingguan",
-    desc: "Kumpulkan XP, jaga streak harian, dan tukar Koin untuk ikut undian item Blobi limited dan slot mint NFT.",
+    desc: "Kumpulkan XP, jaga kebiasaan harian, dan tukar Koin untuk ikut undian hadiah mingguan.",
     icon: Award,
     badge: "Undian Hadiah",
     badgeColor: "bg-leaf-fill text-leaf-shadow",

@@ -224,8 +224,8 @@ export const CORE_UNITS: Unit[] = [
       L("u1", "u1-l1", "lesson", "Internet versi baru", "Web3 itu apaan, tanpa jargon yang ngebingungin.", "globe", [
         tip("u1l1t", "Web3 itu apa, sebenernya?", "Internet yang kamu pakai tiap hari, seperti Instagram, GoPay, dan mobile banking, itu Web2. Datanya hidup di server perusahaan. Mereka yang pegang. Mereka yang bisa mengunci atau memulihkan akunmu.", {
           points: [
-            "Web3: aset digital dicatat di jaringan bersama, namanya blockchain. Bukan di satu kantor.",
-            "Yang pegang kunci wallet = yang pegang aset. Nggak ada tombol 'lupa password' dari CS.",
+            "Web3: aset digital dicatat di jaringan bersama, namanya blockchain (buku kas digital). Bukan di satu kantor.",
+            "Yang pegang kunci wallet (dompet digital) = yang pegang aset. Nggak ada tombol 'lupa password' dari CS.",
             "Blockchain itu buku kas yang disalin banyak komputer. Mau diubah diam-diam? Susah. Harus nipu hampir semua salinannya.",
           ],
           example: "GoPay: saldo disimpan perusahaan. Ada CS. Wallet Web3: saldo kebaca dari blockchain. Kalau kuncinya hilang, nggak ada CS yang bisa balikin.",
@@ -242,7 +242,7 @@ export const CORE_UNITS: Unit[] = [
         ],
           0,
           "Intinya: aset tercatat di jaringan. Kuncinya di kamu, bukan di perusahaan.",
-          "Santai. Kita mulai dari kata yang paling sering kedengeran.",
+          "Santai. Kita mulai dari istilah yang paling sering terdengar.",
         ),
         tf(
           "u1l1q2",
@@ -256,7 +256,7 @@ export const CORE_UNITS: Unit[] = [
             "Karena banyak salinan, satu laptop rusak nggak bikin buku kasnya hilang.",
             "Siapa pun bisa liat transaksi di explorer. Namamu nggak otomatis tertulis, tapi alamatnya publik.",
           ],
-          example: "Kayak grup arisan yang semua anggota punya fotokopi buku kas. Kalau satu orang coret angkanya, yang lain masih punya salinan asli.",
+          example: "Perumpamaan: seperti grup arisan yang semua anggota punya fotokopi buku kas. Kalau satu orang mencoret angkanya, yang lain masih punya salinan asli.",
           remember: "Blockchain = catatan bersama. Wallet = kuncinya.",
         }),
         blank(
@@ -273,7 +273,7 @@ export const CORE_UNITS: Unit[] = [
         ),
         c(
           "u1l1q4",
-          "Blockchain itu kayak apa?",
+          "Blockchain itu sebenarnya apa?",
           [
           "Buku kas yang disalin banyak orang, susah diubah diam-diam",
           "Spreadsheet pribadi di laptop kamu doang yang bisa diedit bebas",
@@ -294,17 +294,17 @@ export const CORE_UNITS: Unit[] = [
         ],
           0,
           "Paham dulu, baru main. Banyak yang rugi soalnya keburu-buru.",
-          "Ini bukan biar kamu FOMO. Ini biar kamu selamat.",
+          "Ini bukan biar kamu ikut-ikutan. Ini biar kamu selamat.",
         ),
-        tip("u1l1t3", "Web3 bukan cuma chart", "Orang kira web3 = trading crypto. Itu cuma satu gang. Masih ada dompet, DeFi, NFT, airdrop, identitas on-chain, yang bikin app. Kita masuk pelan dari hutan.", {
+        tip("u1l1t3", "Web3 bukan cuma chart", "Orang kira Web3 = trading crypto. Itu cuma satu bagian. Masih ada dompet, DeFi, NFT, airdrop, identitas on-chain, yang bikin app. Kita masuk pelan dari awal.", {
           points: [
-            "Trading: chart, kadang leverage. Bisa cuan, bisa hangus. Satu gang doang.",
-            "DeFi: tukar, pinjam, kasih likuiditas. Nggak lewat bank. Tetap ada risiko kontrak.",
-            "NFT: bukan cuma gambar monyet. Tiket, identitas, karya. Floor bukan ATM.",
-            "Airdrop: Ada yang dapat airdrop karena rajin pakai produk, tapi banyak juga yang nggak dapat apa-apa.",
+            "Trading: chart, kadang pakai uang pinjaman (leverage). Bisa untung, bisa hangus. Satu bagian doang.",
+            "DeFi: tukar, pinjam, kasih likuiditas (dana di kolam bersama). Nggak lewat bank. Tetap ada risiko kontrak.",
+            "NFT: bukan cuma gambar. Bisa juga tiket, identitas, atau karya. Floor (harga dasar koleksi) bukan jaminan uang kembali.",
+            "Airdrop (bagi-bagi token gratis): ada yang dapat karena rajin memakai produk, tapi banyak juga yang tidak dapat apa-apa.",
             "Yang paling penting: kunci & aman. Salah di sini, yang lain nggak ada artinya.",
           ],
-          example: "Teman cuma jembatan ke Arbitrum biar gas murah. Taunya eligible airdrop. Yang lain pinjam di DeFi. Yang lain mint tiket konser. Bukan semua orang nge-chart.",
+          example: "Teman cuma memindahkan aset ke Arbitrum (jaringan tambahan Ethereum) biar biaya murah. Taunya dapat airdrop. Yang lain pinjam di DeFi. Yang lain beli tiket konser NFT. Bukan semua orang pantau chart.",
           remember: "Web3 = internet yang kuncinya di kamu. Trade cuma salah satu pintunya.",
           proofs: ["drop-arb-18k", "drop-wif-1k5", "drop-met-34k", "drop-uni-ath"],
         }),
@@ -312,13 +312,13 @@ export const CORE_UNITS: Unit[] = [
           "u1l1q6",
           "Selain trading, orang di web3 juga ngapain?",
           [
-            "Pake DeFi, pegang NFT, klaim airdrop, jaga kunci",
+            "Pakai DeFi, simpan NFT, klaim airdrop, jaga kunci",
             "Hanya menunggu sinyal yang dikirim di grup berbayar",
             "Wajib menambang koin di rumah dengan perangkat khusus",
             "Harus bekerja sebagai karyawan tetap di bursa kripto",
           ],
           0,
-          "Banyak pintu. Chart cuma satu gang.",
+          "Banyak jalur. Trading cuma salah satunya.",
         ),
         tf(
           "u1l1q7",
@@ -328,10 +328,10 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u1", "u1-l2", "lesson", "Web2 vs Web3", "Bedanya sama app yang kamu buka tiap hari.", "layers", [
-        tip("u1l2t", "Bedanya di siapa yang pegang kunci", "Web2 nyaman: ada CS, ada 'lupa password', ada perusahaan yang jaga server. Web3 nuker kenyamanan itu sama kendali. Kamu bisa kirim aset tanpa izin bank. Tapi salah kirim juga susah dibatalin.", {
+        tip("u1l2t", "Bedanya di siapa yang pegang kunci", "Web2 nyaman: ada CS, ada 'lupa password', ada perusahaan yang jaga server. Web3 menukar kenyamanan itu dengan kendali. Kamu bisa kirim aset tanpa izin bank. Tapi salah kirim juga susah dibatalkan.", {
           points: [
             "Web2: data dan saldo di perusahaan (GoPay, Instagram, rekening bank).",
-            "Web3: kunci di kamu. Hilang seed phrase biasanya berarti aset hangus.",
+            "Web3: kunci di kamu. Hilang seed phrase (12-24 kata pemulihan dompet) biasanya berarti aset hangus.",
             "Bank / e-wallet bisa reset PIN kalau kamu buktikan identitas. Blockchain nggak kenal KTP.",
           ],
           example: "Akun Instagram hilang → minta bantuan email/CS. Wallet Web3 hilang tanpa backup seed → nggak ada 'ibu' yang bisa buka pintunya.",
@@ -347,7 +347,7 @@ export const CORE_UNITS: Unit[] = [
             { left: "Wallet sendiri", right: "Hilang seed = hangus" },
           ],
           "Kayak ngebedain GoPay sama dompet yang kuncinya di kamu.",
-          "Di Web2 perusahaan pegang data dan bisa reset akses; di Web3 kamu pegang kuncinya, jadi hilang seed berarti hilang akses selamanya.",
+          "Di Web2, perusahaan memegang data dan bisa memulihkan akses. Di Web3, kunci ada di kamu, jadi hilang seed berarti hilang akses.",
         ),
         c(
           "u1l2q2",
@@ -377,7 +377,7 @@ export const CORE_UNITS: Unit[] = [
             "Kamu otomatis menjadi kaya begitu walletnya selesai dibuat",
           ],
           0,
-          "Izinnya dari jaringan, bukan dari teller. Tapi salah kirim juga susah dibatalin.",
+          "Izinnya dari jaringan, bukan dari petugas bank. Tapi salah kirim juga susah dibatalkan.",
         ),
         order(
           "u1l2q5",
@@ -387,21 +387,21 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u1", "u1-l3", "lesson", "Blockchain", "Buku kas yang nggak gampang dipalsuin.", "link", [
-        tip("u1l3t", "Buku kas yang dibagi-bagi", "Blockchain = rantai blok. Tiap blok isinya tumpukan transaksi, terus disambung ke blok sebelumnya. Jaringan ini disalin di banyak komputer. Jadi nggak ada satu server keramat.", {
+        tip("u1l3t", "Buku kas yang dibagi-bagi", "Blockchain = rantai blok. Tiap blok isinya tumpukan transaksi, terus disambung ke blok sebelumnya. Jaringan ini disalin di banyak komputer. Jadi nggak ada satu server pusat.", {
           points: [
-            "Ngedit riwayat kayak ngedit Excel? Nggak. Harus ngalahin mayoritas jaringan.",
-            "Komputer yang jaga dan cek transaksi disebut validator (dulu sering disebut miner).",
-            "Transaksi publik: siapa pun bisa liat di explorer. Transparan bukan berarti namamu tertulis.",
+            "Mengubah riwayat catatan itu tidak bisa sembarangan. Harus mengalahkan mayoritas jaringan.",
+            "Komputer yang jaga dan cek transaksi disebut validator (dulu sering disebut miner/penambang).",
+            "Transaksi publik: siapa pun bisa lihat di explorer (situs penjelajah blockchain). Transparan bukan berarti namamu tertulis.",
           ],
           example: "Kalau satu warung kopi rusak komputernya, buku kas rantai tetap ada di warung lain. Jaringan nggak mati cuma karena satu mesin.",
           remember: "Banyak salinan + rantai yang ngunci = susah dipalsuin diam-diam.",
         }),
-        c("u1l3q1","DApp itu singkatan dari apa?",[
-          "Decentralized application, aplikasi yang backend-nya smart contract",
+        c("u1l3q1","DApp itu aplikasi yang berjalan lewat kontrak pintar (smart contract) di blockchain. DApp singkatan dari apa?",[
+          "Decentralized application, aplikasi yang programnya kontrak pintar",
           "Aplikasi khusus yang dibuat untuk para penambang kripto di rumah",
           "Aplikasi perbankan biasa yang dijalankan oleh perusahaan besar",
           "Dokumen aplikasi yang harus diisi dulu sebelum kamu memakai wallet baru",
-        ],0,"Decentralized application. Bedanya di backend: kontrak di rantai, bukan server kantor."),
+        ],0,"Decentralized application. Bedanya: programnya berjalan di blockchain, bukan di server perusahaan."),
         tf(
           "u1l3q2",
           "Ngedit riwayat transaksi di blockchain publik butuh mengalahkan mayoritas jaringan.",
@@ -410,14 +410,14 @@ export const CORE_UNITS: Unit[] = [
         ),
         blank(
           "u1l3q3",
-          "Komputer yang jaga jaringan dan ngecek transaksi disebut ___.",
-          ["validator", "influencer", "teller", "admin Telegram"],
+          "Komputer yang menjaga jaringan dan memeriksa transaksi disebut ___.",
+          ["validator", "influencer", "petugas bank", "admin Telegram"],
           0,
-          "Dulu sering disebut miner. Intinya: mereka yang jaga jaringan.",
+          "Dulu sering disebut miner (penambang). Intinya: mereka yang menjaga jaringan.",
         ),
         c(
           "u1l3q4",
-          "Kenapa transaksi blockchain kerasa 'terbuka'?",
+          "Kenapa transaksi blockchain terasa terbuka untuk siapa pun?",
           [
           "Siapa pun bisa liat riwayat di explorer, meski namamu nggak tertulis",
           "Semua orang otomatis mendapatkan password akun wallet milikmu tanpa izin",
@@ -425,7 +425,7 @@ export const CORE_UNITS: Unit[] = [
           "Wallet-mu otomatis memposting transaksi ke media sosial pribadimu",
         ],
           0,
-          "Alamat itu publik. Namamu nggak otomatis nempel. Tapi polanya bisa dilacak.",
+          "Alamat itu publik. Namamu nggak otomatis tertulis di sana. Tapi polanya bisa dilacak.",
           "Transparan ≠ anonim total. Ingat itu.",
         ),
         c(
@@ -438,25 +438,25 @@ export const CORE_UNITS: Unit[] = [
           "Pindah semua catatannya ke Excel pribadi",
         ],
           0,
-          "Itu poin 'terdistribusi'. Nggak ada satu server keramat.",
+          "Itu arti 'terdistribusi': salinannya tersebar, nggak ada satu server pusat.",
         ),
       ]),
       L("u1", "u1-chest", "chest", "Peti rute 1", "Hadiah kecil biar semangat.", "gift", [], { xp: 0, gems: 20 }),
       L("u1", "u1-l4", "lesson", "Kripto vs uang bank", "Sama-sama digital, beda aturan main.", "bank", [
-        tip("u1l4t", "Digital, tapi aturannya beda", "Saldo BCA dan saldo Bitcoin sama-sama angka di layar. Bedanya: rekening bank dijamin aturan negara (plus LPS sampai batas tertentu) dan bisa di-refund kalau salah transfer. Kripto on-chain biasanya final.", {
+        tip("u1l4t", "Digital, tapi aturannya beda", "Saldo BCA dan saldo Bitcoin sama-sama angka di layar. Bedanya: rekening bank dijamin aturan negara lewat LPS (lembaga penjamin simpanan) sampai batas tertentu. Kalau salah transfer, masih bisa dikomplain. Kripto on-chain (tercatat langsung di blockchain) biasanya final.", {
           points: [
             "Uang bank / GoPay / DANA: ada CS, ada reset PIN, saldo di perusahaan atau bank.",
             "Kripto on-chain: kamu jaga kunci. Salah alamat sering berarti uang pergi.",
-            "Stablecoin (USDT, USDC) didesain ngikutin dolar. Lebih tenang dari meme coin, bukan nol risiko.",
+            "Stablecoin (koin stabil seperti USDT, USDC) dirancang mengikuti nilai dolar. Lebih tenang dari meme coin, tapi bukan nol risiko.",
           ],
-          example: "Transfer BCA salah → sering bisa dikomplain. Kirim USDT ke alamat salah di blockchain → teller nggak bisa tarik balik.",
+          example: "Transfer BCA salah → sering bisa dikomplain. Kirim USDT ke alamat salah di blockchain → nggak ada yang bisa menariknya kembali.",
           remember: "Kripto boleh, tapi jangan pakai uang makan.",
         }),
         c(
           "u1l4q1",
           "Saldo di rekening bank konvensional di Indonesia dijamin oleh lembaga apa?",
           [
-            "Bank dan aturan negara (plus LPS sampai batas tertentu)",
+            "Bank dan aturan negara lewat LPS (lembaga penjamin simpanan)",
             "Validator Ethereum yang menjaga jaringan dan menyimpan cadangan",
             "Admin grup Telegram yang mengelola komunitas pengguna bank",
             "Aplikasi wallet yang mencatat saldo dan riwayat transaksimu",
@@ -468,7 +468,7 @@ export const CORE_UNITS: Unit[] = [
           "u1l4q2",
           "Transfer kripto on-chain yang salah alamat biasanya nggak bisa dibatalin siapa pun.",
           true,
-          "Benar. Nggak ada teller yang bisa menariknya kembali. Cek tiga kali dulu sebelum kirim.",
+          "Benar. Nggak ada petugas yang bisa menariknya kembali. Periksa tiga kali sebelum kirim.",
           "Ini bagian yang bikin web3min deg-degan.",
         ),
         match(
@@ -486,9 +486,9 @@ export const CORE_UNITS: Unit[] = [
         blank(
           "u1l4q4",
           "Kripto yang harganya ngikutin dolar disebut ___.",
-          ["stablecoin", "meme coin", "Token permainan", "gas"],
+          ["stablecoin", "meme coin", "token game", "biaya gas"],
           0,
-          "USDT, USDC, dan sejenisnya didesain ngikutin USD. Bukan jaminan 100% bebas risiko.",
+          "USDT, USDC, dan sejenisnya dirancang mengikuti nilai dolar. Bukan jaminan 100% bebas risiko.",
         ),
         c(
           "u1l4q5",
@@ -504,70 +504,70 @@ export const CORE_UNITS: Unit[] = [
         ),
       ]),
       L("u1", "u1-l5", "lesson", "Pintu-pintu web3", "DeFi, kerja, DAO, NFT. Bukan cuma chart.", "map", [
-        tip("u1l5t", "Kota ini banyak gang, bukan cuma pasar saham", "Orang Indo sering masuk web3 karena chart. Sah-sah. Tapi kota ini lebih luas: ada bank tanpa teller (DeFi), ada kerjaan, ada komunitas yang punya kas bersama (DAO), ada karya dan tiket (NFT), ada yang bikin app.", {
+        tip("u1l5t", "Banyak jalur, bukan cuma trading", "Orang Indonesia sering masuk Web3 karena grafik harga. Itu sah-sah saja. Tapi ada lebih banyak jalur, lho. Ada keuangan tanpa bank (DeFi), pekerjaan, komunitas dengan kas bersama (DAO), karya dan tiket (NFT), sampai yang bikin aplikasi.", {
           points: [
-            "DeFi: tukar, pinjam, kasih likuiditas. Nggak lewat bank. Tetap ada risiko kontrak.",
-            "Kerja: community, intern, engineer, desainer, BD, konten. Gaji, bounty, grant. Bukan sinyal grup.",
-            "DAO: komunitas + kas on-chain. Ada voting. Bukan otomatis jadi kantor.",
-            "NFT: karya, tiket, identitas. Bukan ATM lantai.",
-            "Bikin: orang nulis kode, desain, dokumentasi. Web3 butuh tangan, bukan cuma chart.",
+            "DeFi (keuangan tanpa bank): tukar, pinjam, taruh dana di kolam bersama. Tetap ada risikonya.",
+            "Kerja: komunitas, magang, engineer, desainer, konten. Dibayar gaji, bounty (hadiah tugas), atau grant (dana hibah).",
+            "DAO: komunitas yang punya kas bersama dan voting. Bukan otomatis jadi kantor.",
+            "NFT: karya, tiket, atau identitas digital. Bukan mesin uang.",
+            "Bikin: orang menulis kode, desain, dokumentasi. Web3 butuh keahlian, bukan cuma grafik harga.",
           ],
-          example: "Teman A swap di DEX. Teman B intern community. Teman C nulis proposal DAO. Teman D mint tiket konser. Empat orang, satu rantai. Bukan empat trader.",
-          remember: "Trade satu pintu. Kota ini banyak gang.",
+          example: "Teman A menukar koin di DEX (bursa tanpa perantara). Teman B magang di komunitas. Teman C menulis proposal DAO. Teman D membeli tiket konser NFT. Empat orang, satu teknologi, bukan empat trader.",
+          remember: "Trading cuma satu jalur. Masih banyak jalur lain.",
         }),
         match(
           "u1l5q1",
-          "Pasangin pintunya.",
+          "Pasangkan istilah Web3 dengan pengertiannya.",
           [
             { left: "DeFi", right: "Tukar & pinjam tanpa bank" },
-            { left: "Kerja", right: "Gaji, bounty, kontribusi" },
-            { left: "DAO", right: "Komunitas + kas bersama" },
-            { left: "NFT", right: "Karya, tiket, identitas" },
+            { left: "Kerja", right: "Gaji, hadiah tugas, kontribusi" },
+            { left: "DAO", right: "Komunitas dengan kas bersama" },
+            { left: "NFT", right: "Karya, tiket, identitas digital" },
           ],
           "Hafalin pintunya, baru pilih gang.",
-          "Empat pintu ini yang bikin Web3 bukan cuma trading: keuangan, pekerjaan, organisasi, dan karya.",
+          "Empat jalur ini yang bikin Web3 bukan cuma trading: keuangan, pekerjaan, organisasi, dan karya.",
         ),
         c(
           "u1l5q2",
-          "DeFi itu apaan, versi manusia?",
+          "DeFi itu apa, dalam bahasa sehari-hari?",
           [
-            "Layanan keuangan di rantai: tukar, pinjam, pool. Tanpa teller",
+            "Layanan keuangan di blockchain: tukar, pinjam, dan kolam dana bersama",
             "Mesin tunai yang dipasang di minimarket untuk tarik uang",
             "Layanan sinyal berbayar yang memberi rekomendasi trading",
             "Gaji tetap bulanan yang dibayarkan oleh bursa kripto",
           ],
           0,
-          "Decentralized finance. Tetap ada risiko. Nanti kita dalemin di rute DeFi.",
+          "Decentralized finance, keuangan yang jalan tanpa bank. Tetap ada risiko, dibahas di rute DeFi.",
         ),
         c(
           "u1l5q3",
-          "Bagaimana sebenarnya cara orang mencari penghasilan di dunia Web3?",
+          "Bagaimana cara orang mencari penghasilan di dunia Web3?",
           [
-          "Ada. Community, dev, desain, BD, konten. Kadang remote, kadang bounty",
-          "Mustahil tanpa modal awal minimal satu miliar rupiah buat mulai",
+          "Ada. Komunitas, developer, desain, bisnis, konten. Kadang remote, kadang berbasis hadiah tugas",
+          "Mustahil tanpa modal awal minimal satu miliar rupiah untuk mulai",
           "Hanya bisa dengan menjadi admin grup sinyal berbayar di Telegram dan Discord",
           "Wajib menambang koin di rumah dengan perangkat khusus yang mahal",
         ],
           0,
-          "Skill yang kepake: nulis, desain, kode, jaga komunitas, baca rantai. Bukan 'bayar dulu biar di-hire'.",
+          "Keahlian yang dipakai: menulis, desain, kode, menjaga komunitas, membaca data blockchain. Bukan 'bayar dulu biar diterima kerja'.",
         ),
         tf(
           "u1l5q4",
           "DAO itu kantor biasa yang gajinya otomatis cair tiap tanggal 25.",
           false,
-          "DAO = komunitas + kas on-chain + voting. Kadang ada kontributor berbayar. Bukan HR kantor.",
+          "DAO = komunitas dengan kas bersama (on-chain) dan voting. Kadang ada kontributor berbayar. Bukan kantor dengan bagian HR.",
         ),
         c(
           "u1l5q5",
-          "Teman bilang 'web3 cuma buat yang berani all-in chart'. Kamu?",
+          "Teman bilang 'Web3 cuma buat yang berani taruh semua uang di trading'. Kamu?",
           [
-          "Nolak. Ada DeFi, kerja, DAO, NFT, yang bikin app",
+          "Nolak. Ada DeFi, kerja, DAO, NFT, dan yang bikin aplikasi",
           "Setuju. Yang lain cuma buang waktu dan tenaga doang",
           "Setuju, asal bisa untung 50x lipat",
           "Setuju, asal utang dulu ke sana kemari",
         ],
           0,
-          "All-in chart itu pilihan. Bukan definisi web3.",
+          "Taruh semua uang di trading itu pilihan. Bukan definisi Web3.",
         ),
       ]),
       L("u1", "u1-cp", "checkpoint", "Ujian rute 1", "Cek dulu, udah nempel belum.", "flag", [
@@ -576,7 +576,7 @@ export const CORE_UNITS: Unit[] = [
             "Web3 ngebedain diri soalnya kendali aset ada di yang pegang kunci, bukan di satu perusahaan.",
             "Blockchain = buku kas bersama yang disalin banyak pihak.",
             "Selain trading: DeFi, kerja, DAO, NFT, yang bikin.",
-            "Salah kirim on-chain jarang bisa di-refund. Seed yang hilang hampir mustahil dibalikin.",
+            "Salah kirim on-chain (langsung di blockchain) jarang bisa dikembalikan. Seed phrase yang hilang hampir mustahil dipulihkan.",
           ],
           remember: "Masih campur Web2 sama Web3? Ulangi dulu.",
         }),
@@ -590,7 +590,7 @@ export const CORE_UNITS: Unit[] = [
             "Bebas dari semua risiko karena datanya tidak bisa disalahgunakan",
           ],
           0,
-          "Kendali + tanggung jawab datang bareng.",
+          "Kendali dan tanggung jawab datang bersamaan.",
         ),
         tf("u1cp2", "Blockchain publik nyatet transaksi di buku kas yang disalin banyak pihak.", true, "Buku kas publik didistribusikan ke ribuan node komputer agar tidak ada satu pihak pun yang bisa mengubah catatan secara sepihak."),
         c(
@@ -603,17 +603,17 @@ export const CORE_UNITS: Unit[] = [
             "Petugas customer service datang ke rumah untuk memulihkannya",
           ],
           0,
-          "Nanti kita dalemin di unit wallet. Spoiler: seed itu nyawa.",
+          "Dibahas lengkap di unit dompet. Intinya: seed itu kunci utama.",
         ),
         blank("u1cp4", "Catatan bersama di Web3 disebut ___.", ["blockchain", "screenshot", "PDF", "status WA"], 0, "Blockchain adalah buku kas bersama yang tidak bisa diedit diam-diam oleh perantara."),
         c(
           "u1cp5",
           "Mana yang Web2?",
-          ["Saldo GoPay di perusahaan", "Koin di alamat yang kamu kunci sendiri", "NFT di wallet", "ETH di cold wallet"],
+          ["Saldo GoPay di perusahaan", "Koin di alamat yang kamu kunci sendiri", "NFT di wallet", "ETH di dompet dingin"],
           0,
-          "GoPay nyaman, tapi kuncinya bukan di kamu.",
+          "GoPay nyaman dipakai, tapi kuncinya bukan di kamu.",
         ),
-        tf("u1cp6", "Salah kirim kripto on-chain biasanya bisa di-refund kayak transfer bank salah.", false, "Jarang. Anggap kirim itu final."),
+        tf("u1cp6", "Salah kirim kripto on-chain biasanya bisa dikembalikan seperti transfer bank salah.", false, "Jarang. Anggap kirim itu final."),
         c(
           "u1cp7",
           "Selain trading grafik harga, apa saja aktivitas nyata pengguna di Web3?",
@@ -624,7 +624,7 @@ export const CORE_UNITS: Unit[] = [
             "Harus menambang koin di rumah dengan perangkat khusus",
           ],
           0,
-          "Banyak pintu. Chart cuma satu gang.",
+          "Banyak jalur. Trading cuma salah satunya.",
         ),
       ]),
     ],

@@ -9,10 +9,10 @@ export function AppErrorComponent({ reset }: ErrorComponentProps) {
       <div className="w-full max-w-sm rounded-3xl border-2 border-choco-900/20 bg-gradient-to-b from-white via-cream-fill to-cream-fill-deep p-7 text-center shadow-[0_6px_0_#3B2218,0_12px_28px_-4px_rgba(59,34,24,0.14)] flex flex-col items-center">
         <Mascot mood="sad" size={120} interactive={false} />
         <h1 className="mt-4 font-display text-2xl font-bold text-choco-900 tracking-tight">
-          Nyangkut di Konsensus!
+          Ada kendala memuat data
         </h1>
         <p className="mt-2 text-xs md:text-sm font-semibold text-choco-700 leading-relaxed">
-          Ada kendala sinkronisasi data pelajaran. Santai, saldo XP dan progresmu tetap aman di rantai.
+          Ada gangguan saat menyambung ke server. Santai, XP dan progresmu tetap aman.
         </p>
         <div className="mt-6 flex w-full flex-col gap-3">
           <DuoButton wide onClick={() => reset()}>

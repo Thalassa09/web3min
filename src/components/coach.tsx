@@ -21,7 +21,7 @@ const STEPS: Step[] = [
   {
     target: "start",
     mood: "wave",
-    say: "Mulai petualanganmu dari sini. Baca 3 menit dulu, baru kuis.",
+    say: "Mulai dari sini. Baca materi 3 menit dulu, baru kerjakan kuis.",
     done: "Paham, Lanjut",
     pad: 6,
     radius: 22,
@@ -29,7 +29,7 @@ const STEPS: Step[] = [
   {
     target: "hearts",
     mood: "think",
-    say: "Salah jawab, nyawa berkurang. Kalau nyawa habis, kamu tetap bisa baca Kisah karena Kisah tidak memakai nyawa.",
+    say: "Salah menjawab, nyawa berkurang. Kalau nyawa habis, kamu tetap bisa baca Kisah karena Kisah tidak memakai nyawa.",
     done: "Lanjut",
     pad: 8,
     radius: 999,
@@ -37,7 +37,7 @@ const STEPS: Step[] = [
   {
     target: "node",
     mood: "proud",
-    say: "Rute terbuka berurutan. Yang terkunci = selesaikan pelajaran sebelumnya.",
+    say: "Rute terbuka berurutan. Blok yang terkunci akan terbuka setelah kamu menyelesaikan blok sebelumnya.",
     done: "Oke, aku mulai",
     pad: 10,
     radius: 999,

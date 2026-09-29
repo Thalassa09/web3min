@@ -11,47 +11,47 @@ const I = tip;
 export const EXTRA_BY_UNIT: Record<string, Lesson[]> = {
   u1: [
     L("u1", "u1-l6", "lesson", "Transaksi & blok", "Antrian, cap, baru nempel di buku.", "link", [
-      tip("u1l6t", "Klik kirim bukan langsung 'selesai'", "Kamu nandatanganin pesan: 'pindahin aset ini ke alamat itu'. Masuk antrian (mempool). Validator/miner pilih, masukin ke blok. Blok itu disambung ke rantai. Satu cap = satu konfirmasi. Makin banyak blok di atasnya, makin susah dibalik.", {
+      tip("u1l6t", "Klik kirim bukan langsung 'selesai'", "Kamu menandatangani pesan: 'pindahkan aset ini ke alamat itu'. Transaksi masuk antrian (mempool). Validator (penjaga jaringan) memilih dan memasukkannya ke blok. Blok itu disambung ke rantai. Satu blok tambahan = satu konfirmasi. Makin banyak blok di atasnya, makin susah dibatalkan.", {
         points: [
-          "Pending = masih antri. Bukan HP rusak. Bisa lama kalo gas rendah atau jaringan ramai.",
-          "Success di explorer = udah masuk blok. Di CEX, mereka sering nunggu beberapa konfirmasi sebelum kredit.",
-          "Finalitas: di Bitcoin nunggu banyak blok. Di Ethereum pasca-Merge, biasanya sekitar 13 menit baru 'hampir mustahil dibalik'.",
-          "Salah alamat yang udah terkonfirmasi jarang bisa di-refund. Pending kadang masih bisa diganti (replace) pake gas lebih tinggi.",
+          "Pending = masih antri. Bukan HP rusak. Bisa lama kalau biaya gas rendah atau jaringan ramai.",
+          "Success di explorer = sudah masuk blok. Di bursa (CEX), mereka sering menunggu beberapa konfirmasi sebelum menambah saldo.",
+          "Finalitas: di Bitcoin tunggu banyak blok. Di Ethereum pasca-Merge, biasanya sekitar 13 menit baru 'hampir mustahil dibalik'.",
+          "Salah alamat yang sudah terkonfirmasi jarang bisa dikembalikan. Pending kadang masih bisa diganti dengan gas lebih tinggi.",
         ],
-        example: "Kirim USDT, status pending 8 menit. Bukan ilang. Tunggu atau speed-up. Jangan kirim berulang kali karena bisa terkirim ganda.",
-        remember: "Tanda tangan → antri → blok → nunggu cap. Bukan tombol GoPay.",
+        example: "Kirim USDT, status pending 8 menit. Bukan hilang. Tunggu atau percepat. Jangan kirim berulang kali karena bisa terkirim ganda.",
+        remember: "Tanda tangan → antri → blok → tunggu konfirmasi. Bukan tombol GoPay.",
       }),
-      c("u1l6q1", "Mempool itu apaan?", ["Antrian transaksi yang belum masuk blok", "Nama lain dari seed phrase yang disimpan di dompet", "Bank sentral yang mengatur pasokan koin di jaringan", "Jenis NFT yang dipakai sebagai tiket masuk acara"], 0, "Ruang tunggu. Gas nentuin kamu ditolong cepat atau diem."),
-      tf("u1l6q2","Klik kirim di wallet nggak bikin uang langsung nempel; transaksinya masih antri masuk blok.",true,"Benar. Butuh konfirmasi blok dulu. Kalau gas terlalu kecil, antriannya bisa lama."),
+      c("u1l6q1", "Mempool itu apa?", ["Antrian transaksi yang belum masuk blok", "Nama lain dari seed phrase yang disimpan di dompet", "Bank sentral yang mengatur pasokan koin di jaringan", "Jenis NFT yang dipakai sebagai tiket masuk acara"], 0, "Ruang tunggu transaksi. Biaya gas menentukan seberapa cepat diproses."),
+      tf("u1l6q2","Klik kirim di wallet nggak bikin uang langsung nempel; transaksinya masih antri masuk blok.",true,"Benar. Butuh konfirmasi blok dulu. Kalau biaya gas terlalu kecil, antriannya bisa lama."),
       blank("u1l6q3", "Sekumpulan transaksi yang disambung ke rantai disebut ___.", ["blok", "seed", "floor", "gas"], 0, "Block. Rantai blok = blockchain."),
-      c("u1l6q4", "Tx pending lama. Paling waras?", [
-          "Tunggu atau speed-up. Jangan spam kirim ulang",
-          "Kirim ulang 10x biar cepat masuk dan selesai ya",
-          "Share seed ke validator biar dibantu",
-          "Restart WiFi doang terus all-in",
-        ], 0, "Spam = bisa 10 transfer kalo yang pertama tiba-tiba lolos."),
-      c("u1l6q5", "Kenapa CEX kadang nunggu beberapa konfirmasi?", ["Biar tx susah dibalik sebelum mereka kredit", "Supaya biaya gas yang dibayar pengguna jadi lebih mahal", "Karena ada syarat minimum pembelian NFT di jaringan", "Karena pajak transaksi dikenakan sepuluh kali lipat"], 0, "Reorg/pembalikan jarang, tapi mereka nggak mau kredit duit yang belum nempel."),
+      c("u1l6q4", "Transaksi pending terlalu lama. Pilihan paling aman?", [
+          "Tunggu atau percepat dengan biaya gas lebih tinggi, jangan kirim ulang",
+          "Kirim ulang sepuluh kali supaya cepat masuk dan selesai",
+          "Bagikan seed phrase ke validator supaya dibantu",
+          "Matikan lalu nyalakan WiFi, terus kirim semua aset",
+        ], 0, "Kirim berulang berisiko: kalau transaksi pertama lolos, kamu bisa mengirim dua kali."),
+      c("u1l6q5", "Kenapa bursa kadang menunggu beberapa konfirmasi?", ["Biar transaksi susah dibatalkan sebelum saldo ditambah", "Supaya biaya gas yang dibayar pengguna jadi lebih mahal", "Karena ada syarat minimum pembelian NFT di jaringan", "Karena pajak transaksi dikenakan sepuluh kali lipat"], 0, "Pembatalan transaksi jarang terjadi, tapi bursa tidak mau menambah saldo yang belum benar-benar masuk."),
     ]),
     L("u1", "u1-l7", "lesson", "PoW vs PoS", "Tambang listrik, atau kunci aset.", "hexagon", [
-      tip("u1l7t", "Dua cara jaga buku kas", "Supaya orang nggak nulis blok palsu, jaga jaringan harus mahal. PoW (Bitcoin): bayar listrik + mesin, yang nyelesain teka-teki boleh nulis blok. PoS (Ethereum sekarang): kunci ETH, kalo curang bisa di-slash (potong). Bukan soal 'yang mana agama', soal biaya nyerang.", {
+      tip("u1l7t", "Dua cara jaga buku kas", "Supaya orang nggak menulis blok palsu, menjaga jaringan harus mahal. PoW (cara Bitcoin): bayar listrik + mesin, yang menyelesaikan teka-teki boleh menulis blok. PoS (cara Ethereum sekarang): kunci ETH, kalau curang bisa dipotong (slash). Ini soal biaya menyerang jaringan, bukan soal mana yang lebih baik.", {
         points: [
-          "PoW: aman selama listrik + hardware mahal. Boros energi. Bitcoin tetap di sini.",
-          "PoS: hemat listrik. Yang jaga = yang punya aset. Serangan butuh beli banyak koin, trus bisa ke-slash.",
-          "Ethereum pindah PoS di Merge 2022. Bitcoin nggak ikut pindah. Jangan nyampur.",
-          "Validator ≠ CS. Mereka nggak bisa balikin transfer salah. Mereka nulis urutan transaksi.",
+          "PoW: aman selama listrik + perangkat mahal. Boros energi. Bitcoin tetap memakainya.",
+          "PoS: hemat listrik. Yang menjaga = yang punya aset. Serangan butuh membeli banyak koin, dan bisa dipotong (slash).",
+          "Ethereum pindah ke PoS saat The Merge 2022. Bitcoin tidak ikut pindah. Jangan tertukar.",
+          "Validator bukan CS. Mereka tidak bisa mengembalikan transfer salah. Mereka menulis urutan transaksi.",
         ],
-        example: "Teman kira 'ETH udah nggak ditambang = ETH palsu'. Salah. Mesin jaganya yang ganti. Buku kasnya lanjut.",
-        remember: "PoW bayar listrik. PoS kunci aset. Dua-duanya buat bikin curang itu mahal.",
+        example: "Teman mengira 'ETH sudah nggak ditambang = ETH palsu'. Salah. Cara menjaga jaringannya yang berganti. Buku kasnya lanjut.",
+        remember: "PoW bayar listrik. PoS kunci aset. Dua-duanya membuat kecurangan jadi mahal.",
       }),
-      match("u1l7q1", "Pasangkan mekanisme konsensus dengan cara kerjanya.", [
+      match("u1l7q1", "Pasangkan cara menjaga jaringan dengan cara kerjanya.", [
         { left: "PoW", right: "Listrik + teka-teki" },
-        { left: "PoS", right: "Kunci aset, bisa di-slash" },
+        { left: "PoS", right: "Kunci aset, bisa dipotong" },
         { left: "Bitcoin", right: "Tetap PoW" },
         { left: "Ethereum 2022+", right: "PoS (Merge)" },
-      ], undefined, "PoW mengamankan jaringan lewat kerja komputasi, PoS lewat aset yang dikunci; Ethereum pindah ke PoS saat The Merge 2022."),
-      tf("u1l7q2", "Validator bisa refund kalo kamu salah alamat.", false, "Mereka jaga urutan. Bukan CS bank."),
-      c("u1l7q3", "Slash di PoS itu apaan?", ["Hukuman: aset validator dipotong kalo curang atau offline parah", "Bonus yang diberikan jaringan ke validator yang berhasil menambang blok", "Biaya gas yang dibayar validator setiap kali memproses transaksi", "Denda yang dibayar pengguna kalau transaksinya gagal di tengah jalan"], 0, "Nyawa staker. Makanya jangan main validator pake tutorial abal."),
-      c("u1l7q4", "Kenapa jaga jaringan harus 'mahal'?", ["Supaya nulis blok palsu nggak worth it", "Supaya biaya gas di jaringan bisa turun sampai nol", "Karena diwajibkan oleh peraturan perpajakan setempat", "Supaya server Discord jaringannya jadi lebih ramai"], 0, "Keamanan = serangan mahal. Bukan doa."),
+      ], undefined, "PoW menjaga jaringan lewat kerja komputasi, PoS lewat aset yang dikunci; Ethereum pindah ke PoS saat The Merge 2022."),
+      tf("u1l7q2", "Validator bisa mengembalikan dana kalau kamu salah alamat.", false, "Validator menjaga urutan transaksi. Bukan petugas bank."),
+      c("u1l7q3", "Slash di PoS itu apa?", ["Hukuman: aset validator dipotong kalau curang atau offline terlalu lama", "Bonus yang diberikan jaringan ke validator yang berhasil menambah blok", "Biaya gas yang dibayar validator setiap kali memproses transaksi", "Denda yang dibayar pengguna kalau transaksinya gagal di tengah jalan"], 0, "Ini hukuman untuk penjaga jaringan yang curang, jadi kecurangan merugikan pelakunya."),
+      c("u1l7q4", "Kenapa menjaga jaringan harus 'mahal'?", ["Supaya menulis blok palsu tidak sepadan dengan biayanya", "Supaya biaya gas di jaringan bisa turun sampai nol", "Karena diwajibkan oleh peraturan perpajakan setempat", "Supaya server Discord jaringannya jadi lebih ramai"], 0, "Keamanan jaringan datang dari biaya serangan yang mahal."),
     ]),
   ],
   u2: [

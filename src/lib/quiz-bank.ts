@@ -176,7 +176,7 @@ export const QUIZ_BANK: Record<string, Exercise[]> = {
         "Bank akan menahan transfer itu sampai kamu mengajukan keberatan resmi",
         "Kamu cukup menghubungi pendiri jaringan untuk meminta pengembalian",
         ],
-        "Kripto on-chain biasanya final, jadi salah kirim susah ditarik balik oleh pihak mana pun.",
+        "Kripto on-chain (tercatat langsung di blockchain) biasanya final, jadi salah kirim susah ditarik kembali oleh pihak mana pun.",
       ),
       tf(
         "u1l2b5",
@@ -281,7 +281,7 @@ export const QUIZ_BANK: Record<string, Exercise[]> = {
   "u1-l4": [
       c(
         "u1l4b1",
-        "Saldo rekening bank di Indonesia dilindungi lembaga penjamin sampai batas tertentu. Kenapa kripto on-chain nggak punya jaminan seperti itu?",
+        "Saldo rekening bank di Indonesia dilindungi lembaga penjamin simpanan (LPS) sampai batas tertentu. Kenapa kripto on-chain nggak punya jaminan seperti itu?",
         [
           "Karena kripto on-chain disimpan sendiri oleh pemegang kunci, bukan di bank yang dijamin negara",
           "Karena kripto on-chain cuma bisa dipegang oleh warga negara asing yang punya izin resmi dari negaranya",
@@ -320,9 +320,9 @@ export const QUIZ_BANK: Record<string, Exercise[]> = {
       ),
       tf(
         "u1l4b5",
-        "Kalau kamu salah transfer kripto on-chain, teller bank bisa menariknya balik seperti transfer bank biasa.",
+        "Kalau kamu salah transfer kripto on-chain, petugas bank bisa menariknya kembali seperti transfer bank biasa.",
         false,
-        "Kripto on-chain biasanya final, jadi nggak ada teller yang bisa membatalkan atau menariknya kembali.",
+        "Kripto on-chain biasanya final, jadi nggak ada petugas yang bisa membatalkan atau menariknya kembali.",
       ),
       c(
         "u1l4b6",
@@ -340,7 +340,7 @@ export const QUIZ_BANK: Record<string, Exercise[]> = {
         "Temanmu bilang 'stablecoin kan aman, jadi boleh taruh semua tabungan di situ'. Bagaimana kamu menanggapinya?",
         [
         "Stablecoin lebih tenang dari meme coin, tapi tetap bukan nol risiko",
-        "Stablecoin dijamin penuh oleh negara seperti tabungan bank biasa",
+        "Stablecoin dijamin penuh oleh negara, sama seperti tabungan bank biasa",
         "Stablecoin nggak pernah bisa kehilangan nilainya dalam kondisi apa pun",
         "Stablecoin cuma bisa dipakai untuk membeli gambar NFT saja",
         ],
@@ -368,10 +368,10 @@ export const QUIZ_BANK: Record<string, Exercise[]> = {
       ),
       match(
         "u1l5b3",
-        "Pasangkan istilah Web3 dengan pengertiannya.",
+        "Cocokkan istilah Web3 dengan artinya.",
         [
-          { left: "DeFi", right: "Layanan keuangan tanpa bank dan tanpa teller" },
-          { left: "DAO", right: "Komunitas dengan kas on-chain dan voting" },
+          { left: "DeFi", right: "Layanan keuangan tanpa bank dan tanpa petugas" },
+          { left: "DAO", right: "Komunitas dengan kas bersama dan voting" },
           { left: "NFT", right: "Karya, tiket, atau identitas yang unik" },
         ],
         "Setiap pintu Web3 punya fungsi berbeda, dari keuangan sampai komunitas dan karya digital.",
@@ -406,7 +406,7 @@ export const QUIZ_BANK: Record<string, Exercise[]> = {
       ),
       c(
         "u1l5b7",
-        "Empat temanmu masuk Web3: satu swap di DEX, satu jadi intern komunitas, satu menulis proposal DAO, satu mint tiket konser. Apa kesimpulannya?",
+        "Empat temanmu masuk Web3. Satu menukar koin di DEX (bursa tanpa perantara), satu magang di komunitas. Satu menulis proposal DAO, satu membuat tiket konser NFT. Apa kesimpulannya?",
         [
         "Web3 punya banyak pintu, jadi nggak semua orang harus jadi trader",
         "Mereka semua sebenarnya sedang melakukan trading yang sama",
@@ -528,7 +528,7 @@ export const QUIZ_BANK: Record<string, Exercise[]> = {
       ),
       tf(
         "u1l7b5",
-        "Validator bisa mengembalikan transfer yang salah alamat seperti customer service bank.",
+        "Validator bisa mengembalikan transfer yang salah alamat seperti petugas layanan bank.",
         false,
         "Validator cuma menulis urutan transaksi, mereka nggak bisa membatalkan atau mengembalikan transfer salah.",
       ),

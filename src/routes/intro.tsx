@@ -12,15 +12,15 @@ export const Route = createFileRoute("/intro")({ component: Intro });
 const BEATS: { mood: MascotMood; say: string }[] = [
   {
     mood: "wave",
-    say: "Halo! Aku Blobi. Di web3min kita belajar web3 dan blockchain langkah demi langkah dengan analogi sederhana.",
+    say: "Halo! Aku Blobi. Di web3min kita belajar Web3 langkah demi langkah, pakai bahasa sehari-hari.",
   },
   {
     mood: "think",
-    say: "Wallet itu mirip dompet fisik: kuncinya kamu sendiri yang pegang. Jika salah kuis nyawa berkurang, tapi bisa diisi ulang atau lanjut membaca Kisah.",
+    say: "Dompet (wallet) itu seperti dompet biasa, tapi kuncinya kamu sendiri yang pegang. Kalau salah menjawab kuis, nyawa berkurang dan bisa diisi ulang.",
   },
   {
     mood: "proud",
-    say: "Selesaikan tiap blok secara konsisten, kumpulkan koin, jaga streak rantai kamu, dan dapatkan tiket undian hadiah!",
+    say: "Selesaikan satu blok tiap hari, kumpulkan koin, dan dapatkan tiket undian hadiah!",
   },
 ];
 

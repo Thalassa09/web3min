@@ -22,7 +22,7 @@ export const HOW_TO_CORE: HowToItem[] = [
   },
   {
     title: "Rute terbuka berurutan",
-    body: "Node terkunci artinya selesaikan pelajaran sebelumnya. Jangan lompat.",
+    body: "Blok yang terkunci akan terbuka setelah kamu menyelesaikan blok sebelumnya. Jangan lompat.",
     Icon: Signpost,
   },
 ];

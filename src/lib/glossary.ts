@@ -351,6 +351,30 @@ export const GLOSSARY: GlossaryEntry[] = [
     def: "Kegiatan memakai komputer dan listrik untuk menambah blok di jaringan PoW, hadiahnya koin baru. Ethereum sudah berhenti mining sejak 2022.",
     related: ["pow", "validator"],
   },
+  {
+    id: "off-chain",
+    term: "off-chain",
+    def: "Dicatat di luar blockchain, misalnya di server atau aplikasi biasa. Lawannya on-chain: tercatat langsung di jaringan.",
+    related: ["on-chain", "blockchain"],
+  },
+  {
+    id: "yield",
+    term: "yield",
+    def: "Imbal hasil dari menaruh dana di protokol keuangan, misalnya bunga pinjaman atau biaya tukar. Sumber dananya harus jelas.",
+    related: ["apy", "staking"],
+  },
+  {
+    id: "approve",
+    term: "approve",
+    def: "Izin yang kamu tanda tangani supaya aplikasi boleh memakai tokenmu. Batasi jumlahnya dan cabut yang sudah tidak dipakai.",
+    related: ["allowance", "smart-contract"],
+  },
+  {
+    id: "kyc",
+    term: "KYC",
+    def: "Verifikasi identitas yang diminta bursa resmi sebelum kamu bisa bertransaksi. Bukan hal buruk: itu syarat legal.",
+    related: ["cex"],
+  },
 ];
 
 const byId = new Map(GLOSSARY.map((e) => [e.id, e]));

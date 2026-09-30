@@ -145,7 +145,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
           </button>
           {openExample && (
             <div className="px-3.5 pb-3.5 pt-1 text-[13.5px] font-medium leading-[22px] text-choco-700 border-t border-choco-900/10 bg-white">
-              {exercise.example}
+              <GlossaryText text={exercise.example} />
             </div>
           )}
         </div>
@@ -170,7 +170,7 @@ function TipCard({ exercise, onHandle }: { exercise: TipExercise; onHandle: (h: 
           </button>
           {openRemember && (
             <div className="px-3.5 pb-3.5 pt-1 text-[13.5px] font-bold leading-[22px] text-coin-ink-deep border-t border-lemon-deep/30 bg-coin-fill/90">
-              {exercise.remember}
+              <GlossaryText text={exercise.remember} />
             </div>
           )}
         </div>

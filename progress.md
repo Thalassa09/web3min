@@ -19,6 +19,8 @@ Arsip lengkap: docs/archive/progress-sampai-langkah-41.md (jangan dibaca kecuali
 - [ ] Peta: maskot di node aktif menutupi bagian tengah judul blok tetangga (mis. `#0x02` "Web2 vs") — pra-ada, bukan regresi U1 (pill lama tertutup penuh); keputusan: geser maskot atau biarkan.
 
 ## Terakhir dikerjakan
+- [x] Glosarium di kartu materi: bungkus example/remember dengan GlossaryText + 4 istilah baru (off-chain, yield, approve, kyc). Commit `76a199e`.
+- [x] Audit panjang kalimat kuis Rute 2-20: pecah 12 kalimat >20 kata. Commit `b038217`.
 - [x] Bahasa kuis: alur Mulai + Rute 1 disederhanakan (istilah dijelaskan di tempat, kiasan diganti literal, 0 kalimat >20 kata); glosarium +18 istilah teknis. Commit `a680b3a`.
 - [x] U9a: kamus istilah — halaman `/kamus` (37 istilah, cari + lihat juga) + tap-untuk-arti inline di rangkuman kilat & penjelasan jawaban (`glossary-text.tsx`, tanpa mengubah teks materi). Commit `46b2a4d`; E2E 2/2 lolos 390/360.
 - [x] Blobi jadi FITUR web3min, bukan sekadar halaman: pintu masuk di drawer desktop ("Blobi"), di `/profile` (pintu masuk HP), dan di gelembung maskot mengambang; sapaan personal dari jejak belajar localStorage (`Hai rika! ... level 7 dan menuntaskan 45 modul`); konteks disanitasi di server sebelum masuk prompt; tautan balik "web3min"; pintasan PWA "Ngobrol dengan Blobi". Logika murni di `src/lib/blobi-chat.ts` + 9 guard test. Commit `2393f7f`; live terverifikasi 430px & 360px, nol error konsol (401 di `/profile` pra-ada dari RPC supporter untuk user belum masuk).
